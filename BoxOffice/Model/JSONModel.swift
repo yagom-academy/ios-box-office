@@ -5,11 +5,11 @@
 //  Created by Muri, Rowan on 2023/03/20.
 //
 
-struct BoxOfficeResult: Decodable {
-    let boxOfficeResult: Service
+struct DailyBoxOffice: Decodable {
+    let boxOfficeResult: BoxOfficeResult
 }
 
-struct Service: Decodable {
+struct BoxOfficeResult: Decodable {
     let boxofficeType: String
     let showRange: String
     let dailyBoxOfficeList: [MovieInformation]
