@@ -7,20 +7,20 @@
 
 import UIKit
 
-class Decoder {
-    let decoder: JSONDecoder = JSONDecoder()
+struct Decoder {
+    private let decoder: JSONDecoder = JSONDecoder()
     
     func decodeBoxOffice() -> BoxOffice? {
-        var boxOffice: BoxOffice?
-        
         guard let items: NSDataAsset = NSDataAsset(name: "box_office_sample") else { return nil }
         
         do {
-            boxOffice = try decoder.decode(BoxOffice.self, from: items.data)
+            let boxOffice = try decoder.decode(BoxOffice.self, from: items.data)
+            
+            return boxOffice
         } catch {
             print(error.localizedDescription)
+            
+            return nil
         }
-        
-        return boxOffice
     }
 }
