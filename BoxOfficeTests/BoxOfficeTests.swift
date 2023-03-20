@@ -8,12 +8,7 @@
 import XCTest
 @testable import BoxOffice
 
-final class BoxOfficeTests: XCTestCase {
-    override func setUpWithError() throws {
-    }
-
-    override func tearDownWithError() throws {
-    }
+final class BoxOfficeResultTests: XCTestCase {
     
     func test_DataManage의_parse호출시_nil이아니다() {
         // given
