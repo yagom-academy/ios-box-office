@@ -1,9 +1,6 @@
 {
   "data" : [
-    {
-      "filename" : "box_office_sample.json",
-      "idiom" : "universal"
-    }
+
   ],
   "info" : {
     "author" : "xcode",

@@ -20,7 +20,7 @@ class ViewController: UIViewController {
     func fetchBoxOffice() {
         boxOffice = BoxOfficeParser.boxOfficeParse()
         
-        print(boxOffice?.boxOfficeType)
+        print(boxOffice?.boxOfficeResult.boxOfficeType)
     }
 }
 
