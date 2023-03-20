@@ -69,5 +69,17 @@ final class MovieInfoTests: XCTestCase {
         // then
         XCTAssertEqual(movieName, result)
     }
+    
+    func test_BoxOfficeResult에서_movies의_첫번째영화의_누적관객수는_69_콤마_228이다() {
+        // given
+        let totalOfAudience = sut.boxOfficeResult.movies[0].totalOfAudience
+        let exception = totalOfAudience.formatDecimal()
+        
+        // when
+        let result = "69,228"
+        
+        // then
+        XCTAssertEqual(exception, result)
+    }
 
 }
