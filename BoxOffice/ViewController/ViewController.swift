@@ -9,7 +9,7 @@ import UIKit
 
 class ViewController: UIViewController {
     
-    private var boxOfficeResult = BoxOfficeResult(boxOfficeType: "", showRange: "", dailyBoxOfficeList: [])
+    private var boxOfficeResult: BoxOfficeResult?
     
     override func viewDidLoad() {
         super.viewDidLoad()
