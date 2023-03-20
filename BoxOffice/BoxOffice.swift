@@ -6,8 +6,17 @@
 //
 
 struct BoxOffice: Codable {
-    let boxofficeType, showRange: String
+    let boxOfficeResult: BoxOfficeResult
+}
+
+struct BoxOfficeResult: Codable {
+    let boxOfficeType, showRange: String
     let dailyBoxOfficeList: [DailyBoxOfficeList]
+    
+    enum CodingKeys: String, CodingKey {
+        case boxOfficeType = "boxofficeType"
+        case showRange, dailyBoxOfficeList
+    }
 }
 
 struct DailyBoxOfficeList: Codable {
@@ -24,7 +33,7 @@ struct DailyBoxOfficeList: Codable {
         case rankIncrement = "rankInten"
         case movieCode = "movieCd"
         case movieKoreanName = "movieNm"
-        case openDate = "opendDt"
+        case openDate = "openDt"
         case salesAmount = "salesAmt"
         case salesIncrement = "salesInten"
         case salesAccumulation = "salesAcc"
@@ -44,7 +53,13 @@ enum RankOldAndNew: String, Codable {
 
 extension BoxOffice: Equatable {
     public static func == (lhs: BoxOffice, rhs: BoxOffice) -> Bool {
-        return lhs.boxofficeType == rhs.boxofficeType && lhs.showRange == rhs.showRange && lhs.dailyBoxOfficeList == rhs.dailyBoxOfficeList
+        return lhs.boxOfficeResult == rhs.boxOfficeResult
+    }
+}
+
+extension BoxOfficeResult: Equatable {
+    public static func == (lhs: BoxOfficeResult, rhs: BoxOfficeResult) -> Bool {
+        return lhs.boxOfficeType == rhs.boxOfficeType && lhs.showRange == rhs.showRange && lhs.dailyBoxOfficeList == rhs.dailyBoxOfficeList
     }
 }
 
@@ -70,5 +85,3 @@ extension DailyBoxOfficeList: Equatable {
         && lhs.showCount == rhs.showCount
     }
 }
-
-
