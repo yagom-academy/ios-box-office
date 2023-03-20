@@ -53,13 +53,6 @@
 			path = View;
 			sourceTree = "<group>";
 		};
-		1C63036429C82368006F755D /* Model */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = Model;
-			sourceTree = "<group>";
-		};
 		1C63036529C823CA006F755D /* Application */ = {
 			isa = PBXGroup;
 			children = (
@@ -67,6 +60,13 @@
 				63DF20EE2970E1A0005DF7D1 /* AppDelegate.swift */,
 			);
 			path = Application;
+			sourceTree = "<group>";
+		};
+		5817F44E29C825C400C8595C /* Model */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Model;
 			sourceTree = "<group>";
 		};
 		63DF20E22970E1A0005DF7D1 = {
@@ -88,8 +88,8 @@
 		63DF20ED2970E1A0005DF7D1 /* BoxOffice */ = {
 			isa = PBXGroup;
 			children = (
+				5817F44E29C825C400C8595C /* Model */,
 				1C63036529C823CA006F755D /* Application */,
-				1C63036429C82368006F755D /* Model */,
 				1C63036229C82346006F755D /* View */,
 				1C63036029C82322006F755D /* Controller */,
 				63DF20F72970E1A1005DF7D1 /* Assets.xcassets */,
