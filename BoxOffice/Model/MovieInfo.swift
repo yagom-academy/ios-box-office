@@ -5,24 +5,6 @@
 //  Created by 레옹아범 ,Andrew on 2023/03/20.
 //
 
-import Foundation
-
-struct DailyBoxOffice: Decodable {
-    let boxOfficeResult: BoxOfficeResult
-}
-
-struct BoxOfficeResult: Decodable {
-    let boxofficeType: String
-    let dateRange: String
-    let movies: [MovieInfo]
-    
-    enum CodingKeys: String, CodingKey {
-        case boxofficeType = "boxofficeType"
-        case dateRange = "showRange"
-        case movies = "dailyBoxOfficeList"
-    }
-}
-
 struct MovieInfo: Decodable {
     let rnum, rank, changedRank, rankStatus: String
     let code, name: String
