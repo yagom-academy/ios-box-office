@@ -18,17 +18,13 @@ enum BoxOfficeParser {
             return boxOffice
         }
         
-//        do {
-//            boxOffice = try jsonDecoder.decode(BoxOffice.self, from: jsonData.data)
-//            return boxOffice
-//        } catch {
-//            print("decode없음")
-//            return boxOffice
-//        }
-        if let data = try? jsonDecoder.decode(BoxOffice.self, from: jsonData.data) {
-            print("data = \(data.boxOfficeResult.boxOfficeType)")
-            return data
+        do {
+            boxOffice = try jsonDecoder.decode(BoxOffice.self, from: jsonData.data)
+            return boxOffice
+        } catch {
+            print("decode없음")
+            return boxOffice
         }
-        return boxOffice
+        
     }
 }

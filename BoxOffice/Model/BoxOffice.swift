@@ -28,8 +28,8 @@ struct DailyBoxOfficeList: Decodable {
     let rank: String
     let rankInten: String
     let rankOldAndNew: String
-    let moviewCd: String
-    let moviewNm: String
+    let movieCd: String
+    let movieNm: String
     let openDt: String
     let salesAmt: String
     let salesShare: String
