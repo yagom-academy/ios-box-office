@@ -2,7 +2,7 @@
 //  SceneDelegate.swift
 //  BoxOffice
 //
-//  Created by kjs on 13/01/23.
+//  Created by Muri, Rowan on 13/01/23.
 //
 
 import UIKit
