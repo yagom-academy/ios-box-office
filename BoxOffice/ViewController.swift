@@ -10,11 +10,13 @@ import UIKit
 
 class ViewController: UIViewController {
     let decoder = Decoder()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-        guard let boxOfficeResult = decoder.decodeBoxOfficeResult() else { return }
-        print(boxOfficeResult.dailyBoxOfficeList.count)
-        print("hi")
+        
+        let boxOfficeResult = decoder.decodeBoxOfficeResult()
+        
+        print(boxOfficeResult)
     }
 
 

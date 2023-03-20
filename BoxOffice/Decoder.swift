@@ -14,26 +14,17 @@ final class Decoder {
     private let decoder = JSONDecoder()
     private let fileName = "box_office_sample"
 
-    func decodeBoxOfficeResult() -> BoxOfficeResult? {
-        guard let dataAsset: NSDataAsset = NSDataAsset(name: fileName) else { return nil }
+    func decodeBoxOfficeResult() -> BoxOffice? {
         
-        do {
-            let boxOfficeResult: BoxOfficeResult = try decoder.decode(BoxOfficeResult.self, from: dataAsset.data)
-            return boxOfficeResult
-        } catch {
+        guard let boxOffice: NSDataAsset  = NSDataAsset(name: fileName) else {
             return nil
         }
+        
+        guard let decodedBoxOffice: BoxOffice = try? decoder.decode(BoxOffice.self, from: boxOffice.data) else {
+            print("decoding")
+            return nil
+        }
+        
+        return decodedBoxOffice
     }
-    
-//    func decodeDailyBoxOffice(dailyBoxOfficeList: String) -> [DailyBoxOffice]? {
-//        let encoder = JSONEncoder()
-//
-//        do {
-//            let data = try encoder.encode(dailyBoxOfficeList)
-//            let exposition: [DailyBoxOffice] = try decoder.decode([DailyBoxOffice].self, from: data)
-//            return exposition
-//        } catch {
-//            return nil
-//        }
-//    }
 }
