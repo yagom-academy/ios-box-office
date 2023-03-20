@@ -1,5 +1,5 @@
 //
-//  ViewController.swift
+//  BoxOfficeViewController.swift
 //  BoxOffice
 //
 //  Created by vetto, brody on 23/03/20.
@@ -7,8 +7,7 @@
 
 import UIKit
 
-class ViewController: UIViewController {
-    
+final class BoxOfficeViewController: UIViewController {
     private var boxOfficeResult: BoxOfficeResult?
     
     override func viewDidLoad() {
@@ -17,7 +16,7 @@ class ViewController: UIViewController {
     }
     
     func parseJson() {
-        let jsonDecoder = JSONDecoder()
+        let jsonDecoder = BoxOfficeJsonDecoder()
         
         guard let jsonData: NSDataAsset = NSDataAsset(name: "box_office_sample") else {
             return
