@@ -12,7 +12,7 @@ final class Decoder {
     private let decoder = JSONDecoder()
     private let fileName = "box_office_sample"
 
-    func decodeBoxOfficeResult() -> BoxOffice? {
+    func decodeBoxOffice() -> BoxOffice? {
         
         guard let boxOffice: NSDataAsset  = NSDataAsset(name: fileName) else {
             return nil
@@ -22,7 +22,6 @@ final class Decoder {
             let decodedBoxOffice: BoxOffice = try decoder.decode(BoxOffice.self, from: boxOffice.data)
             return decodedBoxOffice
         } catch {
-            print("이곳만은 안된다...!")
             return nil
         }
         

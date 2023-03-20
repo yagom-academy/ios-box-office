@@ -14,7 +14,7 @@ class ViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        let boxOfficeResult = decoder.decodeBoxOfficeResult()
+        let boxOfficeResult = decoder.decodeBoxOffice()
         
     }
 
