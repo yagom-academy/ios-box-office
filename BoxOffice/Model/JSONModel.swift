@@ -18,7 +18,7 @@ struct Service: Decodable {
 struct MovieInformation: Decodable {
     let rankNumber: String
     let rank: String
-    let rankDifference : String
+    let rankDifference: String
     let rankOldAndNew: String
     let movieCode: String
     let movieName: String
