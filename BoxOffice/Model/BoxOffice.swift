@@ -7,14 +7,15 @@
 
 import Foundation
 
-struct BoxOfficeResult: Decodable {
+struct BoxOffice: Decodable {
     let boxOfficeType: String
     let showRange: String
     let dailyBoxOfficeList: [DailyBoxOfficeList]
     
     private enum CodingKeys: String, CodingKey {
         case boxOfficeType = "boxofficeType"
-        case showRange, dailyBoxOfficeList
+        case showRange
+        case dailyBoxOfficeList
     }
     
     struct DailyBoxOfficeList: Decodable {

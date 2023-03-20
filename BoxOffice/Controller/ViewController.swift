@@ -9,11 +9,18 @@ import UIKit
 
 class ViewController: UIViewController {
 
+    private var boxOffice: BoxOffice?
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-        // Do any additional setup after loading the view.
+        fetchBoxOffice()
+        
     }
-
-
+    
+    func fetchBoxOffice() {
+        boxOffice = BoxOfficeParser.boxOfficeParse()
+        
+        print(boxOffice?.boxOfficeType)
+    }
 }
 
