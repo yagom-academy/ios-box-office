@@ -53,6 +53,6 @@ struct MovieInformation: Decodable {
         case audienceChangeRatio = "audiChange"
         case audienceAccumulate = "audiAcc"
         case screenCount = "scrnCnt"
-        case showCount = "shoCnt"
+        case showCount = "showCnt"
     }
 }

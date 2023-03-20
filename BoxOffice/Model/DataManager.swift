@@ -8,13 +8,11 @@
 import UIKit
 
 enum DataManager {
-    static func parse() -> BoxOfficeResult? {
+    static func parse(from data: Data) -> BoxOfficeResult? {
         let decoder = JSONDecoder()
         
-        guard let dataAsset = NSDataAsset(name: "DailyOffice") else { return nil }
-        
         do {
-            let result = try decoder.decode(BoxOfficeResult.self, from: dataAsset.data)
+            let result = try decoder.decode(BoxOfficeResult.self, from: data)
             return result
         } catch {
             print(error.localizedDescription)

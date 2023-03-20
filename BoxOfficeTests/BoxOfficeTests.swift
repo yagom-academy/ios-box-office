@@ -9,28 +9,32 @@ import XCTest
 @testable import BoxOffice
 
 final class BoxOfficeTests: XCTestCase {
-    
     override func setUpWithError() throws {
-        // Put setup code here. This method is called before the invocation of each test method in the class.
     }
 
     override func tearDownWithError() throws {
-        // Put teardown code here. This method is called after the invocation of each test method in the class.
     }
-
-    func testExample() throws {
-        // This is an example of a functional test case.
-        // Use XCTAssert and related functions to verify your tests produce the correct results.
-        // Any test you write for XCTest can be annotated as throws and async.
-        // Mark your test throws to produce an unexpected failure when your test encounters an uncaught error.
-        // Mark your test async to allow awaiting for asynchronous code to complete. Check the results with assertions afterwards.
+    
+    func test_DataManage의_parse호출시_nil이아니다() {
+        // given
+        guard let dataAsset = NSDataAsset(name: "DailyOffice") else { return }
+        
+        // when
+        let result = DataManager.parse(from: dataAsset.data)
+        
+        // then
+        XCTAssertNotNil(result)
     }
-
-    func testPerformanceExample() throws {
-        // This is an example of a performance test case.
-        measure {
-            // Put the code you want to measure the time of here.
-        }
+    
+    func test_파싱해온데이터의_박스오피스타입과_예상한값이일치한다() {
+        // given
+        guard let dataAsset = NSDataAsset(name: "DailyOffice") else { return }
+        let expectation = "일별 박스오피스"
+        
+        // when
+        let result = DataManager.parse(from: dataAsset.data)
+        
+        // then
+        XCTAssertEqual(result?.boxOfficeResult.boxofficeType, expectation)
     }
-
 }
