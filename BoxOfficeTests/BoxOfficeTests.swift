@@ -34,7 +34,7 @@ final class BoxOfficeResultTests: XCTestCase {
             print(error)
         case .success(let result):
             // then
-            XCTAssertEqual(result?.boxOfficeResult.boxofficeType, expectation)
+            XCTAssertEqual(result?.boxOfficeResult.boxOfficeType, expectation)
         }
     }
 }
