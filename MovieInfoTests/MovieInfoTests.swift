@@ -25,9 +25,9 @@ final class MovieInfoTests: XCTestCase {
     var sut: DailyBoxOffice!
 
     override func setUpWithError() throws {
-        guard let fullPath = NSDataAsset(name: "box_office_sample") else { throw FileError.notFound }
+        guard let boxofficeSample = NSDataAsset(name: "box_office_sample") else { throw FileError.notFound }
         do {
-            sut = try JSONDecoder().decode(DailyBoxOffice.self, from: fullPath.data)
+            sut = try JSONDecoder().decode(DailyBoxOffice.self, from: boxofficeSample.data)
         } catch {
             print(error.localizedDescription)
         }
