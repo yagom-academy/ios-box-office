@@ -16,22 +16,43 @@ struct Service: Decodable {
 }
 
 struct MovieInformation: Decodable {
-    let rnum: String
+    let rankNumber: String
     let rank: String
-    let rankInten : String
+    let rankDifference : String
     let rankOldAndNew: String
-    let movieCd: String
-    let movieNm: String
-    let openDt: String
-    let salesAmt: String
+    let movieCode: String
+    let movieName: String
+    let openDate: String
+    let salesAmount: String
     let salesShare: String
-    let salesInten: String
-    let salesChange: String
-    let salesAcc: String
-    let audiCnt: String
-    let audiInten: String
-    let audiChange: String
-    let audiAcc: String
-    let scrnCnt: String
-    let showCnt: String
+    let salesDifference: String
+    let salesChangeRatio: String
+    let salesAccumulate: String
+    let audienceCount: String
+    let audienceDifference: String
+    let audienceChangeRatio: String
+    let audienceAccumulate: String
+    let screenCount: String
+    let showCount: String
+    
+    private enum CodingKeys: String, CodingKey {
+        case rankNumber = "rnum"
+        case rank
+        case rankDifference = "rankInten"
+        case rankOldAndNew
+        case movieCode = "movieCd"
+        case movieName = "movieNm"
+        case openDate = "openDt"
+        case salesAmount = "salesAmt"
+        case salesShare
+        case salesDifference = "salesInten"
+        case salesChangeRatio = "salesChange"
+        case salesAccumulate = "salesAcc"
+        case audienceCount = "audiCnt"
+        case audienceDifference = "audiInten"
+        case audienceChangeRatio = "audiChange"
+        case audienceAccumulate = "audiAcc"
+        case screenCount = "scrnCnt"
+        case showCount = "shoCnt"
+    }
 }
