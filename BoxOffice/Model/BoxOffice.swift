@@ -7,6 +7,6 @@
 
 import Foundation
 
-struct BoxOfficeResponse: Codable {
+struct BoxOffice: Codable {
     let boxOfficeResult: BoxOfficeResult
 }
