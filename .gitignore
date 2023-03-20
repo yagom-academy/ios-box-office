@@ -1,4 +1,4 @@
+# Xcode
+*.xcuserstate
+!default.xcuserstate
 .DS_Store
-.DS_Store
-.DS_Store
-BoxOffice.xcodeproj/project.xcworkspace/xcuserdata/seongjunkim.xcuserdatad/UserInterfaceState.xcuserstate
