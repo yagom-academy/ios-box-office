@@ -25,7 +25,7 @@ final class BoxOfficeViewController: UIViewController {
         do {
             boxOfficeResult = try jsonDecoder.decode(BoxOfficeResult.self, from: jsonData.data)
         } catch {
-            return
+            print(error.localizedDescription)
         }
     }
 }
