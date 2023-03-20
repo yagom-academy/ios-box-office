@@ -7,9 +7,9 @@
 
 import UIKit
 
-enum BoxOfficeParser {
+struct BoxOfficeParser {
     
-    static func boxOfficeParse() -> BoxOffice {
+    func boxOfficeParse() -> BoxOffice {
         var boxOffice = BoxOffice(boxOfficeResult: BoxOfficeResult(boxOfficeType: "", showRange: "", dailyBoxOfficeList: []))
         let jsonDecoder = JSONDecoder()
         
