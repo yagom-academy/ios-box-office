@@ -13,10 +13,10 @@ class ViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        parse()
-        print(boxOfficeResult)
+        parseJson()
     }
-    func parse() {
+    
+    func parseJson() {
         let jsonDecoder = JSONDecoder()
         
         guard let jsonData: NSDataAsset = NSDataAsset(name: "box_office_sample") else {
@@ -24,11 +24,8 @@ class ViewController: UIViewController {
         }
         
         do {
-            print("\(jsonData.data)")
             boxOfficeResult = try jsonDecoder.decode(BoxOfficeResult.self, from: jsonData.data)
-            print(jsonData.data)
         } catch {
-            print(error)
             return
         }
     }
