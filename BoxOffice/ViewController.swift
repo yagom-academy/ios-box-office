@@ -2,7 +2,7 @@
 //  ViewController.swift
 //  BoxOffice
 //
-//  Created by kjs on 13/01/23.
+//  Created by Christy, Hyemory on 13/01/23.
 //
 
 import UIKit
