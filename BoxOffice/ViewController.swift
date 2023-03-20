@@ -16,7 +16,6 @@ class ViewController: UIViewController {
         
         let boxOfficeResult = decoder.decodeBoxOfficeResult()
         
-        print(boxOfficeResult)
     }
 
 

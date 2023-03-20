@@ -48,9 +48,9 @@
 		08E1C12D29C82D01000FAF49 /* Model */ = {
 			isa = PBXGroup;
 			children = (
-				08E1C12B29C82CF9000FAF49 /* DailyBoxOffice.swift */,
-				08E1C12929C82CE4000FAF49 /* BoxOfficeResult.swift */,
 				D06CB3AC29C84FB000136FD3 /* BoxOffice.swift */,
+				08E1C12929C82CE4000FAF49 /* BoxOfficeResult.swift */,
+				08E1C12B29C82CF9000FAF49 /* DailyBoxOffice.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";

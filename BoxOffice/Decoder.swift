@@ -5,8 +5,6 @@
 //  Created by Rhode, Rilla on 2023/03/20.
 //
 
-
-import Foundation
 import UIKit
 
 final class Decoder {
@@ -20,11 +18,13 @@ final class Decoder {
             return nil
         }
         
-        guard let decodedBoxOffice: BoxOffice = try? decoder.decode(BoxOffice.self, from: boxOffice.data) else {
-            print("decoding")
+        do{
+            let decodedBoxOffice: BoxOffice = try decoder.decode(BoxOffice.self, from: boxOffice.data)
+            return decodedBoxOffice
+        } catch {
+            print("이곳만은 안된다...!")
             return nil
         }
         
-        return decodedBoxOffice
     }
 }

@@ -2,11 +2,9 @@
 //  BoxOffice.swift
 //  BoxOffice
 //
-//  Created by Jinah Park on 2023/03/20.
+//  Created by Rhode, Rilla on 2023/03/20.
 //
 
-import Foundation
-
-struct BoxOffice: Codable {
+struct BoxOffice: Decodable {
     let boxOfficeResult: BoxOfficeResult
 }
