@@ -14,7 +14,21 @@
 		63DF20F82970E1A1005DF7D1 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 63DF20F72970E1A1005DF7D1 /* Assets.xcassets */; };
 		63DF20FB2970E1A1005DF7D1 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 63DF20F92970E1A1005DF7D1 /* LaunchScreen.storyboard */; };
 		AD3094A029C81C710052C64D /* JSONModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD30949F29C81C710052C64D /* JSONModel.swift */; };
+		AD3094A829C824A20052C64D /* BoxOfficeTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD3094A729C824A20052C64D /* BoxOfficeTests.swift */; };
+		AD3094AE29C824AE0052C64D /* JSONModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD30949F29C81C710052C64D /* JSONModel.swift */; };
+		AD3094B029C825610052C64D /* DataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD3094AF29C825610052C64D /* DataManager.swift */; };
+		AD3094B129C825640052C64D /* DataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD3094AF29C825610052C64D /* DataManager.swift */; };
 /* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		AD3094A929C824A20052C64D /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 63DF20E32970E1A0005DF7D1 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 63DF20EA2970E1A0005DF7D1;
+			remoteInfo = BoxOffice;
+		};
+/* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
 		63DF20EB2970E1A0005DF7D1 /* BoxOffice.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = BoxOffice.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -26,10 +40,20 @@
 		63DF20FA2970E1A1005DF7D1 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		63DF20FC2970E1A1005DF7D1 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		AD30949F29C81C710052C64D /* JSONModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JSONModel.swift; sourceTree = "<group>"; };
+		AD3094A529C824A20052C64D /* BoxOfficeTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = BoxOfficeTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		AD3094A729C824A20052C64D /* BoxOfficeTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BoxOfficeTests.swift; sourceTree = "<group>"; };
+		AD3094AF29C825610052C64D /* DataManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataManager.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
 		63DF20E82970E1A0005DF7D1 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		AD3094A229C824A20052C64D /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -43,6 +67,7 @@
 			isa = PBXGroup;
 			children = (
 				63DF20ED2970E1A0005DF7D1 /* BoxOffice */,
+				AD3094A629C824A20052C64D /* BoxOfficeTests */,
 				63DF20EC2970E1A0005DF7D1 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -51,6 +76,7 @@
 			isa = PBXGroup;
 			children = (
 				63DF20EB2970E1A0005DF7D1 /* BoxOffice.app */,
+				AD3094A529C824A20052C64D /* BoxOfficeTests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -90,8 +116,17 @@
 			isa = PBXGroup;
 			children = (
 				AD30949F29C81C710052C64D /* JSONModel.swift */,
+				AD3094AF29C825610052C64D /* DataManager.swift */,
 			);
 			path = Model;
+			sourceTree = "<group>";
+		};
+		AD3094A629C824A20052C64D /* BoxOfficeTests */ = {
+			isa = PBXGroup;
+			children = (
+				AD3094A729C824A20052C64D /* BoxOfficeTests.swift */,
+			);
+			path = BoxOfficeTests;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -114,6 +149,24 @@
 			productReference = 63DF20EB2970E1A0005DF7D1 /* BoxOffice.app */;
 			productType = "com.apple.product-type.application";
 		};
+		AD3094A429C824A20052C64D /* BoxOfficeTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = AD3094AB29C824A30052C64D /* Build configuration list for PBXNativeTarget "BoxOfficeTests" */;
+			buildPhases = (
+				AD3094A129C824A20052C64D /* Sources */,
+				AD3094A229C824A20052C64D /* Frameworks */,
+				AD3094A329C824A20052C64D /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				AD3094AA29C824A20052C64D /* PBXTargetDependency */,
+			);
+			name = BoxOfficeTests;
+			productName = BoxOfficeTests;
+			productReference = AD3094A529C824A20052C64D /* BoxOfficeTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
@@ -126,6 +179,10 @@
 				TargetAttributes = {
 					63DF20EA2970E1A0005DF7D1 = {
 						CreatedOnToolsVersion = 14.2;
+					};
+					AD3094A429C824A20052C64D = {
+						CreatedOnToolsVersion = 14.2;
+						TestTargetID = 63DF20EA2970E1A0005DF7D1;
 					};
 				};
 			};
@@ -143,6 +200,7 @@
 			projectRoot = "";
 			targets = (
 				63DF20EA2970E1A0005DF7D1 /* BoxOffice */,
+				AD3094A429C824A20052C64D /* BoxOfficeTests */,
 			);
 		};
 /* End PBXProject section */
@@ -158,6 +216,13 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		AD3094A329C824A20052C64D /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
@@ -166,13 +231,32 @@
 			buildActionMask = 2147483647;
 			files = (
 				63DF20F32970E1A0005DF7D1 /* ViewController.swift in Sources */,
+				AD3094B029C825610052C64D /* DataManager.swift in Sources */,
 				AD3094A029C81C710052C64D /* JSONModel.swift in Sources */,
 				63DF20EF2970E1A0005DF7D1 /* AppDelegate.swift in Sources */,
 				63DF20F12970E1A0005DF7D1 /* SceneDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		AD3094A129C824A20052C64D /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				AD3094A829C824A20052C64D /* BoxOfficeTests.swift in Sources */,
+				AD3094B129C825640052C64D /* DataManager.swift in Sources */,
+				AD3094AE29C824AE0052C64D /* JSONModel.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		AD3094AA29C824A20052C64D /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 63DF20EA2970E1A0005DF7D1 /* BoxOffice */;
+			targetProxy = AD3094A929C824A20052C64D /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
 		63DF20F42970E1A0005DF7D1 /* Main.storyboard */ = {
@@ -364,6 +448,48 @@
 			};
 			name = Release;
 		};
+		AD3094AC29C824A30052C64D /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				GENERATE_INFOPLIST_FILE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 16.2;
+				MACOSX_DEPLOYMENT_TARGET = 13.1;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = net.yagom.BoxOfficeTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = auto;
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator macosx";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/BoxOffice.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/BoxOffice";
+			};
+			name = Debug;
+		};
+		AD3094AD29C824A30052C64D /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				GENERATE_INFOPLIST_FILE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 16.2;
+				MACOSX_DEPLOYMENT_TARGET = 13.1;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = net.yagom.BoxOfficeTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = auto;
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator macosx";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/BoxOffice.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/BoxOffice";
+			};
+			name = Release;
+		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -381,6 +507,15 @@
 			buildConfigurations = (
 				63DF21002970E1A1005DF7D1 /* Debug */,
 				63DF21012970E1A1005DF7D1 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		AD3094AB29C824A30052C64D /* Build configuration list for PBXNativeTarget "BoxOfficeTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				AD3094AC29C824A30052C64D /* Debug */,
+				AD3094AD29C824A30052C64D /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;

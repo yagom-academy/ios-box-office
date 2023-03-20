@@ -6,7 +6,7 @@
 //
 
 struct BoxOfficeResult: Decodable {
-    let boxOfficeResult: String
+    let boxOfficeResult: Service
 }
 
 struct Service: Decodable {

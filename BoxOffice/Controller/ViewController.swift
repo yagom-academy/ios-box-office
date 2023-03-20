@@ -8,12 +8,16 @@
 import UIKit
 
 class ViewController: UIViewController {
-
+    var officeData: BoxOfficeResult?
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-        // Do any additional setup after loading the view.
+        
     }
-
+    
+    func parseData() {
+        DataManager.parse()
+    }
 
 }
 
