@@ -11,7 +11,7 @@ struct BoxOfficeResult: Decodable {
     let dailyBoxOfficeList: [DailyBoxOffice]
     
     enum CodingKeys: String, CodingKey {
-        case boxOfficeType = "boxofficeResult"
+        case boxOfficeType = "boxofficeType"
         case showRange, dailyBoxOfficeList
     }
 }

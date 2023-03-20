@@ -8,12 +8,29 @@
 import UIKit
 
 class ViewController: UIViewController {
-
+    
+    private var boxOfficeResult = BoxOfficeResult(boxOfficeType: "", showRange: "", dailyBoxOfficeList: [])
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-        // Do any additional setup after loading the view.
+        parse()
+        print(boxOfficeResult)
     }
-
-
+    func parse() {
+        let jsonDecoder = JSONDecoder()
+        
+        guard let jsonData: NSDataAsset = NSDataAsset(name: "box_office_sample") else {
+            return
+        }
+        
+        do {
+            print("\(jsonData.data)")
+            boxOfficeResult = try jsonDecoder.decode(BoxOfficeResult.self, from: jsonData.data)
+            print(jsonData.data)
+        } catch {
+            print(error)
+            return
+        }
+    }
 }
 
