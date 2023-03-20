@@ -39,7 +39,7 @@ struct DailyBoxOfficeList: Decodable {
 
     enum CodingKeys: String, CodingKey {
         case rnum, rank, rankInten, rankOldAndNew
-        case movieCode = "movieCD"
+        case movieCode = "movieCd"
         case movieName = "movieNm"
         case openDate = "openDt"
         case salesAmount = "salesAmt"
