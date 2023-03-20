@@ -31,7 +31,7 @@ final class BoxOfficeTests: XCTestCase {
         XCTAssertNoThrow(try decoder?.decode(BoxOfficItem.self, from: asset.data))
     }
     
-    func testDecode_ifOfficeDataProvide_ReturnOfficeType() {
+    func testDecode_IfBoxOfficeDataProvide_ReturnBoxOfficeType() {
        // given when then
        guard let asset = NSDataAsset(name: "box_office_sample", bundle: .main),
              let boxOffice = try? decoder?.decode(BoxOfficItem.self, from: asset.data)
