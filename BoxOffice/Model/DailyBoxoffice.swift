@@ -9,15 +9,15 @@ import Foundation
 
 class DailyBoxoffice {
     let targetDate: String
-    let key = Bundle.main.apiKey
     var data: DailyBoxofficeObject?
+    let apiType = APIType.boxoffice
     
     init(targetDate: String) {
         self.targetDate = targetDate
     }
     
-    func search() {
-        let url = URL(string: "http://kobis.or.kr/kobisopenapi/webservice/rest/boxoffice/searchDailyBoxOfficeList.json?key=\(key)&targetDt=\(targetDate)")!
+    func search() throws {
+        let url = try apiType.getUrl(interfaceValue: targetDate)
         let task = URLSession.shared.dataTask(with: url) { [weak self] data, response, error in
             if let error = error {
                 return

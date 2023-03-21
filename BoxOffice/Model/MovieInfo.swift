@@ -9,15 +9,15 @@ import Foundation
 
 class MovieInfo {
     let code: String
-    let key = Bundle.main.apiKey
     var data: MovieInfoObject?
+    let apiType = APIType.movie
     
     init(code: String) {
         self.code = code
     }
     
-    func search() {
-        let url = URL(string: "http://kobis.or.kr/kobisopenapi/webservice/rest/movie/searchMovieInfo.json?key=\(key)&movieCd=\(code)")!
+    func search() throws {
+        let url = try apiType.getUrl(interfaceValue: code)
         let task = URLSession.shared.dataTask(with: url) { [weak self] data, response, error in
             if let error = error {
                 return
