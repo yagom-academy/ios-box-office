@@ -13,7 +13,7 @@ final class BoxOfficeTests: XCTestCase {
     
     override func setUpWithError() throws {
         try super.setUpWithError()
-        sut = Decoder().decodeBoxOffice()
+        sut = Decoder().decodeAsset()
     }
 
     override func tearDownWithError() throws {

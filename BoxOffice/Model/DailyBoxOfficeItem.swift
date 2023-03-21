@@ -8,7 +8,7 @@
 import Foundation
 
 struct DailyBoxOfficeItem: Codable {
-    let number: String
+    let rowNumber: String
     let rank: String
     let rankingIntensity: String
     let rankOldAndNew: RankOldAndNew
@@ -28,7 +28,7 @@ struct DailyBoxOfficeItem: Codable {
     let showCount: String
     
     private enum CodingKeys: String, CodingKey {
-        case number = "rnum"
+        case rowNumber = "rnum"
         case rank
         case rankingIntensity = "rankInten"
         case rankOldAndNew

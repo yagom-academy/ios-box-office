@@ -10,15 +10,17 @@ import UIKit
 struct Decoder {
     private let decoder: JSONDecoder = JSONDecoder()
     
-    func decodeBoxOffice() -> BoxOffice? {
-        guard let items: NSDataAsset = NSDataAsset(name: "box_office_sample") else { return nil }
+    func decodeAsset<T: Decodable>(assetName: String, type: T.Type) throws -> T? {
+        guard let items = NSDataAsset(name: assetName) else {
+            throw DecoderError.decodeFailed
+        }
         
         do {
-            let boxOffice = try decoder.decode(BoxOffice.self, from: items.data)
+            let boxOffice = try decoder.decode(type, from: items.data)
             
             return boxOffice
-        } catch {
-            print(error.localizedDescription)
+        } catch DecoderError.decodeFailed {
+            print("\(assetName)파일을 디코딩 실패했습니다.")
             
             return nil
         }
