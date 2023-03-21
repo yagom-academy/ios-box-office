@@ -36,7 +36,7 @@ struct DailyBoxOfficeMovie: Decodable {
     let audienceCountOfDate: String
     let audienceDifferenceFromYesterday: String
     let audienceChangeRatio: String
-    let totalAudienceCount: String
+    let accumulatedAudienceCount: String
     let screenCount: String
     let showCount: String
     
@@ -56,7 +56,7 @@ struct DailyBoxOfficeMovie: Decodable {
         case audienceCountOfDate = "audiCnt"
         case audienceDifferenceFromYesterday = "audiInten"
         case audienceChangeRatio = "audiChange"
-        case totalAudienceCount = "audiAcc"
+        case accumulatedAudienceCount = "audiAcc"
         case screenCount = "scrnCnt"
         case showCount = "showCnt"
     }
