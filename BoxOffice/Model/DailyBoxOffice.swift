@@ -1,5 +1,5 @@
 //
-//  JSONModel.swift
+//  DailyBoxOffice.swift
 //  BoxOffice
 //
 //  Created by Muri, Rowan on 2023/03/20.
@@ -12,16 +12,15 @@ struct DailyBoxOffice: Decodable {
 struct BoxOfficeResult: Decodable {
     let boxOfficeType: String
     let showRange: String
-    let movieInformations: [MovieInformation]
+    let dailyBoxOfficeList: [DailyBoxOfficeMovie]
     
     private enum CodingKeys: String, CodingKey {
+        case showRange, dailyBoxOfficeList
         case boxOfficeType = "boxofficeType"
-        case showRange
-        case movieInformations = "dailyBoxOfficeList"
     }
 }
 
-struct MovieInformation: Decodable {
+struct DailyBoxOfficeMovie: Decodable {
     let rankNumber: String
     let rank: String
     let rankDifference: String
@@ -42,15 +41,13 @@ struct MovieInformation: Decodable {
     let showCount: String
     
     private enum CodingKeys: String, CodingKey {
+        case rank, rankOldAndNew, salesShare
         case rankNumber = "rnum"
-        case rank
         case rankDifference = "rankInten"
-        case rankOldAndNew
         case movieCode = "movieCd"
         case movieName = "movieNm"
         case openDate = "openDt"
         case salesAmount = "salesAmt"
-        case salesShare
         case salesDifference = "salesInten"
         case salesChangeRatio = "salesChange"
         case salesAccumulate = "salesAcc"
