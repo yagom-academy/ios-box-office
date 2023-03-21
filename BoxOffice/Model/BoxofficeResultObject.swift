@@ -1,14 +1,14 @@
 //
-//  BoxOfficeResult.swift
+//  BoxofficeResultObject.swift
 //  BoxOffice
 //
 //  Created by 레옹아범 ,Andrew on 2023/03/20.
 //
 
-struct BoxofficeResult: Decodable {
+struct BoxofficeResultObject: Decodable {
     let boxofficeType: String
     let dateRange: String
-    let movies: [MovieInfo]
+    let movies: [InfoObject]
     
     enum CodingKeys: String, CodingKey {
         case boxofficeType

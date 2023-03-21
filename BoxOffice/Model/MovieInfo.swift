@@ -2,35 +2,39 @@
 //  MovieInfo.swift
 //  BoxOffice
 //
-//  Created by 레옹아범 ,Andrew on 2023/03/20.
+//  Created by Andrew on 2023/03/21.
 //
 
-struct MovieInfo: Decodable {
-    let rnum, rank, changedRank, rankStatus: String
-    let code, name: String
-    let openDate: String
-    let salesAmount, salesShare, changedSales, changedSalesRate, totalOfSales: String
-    let numberOfAudience, changedAudience, changedAudienceRate, totalOfAudience: String
-    let numberOfScreen: String
-    let numberOfShowing: String
+import Foundation
+
+class MovieInfo {
+    let code: String
+    let key = Bundle.main.apiKey
+    var data: MovieInfoObject?
     
-    enum CodingKeys: String, CodingKey {
-        case rnum, rank
-        case changedRank = "rankInten"
-        case rankStatus = "rankOldAndNew"
-        case code = "movieCd"
-        case name = "movieNm"
-        case openDate = "openDt"
-        case salesAmount = "salesAmt"
-        case salesShare
-        case changedSales = "salesInten"
-        case changedSalesRate = "salesChange"
-        case totalOfSales = "salesAcc"
-        case numberOfAudience = "audiCnt"
-        case changedAudience = "audiInten"
-        case changedAudienceRate = "audiChange"
-        case totalOfAudience = "audiAcc"
-        case numberOfScreen = "scrnCnt"
-        case numberOfShowing = "showCnt"
+    init(code: String) {
+        self.code = code
+    }
+    
+    func search() {
+        let url = URL(string: "http://kobis.or.kr/kobisopenapi/webservice/rest/movie/searchMovieInfo.json?key=\(key)&movieCd=\(code)")!
+        let task = URLSession.shared.dataTask(with: url) { [weak self] data, response, error in
+            if let error = error {
+                return
+            }
+            guard let httpResponse = response as? HTTPURLResponse,
+                (200...299).contains(httpResponse.statusCode) else {
+                return
+            }
+            if let mimeType = httpResponse.mimeType, mimeType == "application/json",
+               let data = data {
+                do {
+                    self?.data = try JSONDecoder().decode(MovieInfoObject.self, from: data)
+                } catch {
+                    return
+                }
+            }
+        }
+        task.resume()
     }
 }
