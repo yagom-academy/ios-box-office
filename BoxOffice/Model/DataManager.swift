@@ -10,34 +10,10 @@ import UIKit
 class DataManager {
     var delegate: DataManagerDelegate?
     var kobisUrlSession = URLSession(configuration: .default)
+    var urlMaker = URLMaker()
     
-    enum Services {
-        case dailyBoxOffice
-        case movieDetails
-        
-        var urlString: String {
-            switch self {
-            case .dailyBoxOffice:
-                return "http://www.kobis.or.kr/kobisopenapi/webservice/rest/boxoffice/searchDailyBoxOfficeList.json"
-            case .movieDetails:
-                return "http://www.kobis.or.kr/kobisopenapi/webservice/rest/movie/searchMovieInfo.json"
-            }
-        }
-    }
-    
-    func parse<T: Decodable>(from data: Data, returnType: T.Type) throws -> T? {
-        let decoder = JSONDecoder()
-        
-        do {
-            let result = try decoder.decode(returnType, from: data)
-            return result
-        } catch {
-            throw DecodeError.decodeFail
-        }
-    }
-    
-    func startLoad<T: Decodable>(for service: Services, type: T.Type) {
-        guard let url = URL(string: service.urlString) else { return }
+    func startLoadDailyBoxOfficeData(date: String) {
+        guard let url = urlMaker.makeDailyBoxOfficeURL(date: date) else { return }
         
         let task = kobisUrlSession.dataTask(with: url) { data, response, error in
             if let error = error {
@@ -55,12 +31,7 @@ class DataManager {
                let data = data {
                 DispatchQueue.main.async { [weak self] in
                     do {
-                        switch service {
-                        case .dailyBoxOffice:
-                            self?.delegate?.dailyBoxOfficeData = try self?.parse(from: data, returnType: T.self) as? DailyBoxOffice
-                        case .movieDetails:
-                            self?.delegate?.movieDetailsData = try self?.parse(from: data, returnType: T.self) as? MovieDetails
-                        }
+                        self?.delegate?.dailyBoxOfficeData = try self?.parse(from: data, returnType: DailyBoxOffice.self)
                     } catch {
                         print(error.localizedDescription)
                     }
@@ -69,4 +40,20 @@ class DataManager {
         }
         task.resume()
     }
+    
+    private func parse<T: Decodable>(from data: Data, returnType: T.Type) throws -> T? {
+        let decoder = JSONDecoder()
+        
+        do {
+            let result = try decoder.decode(returnType, from: data)
+            return result
+        } catch {
+            throw DecodeError.decodeFail
+        }
+    }
 }
+
+
+
+//case .movieDetails:
+//    self?.delegate?.movieDetailsData = try self?.parse(from: data, returnType: T.self) as? MovieDetails
