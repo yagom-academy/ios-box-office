@@ -9,4 +9,7 @@ import Foundation
 
 enum BoxofficeError: Error {
     case urlError
+    case sessionError
+    case responseError
+    case decodingError
 }

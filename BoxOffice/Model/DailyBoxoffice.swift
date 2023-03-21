@@ -16,25 +16,37 @@ class DailyBoxoffice {
         self.targetDate = targetDate
     }
     
-    func search() throws {
-        let url = try apiType.getUrl(interfaceValue: targetDate)
-        let task = URLSession.shared.dataTask(with: url) { [weak self] data, response, error in
-            if let error = error {
-                return
-            }
-            guard let httpResponse = response as? HTTPURLResponse,
-                (200...299).contains(httpResponse.statusCode) else {
-                return
-            }
-            if let mimeType = httpResponse.mimeType, mimeType == "application/json",
-               let data = data {
-                do {
-                    self?.data = try JSONDecoder().decode(DailyBoxofficeObject.self, from: data)
-                } catch {
+    func search(completion: @escaping (Result<DailyBoxofficeObject, BoxofficeError>) -> Void) {
+        do {
+            let url = try apiType.getUrl(interfaceValue: targetDate)
+            
+            let task = URLSession.shared.dataTask(with: url) { data, response, error in
+                if error != nil {
+                    completion(.failure(.sessionError))
                     return
                 }
+                guard let httpResponse = response as? HTTPURLResponse,
+                    (200...299).contains(httpResponse.statusCode) else {
+                    completion(.failure(.responseError))
+                    return
+                }
+                if let mimeType = httpResponse.mimeType, mimeType == "application/json",
+                   let data = data {
+                    do {
+                        let decodingdata = try JSONDecoder().decode(DailyBoxofficeObject.self, from: data)
+                        completion(.success(decodingdata))
+                    } catch {
+                        completion(.failure(.decodingError))
+                        return
+                    }
+                }
             }
+            
+            task.resume()
+            
+        } catch {
+            completion(.failure(.urlError))
+            return
         }
-        task.resume()
     }
 }
