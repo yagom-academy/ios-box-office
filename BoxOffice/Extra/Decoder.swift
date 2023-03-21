@@ -10,20 +10,13 @@ import UIKit
 final class Decoder {
     
     private let decoder = JSONDecoder()
-    private let fileName = "box_office_sample"
 
-    func decodeBoxOffice() -> BoxOffice? {
-        
-        guard let boxOffice: NSDataAsset  = NSDataAsset(name: fileName) else {
-            return nil
-        }
-        
+    func decodeBoxOffice(data: Data) -> BoxOffice? {
         do{
-            let decodedBoxOffice: BoxOffice = try decoder.decode(BoxOffice.self, from: boxOffice.data)
+            let decodedBoxOffice: BoxOffice = try decoder.decode(BoxOffice.self, from: data)
             return decodedBoxOffice
         } catch {
             return nil
         }
-        
     }
 }

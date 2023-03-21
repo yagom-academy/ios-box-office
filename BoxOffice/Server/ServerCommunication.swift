@@ -9,28 +9,25 @@ import Foundation
 
 struct ServerCommunication {
     
-    func startLoad(urlText: String) {
+    func startLoad(urlText: String, complete: @escaping (Data) -> ()) {
         guard let url = URL(string: urlText) else { return }
         
         var request = URLRequest(url: url)
         request.httpMethod = "GET"
         
         URLSession.shared.dataTask(with: request) { data, response, error in
-
-            guard let httpURLResponse = response as? HTTPURLResponse, httpURLResponse.statusCode == 200 else {
+            
+            guard let httpResponse = response as? HTTPURLResponse,
+                  (200...299).contains(httpResponse.statusCode) else {
                 print("response")
                 return
             }
+            
             let mimeType = response?.mimeType
             
             if ((mimeType?.lowercased().contains("text")) != nil) {
-                
-                DispatchQueue.main.async {
-
-
-                }
+                complete(data!)
             }
         }.resume()
     }
-    
 }
