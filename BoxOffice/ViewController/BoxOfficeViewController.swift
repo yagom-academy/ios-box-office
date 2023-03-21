@@ -4,7 +4,6 @@
 //
 //  Created by vetto, brody on 23/03/20.
 //
-
 import UIKit
 
 final class BoxOfficeViewController: UIViewController {
@@ -13,8 +12,7 @@ final class BoxOfficeViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        print("시작")
-        networkManager.fetchData(for: "http://www.kobis.or.kr/kobisopenapi/webservice/rest/boxoffice/searchDailyBoxOfficeList.json") { result in
+        networkManager.fetchData(for: "http://kobis.or.kr/kobisopenapi/webservice/rest/boxoffice/searchDailyBoxOfficeList.json?key=67e99e70400656a77208ca1775261071&targetDt=20230320", type: BoxOffice.self) { result in
             switch result {
             case .success(let data):
                 print(data)
@@ -22,7 +20,6 @@ final class BoxOfficeViewController: UIViewController {
                 print(error)
             }
         }
-        print("끝")
     }
     
     func parseJson() {

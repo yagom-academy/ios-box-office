@@ -8,7 +8,7 @@ import Foundation
 
 final class NetworkManager {
     
-    func fetchData(for url: String, completion: @escaping (Result<Data, Error>) -> Void) {
+    func fetchData<T: Decodable>(for url: String, type: T.Type, completion: @escaping (Result<T, Error>) -> Void) {
         guard let url = URL(string: url) else {
             return
         }
@@ -27,7 +27,13 @@ final class NetworkManager {
             
             if let mimeType = httpResponse.mimeType, mimeType == "application/json",
                let data = data {
-                completion(.success(data))
+                do {
+                    let jsonData = try JSONDecoder().decode(type, from: data)
+                    completion(.success(jsonData))
+                } catch {
+                    print(error)
+                }
+                return
             }
         }
         task.resume()
