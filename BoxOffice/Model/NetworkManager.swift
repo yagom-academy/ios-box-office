@@ -6,53 +6,32 @@
 //
 import Foundation
 
-enum BoxOfficeAPI {
-    case dailyBoxOffice(date: String)
-    case detailMovieInformation(movieCode: String)
-    
-    static let key: String = "67e99e70400656a77208ca1775261071"
-}
-
-extension BoxOfficeAPI {
-    var url: URL? {
-        switch self {
-        case .dailyBoxOffice(let date):
-            let path = "boxoffice/searchDailyBoxOfficeList.json?"
-            return .makeForEndpoint("\(path)key=\(BoxOfficeAPI.key)&targetDt=\(date)")
-        case .detailMovieInformation(let movieCode):
-            let path = "movie/searchMovieInfo.json?"
-            return .makeForEndpoint("\(path)key=\(BoxOfficeAPI.key)&movieCd=\(movieCode)")
-        }
-    }
-}
-
-private extension URL {
-    static let baseURL = "http://kobis.or.kr/kobisopenapi/webservice/rest/"
-    
-    static func makeForEndpoint(_ endpoint: String) -> URL? {
-        guard let url = URL(string: baseURL + endpoint) else {
-            return nil
-        }
-        return url
-    }
-}
-
 final class NetworkManager {
-    
     func fetchData<T: Decodable>(for url: URL?, type: T.Type, completion: @escaping (Result<T, Error>) -> Void) {
         guard let url = url else {
             return
         }
         
         let task = URLSession.shared.dataTask(with: url) { data, response, error in
-            if let error = error {
-                print("local Error: \(error)")
+            if error != nil {
+                completion(.failure(NetworkError.unknownError))
                 return
             }
             
-            guard let httpResponse = response as? HTTPURLResponse,
-                  (200...299).contains(httpResponse.statusCode) else {
-                print("server Error Response: \(response)")
+            guard let httpResponse = response as? HTTPURLResponse else {
+                return
+            }
+            
+            guard (200...399).contains(httpResponse.statusCode) else {
+                switch httpResponse.statusCode {
+                case 400...499:
+                    completion(.failure(NetworkError.clientError))
+                case 500...599:
+                    completion(.failure(NetworkError.serverError))
+                default:
+                    completion(.failure(NetworkError.unknownError))
+                }
+                
                 return
             }
             
@@ -62,11 +41,12 @@ final class NetworkManager {
                     let jsonData = try JSONDecoder().decode(type, from: data)
                     completion(.success(jsonData))
                 } catch {
-                    print(error)
+                    completion(.failure(error))
                 }
                 return
             }
         }
+        
         task.resume()
     }
 }

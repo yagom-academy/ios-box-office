@@ -18,7 +18,8 @@ final class BoxOfficeViewController: UIViewController {
             case .success(let data):
                 print(data)
             case .failure(let error):
-                print(error)
+                let a = error
+//                print(error)
             }
         }
     }
