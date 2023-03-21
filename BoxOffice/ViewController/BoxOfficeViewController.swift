@@ -13,37 +13,43 @@ final class BoxOfficeViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        //        let url = BoxOfficeAPI.dailyBoxOffice(date: "20230320").url
-        //        networkManager.fetchData(for: url, type: BoxOffice.self) { result in
-        //            switch result {
-        //            case .success(let data):
-        //                print(data)
-        //            case .failure(let error):
-        //                print(error)
-        //            }
-        //        }
-        let url = BoxOfficeAPI.detailMovieInformation(movieCode: "20124080").url
-        networkManager.fetchData(for: url, type: MovieInformation.self) { result in
+        
+        fetchDailyBoxOffice()
+        fetchDetailMovieInformation()
+    }
+    
+    private func fetchDailyBoxOffice() {
+        guard let yesterdayDate = Calendar.current.date(
+            byAdding: Calendar.Component.day,
+            value: -1,
+            to: Date()) else {
+            return
+        }
+        
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "yyyymmdd"
+        let yesterday = dateFormatter.string(from: yesterdayDate)
+        
+        let url = BoxOfficeAPI.dailyBoxOffice(date: yesterday).url
+        networkManager.fetchData(for: url, type: BoxOffice.self) { result in
             switch result {
-            case .success(let data):
-                print(data)
+            case .success(let boxOffice):
+                self.boxOffice = boxOffice
             case .failure(let error):
                 print(error)
             }
         }
     }
     
-    func parseJson() {
-        let jsonDecoder = BoxOfficeJsonDecoder()
-        
-        guard let jsonData: NSDataAsset = NSDataAsset(name: "box_office_sample") else {
-            return
-        }
-        
-        do {
-            boxOffice = try jsonDecoder.decode(BoxOffice.self, from: jsonData.data)
-        } catch {
-            print(error.localizedDescription)
+    private func fetchDetailMovieInformation() {
+        let url = BoxOfficeAPI.detailMovieInformation(movieCode: "20124080").url
+        networkManager.fetchData(for: url, type: MovieInformation.self) { result in
+            switch result {
+            case .success(let movieInformation):
+                self.movieInformation = movieInformation
+            case .failure(let error):
+                print(error)
+            }
         }
     }
 }
