@@ -58,11 +58,11 @@ final class NetworkManager {
     }
     
     private func decode<T: Codable>(data: Data, type: T.Type) -> Result<T, Error> {
-            do {
-                let decoded = try JSONDecoder().decode(type, from: data)
-                return .success(decoded)
-            } catch {
-                return .failure(NetworkError.emptyData)
-            }
+        do {
+            let decoded = try JSONDecoder().decode(type, from: data)
+            return .success(decoded)
+        } catch {
+            return .failure(NetworkError.emptyData)
         }
+    }
 }
