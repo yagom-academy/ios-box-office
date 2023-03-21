@@ -15,22 +15,22 @@ enum DataManager {
             let result = try decoder.decode(DailyBoxOffice.self, from: data)
             return result
         } catch {
-            throw DecodeError.boxOfficeResultError
+            throw DecodeError.decodeFail
         }
     }
 }
 
-enum DecodeError: Error {
-    case boxOfficeResultError
-    
-    static let title = NSLocalizedString("오류 발생", comment: "error")
+enum DecodeError: LocalizedError {
+    case decodeFail
 }
 
-extension DecodeError: LocalizedError {
+extension DecodeError {
+    static let title = NSLocalizedString("오류 발생", comment: "error")
+    
     var errorDescription: String? {
         switch self {
-        case .boxOfficeResultError:
-            return NSLocalizedString("데이터를 불러오는데 실패했습니다.", comment: "data loading failure")
+        case .decodeFail:
+            return NSLocalizedString("데이터 디코딩에 실패했습니다.", comment: "data decoding failure")
         }
     }
 }

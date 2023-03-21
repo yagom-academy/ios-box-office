@@ -41,15 +41,13 @@ struct DailyBoxOfficeMovie: Decodable {
     let showCount: String
     
     private enum CodingKeys: String, CodingKey {
+        case rank, rankOldAndNew, salesShare
         case rankNumber = "rnum"
-        case rank
         case rankDifference = "rankInten"
-        case rankOldAndNew
         case movieCode = "movieCd"
         case movieName = "movieNm"
         case openDate = "openDt"
         case salesAmount = "salesAmt"
-        case salesShare
         case salesDifference = "salesInten"
         case salesChangeRatio = "salesChange"
         case salesAccumulate = "salesAcc"
