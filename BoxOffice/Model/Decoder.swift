@@ -8,12 +8,10 @@
 import UIKit
 
 enum Decoder {
-   static func parseJSON<element: Decodable>(_ fileName: String, returnType: element.Type) -> element? {
-       guard let dataAsset = NSDataAsset(name: fileName) else { return nil }
-       
+   static func parseJSON<element: Decodable>(_ data: Data, returnType: element.Type) -> element? {       
        do {
            let jsonDecoder = JSONDecoder()
-           let result = try jsonDecoder.decode(returnType, from: dataAsset.data)
+           let result = try jsonDecoder.decode(returnType, from: data)
            return result
        } catch {
            print(error.localizedDescription)
