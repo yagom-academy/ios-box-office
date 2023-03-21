@@ -13,7 +13,7 @@ final class BoxOfficeTests: XCTestCase {
     
     override func setUpWithError() throws {
         try super.setUpWithError()
-        sut = Decoder().decodeAsset()
+        sut = try AssetDecoder().decode(name: "box_office_sample", type: BoxOffice.self)
     }
 
     override func tearDownWithError() throws {
@@ -21,9 +21,20 @@ final class BoxOfficeTests: XCTestCase {
         sut = nil
     }
     
-    func test_디코딩할때_nil을반환하지않는다() {
+    func test_잘못된JSON파일이름으로_디코딩했을때_decodeFailed에러를던진다() {
+        // given
+        let invalidJsonFileName = "invalid_name"
+        let errorMessage = DecoderError.decodeFailed
+        var error: DecoderError?
+        
+        // when
+        XCTAssertThrowsError(try AssetDecoder().decode(name: invalidJsonFileName, type: BoxOffice.self)) {
+            errorHandler in
+            error = errorHandler as? DecoderError
+        }
+        
         // then
-        XCTAssertNotNil(sut)
+        XCTAssertEqual(error, errorMessage)
     }
     
     func test_boxOfficeType값이_일별_박스오피스이다() {
