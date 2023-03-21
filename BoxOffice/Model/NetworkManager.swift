@@ -30,5 +30,6 @@ final class NetworkManager {
                 completion(.success(data))
             }
         }
+        task.resume()
     }
 }

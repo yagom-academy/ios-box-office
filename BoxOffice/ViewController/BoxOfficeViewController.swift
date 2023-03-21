@@ -9,10 +9,20 @@ import UIKit
 
 final class BoxOfficeViewController: UIViewController {
     private var boxOffice: BoxOffice?
+    private let networkManager = NetworkManager()
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        parseJson()
+        print("시작")
+        networkManager.fetchData(for: "http://www.kobis.or.kr/kobisopenapi/webservice/rest/boxoffice/searchDailyBoxOfficeList.json") { result in
+            switch result {
+            case .success(let data):
+                print(data)
+            case .failure(let error):
+                print(error)
+            }
+        }
+        print("끝")
     }
     
     func parseJson() {
