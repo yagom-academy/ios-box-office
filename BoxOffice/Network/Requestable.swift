@@ -10,8 +10,3 @@ protocol Requestable {
     var baseURL: String { get }
     var key: String { get }
 }
-
-
-
-
-
