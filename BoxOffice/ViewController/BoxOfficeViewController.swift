@@ -12,7 +12,8 @@ final class BoxOfficeViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        networkManager.fetchData(for: "http://kobis.or.kr/kobisopenapi/webservice/rest/boxoffice/searchDailyBoxOfficeList.json?key=67e99e70400656a77208ca1775261071&targetDt=20230320", type: BoxOffice.self) { result in
+        let url = BoxOfficeAPI.dailyBoxOffice(date: "20230320").url
+        networkManager.fetchData(for: url, type: BoxOffice.self) { result in
             switch result {
             case .success(let data):
                 print(data)
