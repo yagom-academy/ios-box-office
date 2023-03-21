@@ -8,29 +8,14 @@
 import XCTest
 @testable import BoxOffice
 
-enum FileError: LocalizedError {
-    case notFound
-    
-    var errorDescription: String? {
-        switch self {
-        case .notFound:
-            return "파일을 찾지 못했습니다."
-        }
-    }
-    
-}
-
 final class MovieInfoTests: XCTestCase {
     
     var sut: DailyBoxOffice!
 
     override func setUpWithError() throws {
-        guard let boxofficeSample = NSDataAsset(name: "box_office_sample") else { throw FileError.notFound }
-        do {
-            sut = try JSONDecoder().decode(DailyBoxOffice.self, from: boxofficeSample.data)
-        } catch {
-            print(error.localizedDescription)
-        }
+        let boxofficeSample = NSDataAsset(name: "box_office_sample")!
+        
+        sut = try! JSONDecoder().decode(DailyBoxOffice.self, from: boxofficeSample.data)
     }
 
     override func tearDownWithError() throws {
