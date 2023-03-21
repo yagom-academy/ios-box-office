@@ -1,21 +1,22 @@
 //
-//  BoxOfficeResult.swift
+//  BoxOffice.swift
 //  BoxOffice
 //
 //  Created by vetto, brody on 23/03/20.
 //
 
 struct BoxOffice: Decodable {
-    let boxOfficeResult: Result
+    let boxOfficeResult: BoxOfficeResult
     
-    struct Result: Decodable {
+    struct BoxOfficeResult: Decodable {
         let boxOfficeType: String
-        let showRange: String
+        let showingDuration: String
         let dailyBoxOfficeList: [DailyBoxOffice]
         
         enum CodingKeys: String, CodingKey {
             case boxOfficeType = "boxofficeType"
-            case showRange, dailyBoxOfficeList
+            case showingDuration = "showRange"
+            case dailyBoxOfficeList
         }
     }
 }

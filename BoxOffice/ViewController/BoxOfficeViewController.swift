@@ -8,11 +8,12 @@
 import UIKit
 
 final class BoxOfficeViewController: UIViewController {
-    private var boxOfficeResult: BoxOfficeResult?
+    private var boxOffice: BoxOffice?
     
     override func viewDidLoad() {
         super.viewDidLoad()
         parseJson()
+        print(boxOffice)
     }
     
     func parseJson() {
@@ -23,7 +24,7 @@ final class BoxOfficeViewController: UIViewController {
         }
         
         do {
-            boxOfficeResult = try jsonDecoder.decode(BoxOfficeResult.self, from: jsonData.data)
+            boxOffice = try jsonDecoder.decode(BoxOffice.self, from: jsonData.data)
         } catch {
             print(error.localizedDescription)
         }
