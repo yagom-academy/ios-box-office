@@ -5,7 +5,7 @@
 //  Created by vetto, brody on 23/03/20.
 //
 
-struct BoxOfficeResult: Decodable {
+struct BoxOffice: Decodable {
     let boxOfficeResult: Result
     
     struct Result: Decodable {
