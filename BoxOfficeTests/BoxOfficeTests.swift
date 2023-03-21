@@ -15,7 +15,7 @@ final class BoxOfficeResultTests: XCTestCase {
         guard let dataAsset = NSDataAsset(name: "DailyOffice") else { return }
         
         // when
-        let result = Result { try DataManager.parse(from: dataAsset.data) }
+        let result = Result { try DataManager.parse(from: dataAsset.data, returnType: DailyBoxOffice.self) }
         
         // then
         XCTAssertNotNil(result)
@@ -27,7 +27,7 @@ final class BoxOfficeResultTests: XCTestCase {
         let expectation = "일별 박스오피스"
         
         // when
-        let data = Result { try DataManager.parse(from: dataAsset.data) }
+        let data = Result { try DataManager.parse(from: dataAsset.data, returnType: DailyBoxOffice.self) }
         
         switch data {
         case .failure(let error):
