@@ -11,10 +11,13 @@ class ViewController: UIViewController, DataManagerDelegate {
     
     var dailyBoxOfficeData: DailyBoxOffice?
     var movieDetailsData: MovieDetails?
+
+    var datamanager = DataManager()
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+        datamanager.delegate = self
+
     }
 }
 

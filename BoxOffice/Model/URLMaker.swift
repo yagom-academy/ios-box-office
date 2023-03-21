@@ -22,11 +22,19 @@ struct URLMaker {
         return url
     }
     
-//    func makeMovieDetailsURL(for code: String) -> URL? {
-//
-//        return URL()
-//    }
-//
+    func makeMovieDetailsURL(code: String) -> URL? {
+        var urlComponents = URLComponents(string: Services.movieDetails.urlString)
+
+        let key = URLQueryItem(name: "key", value: "d975f8608af0d9e5a16e79768ca97127")
+        let movieCode = URLQueryItem(name: "movieCd", value: code)
+
+        urlComponents?.queryItems = [key, movieCode]
+
+        let url = urlComponents?.url
+        
+        return url
+    }
+
     
     private enum Services {
         case dailyBoxOffice

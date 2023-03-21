@@ -41,6 +41,35 @@ class DataManager {
         task.resume()
     }
     
+    func startLoadMovieDetails(code: String) {
+        guard let url = urlMaker.makeMovieDetailsURL(code: code) else { return }
+        
+        let task = kobisUrlSession.dataTask(with: url) { data, response, error in
+            if let error = error {
+                print(error)
+                return
+            }
+            
+            guard let httpResponse = response as? HTTPURLResponse,
+                  (200...299).contains(httpResponse.statusCode) else {
+                print("서버와 통신에 실패했습니다.")
+                return
+            }
+            
+            if let mimeType = httpResponse.mimeType, mimeType == "application/json",
+               let data = data {
+                DispatchQueue.main.async { [weak self] in
+                    do {
+                        self?.delegate?.movieDetailsData = try self?.parse(from: data, returnType: MovieDetails.self)
+                    } catch {
+                        print(error.localizedDescription)
+                    }
+                }
+            }
+        }
+        task.resume()
+    }
+    
     private func parse<T: Decodable>(from data: Data, returnType: T.Type) throws -> T? {
         let decoder = JSONDecoder()
         
@@ -52,8 +81,3 @@ class DataManager {
         }
     }
 }
-
-
-
-//case .movieDetails:
-//    self?.delegate?.movieDetailsData = try self?.parse(from: data, returnType: T.self) as? MovieDetails
