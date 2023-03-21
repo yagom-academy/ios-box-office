@@ -7,22 +7,24 @@
 
 import UIKit
 
-struct BoxOfficeParser {
-    func boxOfficeParse() -> BoxOffice {
-        var boxOffice = BoxOffice(boxOfficeResult: BoxOfficeResult(boxOfficeType: "", showRange: "", dailyBoxOfficeList: []))
+struct BoxOfficeParser<T: Decodable> {
+
+    func boxOfficeParse(jsonFileName: String) -> T? {
+        var decodingResult: T?
         let jsonDecoder = JSONDecoder()
         
-        guard let jsonData: NSDataAsset = NSDataAsset(name: "box_office_sample") else {
+        guard let jsonData: NSDataAsset = NSDataAsset(name: jsonFileName) else {
             print("에러 : jsonData 없음")
-            return boxOffice
+            return nil
         }
         
         do {
-            boxOffice = try jsonDecoder.decode(BoxOffice.self, from: jsonData.data)
-            return boxOffice
+            decodingResult = try jsonDecoder.decode(T.self, from: jsonData.data)
+            return decodingResult
         } catch {
             print("에러 : decode 안됨")
-            return boxOffice
+            return nil
         }
     }
 }
+

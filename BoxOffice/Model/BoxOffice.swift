@@ -60,7 +60,7 @@ struct DailyBoxOffice: Decodable {
         case audienceGap = "audiInten"
         case audienceGapPercent = "audiChange"
         case audienceAccumulation = "audiAcc"
-        case screenCount = "screenCnt"
+        case screenCount = "scrnCnt"
         case showCount = "showCnt"
     }
 }
