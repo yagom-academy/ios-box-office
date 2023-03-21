@@ -16,9 +16,9 @@ extension String {
         return formatter
     }()
     
-    func formatDecimal() -> String {
+    func formatDecimal() -> String? {
         guard let value = Int(self),
-              let formattedNumber = String.numberFormatter.string(from: NSNumber(value: value)) else { return "\(Double.nan)" }
+              let formattedNumber = String.numberFormatter.string(from: NSNumber(value: value)) else { return nil }
         
         return formattedNumber
     }
