@@ -1,20 +1,20 @@
 //
 //  BoxOffice.swift
-//  BoxOffice
+//  DailyBoxOfficeData
 //
 //  Created by goat, songjun on 2023/03/20.
 //
 
 import Foundation
 
-struct BoxOffice: Decodable {
+struct DailyBoxOffice: Decodable {
     let boxOfficeResult: BoxOfficeResult
 }
    
 struct BoxOfficeResult: Decodable {
     let boxOfficeType: String
     let showRange: String
-    let dailyBoxOfficeList: [DailyBoxOffice]
+    let dailyBoxOfficeList: [DailyMovieInformation]
     
     private enum CodingKeys: String, CodingKey {
         case boxOfficeType = "boxofficeType"
@@ -23,7 +23,7 @@ struct BoxOfficeResult: Decodable {
     }
 }
 
-struct DailyBoxOffice: Decodable {
+struct DailyMovieInformation: Decodable {
     let movieNumber: String
     let rank: String
     let rankGap: String

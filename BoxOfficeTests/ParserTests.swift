@@ -11,10 +11,10 @@ import XCTest
 
 final class ParserTests: XCTestCase {
     
-    var sut: Parser<BoxOffice>!
+    var sut: Parser<DailyBoxOffice>!
     
     override func setUpWithError() throws {
-        sut = Parser<BoxOffice>()
+        sut = Parser<DailyBoxOffice>()
     }
     override func tearDownWithError() throws {
        sut = nil
