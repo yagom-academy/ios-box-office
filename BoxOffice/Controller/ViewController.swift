@@ -10,15 +10,15 @@ import UIKit
 
 class ViewController: UIViewController {
     let decoder = Decoder()
-    let server = ServerCommunication()
+    let server = NetworkManager()
     let url = CommunicationForm.dailyBoxOffice + "20230320"
+    let anotherURL = CommunicationForm
+        .detailMovieInformation + "20124079"
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        print(url)
-        server.startLoad(urlText: url) { data in
-            let decodedData = self.decoder.decodeBoxOffice(data: data)
-            print(decodedData?.boxOfficeResult.dailyBoxOfficeList)
+        server.startLoad(urlText: anotherURL) { data in
+            //다운로드 후 해야할 작업
         }
     }
 
