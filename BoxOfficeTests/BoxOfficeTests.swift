@@ -42,7 +42,7 @@ final class BoxOfficeTests: XCTestCase {
         let expectation = "일별 박스오피스"
         
         // when
-        let result = sut.boxOfficeResult.boxOfficeType
+        let result = sut.result.type
         
         // then
         XCTAssertEqual(expectation, result)
@@ -50,7 +50,7 @@ final class BoxOfficeTests: XCTestCase {
     
     func test_dailyBoxOfficeList의_영화의개수는_10개가_맞다() {
         // given
-        let movieCount = sut.boxOfficeResult.dailyBoxOfficeList.count
+        let movieCount = sut.result.dailyBoxOfficeList.count
         let expectation = 10
         
         // when
@@ -65,7 +65,7 @@ final class BoxOfficeTests: XCTestCase {
         let expectation = "엔칸토: 마법의 세계"
         
         // when
-        let result = sut.boxOfficeResult.dailyBoxOfficeList.last?.movieName
+        let result = sut.result.dailyBoxOfficeList.last?.movieName
         
         // then
         XCTAssertEqual(expectation, result)

@@ -8,15 +8,19 @@
 import Foundation
 
 struct BoxOffice: Codable {
-    let boxOfficeResult: Result
+    let result: Result
+    
+    private enum CodingKeys: String, CodingKey {
+        case result = "boxOfficeResult"
+    }
     
     struct Result: Codable {
-        let boxOfficeType: String
+        let type: String
         let showRange: String
         let dailyBoxOfficeList: [DailyBoxOfficeItem]
         
         private enum CodingKeys: String, CodingKey {
-            case boxOfficeType = "boxofficeType"
+            case type = "boxofficeType"
             case showRange, dailyBoxOfficeList
         }
     }
