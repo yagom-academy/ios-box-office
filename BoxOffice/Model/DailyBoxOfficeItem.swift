@@ -9,10 +9,21 @@ import Foundation
 
 struct DailyBoxOfficeItem: Codable {
     let number: String
-    let rank, rankingIntensity, rankOldAndNew: String
-    let movieCode, movieName, openingDate: String
-    let salesAmount, salesShare, salesIntensity, salesChange, salesAccumulation: String
-    let audienceCount, audienceIntensity, audienceChange, audienceAccumulation: String
+    let rank: String
+    let rankingIntensity: String
+    let rankOldAndNew: RankOldAndNew
+    let movieCode: String
+    let movieName: String
+    let openingDate: String
+    let salesAmount: String
+    let salesShare: String
+    let salesIntensity: String
+    let salesChange: String
+    let salesAccumulation: String
+    let audienceCount: String
+    let audienceIntensity: String
+    let audienceChange: String
+    let audienceAccumulation: String
     let screenCount: String
     let showCount: String
     
@@ -36,4 +47,9 @@ struct DailyBoxOfficeItem: Codable {
         case screenCount = "scrnCnt"
         case showCount = "showCnt"
     }
+}
+
+enum RankOldAndNew: String, Codable {
+    case new = "NEW"
+    case old = "OLD"
 }
