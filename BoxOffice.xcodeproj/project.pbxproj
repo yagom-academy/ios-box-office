@@ -7,6 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		08DD8EA429C9665B00DA67E2 /* ServerCommunication.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08DD8EA329C9665B00DA67E2 /* ServerCommunication.swift */; };
+		08DD8EA929C9685B00DA67E2 /* Date+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08DD8EA829C9685B00DA67E2 /* Date+.swift */; };
+		08DD8EAD29C96B9D00DA67E2 /* CommunicationForm.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08DD8EAC29C96B9D00DA67E2 /* CommunicationForm.swift */; };
 		08E1C12A29C82CE4000FAF49 /* BoxOfficeResult.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08E1C12929C82CE4000FAF49 /* BoxOfficeResult.swift */; };
 		08E1C12C29C82CF9000FAF49 /* DailyBoxOffice.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08E1C12B29C82CF9000FAF49 /* DailyBoxOffice.swift */; };
 		08E1C13029C83D1F000FAF49 /* DecodeManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08E1C12F29C83D1F000FAF49 /* DecodeManager.swift */; };
@@ -32,6 +35,9 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		08DD8EA329C9665B00DA67E2 /* ServerCommunication.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ServerCommunication.swift; sourceTree = "<group>"; };
+		08DD8EA829C9685B00DA67E2 /* Date+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Date+.swift"; sourceTree = "<group>"; };
+		08DD8EAC29C96B9D00DA67E2 /* CommunicationForm.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommunicationForm.swift; sourceTree = "<group>"; };
 		08E1C12929C82CE4000FAF49 /* BoxOfficeResult.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BoxOfficeResult.swift; sourceTree = "<group>"; };
 		08E1C12B29C82CF9000FAF49 /* DailyBoxOffice.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DailyBoxOffice.swift; sourceTree = "<group>"; };
 		08E1C12F29C83D1F000FAF49 /* DecodeManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DecodeManager.swift; sourceTree = "<group>"; };
@@ -67,12 +73,29 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		08DD8EA529C9667600DA67E2 /* Server */ = {
+			isa = PBXGroup;
+			children = (
+				08DD8EA329C9665B00DA67E2 /* ServerCommunication.swift */,
+			);
+			path = Server;
+			sourceTree = "<group>";
+		};
+		08DD8EAB29C96AAB00DA67E2 /* Extension */ = {
+			isa = PBXGroup;
+			children = (
+				08DD8EA829C9685B00DA67E2 /* Date+.swift */,
+			);
+			path = Extension;
+			sourceTree = "<group>";
+		};
 		08E1C12D29C82D01000FAF49 /* Model */ = {
 			isa = PBXGroup;
 			children = (
 				D06CB3AC29C84FB000136FD3 /* BoxOffice.swift */,
 				08E1C12929C82CE4000FAF49 /* BoxOfficeResult.swift */,
 				08E1C12B29C82CF9000FAF49 /* DailyBoxOffice.swift */,
+				08DD8EAC29C96B9D00DA67E2 /* CommunicationForm.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -111,9 +134,11 @@
 				D06CB3AF29C8762B00136FD3 /* Extra */,
 				D06CB3B029C8764D00136FD3 /* Resources */,
 				08E1C12E29C82D0D000FAF49 /* App */,
+				08DD8EA529C9667600DA67E2 /* Server */,
 				08E1C12D29C82D01000FAF49 /* Model */,
 				D06CB3B129C8766700136FD3 /* View */,
 				D06CB3AE29C8761300136FD3 /* Controller */,
+				08DD8EAB29C96AAB00DA67E2 /* Extension */,
 			);
 			path = BoxOffice;
 			sourceTree = "<group>";
@@ -270,10 +295,13 @@
 			buildActionMask = 2147483647;
 			files = (
 				08E1C12A29C82CE4000FAF49 /* BoxOfficeResult.swift in Sources */,
+				08DD8EA429C9665B00DA67E2 /* ServerCommunication.swift in Sources */,
+				08DD8EAD29C96B9D00DA67E2 /* CommunicationForm.swift in Sources */,
 				08E1C12C29C82CF9000FAF49 /* DailyBoxOffice.swift in Sources */,
 				D08946D429CA922400669A1C /* DecodeError.swift in Sources */,
 				D06CB3AD29C84FB000136FD3 /* BoxOffice.swift in Sources */,
 				63DF20F32970E1A0005DF7D1 /* ViewController.swift in Sources */,
+				08DD8EA929C9685B00DA67E2 /* Date+.swift in Sources */,
 				63DF20EF2970E1A0005DF7D1 /* AppDelegate.swift in Sources */,
 				08E1C13029C83D1F000FAF49 /* DecodeManager.swift in Sources */,
 				63DF20F12970E1A0005DF7D1 /* SceneDelegate.swift in Sources */,

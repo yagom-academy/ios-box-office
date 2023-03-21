@@ -9,21 +9,14 @@
 import UIKit
 
 class ViewController: UIViewController {
-    let decoder = DecodeManager<BoxOffice>()
-    let fileName = "box_office_sample"
+    let decoder = Decoder()
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        let boxOfficeResult = decoder.decodeJSON(fileName: fileName)
-        
-        switch boxOfficeResult {
-        case .success(let result):
-            print(result.boxOfficeResult.dailyBoxOfficeList)
-        case .failure(let error):
-            print(error.localizedDescription)
-        }
+        let boxOfficeResult = decoder.decodeBoxOffice()
     }
+
 
 }
 
