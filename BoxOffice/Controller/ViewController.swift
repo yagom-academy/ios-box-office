@@ -8,7 +8,10 @@
 import UIKit
 
 class ViewController: UIViewController {
+    var dailyBoxOfficeAPI = DailyBoxOfficeAPI()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
+        dailyBoxOfficeAPI.loadDailyBoxOffice()
     }
 }
