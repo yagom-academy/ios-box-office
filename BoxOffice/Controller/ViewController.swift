@@ -15,7 +15,6 @@ class ViewController: UIViewController {
         super.viewDidLoad()
         
         let boxOfficeResult = decoder.decodeBoxOffice()
-        
     }
 
 
