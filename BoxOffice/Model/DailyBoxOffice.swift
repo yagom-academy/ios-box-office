@@ -52,9 +52,9 @@ struct DailyMovieInformation: Decodable {
         case movieName = "movieNm"
         case openDate = "openDt"
         case salesAmount = "salesAmt"
-        case salesPercent = "salesShare" // 해당일자 판매 비율
-        case salesGap = "salesInten" // 전일 대비 매출액 증감분
-        case salesGapPercent = "salesChange" // 전일 대비 매출애 증감 비율
+        case salesPercent = "salesShare" 
+        case salesGap = "salesInten"
+        case salesGapPercent = "salesChange"
         case salesAccumulation = "salesAcc"
         case audienceCount = "audiCnt"
         case audienceGap = "audiInten"
