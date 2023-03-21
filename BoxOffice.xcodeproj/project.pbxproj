@@ -7,7 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		08DD8EA429C9665B00DA67E2 /* ServerCommunication.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08DD8EA329C9665B00DA67E2 /* ServerCommunication.swift */; };
+		08DD8EA429C9665B00DA67E2 /* NetworkManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08DD8EA329C9665B00DA67E2 /* NetworkManager.swift */; };
 		08DD8EA929C9685B00DA67E2 /* Date+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08DD8EA829C9685B00DA67E2 /* Date+.swift */; };
 		08DD8EAD29C96B9D00DA67E2 /* CommunicationForm.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08DD8EAC29C96B9D00DA67E2 /* CommunicationForm.swift */; };
 		08DD8EB129C97C0D00DA67E2 /* DetailMovieInformation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08DD8EB029C97C0D00DA67E2 /* DetailMovieInformation.swift */; };
@@ -45,7 +45,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		08DD8EA329C9665B00DA67E2 /* ServerCommunication.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ServerCommunication.swift; sourceTree = "<group>"; };
+		08DD8EA329C9665B00DA67E2 /* NetworkManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkManager.swift; sourceTree = "<group>"; };
 		08DD8EA829C9685B00DA67E2 /* Date+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Date+.swift"; sourceTree = "<group>"; };
 		08DD8EAC29C96B9D00DA67E2 /* CommunicationForm.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommunicationForm.swift; sourceTree = "<group>"; };
 		08DD8EB029C97C0D00DA67E2 /* DetailMovieInformation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailMovieInformation.swift; sourceTree = "<group>"; };
@@ -96,7 +96,7 @@
 		08DD8EA529C9667600DA67E2 /* Server */ = {
 			isa = PBXGroup;
 			children = (
-				08DD8EA329C9665B00DA67E2 /* ServerCommunication.swift */,
+				08DD8EA329C9665B00DA67E2 /* NetworkManager.swift */,
 			);
 			path = Server;
 			sourceTree = "<group>";
@@ -333,7 +333,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				08E1C12A29C82CE4000FAF49 /* BoxOfficeResult.swift in Sources */,
-				08DD8EA429C9665B00DA67E2 /* ServerCommunication.swift in Sources */,
+				08DD8EA429C9665B00DA67E2 /* NetworkManager.swift in Sources */,
 				08DD8EAD29C96B9D00DA67E2 /* CommunicationForm.swift in Sources */,
 				08DD8EBF29C97E1B00DA67E2 /* Audit.swift in Sources */,
 				08E1C12C29C82CF9000FAF49 /* DailyBoxOffice.swift in Sources */,

@@ -19,4 +19,13 @@ final class Decoder {
             return nil
         }
     }
+    
+    func decodeDetailMovieInformation(data: Data) -> DetailMovieInformation? {
+        do{
+            let decodedInformation: DetailMovieInformation = try decoder.decode(DetailMovieInformation.self, from: data)
+            return decodedInformation
+        } catch {
+            return nil
+        }
+    }
 }

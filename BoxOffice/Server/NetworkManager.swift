@@ -1,15 +1,15 @@
 //
-//  ServerCommunication.swift
+//  NetworkManager.swift
 //  BoxOffice
 //
-//  Created by 김성준 on 2023/03/21.
+//  Created by Rhode, Rilla on 2023/03/21.
 //
 
 import Foundation
 
-struct ServerCommunication {
+struct NetworkManager {
     
-    func startLoad(urlText: String, complete: @escaping (Data) -> ()) {
+    func startLoad(urlText: String, complete: @escaping (Data?) -> ()) {
         guard let url = URL(string: urlText) else { return }
         
         var request = URLRequest(url: url)
@@ -26,7 +26,7 @@ struct ServerCommunication {
             let mimeType = response?.mimeType
             
             if ((mimeType?.lowercased().contains("text")) != nil) {
-                complete(data!)
+                complete(data)
             }
         }.resume()
     }
