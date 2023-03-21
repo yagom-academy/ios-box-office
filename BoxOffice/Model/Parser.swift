@@ -7,9 +7,8 @@
 
 import UIKit
 
-struct BoxOfficeParser<T: Decodable> {
-
-    func boxOfficeParse(jsonFileName: String) -> T? {
+struct Parser<T: Decodable> {
+    func Parse(jsonFileName: String) -> T? {
         var decodingResult: T?
         let jsonDecoder = JSONDecoder()
         
