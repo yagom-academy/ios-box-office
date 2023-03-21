@@ -2,7 +2,7 @@
 //  BoxOfficeTests.swift
 //  BoxOfficeTests
 //
-//  Created by Harry on 2023/03/20.
+//  Created by kaki, harry on 2023/03/20.
 //
 
 import XCTest
