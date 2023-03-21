@@ -21,7 +21,7 @@ enum APIType {
             return movieUrl
     
         case .boxoffice:
-            guard let boxofficeUrl = URL(string: "http://www.kobis.or.kr/kobisopenapi/webservice/rest/movie/searchMovieInfo.json?key=\(key)&movieCd=\(interfaceValue)") else {
+            guard let boxofficeUrl = URL(string: "http://kobis.or.kr/kobisopenapi/webservice/rest/boxoffice/searchDailyBoxOfficeList.json?key=\(key)&targetDt=\(interfaceValue)") else {
                 throw BoxofficeError.urlError
             }
             return boxofficeUrl
