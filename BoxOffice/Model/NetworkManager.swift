@@ -7,7 +7,10 @@
 import Foundation
 
 final class NetworkManager {
-    func fetchData<T: Decodable>(for url: URL?, type: T.Type, completion: @escaping (Result<T, Error>) -> Void) {
+    func fetchData<T: Decodable>(
+        for url: URL?,
+        type: T.Type,
+        completion: @escaping (Result<T, Error>) -> Void) {
         guard let url = url else {
             return
         }

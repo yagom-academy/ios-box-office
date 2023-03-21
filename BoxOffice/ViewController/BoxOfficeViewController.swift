@@ -8,18 +8,27 @@ import UIKit
 
 final class BoxOfficeViewController: UIViewController {
     private var boxOffice: BoxOffice?
+    private var movieInformation: MovieInformation?
     private let networkManager = NetworkManager()
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        let url = BoxOfficeAPI.dailyBoxOffice(date: "20230320").url
-        networkManager.fetchData(for: url, type: BoxOffice.self) { result in
+        //        let url = BoxOfficeAPI.dailyBoxOffice(date: "20230320").url
+        //        networkManager.fetchData(for: url, type: BoxOffice.self) { result in
+        //            switch result {
+        //            case .success(let data):
+        //                print(data)
+        //            case .failure(let error):
+        //                print(error)
+        //            }
+        //        }
+        let url = BoxOfficeAPI.detailMovieInformation(movieCode: "20124080").url
+        networkManager.fetchData(for: url, type: MovieInformation.self) { result in
             switch result {
             case .success(let data):
                 print(data)
             case .failure(let error):
-                let a = error
-//                print(error)
+                print(error)
             }
         }
     }
