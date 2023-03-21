@@ -13,7 +13,6 @@ final class BoxOfficeViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         parseJson()
-        print(boxOffice)
     }
     
     func parseJson() {
