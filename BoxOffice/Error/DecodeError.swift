@@ -7,17 +7,17 @@
 
 import Foundation
 
-enum DecodeError: Error {
+enum DecodeError: LocalizedError {
     case decodeFail
-    
-    static let title = NSLocalizedString("오류 발생", comment: "error")
 }
 
-extension DecodeError: LocalizedError {
+extension DecodeError {
+    static let title = NSLocalizedString("오류 발생", comment: "error")
+    
     var errorDescription: String? {
         switch self {
         case .decodeFail:
-            return NSLocalizedString("데이터를 불러오는데 실패했습니다.", comment: "data loading failure")
+            return NSLocalizedString("데이터를 디코딩하는데 실패했습니다.", comment: "data decoding failure")
         }
     }
 }
