@@ -31,6 +31,7 @@
 		AD3094B029C825610052C64D /* DataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD3094AF29C825610052C64D /* DataManager.swift */; };
 		AD3094B129C825640052C64D /* DataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD3094AF29C825610052C64D /* DataManager.swift */; };
 		ADF3304F29CADCB900E0EF8B /* URLMakerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = ADF3304E29CADCB900E0EF8B /* URLMakerTests.swift */; };
+		ADF3305129CAF5DB00E0EF8B /* KobisAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = ADF3305029CAF5DB00E0EF8B /* KobisAPI.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -71,6 +72,7 @@
 		AD3094A729C824A20052C64D /* DataManagerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataManagerTests.swift; sourceTree = "<group>"; };
 		AD3094AF29C825610052C64D /* DataManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataManager.swift; sourceTree = "<group>"; };
 		ADF3304E29CADCB900E0EF8B /* URLMakerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = URLMakerTests.swift; sourceTree = "<group>"; };
+		ADF3305029CAF5DB00E0EF8B /* KobisAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KobisAPI.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -125,6 +127,7 @@
 		4B9E3A2829CAE40500B60AD1 /* DataManagerTests */ = {
 			isa = PBXGroup;
 			children = (
+				ADF3305029CAF5DB00E0EF8B /* KobisAPI.swift */,
 				AD3094A729C824A20052C64D /* DataManagerTests.swift */,
 				4B9E3A2929CAE42100B60AD1 /* TestDoubles.swift */,
 			);
@@ -370,6 +373,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				4B9E3A2B29CAE48200B60AD1 /* KobisURLSession.swift in Sources */,
+				ADF3305129CAF5DB00E0EF8B /* KobisAPI.swift in Sources */,
 				4B9E3A2429CAD99800B60AD1 /* URLMaker.swift in Sources */,
 				ADF3304F29CADCB900E0EF8B /* URLMakerTests.swift in Sources */,
 				4B9E3A2A29CAE42100B60AD1 /* TestDoubles.swift in Sources */,

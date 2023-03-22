@@ -10,7 +10,6 @@ import XCTest
 
 final class DataManagerTests: XCTestCase {
     var sut: DataManager!
-    let sampleData = NSDataAsset(name: "DailyBoxOffice")!.data
     
     override func setUpWithError() throws {
         sut = DataManager()
