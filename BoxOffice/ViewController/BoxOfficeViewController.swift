@@ -35,8 +35,10 @@ final class BoxOfficeViewController: UIViewController {
             switch result {
             case .success(let boxOffice):
                 self.boxOffice = boxOffice
-            case .failure(let error):
-                print(error)
+            case .failure(_):
+                DispatchQueue.main.async {
+                    self.showAlert()
+                }
             }
         }
     }
@@ -47,10 +49,25 @@ final class BoxOfficeViewController: UIViewController {
             switch result {
             case .success(let movieInformation):
                 self.movieInformation = movieInformation
-            case .failure(let error):
-                print(error)
+            case .failure(_):
+                DispatchQueue.main.async {
+                    self.showAlert()
+                }
             }
         }
+    }
+    
+    private func showAlert() {
+        let alert = UIAlertController(
+            title: "에러",
+            message: "데이터를 불러올 수 없습니다",
+            preferredStyle: .alert
+        )
+        let okAction = UIAlertAction(title: "확인", style: .default)
+        
+        alert.addAction(okAction)
+        
+        present(alert, animated: true)
     }
 }
 
