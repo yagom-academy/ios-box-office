@@ -8,7 +8,6 @@
 import UIKit
 
 class ViewController: UIViewController, DataManagerDelegate {
-    
     var dailyBoxOfficeData: DailyBoxOffice?
     var movieDetailsData: MovieDetails?
 

@@ -8,16 +8,15 @@
 import UIKit
 
 class DataManager {
-    var delegate: DataManagerDelegate?
     var kobisUrlSession = URLSession(configuration: .default)
     var urlMaker = URLMaker()
     
-    func startLoadDailyBoxOfficeData(date: String) {
+    func startLoadDailyBoxOfficeData(date: String, completion: @escaping (Result<DailyBoxOffice, Error>) -> Void) {
         guard let url = urlMaker.makeDailyBoxOfficeURL(date: date) else { return }
         
         let task = kobisUrlSession.dataTask(with: url) { data, response, error in
             if let error = error {
-                print(error)
+                completion(.failure(error))
                 return
             }
             
@@ -27,16 +26,13 @@ class DataManager {
                 return
             }
             
-            if let mimeType = httpResponse.mimeType, mimeType == "application/json",
-               let data = data {
-                DispatchQueue.main.async { [weak self] in
-                    do {
-                        self?.delegate?.dailyBoxOfficeData = try self?.parse(from: data, returnType: DailyBoxOffice.self)
-                    } catch {
-                        print(error.localizedDescription)
-                    }
-                }
+            if let mimeType = httpResponse.mimeType,
+               mimeType == "application/json",
+               let data = data,
+               let dailyBoxOfficeData = try? JSONDecoder().decode(DailyBoxOffice.self, from: data) {
+                completion(.success(dailyBoxOfficeData))
             }
+            completion(.failure(DecodeError.decodeFail))
         }
         task.resume()
     }
@@ -59,25 +55,14 @@ class DataManager {
             if let mimeType = httpResponse.mimeType, mimeType == "application/json",
                let data = data {
                 DispatchQueue.main.async { [weak self] in
-                    do {
-                        self?.delegate?.movieDetailsData = try self?.parse(from: data, returnType: MovieDetails.self)
-                    } catch {
-                        print(error.localizedDescription)
-                    }
+//                    do {
+//                        self?.delegate?.movieDetailsData = try self?.parse(from: data, returnType: MovieDetails.self)
+//                    } catch {
+//                        print(error.localizedDescription)
+//                    }
                 }
             }
         }
         task.resume()
-    }
-    
-    private func parse<T: Decodable>(from data: Data, returnType: T.Type) throws -> T? {
-        let decoder = JSONDecoder()
-        
-        do {
-            let result = try decoder.decode(returnType, from: data)
-            return result
-        } catch {
-            throw DecodeError.decodeFail
-        }
     }
 }
