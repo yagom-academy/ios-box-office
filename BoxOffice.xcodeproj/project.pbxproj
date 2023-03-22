@@ -46,6 +46,7 @@
 		D06CB3AD29C84FB000136FD3 /* BoxOffice.swift in Sources */ = {isa = PBXBuildFile; fileRef = D06CB3AC29C84FB000136FD3 /* BoxOffice.swift */; };
 		D06CB3B929C8770C00136FD3 /* BoxOfficeTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D06CB3B829C8770C00136FD3 /* BoxOfficeTests.swift */; };
 		D08946D429CA922400669A1C /* DecodeError.swift in Sources */ = {isa = PBXBuildFile; fileRef = D08946D329CA922400669A1C /* DecodeError.swift */; };
+		D08946D829CB2EC900669A1C /* URLMaker.swift in Sources */ = {isa = PBXBuildFile; fileRef = D08946D729CB2EC900669A1C /* URLMaker.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -89,6 +90,7 @@
 		D06CB3B629C8770C00136FD3 /* BoxOfficeTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = BoxOfficeTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		D06CB3B829C8770C00136FD3 /* BoxOfficeTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BoxOfficeTests.swift; sourceTree = "<group>"; };
 		D08946D329CA922400669A1C /* DecodeError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DecodeError.swift; sourceTree = "<group>"; };
+		D08946D729CB2EC900669A1C /* URLMaker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = URLMaker.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -131,6 +133,7 @@
 			isa = PBXGroup;
 			children = (
 				08DD8EA329C9665B00DA67E2 /* NetworkManager.swift */,
+				D08946D729CB2EC900669A1C /* URLMaker.swift */,
 			);
 			path = Network;
 			sourceTree = "<group>";
@@ -370,6 +373,7 @@
 				08E1C12C29C82CF9000FAF49 /* DailyBoxOffice.swift in Sources */,
 				08CE13CE29CAF80100C15A16 /* Audit.swift in Sources */,
 				08CE13C629CAF80100C15A16 /* MovieInformation.swift in Sources */,
+				D08946D829CB2EC900669A1C /* URLMaker.swift in Sources */,
 				D08946D429CA922400669A1C /* DecodeError.swift in Sources */,
 				D06CB3AD29C84FB000136FD3 /* BoxOffice.swift in Sources */,
 				63DF20F32970E1A0005DF7D1 /* ViewController.swift in Sources */,
