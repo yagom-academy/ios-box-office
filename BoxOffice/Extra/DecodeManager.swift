@@ -12,7 +12,7 @@ final class DecodeManager<T: Decodable> {
     private let decoder = JSONDecoder()
    
 
-    func decodeDataAsset(fileName: String) -> Result<T, DecodeError> {
+    func decodeJSON(fileName: String) -> Result<T, DecodeError> {
         
         guard let JSONFile: NSDataAsset  = NSDataAsset(name: fileName) else {
             return .failure(.invalidFileError)

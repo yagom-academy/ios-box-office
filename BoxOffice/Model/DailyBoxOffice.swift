@@ -6,7 +6,7 @@
 //
 
 struct DailyBoxOffice: Decodable {
-    let number: String
+    let sequence: String
     let rank: String
     let rankIntensity: String
     let rankOldAndNew: String
@@ -26,7 +26,7 @@ struct DailyBoxOffice: Decodable {
     let showCount: String
     
     private enum CodingKeys: String, CodingKey {
-        case number = "rnum"
+        case sequence = "rnum"
         case rank
         case rankIntensity = "rankInten"
         case rankOldAndNew

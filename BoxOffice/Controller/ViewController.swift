@@ -15,7 +15,7 @@ class ViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        let boxOfficeResult = decoder.decodeDataAsset(fileName: fileName)
+        let boxOfficeResult = decoder.decodeJSON(fileName: fileName)
         
         switch boxOfficeResult {
         case .success(let result):
