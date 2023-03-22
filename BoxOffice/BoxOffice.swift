@@ -67,38 +67,3 @@ enum RankOldAndNew: String, Decodable {
     case new = "NEW"
     case old = "OLD"
 }
-
-extension BoxOffice: Equatable {
-    public static func == (lhs: BoxOffice, rhs: BoxOffice) -> Bool {
-        return lhs.boxOfficeResult == rhs.boxOfficeResult
-    }
-}
-
-extension BoxOfficeResult: Equatable {
-    public static func == (lhs: BoxOfficeResult, rhs: BoxOfficeResult) -> Bool {
-        return lhs.boxOfficeType == rhs.boxOfficeType && lhs.targetDate == rhs.targetDate && lhs.dailyBoxOfficeList == rhs.dailyBoxOfficeList
-    }
-}
-
-extension DailyBoxOffice: Equatable {
-    public static func == (lhs: DailyBoxOffice, rhs: DailyBoxOffice) -> Bool {
-        return lhs.number == rhs.number
-        && lhs.rank == rhs.rank
-        && lhs.rankIncrement == rhs.rankIncrement
-        && lhs.rankOldAndNew == rhs.rankOldAndNew
-        && lhs.movieCode == rhs.movieCode
-        && lhs.movieKoreanName == rhs.movieKoreanName
-        && lhs.openDate == rhs.openDate
-        && lhs.salesAmount == rhs.salesAmount
-        && lhs.salesShare == rhs.salesShare
-        && lhs.salesIncrement == rhs.salesIncrement
-        && lhs.salesChange == rhs.salesChange
-        && lhs.salesAccumulation == rhs.salesAccumulation
-        && lhs.audienceCount == rhs.audienceCount
-        && lhs.audienceIncrement == rhs.audienceIncrement
-        && lhs.audienceChange == rhs.audienceChange
-        && lhs.audienceAccumulation == rhs.audienceAccumulation
-        && lhs.screenCount == rhs.screenCount
-        && lhs.showCount == rhs.showCount
-    }
-}
