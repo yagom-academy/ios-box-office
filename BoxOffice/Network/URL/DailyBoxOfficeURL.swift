@@ -5,7 +5,7 @@
 //  Created by 리지, kokkilE on 2023/03/21.
 //
 
-struct DailyBoxOfficeURL: Requestable {
+struct DailyBoxOfficeURL {
     var url: String
     var baseURL: String = "http://www.kobis.or.kr/kobisopenapi/webservice/rest/boxoffice/searchDailyBoxOfficeList.json"
     var key: String = "f5eef3421c602c6cb7ea224104795888"

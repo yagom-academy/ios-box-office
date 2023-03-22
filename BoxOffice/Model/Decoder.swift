@@ -14,7 +14,6 @@ enum Decoder {
            let result = try jsonDecoder.decode(returnType, from: data)
            return result
        } catch {
-           print(error.localizedDescription)
            return nil
        }
    }

@@ -10,7 +10,7 @@ import Foundation
 class NetworkManager: NetworkRequestable {
     
     func makeUrlRequest(method: RequestMethod, request: Requestable) -> URLRequest? {
-        guard let url = URL(string: request.url) else { return nil }
+        guard let url = request.url else { return nil }
         
         var urlRequest = URLRequest(url: url)
         urlRequest.httpMethod = method.description
@@ -21,24 +21,25 @@ class NetworkManager: NetworkRequestable {
     func request<element: Decodable>(method: RequestMethod, url: Requestable, body: Data?, returnType: element.Type, completion: @escaping (Any) -> Void) {
         
         guard let urlRequest = makeUrlRequest(method: method, request: url) else {
-            print("URLRequest 생성 실패")
+            completion(NetworkError.invalidURL)
             return
         }
         
         let task = URLSession.shared.dataTask(with: urlRequest) { data, response, error in
-            if let error = error {
-                print(error.localizedDescription)
+            if error != nil {
+                completion(NetworkError.unknown)
                 return
             }
             guard let httpResponse = response as? HTTPURLResponse,
                   (200...299).contains(httpResponse.statusCode) else {
-                print(response as Any)
+                completion(NetworkError.reponseStatusCode)
                 return
             }
             
             if let mimeType = httpResponse.mimeType, mimeType == "application/json",
                let data = data {
                 guard let result = Decoder.parseJSON(data, returnType: returnType) else {
+                    completion(NetworkError.decode)
                     return
                 }
                 completion(result)
