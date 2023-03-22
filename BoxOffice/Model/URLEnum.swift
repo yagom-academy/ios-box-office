@@ -2,7 +2,7 @@
 //  URLEnum.swift
 //  BoxOffice
 //
-//  Created by kimseongjun on 2023/03/22.
+//  Created by goat, songjun on 2023/03/22.
 //
 
 import Foundation

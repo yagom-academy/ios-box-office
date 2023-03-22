@@ -15,22 +15,11 @@ final class ViewController: UIViewController {
     private let movieDetailParser = Parser<MovieDetail>()
     
     private var boxOfficeAPI = BoxOfficeAPI()
-
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         boxOfficeAPI.delegate = self
-        
-        boxOfficeAPI.loadBoxOfficeAPI(urlAddress: URLAddress.dailyBoxOfficeURL, parserType: dailyBoxOfficeParser)
-        test()
-        print()
     }
-    
-    func test() {
-        Thread.sleep(forTimeInterval: 1)
-        print(parsedDailyBoxOffice?.boxOfficeResult.boxOfficeType)
-    }
-    
-    
 }
 
 extension ViewController: BoxOfficeAPIDelegate {
