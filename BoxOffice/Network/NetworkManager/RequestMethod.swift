@@ -7,11 +7,17 @@
 
 enum RequestMethod {
     case get
+    case post
+    case delete
     
     var description: String {
         switch self {
         case .get:
             return "GET"
+        case .post:
+            return "POST"
+        case .delete:
+            return "DELETE"
         }
     }
 }

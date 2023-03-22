@@ -18,31 +18,40 @@ final class NetworkManager: NetworkRequestable {
         return urlRequest
     }
     
-    func request<element: Decodable>(method: RequestMethod, url: URLAcceptable, body: Data?, returnType: element.Type, completion: @escaping (Any) -> Void) {
+    func request<element: Decodable>(method: RequestMethod, url: URLAcceptable, body: Data?, returnType: element.Type, completion: @escaping (Result<element, NetworkError>) -> Void) {
         
         guard let urlRequest = makeUrlRequest(method: method, request: url) else {
-            completion(NetworkError.invalidURL)
+            completion(.failure(.invalidURL))
             return
         }
         
         let task = URLSession.shared.dataTask(with: urlRequest) { data, response, error in
             if error != nil {
-                completion(NetworkError.unknown)
-                return
-            }
-            guard let httpResponse = response as? HTTPURLResponse,
-                  (200...299).contains(httpResponse.statusCode) else {
-                completion(NetworkError.reponseStatusCode)
+                completion(.failure(.unknown))
                 return
             }
             
-            if let mimeType = httpResponse.mimeType, mimeType == "application/json",
-               let data = data {
+            guard let httpResponse = response as? HTTPURLResponse else {
+                completion(.failure(.httpResponse))
+                return
+            }
+            
+            guard (200...299).contains(httpResponse.statusCode) else {
+                completion(.failure(.httpStatusCode(code: httpResponse.statusCode)))
+                return
+            }
+            
+            guard let mimeType = httpResponse.mimeType, mimeType == "application/json" else {
+                completion(.failure(.mimeType))
+                return
+            }
+            
+            if let data = data {
                 guard let result = Decoder.parseJSON(data, returnType: returnType) else {
-                    completion(NetworkError.decode)
+                    completion(.failure(.decode))
                     return
                 }
-                completion(result)
+                completion(.success(result))
             }
         }
         task.resume()

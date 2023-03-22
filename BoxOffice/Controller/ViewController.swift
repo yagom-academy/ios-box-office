@@ -17,12 +17,12 @@ final class ViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        networkManager.request(method: .get, url: dailyBoxofficeURL, body: nil, returnType: BoxOffice.self) {
+        networkManager.request(method: .post, url: dailyBoxofficeURL, body: nil, returnType: BoxOffice.self) {
             print($0)
             print("===")
         }
         
-        networkManager.request(method: .get, url: movieInformationURL, body: nil, returnType: MovieInformation.self) {
+        networkManager.request(method: .delete, url: movieInformationURL, body: nil, returnType: MovieInformation.self) {
             print($0)
             print("===")
         }

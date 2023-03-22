@@ -17,13 +17,13 @@ struct DailyBoxOfficeURL: URLAcceptable {
     let nationCode: URLQueryItem?
     let wideAreaCode: URLQueryItem?
     
-    init(baseURL: String, key: String, targetDate: String, itemPerPage: String? = nil, multiMovieType: String? = nil, nationCode: String? = nil, wideAreaCode: String? = nil) {
+    init(baseURL: String, key: String, targetDate: String, itemPerPage: String? = nil, multiMovieType: MovieType? = nil, nationCode: NationalCode? = nil, wideAreaCode: String? = nil) {
         self.urlComponents = URLComponents(string: baseURL)
         self.key = URLQueryItem(name: "key", value: key)
         self.targetDate = URLQueryItem(name: "targetDt", value: targetDate)
         self.itemPerPage = URLQueryItem(name: "itemPerPage", value: itemPerPage)
-        self.multiMovieType = URLQueryItem(name: "multiMovieYn", value: multiMovieType)
-        self.nationCode = URLQueryItem(name: "repNationCd", value: nationCode)
+        self.multiMovieType = URLQueryItem(name: "multiMovieYn", value: multiMovieType?.sign)
+        self.nationCode = URLQueryItem(name: "repNationCd", value: nationCode?.sign)
         self.wideAreaCode = URLQueryItem(name: "wideAreaCd", value: wideAreaCode)
         
         self.urlComponents?.queryItems = [self.key, self.targetDate]

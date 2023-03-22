@@ -5,10 +5,14 @@
 //  Created by 리지, kokkilE on 2023/03/22.
 //
 
-enum NetworkError: Error, CustomStringConvertible {
+import Foundation
+
+enum NetworkError: LocalizedError {
     case invalidURL
     case unknown
-    case reponseStatusCode
+    case httpResponse
+    case httpStatusCode(code: Int)
+    case mimeType
     case decode
     
     var description: String {
@@ -17,8 +21,12 @@ enum NetworkError: Error, CustomStringConvertible {
             return "Invalid URL"
         case .unknown:
             return "Unknown Error"
-        case .reponseStatusCode:
-            return "Response Status Code Error"
+        case .httpResponse:
+            return "httpResponse Error"
+        case .httpStatusCode(code: let code):
+            return "Status Code \(code) Error"
+        case .mimeType:
+            return "mimType Error"
         case .decode:
             return "Decode Error"
         }
