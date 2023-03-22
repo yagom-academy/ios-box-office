@@ -7,4 +7,8 @@
 
 enum NetworkingError: Error {
     case decodeFailed
+    case dataNotFound
+    case clientError
+    case serverError
+    case unknownError
 }

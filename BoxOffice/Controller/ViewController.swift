@@ -8,11 +8,20 @@
 import UIKit
 
 class ViewController: UIViewController {
+    var boxOffice: BoxOffice? = nil
     let networking = NetworkManager()
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        networking.fetchData()
+
+        self.networking.fetchData(type: BoxOffice.self) { result in
+            switch result {
+            case .success(let boxOffice):
+                self.boxOffice = boxOffice
+            case .failure(let error):
+                print(error)
+                return
+            }
+        }
     }
 }

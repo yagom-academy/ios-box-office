@@ -12,29 +12,42 @@ class NetworkManager {
     let key = "8482fc9ad040e88431f60965446b6a19"
     let targetDate = "20140101"
     lazy var baseURL = "https://www.kobis.or.kr/kobisopenapi/webservice/rest/boxoffice/searchDailyBoxOfficeList.json?key=\(key)&targetDt=\(targetDate)"
-
-    func fetchData() {
+    
+    func fetchData<T: Decodable>(type: T.Type, completion: @escaping (Result<T, Error>) -> Void) {
         guard let url = URL(string: baseURL) else { return }
         
         let task = URLSession.shared.dataTask(with: url) { data, response, error in
             if let error = error {
-                print("error 오류!", error.localizedDescription)
+                completion(.failure(error))
+                
                 return
             }
             
-            guard let httpResponse = response as? HTTPURLResponse,
-                  (200...299).contains(httpResponse.statusCode) else {
-                print("httpResponse 오류!")
+            guard let httpResponse = response as? HTTPURLResponse else {
+                return
+            }
+            
+            guard (200...299).contains(httpResponse.statusCode) else {
+                switch httpResponse.statusCode {
+                case 400...499:
+                    completion(.failure(NetworkingError.clientError))
+                case 500...599:
+                    completion(.failure(NetworkingError.serverError))
+                default:
+                    completion(.failure(NetworkingError.unknownError))
+                }
+                
                 return
             }
             
             guard let data = data else {
-                print("데이터 가져오기 실패!")
+                completion(.failure(NetworkingError.dataNotFound))
+                
                 return
             }
-
+            
             self.dataStructure = try? FileDecoder().decodeData(data, type: BoxOffice.self).get()
-
+            
             DispatchQueue.main.async { [weak self] in
                 print(self?.dataStructure?.result.dailyBoxOfficeList.last ?? "nilnilnilnil")
             }
