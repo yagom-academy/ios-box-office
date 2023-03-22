@@ -7,7 +7,7 @@
 
 import UIKit
 
-struct MockBoxoffice {
+struct DummyBoxoffice {
     var data: Data {
         return NSDataAsset(name: "box_office_sample")!.data
     }

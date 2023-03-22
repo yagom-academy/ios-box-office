@@ -7,7 +7,7 @@
 
 import Foundation
 
-class MockURLSessionDataTask: URLSessionDataTask {
+class DummyURLSessionDataTask: URLSessionDataTask {
     var resumeDidCall: () -> Void = {}
     
     override func resume() {

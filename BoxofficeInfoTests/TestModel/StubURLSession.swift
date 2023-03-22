@@ -7,10 +7,10 @@
 
 import Foundation
 
-class MockURLSession: URLSessionProtocol {
+class StubURLSession: URLSessionProtocol {
     
     var isDeny = false
-    let sessionDataTask = MockURLSessionDataTask()
+    let sessionDataTask = DummyURLSessionDataTask()
     
     init(isDeny: Bool = false) {
         self.isDeny = isDeny
@@ -25,7 +25,7 @@ class MockURLSession: URLSessionProtocol {
             if self.isDeny {
                 completionHandler(nil, failureResponse, nil)
             } else {
-                completionHandler(MockBoxoffice().data, successResoponse, nil)
+                completionHandler(DummyBoxoffice().data, successResoponse, nil)
             }
         }
         
