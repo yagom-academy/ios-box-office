@@ -9,8 +9,7 @@ import UIKit
 
 class ViewController: UIViewController {
     
-    var movie = DailyBoxoffice(targetDate: "20230320")
-    var movieData: DailyBoxofficeObject?
+    var movie = BoxofficeInfo<MovieInfoObject>(interfaceValue: "20228555", apiType: .movie)
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -18,8 +17,7 @@ class ViewController: UIViewController {
         movie.search { result in
             switch result {
             case .success(let data):
-                self.movieData = data
-                print(self.movieData)
+                print(data)
             case .failure(let error):
                 print(error)
             }

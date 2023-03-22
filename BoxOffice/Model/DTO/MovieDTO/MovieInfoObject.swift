@@ -7,6 +7,6 @@
 
 import Foundation
 
-struct MovieInfoObject: Decodable {
+struct MovieInfoObject: Fetchable {
     let movieInfoResult: MovieInfoResultObject
 }

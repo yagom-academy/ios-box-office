@@ -1,23 +1,24 @@
 //
-//  MovieInfo.swift
+//  BoxofficeInfo.swift
 //  BoxOffice
 //
-//  Created by Andrew, 레옹아범 on 2023/03/21.
+//  Created by Andrew, 레옹아범 on 2023/03/22.
 //
 
 import Foundation
 
-class MovieInfo {
-    let code: String
-    let apiType = APIType.movie
+class BoxofficeInfo<T: Fetchable> {
+    let interfaceValue: String
+    let apiType: APIType
     
-    init(code: String) {
-        self.code = code
+    init(interfaceValue: String, apiType: APIType) {
+        self.interfaceValue = interfaceValue
+        self.apiType = apiType
     }
     
-    func search(completion: @escaping (Result<MovieInfoObject, BoxofficeError>) -> Void) {
+    func search(completion: @escaping (Result<T, BoxofficeError>) -> Void) {
         do {
-            let url = try apiType.getUrl(interfaceValue: code)
+            let url = try apiType.getUrl(interfaceValue: interfaceValue)
             
             let task = URLSession.shared.dataTask(with: url) { data, response, error in
                 if error != nil {
@@ -32,7 +33,7 @@ class MovieInfo {
                 if let mimeType = httpResponse.mimeType, mimeType == "application/json",
                    let data = data {
                     do {
-                        let decodingdata = try JSONDecoder().decode(MovieInfoObject.self, from: data)
+                        let decodingdata = try JSONDecoder().decode(T.self, from: data)
                         completion(.success(decodingdata))
                     } catch {
                         completion(.failure(.decodingError))
