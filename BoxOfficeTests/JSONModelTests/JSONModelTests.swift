@@ -13,7 +13,7 @@ final class JSONModelTests: XCTestCase {
     
     func test_DailyOffice를_디코드한결과가_nil이아니고_결과의boxOfficeType이_예상값과일치한다() {
         // given
-        guard let dataAsset = NSDataAsset(name: "DailyOffice") else { return }
+        guard let dataAsset = NSDataAsset(name: "DailyBoxOffice") else { return }
         let expectation = "일별 박스오피스"
         
         // when

@@ -8,8 +8,12 @@
 import UIKit
 
 struct DataManager {
-    let kobisUrlSession = URLSession(configuration: .default)
+    let kobisUrlSession: KobisURLSession
     let urlMaker = URLMaker()
+    
+    init(kobisUrlSession: KobisURLSession = URLSession(configuration: .default)) {
+        self.kobisUrlSession = kobisUrlSession
+    }
     
     func startLoadDailyBoxOfficeData(date: String, completion: @escaping (Result<DailyBoxOffice, Error>) -> Void) {
         guard let url = urlMaker.makeDailyBoxOfficeURL(date: date) else { return }

@@ -8,7 +8,6 @@
 import Foundation
 
 struct URLMaker {
-    
     func makeDailyBoxOfficeURL(date: String) -> URL? {
         var urlComponents = URLComponents(string: Services.dailyBoxOffice.urlString)
 
@@ -35,7 +34,6 @@ struct URLMaker {
         return url
     }
 
-    
     private enum Services {
         case dailyBoxOffice
         case movieDetails
