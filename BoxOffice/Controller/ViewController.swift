@@ -15,17 +15,14 @@ final class ViewController: UIViewController {
     private let movieDetailParser = Parser<MovieDetail>()
     
     private var boxOfficeAPI = BoxOfficeAPI()
-    
-    let dailyBoxOfficeURL: String = "http://kobis.or.kr/kobisopenapi/webservice/rest/boxoffice/searchDailyBoxOfficeList.json?key=f5eef3421c602c6cb7ea224104795888&targetDt=20120101"
-    
-    let movieDetailURL: String = "http://www.kobis.or.kr/kobisopenapi/webservice/rest/movie/searchMovieInfo.json?key=f5eef3421c602c6cb7ea224104795888&movieCd=20124079"
-    
+
     override func viewDidLoad() {
         super.viewDidLoad()
         boxOfficeAPI.delegate = self
         
-        boxOfficeAPI.loadBoxOfficeAPI(urlAddress: dailyBoxOfficeURL, parserType: dailyBoxOfficeParser)
+        boxOfficeAPI.loadBoxOfficeAPI(urlAddress: URLAddress.dailyBoxOfficeURL, parserType: dailyBoxOfficeParser)
         test()
+        print()
     }
     
     func test() {
