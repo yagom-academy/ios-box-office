@@ -9,7 +9,7 @@
 import UIKit
 
 class ViewController: UIViewController {
-    let decoder = Decoder()
+    //let decoder = Decoder()
     let server = NetworkManager()
     let url = CommunicationForm.dailyBoxOffice + "20230320"
     let anotherURL = CommunicationForm
