@@ -9,6 +9,10 @@ import Foundation
 
 struct MovieDetail: Decodable {
     let movieInformationResult: MovieInformationResult
+    
+    private enum CodingKeys: String, CodingKey {
+        case movieInformationResult = "movieInfoResult"
+    }
 }
 
 struct MovieInformationResult: Decodable {
@@ -149,6 +153,3 @@ struct Staff: Decodable {
         case staffRoleName = "staffRoleNm"
     }
 }
-
-
-
