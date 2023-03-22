@@ -1,5 +1,5 @@
 //
-//  AssetDecoder.swift
+//  FileDecoder.swift
 //  BoxOffice
 //
 //  Created by Christy, Hyemory on 2023/03/20.
@@ -7,14 +7,20 @@
 
 import UIKit
 
-extension JSONDecoder {
-    func decodeData<T: Decodable>(_ data: Data?, type: T.Type) throws -> T? {
+struct FileDecoder {
+    var data: Data?
+    
+    mutating func fetchAsset(name: String) {
+        data = NSDataAsset(name: name)?.data
+    }
+    
+    func decodeData<T: Decodable>(type: T.Type) throws -> T? {
         guard let data = data else {
             throw DecoderError.decodeFailed
         }
         
         do {
-            let result = try self.decode(type, from: data)
+            let result = try JSONDecoder().decode(type, from: data)
             
             return result
         } catch DecoderError.decodeFailed {

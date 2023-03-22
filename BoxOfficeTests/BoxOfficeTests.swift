@@ -9,24 +9,21 @@ import XCTest
 @testable import BoxOffice
 
 final class BoxOfficeTests: XCTestCase {
-    var decoder: JSONDecoder!
-    var assetData: Data!
     var sut: BoxOffice!
     
     override func setUpWithError() throws {
         try super.setUpWithError()
-        decoder = JSONDecoder()
-        assetData = NSDataAsset(name: "box_office_sample")?.data
-        sut = try decoder.decodeData(assetData, type: BoxOffice.self)
+        sut = try FileDecoder().decodeData(type: BoxOffice.self)
     }
 
     override func tearDownWithError() throws {
         try super.tearDownWithError()
-        decoder = nil
-        assetData = nil
         sut = nil
     }
     
+    // 파일 이름 잘못
+    
+    // Decode 실패
     func test_잘못된JSON파일이름으로_디코딩했을때_decodeFailed에러를던진다() {
         // given
         let invalidAsset = NSDataAsset(name: "invalid_name")?.data
@@ -34,7 +31,7 @@ final class BoxOfficeTests: XCTestCase {
         var error: DecoderError?
         
         // when
-        XCTAssertThrowsError(try decoder.decodeData(invalidAsset, type: BoxOffice.self)) {
+        XCTAssertThrowsError(try FileDecoder().decodeData(type: BoxOffice.self)) {
             errorHandler in
             error = errorHandler as? DecoderError
         }
