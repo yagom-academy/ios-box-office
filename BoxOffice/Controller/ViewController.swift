@@ -9,17 +9,38 @@
 import UIKit
 
 class ViewController: UIViewController {
-    //let decoder = Decoder()
+    
     let server = NetworkManager()
-    let url = CommunicationForm.dailyBoxOffice + "20230320"
-    let anotherURL = CommunicationForm
-        .detailMovieInformation + "20124079"
+    let urlMaker = URLMaker()
+
+    var movieInfoResult: Result<DetailMovieInformation, DecodeError>? {
+        didSet {
+            switch movieInfoResult! {
+            case .success(let movieInfo):
+                let info: DetailMovieInformation = movieInfo
+                print(info.movieInformationResult.source)
+            case .failure(let error):
+                print(error.localizedDescription)
+            }
+        }
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        server.startLoad(urlText: anotherURL) { data in
-            //다운로드 후 해야할 작업
+        guard let url = urlMaker.makeMovieInformationURL(movieCode: "20124079") else { return }
+    
+        server.startLoad(url: url) { result in
+            let decoder = DecodeManager()
+            
+            switch result {
+            case .success(let data):
+                self.movieInfoResult = decoder.decodeJSON(data: data, type: DetailMovieInformation.self)
+            case .failure(let error):
+                print(error.localizedDescription)
+            }
+            
         }
+        
     }
 
 

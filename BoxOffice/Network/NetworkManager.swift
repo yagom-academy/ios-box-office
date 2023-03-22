@@ -9,9 +9,7 @@ import Foundation
 
 struct NetworkManager {
     
-    func startLoad(urlText: String, complete: @escaping (Result<Data, NetworkError>) -> ()) {
-        guard let url = URL(string: urlText) else { return }
-        
+    func startLoad(url: URL, complete: @escaping (Result<Data, NetworkError>) -> Void) {
         var request = URLRequest(url: url)
         request.httpMethod = "GET"
         
@@ -42,6 +40,7 @@ struct NetworkManager {
                 complete(.failure(.noData))
                 return
             }
+            
             complete(.success(validData))
         }.resume()
     }

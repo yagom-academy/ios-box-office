@@ -7,7 +7,7 @@
 
 import UIKit
 
-final class DecodeManager<T: Decodable> {
+final class DecodeManager {
     
     private let decoder = JSONDecoder()
     
@@ -26,14 +26,9 @@ final class DecodeManager<T: Decodable> {
         }
     }
     
-    func decodeJSON<T: Decodable>(fileName: String, type: T.Type) -> Result<T, DecodeError> {
-        
-        guard let JSONFile: NSDataAsset  = NSDataAsset(name: fileName) else {
-            return .failure(.invalidFileError)
-        }
-        
+    func decodeJSON<T: Decodable>(data: Data, type: T.Type) -> Result<T, DecodeError> {
         do{
-            let decodedJSON: T = try decoder.decode(T.self, from: JSONFile.data)
+            let decodedJSON: T = try decoder.decode(T.self, from: data)
             return .success(decodedJSON)
         } catch {
             return .failure(.decodingFailureError)
