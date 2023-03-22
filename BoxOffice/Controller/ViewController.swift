@@ -7,17 +7,12 @@
 
 import UIKit
 
-class ViewController: UIViewController {
-    let networkManager = NetworkManager()
+final class ViewController: UIViewController {
+    private let networkManager = NetworkManager()
     
-    lazy var dailyBoxofficeURL = DailyBoxOfficeURL(baseURL: dailyBoxofficeBaseURL, key: key, targetDate: targetDate)
-    lazy var movieInformationURL = MovieInfomationURL(baseURL: movieURL, key: key, movieCode: movieCode)
+    lazy private var dailyBoxofficeURL = DailyBoxOfficeURL(baseURL: URLElement.dailyBoxofficeBaseURL, key: URLElement.key, targetDate: URLElement.targetDate)
+    lazy private var movieInformationURL = MovieInfomationURL(baseURL: URLElement.movieInformationBaseURL, key: URLElement.key, movieCode: URLElement.movieCode)
     
-    let dailyBoxofficeBaseURL = "http://www.kobis.or.kr/kobisopenapi/webservice/rest/boxoffice/searchDailyBoxOfficeList.json"
-    let targetDate = "20230321"
-    let movieURL = "http://www.kobis.or.kr/kobisopenapi/webservice/rest/movie/searchMovieInfo.json"
-    let key = "f5eef3421c602c6cb7ea224104795888"
-    let movieCode = "20124079"
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -32,4 +27,12 @@ class ViewController: UIViewController {
             print("===")
         }
     }
+}
+
+fileprivate enum URLElement {
+    static let dailyBoxofficeBaseURL = "http://www.kobis.or.kr/kobisopenapi/webservice/rest/boxoffice/searchDailyBoxOfficeList.json"
+    static let movieInformationBaseURL = "http://www.kobis.or.kr/kobisopenapi/webservice/rest/movie/searchMovieInfo.json"
+    static let key = "f5eef3421c602c6cb7ea224104795888"
+    static let targetDate = "20230321"
+    static let movieCode = "20124079"
 }

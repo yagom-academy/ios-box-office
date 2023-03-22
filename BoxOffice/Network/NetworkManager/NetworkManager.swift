@@ -7,9 +7,9 @@
 
 import Foundation
 
-class NetworkManager: NetworkRequestable {
+final class NetworkManager: NetworkRequestable {
     
-    func makeUrlRequest(method: RequestMethod, request: Requestable) -> URLRequest? {
+    private func makeUrlRequest(method: RequestMethod, request: URLAcceptable) -> URLRequest? {
         guard let url = request.url else { return nil }
         
         var urlRequest = URLRequest(url: url)
@@ -18,7 +18,7 @@ class NetworkManager: NetworkRequestable {
         return urlRequest
     }
     
-    func request<element: Decodable>(method: RequestMethod, url: Requestable, body: Data?, returnType: element.Type, completion: @escaping (Any) -> Void) {
+    func request<element: Decodable>(method: RequestMethod, url: URLAcceptable, body: Data?, returnType: element.Type, completion: @escaping (Any) -> Void) {
         
         guard let urlRequest = makeUrlRequest(method: method, request: url) else {
             completion(NetworkError.invalidURL)

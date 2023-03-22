@@ -7,7 +7,7 @@
 
 import Foundation
 
-protocol Requestable {
+protocol URLAcceptable {
     var url: URL? { get }
     var urlComponents: URLComponents? { get set }
     var key: URLQueryItem { get }

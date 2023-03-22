@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct MovieInfomationURL: Requestable {
+struct MovieInfomationURL: URLAcceptable {
     let url: URL?
     var urlComponents: URLComponents?
     let key: URLQueryItem
