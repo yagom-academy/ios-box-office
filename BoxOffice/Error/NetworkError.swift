@@ -9,4 +9,5 @@ enum NetworkError: Error {
     case clientError
     case serverError
     case unknownError
+    case failToParse
 }

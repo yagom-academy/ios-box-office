@@ -13,6 +13,7 @@
 		625164B929C98E3E0094711C /* BoxOfficeAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 625164B829C98E3E0094711C /* BoxOfficeAPI.swift */; };
 		625164BB29C98EEC0094711C /* NetworkError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 625164BA29C98EEC0094711C /* NetworkError.swift */; };
 		625164BD29CA93300094711C /* URLSessionDataTaskProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 625164BC29CA93300094711C /* URLSessionDataTaskProtocol.swift */; };
+		625164BF29CA9C670094711C /* MockURLSessionDataTask.swift in Sources */ = {isa = PBXBuildFile; fileRef = 625164BE29CA9C670094711C /* MockURLSessionDataTask.swift */; };
 		63DF20EF2970E1A0005DF7D1 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63DF20EE2970E1A0005DF7D1 /* AppDelegate.swift */; };
 		63DF20F12970E1A0005DF7D1 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63DF20F02970E1A0005DF7D1 /* SceneDelegate.swift */; };
 		63DF20F32970E1A0005DF7D1 /* BoxOfficeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63DF20F22970E1A0005DF7D1 /* BoxOfficeViewController.swift */; };
@@ -55,6 +56,7 @@
 		625164B829C98E3E0094711C /* BoxOfficeAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BoxOfficeAPI.swift; sourceTree = "<group>"; };
 		625164BA29C98EEC0094711C /* NetworkError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkError.swift; sourceTree = "<group>"; };
 		625164BC29CA93300094711C /* URLSessionDataTaskProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = URLSessionDataTaskProtocol.swift; sourceTree = "<group>"; };
+		625164BE29CA9C670094711C /* MockURLSessionDataTask.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockURLSessionDataTask.swift; sourceTree = "<group>"; };
 		63DF20EB2970E1A0005DF7D1 /* BoxOffice.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = BoxOffice.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		63DF20EE2970E1A0005DF7D1 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		63DF20F02970E1A0005DF7D1 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -215,6 +217,7 @@
 				984BFCD029CA940300CA8495 /* NetworkManagerTests.swift */,
 				984BFCD729CA943400CA8495 /* MockURLSession.swift */,
 				984BFCD929CA965100CA8495 /* JsonLoader.swift */,
+				625164BE29CA9C670094711C /* MockURLSessionDataTask.swift */,
 			);
 			path = NetworkMockTests;
 			sourceTree = "<group>";
@@ -380,6 +383,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				984BFCD829CA943400CA8495 /* MockURLSession.swift in Sources */,
+				625164BF29CA9C670094711C /* MockURLSessionDataTask.swift in Sources */,
 				984BFCDA29CA965100CA8495 /* JsonLoader.swift in Sources */,
 				984BFCD129CA940300CA8495 /* NetworkManagerTests.swift in Sources */,
 			);
@@ -641,7 +645,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				GENERATE_INFOPLIST_FILE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 16.2;
+				IPHONEOS_DEPLOYMENT_TARGET = 16.1;
 				MACOSX_DEPLOYMENT_TARGET = 13.1;
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = main.NetworkMockTests;
@@ -662,7 +666,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				GENERATE_INFOPLIST_FILE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 16.2;
+				IPHONEOS_DEPLOYMENT_TARGET = 16.1;
 				MACOSX_DEPLOYMENT_TARGET = 13.1;
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = main.NetworkMockTests;

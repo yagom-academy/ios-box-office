@@ -8,8 +8,8 @@
 import Foundation
 @testable import BoxOffice
 
-class MockURLSession: URLSessionProtocol {
-    typealias Response = (data: Data?, URLResponse?, error: Error?)
+final class MockURLSession: URLSessionProtocol {
+    typealias Response = (data: Data?, urlResponse: URLResponse?, error: Error?)
     
     let response: Response
     
@@ -18,6 +18,11 @@ class MockURLSession: URLSessionProtocol {
     }
     
     func dataTask(with url: URL, completionHandler: @escaping (Data?, URLResponse?, Error?) -> Void) -> URLSessionDataTaskProtocol {
+        return MockURLSessionDataTask(resumeHandler: {
+            completionHandler(self.response.data,
+                              self.response.urlResponse,
+                              self.response.error)
+        })
     }
     
     static func make(url: String, data: Data?, statusCode: Int) -> MockURLSession {
@@ -26,10 +31,13 @@ class MockURLSession: URLSessionProtocol {
                                               statusCode: statusCode,
                                               httpVersion: nil,
                                               headerFields: nil)
+            
             let mockResponse: MockURLSession.Response = (data: data,
                                                          urlResponse: urlResponse,
                                                          error: nil)
+            
             let mockUrlSession = MockURLSession(response: mockResponse)
+            
             return mockUrlSession
         }()
         return mockURLSession

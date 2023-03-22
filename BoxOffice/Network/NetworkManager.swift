@@ -44,13 +44,12 @@ final class NetworkManager {
                 return
             }
             
-            if let mimeType = httpResponse.mimeType, mimeType == "application/json",
-               let data = data {
+            if let data = data {
                 do {
                     let jsonData = try JSONDecoder().decode(type, from: data)
                     completion(.success(jsonData))
                 } catch {
-                    completion(.failure(error))
+                    completion(.failure(NetworkError.failToParse))
                 }
                 return
             }
