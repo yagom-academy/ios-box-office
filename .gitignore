@@ -1,1 +1,4 @@
+# Xcode
+*.xcuserstate
+!default.xcuserstate
 .DS_Store
