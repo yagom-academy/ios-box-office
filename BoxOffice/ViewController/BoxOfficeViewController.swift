@@ -19,18 +19,12 @@ final class BoxOfficeViewController: UIViewController {
     }
     
     private func fetchDailyBoxOffice() {
-        guard let yesterdayDate = Calendar.current.date(
-            byAdding: Calendar.Component.day,
-            value: -1,
-            to: Date()) else {
+        guard let yesterday = makeYesterday() else {
             return
         }
         
-        let dateFormatter = DateFormatter()
-        dateFormatter.dateFormat = "yyyymmdd"
-        let yesterday = dateFormatter.string(from: yesterdayDate)
-        
         let url = BoxOfficeAPI.dailyBoxOffice(date: yesterday).url
+        
         self.networkManager.fetchData(for: url, type: BoxOffice.self) { result in
             switch result {
             case .success(let boxOffice):
@@ -68,6 +62,21 @@ final class BoxOfficeViewController: UIViewController {
         alert.addAction(okAction)
         
         present(alert, animated: true)
+    }
+    
+    private func makeYesterday() -> String? {
+        guard let yesterdayDate = Calendar.current.date(
+            byAdding: Calendar.Component.day,
+            value: -1,
+            to: Date()) else {
+            return nil
+        }
+        
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "yyyymmdd"
+        let yesterday = dateFormatter.string(from: yesterdayDate)
+            
+        return yesterday
     }
 }
 
