@@ -10,7 +10,8 @@ struct BoxOffice: Decodable {
 }
 
 struct BoxOfficeResult: Decodable {
-    let boxOfficeType, targetDate: String
+    let boxOfficeType: String
+    let targetDate: String
     let dailyBoxOfficeList: [DailyBoxOffice]
     
     enum CodingKeys: String, CodingKey {
@@ -21,15 +22,30 @@ struct BoxOfficeResult: Decodable {
 }
 
 struct DailyBoxOffice: Decodable {
-    let number, rank, rankIncrement: String
+    let number: String
+    let rank: String
+    let rankIncrement: String
     let rankOldAndNew: RankOldAndNew
-    let movieCode, movieKoreanName, openDate, salesAmount: String
-    let salesShare, salesIncrement, salesChange, salesAccumulation: String
-    let audienceCount, audienceIncrement, audienceChange, audienceAccumulation: String
-    let screenCount, showCount: String
+    let movieCode: String
+    let movieKoreanName: String
+    let openDate: String
+    let salesAmount: String
+    let salesShare: String
+    let salesIncrement: String
+    let salesChange: String
+    let salesAccumulation: String
+    let audienceCount: String
+    let audienceIncrement: String
+    let audienceChange: String
+    let audienceAccumulation: String
+    let screenCount: String
+    let showCount: String
     
     enum CodingKeys: String, CodingKey {
-        case rank, rankOldAndNew, salesShare, salesChange
+        case rank
+        case rankOldAndNew
+        case salesShare
+        case salesChange
         case number = "rnum"
         case rankIncrement = "rankInten"
         case movieCode = "movieCd"
@@ -43,7 +59,7 @@ struct DailyBoxOffice: Decodable {
         case audienceChange = "audiChange"
         case audienceAccumulation = "audiAcc"
         case screenCount = "scrnCnt"
-        case showCount = "showCnt"        
+        case showCount = "showCnt"
     }
 }
 
