@@ -8,13 +8,8 @@
 import Foundation
 
 class NetworkManager {
-    var dataStructure: BoxOffice?
-    let key = "8482fc9ad040e88431f60965446b6a19"
-    let targetDate = "20140101"
-    lazy var baseURL = "https://www.kobis.or.kr/kobisopenapi/webservice/rest/boxoffice/searchDailyBoxOfficeList.json?key=\(key)&targetDt=\(targetDate)"
-    
-    func fetchData<T: Decodable>(type: T.Type, completion: @escaping (Result<T, Error>) -> Void) {
-        guard let url = URL(string: baseURL) else { return }
+    func fetchData<T: Decodable>(url: URL?, type: T.Type, completion: @escaping (Result<T, Error>) -> Void) {
+        guard let url = url else { return }
         
         let task = URLSession.shared.dataTask(with: url) { data, response, error in
             if let error = error {
@@ -40,17 +35,14 @@ class NetworkManager {
                 return
             }
             
-            guard let data = data else {
+            guard let data = data,
+            let dataStructure = try? FileDecoder().decodeData(data, type: type).get() else {
                 completion(.failure(NetworkingError.dataNotFound))
                 
                 return
             }
             
-            self.dataStructure = try? FileDecoder().decodeData(data, type: BoxOffice.self).get()
-            
-            DispatchQueue.main.async { [weak self] in
-                print(self?.dataStructure?.result.dailyBoxOfficeList.last ?? "nilnilnilnil")
-            }
+            completion(.success(dataStructure))
         }
         task.resume()
     }
