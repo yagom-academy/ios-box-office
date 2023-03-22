@@ -9,12 +9,36 @@ import XCTest
 @testable import BoxOffice
 
 final class BoxofficeInfoTests: XCTestCase {
+    
+    var sut: BoxofficeInfo<DailyBoxofficeObject>!
+    var mockSession = MockURLSession()
 
     override func setUpWithError() throws {
-        // Put setup code here. This method is called before the invocation of each test method in the class.
+        sut = BoxofficeInfo(interfaceValue: "20230320", apiType: .boxoffice, session: mockSession)
     }
 
     override func tearDownWithError() throws {
-        // Put teardown code here. This method is called after the invocation of each test method in the class.
+        sut = nil
     }
+    
+    func test_boxofficeType값은_일별_박스오피스이다() {
+        // given
+        let expectation = "일별 박스오피스"
+    
+        // when
+        // then
+        sut.search { event in
+            switch event {
+            case .success(let data):
+                let result = data.boxOfficeResult.boxofficeType
+                XCTAssertEqual(expectation, result)
+                print("expectation: \(expectation)")
+            case .failure(let error):
+                XCTAssertThrowsError(error)
+                print("Error: \(error)")
+            }
+        }
+        
+    }
+    
 }

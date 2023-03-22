@@ -25,7 +25,7 @@ class MockURLSession: URLSessionProtocol {
             if self.isDeny {
                 completionHandler(nil, failureResponse, nil)
             } else {
-                completionHandler(MockData().data, successResoponse, nil)
+                completionHandler(MockBoxoffice().data, successResoponse, nil)
             }
         }
         
