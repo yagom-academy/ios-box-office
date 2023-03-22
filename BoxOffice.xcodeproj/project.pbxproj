@@ -153,13 +153,10 @@
 		26D7C88529CAC1AF00B67672 /* BoxofficeInfoTests */ = {
 			isa = PBXGroup;
 			children = (
+				71B46E8D29CAEB3B009EF7B5 /* MockModel */,
 				26D7C89629CAC49300B67672 /* Protocol */,
 				26D7C89529CAC48B00B67672 /* Extension */,
 				26D7C88629CAC1AF00B67672 /* BoxofficeInfoTests.swift */,
-				26D7C89329CAC45900B67672 /* MockURLSessionDataTask.swift */,
-				26D7C89129CAC2BD00B67672 /* MockURLSession.swift */,
-				7122D85A29CAC5CB0039DEFB /* MockBoxoffice.swift */,
-				7122D85C29CAC6ED0039DEFB /* MockBoxofficeInfo.swift */,
 			);
 			path = BoxofficeInfoTests;
 			sourceTree = "<group>";
@@ -243,6 +240,17 @@
 				7122D85529CAB83C0039DEFB /* Fetchable.swift */,
 			);
 			path = Protocol;
+			sourceTree = "<group>";
+		};
+		71B46E8D29CAEB3B009EF7B5 /* MockModel */ = {
+			isa = PBXGroup;
+			children = (
+				26D7C89329CAC45900B67672 /* MockURLSessionDataTask.swift */,
+				26D7C89129CAC2BD00B67672 /* MockURLSession.swift */,
+				7122D85A29CAC5CB0039DEFB /* MockBoxoffice.swift */,
+				7122D85C29CAC6ED0039DEFB /* MockBoxofficeInfo.swift */,
+			);
+			path = MockModel;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
