@@ -13,6 +13,7 @@ final class JsonLoader {
         guard let asset = NSDataAsset(name: "box_office_sample") else {
             return nil
         }
+        
         return asset.data
     }
 }

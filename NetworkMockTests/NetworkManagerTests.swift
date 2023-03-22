@@ -9,7 +9,6 @@ import XCTest
 @testable import BoxOffice
 
 final class NetworkManagerTests: XCTestCase {
-    
     var url: String!
     var data: Data!
     
@@ -27,7 +26,6 @@ final class NetworkManagerTests: XCTestCase {
         //given
         let prototypeJson = JsonLoader.loadJsonAsset(name: "box_office_sample")!
         let expectation = try? JSONDecoder().decode(BoxOffice.self, from: prototypeJson)
-        
         let mockURLSession = MockURLSession.make(url: url,
                                                  data: data,
                                                  statusCode: 200)
@@ -73,6 +71,7 @@ final class NetworkManagerTests: XCTestCase {
             }
         }
         
+        // then
         XCTAssertEqual(expectation, result as? NetworkError)
     }
     
@@ -94,12 +93,13 @@ final class NetworkManagerTests: XCTestCase {
             }
         }
         
+        // then
         XCTAssertEqual(expectation, result as? NetworkError)
     }
     
     func test_fetchData호출시_Data에_대한_잘못된타입을_넘겼을때_디코딩에실패한다() {
+        // given
         let expectation = NetworkError.failToParse
-        
         let mockURLSession = MockURLSession.make(url: url,
                                                  data: data,
                                                  statusCode: 200)

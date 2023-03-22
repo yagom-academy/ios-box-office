@@ -7,7 +7,7 @@
 import Foundation
 
 final class NetworkManager {
-    let session: URLSessionProtocol
+    private let session: URLSessionProtocol
     
     init(session: URLSessionProtocol = URLSession.shared) {
         self.session = session
@@ -16,7 +16,8 @@ final class NetworkManager {
     func fetchData<T: Decodable>(
         for url: URL?,
         type: T.Type,
-        completion: @escaping (Result<T, Error>) -> Void) {
+        completion: @escaping (Result<T, Error>) -> Void
+    ) {
         guard let url = url else {
             return
         }
@@ -51,6 +52,7 @@ final class NetworkManager {
                 } catch {
                     completion(.failure(NetworkError.failToParse))
                 }
+                
                 return
             }
         }

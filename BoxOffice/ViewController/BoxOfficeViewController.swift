@@ -14,8 +14,8 @@ final class BoxOfficeViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        fetchDailyBoxOffice()
-        fetchDetailMovieInformation()
+        self.fetchDailyBoxOffice()
+        self.fetchDetailMovieInformation()
     }
     
     private func fetchDailyBoxOffice() {
@@ -31,7 +31,7 @@ final class BoxOfficeViewController: UIViewController {
         let yesterday = dateFormatter.string(from: yesterdayDate)
         
         let url = BoxOfficeAPI.dailyBoxOffice(date: yesterday).url
-        networkManager.fetchData(for: url, type: BoxOffice.self) { result in
+        self.networkManager.fetchData(for: url, type: BoxOffice.self) { result in
             switch result {
             case .success(let boxOffice):
                 self.boxOffice = boxOffice
@@ -45,7 +45,7 @@ final class BoxOfficeViewController: UIViewController {
     
     private func fetchDetailMovieInformation() {
         let url = BoxOfficeAPI.detailMovieInformation(movieCode: "20124080").url
-        networkManager.fetchData(for: url, type: MovieInformation.self) { result in
+        self.networkManager.fetchData(for: url, type: MovieInformation.self) { result in
             switch result {
             case .success(let movieInformation):
                 self.movieInformation = movieInformation
