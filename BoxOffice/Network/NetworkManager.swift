@@ -12,8 +12,7 @@ class NetworkManager {
     let key = "8482fc9ad040e88431f60965446b6a19"
     let targetDate = "20140101"
     lazy var baseURL = "https://www.kobis.or.kr/kobisopenapi/webservice/rest/boxoffice/searchDailyBoxOfficeList.json?key=\(key)&targetDt=\(targetDate)"
-    private let decoder: JSONDecoder = JSONDecoder()
-    
+
     func fetchData() {
         guard let url = URL(string: baseURL) else { return }
         
@@ -33,14 +32,13 @@ class NetworkManager {
                 print("데이터 가져오기 실패!")
                 return
             }
-            
-            self.dataStructure = try? self.decoder.decodeData(data: data, type: BoxOffice.self)
-            
+
+            self.dataStructure = try? FileDecoder().decodeData(data, type: BoxOffice.self).get()
+
             DispatchQueue.main.async { [weak self] in
                 print(self?.dataStructure?.result.dailyBoxOfficeList.last ?? "nilnilnilnil")
             }
         }
-        
         task.resume()
     }
     
