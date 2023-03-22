@@ -2,7 +2,7 @@
 //  ViewController.swift
 //  BoxOffice
 //
-//  Created by 리지, kokkilE on 13/01/23.
+//  Created by 리지, kokkilE on 2023/03/21.
 //
 
 import UIKit
@@ -13,7 +13,9 @@ class ViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        networkManager.fetchData(dailyBoxofficeURL, returnType: BoxOffice.self)
+        
+        networkManager.request(method: .get, url: dailyBoxofficeURL, body: nil, returnType: BoxOffice.self) {
+            print($0)
+        }
     }
-    
 }
