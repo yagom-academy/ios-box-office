@@ -1,5 +1,5 @@
 //
-//  Decoder.swift
+//  DecodeManager.swift
 //  BoxOffice
 //
 //  Created by Rhode, Rilla on 2023/03/20.
@@ -12,17 +12,17 @@ final class DecodeManager<T: Decodable> {
     private let decoder = JSONDecoder()
    
 
-    func decodeBoxOffice(fileName: String) -> T? {
+    func decodeDataAsset(fileName: String) -> Result<T, DecodeError> {
         
-        guard let boxOffice: NSDataAsset  = NSDataAsset(name: fileName) else {
-            return nil
+        guard let JSONFile: NSDataAsset  = NSDataAsset(name: fileName) else {
+            return .failure(.invalidFileError)
         }
         
         do{
-            let decodedBoxOffice: T = try decoder.decode(T.self, from: boxOffice.data)
-            return decodedBoxOffice
+            let decodedJSON: T = try decoder.decode(T.self, from: JSONFile.data)
+            return .success(decodedJSON)
         } catch {
-            return nil
+            return .failure(.decodingFailureError)
         }
         
     }
