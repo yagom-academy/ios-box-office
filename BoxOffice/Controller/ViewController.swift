@@ -10,20 +10,28 @@ import UIKit
 final class ViewController: UIViewController {
     private var networkManager = NetworkManager()
     
-    lazy private var movieInformationURL = MovieInfomationURL(baseURL: URLElement.movieInformationBaseURL, key: URLElement.key, movieCode: URLElement.movieCode)
-    
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        setNetworkManager()
+        setNetworkManagerOfBoxOffice()
         networkManager.request(returnType: BoxOffice.self) {
             print($0)
             print("===")
         }
+        
+        setNetworkManagerOfMovieInformation()
+        networkManager.request(returnType: MovieInformation.self) {
+            print($0)
+        }
     }
     
-    private func setNetworkManager() {
-        networkManager.receiveDailyBoxOfficeParameter(baseURL: URLElement.dailyBoxofficeBaseURL, key: URLElement.key, targetDate: URLElement.targetDate)
+    private func setNetworkManagerOfBoxOffice() {
+        networkManager.receiveDailyBoxOfficeParameter(baseURL: URLElement.dailyBoxofficeBaseURL, key: URLElement.key, targetDate: URLElement.targetDate, nationCode: .foreign)
+        networkManager.setUrlRequest(method: .get, body: nil)
+    }
+    
+    private func setNetworkManagerOfMovieInformation() {
+        networkManager.receiveMovieInformationParameter(baseURL: URLElement.movieInformationBaseURL, key: URLElement.key, movieCode: URLElement.movieCode)
         networkManager.setUrlRequest(method: .get, body: nil)
     }
 }

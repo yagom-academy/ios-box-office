@@ -8,10 +8,10 @@
 import Foundation
 
 struct NetworkManager: NetworkRequestable {
-    private var urlRequest: URLRequest?
+    var urlRequest: URLRequest?
     var url: URL?
     
-    mutating func setUrlRequest(method: RequestMethod, body: Data?) {
+    mutating func setUrlRequest(method: HttpMethod, body: Data?) {
         guard let url = self.url else {
             print(NetworkError.invalidURL)
             return

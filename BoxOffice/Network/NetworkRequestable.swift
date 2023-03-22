@@ -8,5 +8,9 @@
 import Foundation
 
 protocol NetworkRequestable {
+    var urlRequest: URLRequest? { get }
+    var url: URL? { get }
+    
+    mutating func setUrlRequest(method: HttpMethod, body: Data?)
     func request<element: Decodable>(returnType: element.Type, completion: @escaping (Result<element, NetworkError>) -> Void)
 }

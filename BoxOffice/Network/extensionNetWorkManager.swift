@@ -35,11 +35,29 @@ extension NetworkManager: DailyBoxOfficeProtocol {
             let nationCodeQuery = URLQueryItem(name: "repNationCd", value: nationCode.sign)
             urlComponents.queryItems?.append(nationCodeQuery)
         }
-
+        
         if let wideAreaCode = wideAreaCode {
             let wideAreaCodeQuery = URLQueryItem(name: "wideAreaCd", value: wideAreaCode)
             urlComponents.queryItems?.append(wideAreaCodeQuery)
         }
+        
+        guard let url = urlComponents.url else { return }
+        
+        self.url = .init(url)
+    }
+}
+
+protocol MovieInformationProtocol {
+    mutating func receiveMovieInformationParameter(baseURL: String, key: String, movieCode: String?)
+}
+
+extension NetworkManager: MovieInformationProtocol {
+    mutating func receiveMovieInformationParameter(baseURL: String, key: String, movieCode: String?) {
+        guard var urlComponents = URLComponents(string: baseURL) else { return }
+        
+        let key = URLQueryItem(name: "key", value: key)
+        let movieCode = URLQueryItem(name: "movieCd", value: movieCode)
+        urlComponents.queryItems = [key, movieCode]
         
         guard let url = urlComponents.url else { return }
         
