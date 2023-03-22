@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		08CE13B029CAC2FA00C15A16 /* DecodeError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08CE13AF29CAC2FA00C15A16 /* DecodeError.swift */; };
 		08DD8EA429C9665B00DA67E2 /* NetworkManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08DD8EA329C9665B00DA67E2 /* NetworkManager.swift */; };
 		08DD8EA929C9685B00DA67E2 /* Date+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08DD8EA829C9685B00DA67E2 /* Date+.swift */; };
 		08DD8EAD29C96B9D00DA67E2 /* CommunicationForm.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08DD8EAC29C96B9D00DA67E2 /* CommunicationForm.swift */; };
@@ -21,7 +22,7 @@
 		08DD8EC129C97E6900DA67E2 /* Staff.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08DD8EC029C97E6900DA67E2 /* Staff.swift */; };
 		08E1C12A29C82CE4000FAF49 /* BoxOfficeResult.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08E1C12929C82CE4000FAF49 /* BoxOfficeResult.swift */; };
 		08E1C12C29C82CF9000FAF49 /* DailyBoxOffice.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08E1C12B29C82CF9000FAF49 /* DailyBoxOffice.swift */; };
-		08E1C13029C83D1F000FAF49 /* Decoder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08E1C12F29C83D1F000FAF49 /* Decoder.swift */; };
+		08E1C13029C83D1F000FAF49 /* DecodeManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08E1C12F29C83D1F000FAF49 /* DecodeManager.swift */; };
 		63DF20EF2970E1A0005DF7D1 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63DF20EE2970E1A0005DF7D1 /* AppDelegate.swift */; };
 		63DF20F12970E1A0005DF7D1 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63DF20F02970E1A0005DF7D1 /* SceneDelegate.swift */; };
 		63DF20F32970E1A0005DF7D1 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63DF20F22970E1A0005DF7D1 /* ViewController.swift */; };
@@ -45,6 +46,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		08CE13AF29CAC2FA00C15A16 /* DecodeError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DecodeError.swift; sourceTree = "<group>"; };
 		08DD8EA329C9665B00DA67E2 /* NetworkManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkManager.swift; sourceTree = "<group>"; };
 		08DD8EA829C9685B00DA67E2 /* Date+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Date+.swift"; sourceTree = "<group>"; };
 		08DD8EAC29C96B9D00DA67E2 /* CommunicationForm.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommunicationForm.swift; sourceTree = "<group>"; };
@@ -59,7 +61,7 @@
 		08DD8EC029C97E6900DA67E2 /* Staff.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Staff.swift; sourceTree = "<group>"; };
 		08E1C12929C82CE4000FAF49 /* BoxOfficeResult.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BoxOfficeResult.swift; sourceTree = "<group>"; };
 		08E1C12B29C82CF9000FAF49 /* DailyBoxOffice.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DailyBoxOffice.swift; sourceTree = "<group>"; };
-		08E1C12F29C83D1F000FAF49 /* Decoder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Decoder.swift; sourceTree = "<group>"; };
+		08E1C12F29C83D1F000FAF49 /* DecodeManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DecodeManager.swift; sourceTree = "<group>"; };
 		63DF20EB2970E1A0005DF7D1 /* BoxOffice.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = BoxOffice.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		63DF20EE2970E1A0005DF7D1 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		63DF20F02970E1A0005DF7D1 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -93,6 +95,14 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		08CE13B129CAC2FE00C15A16 /* Error */ = {
+			isa = PBXGroup;
+			children = (
+				08CE13AF29CAC2FA00C15A16 /* DecodeError.swift */,
+			);
+			path = Error;
+			sourceTree = "<group>";
+		};
 		08DD8EA529C9667600DA67E2 /* Server */ = {
 			isa = PBXGroup;
 			children = (
@@ -177,9 +187,10 @@
 		63DF20ED2970E1A0005DF7D1 /* BoxOffice */ = {
 			isa = PBXGroup;
 			children = (
-				D06CB3AF29C8762B00136FD3 /* Extra */,
-				D06CB3B029C8764D00136FD3 /* Resources */,
 				08E1C12E29C82D0D000FAF49 /* App */,
+				D06CB3AF29C8762B00136FD3 /* Extra */,
+				08CE13B129CAC2FE00C15A16 /* Error */,
+				D06CB3B029C8764D00136FD3 /* Resources */,
 				08DD8EA529C9667600DA67E2 /* Server */,
 				08E1C12D29C82D01000FAF49 /* Model */,
 				D06CB3B129C8766700136FD3 /* View */,
@@ -200,7 +211,7 @@
 		D06CB3AF29C8762B00136FD3 /* Extra */ = {
 			isa = PBXGroup;
 			children = (
-				08E1C12F29C83D1F000FAF49 /* Decoder.swift */,
+				08E1C12F29C83D1F000FAF49 /* DecodeManager.swift */,
 			);
 			path = Extra;
 			sourceTree = "<group>";
@@ -342,6 +353,7 @@
 				08DD8EA929C9685B00DA67E2 /* Date+.swift in Sources */,
 				08DD8EB129C97C0D00DA67E2 /* DetailMovieInformation.swift in Sources */,
 				08DD8EB329C97C4F00DA67E2 /* Nation.swift in Sources */,
+				08CE13B029CAC2FA00C15A16 /* DecodeError.swift in Sources */,
 				08DD8EB929C97D2A00DA67E2 /* Actor.swift in Sources */,
 				08DD8EB729C97CDF00DA67E2 /* Director.swift in Sources */,
 				08DD8EB529C97CAC00DA67E2 /* Genre.swift in Sources */,
@@ -350,7 +362,7 @@
 				08DD8EBB29C97D8300DA67E2 /* ShowType.swift in Sources */,
 				D08946D129C981D500669A1C /* MovieInformationResult.swift in Sources */,
 				63DF20EF2970E1A0005DF7D1 /* AppDelegate.swift in Sources */,
-				08E1C13029C83D1F000FAF49 /* Decoder.swift in Sources */,
+				08E1C13029C83D1F000FAF49 /* DecodeManager.swift in Sources */,
 				63DF20F12970E1A0005DF7D1 /* SceneDelegate.swift in Sources */,
 				D08946CF29C97F5900669A1C /* MovieInformation.swift in Sources */,
 			);
