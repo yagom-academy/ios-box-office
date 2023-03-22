@@ -10,7 +10,7 @@ import Foundation
 class StubURLSession: URLSessionProtocol {
     
     var isDeny = false
-    let sessionDataTask = DummyURLSessionDataTask()
+    let sessionDataTask = FakeURLSessionDataTask()
     
     init(isDeny: Bool = false) {
         self.isDeny = isDeny
@@ -25,7 +25,7 @@ class StubURLSession: URLSessionProtocol {
             if self.isDeny {
                 completionHandler(nil, failureResponse, nil)
             } else {
-                completionHandler(DummyBoxoffice().data, successResoponse, nil)
+                completionHandler(StubBoxoffice().data, successResoponse, nil)
             }
         }
         
