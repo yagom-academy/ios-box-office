@@ -9,15 +9,14 @@
 import UIKit
 
 class ViewController: UIViewController {
-    let decoder = Decoder()
+    let decoder = DecodeManager<BoxOffice>()
+    let fileName = "box_office_sample"
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        let boxOfficeResult = decoder.decodeBoxOffice()
-        
+        let boxOfficeResult = decoder.decodeBoxOffice(fileName: fileName)
     }
-
 
 }
 

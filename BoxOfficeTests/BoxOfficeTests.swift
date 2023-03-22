@@ -9,10 +9,10 @@ import XCTest
 @testable import BoxOffice
 
 final class BoxOfficeTests: XCTestCase {
-    var sut: Decoder!
+    var sut: DecodeManager!
     
     override func setUpWithError() throws {
-        sut = Decoder()
+        sut = DecodeManager()
     }
 
     override func tearDownWithError() throws {
