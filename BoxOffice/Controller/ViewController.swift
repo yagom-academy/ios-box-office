@@ -7,20 +7,11 @@
 
 import UIKit
 
-class ViewController: UIViewController, DataManagerDelegate {
-    var dailyBoxOfficeData: DailyBoxOffice?
-    var movieDetailsData: MovieDetails?
-
+class ViewController: UIViewController {
     var datamanager = DataManager()
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        datamanager.delegate = self
 
     }
-}
-
-protocol DataManagerDelegate {
-    var dailyBoxOfficeData: DailyBoxOffice? { get set }
-    var movieDetailsData: MovieDetails? { get set }
 }

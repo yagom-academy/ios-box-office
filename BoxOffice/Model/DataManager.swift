@@ -15,14 +15,16 @@ class DataManager {
         guard let url = urlMaker.makeDailyBoxOfficeURL(date: date) else { return }
         
         let task = kobisUrlSession.dataTask(with: url) { data, response, error in
-            if let error = error {
-                completion(.failure(error))
+            if error != nil {
+                completion(.failure(NetworkError.transport))
+                
                 return
             }
             
             guard let httpResponse = response as? HTTPURLResponse,
                   (200...299).contains(httpResponse.statusCode) else {
-                print("서버와 통신에 실패했습니다.")
+                completion(.failure(NetworkError.serverResponse))
+                
                 return
             }
             
@@ -31,8 +33,10 @@ class DataManager {
                let data = data,
                let dailyBoxOfficeData = try? JSONDecoder().decode(DailyBoxOffice.self, from: data) {
                 completion(.success(dailyBoxOfficeData))
+                
+                return
             }
-            completion(.failure(DecodeError.decodeFail))
+            completion(.failure(NetworkError.decodeFail))
         }
         task.resume()
     }
