@@ -127,12 +127,12 @@
 			path = DetailMovieInformation;
 			sourceTree = "<group>";
 		};
-		08DD8EA529C9667600DA67E2 /* Server */ = {
+		08DD8EA529C9667600DA67E2 /* Network */ = {
 			isa = PBXGroup;
 			children = (
 				08DD8EA329C9665B00DA67E2 /* NetworkManager.swift */,
 			);
-			path = Server;
+			path = Network;
 			sourceTree = "<group>";
 		};
 		08DD8EAB29C96AAB00DA67E2 /* Extension */ = {
@@ -193,14 +193,14 @@
 		63DF20ED2970E1A0005DF7D1 /* BoxOffice */ = {
 			isa = PBXGroup;
 			children = (
-				D08946D229CA91DB00669A1C /* Error */,
-				D06CB3AF29C8762B00136FD3 /* Extra */,
-				D06CB3B029C8764D00136FD3 /* Resources */,
 				08E1C12E29C82D0D000FAF49 /* App */,
-				08DD8EA529C9667600DA67E2 /* Server */,
+				08DD8EA529C9667600DA67E2 /* Network */,
 				08E1C12D29C82D01000FAF49 /* Model */,
 				D06CB3B129C8766700136FD3 /* View */,
 				D06CB3AE29C8761300136FD3 /* Controller */,
+				D06CB3AF29C8762B00136FD3 /* Extra */,
+				D08946D229CA91DB00669A1C /* Error */,
+				D06CB3B029C8764D00136FD3 /* Resources */,
 				08DD8EAB29C96AAB00DA67E2 /* Extension */,
 			);
 			path = BoxOffice;
