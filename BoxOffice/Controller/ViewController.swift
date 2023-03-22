@@ -8,10 +8,9 @@
 import UIKit
 
 class ViewController: UIViewController {
-    var datamanager = DataManager()
+    var dataManager = DataManager()
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
     }
 }
