@@ -8,24 +8,23 @@
 import UIKit
 
 final class ViewController: UIViewController {
-    private let networkManager = NetworkManager()
+    private var networkManager = NetworkManager()
     
-    lazy private var dailyBoxofficeURL = DailyBoxOfficeURL(baseURL: URLElement.dailyBoxofficeBaseURL, key: URLElement.key, targetDate: URLElement.targetDate)
     lazy private var movieInformationURL = MovieInfomationURL(baseURL: URLElement.movieInformationBaseURL, key: URLElement.key, movieCode: URLElement.movieCode)
-    
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        networkManager.request(method: .post, url: dailyBoxofficeURL, body: nil, returnType: BoxOffice.self) {
+        setNetworkManager()
+        networkManager.request(returnType: BoxOffice.self) {
             print($0)
             print("===")
         }
-        
-        networkManager.request(method: .delete, url: movieInformationURL, body: nil, returnType: MovieInformation.self) {
-            print($0)
-            print("===")
-        }
+    }
+    
+    private func setNetworkManager() {
+        networkManager.receiveDailyBoxOfficeParameter(baseURL: URLElement.dailyBoxofficeBaseURL, key: URLElement.key, targetDate: URLElement.targetDate)
+        networkManager.setUrlRequest(method: .get, body: nil)
     }
 }
 

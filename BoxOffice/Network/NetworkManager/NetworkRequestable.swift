@@ -8,5 +8,5 @@
 import Foundation
 
 protocol NetworkRequestable {
-    func request<element: Decodable>(method: RequestMethod, url: URLAcceptable, body: Data?, returnType: element.Type, completion: @escaping (Result<element, NetworkError>) -> Void)
+    func request<element: Decodable>(returnType: element.Type, completion: @escaping (Result<element, NetworkError>) -> Void)
 }

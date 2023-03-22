@@ -7,20 +7,22 @@
 
 import Foundation
 
-final class NetworkManager: NetworkRequestable {
+struct NetworkManager: NetworkRequestable {
+    private var urlRequest: URLRequest?
+    var url: URL?
     
-    private func makeUrlRequest(method: RequestMethod, request: URLAcceptable) -> URLRequest? {
-        guard let url = request.url else { return nil }
-        
-        var urlRequest = URLRequest(url: url)
-        urlRequest.httpMethod = method.description
-        
-        return urlRequest
+    mutating func setUrlRequest(method: RequestMethod, body: Data?) {
+        guard let url = self.url else {
+            print(NetworkError.invalidURL)
+            return
+        }
+        urlRequest = .init(url: url)
+        urlRequest?.httpMethod = method.description
+        urlRequest?.httpBody = body
     }
     
-    func request<element: Decodable>(method: RequestMethod, url: URLAcceptable, body: Data?, returnType: element.Type, completion: @escaping (Result<element, NetworkError>) -> Void) {
-        
-        guard let urlRequest = makeUrlRequest(method: method, request: url) else {
+    func request<element: Decodable>(returnType: element.Type, completion: @escaping (Result<element, NetworkError>) -> Void) {
+        guard let urlRequest = self.urlRequest else {
             completion(.failure(.invalidURL))
             return
         }
