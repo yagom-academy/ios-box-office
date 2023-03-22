@@ -21,7 +21,7 @@ class ViewController: UIViewController {
         case .success(let result):
             print(result.boxOfficeResult.dailyBoxOfficeList)
         case .failure(let error):
-            print(error.rawValue)
+            print(error.localizedDescription)
         }
     }
 
