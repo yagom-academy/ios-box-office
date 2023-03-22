@@ -10,12 +10,12 @@ import Foundation
 struct DailyBoxOffice: Decodable {
     let boxOfficeResult: BoxOfficeResult
 }
-   
+
 struct BoxOfficeResult: Decodable {
     let boxOfficeType: String
     let showRange: String
     let dailyBoxOfficeList: [DailyMovieInformation]
-    
+
     private enum CodingKeys: String, CodingKey {
         case boxOfficeType = "boxofficeType"
         case showRange
@@ -42,7 +42,7 @@ struct DailyMovieInformation: Decodable {
     let audienceAccumulation: String
     let screenCount: String
     let showCount: String
-    
+
     private enum CodingKeys: String, CodingKey {
         case movieNumber = "rnum"
         case rank
@@ -52,7 +52,7 @@ struct DailyMovieInformation: Decodable {
         case movieName = "movieNm"
         case openDate = "openDt"
         case salesAmount = "salesAmt"
-        case salesPercent = "salesShare" 
+        case salesPercent = "salesShare"
         case salesGap = "salesInten"
         case salesGapPercent = "salesChange"
         case salesAccumulation = "salesAcc"
@@ -64,7 +64,3 @@ struct DailyMovieInformation: Decodable {
         case showCount = "showCnt"
     }
 }
-
-
-
-
