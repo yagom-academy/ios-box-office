@@ -9,13 +9,9 @@ import Foundation
 @testable import BoxOffice
 
 class MockBoxofficeInfo<T: Fetchable> {
-    let interfaceValue: String
-    let apiType: APIType
     let session: URLSessionProtocol
     
-    init(interfaceValue: String, apiType: APIType, session: URLSessionProtocol = URLSession.shared) {
-        self.interfaceValue = interfaceValue
-        self.apiType = apiType
+    init(session: URLSessionProtocol = URLSession.shared) {
         self.session = session
     }
     
