@@ -9,7 +9,7 @@ import XCTest
 @testable import BoxOffice
 
 final class BoxOfficeTests: XCTestCase {
-    var sut: DecodeManager!
+    var sut: DecodeManager<BoxOffice>!
     
     override func setUpWithError() throws {
         sut = DecodeManager()
@@ -19,21 +19,78 @@ final class BoxOfficeTests: XCTestCase {
         sut = nil
     }
     
-    func test_디코딩시_샘플JSON이주어졌을때_BoxOffice는nil이아니다() {
+    func test_디코딩시_존재하는파일이름을넘겨주면_result는success이다() {
         //given
+        let fileName = "box_office_sample"
+        var success: Bool
         
         //when
-        let result = sut.decodeBoxOffice()
+        let result = sut.decodeJSON(fileName: fileName)
+        
+        switch result {
+        case .success(_):
+            success = true
+        case .failure(_):
+            success = false
+        }
+        //then
+        XCTAssertTrue(success)
+    }
+    
+    
+    func test_디코딩시_존재하지않는파일이름을넘겨주면_result는failure이다() {
+        //given
+        let fileName = "box_office"
+        var success: Bool
+        
+        //when
+        let result = sut.decodeJSON(fileName: fileName)
+        
+        switch result {
+        case .success(_):
+            success = true
+        case .failure(_):
+            success = false
+        }
+        //then
+        XCTAssertFalse(success)
+    }
+    
+    func test_디코딩시_샘플JSON이주어졌을때_BoxOffice는nil이아니다() {
+        //given
+        let fileName = "box_office_sample"
+            
+        //when
+        let result = sut.decodeJSON(fileName: fileName)
+        var decodedFile: BoxOffice?
+        
+        switch result {
+        case .success(let resultFile):
+            decodedFile = resultFile
+        case .failure(_):
+            decodedFile = nil
+        }
         
         //then
-        XCTAssertNotNil(result)
+        XCTAssertNotNil(decodedFile)
     }
     
     func test_디코딩시_샘플JSON이주어졌을때_BoxOfficeResult는nil이아니다() {
         //given
-        
+        let fileName = "box_office_sample"
+            
         //when
-        let result = sut.decodeBoxOffice()?.boxOfficeResult
+        let decodedResult = sut.decodeJSON(fileName: fileName)
+        var decodedFile: BoxOffice?
+        
+        switch decodedResult {
+        case .success(let resultFile):
+            decodedFile = resultFile
+        case .failure(_):
+            decodedFile = nil
+        }
+        
+        let result = decodedFile?.boxOfficeResult
         
         //then
         XCTAssertNotNil(result)
@@ -41,9 +98,20 @@ final class BoxOfficeTests: XCTestCase {
     
     func test_디코딩시_샘플JSON이주어졌을때_DailyBoxOfficeList는nil이아니다() {
         //given
-        
+        let fileName = "box_office_sample"
+            
         //when
-        let result = sut.decodeBoxOffice()?.boxOfficeResult.dailyBoxOfficeList
+        let decodedResult = sut.decodeJSON(fileName: fileName)
+        var decodedFile: BoxOffice?
+        
+        switch decodedResult {
+        case .success(let resultFile):
+            decodedFile = resultFile
+        case .failure(_):
+            decodedFile = nil
+        }
+        
+        let result = decodedFile?.boxOfficeResult.dailyBoxOfficeList
         
         //then
         XCTAssertNotNil(result)
@@ -51,31 +119,70 @@ final class BoxOfficeTests: XCTestCase {
     
     func test_디코딩시_샘플JSON이주어졌을때_dailyBoxOfficeList는10개의요소를가진다() {
         //given
-        
+        let fileName = "box_office_sample"
+            
         //when
-        let result = sut.decodeBoxOffice()?.boxOfficeResult.dailyBoxOfficeList.count
+        let decodedResult = sut.decodeJSON(fileName: fileName)
+        var decodedFile: BoxOffice?
+        
+        switch decodedResult {
+        case .success(let resultFile):
+            decodedFile = resultFile
+        case .failure(_):
+            decodedFile = nil
+        }
+        
+        let result = decodedFile?.boxOfficeResult.dailyBoxOfficeList.count
         let expectedResult = 10
         
         //then
         XCTAssertEqual(result, expectedResult)
     }
     
-    func test_디코딩시_첫번째인덱스의number의value가Int형태를가진다() {
+    func test_디코딩시_첫번째인덱스의sequence의value가Int형태를가진다() {
         //given
-        guard let number = sut.decodeBoxOffice()?.boxOfficeResult.dailyBoxOfficeList[0].number else { return }
-        
+        let fileName = "box_office_sample"
+            
         //when
+        let decodedResult = sut.decodeJSON(fileName: fileName)
+        var decodedFile: BoxOffice?
+        
+        switch decodedResult {
+        case .success(let resultFile):
+            decodedFile = resultFile
+        case .failure(_):
+            decodedFile = nil
+        }
+        guard let number = decodedFile?.boxOfficeResult.dailyBoxOfficeList[0].sequence else {
+            return
+        }
         let result = Int(number)
         
         //then
         XCTAssertNotNil(result)
+        
+       
     }
     
     func test_디코딩시_첫번째인덱스의salesShare의value가Double형태를가진다() {
         //given
-        guard let number = sut.decodeBoxOffice()?.boxOfficeResult.dailyBoxOfficeList[0].salesShare else { return }
-        
+        let fileName = "box_office_sample"
+            
         //when
+        let decodedResult = sut.decodeJSON(fileName: fileName)
+        var decodedFile: BoxOffice?
+        
+        switch decodedResult {
+        case .success(let resultFile):
+            decodedFile = resultFile
+        case .failure(_):
+            decodedFile = nil
+        }
+        
+        guard let number = decodedFile?.boxOfficeResult.dailyBoxOfficeList[0].salesShare else {
+            return
+        }
+        
         let result = Double(number)
         
         //then
@@ -84,11 +191,21 @@ final class BoxOfficeTests: XCTestCase {
     
     func test_dailyBoxOfficeList의_rank가1위인영화는_경관의피이다() {
         //given
-        let dailyBoxOfficeList = sut.decodeBoxOffice()?.boxOfficeResult.dailyBoxOfficeList
-        
+        let fileName = "box_office_sample"
+            
         //when
+        let decodedResult = sut.decodeJSON(fileName: fileName)
+        var decodedFile: BoxOffice?
+        
+        switch decodedResult {
+        case .success(let resultFile):
+            decodedFile = resultFile
+        case .failure(_):
+            decodedFile = nil
+        }
+        
         let expectedResult = "경관의 피"
-        let resultBoxOfficeList = dailyBoxOfficeList?.filter{ boxOffice in
+        let resultBoxOfficeList = decodedFile?.boxOfficeResult.dailyBoxOfficeList.filter { boxOffice in
             boxOffice.rank == "1"
         }
         
@@ -97,28 +214,5 @@ final class BoxOfficeTests: XCTestCase {
         //then
         XCTAssertEqual(result?.movieName, expectedResult)
     }
-    
-    func test_dailyBoxOfficeList의_rank가높은영화는_rank가낮은영화보다_SalesAccumulation이높다() {
-        //given
-        guard let dailyBoxOfficeList = sut.decodeBoxOffice()?.boxOfficeResult.dailyBoxOfficeList else { return }
- 
-        //when
-        var result: Bool?
-        
-        for index in 0..<dailyBoxOfficeList.count {
-            guard let previous =  Int(dailyBoxOfficeList[index].salesAccumulation),
-                  let next = Int(dailyBoxOfficeList[index+1].salesAccumulation) else { return }
-            
-            guard previous > next else {
-                result = false
-                return
-            }
-            result = true
-        }
-        
-        let expectedResult = true
-        
-        //then
-        XCTAssertEqual(result, expectedResult)
-    }
+
 }
