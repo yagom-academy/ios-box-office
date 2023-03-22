@@ -9,19 +9,27 @@ import UIKit
 
 class ViewController: UIViewController {
     let networkManager = NetworkManager()
-    let dailyBoxofficeURL = DailyBoxOfficeURL(targetDate: "20230320")
     
+    lazy var dailyBoxofficeURL = DailyBoxOfficeURL(baseURL: dailyBoxofficeBaseURL, key: key, targetDate: targetDate)
+    lazy var movieInformationURL = MovieInfomationURL(baseURL: movieURL, key: key, movieCode: movieCode)
+    
+    let dailyBoxofficeBaseURL = "http://www.kobis.or.kr/kobisopenapi/webservice/rest/boxoffice/searchDailyBoxOfficeList.json"
+    let targetDate = "20230321"
     let movieURL = "http://www.kobis.or.kr/kobisopenapi/webservice/rest/movie/searchMovieInfo.json"
     let key = "f5eef3421c602c6cb7ea224104795888"
-    let code = "20124079"
+    let movieCode = "20124079"
     
-    lazy var movieInformationURL = MovieInfomationURL(urlComponents: movieURL, key: key, movieCode: code)
-
     override func viewDidLoad() {
         super.viewDidLoad()
-        print(movieInformationURL.url!)
-        networkManager.request(method: .get, url: movieInformationURL, body: nil, returnType: Welcome.self) {
+        
+        networkManager.request(method: .get, url: dailyBoxofficeURL, body: nil, returnType: BoxOffice.self) {
             print($0)
+            print("===")
+        }
+        
+        networkManager.request(method: .get, url: movieInformationURL, body: nil, returnType: MovieInformation.self) {
+            print($0)
+            print("===")
         }
     }
 }

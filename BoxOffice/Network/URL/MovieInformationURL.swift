@@ -8,12 +8,13 @@
 import Foundation
 
 struct MovieInfomationURL: Requestable {
-    var url: URL?
+    let url: URL?
     var urlComponents: URLComponents?
     let key: URLQueryItem
     let movieCode: URLQueryItem
-    init(urlComponents: String, key: String, movieCode: String) {
-        self.urlComponents = URLComponents(string: urlComponents)
+    
+    init(baseURL: String, key: String, movieCode: String) {
+        self.urlComponents = URLComponents(string: baseURL)
         self.key = URLQueryItem(name: "key", value: key)
         self.movieCode = URLQueryItem(name: "movieCd", value: movieCode)
         self.urlComponents?.queryItems = [self.key, self.movieCode]
