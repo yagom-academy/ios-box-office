@@ -7,6 +7,13 @@
 import Foundation
 
 final class NetworkManager {
+    
+    let session: URLSessionProtocol
+    
+    init(session: URLSessionProtocol = URLSession.shared) {
+        self.session = session
+    }
+    
     func fetchData<T: Decodable>(
         for url: URL?,
         type: T.Type,
@@ -15,7 +22,7 @@ final class NetworkManager {
             return
         }
         
-        let task = URLSession.shared.dataTask(with: url) { data, response, error in
+        let task = session.dataTask(with: url) { data, response, error in
             if error != nil {
                 completion(.failure(NetworkError.unknownError))
                 return
