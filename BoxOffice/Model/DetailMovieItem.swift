@@ -55,6 +55,7 @@ struct MovieInfoClass: Decodable, CustomStringConvertible {
         output += "배우: \(actors.map { $0.peopleName }.joined(separator: ", "))\n"
         return output
     }
+    
 }
 
 
