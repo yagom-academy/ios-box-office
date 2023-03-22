@@ -33,6 +33,7 @@
 		D06CB3B929C8770C00136FD3 /* BoxOfficeTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D06CB3B829C8770C00136FD3 /* BoxOfficeTests.swift */; };
 		D08946CF29C97F5900669A1C /* MovieInformation.swift in Sources */ = {isa = PBXBuildFile; fileRef = D08946CE29C97F5900669A1C /* MovieInformation.swift */; };
 		D08946D129C981D500669A1C /* MovieInformationResult.swift in Sources */ = {isa = PBXBuildFile; fileRef = D08946D029C981D500669A1C /* MovieInformationResult.swift */; };
+		D08946D629CACA6D00669A1C /* NetworkError.swift in Sources */ = {isa = PBXBuildFile; fileRef = D08946D529CACA6D00669A1C /* NetworkError.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -75,6 +76,7 @@
 		D06CB3B829C8770C00136FD3 /* BoxOfficeTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BoxOfficeTests.swift; sourceTree = "<group>"; };
 		D08946CE29C97F5900669A1C /* MovieInformation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MovieInformation.swift; sourceTree = "<group>"; };
 		D08946D029C981D500669A1C /* MovieInformationResult.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MovieInformationResult.swift; sourceTree = "<group>"; };
+		D08946D529CACA6D00669A1C /* NetworkError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkError.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -99,6 +101,7 @@
 			isa = PBXGroup;
 			children = (
 				08CE13AF29CAC2FA00C15A16 /* DecodeError.swift */,
+				D08946D529CACA6D00669A1C /* NetworkError.swift */,
 			);
 			path = Error;
 			sourceTree = "<group>";
@@ -345,6 +348,7 @@
 			files = (
 				08E1C12A29C82CE4000FAF49 /* BoxOfficeResult.swift in Sources */,
 				08DD8EA429C9665B00DA67E2 /* NetworkManager.swift in Sources */,
+				D08946D629CACA6D00669A1C /* NetworkError.swift in Sources */,
 				08DD8EAD29C96B9D00DA67E2 /* CommunicationForm.swift in Sources */,
 				08DD8EBF29C97E1B00DA67E2 /* Audit.swift in Sources */,
 				08E1C12C29C82CF9000FAF49 /* DailyBoxOffice.swift in Sources */,
