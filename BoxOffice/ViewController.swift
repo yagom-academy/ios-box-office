@@ -22,5 +22,6 @@ final class ViewController: UIViewController {
                 print(error)
             }
         }
+        movie.cancelTask()
     }
 }

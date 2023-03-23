@@ -23,8 +23,8 @@ struct BoxofficeInfo<T: Fetchable> {
             return
         }
         
-        self.task = URLSession.shared.dataTask(with: url) { data, response, error in
-            if error != nil {
+        self.task = session.dataTask(with: url) { data, response, error in
+            guard error == nil else {
                 completion(.failure(.sessionError))
                 return
             }
@@ -33,15 +33,18 @@ struct BoxofficeInfo<T: Fetchable> {
                 completion(.failure(.responseError))
                 return
             }
-            if let mimeType = httpResponse.mimeType, mimeType == "application/json",
-               let data = data {
-                do {
-                    let decodingdata = try JSONDecoder().decode(T.self, from: data)
-                    completion(.success(decodingdata))
-                } catch {
-                    completion(.failure(.decodingError))
-                    return
-                }
+            guard let mimeType = httpResponse.mimeType,
+                  mimeType == "application/json",
+                  let data = data else {
+                completion(.failure(.incorrectDataTypeError))
+                return
+            }
+            do {
+                let decodingdata = try JSONDecoder().decode(T.self, from: data)
+                completion(.success(decodingdata))
+            } catch {
+                completion(.failure(.decodingError))
+                return
             }
         }
         
