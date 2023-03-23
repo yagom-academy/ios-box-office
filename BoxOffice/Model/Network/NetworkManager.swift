@@ -8,10 +8,11 @@
 import Foundation
 
 final class NetworkManager {
-    static let shared = NetworkManager()
-    private let session = URLSession.shared
+    private let session: URLSessionProtocol
     
-    private init() {}
+    init(session: URLSessionProtocol = URLSession.shared) {
+        self.session = session
+    }
     
     func getData<T: Codable>(url: URL?, type: T.Type, completion: @escaping (Result<T, Error>) -> Void) {
         guard let url = url else {
