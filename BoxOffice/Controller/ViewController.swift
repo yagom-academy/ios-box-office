@@ -36,7 +36,7 @@ final class ViewController: UIViewController {
     }
 }
 
-fileprivate enum URLElement {
+enum URLElement {
     static let dailyBoxofficeBaseURL = "http://www.kobis.or.kr/kobisopenapi/webservice/rest/boxoffice/searchDailyBoxOfficeList.json"
     static let movieInformationBaseURL = "http://www.kobis.or.kr/kobisopenapi/webservice/rest/movie/searchMovieInfo.json"
     static let key = "f5eef3421c602c6cb7ea224104795888"

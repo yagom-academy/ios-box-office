@@ -22,11 +22,21 @@
 		FB06D42D29C83323009981F2 /* BoxOfficeTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB06D42C29C83323009981F2 /* BoxOfficeTests.swift */; };
 		FB06D43C29C9A650009981F2 /* Decoder.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB06D43B29C9A650009981F2 /* Decoder.swift */; };
 		FB06D43E29C9D475009981F2 /* NetworkManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB06D43D29C9D475009981F2 /* NetworkManager.swift */; };
+		FB2D181C29CC1FC6003BEA6D /* NetworkManagerTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB2D181B29CC1FC6003BEA6D /* NetworkManagerTest.swift */; };
 		FB54473829CAD9EE00C396A0 /* NetworkError.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB54473729CAD9EE00C396A0 /* NetworkError.swift */; };
+		FB5B0F0B29CC3D3B0089F0D9 /* MockNetworkManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB2D182229CC2B9C003BEA6D /* MockNetworkManager.swift */; };
+		FB5B0F0E29CC3DA40089F0D9 /* MockURLProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB5B0F0D29CC3DA40089F0D9 /* MockURLProtocol.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
 		FB06D42E29C83323009981F2 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 63DF20E32970E1A0005DF7D1 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 63DF20EA2970E1A0005DF7D1;
+			remoteInfo = BoxOffice;
+		};
+		FB2D181D29CC1FC6003BEA6D /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 63DF20E32970E1A0005DF7D1 /* Project object */;
 			proxyType = 1;
@@ -54,7 +64,11 @@
 		FB06D42C29C83323009981F2 /* BoxOfficeTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BoxOfficeTests.swift; sourceTree = "<group>"; };
 		FB06D43B29C9A650009981F2 /* Decoder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Decoder.swift; sourceTree = "<group>"; };
 		FB06D43D29C9D475009981F2 /* NetworkManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkManager.swift; sourceTree = "<group>"; };
+		FB2D181929CC1FC6003BEA6D /* NetworkManagerTest.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = NetworkManagerTest.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		FB2D181B29CC1FC6003BEA6D /* NetworkManagerTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkManagerTest.swift; sourceTree = "<group>"; };
+		FB2D182229CC2B9C003BEA6D /* MockNetworkManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockNetworkManager.swift; sourceTree = "<group>"; };
 		FB54473729CAD9EE00C396A0 /* NetworkError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkError.swift; sourceTree = "<group>"; };
+		FB5B0F0D29CC3DA40089F0D9 /* MockURLProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockURLProtocol.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -72,6 +86,13 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		FB2D181629CC1FC6003BEA6D /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
@@ -80,6 +101,7 @@
 			children = (
 				63DF20ED2970E1A0005DF7D1 /* BoxOffice */,
 				FB06D42B29C83323009981F2 /* BoxOfficeTests */,
+				FB2D181A29CC1FC6003BEA6D /* NetworkManagerTest */,
 				63DF20EC2970E1A0005DF7D1 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -89,6 +111,7 @@
 			children = (
 				63DF20EB2970E1A0005DF7D1 /* BoxOffice.app */,
 				FB06D42A29C83322009981F2 /* BoxOfficeTests.xctest */,
+				FB2D181929CC1FC6003BEA6D /* NetworkManagerTest.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -172,6 +195,16 @@
 			path = Resources;
 			sourceTree = "<group>";
 		};
+		FB2D181A29CC1FC6003BEA6D /* NetworkManagerTest */ = {
+			isa = PBXGroup;
+			children = (
+				FB2D181B29CC1FC6003BEA6D /* NetworkManagerTest.swift */,
+				FB2D182229CC2B9C003BEA6D /* MockNetworkManager.swift */,
+				FB5B0F0D29CC3DA40089F0D9 /* MockURLProtocol.swift */,
+			);
+			path = NetworkManagerTest;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -210,6 +243,24 @@
 			productReference = FB06D42A29C83322009981F2 /* BoxOfficeTests.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
 		};
+		FB2D181829CC1FC6003BEA6D /* NetworkManagerTest */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = FB2D182129CC1FC6003BEA6D /* Build configuration list for PBXNativeTarget "NetworkManagerTest" */;
+			buildPhases = (
+				FB2D181529CC1FC6003BEA6D /* Sources */,
+				FB2D181629CC1FC6003BEA6D /* Frameworks */,
+				FB2D181729CC1FC6003BEA6D /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				FB2D181E29CC1FC6003BEA6D /* PBXTargetDependency */,
+			);
+			name = NetworkManagerTest;
+			productName = NetworkManagerTest;
+			productReference = FB2D181929CC1FC6003BEA6D /* NetworkManagerTest.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
@@ -224,6 +275,10 @@
 						CreatedOnToolsVersion = 14.2;
 					};
 					FB06D42929C83322009981F2 = {
+						CreatedOnToolsVersion = 14.2;
+						TestTargetID = 63DF20EA2970E1A0005DF7D1;
+					};
+					FB2D181829CC1FC6003BEA6D = {
 						CreatedOnToolsVersion = 14.2;
 						TestTargetID = 63DF20EA2970E1A0005DF7D1;
 					};
@@ -244,6 +299,7 @@
 			targets = (
 				63DF20EA2970E1A0005DF7D1 /* BoxOffice */,
 				FB06D42929C83322009981F2 /* BoxOfficeTests */,
+				FB2D181829CC1FC6003BEA6D /* NetworkManagerTest */,
 			);
 		};
 /* End PBXProject section */
@@ -260,6 +316,13 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 		FB06D42829C83322009981F2 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		FB2D181729CC1FC6003BEA6D /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -296,6 +359,16 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		FB2D181529CC1FC6003BEA6D /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				FB5B0F0E29CC3DA40089F0D9 /* MockURLProtocol.swift in Sources */,
+				FB5B0F0B29CC3D3B0089F0D9 /* MockNetworkManager.swift in Sources */,
+				FB2D181C29CC1FC6003BEA6D /* NetworkManagerTest.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
@@ -303,6 +376,11 @@
 			isa = PBXTargetDependency;
 			target = 63DF20EA2970E1A0005DF7D1 /* BoxOffice */;
 			targetProxy = FB06D42E29C83323009981F2 /* PBXContainerItemProxy */;
+		};
+		FB2D181E29CC1FC6003BEA6D /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 63DF20EA2970E1A0005DF7D1 /* BoxOffice */;
+			targetProxy = FB2D181D29CC1FC6003BEA6D /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
@@ -538,6 +616,48 @@
 			};
 			name = Release;
 		};
+		FB2D181F29CC1FC6003BEA6D /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				GENERATE_INFOPLIST_FILE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 16.2;
+				MACOSX_DEPLOYMENT_TARGET = 13.1;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = net.riji.NetworkManagerTest;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = auto;
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator macosx";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/BoxOffice.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/BoxOffice";
+			};
+			name = Debug;
+		};
+		FB2D182029CC1FC6003BEA6D /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				GENERATE_INFOPLIST_FILE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 16.2;
+				MACOSX_DEPLOYMENT_TARGET = 13.1;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = net.riji.NetworkManagerTest;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = auto;
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator macosx";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/BoxOffice.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/BoxOffice";
+			};
+			name = Release;
+		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -564,6 +684,15 @@
 			buildConfigurations = (
 				FB06D43029C83323009981F2 /* Debug */,
 				FB06D43129C83323009981F2 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		FB2D182129CC1FC6003BEA6D /* Build configuration list for PBXNativeTarget "NetworkManagerTest" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				FB2D181F29CC1FC6003BEA6D /* Debug */,
+				FB2D182029CC1FC6003BEA6D /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
