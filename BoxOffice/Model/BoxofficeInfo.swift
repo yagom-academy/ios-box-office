@@ -9,18 +9,21 @@ import Foundation
 
 struct BoxofficeInfo<T: Fetchable> {
     private let apiType: APIType
+    private let session: URLSession
+    private var task: URLSessionDataTask?
     
-    init(apiType: APIType) {
+    init(apiType: APIType, session: URLSession) {
         self.apiType = apiType
+        self.session = session
     }
     
-    func search(completion: @escaping (Result<T, BoxofficeError>) -> Void) {
+    mutating func search(completion: @escaping (Result<T, BoxofficeError>) -> Void) {
         guard let url = apiType.receiveUrl() else {
             completion(.failure(.urlError))
             return
         }
         
-        let task = URLSession.shared.dataTask(with: url) { data, response, error in
+        self.task = URLSession.shared.dataTask(with: url) { data, response, error in
             if error != nil {
                 completion(.failure(.sessionError))
                 return
@@ -42,6 +45,10 @@ struct BoxofficeInfo<T: Fetchable> {
             }
         }
         
-        task.resume()
+        self.task?.resume()
+    }
+    
+    func cancelTask() {
+        self.task?.cancel()
     }
 }
