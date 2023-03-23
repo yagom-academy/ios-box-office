@@ -8,7 +8,7 @@
 import UIKit
 
 enum SampleData {
-    var boxOfficeData: Data? {
+    static var boxOfficeData: Data? {
         let asset = NSDataAsset(name: "BoxOffice")
         
         return asset?.data
