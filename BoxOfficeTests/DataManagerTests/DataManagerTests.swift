@@ -21,13 +21,12 @@ final class DataManagerTests: XCTestCase {
     
     func test_startLoadDailyBoxOfficeData호출시_date로20230101을받을때_네트워킹이_성공한경우() {
         // given
-        let expectation = XCTestExpectation()
         let expectedResult = try? JSONDecoder().decode(DailyBoxOffice.self, from: KobisAPI.dailyBoxOffice.sampleData)
         
         // when
         sut.startLoadDailyBoxOfficeData(date: "20230101") { result in
-        
-        // then
+            
+            // then
             switch result {
             case .success(let dailyBoxOffice):
                 XCTAssertEqual(dailyBoxOffice.boxOfficeResult.boxOfficeType, expectedResult?.boxOfficeResult.boxOfficeType)
@@ -37,16 +36,39 @@ final class DataManagerTests: XCTestCase {
         }
     }
     
-    func test_startLoadDailyBoxOfficeData호출_성공시_예상한boxOfficType과showRange와_일치한다() {
+    func test_startLoadDailyBoxOfficeData호출시_request가_실패한경우() {
         // given
-        let expectedBoxOfficeType = ""
-    
+        let expectedResult = NetworkError.request.localizedDescription
+        sut = DataManager(kobisUrlSession: MockURLSession(makeRequestFail: true))
         
         // when
+        sut.startLoadDailyBoxOfficeData(date: "20230101") { result in
+            
+            // then
+            switch result {
+            case .success(_):
+                XCTFail()
+            case .failure(let error):
+                XCTAssertEqual(error.localizedDescription, expectedResult)
+            }
+        }
+    }
+    
+    func test_startLoadDailyBoxOfficeData호출시_server에러가_발생한경우() {
+        // given
+        let expectedResult = NetworkError.server.localizedDescription
+        sut = DataManager(kobisUrlSession: MockURLSession(makeServerError: true))
         
-        
-        // then
-        
-
+        // when
+        sut.startLoadDailyBoxOfficeData(date: "20230101") { result in
+            
+            // then
+            switch result {
+            case .success(_):
+                XCTFail()
+            case .failure(let error):
+                XCTAssertEqual(error.localizedDescription, expectedResult)
+            }
+        }
     }
 }

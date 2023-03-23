@@ -39,12 +39,12 @@ class MockURLSession: KobisURLSession {
         let sessionDataTask = MockURLSessionDataTask()
         
         sessionDataTask.resumeDidCall = {
-            if self.makeRequestFail == false && self.makeServerError == false {
-                completionHandler(KobisAPI.dailyBoxOffice.sampleData, successResponse, nil)
-            } else if self.makeRequestFail == false && self.makeServerError == true {
+            if self.makeRequestFail {
+                completionHandler(nil, nil, NetworkError.request)
+            } else if self.makeServerError {
                 completionHandler(nil, failureResponse, nil)
             } else {
-                completionHandler(nil, nil, NetworkError.request)
+                completionHandler(KobisAPI.dailyBoxOffice.sampleData, successResponse, nil)
             }
         }
         self.sessionDataTask = sessionDataTask
