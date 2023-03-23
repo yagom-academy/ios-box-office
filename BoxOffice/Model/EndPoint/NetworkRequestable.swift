@@ -10,7 +10,4 @@ import Foundation
 protocol NetworkRequestable {
     var urlRequest: URLRequest? { get }
     var url: URL? { get }
-    
-    mutating func setEndPoint(method: HttpMethod, body: Data?, baseURL: String, key: String, targetDate: String, itemPerPage: String?, multiMovieType: MovieType?, nationCode: NationalCode?, wideAreaCode: String?)
-    mutating func setEndPoint(method: HttpMethod, body: Data?, baseURL: String, key: String, movieCode: String)
 }
