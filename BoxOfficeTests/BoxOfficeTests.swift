@@ -38,7 +38,19 @@ final class BoxOfficeTests: XCTestCase {
     }
     
     func test_잘못정의한Model로_디코딩했을때_decodeFailed에러를던진다() {
+        // given
+        let errorMessage = NetworkingError.decodeFailed
+        var error: NetworkingError?
         
+        // when
+        XCTAssertThrowsError(try FileDecoder().decodeData(NSDataAsset(name: "box_office_sample")!.data,
+                                                          type: DummyBoxOffice.self).get()) {
+            errorHandler in
+            error = errorHandler as? NetworkingError
+        }
+        
+        // then
+        XCTAssertEqual(error, errorMessage)
     }
     
     func test_boxOfficeType값이_일별_박스오피스이다() {

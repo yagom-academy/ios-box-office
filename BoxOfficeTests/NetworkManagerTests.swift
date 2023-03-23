@@ -2,7 +2,7 @@
 //  NetworkManagerTests.swift
 //  BoxOfficeTests
 //
-//  Created by Hyejeong Jeong on 2023/03/23.
+//  Created by Christy, Hyemory on 2023/03/23.
 //
 
 import XCTest
