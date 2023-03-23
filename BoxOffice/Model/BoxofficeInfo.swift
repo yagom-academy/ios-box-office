@@ -7,7 +7,7 @@
 
 import Foundation
 
-class BoxofficeInfo<T: Fetchable> {
+final class BoxofficeInfo<T: Fetchable> {
     let interfaceValue: String
     let apiType: APIType
     
