@@ -26,12 +26,12 @@ final class ViewController: UIViewController {
     }
     
     private func setNetworkManagerOfBoxOffice() {
-        networkManager.receiveDailyBoxOfficeParameter(baseURL: URLElement.dailyBoxofficeBaseURL, key: URLElement.key, targetDate: URLElement.targetDate, nationCode: .foreign)
+        networkManager.receiveParameter(baseURL: URLElement.dailyBoxofficeBaseURL, key: URLElement.key, targetDate: URLElement.targetDate, nationCode: .foreign)
         networkManager.setUrlRequest(method: .get, body: nil)
     }
     
     private func setNetworkManagerOfMovieInformation() {
-        networkManager.receiveMovieInformationParameter(baseURL: URLElement.movieInformationBaseURL, key: URLElement.key, movieCode: URLElement.movieCode)
+        networkManager.receiveParameter(baseURL: URLElement.movieInformationBaseURL, key: URLElement.key, movieCode: URLElement.movieCode)
         networkManager.setUrlRequest(method: .get, body: nil)
     }
 }

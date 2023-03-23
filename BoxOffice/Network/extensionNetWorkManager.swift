@@ -8,11 +8,15 @@
 import Foundation
 
 protocol DailyBoxOfficeProtocol {
-    mutating func receiveDailyBoxOfficeParameter(baseURL: String, key: String, targetDate: String, itemPerPage: String?, multiMovieType: MovieType?, nationCode: NationalCode?, wideAreaCode: String?)
+    mutating func receiveParameter(baseURL: String, key: String, targetDate: String, itemPerPage: String?, multiMovieType: MovieType?, nationCode: NationalCode?, wideAreaCode: String?)
+}
+
+protocol MovieInformationProtocol {
+    mutating func receiveParameter(baseURL: String, key: String, movieCode: String?)
 }
 
 extension NetworkManager: DailyBoxOfficeProtocol {
-    mutating func receiveDailyBoxOfficeParameter(baseURL: String, key: String, targetDate: String, itemPerPage: String? = nil, multiMovieType: MovieType? = nil, nationCode: NationalCode? = nil, wideAreaCode: String? = nil) {
+    mutating func receiveParameter(baseURL: String, key: String, targetDate: String, itemPerPage: String? = nil, multiMovieType: MovieType? = nil, nationCode: NationalCode? = nil, wideAreaCode: String? = nil) {
         
         guard var urlComponents = URLComponents(string: baseURL) else { return }
         
@@ -47,12 +51,8 @@ extension NetworkManager: DailyBoxOfficeProtocol {
     }
 }
 
-protocol MovieInformationProtocol {
-    mutating func receiveMovieInformationParameter(baseURL: String, key: String, movieCode: String?)
-}
-
 extension NetworkManager: MovieInformationProtocol {
-    mutating func receiveMovieInformationParameter(baseURL: String, key: String, movieCode: String?) {
+    mutating func receiveParameter(baseURL: String, key: String, movieCode: String?) {
         guard var urlComponents = URLComponents(string: baseURL) else { return }
         
         let key = URLQueryItem(name: "key", value: key)
