@@ -8,8 +8,8 @@
 import UIKit
 
 struct DataManager {
-    let kobisUrlSession: KobisURLSession
-    let urlMaker = URLMaker()
+    private let kobisUrlSession: KobisURLSession
+    private let urlMaker = URLMaker()
     
     init(kobisUrlSession: KobisURLSession = URLSession(configuration: .default)) {
         self.kobisUrlSession = kobisUrlSession
