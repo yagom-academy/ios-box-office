@@ -5,83 +5,65 @@
 //  Created by kaki, harry on 2023/03/20.
 //
 
-struct BoxOffice: Codable {
+struct BoxOffice: Decodable {
     let boxOfficeResult: BoxOfficeResult
 }
 
-struct BoxOfficeResult: Codable {
-    let boxOfficeType, showRange: String
-    let dailyBoxOfficeList: [DailyBoxOfficeList]
+struct BoxOfficeResult: Decodable {
+    let boxOfficeType: String
+    let targetDateText: String
+    let dailyBoxOfficeList: [DailyBoxOffice]
     
     enum CodingKeys: String, CodingKey {
         case boxOfficeType = "boxofficeType"
-        case showRange, dailyBoxOfficeList
+        case targetDateText = "showRange"
+        case dailyBoxOfficeList
     }
 }
 
-struct DailyBoxOfficeList: Codable {
-    let number, rank, rankIncrement: String
+struct DailyBoxOffice: Decodable {
+    let numberText: String
+    let rankText: String
+    let rankIncrementText: String
     let rankOldAndNew: RankOldAndNew
-    let movieCode, movieKoreanName, openDate, salesAmount: String
-    let salesShare, salesIncrement, salesChange, salesAccumulation: String
-    let audienceCount, audienceIncrement, audienceChange, audienceAccumulation: String
-    let screenCount, showCount: String
+    let movieCodeText: String
+    let movieKoreanName: String
+    let openDateText: String
+    let salesAmountText: String
+    let salesShareText: String
+    let salesIncrementText: String
+    let salesChangeText: String
+    let salesAccumulationText: String
+    let audienceCountText: String
+    let audienceIncrementText: String
+    let audienceChangeText: String
+    let audienceAccumulationText: String
+    let screenCountText: String
+    let showCountText: String
     
     enum CodingKeys: String, CodingKey {
-        case rank, rankOldAndNew, salesShare, salesChange
-        case number = "rnum"
-        case rankIncrement = "rankInten"
-        case movieCode = "movieCd"
+        case rankText = "rank"
+        case rankOldAndNew
+        case salesShareText = "salesShare"
+        case salesChangeText = "salesChange"
+        case numberText = "rnum"
+        case rankIncrementText = "rankInten"
+        case movieCodeText = "movieCd"
         case movieKoreanName = "movieNm"
-        case openDate = "openDt"
-        case salesAmount = "salesAmt"
-        case salesIncrement = "salesInten"
-        case salesAccumulation = "salesAcc"
-        case audienceCount = "audiCnt"
-        case audienceIncrement = "audiInten"
-        case audienceChange = "audiChange"
-        case audienceAccumulation = "audiAcc"
-        case screenCount = "scrnCnt"
-        case showCount = "showCnt"        
+        case openDateText = "openDt"
+        case salesAmountText = "salesAmt"
+        case salesIncrementText = "salesInten"
+        case salesAccumulationText = "salesAcc"
+        case audienceCountText = "audiCnt"
+        case audienceIncrementText = "audiInten"
+        case audienceChangeText = "audiChange"
+        case audienceAccumulationText = "audiAcc"
+        case screenCountText = "scrnCnt"
+        case showCountText = "showCnt"
     }
 }
 
-enum RankOldAndNew: String, Codable {
+enum RankOldAndNew: String, Decodable {
     case new = "NEW"
     case old = "OLD"
-}
-
-extension BoxOffice: Equatable {
-    public static func == (lhs: BoxOffice, rhs: BoxOffice) -> Bool {
-        return lhs.boxOfficeResult == rhs.boxOfficeResult
-    }
-}
-
-extension BoxOfficeResult: Equatable {
-    public static func == (lhs: BoxOfficeResult, rhs: BoxOfficeResult) -> Bool {
-        return lhs.boxOfficeType == rhs.boxOfficeType && lhs.showRange == rhs.showRange && lhs.dailyBoxOfficeList == rhs.dailyBoxOfficeList
-    }
-}
-
-extension DailyBoxOfficeList: Equatable {
-    public static func == (lhs: DailyBoxOfficeList, rhs: DailyBoxOfficeList) -> Bool {
-        return lhs.number == rhs.number
-        && lhs.rank == rhs.rank
-        && lhs.rankIncrement == rhs.rankIncrement
-        && lhs.rankOldAndNew == rhs.rankOldAndNew
-        && lhs.movieCode == rhs.movieCode
-        && lhs.movieKoreanName == rhs.movieKoreanName
-        && lhs.openDate == rhs.openDate
-        && lhs.salesAmount == rhs.salesAmount
-        && lhs.salesShare == rhs.salesShare
-        && lhs.salesIncrement == rhs.salesIncrement
-        && lhs.salesChange == rhs.salesChange
-        && lhs.salesAccumulation == rhs.salesAccumulation
-        && lhs.audienceCount == rhs.audienceCount
-        && lhs.audienceIncrement == rhs.audienceIncrement
-        && lhs.audienceChange == rhs.audienceChange
-        && lhs.audienceAccumulation == rhs.audienceAccumulation
-        && lhs.screenCount == rhs.screenCount
-        && lhs.showCount == rhs.showCount
-    }
 }
