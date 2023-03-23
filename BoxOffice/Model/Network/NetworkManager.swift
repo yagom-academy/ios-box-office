@@ -14,7 +14,7 @@ final class NetworkManager {
         self.session = session
     }
     
-    func getData<T: Codable>(url: URL?, type: T.Type, completion: @escaping (Result<T, Error>) -> Void) {
+    func getData<T: Decodable>(url: URL?, type: T.Type, completion: @escaping (Result<T, Error>) -> Void) {
         guard let url = url else {
             completion(.failure(NetworkError.urlError))
             return
@@ -58,7 +58,7 @@ final class NetworkManager {
         completion(.success((data)))
     }
     
-    private func decode<T: Codable>(data: Data, type: T.Type) -> Result<T, Error> {
+    private func decode<T: Decodable>(data: Data, type: T.Type) -> Result<T, Error> {
         do {
             let decoded = try JSONDecoder().decode(type, from: data)
             return .success(decoded)
