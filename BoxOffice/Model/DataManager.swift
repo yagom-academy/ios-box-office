@@ -35,28 +35,26 @@ struct DataManager {
     
     private func makeDataTask<T: Decodable>(with url: URL, decodingType: T.Type, completion: @escaping (Result<T, Error>) -> Void) -> URLSessionDataTask {
         let task = kobisUrlSession.dataTask(with: url) { data, response, error in
-            if error != nil {
-                completion(.failure(NetworkError.transport))
+            if let error = error {
+                completion(.failure(error))
                 
                 return
             }
             
             guard let httpResponse = response as? HTTPURLResponse,
                   (200...299).contains(httpResponse.statusCode) else {
-                completion(.failure(NetworkError.serverResponse))
+                completion(.failure(NetworkError.server))
                 
                 return
             }
             
-            if let mimeType = httpResponse.mimeType,
-               mimeType == "application/json",
-               let data = data,
+            if let data = data,
                let decodedData = try? JSONDecoder().decode(decodingType, from: data) {
                 completion(.success(decodedData))
                 
                 return
             }
-            completion(.failure(NetworkError.decodeFail))
+            completion(.failure(NetworkError.decoding))
         }
         
         return task

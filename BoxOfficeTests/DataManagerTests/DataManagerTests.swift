@@ -26,8 +26,9 @@ final class DataManagerTests: XCTestCase {
         
         // when
         sut.startLoadDailyBoxOfficeData(date: "20230101") { result in
+        
+        // then
             switch result {
-                // then
             case .success(let dailyBoxOffice):
                 XCTAssertEqual(dailyBoxOffice.boxOfficeResult.boxOfficeType, expectedResult?.boxOfficeResult.boxOfficeType)
             case .failure(let error):

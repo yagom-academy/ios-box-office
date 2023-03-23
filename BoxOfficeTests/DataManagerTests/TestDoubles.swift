@@ -17,10 +17,12 @@ class MockURLSessionDataTask: URLSessionDataTask {
 
 class MockURLSession: KobisURLSession {
     var makeRequestFail: Bool
+    var makeServerError: Bool
     var sessionDataTask: MockURLSessionDataTask?
     
-    init(makeRequestFail: Bool = false) {
+    init(makeRequestFail: Bool = false, makeServerError: Bool = false) {
         self.makeRequestFail = makeRequestFail
+        self.makeServerError = makeServerError
     }
     
     func dataTask(with url: URL, completionHandler: @escaping @Sendable (Data?, URLResponse?, Error?) -> Void) -> URLSessionDataTask {
@@ -37,10 +39,12 @@ class MockURLSession: KobisURLSession {
         let sessionDataTask = MockURLSessionDataTask()
         
         sessionDataTask.resumeDidCall = {
-            if self.makeRequestFail {
+            if self.makeRequestFail == false && self.makeServerError == false {
+                completionHandler(KobisAPI.dailyBoxOffice.sampleData, successResponse, nil)
+            } else if self.makeRequestFail == false && self.makeServerError == true {
                 completionHandler(nil, failureResponse, nil)
             } else {
-                completionHandler(KobisAPI.dailyBoxOffice.sampleData, successResponse, nil)
+                completionHandler(nil, nil, NetworkError.request)
             }
         }
         self.sessionDataTask = sessionDataTask
