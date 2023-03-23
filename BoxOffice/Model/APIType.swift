@@ -7,21 +7,21 @@
 import Foundation
 
 enum APIType {
-    case movie
-    case boxoffice
+    case movie(String)
+    case boxoffice(String)
     
-    func receiveUrl(interfaceValue: String) throws -> URL {
+    func receiveUrl() throws -> URL {
         let key = Bundle.main.apiKey
         
         switch self {
-        case .movie:
-            guard let movieUrl = URL(string: "http://kobis.or.kr/kobisopenapi/webservice/rest/movie/searchMovieInfo.json?key=\(key)&movieCd=\(interfaceValue)") else {
+        case .movie(let code):
+            guard let movieUrl = URL(string: "http://kobis.or.kr/kobisopenapi/webservice/rest/movie/searchMovieInfo.json?key=\(key)&movieCd=\(code)") else {
                 throw BoxofficeError.urlError
             }
             return movieUrl
     
-        case .boxoffice:
-            guard let boxofficeUrl = URL(string: "http://kobis.or.kr/kobisopenapi/webservice/rest/boxoffice/searchDailyBoxOfficeList.json?key=\(key)&targetDt=\(interfaceValue)") else {
+        case .boxoffice(let date):
+            guard let boxofficeUrl = URL(string: "http://kobis.or.kr/kobisopenapi/webservice/rest/boxoffice/searchDailyBoxOfficeList.json?key=\(key)&targetDt=\(date)") else {
                 throw BoxofficeError.urlError
             }
             return boxofficeUrl

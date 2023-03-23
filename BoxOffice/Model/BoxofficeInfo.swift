@@ -18,7 +18,7 @@ class BoxofficeInfo<T: Fetchable> {
     
     func search(completion: @escaping (Result<T, BoxofficeError>) -> Void) {
         do {
-            let url = try apiType.receiveUrl(interfaceValue: interfaceValue)
+            let url = try apiType.receiveUrl()
             
             let task = URLSession.shared.dataTask(with: url) { data, response, error in
                 if error != nil {
