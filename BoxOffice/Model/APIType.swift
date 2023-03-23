@@ -10,22 +10,17 @@ enum APIType {
     case movie(String)
     case boxoffice(String)
     
-    func receiveUrl() throws -> URL {
+    func receiveUrl() -> URL? {
         let key = Bundle.main.apiKey
         
         switch self {
         case .movie(let code):
-            guard let movieUrl = URL(string: "http://kobis.or.kr/kobisopenapi/webservice/rest/movie/searchMovieInfo.json?key=\(key)&movieCd=\(code)") else {
-                throw BoxofficeError.urlError
-            }
+            let movieUrl = URL(string: "http://kobis.or.kr/kobisopenapi/webservice/rest/movie/searchMovieInfo.json?key=\(key)&movieCd=\(code)")
             return movieUrl
     
         case .boxoffice(let date):
-            guard let boxofficeUrl = URL(string: "http://kobis.or.kr/kobisopenapi/webservice/rest/boxoffice/searchDailyBoxOfficeList.json?key=\(key)&targetDt=\(date)") else {
-                throw BoxofficeError.urlError
-            }
+            let boxofficeUrl = URL(string: "http://kobis.or.kr/kobisopenapi/webservice/rest/boxoffice/searchDailyBoxOfficeList.json?key=\(key)&targetDt=\(date)")
             return boxofficeUrl
         }
     }
-    
 }
