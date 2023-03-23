@@ -15,8 +15,8 @@ class ViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-//        fetchBoxOfficeData()
-//        fetchMovieDetailData()
+        fetchBoxOfficeData()
+        fetchMovieDetailData()
     }
 
     func fetchBoxOfficeData() {
