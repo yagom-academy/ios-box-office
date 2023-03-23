@@ -8,7 +8,9 @@
 import UIKit
 
 struct FileDecoder {
-    func decodeData<T: Decodable>(_ data: Data, type: T.Type) -> Result<T, NetworkingError> {
+    func decodeData<T: Decodable>(_ data: Data?, type: T.Type) -> Result<T, NetworkingError> {
+        guard let data = data else { return .failure(.dataNotFound) }
+        
         if let result = try? JSONDecoder().decode(type, from: data) {
             return .success(result)
         } else {

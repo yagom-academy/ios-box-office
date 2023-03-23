@@ -8,10 +8,18 @@
 import Foundation
 
 class NetworkManager {
-    func fetchData<T: Decodable>(url: URL?, type: T.Type, completion: @escaping (Result<T, Error>) -> Void) {
+    let session: URLSessionProtocol
+    
+    init(session: URLSessionProtocol = URLSession.shared) {
+        self.session = session
+    }
+    
+    func fetchData<T: Decodable>(url: URL?,
+                                 type: T.Type,
+                                 completion: @escaping (Result<T, Error>) -> Void) {
         guard let url = url else { return }
         
-        let task = URLSession.shared.dataTask(with: url) { data, response, error in
+        let task = session.dataTask(with: url) { data, response, error in
             if let error = error {
                 completion(.failure(error))
                 
@@ -38,7 +46,7 @@ class NetworkManager {
             guard let data = data,
             let dataStructure = try? FileDecoder().decodeData(data, type: type).get() else {
                 completion(.failure(NetworkingError.dataNotFound))
-                
+
                 return
             }
             
