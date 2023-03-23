@@ -31,8 +31,10 @@ final class APIProvider {
             }
             
             if let data = data {
-                return completionHandler(.success(data))
-            } 
+                completionHandler(.success(data))
+            } else {
+                completionHandler(.failure(.missingData))
+            }
         }
         task.resume()
     }
