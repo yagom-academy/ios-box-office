@@ -25,11 +25,14 @@ final class BoxOfficeViewController: UIViewController {
         boxOfficeListCollectionView.delegate = self
         boxOfficeListCollectionView.dataSource = self
         configureUI()
+        configureRefreshControl()
     }
     
     private func configureUI() {
-        let safeArea = view.safeAreaLayoutGuide
+        self.title = "2023123"
     
+        let safeArea = view.safeAreaLayoutGuide
+        
         boxOfficeListCollectionView.translatesAutoresizingMaskIntoConstraints = false
     
 //        view.addSubview(boxOfficeListCollectionView)
@@ -40,6 +43,21 @@ final class BoxOfficeViewController: UIViewController {
             boxOfficeListCollectionView.trailingAnchor.constraint(equalTo: safeArea.trailingAnchor),
             boxOfficeListCollectionView.bottomAnchor.constraint(equalTo: safeArea.bottomAnchor)
         ])
+    }
+    
+    func configureRefreshControl() {
+       // Add the refresh control to your UIScrollView object.
+        boxOfficeListCollectionView.refreshControl = UIRefreshControl()
+        boxOfficeListCollectionView.refreshControl?.addTarget(self, action:
+                                          #selector(handleRefreshControl),
+                                          for: .valueChanged)
+    }
+    
+    @objc func handleRefreshControl() {
+        DispatchQueue.main.async {
+            self.boxOfficeListCollectionView.reloadData()
+            self.boxOfficeListCollectionView.refreshControl?.endRefreshing()
+        }
     }
 }
 
@@ -76,10 +94,11 @@ extension BoxOfficeViewController: UICollectionViewDataSource {
     }
 }
 
+
 extension BoxOfficeViewController: UICollectionViewDelegateFlowLayout {
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+//    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+//
+//        return CGSize(width: width, height: height / 9)
+//    }
 
-
-        return CGSize(width: 400, height: 300)
-    }
 }

@@ -23,17 +23,22 @@ class BoxOfficeListCell: UICollectionViewCell  {
 //    }
     
     func configureUI() {
+        
+        let width = UIScreen.main.bounds.width
+        let height = UIScreen.main.bounds.height
+        
         rankNumberLabel.translatesAutoresizingMaskIntoConstraints = false
         rankGapLabel.translatesAutoresizingMaskIntoConstraints = false
         movieTitleLabel.translatesAutoresizingMaskIntoConstraints = false
         audienceCountLabel.translatesAutoresizingMaskIntoConstraints = false
         
+        self.backgroundColor = .yellow
+        self.layer.borderWidth = 2
         
         let movieListStackView: UIStackView = {
             let stackView = UIStackView()
             stackView.translatesAutoresizingMaskIntoConstraints = false
             stackView.axis = .horizontal
-            stackView.alignment = .fill
             stackView.distribution = .fillEqually
             stackView.spacing = 20
             stackView.backgroundColor = .green
@@ -44,9 +49,8 @@ class BoxOfficeListCell: UICollectionViewCell  {
             let stackView = UIStackView()
             stackView.translatesAutoresizingMaskIntoConstraints = false
             stackView.axis = .vertical
-            stackView.alignment = .fill
-            stackView.distribution = .fillEqually
             stackView.spacing = 6
+            stackView.distribution = .fillEqually
             stackView.backgroundColor = .red
             return stackView
         }()
@@ -56,13 +60,11 @@ class BoxOfficeListCell: UICollectionViewCell  {
             let stackView = UIStackView()
             stackView.translatesAutoresizingMaskIntoConstraints = false
             stackView.axis = .vertical
-            stackView.alignment = .fill
-            stackView.distribution = .fillEqually
             stackView.spacing = 6
             stackView.backgroundColor = .blue
             return stackView
         }()
-        
+       
         self.addSubview(movieListStackView)
         
         movieListStackView.addArrangedSubview(rankStackView)
@@ -76,11 +78,14 @@ class BoxOfficeListCell: UICollectionViewCell  {
         
         
         NSLayoutConstraint.activate([
+            self.widthAnchor.constraint(equalToConstant: width),
+            self.heightAnchor.constraint(equalToConstant: height / 9),
+            
+            
             movieListStackView.topAnchor.constraint(equalTo: self.topAnchor,constant: 6),
-            movieListStackView.leadingAnchor.constraint(equalTo: self.leadingAnchor,constant: 40),
-            movieListStackView.bottomAnchor.constraint(equalTo: self.bottomAnchor,constant: 6),
-            
-            
-            ])
+            movieListStackView.leadingAnchor.constraint(equalTo: self.leadingAnchor),
+            movieListStackView.trailingAnchor.constraint(equalTo: self.trailingAnchor),
+            movieListStackView.bottomAnchor.constraint(equalTo: self.bottomAnchor)
+        ])
     }
 }
