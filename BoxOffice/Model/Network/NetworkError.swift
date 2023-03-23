@@ -2,7 +2,7 @@
 //  NetworkError.swift
 //  BoxOffice
 //
-//  Created by Harry, kaki on 2023/03/21.
+//  Created by kaki, harry on 2023/03/21.
 //
 
 import Foundation
