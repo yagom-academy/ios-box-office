@@ -13,17 +13,7 @@ class ViewController: UIViewController {
     let server = NetworkManager()
     let urlMaker = URLMaker()
 
-    var movieInfoResult: Result<DetailMovieInformation, DecodeError>? {
-        didSet {
-            switch movieInfoResult! {
-            case .success(let movieInfo):
-                let info: DetailMovieInformation = movieInfo
-                print(info.movieInformationResult.source)
-            case .failure(let error):
-                print(error.localizedDescription)
-            }
-        }
-    }
+    var movieInfoResult: DetailMovieInformation? 
     
     override func viewDidLoad() {
         super.viewDidLoad()
