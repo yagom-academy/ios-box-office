@@ -1,5 +1,5 @@
 //
-//  DetailMovieItem.swift
+//  MovieInfoItem.swift
 //  BoxOffice
 //
 //  Created by Seoyeon Hong on 2023/03/21.
@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct MovieInfo: Decodable {
+struct MovieInfoItem: Decodable {
     
     let movieInfoResult: MovieInfoResult
     

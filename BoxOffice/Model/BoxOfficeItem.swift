@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct BoxOfficItem: Decodable {
+struct BoxOfficeItem: Decodable {
     
     let boxOfficeResult: BoxOfficeResult
     
