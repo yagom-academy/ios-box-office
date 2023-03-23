@@ -18,7 +18,7 @@ struct NetworkManager {
         var request = URLRequest(url: url)
         request.httpMethod = "GET"
         
-        URLSession.shared.dataTask(with: request) { data, response, error in
+        session.dataTask(with: url) { data, response, error in
             guard error == nil else {
                 complete(.failure(.responseError(error: error)))
                 return
@@ -30,7 +30,7 @@ struct NetworkManager {
             }
             
             guard (200...299).contains(httpResponse.statusCode) else {
-                complete(.failure(.responseCodeError(code: httpResponse.statusCode)))
+                complete(.failure(.responseCodeError))
                 return
             }
             

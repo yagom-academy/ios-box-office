@@ -54,6 +54,14 @@
 		D08946D829CB2EC900669A1C /* URLMaker.swift in Sources */ = {isa = PBXBuildFile; fileRef = D08946D729CB2EC900669A1C /* URLMaker.swift */; };
 		D08946DA29CC19D700669A1C /* URLSessionProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = D08946D929CC19D700669A1C /* URLSessionProtocol.swift */; };
 		D08946DC29CC1A9C00669A1C /* URLSession+.swift in Sources */ = {isa = PBXBuildFile; fileRef = D08946DB29CC1A9C00669A1C /* URLSession+.swift */; };
+		D08946DD29CC348600669A1C /* NetworkManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08DD8EA329C9665B00DA67E2 /* NetworkManager.swift */; };
+		D08946DE29CC348B00669A1C /* URLMaker.swift in Sources */ = {isa = PBXBuildFile; fileRef = D08946D729CB2EC900669A1C /* URLMaker.swift */; };
+		D08946DF29CC349000669A1C /* URLSessionProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = D08946D929CC19D700669A1C /* URLSessionProtocol.swift */; };
+		D08946E029CC349400669A1C /* URLSessionDataTaskProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08C61FA929CC1D580006A1FE /* URLSessionDataTaskProtocol.swift */; };
+		D08946E129CC349F00669A1C /* NetworkError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08CE13D429CAF82A00C15A16 /* NetworkError.swift */; };
+		D08946E229CC34AE00669A1C /* Date+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08DD8EA829C9685B00DA67E2 /* Date+.swift */; };
+		D08946E329CC34B200669A1C /* URLSession+.swift in Sources */ = {isa = PBXBuildFile; fileRef = D08946DB29CC1A9C00669A1C /* URLSession+.swift */; };
+		D08946E429CC34B600669A1C /* URLSessionDataTask+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08C61FAB29CC1D7D0006A1FE /* URLSessionDataTask+.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -436,7 +444,15 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				D08946E229CC34AE00669A1C /* Date+.swift in Sources */,
+				D08946E429CC34B600669A1C /* URLSessionDataTask+.swift in Sources */,
+				D08946DF29CC349000669A1C /* URLSessionProtocol.swift in Sources */,
+				D08946E129CC349F00669A1C /* NetworkError.swift in Sources */,
+				D08946DE29CC348B00669A1C /* URLMaker.swift in Sources */,
+				D08946E329CC34B200669A1C /* URLSession+.swift in Sources */,
+				D08946DD29CC348600669A1C /* NetworkManager.swift in Sources */,
 				08C61FA829CC1CE40006A1FE /* MockURLSessionDataTask.swift in Sources */,
+				D08946E029CC349400669A1C /* URLSessionDataTaskProtocol.swift in Sources */,
 				08C61FA629CC1CCA0006A1FE /* MockURLSession.swift in Sources */,
 				08C61F9F29CC1CA20006A1FE /* NetworkManagerTests.swift in Sources */,
 			);

@@ -9,9 +9,9 @@ import Foundation
 
 class MockURLSessionDataTask: URLSessionDataTask {
     
-    var resumeHandler: () -> Void
+    var resumeDidCall: (() -> Void)?
     
     override func resume() {
-        resumeHandler()
+        resumeDidCall?()
     }
 }
