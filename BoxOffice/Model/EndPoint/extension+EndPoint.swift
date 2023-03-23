@@ -1,5 +1,5 @@
 //
-//  extensionNetWorkManager.swift
+//  extension+EndPoint.swift
 //  BoxOffice
 //
 //  Created by 리지, kokkilE on 2023/03/22.
@@ -8,15 +8,20 @@
 import Foundation
 
 protocol DailyBoxOfficeProtocol {
-    mutating func receiveParameter(baseURL: String, key: String, targetDate: String, itemPerPage: String?, multiMovieType: MovieType?, nationCode: NationalCode?, wideAreaCode: String?)
+    mutating func setURLParameter(baseURL: String, key: String, targetDate: String, itemPerPage: String?, multiMovieType: MovieType?, nationCode: NationalCode?, wideAreaCode: String?)
 }
 
 protocol MovieInformationProtocol {
-    mutating func receiveParameter(baseURL: String, key: String, movieCode: String?)
+    mutating func setURLParameter(baseURL: String, key: String, movieCode: String)
 }
 
-extension NetworkManager: DailyBoxOfficeProtocol {
-    mutating func receiveParameter(baseURL: String, key: String, targetDate: String, itemPerPage: String? = nil, multiMovieType: MovieType? = nil, nationCode: NationalCode? = nil, wideAreaCode: String? = nil) {
+extension EndPoint: DailyBoxOfficeProtocol {
+    mutating func setEndPoint(method: HttpMethod, body: Data?, baseURL: String, key: String, targetDate: String, itemPerPage: String? = nil, multiMovieType: MovieType? = nil, nationCode: NationalCode? = nil, wideAreaCode: String? = nil) {
+        setURLParameter(baseURL: baseURL, key: key, targetDate: targetDate, itemPerPage: itemPerPage, multiMovieType: multiMovieType, nationCode: nationCode, wideAreaCode: wideAreaCode)
+        setURLRequest(method: method, body: body)
+    }
+    
+    mutating func setURLParameter(baseURL: String, key: String, targetDate: String, itemPerPage: String? = nil, multiMovieType: MovieType? = nil, nationCode: NationalCode? = nil, wideAreaCode: String? = nil) {
         
         guard var urlComponents = URLComponents(string: baseURL) else { return }
         
@@ -51,8 +56,13 @@ extension NetworkManager: DailyBoxOfficeProtocol {
     }
 }
 
-extension NetworkManager: MovieInformationProtocol {
-    mutating func receiveParameter(baseURL: String, key: String, movieCode: String?) {
+extension EndPoint: MovieInformationProtocol {
+    mutating func setEndPoint(method: HttpMethod, body: Data?, baseURL: String, key: String, movieCode: String) {
+        setURLParameter(baseURL: baseURL, key: key, movieCode: movieCode)
+        setURLRequest(method: method, body: body)
+    }
+    
+    mutating func setURLParameter(baseURL: String, key: String, movieCode: String) {
         guard var urlComponents = URLComponents(string: baseURL) else { return }
         
         let key = URLQueryItem(name: "key", value: key)

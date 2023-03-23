@@ -2,27 +2,14 @@
 //  NetworkManager.swift
 //  BoxOffice
 //
-//  Created by 리지, kokkilE on 2023/03/21.
+//  Created by 리지, kokkilE on 2023/03/23.
 //
 
 import Foundation
 
-struct NetworkManager: NetworkRequestable {
-    var urlRequest: URLRequest?
-    var url: URL?
-    
-    mutating func setUrlRequest(method: HttpMethod, body: Data?) {
-        guard let url = self.url else {
-            print(NetworkError.invalidURL)
-            return
-        }
-        urlRequest = .init(url: url)
-        urlRequest?.httpMethod = method.description
-        urlRequest?.httpBody = body
-    }
-    
-    func request<element: Decodable>(returnType: element.Type, completion: @escaping (Result<element, NetworkError>) -> Void) {
-        guard let urlRequest = self.urlRequest else {
+struct NetworkManager {
+    static func request<element: Decodable>(endPoint: EndPoint, returnType: element.Type, completion: @escaping (Result<element, NetworkError>) -> Void) {
+        guard let urlRequest = endPoint.urlRequest else {
             completion(.failure(.invalidURL))
             return
         }
