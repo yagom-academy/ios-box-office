@@ -15,9 +15,13 @@ final class BoxOfficeTests: XCTestCase {
     override func setUpWithError() throws {
         try super.setUpWithError()
         
+<<<<<<< HEAD
         guard let data = NSDataAsset(name: fileName)?.data else { return }
         
         sut = Decoder.parseJSON(data, returnType: BoxOffice.self)
+=======
+        sut = Decoder.parseJSON(fileName, returnType: BoxOffice.self)
+>>>>>>> step1
     }
     
     override func tearDownWithError() throws {
@@ -37,7 +41,11 @@ final class BoxOfficeTests: XCTestCase {
         guard let data = NSDataAsset(name: wrongFileName)?.data else { return }
         
         // when
+<<<<<<< HEAD
         sut = Decoder.parseJSON(data, returnType: BoxOffice.self)
+=======
+        sut = Decoder.parseJSON(wrongFileName, returnType: BoxOffice.self)
+>>>>>>> step1
         
         // then
         XCTAssertNil(sut)
