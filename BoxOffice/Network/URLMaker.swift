@@ -34,7 +34,9 @@ enum URLMaker {
     
     var url: URL? {
         var urlComponents = URLComponents(string: URLMaker.baseURL + pagePath)
+        
         urlComponents?.queryItems = [URLMaker.key, queryItem]
+        
         return urlComponents?.url
     }
 }

@@ -35,8 +35,10 @@ final class MockURLSession: URLSessionProtocol {
                                                          urlResponse: urlResponse,
                                                          error: nil)
             let mockUrlSession = MockURLSession(response: mockResponse)
+            
             return mockUrlSession
         }()
+        
         return mockURLSession
     }
 }

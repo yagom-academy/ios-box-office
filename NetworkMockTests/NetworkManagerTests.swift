@@ -49,6 +49,23 @@ final class NetworkManagerTests: XCTestCase {
         let expectation = NetworkingError.dataNotFound
         var result: NetworkingError?
         
+        // when
+        sut.fetchData(url: URL(string: url), type: DummyBoxOffice.self) { response in
+            if case let .failure(error) = response {
+                result = error as? NetworkingError
+            }
+        }
+        
+        // then
+        XCTAssertEqual(result, expectation)
+    }
+    
+    func test_mockURLSession의_statusCode가_400일때_clientError를던진다() {
+        // given
+        let mockURLSession = MockURLSession.make(url: url, data: data, statusCode: 400)
+        let sut = NetworkManager(session: mockURLSession)
+        let expectation = NetworkingError.clientError
+        var result: NetworkingError?
         
         // when
         sut.fetchData(url: URL(string: url), type: DummyBoxOffice.self) { response in
@@ -61,11 +78,21 @@ final class NetworkManagerTests: XCTestCase {
         XCTAssertEqual(result, expectation)
     }
     
-    func test_400() {
+    func test_mockURLSession의_statusCode가_500일때_serverError를던진다() {
+        // given
+        let mockURLSession = MockURLSession.make(url: url, data: data, statusCode: 500)
+        let sut = NetworkManager(session: mockURLSession)
+        let expectation = NetworkingError.serverError
+        var result: NetworkingError?
         
-    }
-    
-    func test_500() {
+        // when
+        sut.fetchData(url: URL(string: url), type: DummyBoxOffice.self) { response in
+            if case let .failure(error) = response {
+                result = error as? NetworkingError
+            }
+        }
         
+        // then
+        XCTAssertEqual(result, expectation)
     }
 }

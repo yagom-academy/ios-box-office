@@ -8,8 +8,7 @@
 import Foundation
 @testable import BoxOffice
 
-class MockURLSessionDataTask: URLSessionDataTaskProtocol {
-    
+final class MockURLSessionDataTask: URLSessionDataTaskProtocol {
     private let resumeHandler: () -> Void
     
     init(resumeHandler: @escaping () -> Void) {
