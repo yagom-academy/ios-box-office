@@ -7,12 +7,10 @@
 
 import Foundation
 
-final class BoxofficeInfo<T: Fetchable> {
-    let interfaceValue: String
-    let apiType: APIType
+struct BoxofficeInfo<T: Fetchable> {
+    private let apiType: APIType
     
-    init(interfaceValue: String, apiType: APIType) {
-        self.interfaceValue = interfaceValue
+    init(apiType: APIType) {
         self.apiType = apiType
     }
     
