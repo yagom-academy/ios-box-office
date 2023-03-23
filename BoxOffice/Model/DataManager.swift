@@ -15,7 +15,7 @@ struct DataManager {
         self.kobisUrlSession = kobisUrlSession
     }
     
-    func startLoadDailyBoxOfficeData(date: String, completion: @escaping (Result<DailyBoxOffice, Error>) -> Void) {
+    func startLoadDailyBoxOffice(date: String, completion: @escaping (Result<DailyBoxOffice, Error>) -> Void) {
         guard let url = urlMaker.makeDailyBoxOfficeURL(date: date) else { return }
         
         let task = makeDataTask(with: url,

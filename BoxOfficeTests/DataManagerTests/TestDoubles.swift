@@ -18,11 +18,13 @@ class MockURLSessionDataTask: URLSessionDataTask {
 class MockURLSession: KobisURLSession {
     var makeRequestFail: Bool
     var makeServerError: Bool
+    var kobisAPI: KobisAPI
     var sessionDataTask: MockURLSessionDataTask?
     
-    init(makeRequestFail: Bool = false, makeServerError: Bool = false) {
+    init(makeRequestFail: Bool = false, makeServerError: Bool = false, kobisAPI: KobisAPI = .dailyBoxOffice) {
         self.makeRequestFail = makeRequestFail
         self.makeServerError = makeServerError
+        self.kobisAPI = kobisAPI
     }
     
     func dataTask(with url: URL, completionHandler: @escaping @Sendable (Data?, URLResponse?, Error?) -> Void) -> URLSessionDataTask {
@@ -44,7 +46,12 @@ class MockURLSession: KobisURLSession {
             } else if self.makeServerError {
                 completionHandler(nil, failureResponse, nil)
             } else {
-                completionHandler(KobisAPI.dailyBoxOffice.sampleData, successResponse, nil)
+                switch self.kobisAPI {
+                case .dailyBoxOffice:
+                    completionHandler(KobisAPI.dailyBoxOffice.sampleData, successResponse, nil)
+                case .movieDetails:
+                    completionHandler(KobisAPI.movieDetails.sampleData, successResponse, nil)
+                }
             }
         }
         self.sessionDataTask = sessionDataTask
