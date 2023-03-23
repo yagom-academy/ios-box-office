@@ -10,7 +10,7 @@ enum APIType {
     case movie
     case boxoffice
     
-    func getUrl(interfaceValue: String) throws -> URL {
+    func receiveUrl(interfaceValue: String) throws -> URL {
         let key = Bundle.main.apiKey
         
         switch self {

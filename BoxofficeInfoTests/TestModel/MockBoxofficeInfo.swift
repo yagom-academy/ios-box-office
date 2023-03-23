@@ -21,7 +21,7 @@ class MockBoxofficeInfo<T: Fetchable> {
     
     func search(completion: @escaping (Result<T, BoxofficeError>) -> Void) {
         do {
-            let url = try apiType.getUrl(interfaceValue: interfaceValue)
+            let url = try apiType.receiveUrl(interfaceValue: interfaceValue)
             
             let task = session.dataTask(with: url) { data, response, error in
                 
