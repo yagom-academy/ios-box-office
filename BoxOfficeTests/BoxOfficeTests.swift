@@ -24,33 +24,33 @@ final class BoxOfficeTests: XCTestCase {
     func test_잘못된JSON파일이름으로_디코딩했을때_dataNotFound에러를던진다() {
         // given
         let invalidAsset = NSDataAsset(name: "invalid_name")?.data
-        let errorMessage = NetworkingError.dataNotFound
-        var error: NetworkingError?
+        let expectation = NetworkingError.dataNotFound
+        var result: NetworkingError?
         
         // when
         XCTAssertThrowsError(try FileDecoder().decodeData(invalidAsset, type: BoxOffice.self).get()) {
             errorHandler in
-            error = errorHandler as? NetworkingError
+            result = errorHandler as? NetworkingError
         }
         
         // then
-        XCTAssertEqual(error, errorMessage)
+        XCTAssertEqual(result, expectation)
     }
     
     func test_잘못정의한Model로_디코딩했을때_decodeFailed에러를던진다() {
         // given
-        let errorMessage = NetworkingError.decodeFailed
-        var error: NetworkingError?
+        let expectation = NetworkingError.decodeFailed
+        var result: NetworkingError?
         
         // when
         XCTAssertThrowsError(try FileDecoder().decodeData(NSDataAsset(name: "box_office_sample")!.data,
                                                           type: DummyBoxOffice.self).get()) {
             errorHandler in
-            error = errorHandler as? NetworkingError
+            result = errorHandler as? NetworkingError
         }
         
         // then
-        XCTAssertEqual(error, errorMessage)
+        XCTAssertEqual(result, expectation)
     }
     
     func test_boxOfficeType값이_일별_박스오피스이다() {
