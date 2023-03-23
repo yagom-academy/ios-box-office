@@ -8,28 +8,16 @@
 import Foundation
 @testable import BoxOffice
 
-struct MockNetworkManager: NetworkRequestable {
-    var urlRequest: URLRequest?
-    var url: URL?
-    var urlSession: URLSession?
-   
-    mutating func setUrlRequest(method: HttpMethod, body: Data?) {
-        guard let url = self.url else {
-            print(NetworkError.invalidURL)
-            return
-        }
-        urlRequest = .init(url: url)
-        urlRequest?.httpMethod = method.description
-        urlRequest?.httpBody = body
-    }
+struct MockNetworkManager {
+    var urlSession: URLSession
     
-    func request<element: Decodable>(returnType: element.Type, completion: @escaping (Result<element, NetworkError>) -> Void) {
-        guard let urlRequest = self.urlRequest else {
+    func request<element: Decodable>(endPoint: EndPoint, returnType: element.Type, completion: @escaping (Result<element, NetworkError>) -> Void) {
+        guard let urlRequest = endPoint.urlRequest else {
             completion(.failure(.invalidURL))
             return
         }
         
-        let task = urlSession?.dataTask(with: urlRequest) { data, response, error in
+        let task = urlSession.dataTask(with: urlRequest) { data, response, error in
             if error != nil {
                 completion(.failure(.unknown))
                 return
@@ -53,9 +41,6 @@ struct MockNetworkManager: NetworkRequestable {
                 completion(.success(result))
             }
         }
-        task?.resume()
+        task.resume()
     }
 }
-
-
-
