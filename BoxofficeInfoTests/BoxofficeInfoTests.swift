@@ -10,8 +10,8 @@ import XCTest
 
 final class BoxofficeInfoTests: XCTestCase {
     
-    var sut: MockBoxofficeInfo<DailyBoxofficeObject>!
-    var mockSession = StubURLSession()
+    private var sut: MockBoxofficeInfo<DailyBoxofficeObject>!
+    private let mockSession = StubURLSession()
     
     override func setUpWithError() throws {
         sut = MockBoxofficeInfo(interfaceValue: "20230320", apiType: .boxoffice, session: mockSession)
