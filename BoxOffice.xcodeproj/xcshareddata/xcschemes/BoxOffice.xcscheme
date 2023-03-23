@@ -51,6 +51,17 @@
                ReferencedContainer = "container:BoxOffice.xcodeproj">
             </BuildableReference>
          </TestableReference>
+         <TestableReference
+            skipped = "NO"
+            parallelizable = "YES">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "16B6215529CC239300D6BA27"
+               BuildableName = "NetworkManagerTests.xctest"
+               BlueprintName = "NetworkManagerTests"
+               ReferencedContainer = "container:BoxOffice.xcodeproj">
+            </BuildableReference>
+         </TestableReference>
       </Testables>
    </TestAction>
    <LaunchAction
