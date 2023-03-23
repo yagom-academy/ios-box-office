@@ -22,6 +22,9 @@ final class BoxOfficeViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         boxOfficeAPI.delegate = self
+        boxOfficeListCollectionView.delegate = self
+        boxOfficeListCollectionView.dataSource = self
+        configureUI()
     }
     
     private func configureUI() {
@@ -29,7 +32,7 @@ final class BoxOfficeViewController: UIViewController {
     
         boxOfficeListCollectionView.translatesAutoresizingMaskIntoConstraints = false
     
-        view.addSubview(boxOfficeListCollectionView)
+//        view.addSubview(boxOfficeListCollectionView)
         
         NSLayoutConstraint.activate([
             boxOfficeListCollectionView.topAnchor.constraint(equalTo: safeArea.topAnchor),
@@ -42,7 +45,6 @@ final class BoxOfficeViewController: UIViewController {
 
 extension BoxOfficeViewController: BoxOfficeAPIDelegate {
     func fetchAPIData<T>(data: T) where T : Decodable {
-    
         switch data {
         case is MovieDetail:
             parsedMovieDetail = data as? MovieDetail
@@ -54,4 +56,30 @@ extension BoxOfficeViewController: BoxOfficeAPIDelegate {
     }
 }
 
+extension BoxOfficeViewController: UICollectionViewDelegate {
+    
+}
 
+extension BoxOfficeViewController: UICollectionViewDataSource {
+    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        return 10
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        
+        let cellId = String(describing: BoxOfficeListCell.self)
+        let cell = boxOfficeListCollectionView.dequeueReusableCell(withReuseIdentifier: cellId, for: indexPath) as! BoxOfficeListCell
+        
+        cell.configureUI()
+        
+        return cell
+    }
+}
+
+extension BoxOfficeViewController: UICollectionViewDelegateFlowLayout {
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+
+
+        return CGSize(width: 400, height: 300)
+    }
+}
