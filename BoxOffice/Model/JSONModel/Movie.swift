@@ -5,16 +5,16 @@
 //  Created by kaki, harry on 2023/03/21.
 //
 
-struct Movie: Codable {
+struct Movie: Decodable {
     let movieInfoResult: MovieInfoResult
 }
 
-struct MovieInfoResult: Codable {
+struct MovieInfoResult: Decodable {
     let movieInfo: MovieInfo
     let source: String
 }
 
-struct MovieInfo: Codable {
+struct MovieInfo: Decodable {
     let movieCodeText: String
     let movieKoreanName: String
     let movieEnglishName: String
@@ -54,7 +54,7 @@ struct MovieInfo: Codable {
     }
 }
 
-struct Actor: Codable {
+struct Actor: Decodable {
     let peopleName: String
     let peopleEnglishName: String
     let castName: String
@@ -68,7 +68,7 @@ struct Actor: Codable {
     }
 }
 
-struct Audit: Codable {
+struct Audit: Decodable {
     let auditNumber: String
     let watchGradeName: String
     
@@ -78,7 +78,7 @@ struct Audit: Codable {
     }
 }
 
-struct Company: Codable {
+struct Company: Decodable {
     let companyCode: String
     let companyName: String
     let companyEnglishName: String
@@ -92,7 +92,7 @@ struct Company: Codable {
     }
 }
 
-struct Director: Codable {
+struct Director: Decodable {
     let peopleName: String
     let peopleEnglishName: String
     
@@ -102,7 +102,7 @@ struct Director: Codable {
     }
 }
 
-struct Genre: Codable {
+struct Genre: Decodable {
     let genreName: String
     
     enum CodingKeys: String, CodingKey {
@@ -110,7 +110,7 @@ struct Genre: Codable {
     }
 }
 
-struct Nation: Codable {
+struct Nation: Decodable {
     let nationName: String
     
     enum CodingKeys: String, CodingKey {
@@ -118,7 +118,7 @@ struct Nation: Codable {
     }
 }
 
-struct ShowType: Codable {
+struct ShowType: Decodable {
     let showTypeGroupName: String
     let showTypeName: String
     
@@ -128,7 +128,7 @@ struct ShowType: Codable {
     }
 }
 
-struct Staff: Codable {
+struct Staff: Decodable {
     let peopleName: String
     let peopleEnglishName: String
     let staffRoleName: String

@@ -14,7 +14,7 @@ enum NetworkError: LocalizedError {
     case emptyData
     case decodeError
     
-    var errorDescription: String {
+    var errorDescription: String? {
         switch self {
         case .urlError:
             return "잘못된 URL입니다."
@@ -29,4 +29,3 @@ enum NetworkError: LocalizedError {
         }
     }
 }
-

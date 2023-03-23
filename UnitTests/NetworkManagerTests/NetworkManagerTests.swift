@@ -46,8 +46,7 @@ final class NetworkManagerTests: XCTestCase {
             case .success:
                 XCTFail()
             case .failure(let error):
-                let networkError = error as! NetworkError
-                XCTAssertEqual(expectedResult, networkError.errorDescription)
+                XCTAssertEqual(expectedResult, error.localizedDescription)
             }
             expectation.fulfill()
         }
