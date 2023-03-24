@@ -16,7 +16,7 @@ final class BoxOfficeViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        fetchAPIData()
+        fetchDailyBoxOfficeAPI()
         boxOfficeListCollectionView.dataSource = self
         configureRefreshControl()
         self.boxOfficeListCollectionView.collectionViewLayout = self.setUpCompositionalLayout()
@@ -49,7 +49,7 @@ final class BoxOfficeViewController: UIViewController {
         }
     }
     
-    func fetchAPIData() {
+    func fetchDailyBoxOfficeAPI() {
         boxOfficeAPI.loadBoxOfficeAPI(urlAddress: URLAddress.dailyBoxOfficeURL, parser: Parser<DailyBoxOffice>()) { parsedData in
             self.dailyBoxOffice = parsedData
             
@@ -62,7 +62,7 @@ final class BoxOfficeViewController: UIViewController {
 
 extension BoxOfficeViewController: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return 10
+        return dailyBoxOffice?.boxOfficeResult.dailyBoxOfficeList.count ?? 0
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
