@@ -11,6 +11,16 @@ enum BoxOfficeAPI {
     case dailyBoxOffice(date: String)
     case detailMovieInformation(movieCode: String)
     
+    static let baseURL = "http://kobis.or.kr/kobisopenapi/webservice/rest/"
+    
+    static func makeForEndpoint(_ endpoint: String) -> URL? {
+        guard let url = URL(string: baseURL + endpoint) else {
+            return nil
+        }
+        
+        return url
+    }
+    
     static var key: String {
         get {
           guard let filePath = Bundle.main.path(forResource: "Info", ofType: "plist") else {
@@ -24,7 +34,7 @@ enum BoxOfficeAPI {
             
           return value
         }
-      }
+    }
 }
 
 extension BoxOfficeAPI {
@@ -33,23 +43,11 @@ extension BoxOfficeAPI {
         case .dailyBoxOffice(let date):
             let path = "boxoffice/searchDailyBoxOfficeList.json?"
             
-            return .makeForEndpoint("\(path)key=\(BoxOfficeAPI.key)&targetDt=\(date)")
+            return BoxOfficeAPI.makeForEndpoint("\(path)key=\(BoxOfficeAPI.key)&targetDt=\(date)")
         case .detailMovieInformation(let movieCode):
             let path = "movie/searchMovieInfo.json?"
             
-            return .makeForEndpoint("\(path)key=\(BoxOfficeAPI.key)&movieCd=\(movieCode)")
+            return BoxOfficeAPI.makeForEndpoint("\(path)key=\(BoxOfficeAPI.key)&movieCd=\(movieCode)")
         }
-    }
-}
-
-private extension URL {
-    static let baseURL = "http://kobis.or.kr/kobisopenapi/webservice/rest/"
-    
-    static func makeForEndpoint(_ endpoint: String) -> URL? {
-        guard let url = URL(string: baseURL + endpoint) else {
-            return nil
-        }
-        
-        return url
     }
 }
