@@ -143,7 +143,7 @@ enum APIType {
 
 #### 📖해결한 점
 ```swift
-class MockURLProtocol: URLProtocol {
+class MockURLProtocolObject: URLProtocol {
     
     static var requestHandler: ( (URLRequest) throws -> (HTTPURLResponse, Data) )?
     
@@ -177,8 +177,9 @@ class MockURLProtocol: URLProtocol {
     
 }
 ```
-- URLProtocol을 사용하여 네트워크의 요청 결과에 따른 코드 동작을 테스트를 하였습니다
-- MockURLProtocol을 구현하여 네트워크를 수행하는 객체(BoxofficeInfo)에 의존성 주입으로 URLSession을 넣어 구현하였습니다
+- URLProtocol을 사용하여 코드 동작을 테스트를 할 수 있도록 구현하였습니다
+- MockURLProtocolObject를 구현하여 URLSession에 넣어 네트워크통신이 아닌 해당 객체가 동작하도록 구현하였습니다
+- 참조링크: [Testing Tips & Tricks](https://developer.apple.com/videos/play/wwdc2018/417/)
 
 ## 6. Reference
 - [Apple Developer: URLSession](https://developer.apple.com/documentation/foundation/urlsession)
