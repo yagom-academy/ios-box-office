@@ -39,7 +39,7 @@ final class BoxOfficeTests: XCTestCase {
         let expectedResult = "1"
      
         // when
-        let boxOfficeNumber = sut.boxOfficeResult.dailyBoxOfficeList[0].number
+        let boxOfficeNumber = sut.boxOfficeResult.dailyBoxOfficeList[0].numberText
         
         // then
         XCTAssertEqual(expectedResult, boxOfficeNumber)
@@ -61,7 +61,7 @@ final class BoxOfficeTests: XCTestCase {
         let expectedResult = "2"
      
         // when
-        let boxOfficeNumber = sut.boxOfficeResult.dailyBoxOfficeList[1].number
+        let boxOfficeNumber = sut.boxOfficeResult.dailyBoxOfficeList[1].numberText
         
         // then
         XCTAssertEqual(expectedResult, boxOfficeNumber)

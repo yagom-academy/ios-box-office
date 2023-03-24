@@ -138,8 +138,8 @@
 		4AF7A99829C981BE002925FF /* UnitTests */ = {
 			isa = PBXGroup;
 			children = (
-				162AFFAC29C9566000D1926E /* MovieTests */,
 				4ABC80DC29C8287700FB065A /* BoxOfficeTests */,
+				162AFFAC29C9566000D1926E /* MovieTests */,
 			);
 			path = UnitTests;
 			sourceTree = "<group>";
