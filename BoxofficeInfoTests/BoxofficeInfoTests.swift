@@ -48,10 +48,10 @@ final class BoxofficeInfoTests: XCTestCase {
             switch event {
             case .success(let data):
                 result = data.boxOfficeResult.movies.count
+                asyncTest.fulfill()
             case .failure(_):
                 XCTFail("잘못된 테스트코드입니다.")
             }
-            asyncTest.fulfill()
         }
         
         wait(for: [asyncTest], timeout: 3)
@@ -59,4 +59,71 @@ final class BoxofficeInfoTests: XCTestCase {
         // then
         XCTAssertEqual(expectation, result)
     }
+    
+    func test_URLResponse가_200번대가_아니라면_responseError를_나타낸다() {
+        // given
+        MockURLProtocol.requestHandler = { request in
+            guard let url = request.url,
+                  url == APIType.boxoffice("20230322").receiveUrl() else {
+                throw BoxofficeError.urlError
+            }
+            
+            let response = HTTPURLResponse(url: url, statusCode: 400, httpVersion: "2.0", headerFields: nil)!
+            let data = StubBoxoffice().data
+            
+            return (response, data)
+        }
+        
+        let asyncTest = XCTestExpectation()
+        var result: BoxofficeError = .urlError
+        
+        // when
+        sut.search { event in
+            switch event {
+            case .success(_):
+                XCTFail("잘못된 테스트코드입니다.")
+            case .failure(let error):
+                result = error
+                asyncTest.fulfill()
+            }
+        }
+        
+        wait(for: [asyncTest], timeout: 3)
+        
+        // then
+        XCTAssertEqual(result, BoxofficeError.responseError)
+    }
+    
+    func test_mimeType의_형식이_잘못되었을경우_incorrectDataTypeError를_나타낸다() {
+        // given
+        MockURLProtocol.requestHandler = { request in
+            guard let url = request.url,
+                  url == APIType.boxoffice("20230322").receiveUrl() else {
+                throw BoxofficeError.urlError
+            }
+            let response = HTTPURLResponse(url: url, mimeType: "application/octet-stream", expectedContentLength: 0, textEncodingName: nil)
+            let data = StubBoxoffice().data
+            
+            return (response, data)
+        }
+        
+        let asyncTest = XCTestExpectation()
+        var result: BoxofficeError = .urlError
+        
+        // when
+        sut.search { event in
+            switch event {
+            case .success(_):
+                XCTFail("잘못된 테스트코드입니다.")
+            case .failure(let error):
+                result = error
+                asyncTest.fulfill()
+            }
+        }
+        wait(for: [asyncTest], timeout: 3)
+        
+        // then
+        XCTAssertEqual(result, BoxofficeError.incorrectDataTypeError)
+    }
+    
 }
