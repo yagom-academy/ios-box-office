@@ -41,7 +41,6 @@ final class NetworkManager {
                 default:
                     completion(.failure(NetworkError.unknownError))
                 }
-                
                 return
             }
             

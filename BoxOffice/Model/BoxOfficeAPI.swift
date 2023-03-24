@@ -21,6 +21,7 @@ enum BoxOfficeAPI {
           guard let value = plist?.object(forKey: "API_KEY") as? String else {
             fatalError("Info.plist에서 API_KEY를 찾을 수 없습니다.")
           }
+            
           return value
         }
       }
@@ -31,9 +32,11 @@ extension BoxOfficeAPI {
         switch self {
         case .dailyBoxOffice(let date):
             let path = "boxoffice/searchDailyBoxOfficeList.json?"
+            
             return .makeForEndpoint("\(path)key=\(BoxOfficeAPI.key)&targetDt=\(date)")
         case .detailMovieInformation(let movieCode):
             let path = "movie/searchMovieInfo.json?"
+            
             return .makeForEndpoint("\(path)key=\(BoxOfficeAPI.key)&movieCd=\(movieCode)")
         }
     }
@@ -46,6 +49,7 @@ private extension URL {
         guard let url = URL(string: baseURL + endpoint) else {
             return nil
         }
+        
         return url
     }
 }

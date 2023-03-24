@@ -10,6 +10,7 @@ final class BoxOfficeViewController: UIViewController {
     private var boxOffice: BoxOffice?
     private var movieInformation: MovieInformation?
     private let networkManager = NetworkManager()
+    private let movieCode = "20124080"
     
     var yesterday: String? {
         guard let yesterdayDate = Calendar.current.date(
@@ -53,7 +54,7 @@ final class BoxOfficeViewController: UIViewController {
     }
     
     private func fetchDetailMovieInformation() {
-        let url = BoxOfficeAPI.detailMovieInformation(movieCode: "20124080").url
+        let url = BoxOfficeAPI.detailMovieInformation(movieCode: self.movieCode).url
         self.networkManager.fetchData(for: url, type: MovieInformation.self) { result in
             switch result {
             case .success(let movieInformation):
