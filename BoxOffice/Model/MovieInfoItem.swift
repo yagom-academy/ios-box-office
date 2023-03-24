@@ -16,7 +16,6 @@ struct MovieInfoResult: Decodable {
 }
 
 struct MovieInfo: Decodable, CustomStringConvertible {
-    
     let movieCode: String
     let movieName: String
     let movieNameEnglish: String
@@ -30,30 +29,26 @@ struct MovieInfo: Decodable, CustomStringConvertible {
     let audits: [Audit]
     
     enum CodingKeys: String, CodingKey {
-        
         case movieCode = "movieCd"
         case movieName = "movieNm"
         case movieNameEnglish = "movieNmEn"
         case showTime = "showTm"
         case openDate = "openDt"
         case nations, genres, directors, actors, companys, audits
-        
     }
     
     var description: String {
-        var output = "\n"
-        output += "영화명: \(movieName) (\(movieNameEnglish))\n"
-        output += "영화코드: \(movieCode)\n"
-        output += "개봉연도: \(openDate)\n"
-        output += "상영시간: \(showTime)\n"
-        output += "장르: \(genres.map { $0.genreName }.joined(separator: ", "))\n"
-        output += "감독: \(directors.map { $0.peopleName }.joined(separator: ", "))\n"
-        output += "배우: \(actors.map { $0.peopleName }.joined(separator: ", "))\n"
-        return output
+        return """
+        영화명: \(movieName) (\(movieNameEnglish))
+        영화코드: \(movieCode)
+        개봉연도: \(openDate)
+        상영시간: \(showTime)
+        장르: \(genres.map { $0.genreName }.joined(separator: ", "))
+        감독: \(directors.map { $0.peopleName }.joined(separator: ", "))
+        배우: \(actors.map { $0.peopleName }.joined(separator: ", "))
+        """
     }
-    
 }
-
 
 struct Actor: Decodable {
     let peopleName: String
