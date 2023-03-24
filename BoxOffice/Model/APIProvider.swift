@@ -9,31 +9,15 @@ import UIKit
 
 struct APIProvider {
     private let urlSession: DataTaskMakeable
-    private let urlMaker = URLMaker()
+    private let api = KobisAPI()
     
     init(urlSession: DataTaskMakeable = URLSession(configuration: .default)) {
         self.urlSession = urlSession
     }
     
-    func startLoadDailyBoxOffice(date: String, completion: @escaping (Result<DailyBoxOffice, Error>) -> Void) {
-        guard let url = urlMaker.makeDailyBoxOfficeURL(date: date) else { return }
+    func startLoad<T: Decodable>(decodingType: T.Type, target: String, completion: @escaping (Result<T, Error>) -> Void) {
+        guard let url = api.makeURL(for: String(describing: T.self), queryValue: target) else { return }
         
-        let task = makeDataTask(with: url,
-                                decodingType: DailyBoxOffice.self,
-                                completion: completion)
-        task.resume()
-    }
-    
-    func startLoadMovieDetails(code: String, completion: @escaping (Result<MovieDetails, Error>) -> Void) {
-        guard let url = urlMaker.makeMovieDetailsURL(code: code) else { return }
-        
-        let task = makeDataTask(with: url,
-                                decodingType: MovieDetails.self,
-                                completion: completion)
-        task.resume()
-    }
-    
-    private func makeDataTask<T: Decodable>(with url: URL, decodingType: T.Type, completion: @escaping (Result<T, Error>) -> Void) -> URLSessionDataTask {
         let task = urlSession.dataTask(with: url) { data, response, error in
             if let error = error {
                 completion(.failure(error))
@@ -57,6 +41,6 @@ struct APIProvider {
             completion(.failure(NetworkError.decoding))
         }
         
-        return task
+        task.resume()
     }
 }

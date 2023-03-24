@@ -7,41 +7,58 @@
 
 import UIKit
 
-enum KobisAPI {
-    case dailyBoxOffice
-    case movieDetails
-    
-    var baseURL: String {
-        switch self {
-        case .dailyBoxOffice:
-            return "http://www.kobis.or.kr/kobisopenapi/webservice/rest/boxoffice/searchDailyBoxOfficeList.json"
-        case .movieDetails:
-            return "http://www.kobis.or.kr/kobisopenapi/webservice/rest/movie/searchMovieInfo.json"
+struct KobisAPI {
+    enum Service: String {
+        case dailyBoxOffice
+        case movieDetails
+        
+        var path: String {
+            switch self {
+            case .dailyBoxOffice:
+                return "boxoffice/searchDailyBoxOfficeList.json"
+            case .movieDetails:
+                return "movie/searchMovieInfo.json"
+            }
+        }
+        
+        var queryName: String {
+            switch self {
+            case .dailyBoxOffice:
+                return "targetDt"
+            case .movieDetails:
+                return "movieCd"
+            }
+        }
+        
+        var sampleData: Data {
+            switch self {
+            case .dailyBoxOffice:
+                let sampleData = NSDataAsset(name: "DailyBoxOffice")!.data
+                return sampleData
+            case .movieDetails:
+                let sampleData = NSDataAsset(name: "ThePolicemansLineage")!.data
+                return sampleData
+            }
+        }
+        
+        func makeQueryItem(value: String) -> URLQueryItem {
+            let queryItem = URLQueryItem(name: self.queryName, value: value)
+            return queryItem
         }
     }
     
-    var queryParameters: String {
-        switch self {
-        case .dailyBoxOffice:
-            return "?key=d975f8608af0d9e5a16e79768ca97127&targetDt=20230101"
-        case .movieDetails:
-            return "?key=d975f8608af0d9e5a16e79768ca97127&movieCd=20199882"
-        }
-    }
+    let baseURL = "http://www.kobis.or.kr/kobisopenapi/webservice/rest/"
     
-    var url: URL? {
-        guard let url = URL(string: self.baseURL + self.queryParameters) else { return nil }
-        return url
-    }
-    
-    var sampleData: Data {
-        switch self {
-        case .dailyBoxOffice:
-            let sampleData = NSDataAsset(name: "DailyBoxOffice")!.data
-            return sampleData
-        case .movieDetails:
-            let sampleData = NSDataAsset(name: "ThePolicemansLineage")!.data
-            return sampleData
-        }
+    func makeURL(for service: String, queryValue: String) -> URL? {
+        guard let currentService = Service(rawValue: service) else { return nil }
+        
+        let path = currentService.path
+        let key = URLQueryItem(name: "key", value: "d975f8608af0d9e5a16e79768ca97127")
+        let queryItem = URLQueryItem(name: currentService.queryName, value: queryValue)
+        var urlComponents = URLComponents(string: baseURL + path)
+        
+        urlComponents?.queryItems = [key, queryItem]
+        
+        return urlComponents?.url
     }
 }
