@@ -9,7 +9,7 @@ import XCTest
 @testable import BoxOffice
 
 final class BoxOfficeTests: XCTestCase {
-    var sut: BoxOffice!
+    var sut: DailyBoxOffice!
     var fileName = "box_office_sample"
     
     override func setUpWithError() throws {
@@ -17,7 +17,7 @@ final class BoxOfficeTests: XCTestCase {
         
         guard let data = NSDataAsset(name: fileName)?.data else { return }
         
-        sut = Decoder.parseJSON(data, returnType: BoxOffice.self)
+        sut = Decoder.parseJSON(data, returnType: DailyBoxOffice.self)
     }
     
     override func tearDownWithError() throws {
@@ -37,7 +37,7 @@ final class BoxOfficeTests: XCTestCase {
         guard let data = NSDataAsset(name: wrongFileName)?.data else { return }
         
         // when
-        sut = Decoder.parseJSON(data, returnType: BoxOffice.self)
+        sut = Decoder.parseJSON(data, returnType: DailyBoxOffice.self)
         
         // then
         XCTAssertNil(sut)
