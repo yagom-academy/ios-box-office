@@ -12,10 +12,10 @@ struct MovieInfoItem: Decodable {
 }
 
 struct MovieInfoResult: Decodable {
-    let movieInfo: MovieInfoClass
+    let movieInfo: MovieInfo
 }
 
-struct MovieInfoClass: Decodable, CustomStringConvertible {
+struct MovieInfo: Decodable, CustomStringConvertible {
     
     let movieCode: String
     let movieName: String
