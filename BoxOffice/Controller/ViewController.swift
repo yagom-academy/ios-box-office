@@ -7,8 +7,13 @@
 
 import UIKit
 
-class ViewController: UIViewController {
+final class ViewController: UIViewController {
+    private let boxOfficeAPI = BoxOfficeAPI()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
+
     }
 }
+
+
