@@ -14,7 +14,7 @@ final class BoxofficeInfoTests: XCTestCase {
     
     override func setUpWithError() throws {
         let configuration = URLSessionConfiguration.default
-        configuration.protocolClasses = [MockURLProtocol.self]
+        configuration.protocolClasses = [MockURLProtocolObject.self]
         
         let session = URLSession(configuration: configuration)
         
@@ -27,7 +27,7 @@ final class BoxofficeInfoTests: XCTestCase {
     
     func test_URLResponse가_200번대라면_Data의_InfoObject는_10개이다() {
         // given
-        MockURLProtocol.requestHandler = { request in
+        MockURLProtocolObject.requestHandler = { request in
             guard let url = request.url,
                   url == APIType.boxoffice("20230322").receiveUrl()! else {
                 throw BoxofficeError.urlError
@@ -62,7 +62,7 @@ final class BoxofficeInfoTests: XCTestCase {
     
     func test_URLResponse가_200번대가_아니라면_responseError를_나타낸다() {
         // given
-        MockURLProtocol.requestHandler = { request in
+        MockURLProtocolObject.requestHandler = { request in
             guard let url = request.url,
                   url == APIType.boxoffice("20230322").receiveUrl() else {
                 throw BoxofficeError.urlError
@@ -96,7 +96,7 @@ final class BoxofficeInfoTests: XCTestCase {
     
     func test_mimeType의_형식이_잘못되었을경우_incorrectDataTypeError를_나타낸다() {
         // given
-        MockURLProtocol.requestHandler = { request in
+        MockURLProtocolObject.requestHandler = { request in
             guard let url = request.url,
                   url == APIType.boxoffice("20230322").receiveUrl() else {
                 throw BoxofficeError.urlError

@@ -29,7 +29,7 @@
 		7180BC3A29C9547A00C9E70B /* Bundle+extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7180BC3929C9547A00C9E70B /* Bundle+extension.swift */; };
 		71A0A45929C98E64006D3932 /* APIType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71A0A45829C98E64006D3932 /* APIType.swift */; };
 		71A0A45B29C9931B006D3932 /* BoxofficeError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71A0A45A29C9931B006D3932 /* BoxofficeError.swift */; };
-		71F1997929CD35D100CF8695 /* MockURLProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71F1997829CD35D100CF8695 /* MockURLProtocol.swift */; };
+		71F1997929CD35D100CF8695 /* MockURLProtocolObject.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71F1997829CD35D100CF8695 /* MockURLProtocolObject.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -76,7 +76,7 @@
 		7180BC3929C9547A00C9E70B /* Bundle+extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Bundle+extension.swift"; sourceTree = "<group>"; };
 		71A0A45829C98E64006D3932 /* APIType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIType.swift; sourceTree = "<group>"; };
 		71A0A45A29C9931B006D3932 /* BoxofficeError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BoxofficeError.swift; sourceTree = "<group>"; };
-		71F1997829CD35D100CF8695 /* MockURLProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockURLProtocol.swift; sourceTree = "<group>"; };
+		71F1997829CD35D100CF8695 /* MockURLProtocolObject.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockURLProtocolObject.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -220,7 +220,7 @@
 			isa = PBXGroup;
 			children = (
 				7122D85A29CAC5CB0039DEFB /* StubBoxoffice.swift */,
-				71F1997829CD35D100CF8695 /* MockURLProtocol.swift */,
+				71F1997829CD35D100CF8695 /* MockURLProtocolObject.swift */,
 			);
 			path = TestModel;
 			sourceTree = "<group>";
@@ -358,7 +358,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				7122D85B29CAC5CB0039DEFB /* StubBoxoffice.swift in Sources */,
-				71F1997929CD35D100CF8695 /* MockURLProtocol.swift in Sources */,
+				71F1997929CD35D100CF8695 /* MockURLProtocolObject.swift in Sources */,
 				26D7C88729CAC1AF00B67672 /* BoxofficeInfoTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

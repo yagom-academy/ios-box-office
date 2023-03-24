@@ -1,5 +1,5 @@
 //
-//  MockURLProtocol.swift
+//  MockURLProtocolObject.swift
 //  BoxofficeInfoTests
 //
 //  Created by Andrew, 레옹아범 on 2023/03/24.
@@ -7,7 +7,7 @@
 
 import Foundation
 
-class MockURLProtocol: URLProtocol {
+class MockURLProtocolObject: URLProtocol {
     
     static var requestHandler: ((URLRequest) throws -> (HTTPURLResponse, Data))?
     
@@ -20,7 +20,7 @@ class MockURLProtocol: URLProtocol {
     }
     
     override func startLoading() {
-        guard let handler = MockURLProtocol.requestHandler else {
+        guard let handler = MockURLProtocolObject.requestHandler else {
             fatalError("handler를 응답 받지 못하였습니다")
         }
         
