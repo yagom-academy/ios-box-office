@@ -8,9 +8,9 @@
 import UIKit
 
 struct APIProvider {
+    private let endPoint = EndPoint()
     private let urlSession: DataTaskMakeable
     private var api: API?
-    private let endPoint = EndPoint()
     
     init(urlSession: DataTaskMakeable = URLSession(configuration: .default),
          api: API? = nil) {
@@ -49,7 +49,7 @@ struct APIProvider {
         task.resume()
     }
     
-    mutating func change(api: API) {
+    mutating func target(api: API) {
         self.api = api
     }
 }
