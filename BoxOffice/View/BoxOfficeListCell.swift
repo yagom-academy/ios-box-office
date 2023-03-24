@@ -20,27 +20,20 @@ class BoxOfficeListCell: UICollectionViewCell  {
         movieTitleLabel.translatesAutoresizingMaskIntoConstraints = false
         audienceCountLabel.translatesAutoresizingMaskIntoConstraints = false
         
-        self.backgroundColor = .yellow
-        self.layer.borderWidth = 2
-        
         let rankStackView: UIStackView = {
             let stackView = UIStackView()
             stackView.translatesAutoresizingMaskIntoConstraints = false
             stackView.axis = .vertical
-            stackView.spacing = 6
-            stackView.distribution = .fillEqually
-            stackView.backgroundColor = .red
+            stackView.alignment = .center
+            stackView.distribution = .fill
             return stackView
         }()
      
-        
         let titleAndAudienceStackView: UIStackView = {
             let stackView = UIStackView()
             stackView.translatesAutoresizingMaskIntoConstraints = false
             stackView.axis = .vertical
-            stackView.spacing = 6
             stackView.distribution = .fillEqually
-            stackView.backgroundColor = .blue
             return stackView
         }()
        
@@ -53,15 +46,19 @@ class BoxOfficeListCell: UICollectionViewCell  {
         titleAndAudienceStackView.addArrangedSubview(movieTitleLabel)
         titleAndAudienceStackView.addArrangedSubview(audienceCountLabel)
         
-        
         NSLayoutConstraint.activate([
-            rankStackView.topAnchor.constraint(equalTo: self.topAnchor,constant: 6),
             rankStackView.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: 20),
-            rankStackView.bottomAnchor.constraint(equalTo: self.bottomAnchor,constant: 6),
-            
-            titleAndAudienceStackView.topAnchor.constraint(equalTo: self.topAnchor,constant: 6),
+            rankStackView.centerYAnchor.constraint(equalTo: self.centerYAnchor),
+          
             titleAndAudienceStackView.leadingAnchor.constraint(equalTo: rankStackView.trailingAnchor,constant: 20),
-            titleAndAudienceStackView.bottomAnchor.constraint(equalTo: self.bottomAnchor,constant: 6)
+            titleAndAudienceStackView.centerYAnchor.constraint(equalTo: self.centerYAnchor),
         ])
+    }
+    
+    func setUpLabelStyle() {
+        rankNumberLabel.font = UIFont.preferredFont(forTextStyle: .title1)
+        rankGapLabel.font = UIFont.preferredFont(forTextStyle: .body)
+        movieTitleLabel.font = UIFont.preferredFont(forTextStyle: .title2)
+        audienceCountLabel.font = UIFont.preferredFont(forTextStyle: .body)
     }
 }

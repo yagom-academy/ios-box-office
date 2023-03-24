@@ -59,6 +59,7 @@ extension BoxOfficeViewController: UICollectionViewDataSource {
         let cell = boxOfficeListCollectionView.dequeueReusableCell(withReuseIdentifier: cellId, for: indexPath) as! BoxOfficeListCell
         
         cell.configureUI()
+        cell.setUpLabelStyle()
         
         return cell
     }
@@ -76,7 +77,7 @@ extension BoxOfficeViewController {
             
             item.contentInsets = NSDirectionalEdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 0)
             
-            let groupHeight =  NSCollectionLayoutDimension.fractionalWidth(1/4)
+            let groupHeight =  NSCollectionLayoutDimension.fractionalWidth(1/5)
             let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0), heightDimension: groupHeight)
             let group = NSCollectionLayoutGroup.horizontal(layoutSize: groupSize, subitem: item, count: 1)
             let section = NSCollectionLayoutSection(group: group)
