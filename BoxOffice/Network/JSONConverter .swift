@@ -16,13 +16,11 @@ final class JSONConverter {
         
         do {
             let decodedData = try decoder.decode(T.self, from: data)
-            
             return decodedData
         } catch {
             print(error)
-            
             throw NetworkError.clientError
         }
     }
-
+    
 }
