@@ -23,12 +23,12 @@ struct MovieInfo: Decodable {
     let directors: [Director]
     let actors: [Actor]
     let showTypes: [ShowType]
-    let companys: [Company]
+    let companies: [Company]
     let audits: [Audit]
-    let staffs: [Staff]
+    let staff: [Staff]
 
     enum CodingKeys: String, CodingKey {
-        case nations, genres, directors, actors, showTypes, companys, audits, staffs
+        case nations, genres, directors, actors, showTypes, audits
         case movieCode = "movieCd"
         case movieName = "movieNm"
         case movieEnglishName = "movieNmEn"
@@ -38,15 +38,17 @@ struct MovieInfo: Decodable {
         case openDate = "openDt"
         case productionStateName = "prdtStatNm"
         case typeName = "typeNm"
+        case companies = "companys"
+        case staff = "staffs"
     }
 }
 
 struct Actor: Decodable {
-    let peopleName, peopleEnglishName, castName, castEnglishName: String
+    let personName, personEnglishName, castName, castEnglishName: String
     
     enum CodingKeys: String, CodingKey {
-        case peopleName = "peopleNm"
-        case peopleEnglishName = "peopleNmEn"
+        case personName = "peopleNm"
+        case personEnglishName = "peopleNmEn"
         case castName = "cast"
         case castEnglishName = "castEn"
     }
@@ -73,11 +75,11 @@ struct Company: Decodable {
 }
 
 struct Director: Decodable {
-    let peopleName, peopleEnglishName: String
+    let personName, personEnglishName: String
     
     enum CodingKeys: String, CodingKey {
-        case peopleName = "peopleNm"
-        case peopleEnglishName = "peopleNmEn"
+        case personName = "peopleNm"
+        case personEnglishName = "peopleNmEn"
     }
 }
 
@@ -107,11 +109,11 @@ struct ShowType: Decodable {
 }
 
 struct Staff: Decodable {
-    let peopleName, peopleEnglishName, staffRoleName: String
+    let personName, personEnglishName, staffRoleName: String
     
     enum CodingKeys: String, CodingKey {
-        case peopleName = "peopleNm"
-        case peopleEnglishName = "peopleNmEn"
+        case personName = "peopleNm"
+        case personEnglishName = "peopleNmEn"
         case staffRoleName = "staffRoleNm"
     }
 }

@@ -13,12 +13,12 @@ final class APIProviderTests: XCTestCase {
     var mockURLSession: MockURLSession!
     var kobisAPI = KobisAPI(service: .dailyBoxOffice)
     
-    override func setUpWithError() throws {
+    override func setUp() {
         mockURLSession = MockURLSession(kobisAPI: kobisAPI)
         sut = APIProvider(urlSession: mockURLSession)
     }
     
-    override func tearDownWithError() throws {
+    override func tearDown() {
         sut = nil
     }
     
