@@ -34,7 +34,7 @@ final class NetworkManager {
         }.resume()
     }
     
-    private func checkError(with data: Data?, _ response: URLResponse?, _ error: Error?, completion: @escaping (Result<Data, Error>) -> ()) {
+    private func checkError(with data: Data?, _ response: URLResponse?, _ error: Error?, completion: @escaping (Result<Data, Error>) -> Void) {
         if let error = error {
             completion(.failure(error))
             return
@@ -55,15 +55,15 @@ final class NetworkManager {
             return
         }
         
-        completion(.success((data)))
+        completion(.success(data))
     }
     
     private func decode<T: Decodable>(data: Data, type: T.Type) -> Result<T, Error> {
         do {
-            let decoded = try JSONDecoder().decode(type, from: data)
-            return .success(decoded)
+            let decodedData = try JSONDecoder().decode(type, from: data)
+            return .success(decodedData)
         } catch {
-            return .failure(NetworkError.emptyData)
+            return .failure(NetworkError.decodeError)
         }
     }
 }
