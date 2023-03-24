@@ -34,7 +34,7 @@ final class BoxOfficeTests: XCTestCase {
         }
         
         // then
-        XCTAssertEqual(result, expectation)
+        XCTAssertEqual(result?.description, expectation.description)
     }
     
     func test_잘못정의한Model로_디코딩했을때_decodeFailed에러를던진다() {
@@ -50,7 +50,7 @@ final class BoxOfficeTests: XCTestCase {
         }
         
         // then
-        XCTAssertEqual(result, expectation)
+        XCTAssertEqual(result?.description, expectation.description)
     }
     
     func test_boxOfficeType값이_일별_박스오피스이다() {

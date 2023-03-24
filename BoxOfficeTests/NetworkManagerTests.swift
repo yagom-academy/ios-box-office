@@ -55,9 +55,9 @@ final class NetworkManagerTests: XCTestCase {
                 result = error as? NetworkingError
             }
         }
-        
+
         // then
-        XCTAssertEqual(result, expectation)
+        XCTAssertEqual(result?.description, expectation.description)
     }
     
     func test_mockURLSession의_statusCode가_400일때_clientError를던진다() {
@@ -75,7 +75,7 @@ final class NetworkManagerTests: XCTestCase {
         }
         
         // then
-        XCTAssertEqual(result, expectation)
+        XCTAssertEqual(result?.description, expectation.description)
     }
     
     func test_mockURLSession의_statusCode가_500일때_serverError를던진다() {
@@ -93,6 +93,6 @@ final class NetworkManagerTests: XCTestCase {
         }
         
         // then
-        XCTAssertEqual(result, expectation)
+        XCTAssertEqual(result?.description, expectation.description)
     }
 }

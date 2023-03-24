@@ -1,0 +1,35 @@
+.
+├── AppDelegate.swift
+├── Assets.xcassets
+│   ├── AccentColor.colorset
+│   │   └── Contents.json
+│   ├── AppIcon.appiconset
+│   │   └── Contents.json
+│   ├── Contents.json
+│   └── box_office_sample.dataset
+│       ├── Contents.json
+│       └── box_office_sample.json
+├── Base.lproj
+│   ├── LaunchScreen.storyboard
+│   └── Main.storyboard
+├── Controller
+│   └── ViewController.swift
+├── Info.plist
+├── Model
+│   ├── BoxOffice.swift
+│   ├── DailyBoxOfficeItem.swift
+│   ├── Movie.swift
+│   └── MovieInfo.swift
+├── Network
+│   ├── Decoder
+│   │   └── NetworkDecoder.swift
+│   ├── NetworkManager.swift
+│   ├── NetworkingError.swift
+│   ├── URLMaker.swift
+│   └── protocols
+│       ├── URLSessionDataTaskProtocol.swift
+│       └── URLSessionProtocol.swift
+├── SceneDelegate.swift
+└── filename
+
+11 directories, 22 files
