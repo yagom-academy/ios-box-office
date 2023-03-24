@@ -10,18 +10,10 @@ import UIKit
 final class BoxOfficeViewController: UIViewController {
     
     @IBOutlet weak var boxOfficeListCollectionView: UICollectionView!
-    
-    private var parsedMovieDetail: MovieDetail?
-    private var parsedDailyBoxOffice: DailyBoxOffice?
-    
-    private let dailyBoxOfficeParser = Parser<DailyBoxOffice>()
-    private let movieDetailParser = Parser<MovieDetail>()
-    
     private var boxOfficeAPI = BoxOfficeAPI()
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        boxOfficeAPI.delegate = self
         boxOfficeListCollectionView.delegate = self
         boxOfficeListCollectionView.dataSource = self
         configureUI()
@@ -29,13 +21,9 @@ final class BoxOfficeViewController: UIViewController {
     }
     
     private func configureUI() {
-        self.title = "2023123"
-    
         let safeArea = view.safeAreaLayoutGuide
         
         boxOfficeListCollectionView.translatesAutoresizingMaskIntoConstraints = false
-    
-//        view.addSubview(boxOfficeListCollectionView)
         
         NSLayoutConstraint.activate([
             boxOfficeListCollectionView.topAnchor.constraint(equalTo: safeArea.topAnchor),
@@ -46,7 +34,6 @@ final class BoxOfficeViewController: UIViewController {
     }
     
     func configureRefreshControl() {
-       // Add the refresh control to your UIScrollView object.
         boxOfficeListCollectionView.refreshControl = UIRefreshControl()
         boxOfficeListCollectionView.refreshControl?.addTarget(self, action:
                                           #selector(handleRefreshControl),
@@ -61,21 +48,7 @@ final class BoxOfficeViewController: UIViewController {
     }
 }
 
-extension BoxOfficeViewController: BoxOfficeAPIDelegate {
-    func fetchAPIData<T>(data: T) where T : Decodable {
-        switch data {
-        case is MovieDetail:
-            parsedMovieDetail = data as? MovieDetail
-        case is DailyBoxOffice:
-            parsedDailyBoxOffice = data as? DailyBoxOffice
-        default:
-            return
-        }
-    }
-}
-
 extension BoxOfficeViewController: UICollectionViewDelegate {
-    
 }
 
 extension BoxOfficeViewController: UICollectionViewDataSource {
@@ -93,7 +66,6 @@ extension BoxOfficeViewController: UICollectionViewDataSource {
         return cell
     }
 }
-
 
 extension BoxOfficeViewController: UICollectionViewDelegateFlowLayout {
 //    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {

@@ -8,7 +8,7 @@
 import Foundation
 
 struct Parser<T: Decodable> {
-    func Parse(data: Data) -> T? {
+    func parse(data: Data) -> T? {
         var decodingResult: T?
         let jsonDecoder = JSONDecoder()
         
