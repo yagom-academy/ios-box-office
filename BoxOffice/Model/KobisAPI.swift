@@ -47,14 +47,19 @@ struct KobisAPI {
         }
     }
     
+    var currentService: Service?
     let baseURL = "http://www.kobis.or.kr/kobisopenapi/webservice/rest/"
     
-    func makeURL(for service: String, queryValue: String) -> URL? {
-        guard let currentService = Service(rawValue: service) else { return nil }
+    init(currentService: Service? = .dailyBoxOffice) {
+        self.currentService = currentService
+    }
+    
+    func makeURL(queryValue: String) -> URL? {
+        guard let service = currentService else { return nil }
         
-        let path = currentService.path
+        let path = service.path
         let key = URLQueryItem(name: "key", value: "d975f8608af0d9e5a16e79768ca97127")
-        let queryItem = URLQueryItem(name: currentService.queryName, value: queryValue)
+        let queryItem = URLQueryItem(name: service.queryName, value: queryValue)
         var urlComponents = URLComponents(string: baseURL + path)
         
         urlComponents?.queryItems = [key, queryItem]

@@ -1,6 +1,6 @@
 //
-//  DataManagerTests.swift
-//  DataManagerTests
+//  APIProviderTests.swift
+//  APIProviderTests
 //
 //  Created by Muri, Rowan on 2023/03/20.
 //
@@ -8,7 +8,7 @@
 import XCTest
 @testable import BoxOffice
 
-final class DataManagerTests: XCTestCase {
+final class APIProviderTests: XCTestCase {
     var sut: APIProvider!
     
     override func setUpWithError() throws {
@@ -19,13 +19,13 @@ final class DataManagerTests: XCTestCase {
         sut = nil
     }
     
-    func test_startLoadDailyBoxOffice호출시_date로20230101을받을때_네트워킹이_성공한경우() {
+    func test_startLoad호출시_decodingType이_DailyBoxOffice이고_target으로20230101을받을때_네트워킹이_성공한경우() {
         // given
-        let expectedResult = try? JSONDecoder().decode(DailyBoxOffice.self, from: KobisAPI.dailyBoxOffice.sampleData)
+        let expectedResult = try? JSONDecoder().decode(DailyBoxOffice.self, from: KobisAPI.Service.dailyBoxOffice.sampleData)
         let date = "20230101"
         
         // when
-        sut.startLoadDailyBoxOffice(date: date) { result in
+        sut.startLoad(decodingType: DailyBoxOffice.self, target: date) { result in
             
             // then
             switch result {
@@ -37,14 +37,14 @@ final class DataManagerTests: XCTestCase {
         }
     }
     
-    func test_startLoadDailyBoxOffice호출시_request가_실패한경우() {
+    func test_startLoad호출시_decodingType이_DailyBoxOffice이고_request가_실패한경우() {
         // given
         let expectedResult = NetworkError.request.localizedDescription
         sut = APIProvider(urlSession: MockURLSession(makeRequestFail: true))
         let date = "20230101"
         
         // when
-        sut.startLoadDailyBoxOffice(date: date) { result in
+        sut.startLoad(decodingType: DailyBoxOffice.self, target: date) { result in
             
             // then
             switch result {
@@ -56,14 +56,14 @@ final class DataManagerTests: XCTestCase {
         }
     }
     
-    func test_startLoadDailyBoxOffice호출시_server에러가_발생한경우() {
+    func test_startLoad호출시_decodingType이_DailyBoxOffice이고_server에러가_발생한경우() {
         // given
         let expectedResult = NetworkError.server.localizedDescription
         sut = APIProvider(urlSession: MockURLSession(makeServerError: true))
         let date = "20230101"
         
         // when
-        sut.startLoadDailyBoxOffice(date: date) { result in
+        sut.startLoad(decodingType: DailyBoxOffice.self, target: date) { result in
             
             // then
             switch result {
@@ -75,14 +75,14 @@ final class DataManagerTests: XCTestCase {
         }
     }
     
-    func test_startLoadMovieDetails호출시_code로20199882을받을때_네트워킹이_성공한경우() {
+    func test_startLoad호출시_decodingType이_MovieDetails이고_target으로20199882을받을때_네트워킹이_성공한경우() {
         // given
-        let expectedResult = try? JSONDecoder().decode(MovieDetails.self, from: KobisAPI.movieDetails.sampleData)
-        sut = APIProvider(urlSession: MockURLSession(kobisAPI: .movieDetails))
+        let expectedResult = try? JSONDecoder().decode(MovieDetails.self, from: KobisAPI.Service.movieDetails.sampleData)
+        sut = APIProvider(urlSession: MockURLSession(kobisAPI: .init(currentService: .movieDetails)))
         let code = "20199882"
         
         // when
-        sut.startLoadMovieDetails(code: code) { result in
+        sut.startLoad(decodingType: MovieDetails.self, target: code) { result in
             
             // then
             switch result {
@@ -95,14 +95,14 @@ final class DataManagerTests: XCTestCase {
         }
     }
     
-    func test_startLoadDailyBoxOfficeData호출시_request가_실패한경우() {
+    func test_startLoad호출시_decodingType이_MovieDetails이고_request가_실패한경우() {
         // given
         let expectedResult = NetworkError.request.localizedDescription
-        sut = APIProvider(urlSession: MockURLSession(makeRequestFail: true, kobisAPI: .movieDetails))
+        sut = APIProvider(urlSession: MockURLSession(makeRequestFail: true, kobisAPI: .init(currentService: .movieDetails)))
         let code = "20199882"
         
         // when
-        sut.startLoadMovieDetails(code: code) { result in
+        sut.startLoad(decodingType: MovieDetails.self, target: code) { result in
             
             // then
             switch result {
@@ -114,14 +114,14 @@ final class DataManagerTests: XCTestCase {
         }
     }
     
-    func test_startLoadDailyBoxOfficeData호출시_server에러가_발생한경우() {
+    func test_startLoad호출시_decodingType이_MovieDetails이고_server에러가_발생한경우() {
         // given
         let expectedResult = NetworkError.server.localizedDescription
-        sut = APIProvider(urlSession: MockURLSession(makeServerError: true, kobisAPI: .movieDetails))
+        sut = APIProvider(urlSession: MockURLSession(makeServerError: true, kobisAPI: .init(currentService: .movieDetails)))
         let code = "20199882"
         
         // when
-        sut.startLoadMovieDetails(code: code) { result in
+        sut.startLoad(decodingType: MovieDetails.self, target: code) { result in
             
             // then
             switch result {

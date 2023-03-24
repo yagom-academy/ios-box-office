@@ -21,7 +21,7 @@ class MockURLSession: DataTaskMakeable {
     var kobisAPI: KobisAPI
     var sessionDataTask: MockURLSessionDataTask?
     
-    init(makeRequestFail: Bool = false, makeServerError: Bool = false, kobisAPI: KobisAPI = .dailyBoxOffice) {
+    init(makeRequestFail: Bool = false, makeServerError: Bool = false, kobisAPI: KobisAPI = KobisAPI()) {
         self.makeRequestFail = makeRequestFail
         self.makeServerError = makeServerError
         self.kobisAPI = kobisAPI
@@ -46,11 +46,13 @@ class MockURLSession: DataTaskMakeable {
             } else if self.makeServerError {
                 completionHandler(nil, failureResponse, nil)
             } else {
-                switch self.kobisAPI {
-                case .dailyBoxOffice:
-                    completionHandler(KobisAPI.dailyBoxOffice.sampleData, successResponse, nil)
+                guard let service = self.kobisAPI.currentService else { return }
+                
+                switch service {
+                case .dailyBoxOffice :
+                    completionHandler(KobisAPI.Service.dailyBoxOffice.sampleData, successResponse, nil)
                 case .movieDetails:
-                    completionHandler(KobisAPI.movieDetails.sampleData, successResponse, nil)
+                    completionHandler(KobisAPI.Service.movieDetails.sampleData, successResponse, nil)
                 }
             }
         }
