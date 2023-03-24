@@ -35,9 +35,9 @@ final class NetworkManager {
             guard (200...399).contains(httpResponse.statusCode) else {
                 switch httpResponse.statusCode {
                 case 400...499:
-                    completion(.failure(NetworkError.clientError))
+                    completion(.failure(NetworkError.invalidRequestError))
                 case 500...599:
-                    completion(.failure(NetworkError.serverError))
+                    completion(.failure(NetworkError.invalidResponseError))
                 default:
                     completion(.failure(NetworkError.unknownError))
                 }

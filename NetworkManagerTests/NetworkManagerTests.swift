@@ -55,7 +55,7 @@ final class NetworkManagerTests: XCTestCase {
     
     func test_fetchData호출시_statusCode가_400이상_500미만일때_요청에러이다() {
         // given
-        let expectation = NetworkError.clientError
+        let expectation = NetworkError.invalidRequestError
         let mockURLSession = MockURLSession.make(url: url,
                                                  data: data,
                                                  statusCode: 404)
@@ -77,7 +77,7 @@ final class NetworkManagerTests: XCTestCase {
     
     func test_fetchData호출시_statusCode가_500이상_600미만일때_서버에러이다() {
         // given
-        let expectation = NetworkError.serverError
+        let expectation = NetworkError.invalidResponseError
         let mockURLSession = MockURLSession.make(url: url,
                                                  data: data,
                                                  statusCode: 500)

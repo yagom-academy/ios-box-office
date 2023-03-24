@@ -162,7 +162,7 @@
 			children = (
 				63DF20ED2970E1A0005DF7D1 /* BoxOffice */,
 				622E6D7629C854AF00E50CC3 /* BoxOfficeJsonDecoderTests */,
-				984BFCCF29CA940300CA8495 /* NetworkMockTests */,
+				984BFCCF29CA940300CA8495 /* NetworkManagerTests */,
 				63DF20EC2970E1A0005DF7D1 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -211,7 +211,7 @@
 			path = Network;
 			sourceTree = "<group>";
 		};
-		984BFCCF29CA940300CA8495 /* NetworkMockTests */ = {
+		984BFCCF29CA940300CA8495 /* NetworkManagerTests */ = {
 			isa = PBXGroup;
 			children = (
 				984BFCD029CA940300CA8495 /* NetworkManagerTests.swift */,
@@ -219,7 +219,7 @@
 				984BFCD929CA965100CA8495 /* JsonLoader.swift */,
 				625164BE29CA9C670094711C /* MockURLSessionDataTask.swift */,
 			);
-			path = NetworkMockTests;
+			path = NetworkManagerTests;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
