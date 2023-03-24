@@ -10,9 +10,12 @@ import XCTest
 
 final class APIProviderTests: XCTestCase {
     var sut: APIProvider!
+    var mockURLSession: MockURLSession!
+    var kobisAPI = KobisAPI(service: .dailyBoxOffice)
     
     override func setUpWithError() throws {
-        sut = APIProvider(urlSession: MockURLSession())
+        mockURLSession = MockURLSession(kobisAPI: kobisAPI)
+        sut = APIProvider(urlSession: mockURLSession)
     }
     
     override func tearDownWithError() throws {
@@ -21,11 +24,13 @@ final class APIProviderTests: XCTestCase {
     
     func test_startLoad호출시_decodingType이_DailyBoxOffice이고_target으로20230101을받을때_네트워킹이_성공한경우() {
         // given
-        let expectedResult = try? JSONDecoder().decode(DailyBoxOffice.self, from: KobisAPI.Service.dailyBoxOffice.sampleData)
+        let expectedResult = try? JSONDecoder().decode(DailyBoxOffice.self, from: kobisAPI.sampleData)
         let date = "20230101"
+        let queryName = "targetDt"
+        kobisAPI.addQuery(name: queryName, value: date)
         
         // when
-        sut.startLoad(decodingType: DailyBoxOffice.self, target: date) { result in
+        sut.startLoad(decodingType: DailyBoxOffice.self) { result in
             
             // then
             switch result {
@@ -40,11 +45,13 @@ final class APIProviderTests: XCTestCase {
     func test_startLoad호출시_decodingType이_DailyBoxOffice이고_request가_실패한경우() {
         // given
         let expectedResult = NetworkError.request.localizedDescription
-        sut = APIProvider(urlSession: MockURLSession(makeRequestFail: true))
+        sut = APIProvider(urlSession: MockURLSession(makeRequestFail: true, kobisAPI: kobisAPI))
         let date = "20230101"
+        let queryName = "targetDt"
+        kobisAPI.addQuery(name: queryName, value: date)
         
         // when
-        sut.startLoad(decodingType: DailyBoxOffice.self, target: date) { result in
+        sut.startLoad(decodingType: DailyBoxOffice.self) { result in
             
             // then
             switch result {
@@ -59,11 +66,13 @@ final class APIProviderTests: XCTestCase {
     func test_startLoad호출시_decodingType이_DailyBoxOffice이고_server에러가_발생한경우() {
         // given
         let expectedResult = NetworkError.server.localizedDescription
-        sut = APIProvider(urlSession: MockURLSession(makeServerError: true))
+        sut = APIProvider(urlSession: MockURLSession(makeServerError: true, kobisAPI: kobisAPI))
         let date = "20230101"
+        let queryName = "targetDt"
+        kobisAPI.addQuery(name: queryName, value: date)
         
         // when
-        sut.startLoad(decodingType: DailyBoxOffice.self, target: date) { result in
+        sut.startLoad(decodingType: DailyBoxOffice.self) { result in
             
             // then
             switch result {
