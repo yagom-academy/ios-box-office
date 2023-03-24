@@ -8,14 +8,11 @@
 import UIKit
 
 final class ViewController: UIViewController {
-    private var boxOfficeAPI = BoxOfficeAPI()
-    let abcLabel = UILabel()
+    private let boxOfficeAPI = BoxOfficeAPI()
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        boxOfficeAPI.loadBoxOfficeAPI(urlAddress: URLAddress.movieDetailURL, parser: Parser<MovieDetail>()) {  data in
-            print(data.movieInformationResult.movieInformation.movieCode)
-        }
+
     }
 }
 
