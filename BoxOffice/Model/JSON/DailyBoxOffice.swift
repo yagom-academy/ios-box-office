@@ -1,11 +1,11 @@
 //
-//  BoxOffice.swift
+//  DailyBoxOffice.swift
 //  BoxOffice
 //
 //  Created by 리지, kokkilE on 2023/03/20.
 //
 
-struct BoxOffice: Decodable {
+struct DailyBoxOffice: Decodable {
     let boxOfficeResult: BoxOfficeResult
     
     struct BoxOfficeResult: Decodable {
