@@ -8,20 +8,16 @@
 import Foundation
 
 struct BoxOfficeItem: Decodable {
-    
     let boxOfficeResult: BoxOfficeResult
-    
 }
 
 struct BoxOfficeResult: Decodable {
-    
     let boxofficeType: String
     let showRange: String
-    let dailyBoxOfficeList: [DailyBoxOfficeList]
-    
+    let dailyBoxOfficeList: [DailyBoxOffice]
 }
 
-struct DailyBoxOfficeList: Decodable, CustomStringConvertible {
+struct DailyBoxOffice: Decodable, CustomStringConvertible {
     
     let rnum: String
     let rank: String
@@ -64,8 +60,6 @@ struct DailyBoxOfficeList: Decodable, CustomStringConvertible {
 }
 
 enum RankOldAndNew: String, Decodable {
-    
     case new = "NEW"
     case old = "OLD"
-    
 }

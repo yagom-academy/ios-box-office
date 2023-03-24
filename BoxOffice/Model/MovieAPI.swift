@@ -8,14 +8,12 @@
 import Foundation
 
 enum MovieAPI {
-    
     case boxOffice(date: String)
     case detail(code: String)
     
 }
 
 extension MovieAPI {
-    
     var key: String {
       return "5946533a51615e4910d26ed447f2a666"
     }
@@ -50,5 +48,4 @@ extension MovieAPI {
             return ["movieCd": code]
         }
     }
-    
 }

@@ -8,7 +8,5 @@
 import Foundation
 
 enum HTTPMethod {
-    
   static let get = "GET"
-    
 }

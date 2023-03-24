@@ -8,15 +8,11 @@
 import Foundation
 
 struct MovieInfoItem: Decodable {
-    
     let movieInfoResult: MovieInfoResult
-    
 }
 
 struct MovieInfoResult: Decodable {
-    
     let movieInfo: MovieInfoClass
-    
 }
 
 struct MovieInfoClass: Decodable, CustomStringConvertible {
@@ -60,33 +56,26 @@ struct MovieInfoClass: Decodable, CustomStringConvertible {
 
 
 struct Actor: Decodable {
-    
     let peopleName: String
     
     enum CodingKeys: String, CodingKey {
-        
         case peopleName = "peopleNm"
     }
 }
 
 struct Audit: Decodable {
-    
     let watchGradeName: String
     
     enum CodingKeys: String, CodingKey {
-        
         case watchGradeName = "watchGradeNm"
-        
     }
 }
 
 struct Company: Decodable {
-    
     let companyName: String
     let companyPartName: String
     
     enum CodingKeys: String, CodingKey {
-        
         case companyName = "companyNm"
         case companyPartName = "companyPartNm"
         
@@ -94,34 +83,25 @@ struct Company: Decodable {
 }
 
 struct Director: Decodable {
-    
     let peopleName: String
     
     enum CodingKeys: String, CodingKey {
-        
         case peopleName = "peopleNm"
-        
     }
 }
 
 struct Genre: Decodable {
-    
     let genreName: String
     
     enum CodingKeys: String, CodingKey {
-        
         case genreName = "genreNm"
-        
     }
 }
 
 struct Nation: Decodable {
-
     let nationName: String
     
     enum CodingKeys: String, CodingKey {
-        
         case nationName = "nationNm"
-
     }
 }
