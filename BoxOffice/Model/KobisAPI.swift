@@ -8,8 +8,9 @@
 import UIKit
 
 struct EndPoint {
-    func request(for api: inout API, queryValue: String) -> URLRequest? {
+    func request(for api: API) -> URLRequest? {
         var urlComponents = URLComponents(string: api.baseURL + api.path)
+        urlComponents?.queryItems = []
         
         for (key, value) in api.query {
             let queryItem = URLQueryItem(name: key , value: value)
@@ -26,13 +27,13 @@ struct EndPoint {
 protocol API {
     var baseURL: String { get }
     var path: String { get }
-    var query: [String: String] { get }
+    var query: [String: String] { get set }
     var sampleData: Data { get }
     
     func addQuery(name: String, value: String)
 }
 
-class KobisAPI: API {
+final class KobisAPI: API {
     var service: KobisService
     var query = ["key": "d975f8608af0d9e5a16e79768ca97127"]
     

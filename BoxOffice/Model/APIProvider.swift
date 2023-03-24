@@ -9,17 +9,20 @@ import UIKit
 
 struct APIProvider {
     private let urlSession: DataTaskMakeable
-    private let api = KobisAPI()
+    private var api: API?
+    private let endPoint = EndPoint()
     
-    init(urlSession: DataTaskMakeable = URLSession(configuration: .default)) {
+    init(urlSession: DataTaskMakeable = URLSession(configuration: .default),
+         api: API? = nil) {
         self.urlSession = urlSession
+        self.api = api
     }
     
-    func startLoad<T: Decodable>(decodingType: T.Type, target: String, completion: @escaping (Result<T, Error>) -> Void) {
+    func startLoad<T: Decodable>(decodingType: T.Type, completion: @escaping (Result<T, Error>) -> Void) {
+        guard let api = self.api,
+              let request = endPoint.request(for: api) else { return }
         
-        guard let url = api.makeURL(queryValue: target) else { return }
-        
-        let task = urlSession.dataTask(with: url) { data, response, error in
+        let task = urlSession.dataTask(with: request) { data, response, error in
             if let error = error {
                 completion(.failure(error))
                 
@@ -39,9 +42,14 @@ struct APIProvider {
                 
                 return
             }
+            print(request)
             completion(.failure(NetworkError.decoding))
         }
         
         task.resume()
+    }
+    
+    mutating func change(api: API) {
+        self.api = api
     }
 }
