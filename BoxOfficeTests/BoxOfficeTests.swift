@@ -13,7 +13,7 @@ final class BoxOfficeTests: XCTestCase {
     
     override func setUpWithError() throws {
         try super.setUpWithError()
-        sut = try FileDecoder().decodeData(NSDataAsset(name: "box_office_sample")!.data, type: BoxOffice.self).get()
+        sut = try NetworkDecoder().decode(data: NSDataAsset(name: "box_office_sample")!.data, type: BoxOffice.self).get()
     }
 
     override func tearDownWithError() throws {
@@ -21,14 +21,14 @@ final class BoxOfficeTests: XCTestCase {
         sut = nil
     }
     
-    func test_잘못된JSON파일이름으로_디코딩했을때_dataNotFound에러를던진다() {
+    func test_잘못된data로_디코딩했을때_decodeFailed에러를던진다() {
         // given
-        let invalidAsset = NSDataAsset(name: "invalid_name")?.data
-        let expectation = NetworkingError.dataNotFound
+        let invalidData = Data(count: 0)
+        let expectation = NetworkingError.decodeFailed
         var result: NetworkingError?
         
         // when
-        XCTAssertThrowsError(try FileDecoder().decodeData(invalidAsset, type: BoxOffice.self).get()) {
+        XCTAssertThrowsError(try NetworkDecoder().decode(data: invalidData, type: BoxOffice.self).get()) {
             errorHandler in
             result = errorHandler as? NetworkingError
         }
@@ -43,7 +43,7 @@ final class BoxOfficeTests: XCTestCase {
         var result: NetworkingError?
         
         // when
-        XCTAssertThrowsError(try FileDecoder().decodeData(NSDataAsset(name: "box_office_sample")!.data,
+        XCTAssertThrowsError(try NetworkDecoder().decode(data: NSDataAsset(name: "box_office_sample")!.data,
                                                           type: DummyBoxOffice.self).get()) {
             errorHandler in
             result = errorHandler as? NetworkingError

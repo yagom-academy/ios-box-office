@@ -44,7 +44,7 @@ class NetworkManager {
             }
             
             guard let data = data,
-                  let dataStructure = try? FileDecoder().decodeData(data, type: type).get() else {
+                  let dataStructure = try? NetworkDecoder().decode(data: data, type: type).get() else {
                 completion(.failure(NetworkingError.dataNotFound))
                 
                 return

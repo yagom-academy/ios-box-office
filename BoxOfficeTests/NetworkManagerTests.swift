@@ -26,7 +26,7 @@ final class NetworkManagerTests: XCTestCase {
         // given
         let mockURLSession = MockURLSession.make(url: url, data: data, statusCode: 200)
         let sut = NetworkManager(session: mockURLSession)
-        let expectation: BoxOffice? = try? FileDecoder().decodeData(NSDataAsset(name: "box_office_sample")!.data,
+        let expectation: BoxOffice? = try? NetworkDecoder().decode(data: NSDataAsset(name: "box_office_sample")!.data,
                                                                     type: BoxOffice.self).get()
         
         // when
