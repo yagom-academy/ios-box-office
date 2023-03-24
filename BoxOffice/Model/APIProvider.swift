@@ -16,6 +16,7 @@ struct APIProvider {
     }
     
     func startLoad<T: Decodable>(decodingType: T.Type, target: String, completion: @escaping (Result<T, Error>) -> Void) {
+        
         guard let url = api.makeURL(queryValue: target) else { return }
         
         let task = urlSession.dataTask(with: url) { data, response, error in

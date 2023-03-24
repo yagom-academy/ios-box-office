@@ -7,63 +7,69 @@
 
 import UIKit
 
-struct KobisAPI {
-    enum Service: String {
-        case dailyBoxOffice
-        case movieDetails
+struct EndPoint {
+    func request(for api: inout API, queryValue: String) -> URLRequest? {
+        var urlComponents = URLComponents(string: api.baseURL + api.path)
         
-        var path: String {
-            switch self {
-            case .dailyBoxOffice:
-                return "boxoffice/searchDailyBoxOfficeList.json"
-            case .movieDetails:
-                return "movie/searchMovieInfo.json"
-            }
+        for (key, value) in api.query {
+            let queryItem = URLQueryItem(name: key , value: value)
+            
+            urlComponents?.queryItems?.append(queryItem)
         }
         
-        var queryName: String {
-            switch self {
-            case .dailyBoxOffice:
-                return "targetDt"
-            case .movieDetails:
-                return "movieCd"
-            }
-        }
+        guard let url = urlComponents?.url else { return nil }
         
-        var sampleData: Data {
-            switch self {
-            case .dailyBoxOffice:
-                let sampleData = NSDataAsset(name: "DailyBoxOffice")!.data
-                return sampleData
-            case .movieDetails:
-                let sampleData = NSDataAsset(name: "ThePolicemansLineage")!.data
-                return sampleData
-            }
-        }
-        
-        func makeQueryItem(value: String) -> URLQueryItem {
-            let queryItem = URLQueryItem(name: self.queryName, value: value)
-            return queryItem
+        return URLRequest(url: url)
+    }
+}
+
+protocol API {
+    var baseURL: String { get }
+    var path: String { get }
+    var query: [String: String] { get }
+    var sampleData: Data { get }
+    
+    func addQuery(name: String, value: String)
+}
+
+class KobisAPI: API {
+    var service: KobisService
+    var query = ["key": "d975f8608af0d9e5a16e79768ca97127"]
+    
+    init(service: KobisService) {
+        self.service = service
+    }
+    
+    var baseURL: String {
+        return "http://www.kobis.or.kr/kobisopenapi/webservice/rest/"
+    }
+    
+    var path: String {
+        switch service {
+        case .dailyBoxOffice:
+            return "boxoffice/searchDailyBoxOfficeList.json"
+        case .movieDetails:
+            return "movie/searchMovieInfo.json"
         }
     }
     
-    var currentService: Service?
-    let baseURL = "http://www.kobis.or.kr/kobisopenapi/webservice/rest/"
-    
-    init(currentService: Service? = .dailyBoxOffice) {
-        self.currentService = currentService
+    var sampleData: Data {
+        switch service {
+        case .dailyBoxOffice:
+            let sampleData = NSDataAsset(name: "DailyBoxOffice")!.data
+            return sampleData
+        case .movieDetails:
+            let sampleData = NSDataAsset(name: "ThePolicemansLineage")!.data
+            return sampleData
+        }
     }
     
-    func makeURL(queryValue: String) -> URL? {
-        guard let service = currentService else { return nil }
-        
-        let path = service.path
-        let key = URLQueryItem(name: "key", value: "d975f8608af0d9e5a16e79768ca97127")
-        let queryItem = URLQueryItem(name: service.queryName, value: queryValue)
-        var urlComponents = URLComponents(string: baseURL + path)
-        
-        urlComponents?.queryItems = [key, queryItem]
-        
-        return urlComponents?.url
+    func addQuery(name: String, value: String) {
+        self.query[name] = value
     }
+}
+
+enum KobisService {
+    case dailyBoxOffice
+    case movieDetails
 }

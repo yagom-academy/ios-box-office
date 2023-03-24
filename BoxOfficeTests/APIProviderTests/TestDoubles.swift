@@ -32,7 +32,7 @@ class MockURLSession: DataTaskMakeable {
                                               statusCode: 200,
                                               httpVersion: "HTTP/1.1",
                                               headerFields: nil)
-
+        
         let failureResponse = HTTPURLResponse(url: url,
                                               statusCode: 410,
                                               httpVersion: "HTTP/1.1",
@@ -48,12 +48,7 @@ class MockURLSession: DataTaskMakeable {
             } else {
                 guard let service = self.kobisAPI.currentService else { return }
                 
-                switch service {
-                case .dailyBoxOffice :
-                    completionHandler(KobisAPI.Service.dailyBoxOffice.sampleData, successResponse, nil)
-                case .movieDetails:
-                    completionHandler(KobisAPI.Service.movieDetails.sampleData, successResponse, nil)
-                }
+                completionHandler(service.sampleData, successResponse, nil)
             }
         }
         self.sessionDataTask = sessionDataTask
