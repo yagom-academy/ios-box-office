@@ -48,7 +48,7 @@ final class BoxofficeInfoTests: XCTestCase {
             switch event {
             case .success(let data):
                 result = data.boxOfficeResult.movies.count
-            case .failure(let error):
+            case .failure(_):
                 XCTFail("잘못된 테스트코드입니다.")
             }
             asyncTest.fulfill()
