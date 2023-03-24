@@ -13,8 +13,8 @@ final class NetworkManager {
     
     private init() {}
     
-    func getData<T: Codable>(url: String, type: T.Type, completion: @escaping (Result<T, Error>) -> Void) {
-        guard let url = URL(string: url) else {
+    func getData<T: Codable>(url: URL?, type: T.Type, completion: @escaping (Result<T, Error>) -> Void) {
+        guard let url = url else {
             completion(.failure(NetworkError.urlError))
             return
         }
