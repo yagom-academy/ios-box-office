@@ -70,7 +70,8 @@ extension BoxOfficeViewController: UICollectionViewDataSource {
         let cellId = String(describing: BoxOfficeListCell.self)
         let cell = boxOfficeListCollectionView.dequeueReusableCell(withReuseIdentifier: cellId, for: indexPath) as! BoxOfficeListCell
         
-        cell.configureUI()
+        cell.setUpBoxOffcieCellUI()
+        
         cell.rankNumberLabel.text = dailyBoxOffice?.boxOfficeResult.dailyBoxOfficeList[indexPath.row].rank
         cell.rankGapLabel.text = dailyBoxOffice?.boxOfficeResult.dailyBoxOfficeList[indexPath.row].rankGap
         cell.movieTitleLabel.text = dailyBoxOffice?.boxOfficeResult.dailyBoxOfficeList[indexPath.row].movieName

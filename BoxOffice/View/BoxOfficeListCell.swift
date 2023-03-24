@@ -14,7 +14,12 @@ class BoxOfficeListCell: UICollectionViewCell  {
     @IBOutlet weak var movieTitleLabel: UILabel!
     @IBOutlet weak var audienceCountLabel: UILabel!
     
-    func configureUI() {
+    func setUpBoxOffcieCellUI(){
+        configureUI()
+        setUpLabelStyle()
+    }
+    
+    private func configureUI() {
         rankNumberLabel.translatesAutoresizingMaskIntoConstraints = false
         rankGapLabel.translatesAutoresizingMaskIntoConstraints = false
         movieTitleLabel.translatesAutoresizingMaskIntoConstraints = false
@@ -55,10 +60,10 @@ class BoxOfficeListCell: UICollectionViewCell  {
         ])
     }
     
-    func setUpLabelStyle() {
+    private func setUpLabelStyle() {
         rankNumberLabel.font = UIFont.preferredFont(forTextStyle: .title1)
         rankGapLabel.font = UIFont.preferredFont(forTextStyle: .body)
-        movieTitleLabel.font = UIFont.preferredFont(forTextStyle: .title2)
+        movieTitleLabel.font = UIFont.preferredFont(forTextStyle: .title3)
         audienceCountLabel.font = UIFont.preferredFont(forTextStyle: .body)
     }
 }
