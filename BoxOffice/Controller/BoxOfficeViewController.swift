@@ -14,10 +14,10 @@ final class BoxOfficeViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        boxOfficeListCollectionView.delegate = self
         boxOfficeListCollectionView.dataSource = self
         configureUI()
         configureRefreshControl()
+        self.boxOfficeListCollectionView.collectionViewLayout = setUpCompositionalLayout()
     }
     
     private func configureUI() {
@@ -48,9 +48,6 @@ final class BoxOfficeViewController: UIViewController {
     }
 }
 
-extension BoxOfficeViewController: UICollectionViewDelegate {
-}
-
 extension BoxOfficeViewController: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return 10
@@ -67,7 +64,25 @@ extension BoxOfficeViewController: UICollectionViewDataSource {
     }
 }
 
-extension BoxOfficeViewController: UICollectionViewDelegateFlowLayout {
+extension BoxOfficeViewController {
+   
+    private func setUpCompositionalLayout() -> UICollectionViewLayout {
+   
+        let layout = UICollectionViewCompositionalLayout {
+            (sectionIndex: Int, layoutEnvironment: NSCollectionLayoutEnvironment) -> NSCollectionLayoutSection? in
+            
+            let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0), heightDimension: .fractionalHeight(1.0))
+            let item = NSCollectionLayoutItem(layoutSize: itemSize)
+            
+            item.contentInsets = NSDirectionalEdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 0)
+            
+            let groupHeight =  NSCollectionLayoutDimension.fractionalWidth(1/4)
+            let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0), heightDimension: groupHeight)
+            let group = NSCollectionLayoutGroup.horizontal(layoutSize: groupSize, subitem: item, count: 1)
+            let section = NSCollectionLayoutSection(group: group)
 
-
+            return section
+        }
+        return layout
+    }
 }

@@ -15,11 +15,6 @@ class BoxOfficeListCell: UICollectionViewCell  {
     @IBOutlet weak var audienceCountLabel: UILabel!
     
     func configureUI() {
-        
-        let width = UIScreen.main.bounds.width
-        let height = UIScreen.main.bounds.height
-        
-  
         rankNumberLabel.translatesAutoresizingMaskIntoConstraints = false
         rankGapLabel.translatesAutoresizingMaskIntoConstraints = false
         movieTitleLabel.translatesAutoresizingMaskIntoConstraints = false
@@ -60,10 +55,6 @@ class BoxOfficeListCell: UICollectionViewCell  {
         
         
         NSLayoutConstraint.activate([
-            
-            self.widthAnchor.constraint(equalToConstant: width),
-            self.heightAnchor.constraint(equalToConstant: height / 9),
-
             rankStackView.topAnchor.constraint(equalTo: self.topAnchor,constant: 6),
             rankStackView.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: 20),
             rankStackView.bottomAnchor.constraint(equalTo: self.bottomAnchor,constant: 6),
