@@ -26,12 +26,10 @@ final class DecodeManager {
         }
     }
     
-    func decodeJSON<T: Decodable>(data: Data, type: T.Type) -> T? {
-        do{
-            guard let decodedJSON: T = try? decoder.decode(T.self, from: data) else { return nil }
-            return decodedJSON
-        } catch {
-            return nil
-        }
+    func decodeJSON<T: Decodable>(data: Data, type: T.Type) -> Result<T, DecodeError> {
+        
+        guard let decodedJSON: T = try? decoder.decode(T.self, from: data) else { return .failure(.decodingFailureError) }
+        
+        return .success(decodedJSON)
     }
 }
