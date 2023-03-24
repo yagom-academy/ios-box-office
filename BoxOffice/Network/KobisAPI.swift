@@ -32,9 +32,11 @@ final class KobisAPI: API {
         switch service {
         case .dailyBoxOffice:
             let sampleData = NSDataAsset(name: "DailyBoxOffice")!.data
+            
             return sampleData
         case .movieDetails:
             let sampleData = NSDataAsset(name: "ThePolicemansLineage")!.data
+            
             return sampleData
         }
     }

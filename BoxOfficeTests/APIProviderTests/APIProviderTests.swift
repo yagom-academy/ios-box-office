@@ -55,7 +55,7 @@ final class APIProviderTests: XCTestCase {
             
             // then
             switch result {
-            case .success(_):
+            case .success:
                 XCTFail()
             case .failure(let error):
                 XCTAssertEqual(error.localizedDescription, expectedResult)
@@ -76,7 +76,7 @@ final class APIProviderTests: XCTestCase {
             
             // then
             switch result {
-            case .success(_):
+            case .success:
                 XCTFail()
             case .failure(let error):
                 XCTAssertEqual(error.localizedDescription, expectedResult)
@@ -86,12 +86,15 @@ final class APIProviderTests: XCTestCase {
     
     func test_startLoad호출시_decodingType이_MovieDetails이고_target으로20199882을받을때_네트워킹이_성공한경우() {
         // given
-        let expectedResult = try? JSONDecoder().decode(MovieDetails.self, from: KobisAPI.Service.movieDetails.sampleData)
-        sut = APIProvider(urlSession: MockURLSession(kobisAPI: .init(currentService: .movieDetails)))
+        kobisAPI.service = .movieDetails
+        let expectedResult = try? JSONDecoder().decode(MovieDetails.self, from: kobisAPI.sampleData)
+        sut = APIProvider(urlSession: MockURLSession(kobisAPI: kobisAPI))
         let code = "20199882"
+        let queryName = "movieCd"
+        kobisAPI.addQuery(name: queryName, value: code)
         
         // when
-        sut.startLoad(decodingType: MovieDetails.self, target: code) { result in
+        sut.startLoad(decodingType: MovieDetails.self) { result in
             
             // then
             switch result {
@@ -106,16 +109,19 @@ final class APIProviderTests: XCTestCase {
     
     func test_startLoad호출시_decodingType이_MovieDetails이고_request가_실패한경우() {
         // given
+        kobisAPI.service = .movieDetails
         let expectedResult = NetworkError.request.localizedDescription
-        sut = APIProvider(urlSession: MockURLSession(makeRequestFail: true, kobisAPI: .init(currentService: .movieDetails)))
+        sut = APIProvider(urlSession: MockURLSession(makeRequestFail: true, kobisAPI: kobisAPI))
         let code = "20199882"
+        let queryName = "movieCd"
+        kobisAPI.addQuery(name: queryName, value: code)
         
         // when
-        sut.startLoad(decodingType: MovieDetails.self, target: code) { result in
+        sut.startLoad(decodingType: MovieDetails.self) { result in
             
             // then
             switch result {
-            case .success(_):
+            case .success:
                 XCTFail()
             case .failure(let error):
                 XCTAssertEqual(error.localizedDescription, expectedResult)
@@ -125,16 +131,19 @@ final class APIProviderTests: XCTestCase {
     
     func test_startLoad호출시_decodingType이_MovieDetails이고_server에러가_발생한경우() {
         // given
+        kobisAPI.service = .movieDetails
         let expectedResult = NetworkError.server.localizedDescription
-        sut = APIProvider(urlSession: MockURLSession(makeServerError: true, kobisAPI: .init(currentService: .movieDetails)))
+        sut = APIProvider(urlSession: MockURLSession(makeServerError: true, kobisAPI: kobisAPI))
         let code = "20199882"
+        let queryName = "movieCd"
+        kobisAPI.addQuery(name: queryName, value: code)
         
         // when
-        sut.startLoad(decodingType: MovieDetails.self, target: code) { result in
+        sut.startLoad(decodingType: MovieDetails.self) { result in
             
             // then
             switch result {
-            case .success(_):
+            case .success:
                 XCTFail()
             case .failure(let error):
                 XCTAssertEqual(error.localizedDescription, expectedResult)
