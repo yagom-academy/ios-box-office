@@ -22,23 +22,28 @@ struct BoxofficeInfo<T: Fetchable> {
             completion(.failure(.urlError))
             return
         }
+    
+        let request = URLRequest(url: url)
         
-        self.task = session.dataTask(with: url) { data, response, error in
+        self.task = session.dataTask(with: request) { data, response, error in
             guard error == nil else {
                 completion(.failure(.sessionError))
                 return
             }
+            
             guard let httpResponse = response as? HTTPURLResponse,
                   (200...299).contains(httpResponse.statusCode) else {
                 completion(.failure(.responseError))
                 return
             }
+            
             guard let mimeType = httpResponse.mimeType,
                   mimeType == "application/json",
                   let data = data else {
                 completion(.failure(.incorrectDataTypeError))
                 return
             }
+            
             do {
                 let decodingdata = try JSONDecoder().decode(T.self, from: data)
                 completion(.success(decodingdata))

@@ -11,7 +11,6 @@ import XCTest
 final class BoxofficeInfoTests: XCTestCase {
     
     private var sut: BoxofficeInfo<DailyBoxofficeObject>!
-    private let mockSession = StubURLSession()
     
     override func setUpWithError() throws {
         sut = BoxofficeInfo(apiType: .boxoffice("20230320"), session: .shared )
@@ -19,19 +18,18 @@ final class BoxofficeInfoTests: XCTestCase {
     
     override func tearDownWithError() throws {
         sut = nil
-        mockSession.isDeny = false
     }
     
     func test_boxofficeType값은_일별_박스오피스이다() {
         // given
         let expectation = "일별 박스오피스"
         // when
-        // then
         sut.search { event in
             switch event {
             case .success(let data):
                 let result = data.boxOfficeResult.boxofficeType
                 XCTAssertEqual(expectation, result)
+        // then
             case .failure(let error):
                 XCTAssertThrowsError(error)
             }
