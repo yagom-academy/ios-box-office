@@ -39,7 +39,9 @@ final class BoxOfficeViewController: UIViewController {
             return
         }
         
-        let url = BoxOfficeAPI.dailyBoxOffice(date: yesterday).url
+        let boxOfficeProvider = BoxOfficeProvider<BoxOfficeAPI>()
+        
+        boxOfficeProvider.fetchData(., type: <#T##Decodable.Protocol#>, completion: <#T##(Result<Decodable, Error>) -> Void#>)
         
         self.networkManager.fetchData(for: url, type: BoxOffice.self) { result in
             switch result {

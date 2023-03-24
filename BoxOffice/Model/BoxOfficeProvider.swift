@@ -1,29 +1,35 @@
 //
-//  NetworkManager.swift
+//  BoxOfficeProvider.swift
 //  BoxOffice
 //
-//  Created by vetto, brody on 23/03/20.
+//  Created by vetto, brody on 23/03/24.
 //
+
 import Foundation
 
-final class NetworkManager {
+protocol Requestable {
+    func fetchData<T: Decodable>(_ target: API, type: T.Type, completion: @escaping (Result<T, Error>) -> Void)
+}
+
+final class BoxOfficeProvider<Target: API>: Requestable {
+    func fetchData<T>(_ target: API, type: T.Type, completion: @escaping (Result<T, Error>) -> Void) where T : Decodable {
+        <#code#>
+    }
+    
     private let session: URLSessionProtocol
     
     init(session: URLSessionProtocol = URLSession.shared) {
         self.session = session
     }
     
-    // target과, 디코딩 타입, completion필요
-    func fetchData<T: Decodable>(
-        for url: URL?,
-        type: T.Type,
-        completion: @escaping (Result<T, Error>) -> Void
-    ) {
-        guard let url = url else {
+    func fetchData<T>(_ target: Target, type: T.Type, completion: @escaping (Result<T, Error>) -> Void) where T : Decodable {
+        
+        guard let endPoint = self.makeEndpoint(for: target),
+              let request = endPoint.urlRequest() else {
             return
         }
         
-        let task = session.dataTask(with: url) { data, response, error in
+        let task = session.dataTask(for: request) { data, response, error in
             if error != nil {
                 completion(.failure(NetworkError.unknownError))
                 return
@@ -58,5 +64,15 @@ final class NetworkManager {
         }
         
         task.resume()
+    }
+}
+
+extension BoxOfficeProvider {
+    func makeEndpoint(for target: API) -> Endpoint? {
+        guard let url = target.urlComponents?.url else {
+            return nil
+        }
+        
+        return Endpoint(url: url.absoluteString, method: .get)
     }
 }
