@@ -10,14 +10,14 @@ import XCTest
 final class NetworkManagerTest: XCTestCase {
     var sut: MockNetworkManager!
     var expectation: XCTestExpectation!
-    var endPoint = EndPoint()
+    var boxOfficeEndPoint = BoxOfficeEndPoint()
     
     override func setUpWithError() throws {
         let configuration = URLSessionConfiguration.default
         configuration.protocolClasses = [MockURLProtocol.self]
         let urlSession = URLSession.init(configuration: configuration)
         
-        endPoint.setEndPoint(method: .get, body: nil, baseURL: "testURL", key: "testKey", targetDate: "test")
+        boxOfficeEndPoint.configureEndPoint(method: .get, body: nil, baseURL: "testURL", key: "testKey", targetDate: "test")
         sut = MockNetworkManager(urlSession: urlSession)
         expectation = expectation(description: "Expectation")
     }
@@ -28,11 +28,12 @@ final class NetworkManagerTest: XCTestCase {
     
     func test_request호출시_error가nil이아니면_unknownError가발생한다() {
         // given
-        guard let data = NSDataAsset(name: "box_office_sample")?.data else { return }
+        guard let data = NSDataAsset(name: "box_office_sample")?.data,
+              let url: URL = boxOfficeEndPoint.url else { return }
         
-        MockURLProtocol.requestHandler = { [unowned self] request in
+        MockURLProtocol.requestHandler = { request in
             
-            let response = HTTPURLResponse(url: endPoint.url!, statusCode: 200, httpVersion: nil, headerFields: nil)
+            let response = HTTPURLResponse(url: url, statusCode: 200, httpVersion: nil, headerFields: nil)
             
             return (data, response, NetworkError.unknown)
         }
@@ -40,7 +41,7 @@ final class NetworkManagerTest: XCTestCase {
         let expectedResult = NetworkError.unknown.description
         
         // when
-        sut.request(endPoint: endPoint, returnType: BoxOffice.self) { (result) in
+        sut.request(endPoint: boxOfficeEndPoint, returnType: BoxOffice.self) { (result) in
             switch result {
             case .success(_):
                 XCTFail("Success response was not expected.")
@@ -55,11 +56,12 @@ final class NetworkManagerTest: XCTestCase {
     
     func test_request호출시_response가HTTPURLResponse타입이아니면_httpResponseError가발생한다() {
         // given
-        guard let data = NSDataAsset(name: "box_office_sample")?.data else { return }
+        guard let data = NSDataAsset(name: "box_office_sample")?.data,
+              let url: URL = boxOfficeEndPoint.url else { return }
         
-        MockURLProtocol.requestHandler = { [unowned self] request in
+        MockURLProtocol.requestHandler = { request in
             
-            let response = URLResponse(url: endPoint.url!, mimeType: "test", expectedContentLength: -1, textEncodingName: nil)
+            let response = URLResponse(url: url, mimeType: "test", expectedContentLength: -1, textEncodingName: nil)
             
             return (data, response, nil)
         }
@@ -67,7 +69,7 @@ final class NetworkManagerTest: XCTestCase {
         let expectedResult = NetworkError.httpResponse.description
         
         // when
-        sut.request(endPoint: endPoint, returnType: BoxOffice.self) { (result) in
+        sut.request(endPoint: boxOfficeEndPoint, returnType: BoxOffice.self) { (result) in
             switch result {
             case .success(_):
                 XCTFail("Success response was not expected.")
@@ -82,11 +84,12 @@ final class NetworkManagerTest: XCTestCase {
     
     func test_request호출시_response의httpStatusCode가200번대가아니면_httpStatusCodeError가발생한다() {
         // given
-        guard let data = NSDataAsset(name: "box_office_sample")?.data else { return }
+        guard let data = NSDataAsset(name: "box_office_sample")?.data,
+              let url: URL = boxOfficeEndPoint.url else { return }
         
-        MockURLProtocol.requestHandler = { [unowned self] request in
+        MockURLProtocol.requestHandler = { request in
             
-            let response = HTTPURLResponse(url: endPoint.url!, statusCode: 400, httpVersion: nil, headerFields: nil)
+            let response = HTTPURLResponse(url: url, statusCode: 400, httpVersion: nil, headerFields: nil)
             
             return (data, response, nil)
         }
@@ -94,7 +97,7 @@ final class NetworkManagerTest: XCTestCase {
         let expectedResult = NetworkError.httpStatusCode(code: 400).description
         
         // when
-        sut.request(endPoint: endPoint, returnType: BoxOffice.self) { (result) in
+        sut.request(endPoint: boxOfficeEndPoint, returnType: BoxOffice.self) { (result) in
             switch result {
             case .success(_):
                 XCTFail("Success response was not expected.")
@@ -109,11 +112,12 @@ final class NetworkManagerTest: XCTestCase {
     
     func test_request호출시_data가nil이아니라면_데이터파싱을성공한다() {
         // given
-        guard let data = NSDataAsset(name: "box_office_sample")?.data else { return }
+        guard let data = NSDataAsset(name: "box_office_sample")?.data,
+              let url: URL = boxOfficeEndPoint.url else { return }
         
-        MockURLProtocol.requestHandler = { [unowned self] request in
+        MockURLProtocol.requestHandler = { request in
             
-            let response = HTTPURLResponse(url: endPoint.url!, statusCode: 200, httpVersion: nil, headerFields: nil)
+            let response = HTTPURLResponse(url: url, statusCode: 200, httpVersion: nil, headerFields: nil)
             
             return (data, response, nil)
         }
@@ -121,7 +125,7 @@ final class NetworkManagerTest: XCTestCase {
         let expectedResult = "경관의 피"
         
         // when
-        sut.request(endPoint: endPoint, returnType: BoxOffice.self) { (result) in
+        sut.request(endPoint: boxOfficeEndPoint, returnType: BoxOffice.self) { (result) in
             switch result {
             case .success(let boxOffice):
                 // then

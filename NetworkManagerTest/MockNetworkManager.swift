@@ -11,7 +11,7 @@ import Foundation
 struct MockNetworkManager {
     var urlSession: URLSession
     
-    func request<element: Decodable>(endPoint: EndPoint, returnType: element.Type, completion: @escaping (Result<element, NetworkError>) -> Void) {
+    func request<element: Decodable>(endPoint: BoxOfficeEndPoint, returnType: element.Type, completion: @escaping (Result<element, NetworkError>) -> Void) {
         guard let urlRequest = endPoint.urlRequest else {
             completion(.failure(.invalidURL))
             return

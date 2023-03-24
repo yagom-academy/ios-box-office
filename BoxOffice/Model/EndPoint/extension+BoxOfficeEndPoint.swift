@@ -1,5 +1,5 @@
 //
-//  extension+EndPoint.swift
+//  extension+BoxOfficeEndPoint.swift
 //  BoxOffice
 //
 //  Created by 리지, kokkilE on 2023/03/22.
@@ -8,20 +8,20 @@
 import Foundation
 
 protocol DailyBoxOfficeProtocol {
-    mutating func setURLParameter(baseURL: String, key: String, targetDate: String, itemPerPage: String?, multiMovieType: MovieType?, nationCode: NationalCode?, wideAreaCode: String?)
+    mutating func configureURLParameter(baseURL: String, key: String, targetDate: String, itemPerPage: String?, multiMovieType: MovieType?, nationCode: NationalCode?, wideAreaCode: String?)
 }
 
 protocol MovieInformationProtocol {
-    mutating func setURLParameter(baseURL: String, key: String, movieCode: String)
+    mutating func configureURLParameter(baseURL: String, key: String, movieCode: String)
 }
 
-extension EndPoint: DailyBoxOfficeProtocol {
-    mutating func setEndPoint(method: HttpMethod, body: Data?, baseURL: String, key: String, targetDate: String, itemPerPage: String? = nil, multiMovieType: MovieType? = nil, nationCode: NationalCode? = nil, wideAreaCode: String? = nil) {
-        setURLParameter(baseURL: baseURL, key: key, targetDate: targetDate, itemPerPage: itemPerPage, multiMovieType: multiMovieType, nationCode: nationCode, wideAreaCode: wideAreaCode)
-        setURLRequest(method: method, body: body)
+extension BoxOfficeEndPoint: DailyBoxOfficeProtocol {
+    mutating func configureEndPoint(method: HttpMethod, body: Data?, baseURL: String, key: String, targetDate: String, itemPerPage: String? = nil, multiMovieType: MovieType? = nil, nationCode: NationalCode? = nil, wideAreaCode: String? = nil) {
+        configureURLParameter(baseURL: baseURL, key: key, targetDate: targetDate, itemPerPage: itemPerPage, multiMovieType: multiMovieType, nationCode: nationCode, wideAreaCode: wideAreaCode)
+        configureURLRequest(method: method, body: body)
     }
     
-    mutating func setURLParameter(baseURL: String, key: String, targetDate: String, itemPerPage: String? = nil, multiMovieType: MovieType? = nil, nationCode: NationalCode? = nil, wideAreaCode: String? = nil) {
+    mutating func configureURLParameter(baseURL: String, key: String, targetDate: String, itemPerPage: String? = nil, multiMovieType: MovieType? = nil, nationCode: NationalCode? = nil, wideAreaCode: String? = nil) {
         
         guard var urlComponents = URLComponents(string: baseURL) else { return }
         
@@ -52,17 +52,17 @@ extension EndPoint: DailyBoxOfficeProtocol {
         
         guard let url = urlComponents.url else { return }
         
-        self.url = .init(url)
+        self.url = url
     }
 }
 
-extension EndPoint: MovieInformationProtocol {
-    mutating func setEndPoint(method: HttpMethod, body: Data?, baseURL: String, key: String, movieCode: String) {
-        setURLParameter(baseURL: baseURL, key: key, movieCode: movieCode)
-        setURLRequest(method: method, body: body)
+extension BoxOfficeEndPoint: MovieInformationProtocol {
+    mutating func configureEndPoint(method: HttpMethod, body: Data?, baseURL: String, key: String, movieCode: String) {
+        configureURLParameter(baseURL: baseURL, key: key, movieCode: movieCode)
+        configureURLRequest(method: method, body: body)
     }
     
-    mutating func setURLParameter(baseURL: String, key: String, movieCode: String) {
+    mutating func configureURLParameter(baseURL: String, key: String, movieCode: String) {
         guard var urlComponents = URLComponents(string: baseURL) else { return }
         
         let key = URLQueryItem(name: "key", value: key)
@@ -71,6 +71,6 @@ extension EndPoint: MovieInformationProtocol {
         
         guard let url = urlComponents.url else { return }
         
-        self.url = .init(url)
+        self.url = url
     }
 }

@@ -8,7 +8,7 @@
 import Foundation
 
 struct NetworkManager {
-    static func request<element: Decodable>(endPoint: EndPoint, returnType: element.Type, completion: @escaping (Result<element, NetworkError>) -> Void) {
+    func request<element: Decodable>(endPoint: BoxOfficeEndPoint, returnType: element.Type, completion: @escaping (Result<element, NetworkError>) -> Void) {
         guard let urlRequest = endPoint.urlRequest else {
             completion(.failure(.invalidURL))
             return
@@ -27,11 +27,6 @@ struct NetworkManager {
             
             guard (200...299).contains(httpResponse.statusCode) else {
                 completion(.failure(.httpStatusCode(code: httpResponse.statusCode)))
-                return
-            }
-            
-            guard let mimeType = httpResponse.mimeType, mimeType == "application/json" else {
-                completion(.failure(.mimeType))
                 return
             }
             
