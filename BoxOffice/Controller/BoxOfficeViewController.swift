@@ -9,13 +9,15 @@ import UIKit
 
 final class BoxOfficeViewController: UIViewController {
     
+    private var dailyBoxOffice: DailyBoxOffice?
+    
     @IBOutlet weak var boxOfficeListCollectionView: UICollectionView!
     private var boxOfficeAPI = BoxOfficeAPI()
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        fetchAPIData()
         boxOfficeListCollectionView.dataSource = self
-        configureUI()
         configureRefreshControl()
         self.boxOfficeListCollectionView.collectionViewLayout = setUpCompositionalLayout()
     }
@@ -46,6 +48,12 @@ final class BoxOfficeViewController: UIViewController {
             self.boxOfficeListCollectionView.refreshControl?.endRefreshing()
         }
     }
+    
+    func fetchAPIData() {
+        boxOfficeAPI.loadBoxOfficeAPI(urlAddress: URLAddress.dailyBoxOfficeURL, parser: Parser<DailyBoxOffice>()) { parsedData in
+            self.dailyBoxOffice = parsedData
+        }
+    }
 }
 
 extension BoxOfficeViewController: UICollectionViewDataSource {
@@ -59,8 +67,10 @@ extension BoxOfficeViewController: UICollectionViewDataSource {
         let cell = boxOfficeListCollectionView.dequeueReusableCell(withReuseIdentifier: cellId, for: indexPath) as! BoxOfficeListCell
         
         cell.configureUI()
-        cell.setUpLabelStyle()
-        
+        cell.rankNumberLabel.text = dailyBoxOffice?.boxOfficeResult.dailyBoxOfficeList[indexPath.row].rank
+        cell.rankGapLabel.text = dailyBoxOffice?.boxOfficeResult.dailyBoxOfficeList[indexPath.row].rankGap
+        cell.movieTitleLabel.text = dailyBoxOffice?.boxOfficeResult.dailyBoxOfficeList[indexPath.row].movieName
+        cell.audienceCountLabel.text
         return cell
     }
 }
@@ -77,7 +87,7 @@ extension BoxOfficeViewController {
             
             item.contentInsets = NSDirectionalEdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 0)
             
-            let groupHeight =  NSCollectionLayoutDimension.fractionalWidth(1/5)
+            let groupHeight =  NSCollectionLayoutDimension.fractionalWidth(1/4)
             let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0), heightDimension: groupHeight)
             let group = NSCollectionLayoutGroup.horizontal(layoutSize: groupSize, subitem: item, count: 1)
             let section = NSCollectionLayoutSection(group: group)
