@@ -25,16 +25,26 @@ final class APIProvider {
                 return
             }
             
-            guard let response = urlResponse as? HTTPURLResponse, (200...299).contains(response.statusCode) else {
-                completionHandler(.failure(.serverError))
+            guard let response = urlResponse as? HTTPURLResponse else {
+                completionHandler(.failure(.invalidURLRequest))
                 return
             }
             
-            if let data = data {
-                completionHandler(.success(data))
-            } else {
-                completionHandler(.failure(.missingData))
+            switch response.statusCode {
+            case (200...299):
+                if let data = data {
+                    completionHandler(.success(data))
+                } else {
+                    completionHandler(.failure(.missingData))
+                }
+            case (400...499):
+                completionHandler(.failure(.clientError))
+            case (500...599):
+                completionHandler(.failure(.serverError))
+            default:
+                completionHandler(.failure(.invalidURLComponents))
             }
+
         }
         task.resume()
     }
