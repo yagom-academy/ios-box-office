@@ -210,7 +210,7 @@ enum NetworkError: LocalizedError, CustomStringConvertible {
     case serverError
     case invalidURLComponents
     case invalidURLRequest
-		case missingData 
+    case missingData 
     
     var description: String {
         switch self {
@@ -222,7 +222,7 @@ enum NetworkError: LocalizedError, CustomStringConvertible {
             return "INVALID_URL_COMPONENTS"
         case .invalidURLRequest:
             return "INVALID_URL_REQUEST"
-				case .missingData:
+	case .missingData:
             return "MISSING_DATA"
         }
     }
