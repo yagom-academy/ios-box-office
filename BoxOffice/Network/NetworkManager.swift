@@ -8,9 +8,9 @@
 import Foundation
 
 struct NetworkManager {
-    let session: URLSessionProtocol
+    let session: any URLSessionProtocol
     
-    init(session: URLSessionProtocol = URLSession.shared) {
+    init(session: any URLSessionProtocol = URLSession.shared) {
         self.session = session
     }
     
@@ -18,7 +18,7 @@ struct NetworkManager {
         var request = URLRequest(url: url)
         request.httpMethod = "GET"
         
-        session.dataTask(with: url) { data, response, error in
+        session.dataTask(with: request) { data, response, error in
             guard error == nil else {
                 complete(.failure(.responseError(error: error)))
                 return

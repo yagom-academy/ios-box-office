@@ -11,6 +11,10 @@ class MockURLSessionDataTask: URLSessionDataTask {
     
     var resumeDidCall: (() -> Void)?
     
+    init(closure: @escaping () -> Void){
+        self.resumeDidCall = closure
+    }
+    
     override func resume() {
         resumeDidCall?()
     }

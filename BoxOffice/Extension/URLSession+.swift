@@ -7,4 +7,6 @@
 
 import Foundation
 
-extension URLSession: URLSessionProtocol { }
+extension URLSession: URLSessionProtocol {
+    typealias T = URLSessionDataTask
+}

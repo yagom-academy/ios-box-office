@@ -8,28 +8,29 @@
 import Foundation
 
 class MockURLSession: URLSessionProtocol {
+    typealias T = MockURLSessionDataTask
+    
     var makeRequestFail = false
     
     init(makeRequestFail: Bool = false) {
         self.makeRequestFail = makeRequestFail
     }
     
-    var sessionDataTask: MockURLSessionDataTask?
     
-    func dataTask(with url: URL, completionHandler: @escaping (Data?, URLResponse?, Error?) -> Void) -> URLSessionDataTask {
-        let testURL = url
+    func dataTask(with request: URLRequest, completionHandler: @escaping (Data?, URLResponse?, Error?) -> Void) -> MockURLSessionDataTask {
+        
+        let testURL = request.url!
         let successResponse = HTTPURLResponse(url: testURL, statusCode: 200, httpVersion: "2", headerFields: nil)
         let failureResponse = HTTPURLResponse(url: testURL, statusCode: 301, httpVersion: "2", headerFields: nil)
-        let sessionDataTask = MockURLSessionDataTask()
         
-        sessionDataTask.resumeDidCall = {
+        let sessionDataTask = MockURLSessionDataTask {
             if self.makeRequestFail {
                 completionHandler(nil, failureResponse, nil)
             } else {
                 completionHandler(nil, successResponse, nil)
             }
         }
-        self.sessionDataTask = sessionDataTask
+        
         
         return sessionDataTask
     }
