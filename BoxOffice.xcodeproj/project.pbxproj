@@ -12,9 +12,10 @@
 		4B9E3A2129CAD7E000B60AD1 /* DailyBoxOffice.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD30949F29C81C710052C64D /* DailyBoxOffice.swift */; };
 		4B9E3A2229CAD7E300B60AD1 /* MovieDetails.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B9E3A0229C9767E00B60AD1 /* MovieDetails.swift */; };
 		4B9E3A2429CAD99800B60AD1 /* URLMaker.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD0A490A29C9A0CF0030CBC1 /* URLMaker.swift */; };
-		4B9E3A2729CADF9D00B60AD1 /* KobisURLSession.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B9E3A2629CADF9D00B60AD1 /* KobisURLSession.swift */; };
+		4B9E3A2729CADF9D00B60AD1 /* DataTaskMakeable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B9E3A2629CADF9D00B60AD1 /* DataTaskMakeable.swift */; };
 		4B9E3A2A29CAE42100B60AD1 /* TestDoubles.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B9E3A2929CAE42100B60AD1 /* TestDoubles.swift */; };
-		4B9E3A2B29CAE48200B60AD1 /* KobisURLSession.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B9E3A2629CADF9D00B60AD1 /* KobisURLSession.swift */; };
+		4B9E3A2B29CAE48200B60AD1 /* DataTaskMakeable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B9E3A2629CADF9D00B60AD1 /* DataTaskMakeable.swift */; };
+		4B9E3A5429CD838300B60AD1 /* KobisAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = ADF3305029CAF5DB00E0EF8B /* KobisAPI.swift */; };
 		63DF20EF2970E1A0005DF7D1 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63DF20EE2970E1A0005DF7D1 /* AppDelegate.swift */; };
 		63DF20F12970E1A0005DF7D1 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63DF20F02970E1A0005DF7D1 /* SceneDelegate.swift */; };
 		63DF20F32970E1A0005DF7D1 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63DF20F22970E1A0005DF7D1 /* ViewController.swift */; };
@@ -28,8 +29,8 @@
 		AD3094A029C81C710052C64D /* DailyBoxOffice.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD30949F29C81C710052C64D /* DailyBoxOffice.swift */; };
 		AD3094A829C824A20052C64D /* DataManagerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD3094A729C824A20052C64D /* DataManagerTests.swift */; };
 		AD3094AE29C824AE0052C64D /* DailyBoxOffice.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD30949F29C81C710052C64D /* DailyBoxOffice.swift */; };
-		AD3094B029C825610052C64D /* DataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD3094AF29C825610052C64D /* DataManager.swift */; };
-		AD3094B129C825640052C64D /* DataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD3094AF29C825610052C64D /* DataManager.swift */; };
+		AD3094B029C825610052C64D /* APIProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD3094AF29C825610052C64D /* APIProvider.swift */; };
+		AD3094B129C825640052C64D /* APIProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD3094AF29C825610052C64D /* APIProvider.swift */; };
 		ADF3304F29CADCB900E0EF8B /* URLMakerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = ADF3304E29CADCB900E0EF8B /* URLMakerTests.swift */; };
 		ADF3305129CAF5DB00E0EF8B /* KobisAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = ADF3305029CAF5DB00E0EF8B /* KobisAPI.swift */; };
 /* End PBXBuildFile section */
@@ -55,7 +56,7 @@
 		4B9E3A0229C9767E00B60AD1 /* MovieDetails.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MovieDetails.swift; sourceTree = "<group>"; };
 		4B9E3A1829CAD72E00B60AD1 /* JSONModelTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = JSONModelTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		4B9E3A1A29CAD72E00B60AD1 /* JSONModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JSONModelTests.swift; sourceTree = "<group>"; };
-		4B9E3A2629CADF9D00B60AD1 /* KobisURLSession.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KobisURLSession.swift; sourceTree = "<group>"; };
+		4B9E3A2629CADF9D00B60AD1 /* DataTaskMakeable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataTaskMakeable.swift; sourceTree = "<group>"; };
 		4B9E3A2929CAE42100B60AD1 /* TestDoubles.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestDoubles.swift; sourceTree = "<group>"; };
 		63DF20EB2970E1A0005DF7D1 /* BoxOffice.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = BoxOffice.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		63DF20EE2970E1A0005DF7D1 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -70,7 +71,7 @@
 		AD30949F29C81C710052C64D /* DailyBoxOffice.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DailyBoxOffice.swift; sourceTree = "<group>"; };
 		AD3094A529C824A20052C64D /* BoxOfficeTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = BoxOfficeTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		AD3094A729C824A20052C64D /* DataManagerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataManagerTests.swift; sourceTree = "<group>"; };
-		AD3094AF29C825610052C64D /* DataManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataManager.swift; sourceTree = "<group>"; };
+		AD3094AF29C825610052C64D /* APIProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIProvider.swift; sourceTree = "<group>"; };
 		ADF3304E29CADCB900E0EF8B /* URLMakerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = URLMakerTests.swift; sourceTree = "<group>"; };
 		ADF3305029CAF5DB00E0EF8B /* KobisAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KobisAPI.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -119,7 +120,7 @@
 		4B9E3A2529CADF8600B60AD1 /* Protocol */ = {
 			isa = PBXGroup;
 			children = (
-				4B9E3A2629CADF9D00B60AD1 /* KobisURLSession.swift */,
+				4B9E3A2629CADF9D00B60AD1 /* DataTaskMakeable.swift */,
 			);
 			path = Protocol;
 			sourceTree = "<group>";
@@ -127,7 +128,6 @@
 		4B9E3A2829CAE40500B60AD1 /* DataManagerTests */ = {
 			isa = PBXGroup;
 			children = (
-				ADF3305029CAF5DB00E0EF8B /* KobisAPI.swift */,
 				AD3094A729C824A20052C64D /* DataManagerTests.swift */,
 				4B9E3A2929CAE42100B60AD1 /* TestDoubles.swift */,
 			);
@@ -198,8 +198,9 @@
 		AD30949E29C81B0B0052C64D /* Model */ = {
 			isa = PBXGroup;
 			children = (
+				ADF3305029CAF5DB00E0EF8B /* KobisAPI.swift */,
 				AD0A48F329C97B730030CBC1 /* JSONModel */,
-				AD3094AF29C825610052C64D /* DataManager.swift */,
+				AD3094AF29C825610052C64D /* APIProvider.swift */,
 				AD0A490A29C9A0CF0030CBC1 /* URLMaker.swift */,
 			);
 			path = Model;
@@ -356,9 +357,10 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				4B9E3A2729CADF9D00B60AD1 /* KobisURLSession.swift in Sources */,
+				4B9E3A2729CADF9D00B60AD1 /* DataTaskMakeable.swift in Sources */,
+				4B9E3A5429CD838300B60AD1 /* KobisAPI.swift in Sources */,
 				63DF20F32970E1A0005DF7D1 /* ViewController.swift in Sources */,
-				AD3094B029C825610052C64D /* DataManager.swift in Sources */,
+				AD3094B029C825610052C64D /* APIProvider.swift in Sources */,
 				AD3094A029C81C710052C64D /* DailyBoxOffice.swift in Sources */,
 				63DF20EF2970E1A0005DF7D1 /* AppDelegate.swift in Sources */,
 				AD0A490B29C9A0CF0030CBC1 /* URLMaker.swift in Sources */,
@@ -372,13 +374,13 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				4B9E3A2B29CAE48200B60AD1 /* KobisURLSession.swift in Sources */,
+				4B9E3A2B29CAE48200B60AD1 /* DataTaskMakeable.swift in Sources */,
 				ADF3305129CAF5DB00E0EF8B /* KobisAPI.swift in Sources */,
 				4B9E3A2429CAD99800B60AD1 /* URLMaker.swift in Sources */,
 				ADF3304F29CADCB900E0EF8B /* URLMakerTests.swift in Sources */,
 				4B9E3A2A29CAE42100B60AD1 /* TestDoubles.swift in Sources */,
 				AD3094A829C824A20052C64D /* DataManagerTests.swift in Sources */,
-				AD3094B129C825640052C64D /* DataManager.swift in Sources */,
+				AD3094B129C825640052C64D /* APIProvider.swift in Sources */,
 				AD3094AE29C824AE0052C64D /* DailyBoxOffice.swift in Sources */,
 				AD0A490929C986760030CBC1 /* NetworkError.swift in Sources */,
 				AD0A490629C985C90030CBC1 /* MovieDetails.swift in Sources */,

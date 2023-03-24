@@ -1,5 +1,5 @@
 //
-//  DataManager.swift
+//  APIProvider.swift
 //  BoxOffice
 //
 //  Created by Muri, Rowan on 2023/03/20.
@@ -7,12 +7,12 @@
 
 import UIKit
 
-struct DataManager {
-    private let kobisUrlSession: KobisURLSession
+struct APIProvider {
+    private let urlSession: DataTaskMakeable
     private let urlMaker = URLMaker()
     
-    init(kobisUrlSession: KobisURLSession = URLSession(configuration: .default)) {
-        self.kobisUrlSession = kobisUrlSession
+    init(urlSession: DataTaskMakeable = URLSession(configuration: .default)) {
+        self.urlSession = urlSession
     }
     
     func startLoadDailyBoxOffice(date: String, completion: @escaping (Result<DailyBoxOffice, Error>) -> Void) {
@@ -34,7 +34,7 @@ struct DataManager {
     }
     
     private func makeDataTask<T: Decodable>(with url: URL, decodingType: T.Type, completion: @escaping (Result<T, Error>) -> Void) -> URLSessionDataTask {
-        let task = kobisUrlSession.dataTask(with: url) { data, response, error in
+        let task = urlSession.dataTask(with: url) { data, response, error in
             if let error = error {
                 completion(.failure(error))
                 

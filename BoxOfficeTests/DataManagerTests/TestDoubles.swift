@@ -15,7 +15,7 @@ class MockURLSessionDataTask: URLSessionDataTask {
     }
 }
 
-class MockURLSession: KobisURLSession {
+class MockURLSession: DataTaskMakeable {
     var makeRequestFail: Bool
     var makeServerError: Bool
     var kobisAPI: KobisAPI

@@ -8,7 +8,7 @@
 import UIKit
 
 class ViewController: UIViewController {
-    var dataManager = DataManager()
+    var dataManager = APIProvider()
     
     override func viewDidLoad() {
         super.viewDidLoad()

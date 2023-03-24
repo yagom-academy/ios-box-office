@@ -9,10 +9,10 @@ import XCTest
 @testable import BoxOffice
 
 final class DataManagerTests: XCTestCase {
-    var sut: DataManager!
+    var sut: APIProvider!
     
     override func setUpWithError() throws {
-        sut = DataManager(kobisUrlSession: MockURLSession())
+        sut = APIProvider(urlSession: MockURLSession())
     }
     
     override func tearDownWithError() throws {
@@ -40,7 +40,7 @@ final class DataManagerTests: XCTestCase {
     func test_startLoadDailyBoxOffice호출시_request가_실패한경우() {
         // given
         let expectedResult = NetworkError.request.localizedDescription
-        sut = DataManager(kobisUrlSession: MockURLSession(makeRequestFail: true))
+        sut = APIProvider(urlSession: MockURLSession(makeRequestFail: true))
         let date = "20230101"
         
         // when
@@ -59,7 +59,7 @@ final class DataManagerTests: XCTestCase {
     func test_startLoadDailyBoxOffice호출시_server에러가_발생한경우() {
         // given
         let expectedResult = NetworkError.server.localizedDescription
-        sut = DataManager(kobisUrlSession: MockURLSession(makeServerError: true))
+        sut = APIProvider(urlSession: MockURLSession(makeServerError: true))
         let date = "20230101"
         
         // when
@@ -78,7 +78,7 @@ final class DataManagerTests: XCTestCase {
     func test_startLoadMovieDetails호출시_code로20199882을받을때_네트워킹이_성공한경우() {
         // given
         let expectedResult = try? JSONDecoder().decode(MovieDetails.self, from: KobisAPI.movieDetails.sampleData)
-        sut = DataManager(kobisUrlSession: MockURLSession(kobisAPI: .movieDetails))
+        sut = APIProvider(urlSession: MockURLSession(kobisAPI: .movieDetails))
         let code = "20199882"
         
         // when
@@ -98,7 +98,7 @@ final class DataManagerTests: XCTestCase {
     func test_startLoadDailyBoxOfficeData호출시_request가_실패한경우() {
         // given
         let expectedResult = NetworkError.request.localizedDescription
-        sut = DataManager(kobisUrlSession: MockURLSession(makeRequestFail: true, kobisAPI: .movieDetails))
+        sut = APIProvider(urlSession: MockURLSession(makeRequestFail: true, kobisAPI: .movieDetails))
         let code = "20199882"
         
         // when
@@ -117,7 +117,7 @@ final class DataManagerTests: XCTestCase {
     func test_startLoadDailyBoxOfficeData호출시_server에러가_발생한경우() {
         // given
         let expectedResult = NetworkError.server.localizedDescription
-        sut = DataManager(kobisUrlSession: MockURLSession(makeServerError: true, kobisAPI: .movieDetails))
+        sut = APIProvider(urlSession: MockURLSession(makeServerError: true, kobisAPI: .movieDetails))
         let code = "20199882"
         
         // when

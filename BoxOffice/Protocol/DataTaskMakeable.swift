@@ -7,8 +7,8 @@
 
 import Foundation
 
-protocol KobisURLSession {
+protocol DataTaskMakeable {
     func dataTask(with url: URL, completionHandler: @escaping @Sendable (Data?, URLResponse?, Error?) -> Void) -> URLSessionDataTask
 }
 
-extension URLSession: KobisURLSession { }
+extension URLSession: DataTaskMakeable { }
