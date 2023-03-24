@@ -5,8 +5,6 @@
 //  Created by 리지, kokkilE on 2023/03/21.
 //
 
-import UIKit
-
 struct MovieInformation: Decodable {
     let movieInformationResult: MovieInformationResult
 
