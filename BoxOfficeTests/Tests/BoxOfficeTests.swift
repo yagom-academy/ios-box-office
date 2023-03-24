@@ -28,13 +28,13 @@ final class BoxOfficeTests: XCTestCase {
             XCTFail("Decode Failure")
             return
         }
-        XCTAssertNoThrow(try decoder?.decode(BoxOfficItem.self, from: asset.data))
+        XCTAssertNoThrow(try decoder?.decode(BoxOfficeItem.self, from: asset.data))
     }
     
     func testDecode_IfBoxOfficeDataProvide_ReturnBoxOfficeType() {
        // given when then
        guard let asset = NSDataAsset(name: "box_office_sample", bundle: .main),
-             let boxOffice = try? decoder?.decode(BoxOfficItem.self, from: asset.data)
+             let boxOffice = try? decoder?.decode(BoxOfficeItem.self, from: asset.data)
        else {
          XCTFail("Decode Failure")
          return

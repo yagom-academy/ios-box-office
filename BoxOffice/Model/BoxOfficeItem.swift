@@ -7,17 +7,18 @@
 
 import Foundation
 
-struct BoxOfficItem: Decodable {
+struct BoxOfficeItem: Decodable {
     let boxOfficeResult: BoxOfficeResult
 }
 
 struct BoxOfficeResult: Decodable {
     let boxofficeType: String
     let showRange: String
-    let dailyBoxOfficeList: [DailyBoxOfficeList]
+    let dailyBoxOfficeList: [DailyBoxOffice]
 }
 
-struct DailyBoxOfficeList: Decodable {
+struct DailyBoxOffice: Decodable, CustomStringConvertible {
+    
     let rnum: String
     let rank: String
     let rankInten: String
@@ -51,6 +52,11 @@ struct DailyBoxOfficeList: Decodable {
         case showCount = "showCnt"
         case salesShare, salesInten, salesChange, salesAcc
     }
+    
+    var description: String {
+        return "순위: \(rank), 영화 제목: \(movieName)"
+    }
+    
 }
 
 enum RankOldAndNew: String, Decodable {
