@@ -11,6 +11,21 @@ final class BoxOfficeViewController: UIViewController {
     private var movieInformation: MovieInformation?
     private let networkManager = NetworkManager()
     
+    var yesterday: String? {
+        guard let yesterdayDate = Calendar.current.date(
+            byAdding: Calendar.Component.day,
+            value: -1,
+            to: Date()) else {
+            return nil
+        }
+        
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "yyyyMMdd"
+        let yesterday = dateFormatter.string(from: yesterdayDate)
+            
+        return yesterday
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -19,7 +34,7 @@ final class BoxOfficeViewController: UIViewController {
     }
     
     private func fetchDailyBoxOffice() {
-        guard let yesterday = makeYesterday() else {
+        guard let yesterday = yesterday else {
             return
         }
         
@@ -63,21 +78,6 @@ final class BoxOfficeViewController: UIViewController {
         alert.addAction(okAction)
         
         present(alert, animated: true)
-    }
-    
-    private func makeYesterday() -> String? {
-        guard let yesterdayDate = Calendar.current.date(
-            byAdding: Calendar.Component.day,
-            value: -1,
-            to: Date()) else {
-            return nil
-        }
-        
-        let dateFormatter = DateFormatter()
-        dateFormatter.dateFormat = "yyyymmdd"
-        let yesterday = dateFormatter.string(from: yesterdayDate)
-            
-        return yesterday
     }
 }
 
