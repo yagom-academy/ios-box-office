@@ -19,7 +19,7 @@ final class BoxOfficeViewController: UIViewController {
         fetchAPIData()
         boxOfficeListCollectionView.dataSource = self
         configureRefreshControl()
-        self.boxOfficeListCollectionView.collectionViewLayout = setUpCompositionalLayout()
+        self.boxOfficeListCollectionView.collectionViewLayout = self.setUpCompositionalLayout()
     }
     
     private func configureUI() {
@@ -52,6 +52,10 @@ final class BoxOfficeViewController: UIViewController {
     func fetchAPIData() {
         boxOfficeAPI.loadBoxOfficeAPI(urlAddress: URLAddress.dailyBoxOfficeURL, parser: Parser<DailyBoxOffice>()) { parsedData in
             self.dailyBoxOffice = parsedData
+            
+            DispatchQueue.main.async {
+                self.boxOfficeListCollectionView.reloadData()
+            }
         }
     }
 }
