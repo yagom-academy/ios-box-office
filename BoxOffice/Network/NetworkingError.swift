@@ -11,4 +11,6 @@ enum NetworkingError: Error {
     case clientError
     case serverError
     case unknownError
+    case invalidURL
+    case transportError(Error)
 }

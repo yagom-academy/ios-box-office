@@ -7,8 +7,8 @@
 
 import Foundation
 
-class NetworkManager {
-    let session: URLSessionProtocol
+final class NetworkManager {
+    private let session: URLSessionProtocol
     
     init(session: URLSessionProtocol = URLSession.shared) {
         self.session = session
@@ -17,20 +17,21 @@ class NetworkManager {
     func fetchData<T: Decodable>(url: URL?,
                                  type: T.Type,
                                  completion: @escaping (Result<T, Error>) -> Void) {
-        guard let url = url else { return }
+        guard let url = url else {
+            completion(.failure(NetworkingError.invalidURL))
+            
+            return
+        }
         
         let task = session.dataTask(with: url) { data, response, error in
             if let error = error {
-                completion(.failure(error))
+                completion(.failure(NetworkingError.transportError(error)))
                 
                 return
             }
             
-            guard let httpResponse = response as? HTTPURLResponse else {
-                return
-            }
-            
-            guard (200...299).contains(httpResponse.statusCode) else {
+            if let httpResponse = response as? HTTPURLResponse,
+               !(200...299).contains(httpResponse.statusCode) {
                 switch httpResponse.statusCode {
                 case 400...499:
                     completion(.failure(NetworkingError.clientError))
