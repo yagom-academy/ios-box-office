@@ -8,15 +8,18 @@
 import Foundation
 
 enum NetworkError: LocalizedError {
-    case unknownError
+    case urlError
+    case invalidResponseError
     case invalidHttpStatusCode(Int)
     case emptyData
     case decodeError
     
     var errorDescription: String {
         switch self {
-        case .unknownError:
-            return "알 수 없는 에러입니다."
+        case .urlError:
+            return "잘못된 URL입니다."
+        case .invalidResponseError:
+            return "알 수 없는 응답 에러입니다."
         case .invalidHttpStatusCode(let code):
             return "status: \(code)"
         case .emptyData:
