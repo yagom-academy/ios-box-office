@@ -22,10 +22,8 @@ struct BoxofficeInfo<T: Fetchable> {
             completion(.failure(.urlError))
             return
         }
-    
-        let request = URLRequest(url: url)
         
-        self.task = session.dataTask(with: request) { data, response, error in
+        self.task = session.dataTask(with: url) { data, response, error in
             guard error == nil else {
                 completion(.failure(.sessionError))
                 return
