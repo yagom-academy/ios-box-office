@@ -42,6 +42,7 @@ final class BoxOfficeViewController: UIViewController {
         self.networkManager.fetchData(for: url, type: MovieInformation.self) { result in
             switch result {
             case .success(let movieInformation):
+                print(movieInformation)
                 self.movieInformation = movieInformation
             case .failure(_):
                 DispatchQueue.main.async {

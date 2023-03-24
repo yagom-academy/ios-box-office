@@ -11,7 +11,19 @@ enum BoxOfficeAPI {
     case dailyBoxOffice(date: String)
     case detailMovieInformation(movieCode: String)
     
-    static let key: String = "67e99e70400656a77208ca1775261071"
+    static var key: String {
+        get {
+          guard let filePath = Bundle.main.path(forResource: "Info", ofType: "plist") else {
+            fatalError("Info.plist를 찾지 못했습니다.")
+          }
+            
+          let plist = NSDictionary(contentsOfFile: filePath)
+          guard let value = plist?.object(forKey: "API_KEY") as? String else {
+            fatalError("Info.plist에서 API_KEY를 찾을 수 없습니다.")
+          }
+          return value
+        }
+      }
 }
 
 extension BoxOfficeAPI {
