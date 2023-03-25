@@ -22,30 +22,36 @@ extension BoxOfficeAPI: API {
         var components = URLComponents(string: baseURL)
         components?.path = self.path
         
-        let apiItem = URLQueryItem(name: "key", value: self.key)
-        
-        switch self {
-        case .dailyBoxOffice(let date):
-            let dateItem = URLQueryItem(name: "targetDt", value: date)
-            components?.queryItems = [apiItem, dateItem]
-        case .detailMovieInformation(let movieCode):
-            let movieCodeItem = URLQueryItem(name: "movieCd", value: movieCode)
-            components?.queryItems = [apiItem, movieCodeItem]
+        var queriesItem: [URLQueryItem] = []
+        self.queries.forEach { queryItem in
+            let queryItem = URLQueryItem(name: queryItem.key, value: queryItem.value)
+            queriesItem.append(queryItem)
         }
+        
+        components?.queryItems = queriesItem
         
         return components
     }
     
     var baseURL: String {
-        return "http://kobis.or.kr/kobisopenapi/webservice/rest/"
+        return "http://kobis.or.kr"
     }
     
     var path: String {
         switch self {
         case .dailyBoxOffice:
-            return "boxoffice/searchDailyBoxOfficeList.json?"
+            return "/kobisopenapi/webservice/rest/boxoffice/searchDailyBoxOfficeList.json"
         case .detailMovieInformation:
-            return "movie/searchMovieInfo.json?"
+            return "/kobisopenapi/webservice/rest/movie/searchMovieInfo.json"
+        }
+    }
+    
+    var queries: [String: String] {
+        switch self {
+        case .dailyBoxOffice(let date):
+            return ["key": self.key, "targetDt": date]
+        case .detailMovieInformation(let movieCode):
+            return ["key": self.key, "movieCd": movieCode]
         }
     }
     

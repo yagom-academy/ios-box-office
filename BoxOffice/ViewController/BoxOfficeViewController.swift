@@ -9,7 +9,7 @@ import UIKit
 final class BoxOfficeViewController: UIViewController {
     private var boxOffice: BoxOffice?
     private var movieInformation: MovieInformation?
-    private let networkManager = NetworkManager()
+//    private let networkManager = NetworkManager()
     private let movieCode = "20124080"
     
     var yesterday: String? {
@@ -31,7 +31,7 @@ final class BoxOfficeViewController: UIViewController {
         super.viewDidLoad()
         
         self.fetchDailyBoxOffice()
-        self.fetchDetailMovieInformation()
+//        self.fetchDetailMovieInformation()
     }
     
     private func fetchDailyBoxOffice() {
@@ -40,35 +40,45 @@ final class BoxOfficeViewController: UIViewController {
         }
         
         let boxOfficeProvider = BoxOfficeProvider<BoxOfficeAPI>()
-        
-        boxOfficeProvider.fetchData(., type: <#T##Decodable.Protocol#>, completion: <#T##(Result<Decodable, Error>) -> Void#>)
-        
-        self.networkManager.fetchData(for: url, type: BoxOffice.self) { result in
+        print("here")
+        boxOfficeProvider.fetchData(.dailyBoxOffice(date: yesterday), type: BoxOffice.self) { result in
             switch result {
             case .success(let boxOffice):
                 self.boxOffice = boxOffice
+                print(boxOffice)
             case .failure(_):
                 DispatchQueue.main.async {
                     self.showAlert()
                 }
             }
         }
+        
+//        self.networkManager.fetchData(for: url, type: BoxOffice.self) { result in
+//            switch result {
+//            case .success(let boxOffice):
+//                self.boxOffice = boxOffice
+//            case .failure(_):
+//                DispatchQueue.main.async {
+//                    self.showAlert()
+//                }
+//            }
+//        }
     }
     
-    private func fetchDetailMovieInformation() {
-        let url = BoxOfficeAPI.detailMovieInformation(movieCode: self.movieCode).url
-        self.networkManager.fetchData(for: url, type: MovieInformation.self) { result in
-            switch result {
-            case .success(let movieInformation):
-                print(movieInformation)
-                self.movieInformation = movieInformation
-            case .failure(_):
-                DispatchQueue.main.async {
-                    self.showAlert()
-                }
-            }
-        }
-    }
+//    private func fetchDetailMovieInformation() {
+//        let url = BoxOfficeAPI.detailMovieInformation(movieCode: self.movieCode).url
+//        self.networkManager.fetchData(for: url, type: MovieInformation.self) { result in
+//            switch result {
+//            case .success(let movieInformation):
+//                print(movieInformation)
+//                self.movieInformation = movieInformation
+//            case .failure(_):
+//                DispatchQueue.main.async {
+//                    self.showAlert()
+//                }
+//            }
+//        }
+//    }
     
     private func showAlert() {
         let alert = UIAlertController(
