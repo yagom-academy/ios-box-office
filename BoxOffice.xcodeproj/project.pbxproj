@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		081E5ABD29D05FEC0036649C /* DecodeManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08E1C12F29C83D1F000FAF49 /* DecodeManager.swift */; };
 		08CE13BE29CAF80100C15A16 /* ShowType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08CE13B329CAF80100C15A16 /* ShowType.swift */; };
 		08CE13BF29CAF80100C15A16 /* ShowType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08CE13B329CAF80100C15A16 /* ShowType.swift */; };
 		08CE13C029CAF80100C15A16 /* Nation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08CE13B429CAF80100C15A16 /* Nation.swift */; };
@@ -394,6 +395,7 @@
 				08CE13C529CAF80100C15A16 /* Staff.swift in Sources */,
 				08CE13CD29CAF80100C15A16 /* Company.swift in Sources */,
 				D08946E529CD6BCA00669A1C /* DecodeError.swift in Sources */,
+				081E5ABD29D05FEC0036649C /* DecodeManager.swift in Sources */,
 				08CE13C729CAF80100C15A16 /* MovieInformation.swift in Sources */,
 				08CE13D129CAF80100C15A16 /* MovieInformationResult.swift in Sources */,
 				08CE13BF29CAF80100C15A16 /* ShowType.swift in Sources */,

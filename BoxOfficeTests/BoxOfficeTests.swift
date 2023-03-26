@@ -9,7 +9,7 @@ import XCTest
 @testable import BoxOffice
 
 final class BoxOfficeTests: XCTestCase {
-    var sut: DecodeManager<BoxOffice>!
+    var sut: DecodeManager!
     
     override func setUpWithError() throws {
         sut = DecodeManager()
@@ -25,7 +25,7 @@ final class BoxOfficeTests: XCTestCase {
         var success: Bool
         
         //when
-        let result = sut.decodeJSON(fileName: fileName)
+        let result = sut.decodeJSON(fileName: fileName, type: BoxOffice.self)
         
         switch result {
         case .success(_):
@@ -44,7 +44,7 @@ final class BoxOfficeTests: XCTestCase {
         var success: Bool
         
         //when
-        let result = sut.decodeJSON(fileName: fileName)
+        let result = sut.decodeJSON(fileName: fileName, type: BoxOffice.self)
         
         switch result {
         case .success(_):
@@ -61,7 +61,7 @@ final class BoxOfficeTests: XCTestCase {
         let fileName = "box_office_sample"
             
         //when
-        let result = sut.decodeJSON(fileName: fileName)
+        let result = sut.decodeJSON(fileName: fileName, type: BoxOffice.self)
         var decodedFile: BoxOffice?
         
         switch result {
@@ -80,7 +80,7 @@ final class BoxOfficeTests: XCTestCase {
         let fileName = "box_office_sample"
             
         //when
-        let decodedResult = sut.decodeJSON(fileName: fileName)
+        let decodedResult = sut.decodeJSON(fileName: fileName, type: BoxOffice.self)
         var decodedFile: BoxOffice?
         
         switch decodedResult {
@@ -101,7 +101,7 @@ final class BoxOfficeTests: XCTestCase {
         let fileName = "box_office_sample"
             
         //when
-        let decodedResult = sut.decodeJSON(fileName: fileName)
+        let decodedResult = sut.decodeJSON(fileName: fileName, type: BoxOffice.self)
         var decodedFile: BoxOffice?
         
         switch decodedResult {
@@ -122,7 +122,7 @@ final class BoxOfficeTests: XCTestCase {
         let fileName = "box_office_sample"
             
         //when
-        let decodedResult = sut.decodeJSON(fileName: fileName)
+        let decodedResult = sut.decodeJSON(fileName: fileName, type: BoxOffice.self)
         var decodedFile: BoxOffice?
         
         switch decodedResult {
@@ -144,7 +144,7 @@ final class BoxOfficeTests: XCTestCase {
         let fileName = "box_office_sample"
             
         //when
-        let decodedResult = sut.decodeJSON(fileName: fileName)
+        let decodedResult = sut.decodeJSON(fileName: fileName, type: BoxOffice.self)
         var decodedFile: BoxOffice?
         
         switch decodedResult {
@@ -169,7 +169,7 @@ final class BoxOfficeTests: XCTestCase {
         let fileName = "box_office_sample"
             
         //when
-        let decodedResult = sut.decodeJSON(fileName: fileName)
+        let decodedResult = sut.decodeJSON(fileName: fileName, type: BoxOffice.self)
         var decodedFile: BoxOffice?
         
         switch decodedResult {
@@ -194,7 +194,7 @@ final class BoxOfficeTests: XCTestCase {
         let fileName = "box_office_sample"
             
         //when
-        let decodedResult = sut.decodeJSON(fileName: fileName)
+        let decodedResult = sut.decodeJSON(fileName: fileName, type: BoxOffice.self)
         var decodedFile: BoxOffice?
         
         switch decodedResult {

@@ -12,14 +12,14 @@ final class DecodeManager {
     private let decoder = JSONDecoder()
     
     
-    func decodeJSON<T: Decodable>(fileName: String) -> Result<T, DecodeError> {
+    func decodeJSON<T: Decodable>(fileName: String, type: T.Type) -> Result<T, DecodeError> {
         
         guard let JSONFile: NSDataAsset  = NSDataAsset(name: fileName) else {
             return .failure(.invalidFileError)
         }
         
         do{
-            let decodedJSON: T = try decoder.decode(T.self, from: JSONFile.data)
+            let decodedJSON: T = try decoder.decode(type, from: JSONFile.data)
             return .success(decodedJSON)
         } catch {
             return .failure(.decodingFailureError)
@@ -28,7 +28,7 @@ final class DecodeManager {
     
     func decodeJSON<T: Decodable>(data: Data, type: T.Type) -> Result<T, DecodeError> {
         
-        guard let decodedJSON: T = try? decoder.decode(T.self, from: data) else { return .failure(.decodingFailureError) }
+        guard let decodedJSON: T = try? decoder.decode(type, from: data) else { return .failure(.decodingFailureError) }
         
         return .success(decodedJSON)
     }
