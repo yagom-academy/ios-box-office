@@ -9,17 +9,31 @@
 /* Begin PBXBuildFile section */
 		63DF20EF2970E1A0005DF7D1 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63DF20EE2970E1A0005DF7D1 /* AppDelegate.swift */; };
 		63DF20F12970E1A0005DF7D1 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63DF20F02970E1A0005DF7D1 /* SceneDelegate.swift */; };
-		63DF20F32970E1A0005DF7D1 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63DF20F22970E1A0005DF7D1 /* ViewController.swift */; };
+		63DF20F32970E1A0005DF7D1 /* BoxOfficeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63DF20F22970E1A0005DF7D1 /* BoxOfficeViewController.swift */; };
 		63DF20F62970E1A0005DF7D1 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 63DF20F42970E1A0005DF7D1 /* Main.storyboard */; };
 		63DF20F82970E1A1005DF7D1 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 63DF20F72970E1A1005DF7D1 /* Assets.xcassets */; };
 		63DF20FB2970E1A1005DF7D1 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 63DF20F92970E1A1005DF7D1 /* LaunchScreen.storyboard */; };
-		AA09014F29C99570006A6CAB /* Decoder.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA09014E29C99570006A6CAB /* Decoder.swift */; };
-		FB06D42529C82596009981F2 /* BoxOffice.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB06D42429C82596009981F2 /* BoxOffice.swift */; };
+		AA3C502B29CC65E300F059D4 /* NetworkManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA3C502A29CC65E300F059D4 /* NetworkManager.swift */; };
+		AAD99BA629CACE7000C85DA9 /* HttpMethod.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAD99BA529CACE7000C85DA9 /* HttpMethod.swift */; };
+		AAF925D229C9C6EF00C26B45 /* MovieInformation.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAF925D129C9C6EF00C26B45 /* MovieInformation.swift */; };
+		FB06D42529C82596009981F2 /* DailyBoxOffice.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB06D42429C82596009981F2 /* DailyBoxOffice.swift */; };
 		FB06D42D29C83323009981F2 /* BoxOfficeTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB06D42C29C83323009981F2 /* BoxOfficeTests.swift */; };
+		FB06D43C29C9A650009981F2 /* Decoder.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB06D43B29C9A650009981F2 /* Decoder.swift */; };
+		FB06D43E29C9D475009981F2 /* BoxOfficeEndPoint.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB06D43D29C9D475009981F2 /* BoxOfficeEndPoint.swift */; };
+		FB2D181C29CC1FC6003BEA6D /* NetworkManagerTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB2D181B29CC1FC6003BEA6D /* NetworkManagerTest.swift */; };
+		FB54473829CAD9EE00C396A0 /* NetworkError.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB54473729CAD9EE00C396A0 /* NetworkError.swift */; };
+		FB5B0F0E29CC3DA40089F0D9 /* MockURLProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB5B0F0D29CC3DA40089F0D9 /* MockURLProtocol.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
 		FB06D42E29C83323009981F2 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 63DF20E32970E1A0005DF7D1 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 63DF20EA2970E1A0005DF7D1;
+			remoteInfo = BoxOffice;
+		};
+		FB2D181D29CC1FC6003BEA6D /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 63DF20E32970E1A0005DF7D1 /* Project object */;
 			proxyType = 1;
@@ -32,15 +46,23 @@
 		63DF20EB2970E1A0005DF7D1 /* BoxOffice.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = BoxOffice.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		63DF20EE2970E1A0005DF7D1 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		63DF20F02970E1A0005DF7D1 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
-		63DF20F22970E1A0005DF7D1 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
+		63DF20F22970E1A0005DF7D1 /* BoxOfficeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BoxOfficeViewController.swift; sourceTree = "<group>"; };
 		63DF20F52970E1A0005DF7D1 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		63DF20F72970E1A1005DF7D1 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		63DF20FA2970E1A1005DF7D1 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		63DF20FC2970E1A1005DF7D1 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		AA09014E29C99570006A6CAB /* Decoder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Decoder.swift; sourceTree = "<group>"; };
-		FB06D42429C82596009981F2 /* BoxOffice.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BoxOffice.swift; sourceTree = "<group>"; };
+		AA3C502A29CC65E300F059D4 /* NetworkManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkManager.swift; sourceTree = "<group>"; };
+		AAD99BA529CACE7000C85DA9 /* HttpMethod.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HttpMethod.swift; sourceTree = "<group>"; };
+		AAF925D129C9C6EF00C26B45 /* MovieInformation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MovieInformation.swift; sourceTree = "<group>"; };
+		FB06D42429C82596009981F2 /* DailyBoxOffice.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DailyBoxOffice.swift; sourceTree = "<group>"; };
 		FB06D42A29C83322009981F2 /* BoxOfficeTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = BoxOfficeTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		FB06D42C29C83323009981F2 /* BoxOfficeTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BoxOfficeTests.swift; sourceTree = "<group>"; };
+		FB06D43B29C9A650009981F2 /* Decoder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Decoder.swift; sourceTree = "<group>"; };
+		FB06D43D29C9D475009981F2 /* BoxOfficeEndPoint.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BoxOfficeEndPoint.swift; sourceTree = "<group>"; };
+		FB2D181929CC1FC6003BEA6D /* NetworkManagerTest.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = NetworkManagerTest.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		FB2D181B29CC1FC6003BEA6D /* NetworkManagerTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkManagerTest.swift; sourceTree = "<group>"; };
+		FB54473729CAD9EE00C396A0 /* NetworkError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkError.swift; sourceTree = "<group>"; };
+		FB5B0F0D29CC3DA40089F0D9 /* MockURLProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockURLProtocol.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -58,6 +80,13 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		FB2D181629CC1FC6003BEA6D /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
@@ -66,6 +95,7 @@
 			children = (
 				63DF20ED2970E1A0005DF7D1 /* BoxOffice */,
 				FB06D42B29C83323009981F2 /* BoxOfficeTests */,
+				FB2D181A29CC1FC6003BEA6D /* NetworkManagerTest */,
 				63DF20EC2970E1A0005DF7D1 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -75,6 +105,7 @@
 			children = (
 				63DF20EB2970E1A0005DF7D1 /* BoxOffice.app */,
 				FB06D42A29C83322009981F2 /* BoxOfficeTests.xctest */,
+				FB2D181929CC1FC6003BEA6D /* NetworkManagerTest.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -82,21 +113,50 @@
 		63DF20ED2970E1A0005DF7D1 /* BoxOffice */ = {
 			isa = PBXGroup;
 			children = (
+				FB06D42329C8258A009981F2 /* Model */,
+				FB06D43329C8344C009981F2 /* View */,
+				FB06D43429C83458009981F2 /* Controller */,
 				FB06D43629C83476009981F2 /* Resources */,
 				FB06D43529C8346C009981F2 /* Application */,
-				FB06D42329C8258A009981F2 /* Model */,
-				FB06D43429C83458009981F2 /* Controller */,
-				FB06D43329C8344C009981F2 /* View */,
 				63DF20FC2970E1A1005DF7D1 /* Info.plist */,
 			);
 			path = BoxOffice;
 			sourceTree = "<group>";
 		};
+		AA09014B29C95757006A6CAB /* Network */ = {
+			isa = PBXGroup;
+			children = (
+				FB54473729CAD9EE00C396A0 /* NetworkError.swift */,
+				AA3C502A29CC65E300F059D4 /* NetworkManager.swift */,
+			);
+			path = Network;
+			sourceTree = "<group>";
+		};
+		AA3C502C29CC678A00F059D4 /* EndPoint */ = {
+			isa = PBXGroup;
+			children = (
+				AAD99BA529CACE7000C85DA9 /* HttpMethod.swift */,
+				FB06D43D29C9D475009981F2 /* BoxOfficeEndPoint.swift */,
+			);
+			path = EndPoint;
+			sourceTree = "<group>";
+		};
+		AAC2A08729CC6016000C9602 /* JSON */ = {
+			isa = PBXGroup;
+			children = (
+				FB06D42429C82596009981F2 /* DailyBoxOffice.swift */,
+				AAF925D129C9C6EF00C26B45 /* MovieInformation.swift */,
+				FB06D43B29C9A650009981F2 /* Decoder.swift */,
+			);
+			path = JSON;
+			sourceTree = "<group>";
+		};
 		FB06D42329C8258A009981F2 /* Model */ = {
 			isa = PBXGroup;
 			children = (
-				FB06D42429C82596009981F2 /* BoxOffice.swift */,
-				AA09014E29C99570006A6CAB /* Decoder.swift */,
+				AAC2A08729CC6016000C9602 /* JSON */,
+				AA3C502C29CC678A00F059D4 /* EndPoint */,
+				AA09014B29C95757006A6CAB /* Network */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -120,7 +180,7 @@
 		FB06D43429C83458009981F2 /* Controller */ = {
 			isa = PBXGroup;
 			children = (
-				63DF20F22970E1A0005DF7D1 /* ViewController.swift */,
+				63DF20F22970E1A0005DF7D1 /* BoxOfficeViewController.swift */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -141,6 +201,15 @@
 				63DF20F72970E1A1005DF7D1 /* Assets.xcassets */,
 			);
 			path = Resources;
+			sourceTree = "<group>";
+		};
+		FB2D181A29CC1FC6003BEA6D /* NetworkManagerTest */ = {
+			isa = PBXGroup;
+			children = (
+				FB2D181B29CC1FC6003BEA6D /* NetworkManagerTest.swift */,
+				FB5B0F0D29CC3DA40089F0D9 /* MockURLProtocol.swift */,
+			);
+			path = NetworkManagerTest;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -181,6 +250,24 @@
 			productReference = FB06D42A29C83322009981F2 /* BoxOfficeTests.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
 		};
+		FB2D181829CC1FC6003BEA6D /* NetworkManagerTest */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = FB2D182129CC1FC6003BEA6D /* Build configuration list for PBXNativeTarget "NetworkManagerTest" */;
+			buildPhases = (
+				FB2D181529CC1FC6003BEA6D /* Sources */,
+				FB2D181629CC1FC6003BEA6D /* Frameworks */,
+				FB2D181729CC1FC6003BEA6D /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				FB2D181E29CC1FC6003BEA6D /* PBXTargetDependency */,
+			);
+			name = NetworkManagerTest;
+			productName = NetworkManagerTest;
+			productReference = FB2D181929CC1FC6003BEA6D /* NetworkManagerTest.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
@@ -195,6 +282,10 @@
 						CreatedOnToolsVersion = 14.2;
 					};
 					FB06D42929C83322009981F2 = {
+						CreatedOnToolsVersion = 14.2;
+						TestTargetID = 63DF20EA2970E1A0005DF7D1;
+					};
+					FB2D181829CC1FC6003BEA6D = {
 						CreatedOnToolsVersion = 14.2;
 						TestTargetID = 63DF20EA2970E1A0005DF7D1;
 					};
@@ -215,6 +306,7 @@
 			targets = (
 				63DF20EA2970E1A0005DF7D1 /* BoxOffice */,
 				FB06D42929C83322009981F2 /* BoxOfficeTests */,
+				FB2D181829CC1FC6003BEA6D /* NetworkManagerTest */,
 			);
 		};
 /* End PBXProject section */
@@ -237,6 +329,13 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		FB2D181729CC1FC6003BEA6D /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
@@ -244,11 +343,16 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				63DF20F32970E1A0005DF7D1 /* ViewController.swift in Sources */,
+				FB54473829CAD9EE00C396A0 /* NetworkError.swift in Sources */,
+				63DF20F32970E1A0005DF7D1 /* BoxOfficeViewController.swift in Sources */,
 				63DF20EF2970E1A0005DF7D1 /* AppDelegate.swift in Sources */,
-				FB06D42529C82596009981F2 /* BoxOffice.swift in Sources */,
-				AA09014F29C99570006A6CAB /* Decoder.swift in Sources */,
+				AAD99BA629CACE7000C85DA9 /* HttpMethod.swift in Sources */,
+				FB06D43E29C9D475009981F2 /* BoxOfficeEndPoint.swift in Sources */,
+				FB06D43C29C9A650009981F2 /* Decoder.swift in Sources */,
+				FB06D42529C82596009981F2 /* DailyBoxOffice.swift in Sources */,
+				AA3C502B29CC65E300F059D4 /* NetworkManager.swift in Sources */,
 				63DF20F12970E1A0005DF7D1 /* SceneDelegate.swift in Sources */,
+				AAF925D229C9C6EF00C26B45 /* MovieInformation.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -260,6 +364,15 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		FB2D181529CC1FC6003BEA6D /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				FB5B0F0E29CC3DA40089F0D9 /* MockURLProtocol.swift in Sources */,
+				FB2D181C29CC1FC6003BEA6D /* NetworkManagerTest.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
@@ -267,6 +380,11 @@
 			isa = PBXTargetDependency;
 			target = 63DF20EA2970E1A0005DF7D1 /* BoxOffice */;
 			targetProxy = FB06D42E29C83323009981F2 /* PBXContainerItemProxy */;
+		};
+		FB2D181E29CC1FC6003BEA6D /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 63DF20EA2970E1A0005DF7D1 /* BoxOffice */;
+			targetProxy = FB2D181D29CC1FC6003BEA6D /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
@@ -502,6 +620,48 @@
 			};
 			name = Release;
 		};
+		FB2D181F29CC1FC6003BEA6D /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				GENERATE_INFOPLIST_FILE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 16.2;
+				MACOSX_DEPLOYMENT_TARGET = 13.1;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = net.riji.NetworkManagerTest;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = auto;
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator macosx";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/BoxOffice.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/BoxOffice";
+			};
+			name = Debug;
+		};
+		FB2D182029CC1FC6003BEA6D /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				GENERATE_INFOPLIST_FILE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 16.2;
+				MACOSX_DEPLOYMENT_TARGET = 13.1;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = net.riji.NetworkManagerTest;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = auto;
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator macosx";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/BoxOffice.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/BoxOffice";
+			};
+			name = Release;
+		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -528,6 +688,15 @@
 			buildConfigurations = (
 				FB06D43029C83323009981F2 /* Debug */,
 				FB06D43129C83323009981F2 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		FB2D182129CC1FC6003BEA6D /* Build configuration list for PBXNativeTarget "NetworkManagerTest" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				FB2D181F29CC1FC6003BEA6D /* Debug */,
+				FB2D182029CC1FC6003BEA6D /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
