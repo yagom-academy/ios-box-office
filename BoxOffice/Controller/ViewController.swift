@@ -24,7 +24,7 @@ class ViewController: UIViewController {
             
             switch result {
             case .success(let data):
-                self.movieInfoResult = decoder.decodeJSON(data: data, type: DetailMovieInformation.self)
+                print("성공")
             case .failure(let error):
                 print(error.localizedDescription)
             }
