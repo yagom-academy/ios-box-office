@@ -29,7 +29,7 @@ final class BoxOfficeJsonDecoderTests: XCTestCase {
         
         // when, then
         do {
-            let result = try sut.loadJsonData(name: assetName, type: BoxOfficeResult.self)
+            let result = try sut.loadJsonData(name: assetName, type: BoxOffice.self)
             XCTAssertEqual(expectedBoxOfficeType, result.boxOfficeResult.boxOfficeType)
             XCTAssertEqual(
                 expectedFirstMovieName,
@@ -47,7 +47,7 @@ final class BoxOfficeJsonDecoderTests: XCTestCase {
         var thrownError: Error?
         
         // when, then
-        XCTAssertThrowsError(try sut.loadJsonData(name: assetName, type: BoxOfficeResult.self)) {
+        XCTAssertThrowsError(try sut.loadJsonData(name: assetName, type: BoxOffice.self)) {
             thrownError = $0
         }
         
