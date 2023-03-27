@@ -7,11 +7,14 @@
 
 import UIKit
 
-class BoxOfficeViewController: UIViewController {
-    @IBOutlet weak var collectionView: UICollectionView!
-    let networkManager = NetworkManager()
-    var boxOffice: BoxOffice?
-    var activityIndicator: UIActivityIndicatorView = {
+final class BoxOfficeViewController: UIViewController {
+    @IBOutlet private weak var collectionView: UICollectionView!
+    
+    private let networkManager = NetworkManager()
+    private let refreshControl = UIRefreshControl()
+    private var boxOffice: BoxOffice?
+    
+    private var activityIndicator: UIActivityIndicatorView = {
         let activityIndicator = UIActivityIndicatorView()
         activityIndicator.style = UIActivityIndicatorView.Style.large
         activityIndicator.startAnimating()
@@ -20,10 +23,28 @@ class BoxOfficeViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        
+        refreshControl.addTarget(self, action: #selector(refreshData), for: .valueChanged)
         registerXib()
         configureCollectionView()
         fetchDailyBoxOffice()
+    }
+    
+    @objc private func refreshData() {
+        let endPoint: BoxOfficeEndPoint = .fetchDailyBoxOffice(targetDate: generateYesterdayText())
+        
+        networkManager.fetchData(url: endPoint.createURL(), type: BoxOffice.self) { result in
+            DispatchQueue.main.async {
+                switch result {
+                case .success(let data):
+                    self.boxOffice = data
+                    self.collectionView.reloadData()
+                case .failure(let error):
+                    print(error.localizedDescription)
+                }
+                self.refreshControl.endRefreshing()
+            }
+        }
     }
     
     private func registerXib() {
@@ -37,6 +58,7 @@ class BoxOfficeViewController: UIViewController {
     }
 
     private func configureCollectionView() {
+        collectionView.refreshControl = refreshControl
         collectionView.backgroundView = activityIndicator
         collectionView.dataSource = self
         collectionView.collectionViewLayout = createListLayout()
