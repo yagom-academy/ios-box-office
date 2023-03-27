@@ -13,8 +13,9 @@ final class DailyBoxOfficeCell: UICollectionViewCell {
     var rankDifferenceLabel = UILabel()
     var movieTitleLable = UILabel()
     var audienceCountLabel = UILabel()
+    let identifier = "DailyBoxOfficeCell"
     
-    func setLayoutConstraint() {
+    func configureSubviews() {
         let rankStackView = {
           let stackView = UIStackView()
             stackView.addArrangedSubview(rankLabel)

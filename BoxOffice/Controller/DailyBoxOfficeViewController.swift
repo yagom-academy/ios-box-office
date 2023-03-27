@@ -9,7 +9,6 @@ import UIKit
 
 final class DailyBoxOfficeViewController: UIViewController {
     private var collectionView: UICollectionView!
-    private var dataSource: UICollectionViewDiffableDataSource<Section, DailyBoxOfficeMovie>!
     private var dailyBoxOffice: DailyBoxOffice?
     private var yesterday = Date(timeIntervalSinceNow: -(3600 * 24))
     
@@ -26,6 +25,23 @@ final class DailyBoxOfficeViewController: UIViewController {
         self.title = title
     }
     
+    private func loadDailyBoxOffice() {
+        var api = KobisAPI(service: .dailyBoxOffice)
+        let targetDate = DateFormatter(dateFormat: "yyyyMMdd").string(from: yesterday)
+        api.addQuery(name: "targetDt", value: targetDate)
+        
+        var apiProvider = APIProvider()
+        apiProvider.target(api: api)
+        apiProvider.startLoad(decodingType: DailyBoxOffice.self) { result in
+            switch result {
+            case .success(let dailyBoxOffice):
+                self.dailyBoxOffice = dailyBoxOffice
+            case .failure(let error):
+                print(error.localizedDescription)
+            }
+        }
+    }
+    
     private func configureCollectionView() {
         let collectionView = UICollectionView(frame: view.bounds, collectionViewLayout: createListLayout())
         view.addSubview(collectionView)
@@ -38,38 +54,18 @@ final class DailyBoxOfficeViewController: UIViewController {
             collectionView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor)
         ])
         
+        collectionView.register(DailyBoxOfficeCell.self, forCellWithReuseIdentifier: "DailyBoxOfficeCell")
+        
         self.collectionView = collectionView
     }
     
     private func createListLayout() -> UICollectionViewCompositionalLayout {
-        let configuration = UICollectionLayoutListConfiguration(appearance: .plain)
+        let configuration = UICollectionViewFlowLayout()
         
-        return UICollectionViewCompositionalLayout.list(using: configuration)
+        return
     }
     
-    
-    private func loadDailyBoxOffice() {
-        var api = KobisAPI(service: .dailyBoxOffice)
-        let targetDate = DateFormatter(dateFormat: "yyyyMMdd").string(from: yesterday)
-        api.addQuery(name: "targetDt", value: targetDate)
-        
-        var apiProvider = APIProvider()
-        apiProvider.target(api: api)
-        apiProvider.startLoad(decodingType: DailyBoxOffice.self) { result in
-            switch result {
-            case .success(let dailyBoxOffice):
-                self.dailyBoxOffice = dailyBoxOffice
-                print(dailyBoxOffice)
-                DispatchQueue.main.async {
-                    self.configureDataSource()
-                }
-            case .failure(let error):
-                print(error.localizedDescription)
-            }
-        }
-    }
-    
-    func configureRefreshControl() {
+    private func configureRefreshControl() {
         let refreshControl = UIRefreshControl()
         refreshControl.addTarget(self, action: #selector(handlerRefreshControl), for: .valueChanged)
         collectionView.refreshControl = refreshControl
@@ -83,54 +79,63 @@ final class DailyBoxOfficeViewController: UIViewController {
             self.collectionView.refreshControl?.endRefreshing()
         }
     }
-    
-    private enum Section: CaseIterable {
-        case main
+}
+
+extension DailyBoxOfficeViewController: UICollectionViewDataSource {
+    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        guard let dailyBoxOffice = self.dailyBoxOffice else { return 0 }
+        
+        return dailyBoxOffice.boxOfficeResult.dailyBoxOfficeList.count
     }
     
-    func numberFormatter(for audience: String) -> String? {
+    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "DailyBoxOfficeCell", for: indexPath) as? DailyBoxOfficeCell,
+              let movieData = self.dailyBoxOffice?.boxOfficeResult.dailyBoxOfficeList[indexPath.item] else { return UICollectionViewCell() }
+        
+        cell.movieTitleLable.text = movieData.movieName
+        
+        let todayAudience = convertToDecimal(target: movieData.audienceCountOfDate) ?? "0"
+        let accumulatedAudience = convertToDecimal(target: movieData.accumulatedAudienceCount) ?? "0"
+        cell.audienceCountLabel.text = "오늘 \(todayAudience) / 총 \(accumulatedAudience)"
+        
+        cell.rankLabel.text = movieData.rank
+        cell.rankLabel.font = UIFont.preferredFont(forTextStyle: .largeTitle)
+        
+        switch movieData.rankOldAndNew {
+        case "NEW":
+            cell.rankDifferenceLabel.text = "신작"
+            cell.rankDifferenceLabel.textColor = .systemRed
+        case "OLD":
+            if movieData.rankDifference.contains("-") {
+                let difference = movieData.rankDifference.trimmingCharacters(in: ["-"])
+                let text = "⏷" + difference
+                let attributedString = NSMutableAttributedString(string: text)
+                let range = NSString(string: text).range(of: "⏷")
+                attributedString.addAttribute(.foregroundColor, value: UIColor.systemBlue, range: range)
+                cell.rankDifferenceLabel.attributedText = attributedString
+            } else if movieData.rankDifference == "0" {
+                cell.rankDifferenceLabel.text = "-"
+            } else {
+                let text = "⏶" + movieData.rankDifference
+                let attributedString = NSMutableAttributedString(string: text)
+                let range = NSString(string: text).range(of: "⏶")
+                attributedString.addAttribute(.foregroundColor, value: UIColor.systemRed, range: range)
+                cell.rankDifferenceLabel.attributedText = attributedString
+            }
+        default:
+            cell.rankDifferenceLabel.text = ""
+        }
+        
+        cell.rankDifferenceLabel.font = UIFont.preferredFont(forTextStyle: .body)
+        
+        return cell
+    }
+    
+    func convertToDecimal(target: String) -> String? {
         let numberFormatter = NumberFormatter()
         numberFormatter.numberStyle = .decimal
-        let result = numberFormatter.string(from: Int(audience) as? NSNumber ?? 0)
+        let result = numberFormatter.string(from: Int(target) as? NSNumber ?? 0)
         
         return result
     }
-    //MARK: - cell에서가져옴
-    /*
-     func configureViews() {
-     setLayoutConstraint()
-     guard let dailyBoxOfficeData = self.dailyBoxOfficeData else { return }
-     
-     rankLabel.text = dailyBoxOfficeData.rank
-     rankLabel.font = UIFont.preferredFont(forTextStyle: .largeTitle)
-     
-     switch dailyBoxOfficeData.rankOldAndNew {
-     case "NEW":
-     rankDifferenceLabel.text = "신작"
-     rankDifferenceLabel.textColor = .systemRed
-     case "OLD":
-     if dailyBoxOfficeData.rankDifference.contains("-") {
-     let difference = dailyBoxOfficeData.rankDifference.trimmingCharacters(in: ["-"])
-     let text = "⏷" + difference
-     let attributedString = NSMutableAttributedString(string: text)
-     let range = NSString(string: text).range(of: "⏷")
-     attributedString.addAttribute(.foregroundColor, value: UIColor.systemBlue, range: range)
-     rankDifferenceLabel.attributedText = attributedString
-     } else if dailyBoxOfficeData.rankDifference == "0" {
-     rankDifferenceLabel.text = "-"
-     } else {
-     let text = "⏶" + dailyBoxOfficeData.rankDifference
-     let attributedString = NSMutableAttributedString(string: text)
-     let range = NSString(string: text).range(of: "⏶")
-     attributedString.addAttribute(.foregroundColor, value: UIColor.systemRed, range: range)
-     rankDifferenceLabel.attributedText = attributedString
-     }
-     default:
-     rankDifferenceLabel.text = ""
-     }
-     
-     rankDifferenceLabel.font = UIFont.preferredFont(forTextStyle: .body)
-     }
-     */
-
 }
