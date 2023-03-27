@@ -16,10 +16,12 @@ struct BoxOfficeContentConfiguration: UIContentConfiguration, Hashable {
     
     
     func makeContentView() -> UIView & UIContentView {
+        print("makeContentView")
         return BoxOfficeContentView(configuration: self)
     }
     
     func updated(for state: UIConfigurationState) -> Self {
+        print("updated")
         guard let state = state as? UICellConfigurationState else {
             return self
         }

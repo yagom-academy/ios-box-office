@@ -7,6 +7,15 @@
 import UIKit
 
 final class BoxOfficeViewController: UIViewController {
+    
+    enum Section {
+        case main
+    }
+    
+    var dataSource: UICollectionViewDiffableDataSource<Section, BoxOfficeItem>! = nil
+    var collectionView: UICollectionView! = nil
+    var boxOfficeItems: [BoxOfficeItem] = []
+    
     private var yesterday: String? {
         guard let yesterdayDate = Calendar.current.date(
             byAdding: Calendar.Component.day,
@@ -34,6 +43,9 @@ final class BoxOfficeViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        configureHierarchy()
+        configureDataSource()
+        
         setupUI()
         self.fetchDailyBoxOffice()
     }
@@ -52,9 +64,18 @@ final class BoxOfficeViewController: UIViewController {
         boxOfficeProvider.fetchData(.dailyBoxOffice(date: yesterday),
                                     type: BoxOfficeDTO.self) { result in
             switch result {
-            case .success:
+            case .success(let data):
+                self.boxOfficeItems = data.boxOfficeResult.dailyBoxOfficeList.map { movie in
+                    return BoxOfficeItem(rank: movie.rank,
+                                         rankIncrement: movie.rankIncrement,
+                                         rankOldAndNew: movie.rankOldAndNew,
+                                         title: movie.movieName,
+                                         audienceCount: movie.audienceCount,
+                                         audienceAccumulationCount: movie.audienceAccumulation)
+                }
                 DispatchQueue.main.async {
                     self.activityIndicator.stopAnimating()
+                    self.updateSnapshot()
                 }
             case .failure:
                 DispatchQueue.main.async {
@@ -79,3 +100,60 @@ final class BoxOfficeViewController: UIViewController {
     }
 }
 
+extension BoxOfficeViewController {
+    private func createLayout() -> UICollectionViewLayout {
+        let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0),
+                                              heightDimension: .fractionalHeight(1.0))
+        let item = NSCollectionLayoutItem(layoutSize: itemSize)
+
+        let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0),
+                                               heightDimension: .fractionalWidth(0.2))
+        let group = NSCollectionLayoutGroup.horizontal(layoutSize: groupSize,
+                                                         subitems: [item])
+
+        let section = NSCollectionLayoutSection(group: group)
+
+        let layout = UICollectionViewCompositionalLayout(section: section)
+        return layout
+    }
+}
+
+extension BoxOfficeViewController {
+    private func configureHierarchy() {
+        collectionView = UICollectionView(frame: view.bounds, collectionViewLayout: createLayout())
+        collectionView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
+        view.addSubview(collectionView)
+    }
+    
+    private func configureDataSource() {
+        let cellRegistration = UICollectionView.CellRegistration<BoxOfficeListCell, BoxOfficeItem> {
+            (cell, indexPath, item) in
+            cell.item = item
+        }
+        
+        dataSource = UICollectionViewDiffableDataSource<Section, BoxOfficeItem>(collectionView: collectionView) {
+            (collectionView: UICollectionView, indexPath: IndexPath, identifier: BoxOfficeItem) -> UICollectionViewCell? in
+            
+            let cell = collectionView.dequeueConfiguredReusableCell(using: cellRegistration,
+                                                                    for: indexPath,
+                                                                    item: identifier)
+            
+            return cell
+        }
+        
+        // intial State
+        var snapshot = NSDiffableDataSourceSnapshot<Section, BoxOfficeItem>()
+        snapshot.appendSections([.main])
+        snapshot.appendItems([])
+        
+        dataSource.apply(snapshot, animatingDifferences: false)
+    }
+    
+    private func updateSnapshot() {
+        var snapshot = NSDiffableDataSourceSnapshot<Section, BoxOfficeItem>()
+        snapshot.appendSections([.main])
+        snapshot.appendItems(boxOfficeItems)
+        
+        dataSource.apply(snapshot, animatingDifferences: false)
+    }
+}

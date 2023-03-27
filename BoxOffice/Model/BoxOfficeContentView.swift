@@ -48,6 +48,7 @@ class BoxOfficeContentView: UIView, UIContentView {
 
 private extension BoxOfficeContentView {
     private func setupAllViews() {
+        print("setupAllViews")
         let rankInformationStackView = UIStackView()
         
         rankStackView.addArrangedSubview(rankIncrementSymbol)
@@ -68,15 +69,20 @@ private extension BoxOfficeContentView {
         movieStackView.addArrangedSubview(rankInformationStackView)
         movieStackView.addArrangedSubview(movieInformationStackView)
 
+        addSubview(movieStackView)
+        
         NSLayoutConstraint.activate([
-            movieStackView.leadingAnchor.constraint(equalTo: layoutMarginsGuide.leadingAnchor),
-            movieStackView.trailingAnchor.constraint(equalTo: layoutMarginsGuide.trailingAnchor),
-            movieStackView.topAnchor.constraint(equalTo: layoutMarginsGuide.topAnchor),
-            movieStackView.bottomAnchor.constraint(equalTo: layoutMarginsGuide.bottomAnchor)
+            movieStackView.centerXAnchor.constraint(equalTo: self.centerXAnchor),
+            movieStackView.centerYAnchor.constraint(equalTo: self.centerYAnchor)
+//            movieStackView.leadingAnchor.constraint(equalTo: self.leadingAnchor),
+//            movieStackView.trailingAnchor.constraint(equalTo: self.trailingAnchor),
+//            movieStackView.topAnchor.constraint(equalTo: self.topAnchor),
+//            movieStackView.bottomAnchor.constraint(equalTo: self.bottomAnchor)
         ])
     }
     
     private func apply(configuration: BoxOfficeContentConfiguration) {
+        print("apply")
         guard currentConfiguration != configuration else {
             return
         }
@@ -105,7 +111,10 @@ private extension BoxOfficeContentView {
         
         titleLabel.text = configuration.title
         
-        let audienceString = "오늘 \(configuration.audienceCount) / 총: \(configuration.audienceAccumulationCount)"
-        audienceCountLabel.text = audienceString
+        if let todayAudienceCount = configuration.audienceCount,
+           let accumulatedAudienceCount = configuration.audienceAccumulationCount {
+            let audienceString = "오늘 \(todayAudienceCount) / 총: \(accumulatedAudienceCount)"
+            audienceCountLabel.text = audienceString
+        }
     }
 }
