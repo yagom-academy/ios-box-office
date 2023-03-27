@@ -1,5 +1,5 @@
 //
-//  JSONModel.swift
+//  DailyBoxOffice.swift
 //  BoxOffice
 //
 //  Created by Muri, Rowan on 2023/03/20.
