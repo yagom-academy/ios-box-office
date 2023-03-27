@@ -9,6 +9,7 @@ import Foundation
 @testable import BoxOffice
 
 final class MockURLSession: URLSessionProtocol {
+    
     typealias Response = (data: Data?, urlResponse: URLResponse?, error: Error?)
     
     private let response: Response
@@ -17,10 +18,7 @@ final class MockURLSession: URLSessionProtocol {
         self.response = response
     }
     
-    func dataTask(
-        with url: URL,
-        completionHandler: @escaping (Data?, URLResponse?, Error?) -> Void
-    ) -> URLSessionDataTaskProtocol {
+    func dataTask(with request: URLRequest, completionHandler: @escaping (Data?, URLResponse?, Error?) -> Void) -> URLSessionDataTaskProtocol {
         return MockURLSessionDataTask(resumeHandler: {
             completionHandler(
                 self.response.data,

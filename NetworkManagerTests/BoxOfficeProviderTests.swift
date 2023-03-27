@@ -1,5 +1,5 @@
 //
-//  NetworkManagerTests.swift
+//  BoxOfficeProviderTests.swift
 //  BoxOffice
 //
 //  Created by vetto, brody on 23/03/22.
@@ -8,7 +8,7 @@
 import XCTest
 @testable import BoxOffice
 
-final class NetworkManagerTests: XCTestCase {
+final class BoxOfficeProviderTests: XCTestCase {
     var url: String!
     var data: Data!
     
@@ -30,11 +30,11 @@ final class NetworkManagerTests: XCTestCase {
                                                  data: data,
                                                  statusCode: 200)
         
-        let sut = NetworkManager(session: mockURLSession)
+        let sut = BoxOfficeProvider<BoxOfficeAPI>(session: mockURLSession)
         
         //when
         var result: BoxOffice?
-        sut.fetchData(for: URL(string:url)!,
+        sut.fetchData(.dailyBoxOffice(date: "20230323"),
                       type: BoxOffice.self) { response in
             if case let .success(boxOffice) = response {
                 result = boxOffice
@@ -60,11 +60,11 @@ final class NetworkManagerTests: XCTestCase {
                                                  data: data,
                                                  statusCode: 404)
         
-        let sut = NetworkManager(session: mockURLSession)
+        let sut = BoxOfficeProvider<BoxOfficeAPI>(session: mockURLSession)
         
         //when
         var result: Error?
-        sut.fetchData(for: URL(string:url)!,
+        sut.fetchData(.dailyBoxOffice(date: "20230323"),
                       type: BoxOffice.self) { response in
             if case let .failure(error) = response {
                 result = error
@@ -82,11 +82,11 @@ final class NetworkManagerTests: XCTestCase {
                                                  data: data,
                                                  statusCode: 500)
         
-        let sut = NetworkManager(session: mockURLSession)
+        let sut = BoxOfficeProvider<BoxOfficeAPI>(session: mockURLSession)
         
         //when
         var result: Error?
-        sut.fetchData(for: URL(string:url)!,
+        sut.fetchData(.dailyBoxOffice(date: "20230323"),
                       type: BoxOffice.self) { response in
             if case let .failure(error) = response {
                 result = error
@@ -104,11 +104,11 @@ final class NetworkManagerTests: XCTestCase {
                                                  data: data,
                                                  statusCode: 200)
         
-        let sut = NetworkManager(session: mockURLSession)
+        let sut = BoxOfficeProvider<BoxOfficeAPI>(session: mockURLSession)
         
         //when
         var result: Error?
-        sut.fetchData(for: URL(string:url)!,
+        sut.fetchData(.dailyBoxOffice(date: "20230323"),
                       type: MovieInformation.self) { response in
             if case let .failure(error) = response {
                 result = error

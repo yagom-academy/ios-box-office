@@ -28,7 +28,7 @@
 		984BFCC429C99CD200CA8495 /* MovieInformation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 984BFCC329C99CD200CA8495 /* MovieInformation.swift */; };
 		984BFCC629C99D0C00CA8495 /* MovieDetailInformation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 984BFCC529C99D0C00CA8495 /* MovieDetailInformation.swift */; };
 		984BFCC929CA8E6C00CA8495 /* URLSessionProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 984BFCC829CA8E6C00CA8495 /* URLSessionProtocol.swift */; };
-		984BFCD129CA940300CA8495 /* NetworkManagerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 984BFCD029CA940300CA8495 /* NetworkManagerTests.swift */; };
+		984BFCD129CA940300CA8495 /* BoxOfficeProviderTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 984BFCD029CA940300CA8495 /* BoxOfficeProviderTests.swift */; };
 		984BFCD829CA943400CA8495 /* MockURLSession.swift in Sources */ = {isa = PBXBuildFile; fileRef = 984BFCD729CA943400CA8495 /* MockURLSession.swift */; };
 		984BFCDA29CA965100CA8495 /* JsonLoader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 984BFCD929CA965100CA8495 /* JsonLoader.swift */; };
 /* End PBXBuildFile section */
@@ -76,7 +76,7 @@
 		984BFCC529C99D0C00CA8495 /* MovieDetailInformation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MovieDetailInformation.swift; sourceTree = "<group>"; };
 		984BFCC829CA8E6C00CA8495 /* URLSessionProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = URLSessionProtocol.swift; sourceTree = "<group>"; };
 		984BFCCE29CA940300CA8495 /* NetworkMockTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = NetworkMockTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
-		984BFCD029CA940300CA8495 /* NetworkManagerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkManagerTests.swift; sourceTree = "<group>"; };
+		984BFCD029CA940300CA8495 /* BoxOfficeProviderTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BoxOfficeProviderTests.swift; sourceTree = "<group>"; };
 		984BFCD729CA943400CA8495 /* MockURLSession.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockURLSession.swift; sourceTree = "<group>"; };
 		984BFCD929CA965100CA8495 /* JsonLoader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JsonLoader.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -220,7 +220,7 @@
 		984BFCCF29CA940300CA8495 /* NetworkManagerTests */ = {
 			isa = PBXGroup;
 			children = (
-				984BFCD029CA940300CA8495 /* NetworkManagerTests.swift */,
+				984BFCD029CA940300CA8495 /* BoxOfficeProviderTests.swift */,
 				984BFCD729CA943400CA8495 /* MockURLSession.swift */,
 				984BFCD929CA965100CA8495 /* JsonLoader.swift */,
 				625164BE29CA9C670094711C /* MockURLSessionDataTask.swift */,
@@ -393,7 +393,7 @@
 				984BFCD829CA943400CA8495 /* MockURLSession.swift in Sources */,
 				625164BF29CA9C670094711C /* MockURLSessionDataTask.swift in Sources */,
 				984BFCDA29CA965100CA8495 /* JsonLoader.swift in Sources */,
-				984BFCD129CA940300CA8495 /* NetworkManagerTests.swift in Sources */,
+				984BFCD129CA940300CA8495 /* BoxOfficeProviderTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
