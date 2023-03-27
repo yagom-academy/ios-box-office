@@ -18,6 +18,7 @@ final class DailyBoxOfficeViewController: UIViewController {
         setNavigationTitle()
         loadDailyBoxOffice()
         configureCollectionView()
+        configureRefreshControl()
     }
     
     private func setNavigationTitle() {
@@ -84,6 +85,21 @@ final class DailyBoxOfficeViewController: UIViewController {
             case .failure(let error):
                 print(error.localizedDescription)
             }
+        }
+    }
+    
+    func configureRefreshControl() {
+        let refreshControl = UIRefreshControl()
+        refreshControl.addTarget(self, action: #selector(handlerRefreshControl), for: .valueChanged)
+        collectionView.refreshControl = refreshControl
+    }
+    
+    @objc func handlerRefreshControl() {
+        loadDailyBoxOffice()
+        self.collectionView.reloadData()
+        
+        DispatchQueue.main.async {
+            self.collectionView.refreshControl?.endRefreshing()
         }
     }
     
