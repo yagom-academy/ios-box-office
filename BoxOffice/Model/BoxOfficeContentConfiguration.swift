@@ -8,11 +8,12 @@ import UIKit
 
 struct BoxOfficeContentConfiguration: UIContentConfiguration, Hashable {
     var rank: String?
-    var title: String?
     var rankIncrement: String?
-    var audienceCount: String
-    var audienceAccumulationCount: String
     var rankOldAndNew: String?
+    var title: String?
+    var audienceCount: String?
+    var audienceAccumulationCount: String?
+    
     
     func makeContentView() -> UIView & UIContentView {
         return BoxOfficeContentView(configuration: self)

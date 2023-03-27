@@ -90,6 +90,7 @@ private extension BoxOfficeContentView {
                   let rankIncrementNumber = Int(rankIncrement) else {
                 return
             }
+            
             switch rankIncrementNumber {
             case ..<0:
                 rankIncrementSymbol.image = UIImage(systemName: "arrowtriangle.down.fill")
