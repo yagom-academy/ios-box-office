@@ -44,9 +44,14 @@ final class NetworkManager {
                 return
             }
             
-            guard let data = data,
-                  let dataStructure = try? NetworkDecoder().decode(data: data, type: type).get() else {
+            guard let data = data else {
                 completion(.failure(NetworkingError.dataNotFound))
+                
+                return
+            }
+            
+            guard let dataStructure = NetworkDecoder().decode(data: data, type: type) else {
+                completion(.failure(NetworkingError.decodeFailed))
                 
                 return
             }

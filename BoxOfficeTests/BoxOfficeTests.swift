@@ -13,7 +13,7 @@ final class BoxOfficeTests: XCTestCase {
     
     override func setUpWithError() throws {
         try super.setUpWithError()
-        sut = try NetworkDecoder().decode(data: NSDataAsset(name: "box_office_sample")!.data, type: BoxOffice.self).get()
+        sut = NetworkDecoder().decode(data: NSDataAsset(name: "box_office_sample")!.data, type: BoxOffice.self)
     }
 
     override func tearDownWithError() throws {
@@ -28,7 +28,7 @@ final class BoxOfficeTests: XCTestCase {
         var result: NetworkingError?
         
         // when
-        XCTAssertThrowsError(try NetworkDecoder().decode(data: invalidData, type: BoxOffice.self).get()) {
+        XCTAssertThrowsError(NetworkDecoder().decode(data: invalidData, type: BoxOffice.self)) {
             errorHandler in
             result = errorHandler as? NetworkingError
         }
@@ -43,8 +43,8 @@ final class BoxOfficeTests: XCTestCase {
         var result: NetworkingError?
         
         // when
-        XCTAssertThrowsError(try NetworkDecoder().decode(data: NSDataAsset(name: "box_office_sample")!.data,
-                                                          type: DummyBoxOffice.self).get()) {
+        XCTAssertThrowsError(NetworkDecoder().decode(data: NSDataAsset(name: "box_office_sample")!.data,
+                                                          type: DummyBoxOffice.self)) {
             errorHandler in
             result = errorHandler as? NetworkingError
         }
