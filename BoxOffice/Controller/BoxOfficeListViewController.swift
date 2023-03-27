@@ -30,11 +30,14 @@ final class BoxOfficeListViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        fetchBoxOfficeData()
-        Thread.sleep(forTimeInterval: 3)
-        
         collectionView.dataSource = self
         collectionView.delegate = self
+        
+        fetchBoxOfficeData {
+            DispatchQueue.main.async {
+                self.collectionView.reloadData()
+            }
+        }
         
         view.addSubview(collectionView)
         collectionView.setAutoLayout(equalTo: view.safeAreaLayoutGuide)
@@ -42,7 +45,7 @@ final class BoxOfficeListViewController: UIViewController {
         
     }
     
-    private func fetchBoxOfficeData() {
+    private func fetchBoxOfficeData(completion: @escaping () -> Void) {
         guard let url = urlMaker.makeBoxOfficeURL(date: Date.configureYesterday(isFormatted: false)) else { return }
         server.startLoad(url: url) { result in
             let decoder = DecodeManager()
@@ -52,6 +55,7 @@ final class BoxOfficeListViewController: UIViewController {
             let verifiedDecodingResult = self.verifyDecodingResult(result: decodedFile)
             
             self.boxOffice = verifiedDecodingResult
+            completion()
         }
     }
     

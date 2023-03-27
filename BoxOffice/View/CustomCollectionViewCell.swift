@@ -15,7 +15,6 @@ class CustomCollectionViewCell: UICollectionViewCell {
         let stackView = UIStackView()
         stackView.axis = .horizontal
         stackView.distribution = .fill
-        ///stackView.alignment =
         
         return stackView
     }()
@@ -36,9 +35,11 @@ class CustomCollectionViewCell: UICollectionViewCell {
     private func configureMainStackView() {
         self.addSubview(mainStackView)
         
-        mainStackView.addArrangedSubview(configureRankStackView())
+        let rankStackView = configureRankStackView()
+        mainStackView.addArrangedSubview(rankStackView)
         mainStackView.addArrangedSubview(configureAudienceStackView())
         mainStackView.setAutoLayout(equalTo: self.safeAreaLayoutGuide)
+        rankStackView.widthAnchor.constraint(equalTo: rankStackView.heightAnchor).isActive = true
     }
     
     
@@ -47,6 +48,7 @@ class CustomCollectionViewCell: UICollectionViewCell {
             let stackView = UIStackView()
             stackView.axis = .vertical
             stackView.distribution = .fill
+            stackView.alignment = .center
             
             stackView.translatesAutoresizingMaskIntoConstraints = false
             
@@ -71,6 +73,8 @@ class CustomCollectionViewCell: UICollectionViewCell {
         
         rankStackView.addArrangedSubview(rankLabel)
         rankStackView.addArrangedSubview(rankIntensityLabel)
+        
+        
         
         return rankStackView
     }
@@ -116,9 +120,8 @@ class CustomCollectionViewCell: UICollectionViewCell {
         let audienceStackView: UIStackView = {
             let stackView = UIStackView()
             stackView.axis = .vertical
-            stackView.distribution = .fill
+            stackView.distribution = .fillProportionally
             stackView.alignment = .leading
-            stackView.spacing = 8
             
             return stackView
         }()
