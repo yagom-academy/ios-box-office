@@ -7,56 +7,16 @@
 
 import UIKit
 
-final class DailyBoxOfficeCell: UICollectionViewListCell {
+final class DailyBoxOfficeCell: UICollectionViewCell {
     var dailyBoxOfficeData: DailyBoxOfficeMovie?
+    var isConstraintNeeded = true
     var rankLabel = UILabel()
     var rankDifferenceLabel = UILabel()
-    var isConstraintNeeded = true
-    var dailyBoxOfficeListContentView = UIListContentView(configuration: UIListContentConfiguration.subtitleCell())
-    
-    func update(with newDailyBoxOfficeData: DailyBoxOfficeMovie) {
-        guard dailyBoxOfficeData != newDailyBoxOfficeData else { return }
-        
-        dailyBoxOfficeData = newDailyBoxOfficeData
-        setLayoutConstraint()
-    }
-    
-    override var configurationState: UICellConfigurationState {
-        var state = super.configurationState
-        state.dailyBoxOfficeData = self.dailyBoxOfficeData
-        
-        return state
-    }
+    var movieTitleLable = UILabel()
+    var audienceCountLabel = UILabel()
     
     func setLayoutConstraint() {
-        guard self.isConstraintNeeded else { return }
         
-        let rankStackView = {
-            let stackView = UIStackView()
-            stackView.axis = .vertical
-            stackView.addArrangedSubview(rankLabel)
-            stackView.addArrangedSubview(rankDifferenceLabel)
-            stackView.alignment = .center
-            
-            return stackView
-        }()
-        
-        [dailyBoxOfficeListContentView, rankStackView].forEach {
-            self.contentView.addSubview($0)
-            $0.translatesAutoresizingMaskIntoConstraints = false
-        }
-        
-        NSLayoutConstraint.activate([
-            rankStackView.leadingAnchor.constraint(equalTo: self.contentView.leadingAnchor, constant: 20),
-            rankStackView.centerYAnchor.constraint(equalTo: self.contentView.centerYAnchor),
-            rankStackView.widthAnchor.constraint(equalTo: self.contentView.widthAnchor, multiplier: 0.15),
-            dailyBoxOfficeListContentView.topAnchor.constraint(equalTo: self.contentView.topAnchor, constant: 5),
-            dailyBoxOfficeListContentView.bottomAnchor.constraint(equalTo: self.contentView.bottomAnchor, constant: -5),
-            dailyBoxOfficeListContentView.leadingAnchor.constraint(equalTo: rankStackView.trailingAnchor),
-            dailyBoxOfficeListContentView.trailingAnchor.constraint(equalTo: self.contentView.trailingAnchor)
-        ])
-        
-        self.isConstraintNeeded = false
     }
     
     func numberFormatter(for audience: String) -> String? {
@@ -67,20 +27,9 @@ final class DailyBoxOfficeCell: UICollectionViewListCell {
         return result
     }
     
-    override func updateConfiguration(using state: UICellConfigurationState) {
-        guard let dailyBoxOfficeData = state.dailyBoxOfficeData else { return }
-        
+    func configureViews() {
         setLayoutConstraint()
-        
-        var content = defaultContentConfiguration().updated(for: state)
-        content.text = dailyBoxOfficeData.movieName
-        content.textProperties.font = UIFont.preferredFont(forTextStyle: .title3)
-        let todayAudience = numberFormatter(for: dailyBoxOfficeData.audienceCountOfDate) ?? "0"
-        let accumulatedAudience = numberFormatter(for: dailyBoxOfficeData.accumulatedAudienceCount) ?? "0"
-        
-        content.secondaryText = "오늘 \(todayAudience) /  총 \(accumulatedAudience)"
-        content.secondaryTextProperties.font = UIFont.preferredFont(forTextStyle: .body)
-        dailyBoxOfficeListContentView.configuration = content
+        guard let dailyBoxOfficeData = self.dailyBoxOfficeData else { return }
         
         rankLabel.text = dailyBoxOfficeData.rank
         rankLabel.font = UIFont.preferredFont(forTextStyle: .largeTitle)
