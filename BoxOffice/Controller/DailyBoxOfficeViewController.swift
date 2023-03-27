@@ -20,7 +20,7 @@ class DailyBoxOfficeViewController: UIViewController {
     var collectionView: UICollectionView! = nil
     
     var networkManager = NetworkManager()
-    var boxOfficeEndPoint = BoxOfficeEndPoint.DailyBoxOffice(tagetDate: "20230326", httpMethod: .get)
+    var boxOfficeEndPoint = BoxOfficeEndPoint.DailyBoxOffice(tagetDate: "20230307", httpMethod: .get)
     
     var dailyBoxOffice: DailyBoxOffice! = nil
     
@@ -92,15 +92,15 @@ extension DailyBoxOfficeViewController: UICollectionViewDelegate {
 // Declare a custom key for a custom `item` property.
 @available(iOS 14.0, *)
 extension UIConfigurationStateCustomKey {
-    static let item = UIConfigurationStateCustomKey("test")
+    static let movieKey = UIConfigurationStateCustomKey("movie")
 }
 
 // Declare an extension on the cell state struct to provide a typed property for this custom state.
 @available(iOS 14.0, *)
 extension UICellConfigurationState {
-    var item: DailyBoxOffice.BoxOfficeResult.Movie? {
-        set { self[.item] = newValue }
-        get { return self[.item] as? DailyBoxOffice.BoxOfficeResult.Movie }
+    var movie: DailyBoxOffice.BoxOfficeResult.Movie? {
+        get { return self[.movieKey] as? DailyBoxOffice.BoxOfficeResult.Movie }
+        set { self[.movieKey] = newValue }
     }
 }
 
