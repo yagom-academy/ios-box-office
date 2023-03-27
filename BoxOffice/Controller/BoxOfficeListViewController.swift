@@ -40,7 +40,6 @@ final class BoxOfficeListViewController: UIViewController {
         collectionView.setAutoLayout(equalTo: view.safeAreaLayoutGuide)
         configureView()
         
-        
     }
     
     private func fetchBoxOfficeData() {
@@ -103,5 +102,16 @@ extension BoxOfficeListViewController: UICollectionViewDelegate {
 }
 
 extension BoxOfficeListViewController: UICollectionViewDelegateFlowLayout {
-    
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+        let width = collectionView.frame.width
+        let height = collectionView.frame.height
+        let itemsPerRow: CGFloat = 1
+       
+        let itemsPerColumn: CGFloat = 9
+       
+        let cellWidth = width / itemsPerRow
+        let cellHeight = height / itemsPerColumn
+        
+        return CGSize(width: cellWidth, height: cellHeight)
+    }
 }
