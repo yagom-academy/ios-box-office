@@ -9,7 +9,7 @@ import UIKit
 
 final class ViewController: UIViewController {
     
-    var movie = BoxofficeInfo<DailyBoxofficeObject>(apiType: .boxoffice("20230320"), session: URLSession.shared)
+    var movie = BoxofficeInfo<DailyBoxofficeObject>(apiType: .boxoffice("20230324"), session: URLSession.shared )
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -22,6 +22,8 @@ final class ViewController: UIViewController {
                 print(error)
             }
         }
-        movie.cancelTask()
+        var giveTask = movie.giveTask()
+        giveTask?.cancel()
+
     }
 }

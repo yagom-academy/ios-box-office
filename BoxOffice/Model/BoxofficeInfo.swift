@@ -54,7 +54,7 @@ struct BoxofficeInfo<T: Fetchable> {
         self.task?.resume()
     }
     
-    func cancelTask() {
-        self.task?.cancel()
+    func giveTask() -> URLSessionDataTask? {
+        return self.task
     }
 }
