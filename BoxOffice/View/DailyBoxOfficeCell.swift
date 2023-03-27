@@ -7,7 +7,7 @@
 
 import UIKit
 
-final class DailyBoxOfficeCell: UICollectionViewListCell, Identifiable {
+final class DailyBoxOfficeCell: UICollectionViewListCell {
     var dailyBoxOfficeData: DailyBoxOfficeMovie?
     var rankLabel = UILabel()
     var rankDifferenceLabel = UILabel()
