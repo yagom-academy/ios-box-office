@@ -17,6 +17,7 @@ final class DailyBoxOfficeViewController: UIViewController {
         setNavigationTitle()
         loadDailyBoxOffice()
         configureCollectionView()
+        collectionView.dataSource = self
         configureRefreshControl()
     }
     
@@ -59,10 +60,12 @@ final class DailyBoxOfficeViewController: UIViewController {
         self.collectionView = collectionView
     }
     
-    private func createListLayout() -> UICollectionViewCompositionalLayout {
+    private func createListLayout() -> UICollectionViewFlowLayout {
         let configuration = UICollectionViewFlowLayout()
+        configuration.itemSize = CGSize(width: view.bounds.width, height: 100)
+        configuration.minimumLineSpacing = 0
         
-        return
+        return configuration
     }
     
     private func configureRefreshControl() {
@@ -91,6 +94,8 @@ extension DailyBoxOfficeViewController: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "DailyBoxOfficeCell", for: indexPath) as? DailyBoxOfficeCell,
               let movieData = self.dailyBoxOffice?.boxOfficeResult.dailyBoxOfficeList[indexPath.item] else { return UICollectionViewCell() }
+        
+        cell.configureSubviews()
         
         cell.movieTitleLable.text = movieData.movieName
         
