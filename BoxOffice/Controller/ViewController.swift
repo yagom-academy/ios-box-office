@@ -17,11 +17,11 @@ class ViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+        configureView()
     }
     
     private func fetchBoxOfficeData() {
-        guard let url = urlMaker.makeBoxOfficeURL(date: Date.yesterday) else { return }
+        guard let url = urlMaker.makeBoxOfficeURL(date: Date.configureYesterday(isFormatted: false)) else { return }
         server.startLoad(url: url) { result in
             let decoder = DecodeManager()
             
@@ -50,7 +50,10 @@ class ViewController: UIViewController {
             return nil
         }
     }
-
-
+    
+    private func configureView() {
+        view.backgroundColor = .white
+        self.title = Date.configureYesterday(isFormatted: true)
+    }
 }
 
