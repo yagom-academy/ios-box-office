@@ -8,7 +8,7 @@
 import UIKit
 
 class CustomCollectionViewCell: UICollectionViewCell {
-    private var dailyBoxOffice: DailyBoxOffice
+    private var dailyBoxOffice: DailyBoxOffice?
     
     private let mainStackView: UIStackView = {
         let stackView = UIStackView()
@@ -19,20 +19,14 @@ class CustomCollectionViewCell: UICollectionViewCell {
         return stackView
     }()
     
-    required init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
-    }
-    
-    init(frame: CGRect = CGRect(x: 0, y: 0, width: 0, height: 0), item: DailyBoxOffice) {
-        self.dailyBoxOffice = item
-        super.init(frame: frame)
+    func configureDailyBoxOffice(dailyBoxOffice: DailyBoxOffice?) {
+        self.dailyBoxOffice = dailyBoxOffice
     }
     
     private func configureMainStackView() {
         mainStackView.addArrangedSubview(configureRankStackView())
-        
-
     }
+    
     
     private func configureRankStackView() -> UIStackView {
         let rankStackView: UIStackView = {
@@ -46,7 +40,7 @@ class CustomCollectionViewCell: UICollectionViewCell {
         
         let rankLabel: UILabel = {
             let label = UILabel()
-            label.text = dailyBoxOffice.rank
+            label.text = dailyBoxOffice?.rank
             label.font = .preferredFont(forTextStyle: .largeTitle)
             
             return label
@@ -66,11 +60,11 @@ class CustomCollectionViewCell: UICollectionViewCell {
         return rankStackView
     }
     
-    private func configureRankIntensityText() -> NSMutableAttributedString {
+    private func configureRankIntensityText() -> NSMutableAttributedString? {
         var attributedString: NSMutableAttributedString
-        var rankIntensity = dailyBoxOffice.rankIntensity
+        guard var rankIntensity = dailyBoxOffice?.rankIntensity else { return nil }
         
-        if dailyBoxOffice.rankOldAndNew == "New" {
+        if dailyBoxOffice?.rankOldAndNew == "New" {
             attributedString = NSMutableAttributedString(string: "신작")
             let range = (rankIntensity as NSString).range(of: "신작")
             attributedString.addAttribute(.foregroundColor,
