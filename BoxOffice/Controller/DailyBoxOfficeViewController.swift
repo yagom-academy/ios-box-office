@@ -47,25 +47,6 @@ final class DailyBoxOfficeViewController: UIViewController {
         return UICollectionViewCompositionalLayout.list(using: configuration)
     }
     
-    private func configureDataSource() {
-        let cellRegistration = UICollectionView.CellRegistration<DailyBoxOfficeCell, DailyBoxOfficeMovie> { (cell, indexPath, item) in
-            cell.update(with: item)
-            cell.accessories = [.disclosureIndicator()]
-        }
-        
-        dataSource = UICollectionViewDiffableDataSource(collectionView: collectionView) {
-            (collectionView, indexPath, itemIdentifier) -> UICollectionViewCell? in
-            return collectionView.dequeueConfiguredReusableCell(using: cellRegistration, for: indexPath, item: itemIdentifier)
-        }
-        
-        guard let dailyBoxOffice = self.dailyBoxOffice else { return }
-        
-        var snapshot = NSDiffableDataSourceSnapshot<Section, DailyBoxOfficeMovie>()
-        snapshot.appendSections([.main])
-        snapshot.appendItems(dailyBoxOffice.boxOfficeResult.dailyBoxOfficeList)
-        
-        dataSource.apply(snapshot)
-    }
     
     private func loadDailyBoxOffice() {
         var api = KobisAPI(service: .dailyBoxOffice)
@@ -106,4 +87,50 @@ final class DailyBoxOfficeViewController: UIViewController {
     private enum Section: CaseIterable {
         case main
     }
+    
+    func numberFormatter(for audience: String) -> String? {
+        let numberFormatter = NumberFormatter()
+        numberFormatter.numberStyle = .decimal
+        let result = numberFormatter.string(from: Int(audience) as? NSNumber ?? 0)
+        
+        return result
+    }
+    //MARK: - cell에서가져옴
+    /*
+     func configureViews() {
+     setLayoutConstraint()
+     guard let dailyBoxOfficeData = self.dailyBoxOfficeData else { return }
+     
+     rankLabel.text = dailyBoxOfficeData.rank
+     rankLabel.font = UIFont.preferredFont(forTextStyle: .largeTitle)
+     
+     switch dailyBoxOfficeData.rankOldAndNew {
+     case "NEW":
+     rankDifferenceLabel.text = "신작"
+     rankDifferenceLabel.textColor = .systemRed
+     case "OLD":
+     if dailyBoxOfficeData.rankDifference.contains("-") {
+     let difference = dailyBoxOfficeData.rankDifference.trimmingCharacters(in: ["-"])
+     let text = "⏷" + difference
+     let attributedString = NSMutableAttributedString(string: text)
+     let range = NSString(string: text).range(of: "⏷")
+     attributedString.addAttribute(.foregroundColor, value: UIColor.systemBlue, range: range)
+     rankDifferenceLabel.attributedText = attributedString
+     } else if dailyBoxOfficeData.rankDifference == "0" {
+     rankDifferenceLabel.text = "-"
+     } else {
+     let text = "⏶" + dailyBoxOfficeData.rankDifference
+     let attributedString = NSMutableAttributedString(string: text)
+     let range = NSString(string: text).range(of: "⏶")
+     attributedString.addAttribute(.foregroundColor, value: UIColor.systemRed, range: range)
+     rankDifferenceLabel.attributedText = attributedString
+     }
+     default:
+     rankDifferenceLabel.text = ""
+     }
+     
+     rankDifferenceLabel.font = UIFont.preferredFont(forTextStyle: .body)
+     }
+     */
+
 }

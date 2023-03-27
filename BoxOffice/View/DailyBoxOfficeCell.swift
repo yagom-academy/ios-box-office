@@ -8,7 +8,6 @@
 import UIKit
 
 final class DailyBoxOfficeCell: UICollectionViewCell {
-    var dailyBoxOfficeData: DailyBoxOfficeMovie?
     var isConstraintNeeded = true
     var rankLabel = UILabel()
     var rankDifferenceLabel = UILabel()
@@ -16,60 +15,49 @@ final class DailyBoxOfficeCell: UICollectionViewCell {
     var audienceCountLabel = UILabel()
     
     func setLayoutConstraint() {
+        let rankStackView = {
+          let stackView = UIStackView()
+            stackView.addArrangedSubview(rankLabel)
+            stackView.addArrangedSubview(rankDifferenceLabel)
+            stackView.axis = .vertical
+            stackView.translatesAutoresizingMaskIntoConstraints = false
+            
+            return stackView
+        }()
         
-    }
-    
-    func numberFormatter(for audience: String) -> String? {
-        let numberFormatter = NumberFormatter()
-        numberFormatter.numberStyle = .decimal
-        let result = numberFormatter.string(from: Int(audience) as? NSNumber ?? 0)
+        let movieStackView = {
+           let stackView = UIStackView()
+            stackView.addArrangedSubview(movieTitleLable)
+            stackView.addArrangedSubview(audienceCountLabel)
+            stackView.axis = .vertical
+            stackView.translatesAutoresizingMaskIntoConstraints = false
+            
+            return stackView
+        }()
         
-        return result
-    }
-    
-    func configureViews() {
-        setLayoutConstraint()
-        guard let dailyBoxOfficeData = self.dailyBoxOfficeData else { return }
+        let accessoryView = {
+            let imageView = UIImageView()
+            imageView.image = UIImage(systemName: "chevron.right")
+            imageView.translatesAutoresizingMaskIntoConstraints = false
+            
+            return imageView
+        }()
         
-        rankLabel.text = dailyBoxOfficeData.rank
-        rankLabel.font = UIFont.preferredFont(forTextStyle: .largeTitle)
+        self.contentView.addSubview(rankStackView)
+        self.contentView.addSubview(movieStackView)
+        self.contentView.addSubview(accessoryView)
         
-        switch dailyBoxOfficeData.rankOldAndNew {
-        case "NEW":
-            rankDifferenceLabel.text = "신작"
-            rankDifferenceLabel.textColor = .systemRed
-        case "OLD":
-            if dailyBoxOfficeData.rankDifference.contains("-") {
-                let difference = dailyBoxOfficeData.rankDifference.trimmingCharacters(in: ["-"])
-                let text = "⏷" + difference
-                let attributedString = NSMutableAttributedString(string: text)
-                let range = NSString(string: text).range(of: "⏷")
-                attributedString.addAttribute(.foregroundColor, value: UIColor.systemBlue, range: range)
-                rankDifferenceLabel.attributedText = attributedString
-            } else if dailyBoxOfficeData.rankDifference == "0" {
-                rankDifferenceLabel.text = "-"
-            } else {
-                let text = "⏶" + dailyBoxOfficeData.rankDifference
-                let attributedString = NSMutableAttributedString(string: text)
-                let range = NSString(string: text).range(of: "⏶")
-                attributedString.addAttribute(.foregroundColor, value: UIColor.systemRed, range: range)
-                rankDifferenceLabel.attributedText = attributedString
-            }
-        default:
-            rankDifferenceLabel.text = ""
-        }
-
-        rankDifferenceLabel.font = UIFont.preferredFont(forTextStyle: .body)
-    }
-}
-
-private extension UIConfigurationStateCustomKey {
-    static let dailyBoxOffice = UIConfigurationStateCustomKey("dailyBoxOffice")
-}
-
-extension UIConfigurationState {
-    var dailyBoxOfficeData: DailyBoxOfficeMovie? {
-        get { return self[.dailyBoxOffice] as? DailyBoxOfficeMovie }
-        set { self[.dailyBoxOffice] = newValue }
+        NSLayoutConstraint.activate([
+            rankStackView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 20),
+            rankStackView.centerYAnchor.constraint(equalTo: contentView.centerYAnchor),
+            rankStackView.widthAnchor.constraint(equalTo: contentView.widthAnchor, multiplier: 0.15),
+            
+            movieStackView.leadingAnchor.constraint(equalTo: rankStackView.trailingAnchor),
+            movieStackView.centerYAnchor.constraint(equalTo: contentView.centerYAnchor),
+            
+            accessoryView.leadingAnchor.constraint(equalTo: movieStackView.trailingAnchor),
+            accessoryView.centerYAnchor.constraint(equalTo: contentView.centerYAnchor),
+            accessoryView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor)
+        ])
     }
 }
