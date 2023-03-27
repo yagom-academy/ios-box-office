@@ -1,5 +1,5 @@
 //
-//  ViewController.swift
+//  DailyBoxOfficeViewController.swift
 //  BoxOffice
 //
 //  Created by Muri, Rowan on 13/01/23.
@@ -7,6 +7,7 @@
 
 import UIKit
 
+@available(iOS 14.0, *)
 final class DailyBoxOfficeViewController: UIViewController {
     @IBOutlet weak var collectionView: UICollectionView!
     
@@ -17,6 +18,14 @@ final class DailyBoxOfficeViewController: UIViewController {
         collectionView.delegate = self
         collectionView.dataSource = self
         self.loadDailyBoxOffice()
+        collectionView.setCollectionViewLayout(creatList(), animated: true)
+    }
+    
+    func creatList() -> UICollectionViewCompositionalLayout {
+        let configuration = UICollectionLayoutListConfiguration(appearance: .plain)
+        
+        
+        return UICollectionViewCompositionalLayout.list(using: configuration)
     }
     
     private func loadDailyBoxOffice() {
@@ -34,18 +43,19 @@ final class DailyBoxOfficeViewController: UIViewController {
     }
 }
 
+@available(iOS 14.0, *)
 extension DailyBoxOfficeViewController: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        <#code#>
+        return 1
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        <#code#>
+        
+        return UICollectionViewCell()
     }
-    
-    
 }
 
+@available(iOS 14.0, *)
 extension DailyBoxOfficeViewController: UICollectionViewDelegate {
     
 }
