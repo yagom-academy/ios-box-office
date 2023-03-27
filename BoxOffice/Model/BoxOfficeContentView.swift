@@ -30,7 +30,6 @@ class BoxOfficeContentView: UIView, UIContentView {
     }()
     let rankIncrementSymbol = UIImageView()
     let rankIncrementLabel = UILabel()
-    let newRankLabel = UILabel()
     let titleLabel = UILabel()
     let audienceCountLabel = UILabel()
     
@@ -38,6 +37,8 @@ class BoxOfficeContentView: UIView, UIContentView {
         super.init(frame: .zero)
         
         setupAllViews()
+        
+        apply(configuration: configuration)
     }
     
     required init?(coder: NSCoder) {
@@ -73,5 +74,37 @@ private extension BoxOfficeContentView {
             movieStackView.topAnchor.constraint(equalTo: layoutMarginsGuide.topAnchor),
             movieStackView.bottomAnchor.constraint(equalTo: layoutMarginsGuide.bottomAnchor)
         ])
+    }
+    
+    private func apply(configuration: BoxOfficeContentConfiguration) {
+        guard currentConfiguration != configuration else {
+            return
+        }
+        
+        rankLabel.text = configuration.rank
+        
+        if configuration.rankOldAndNew == "NEW" {
+            rankIncrementLabel.text = "신작"
+        } else {
+            guard let rankIncrement = configuration.rankIncrement,
+                  let rankIncrementNumber = Int(rankIncrement) else {
+                return
+            }
+            switch rankIncrementNumber {
+            case ..<0:
+                rankIncrementSymbol.image = UIImage(systemName: "arrowtriangle.down.fill")
+                rankIncrementLabel.text = "\(rankIncrementNumber * -1)"
+            case 0:
+                rankIncrementLabel.text = "-"
+            default:
+                rankIncrementSymbol.image = UIImage(systemName: "arrowtriangle.up.fill")
+                rankIncrementLabel.text = "\(rankIncrementNumber)"
+            }
+        }
+        
+        titleLabel.text = configuration.title
+        
+        let audienceString = "오늘 \(configuration.audienceCount) / 총: \(configuration.audienceAccumulationCount)"
+        audienceCountLabel.text = audienceString
     }
 }

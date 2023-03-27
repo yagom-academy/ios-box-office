@@ -13,13 +13,18 @@ struct BoxOfficeItem: Hashable {
     let rankIncrement: String
     let title: String
     let audienceCount: String
-    let audienceAccumulation: String
+    let audienceAccumulationCount: String
     
-    init(rank: String, rankIncrement: String, title: String, audienceCount: String, audienceAccumulation: String) {
+    init(rank: String,
+         rankIncrement: String,
+         title: String,
+         audienceCount: String,
+         audienceAccumulationCount: String
+    ) {
         self.rank = rank
         self.rankIncrement = rankIncrement
         self.title = title
         self.audienceCount = audienceCount
-        self.audienceAccumulation = audienceAccumulation
+        self.audienceAccumulationCount = audienceAccumulationCount
     }
 }

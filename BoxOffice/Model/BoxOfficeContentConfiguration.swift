@@ -9,7 +9,10 @@ import UIKit
 struct BoxOfficeContentConfiguration: UIContentConfiguration, Hashable {
     var rank: String?
     var title: String?
-    var rankColor: UIColor?
+    var rankIncrement: String?
+    var audienceCount: String
+    var audienceAccumulationCount: String
+    var rankOldAndNew: String?
     
     func makeContentView() -> UIView & UIContentView {
         return BoxOfficeContentView(configuration: self)
@@ -21,11 +24,11 @@ struct BoxOfficeContentConfiguration: UIContentConfiguration, Hashable {
         }
         
         var updatedConfiguration = self
-        if state.isSelected {
-            updatedConfiguration.rankColor = .red
-        } else {
-            updatedConfiguration.rankColor = .blue
-        }
+//        if state.isSelected {
+//            updatedConfiguration.rankColor = .red
+//        } else {
+//            updatedConfiguration.rankColor = .blue
+//        }
         
         return updatedConfiguration
     }
