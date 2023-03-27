@@ -7,10 +7,6 @@
 import UIKit
 
 final class BoxOfficeViewController: UIViewController {
-    private var boxOffice: BoxOffice?
-    private var movieInformation: MovieInformation?
-    private let movieCode = "20124080"
-    
     private var yesterday: String? {
         guard let yesterdayDate = Calendar.current.date(
             byAdding: Calendar.Component.day,
@@ -53,14 +49,14 @@ final class BoxOfficeViewController: UIViewController {
         }
         
         let boxOfficeProvider = BoxOfficeProvider<BoxOfficeAPI>()
-        boxOfficeProvider.fetchData(.dailyBoxOffice(date: yesterday), type: BoxOffice.self) { result in
+        boxOfficeProvider.fetchData(.dailyBoxOffice(date: yesterday),
+                                    type: BoxOfficeDTO.self) { result in
             switch result {
-            case .success(let boxOffice):
-                self.boxOffice = boxOffice
+            case .success:
                 DispatchQueue.main.async {
                     self.activityIndicator.stopAnimating()
                 }
-            case .failure(_):
+            case .failure:
                 DispatchQueue.main.async {
                     self.activityIndicator.stopAnimating()
                     self.showAlert()
