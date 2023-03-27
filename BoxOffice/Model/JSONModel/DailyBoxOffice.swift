@@ -5,11 +5,13 @@
 //  Created by Muri, Rowan on 2023/03/20.
 //
 
-struct DailyBoxOffice: Decodable {
+import Foundation
+
+struct DailyBoxOffice: Decodable, Hashable {
     let boxOfficeResult: BoxOfficeResult
 }
 
-struct BoxOfficeResult: Decodable {
+struct BoxOfficeResult: Decodable, Hashable {
     let boxOfficeType: String
     let showRange: String
     let dailyBoxOfficeList: [DailyBoxOfficeMovie]
@@ -20,7 +22,7 @@ struct BoxOfficeResult: Decodable {
     }
 }
 
-struct DailyBoxOfficeMovie: Decodable {
+struct DailyBoxOfficeMovie: Decodable, Hashable {
     let rankNumber: String
     let rank: String
     let rankDifference: String
@@ -39,6 +41,8 @@ struct DailyBoxOfficeMovie: Decodable {
     let accumulatedAudienceCount: String
     let screenCount: String
     let showCount: String
+    
+    let identifier = UUID()
     
     private enum CodingKeys: String, CodingKey {
         case rank, rankOldAndNew, salesShare

@@ -8,18 +8,15 @@
 import UIKit
 
 @available(iOS 14.0, *)
-class DailyBoxOfficeCell: UICollectionViewListCell {
-    private var boxOfficeData: DailyBoxOffice?
-    var rankLabel: UILabel!
-    var rankDifferenceLabel: UILabel!
-    
-    private func defaultBoxOfficeConfiguration() -> UIListContentConfiguration {
-        return .subtitleCell()
-    }
-    
-    private lazy var dailyBoxOfficeContentView = UIListContentView(configuration: defaultBoxOfficeConfiguration())
+final class DailyBoxOfficeCell: UICollectionViewListCell, Identifiable {
+    var rankLabel = UILabel()
+    var rankDifferenceLabel = UILabel()
+    var dailyBoxOfficeContentView = UIListContentView(configuration: .subtitleCell())
+    var isConstraintNeeded = true
     
     func setLayoutConstraint() {
+        guard self.isConstraintNeeded else { return }
+        
         let rankStackView = {
             let stackView = UIStackView()
             stackView.axis = .vertical
@@ -42,5 +39,7 @@ class DailyBoxOfficeCell: UICollectionViewListCell {
             dailyBoxOfficeContentView.bottomAnchor.constraint(equalTo: self.contentView.bottomAnchor),
             dailyBoxOfficeContentView.trailingAnchor.constraint(equalTo: self.contentView.trailingAnchor)
         ])
+        
+        self.isConstraintNeeded = false
     }
 }

@@ -12,13 +12,22 @@ final class DailyBoxOfficeViewController: UIViewController {
     @IBOutlet weak var collectionView: UICollectionView!
     
     var dailyBoxOffice: DailyBoxOffice?
+    var dataSource: UICollectionViewDiffableDataSource<Section, DailyBoxOffice>!
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        collectionView.delegate = self
-        collectionView.dataSource = self
         self.loadDailyBoxOffice()
         collectionView.setCollectionViewLayout(creatList(), animated: true)
+    }
+    
+    func configureDataSource() {
+        let cellRegistration = UICollectionView.CellRegistration<DailyBoxOfficeCell, DailyBoxOffice> { (cell, indexPath, item) in
+            cell.contentView
+            cell.rankLabel
+            
+            let row = indexPath
+            
+        }
     }
     
     func creatList() -> UICollectionViewCompositionalLayout {
@@ -43,19 +52,6 @@ final class DailyBoxOfficeViewController: UIViewController {
     }
 }
 
-@available(iOS 14.0, *)
-extension DailyBoxOfficeViewController: UICollectionViewDataSource {
-    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return 1
-    }
-    
-    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        
-        return UICollectionViewCell()
-    }
-}
-
-@available(iOS 14.0, *)
-extension DailyBoxOfficeViewController: UICollectionViewDelegate {
-    
+enum Section: CaseIterable {
+    case main
 }
