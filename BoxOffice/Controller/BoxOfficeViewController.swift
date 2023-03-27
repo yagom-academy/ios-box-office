@@ -24,6 +24,7 @@ final class BoxOfficeViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        navigationItem.title = generateYesterdayText(type: .hyphen)
         refreshControl.addTarget(self, action: #selector(refreshData), for: .valueChanged)
         registerXib()
         configureCollectionView()
@@ -31,7 +32,8 @@ final class BoxOfficeViewController: UIViewController {
     }
     
     @objc private func refreshData() {
-        let endPoint: BoxOfficeEndPoint = .fetchDailyBoxOffice(targetDate: generateYesterdayText())
+        let yesterdayText = generateYesterdayText(type: .nonHyphen)
+        let endPoint: BoxOfficeEndPoint = .fetchDailyBoxOffice(targetDate: yesterdayText)
         
         networkManager.fetchData(url: endPoint.createURL(), type: BoxOffice.self) { result in
             DispatchQueue.main.async {
@@ -66,7 +68,8 @@ final class BoxOfficeViewController: UIViewController {
     }
     
     private func fetchDailyBoxOffice() {
-        let endPoint: BoxOfficeEndPoint = .fetchDailyBoxOffice(targetDate: generateYesterdayText())
+        let yesterdayText = generateYesterdayText(type: .nonHyphen)
+        let endPoint: BoxOfficeEndPoint = .fetchDailyBoxOffice(targetDate: yesterdayText)
         
         networkManager.fetchData(url: endPoint.createURL(), type: BoxOffice.self) { result in
             DispatchQueue.main.async {
@@ -82,14 +85,14 @@ final class BoxOfficeViewController: UIViewController {
         }
     }
     
-    private func generateYesterdayText() -> String {
+    private func generateYesterdayText(type: DateFormatType) -> String {
         guard let yesterday = Calendar.current.date(byAdding: .day, value: -1, to: Date()) else {
             return ""
         }
         
         let dateFormatter: DateFormatter = {
             let dateFormatter = DateFormatter()
-            dateFormatter.dateFormat = "YYYYMMdd"
+            dateFormatter.dateFormat = type.rawValue
             
             return dateFormatter
         }()
