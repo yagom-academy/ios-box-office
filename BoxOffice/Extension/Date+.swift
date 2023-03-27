@@ -8,16 +8,16 @@
 import Foundation
 
 extension Date {
-    static var currentDate: String {
-        return Date.configureCurrentDate()
+    static var yesterday: String {
+        return Date.configureYesterdayDate()
     }
     
-    private static func configureCurrentDate() -> String {
-        let nowDate = Date()
+    private static func configureYesterdayDate() -> String {
+        let yesterdayDate = Date(timeIntervalSinceNow: -86400)
         let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = "yyyyMMdd"
         
-        let convertDate = dateFormatter.string(from: nowDate)
+        let convertDate = dateFormatter.string(from: yesterdayDate)
                 
         return convertDate
     }

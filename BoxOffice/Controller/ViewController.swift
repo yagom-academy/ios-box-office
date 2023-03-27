@@ -17,18 +17,19 @@ class ViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        print(Date.yesterday)
         guard let url = urlMaker.makeMovieInformationURL(movieCode: "20124079") else { return }
-    
+
         server.startLoad(url: url) { result in
             let decoder = DecodeManager()
-            
+
             switch result {
             case .success(let data):
                 print("성공")
             case .failure(let error):
                 print(error.localizedDescription)
             }
-            
+
         }
         
     }
