@@ -22,7 +22,7 @@ final class NetworkManagerTests: XCTestCase {
         let url = BoxOfficeEndPoint.fetchDailyBoxOffice(targetDate: "20120101").createURL()
         
         // when, then
-        sut.getData(url: url, type: BoxOffice.self) { result in
+        sut.fetchData(url: url, type: BoxOffice.self) { result in
             switch result {
             case .success(let data):
                 XCTAssertEqual(expectedResult?.boxOfficeResult.type, data.boxOfficeResult.type)
@@ -40,7 +40,7 @@ final class NetworkManagerTests: XCTestCase {
         let url = BoxOfficeEndPoint.fetchDailyBoxOffice(targetDate: "20120101").createURL()
         
         // when, then
-        sut.getData(url: url, type: BoxOffice.self) { result in
+        sut.fetchData(url: url, type: BoxOffice.self) { result in
             switch result {
             case .success:
                 XCTFail()

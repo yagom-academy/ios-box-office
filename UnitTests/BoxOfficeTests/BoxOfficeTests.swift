@@ -39,7 +39,7 @@ final class BoxOfficeTests: XCTestCase {
         let expectedResult = "1"
      
         // when
-        let boxOfficeNumber = sut.boxOfficeResult.dailyBoxOfficeList[0].rankText
+        let boxOfficeNumber = sut.boxOfficeResult.dailyBoxOfficeList[safe: 0]?.rankText
         
         // then
         XCTAssertEqual(expectedResult, boxOfficeNumber)
@@ -50,10 +50,10 @@ final class BoxOfficeTests: XCTestCase {
         let expectedResult = "경관의 피"
      
         // when
-        let moviewKoreanName = sut.boxOfficeResult.dailyBoxOfficeList[0].movieKoreanName
+        let movieKoreanName = sut.boxOfficeResult.dailyBoxOfficeList[safe: 0]?.movieKoreanName
         
         // then
-        XCTAssertEqual(expectedResult, moviewKoreanName)
+        XCTAssertEqual(expectedResult, movieKoreanName)
     }
     
     func test_두번째_dailyBoxOffice의_rank값이_문자열2이다() {
@@ -61,7 +61,7 @@ final class BoxOfficeTests: XCTestCase {
         let expectedResult = "2"
      
         // when
-        let boxOfficeNumber = sut.boxOfficeResult.dailyBoxOfficeList[1].rankText
+        let boxOfficeNumber = sut.boxOfficeResult.dailyBoxOfficeList[safe: 1]?.rankText
         
         // then
         XCTAssertEqual(expectedResult, boxOfficeNumber)
@@ -72,7 +72,7 @@ final class BoxOfficeTests: XCTestCase {
         let expectedResult: RankOldAndNew = .old
      
         // when
-        let rankOldAndNew = sut.boxOfficeResult.dailyBoxOfficeList[1].rankOldAndNew
+        let rankOldAndNew = sut.boxOfficeResult.dailyBoxOfficeList[safe: 1]?.rankOldAndNew
         
         // then
         XCTAssertEqual(expectedResult, rankOldAndNew)

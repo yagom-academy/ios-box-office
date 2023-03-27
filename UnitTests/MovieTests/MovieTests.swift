@@ -39,7 +39,7 @@ final class MovieTests: XCTestCase {
         let expectedResult = "추창민"
      
         // when
-        let directorName = sut.movieInfoResult.info.directors[0].peopleName
+        let directorName = sut.movieInfoResult.info.directors[safe: 0]?.peopleName
         
         // then
         XCTAssertEqual(expectedResult, directorName)

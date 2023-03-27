@@ -14,7 +14,7 @@ final class NetworkManager {
         self.session = session
     }
     
-    func getData<T: Decodable>(url: URL?, type: T.Type, completion: @escaping (Result<T, Error>) -> Void) {
+    func fetchData<T: Decodable>(url: URL?, type: T.Type, completion: @escaping (Result<T, Error>) -> Void) {
         guard let url = url else {
             completion(.failure(NetworkError.urlError))
             return
