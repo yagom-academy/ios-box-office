@@ -10,28 +10,45 @@ import UIKit
 
 class ViewController: UIViewController {
     
-    let server = NetworkManager()
+    private let server = NetworkManager()
     let urlMaker = URLMaker()
 
-    var movieInfoResult: DetailMovieInformation? 
+    private var boxOffice: BoxOffice?
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        print(Date.yesterday)
-        guard let url = urlMaker.makeMovieInformationURL(movieCode: "20124079") else { return }
-
+        
+    }
+    
+    private func fetchBoxOfficeData() {
+        guard let url = urlMaker.makeBoxOfficeURL(date: Date.yesterday) else { return }
         server.startLoad(url: url) { result in
             let decoder = DecodeManager()
-
-            switch result {
-            case .success(let data):
-                print("성공")
-            case .failure(let error):
-                print(error.localizedDescription)
-            }
-
+            
+            guard let verifiedFetchingResult = self.verifyFetchingResult(result: result) else { return }
+            let decodedFile = decoder.decodeJSON(data: verifiedFetchingResult, type: BoxOffice.self)
+            let verifiedDecodingResult = self.verifyDecodingResult(result: decodedFile)
+            
+            self.boxOffice = verifiedDecodingResult
         }
-        
+    }
+    
+    private func verifyFetchingResult(result: Result<Data, NetworkError>) -> Data? {
+        switch result {
+        case .success(let data):
+            return data
+        case .failure(_):
+            return nil
+        }
+    }
+    
+    private func verifyDecodingResult<T: Decodable>(result: Result<T, DecodeError>) -> T? {
+        switch result {
+        case .success(let data):
+            return data
+        case .failure(_):
+            return nil
+        }
     }
 
 
