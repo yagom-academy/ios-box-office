@@ -103,11 +103,11 @@ final class CustomListCell: ItemListCell {
             guard let variance = Int(movie.rankVariance) else { return }
             switch variance {
             case ..<0:
-                movieRankContent.secondaryText = String("🔻\(variance)")
+                movieRankContent.secondaryText = "🔻\(variance * -1)"
             case 0:
-                movieRankContent.secondaryText = String(variance)
+                movieRankContent.secondaryText = "-"
             default:
-                movieRankContent.secondaryText = String("🔺\(variance)")
+                movieRankContent.secondaryText = "🔺\(variance)"
             }
         }
         

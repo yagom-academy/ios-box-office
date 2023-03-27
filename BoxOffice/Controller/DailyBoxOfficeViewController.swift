@@ -17,16 +17,23 @@ private enum Section: Hashable {
 class DailyBoxOfficeViewController: UIViewController {
     
     fileprivate var dataSource: UICollectionViewDiffableDataSource<Section, DailyBoxOffice.BoxOfficeResult.Movie>! = nil
-    var collectionView: UICollectionView! = nil
+    var collectionView: UICollectionView!
     
     var networkManager = NetworkManager()
-    var boxOfficeEndPoint = BoxOfficeEndPoint.DailyBoxOffice(tagetDate: "20230307", httpMethod: .get)
-    
+    var boxOfficeEndPoint: BoxOfficeEndPoint = BoxOfficeEndPoint.DailyBoxOffice(tagetDate: "20230307", httpMethod: .get)
     var dailyBoxOffice: DailyBoxOffice! = nil
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        fetchDailyBoxOfficeData()
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "yyyy-MM-dd"
+        let currentDate = dateFormatter.string(from: Date(timeIntervalSinceNow: -86400))
+        self.title = currentDate
+    }
+    
+    private func fetchDailyBoxOfficeData() {
         networkManager.request(endPoint: boxOfficeEndPoint, returnType: DailyBoxOffice.self) { [self] in
             switch $0 {
             case .failure(let error):
@@ -55,6 +62,8 @@ extension DailyBoxOfficeViewController {
 extension DailyBoxOfficeViewController {
     private func configureHierarchy() {
         collectionView = UICollectionView(frame: view.bounds, collectionViewLayout: createLayout())
+        
+        guard let collectionView = collectionView else { return }
         collectionView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
         view.addSubview(collectionView)
         collectionView.delegate = self
@@ -103,6 +112,3 @@ extension UICellConfigurationState {
         set { self[.movieKey] = newValue }
     }
 }
-
-// This list cell subclass is an abstract class with a property that holds the item the cell is displaying,
-// which is added to the cell's configuration state for subclasses to use when updating their configuration.
