@@ -8,6 +8,7 @@
 import UIKit
 
 class CustomCollectionViewCell: UICollectionViewCell {
+    static let identifier = "CustomCollectionViewCell"
     private var dailyBoxOffice: DailyBoxOffice?
     
     private let mainStackView: UIStackView = {
@@ -21,10 +22,13 @@ class CustomCollectionViewCell: UICollectionViewCell {
     
     func configureDailyBoxOffice(dailyBoxOffice: DailyBoxOffice?) {
         self.dailyBoxOffice = dailyBoxOffice
+        configureMainStackView()
+        
     }
     
     private func configureMainStackView() {
         mainStackView.addArrangedSubview(configureRankStackView())
+        //mainStackView.setAutoLayout(equalTo: self.safeAreaLayoutGuide)
     }
     
     

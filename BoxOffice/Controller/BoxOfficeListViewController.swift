@@ -21,6 +21,8 @@ final class BoxOfficeListViewController: UIViewController {
         layout.sectionInset = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
         
         let collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
+        collectionView.register(CustomCollectionViewCell.self,
+                                forCellWithReuseIdentifier: CustomCollectionViewCell.identifier)
         
         return collectionView
     }()
@@ -28,9 +30,17 @@ final class BoxOfficeListViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        fetchBoxOfficeData()
+        Thread.sleep(forTimeInterval: 3)
+        
         collectionView.dataSource = self
         collectionView.delegate = self
+        
+        view.addSubview(collectionView)
+        collectionView.setAutoLayout(equalTo: view.safeAreaLayoutGuide)
         configureView()
+        
+        
     }
     
     private func fetchBoxOfficeData() {
@@ -80,7 +90,7 @@ extension BoxOfficeListViewController: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let dailyBoxOffice = self.boxOffice?.boxOfficeResult.dailyBoxOfficeList[indexPath.item]
         
-        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "CustomCollectionViewCell", for: indexPath) as? CustomCollectionViewCell else { return CustomCollectionViewCell() }
+        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: CustomCollectionViewCell.identifier, for: indexPath) as? CustomCollectionViewCell else { return CustomCollectionViewCell() }
         
         cell.configureDailyBoxOffice(dailyBoxOffice: dailyBoxOffice)
         
