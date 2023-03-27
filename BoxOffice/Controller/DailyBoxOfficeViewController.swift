@@ -8,15 +8,21 @@
 import UIKit
 
 final class DailyBoxOfficeViewController: UIViewController {
-    private var dailyBoxOffice: DailyBoxOffice?
     private var collectionView: UICollectionView!
     private var dataSource: UICollectionViewDiffableDataSource<Section, DailyBoxOfficeMovie>!
+    private var dailyBoxOffice: DailyBoxOffice?
+    private var yesterday = Date(timeIntervalSinceNow: -(3600 * 24))
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        setNavigationTitle()
         loadDailyBoxOffice()
         configureCollectionView()
-        
+    }
+    
+    private func setNavigationTitle() {
+        let title = DateFormatter(dateFormat: "yyyy-MM-dd").string(from: yesterday)
+        self.title = title
     }
     
     private func configureCollectionView() {
@@ -62,7 +68,8 @@ final class DailyBoxOfficeViewController: UIViewController {
     
     private func loadDailyBoxOffice() {
         var api = KobisAPI(service: .dailyBoxOffice)
-        api.addQuery(name: "targetDt", value: "20230101")
+        let targetDate = DateFormatter(dateFormat: "yyyyMMdd").string(from: yesterday)
+        api.addQuery(name: "targetDt", value: targetDate)
         
         var apiProvider = APIProvider()
         apiProvider.target(api: api)
