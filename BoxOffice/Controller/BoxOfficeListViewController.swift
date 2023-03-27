@@ -30,6 +30,13 @@ final class BoxOfficeListViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        configureView()
+    }
+    
+    private func configureView() {
+        view.backgroundColor = .white
+        self.title = Date.configureYesterday(isFormatted: true)
         collectionView.dataSource = self
         collectionView.delegate = self
         
@@ -41,8 +48,6 @@ final class BoxOfficeListViewController: UIViewController {
         
         view.addSubview(collectionView)
         collectionView.setAutoLayout(equalTo: view.safeAreaLayoutGuide)
-        configureView()
-        
     }
     
     private func fetchBoxOfficeData(completion: @escaping () -> Void) {
@@ -77,10 +82,7 @@ final class BoxOfficeListViewController: UIViewController {
         }
     }
     
-    private func configureView() {
-        view.backgroundColor = .white
-        self.title = Date.configureYesterday(isFormatted: true)
-    }
+    
 }
 
 extension BoxOfficeListViewController: UICollectionViewDataSource {

@@ -19,6 +19,13 @@ class CustomCollectionViewCell: UICollectionViewCell {
         return stackView
     }()
     
+    private let separatorView: UIView = {
+        let view = UIView()
+        view.backgroundColor = .gray
+        
+        return view
+    }()
+    
     override func prepareForReuse() {
         super.prepareForReuse()
         
@@ -33,7 +40,15 @@ class CustomCollectionViewCell: UICollectionViewCell {
     }
     
     private func configureMainStackView() {
+        
         self.addSubview(mainStackView)
+        self.addSubview(separatorView)
+        
+        separatorView.translatesAutoresizingMaskIntoConstraints = false
+        separatorView.bottomAnchor.constraint(equalTo: self.bottomAnchor).isActive = true
+        separatorView.leadingAnchor.constraint(equalTo: self.leadingAnchor).isActive = true
+        separatorView.trailingAnchor.constraint(equalTo: self.trailingAnchor).isActive = true
+        separatorView.heightAnchor.constraint(equalToConstant: 1).isActive = true
         
         let rankStackView = configureRankStackView()
         mainStackView.addArrangedSubview(rankStackView)
