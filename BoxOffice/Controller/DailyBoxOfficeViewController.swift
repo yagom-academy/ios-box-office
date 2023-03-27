@@ -16,6 +16,7 @@ final class DailyBoxOfficeViewController: UIViewController {
         super.viewDidLoad()
         loadDailyBoxOffice()
         configureCollectionView()
+        
     }
     
     private func configureCollectionView() {

@@ -36,6 +36,8 @@ final class DailyBoxOfficeCell: UICollectionViewListCell, Identifiable {
             stackView.axis = .vertical
             stackView.addArrangedSubview(rankLabel)
             stackView.addArrangedSubview(rankDifferenceLabel)
+            stackView.alignment = .center
+//            stackView.setContentHuggingPriority(.defaultHigh, for: .horizontal)
             
             return stackView
         }()
@@ -46,30 +48,60 @@ final class DailyBoxOfficeCell: UICollectionViewListCell, Identifiable {
         }
         
         NSLayoutConstraint.activate([
-            rankStackView.leadingAnchor.constraint(equalTo: self.contentView.leadingAnchor, constant: 30),
-            rankStackView.trailingAnchor.constraint(equalTo: dailyBoxOfficeListContentView.leadingAnchor),
+            rankStackView.leadingAnchor.constraint(equalTo: self.contentView.leadingAnchor, constant: 20),
             rankStackView.centerYAnchor.constraint(equalTo: self.contentView.centerYAnchor),
-            dailyBoxOfficeListContentView.topAnchor.constraint(equalTo: self.contentView.topAnchor),
-            dailyBoxOfficeListContentView.bottomAnchor.constraint(equalTo: self.contentView.bottomAnchor),
+            rankStackView.widthAnchor.constraint(equalTo: self.contentView.widthAnchor, multiplier: 0.15),
+            dailyBoxOfficeListContentView.topAnchor.constraint(equalTo: self.contentView.topAnchor, constant: 5),
+            dailyBoxOfficeListContentView.bottomAnchor.constraint(equalTo: self.contentView.bottomAnchor, constant: -5),
+            dailyBoxOfficeListContentView.leadingAnchor.constraint(equalTo: rankStackView.trailingAnchor),
             dailyBoxOfficeListContentView.trailingAnchor.constraint(equalTo: self.contentView.trailingAnchor)
         ])
+        
+//        dailyBoxOfficeListContentView.setContentCompressionResistancePriority(.defaultLow, for: .horizontal)
         
         self.isConstraintNeeded = false
     }
     
     override func updateConfiguration(using state: UICellConfigurationState) {
+        guard let dailyBoxOfficeData = state.dailyBoxOfficeData else { return }
+        
         setLayoutConstraint()
         
         var content = defaultContentConfiguration().updated(for: state)
-        content.text = state.dailyBoxOfficeData?.movieName
+        content.text = dailyBoxOfficeData.movieName
         content.textProperties.font = UIFont.preferredFont(forTextStyle: .title3)
-        content.secondaryText = "\(state.dailyBoxOfficeData!.audienceCountOfDate), \(state.dailyBoxOfficeData!.accumulatedAudienceCount)"
+        content.secondaryText = "오늘 \(dailyBoxOfficeData.audienceCountOfDate) /  총 \(dailyBoxOfficeData.accumulatedAudienceCount)"
         content.secondaryTextProperties.font = UIFont.preferredFont(forTextStyle: .body)
         dailyBoxOfficeListContentView.configuration = content
         
-        rankLabel.text = state.dailyBoxOfficeData?.rank ?? "0"
+        rankLabel.text = dailyBoxOfficeData.rank
         rankLabel.font = UIFont.preferredFont(forTextStyle: .largeTitle)
-        rankDifferenceLabel.text = state.dailyBoxOfficeData?.rankDifference ?? "0"
+        
+        switch dailyBoxOfficeData.rankOldAndNew {
+        case "NEW":
+            rankDifferenceLabel.text = "신작"
+            rankDifferenceLabel.textColor = .systemRed
+        case "OLD":
+            if dailyBoxOfficeData.rankDifference.contains("-") {
+                let difference = dailyBoxOfficeData.rankDifference.trimmingCharacters(in: ["-"])
+                let text = "⏷" + difference
+                let attributedString = NSMutableAttributedString(string: text)
+                let range = NSString(string: text).range(of: "⏷")
+                attributedString.addAttribute(.foregroundColor, value: UIColor.systemBlue, range: range)
+                rankDifferenceLabel.attributedText = attributedString
+            } else if dailyBoxOfficeData.rankDifference == "0" {
+                rankDifferenceLabel.text = "-"
+            } else {
+                let text = "⏶" + dailyBoxOfficeData.rankDifference
+                let attributedString = NSMutableAttributedString(string: text)
+                let range = NSString(string: text).range(of: "⏶")
+                attributedString.addAttribute(.foregroundColor, value: UIColor.systemRed, range: range)
+                rankDifferenceLabel.attributedText = attributedString
+            }
+        default:
+            rankDifferenceLabel.text = ""
+        }
+
         rankDifferenceLabel.font = UIFont.preferredFont(forTextStyle: .body)
     }
 }
