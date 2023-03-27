@@ -35,6 +35,6 @@ final class BoxOfficeCollectionViewListCell: UICollectionViewListCell {
 //        }
         rankInfoLabel.text = item.rankIncrementText
         titleLabel.text = item.movieKoreanName
-        audienceInfoLabel.text = "오늘 \(item.audienceCountText) / 총 \(item.audienceAccumulationText)"
+        audienceInfoLabel.text = "오늘 \(item.audienceCountText.convertToDecimalText()) / 총 \(item.audienceAccumulationText.convertToDecimalText())"
     }
 }
