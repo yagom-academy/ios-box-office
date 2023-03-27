@@ -25,7 +25,7 @@ final class NetworkManagerTests: XCTestCase {
         sut.getData(url: url, type: BoxOffice.self) { result in
             switch result {
             case .success(let data):
-                XCTAssertEqual(expectedResult?.boxOfficeResult.boxOfficeType, data.boxOfficeResult.boxOfficeType)
+                XCTAssertEqual(expectedResult?.boxOfficeResult.type, data.boxOfficeResult.type)
             case .failure:
                 XCTFail()
             }

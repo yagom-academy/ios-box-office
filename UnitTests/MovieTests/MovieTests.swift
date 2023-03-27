@@ -28,21 +28,21 @@ final class MovieTests: XCTestCase {
         let expectedResult = "광해, 왕이 된 남자"
      
         // when
-        let movieKoreanName = sut.movieInfoResult.movieInfo.movieKoreanName
+        let movieKoreanName = sut.movieInfoResult.info.koreanName
         
         // then
         XCTAssertEqual(expectedResult, movieKoreanName)
     }
     
-    func test_MoviewInfo의_movieEnglishName은_문자열_Masquerade이다() {
+    func test_MoviewInfo의_director은_문자열_추창민이다() {
         // given
-        let expectedResult = "Masquerade"
+        let expectedResult = "추창민"
      
         // when
-        let movieEnglishName = sut.movieInfoResult.movieInfo.movieEnglishName
+        let directorName = sut.movieInfoResult.info.directors[0].peopleName
         
         // then
-        XCTAssertEqual(expectedResult, movieEnglishName)
+        XCTAssertEqual(expectedResult, directorName)
     }
     
     func test_MoviewInfo의_openDateText은_문자열_20120913이다() {
@@ -50,7 +50,7 @@ final class MovieTests: XCTestCase {
         let expectedResult = "20120913"
      
         // when
-        let openDateText = sut.movieInfoResult.movieInfo.openDateText
+        let openDateText = sut.movieInfoResult.info.openDateText
         
         // then
         XCTAssertEqual(expectedResult, openDateText)
