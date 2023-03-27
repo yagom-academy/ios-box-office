@@ -9,13 +9,21 @@ import UIKit
 
 class BoxOfficeViewController: UIViewController {
     @IBOutlet weak var collectionView: UICollectionView!
+    let networkManager = NetworkManager()
+    var boxOffice: BoxOffice?
+    var activityIndicator: UIActivityIndicatorView = {
+        let activityIndicator = UIActivityIndicatorView()
+        activityIndicator.style = UIActivityIndicatorView.Style.large
+        activityIndicator.startAnimating()
+        return activityIndicator
+    }()
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+
         registerXib()
         configureCollectionView()
-        collectionView.dataSource = self
+        fetchDailyBoxOffice()
     }
     
     private func registerXib() {
@@ -29,14 +37,50 @@ class BoxOfficeViewController: UIViewController {
     }
 
     private func configureCollectionView() {
+        collectionView.backgroundView = activityIndicator
+        collectionView.dataSource = self
         collectionView.collectionViewLayout = createListLayout()
         view.addSubview(collectionView)
+    }
+    
+    private func fetchDailyBoxOffice() {
+        let endPoint: BoxOfficeEndPoint = .fetchDailyBoxOffice(targetDate: generateYesterdayText())
+        
+        networkManager.fetchData(url: endPoint.createURL(), type: BoxOffice.self) { result in
+            DispatchQueue.main.async {
+                switch result {
+                case .success(let data):
+                    self.boxOffice = data
+                    self.collectionView.reloadData()
+                case .failure(let error):
+                    print(error.localizedDescription)
+                }
+                self.activityIndicator.stopAnimating()
+            }
+        }
+    }
+    
+    private func generateYesterdayText() -> String {
+        guard let yesterday = Calendar.current.date(byAdding: .day, value: -1, to: Date()) else {
+            return ""
+        }
+        
+        let dateFormatter: DateFormatter = {
+            let dateFormatter = DateFormatter()
+            dateFormatter.dateFormat = "YYYYMMdd"
+            
+            return dateFormatter
+        }()
+        
+        return dateFormatter.string(from: yesterday)
     }
 }
 
 extension BoxOfficeViewController: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return 20
+        guard let count = boxOffice?.boxOfficeResult.dailyBoxOfficeList.count else { return 0 }
+        
+        return count
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
@@ -47,6 +91,10 @@ extension BoxOfficeViewController: UICollectionViewDataSource {
         cell.accessories = [
             .disclosureIndicator()
         ]
+        
+        guard let item = boxOffice?.boxOfficeResult.dailyBoxOfficeList[safe: indexPath.item] else { return  UICollectionViewCell() }
+        
+        cell.configureCellContent(item: item)
         
         return cell
     }
