@@ -7,14 +7,14 @@
 
 import Foundation
 
-protocol Requestable {
+protocol Provider {
     associatedtype Target
     func fetchData<T: Decodable>(_ target: Target,
                                  type: T.Type,
                                  completion: @escaping (Result<T, Error>) -> Void)
 }
 
-final class BoxOfficeProvider<Target: API>: Requestable {
+final class BoxOfficeProvider<Target: Requestable>: Provider {
     private let session: URLSessionProtocol
     
     init(session: URLSessionProtocol = URLSession.shared) {
@@ -82,7 +82,7 @@ final class BoxOfficeProvider<Target: API>: Requestable {
 }
 
 extension BoxOfficeProvider {
-    func makeEndpoint(for target: API) -> Endpoint? {
+    func makeEndpoint(for target: Requestable) -> Endpoint? {
         guard let url = target.urlComponents?.url else {
             return nil
         }
@@ -90,40 +90,3 @@ extension BoxOfficeProvider {
         return Endpoint(url: url.absoluteString, method: .get)
     }
 }
-
-
-
-//            if error != nil {
-//                completion(.failure(NetworkError.unknownError))
-//                return
-//            }
-//
-//            guard let httpResponse = response as? HTTPURLResponse else {
-//                return
-//            }
-//
-//            guard (200...399).contains(httpResponse.statusCode) else {
-//                switch httpResponse.statusCode {
-//                case 400...499:
-//                    completion(.failure(NetworkError.invalidRequestError))
-//                case 500...599:
-//                    completion(.failure(NetworkError.invalidResponseError))
-//                default:
-//                    completion(.failure(NetworkError.unknownError))
-//                }
-//
-//                return
-//            }
-//
-//            if checkError(statusCode: httpResponse.statusCode)
-//
-//            if let data = data {
-//                do {
-//                    let jsonData = try JSONDecoder().decode(type, from: data)
-//                    completion(.success(jsonData))
-//                } catch {
-//                    completion(.failure(NetworkError.failToParse))
-//                }
-//
-//                return
-//            }

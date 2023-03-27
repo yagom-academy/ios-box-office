@@ -7,7 +7,7 @@
 
 import Foundation
 
-protocol API {
+protocol Requestable {
     var urlComponents: URLComponents? { get }
     var baseURL: String { get }
     var path: String { get }

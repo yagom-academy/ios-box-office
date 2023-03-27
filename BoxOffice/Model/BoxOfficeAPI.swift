@@ -17,7 +17,7 @@ enum BoxOfficeAPI {
     case detailMovieInformation(movieCode: String)
 }
 
-extension BoxOfficeAPI: API {
+extension BoxOfficeAPI: Requestable {
     var urlComponents: URLComponents? {
         var components = URLComponents(string: baseURL)
         components?.path = self.path
