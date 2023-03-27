@@ -7,22 +7,40 @@
 
 import UIKit
 
-@available(iOS 14.0, *)
 final class DailyBoxOfficeViewController: UIViewController {
-    @IBOutlet weak var collectionView: UICollectionView!
-    
-    var dailyBoxOffice: DailyBoxOffice?
-    var dataSource: UICollectionViewDiffableDataSource<Section, DailyBoxOfficeMovie>!
+    private var dailyBoxOffice: DailyBoxOffice?
+    private var collectionView: UICollectionView!
+    private var dataSource: UICollectionViewDiffableDataSource<Section, DailyBoxOfficeMovie>!
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.loadDailyBoxOffice()
-        collectionView.setCollectionViewLayout(creatList(), animated: true)
+        loadDailyBoxOffice()
+        configureCollectionView()
     }
     
-    func configureDataSource() {
+    private func configureCollectionView() {
+        let collectionView = UICollectionView(frame: view.bounds, collectionViewLayout: createListLayout())
+        view.addSubview(collectionView)
+        collectionView.translatesAutoresizingMaskIntoConstraints = false
+        
+        NSLayoutConstraint.activate([
+            collectionView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
+            collectionView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor),
+            collectionView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor),
+            collectionView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor)
+        ])
+        
+        self.collectionView = collectionView
+    }
+    
+    private func createListLayout() -> UICollectionViewCompositionalLayout {
+        let configuration = UICollectionLayoutListConfiguration(appearance: .plain)
+        
+        return UICollectionViewCompositionalLayout.list(using: configuration)
+    }
+    
+    private func configureDataSource() {
         let cellRegistration = UICollectionView.CellRegistration<DailyBoxOfficeCell, DailyBoxOfficeMovie> { (cell, indexPath, item) in
-            
             cell.update(with: item)
             cell.accessories = [.disclosureIndicator()]
         }
@@ -32,22 +50,19 @@ final class DailyBoxOfficeViewController: UIViewController {
             return collectionView.dequeueConfiguredReusableCell(using: cellRegistration, for: indexPath, item: itemIdentifier)
         }
         
+        guard let dailyBoxOffice = self.dailyBoxOffice else { return }
+        
         var snapshot = NSDiffableDataSourceSnapshot<Section, DailyBoxOfficeMovie>()
         snapshot.appendSections([.main])
-        snapshot.appendItems((dailyBoxOffice?.boxOfficeResult.dailyBoxOfficeList)!)
+        snapshot.appendItems(dailyBoxOffice.boxOfficeResult.dailyBoxOfficeList)
+        
         dataSource.apply(snapshot)
-    }
-    
-    func creatList() -> UICollectionViewCompositionalLayout {
-        let configuration = UICollectionLayoutListConfiguration(appearance: .plain)
-        
-        
-        return UICollectionViewCompositionalLayout.list(using: configuration)
     }
     
     private func loadDailyBoxOffice() {
         var api = KobisAPI(service: .dailyBoxOffice)
         api.addQuery(name: "targetDt", value: "20230101")
+        
         var apiProvider = APIProvider()
         apiProvider.target(api: api)
         apiProvider.startLoad(decodingType: DailyBoxOffice.self) { result in
@@ -63,8 +78,10 @@ final class DailyBoxOfficeViewController: UIViewController {
             }
         }
     }
+    
+    private enum Section: CaseIterable {
+        case main
+    }
 }
 
-enum Section: CaseIterable {
-    case main
-}
+

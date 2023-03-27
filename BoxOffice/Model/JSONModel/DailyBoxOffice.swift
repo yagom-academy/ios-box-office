@@ -7,11 +7,11 @@
 
 import Foundation
 
-struct DailyBoxOffice: Decodable, Hashable {
+struct DailyBoxOffice: Decodable {
     let boxOfficeResult: BoxOfficeResult
 }
 
-struct BoxOfficeResult: Decodable, Hashable {
+struct BoxOfficeResult: Decodable {
     let boxOfficeType: String
     let showRange: String
     let dailyBoxOfficeList: [DailyBoxOfficeMovie]

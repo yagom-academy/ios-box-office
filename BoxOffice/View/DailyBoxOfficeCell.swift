@@ -11,7 +11,6 @@ final class DailyBoxOfficeCell: UICollectionViewListCell, Identifiable {
     var dailyBoxOfficeData: DailyBoxOfficeMovie?
     var rankLabel = UILabel()
     var rankDifferenceLabel = UILabel()
-//    var dailyBoxOfficeContentView = UIListContentView(configuration: .subtitleCell())
     var isConstraintNeeded = true
     var dailyBoxOfficeListContentView = UIListContentView(configuration: UIListContentConfiguration.subtitleCell())
     
@@ -47,7 +46,7 @@ final class DailyBoxOfficeCell: UICollectionViewListCell, Identifiable {
         }
         
         NSLayoutConstraint.activate([
-            rankStackView.leadingAnchor.constraint(equalTo: self.contentView.leadingAnchor),
+            rankStackView.leadingAnchor.constraint(equalTo: self.contentView.leadingAnchor, constant: 30),
             rankStackView.trailingAnchor.constraint(equalTo: dailyBoxOfficeListContentView.leadingAnchor),
             rankStackView.centerYAnchor.constraint(equalTo: self.contentView.centerYAnchor),
             dailyBoxOfficeListContentView.topAnchor.constraint(equalTo: self.contentView.topAnchor),
@@ -63,12 +62,15 @@ final class DailyBoxOfficeCell: UICollectionViewListCell, Identifiable {
         
         var content = defaultContentConfiguration().updated(for: state)
         content.text = state.dailyBoxOfficeData?.movieName
-        content.secondaryText = "\(state.dailyBoxOfficeData?.audienceCountOfDate), \(state.dailyBoxOfficeData?.accumulatedAudienceCount)"
-        
+        content.textProperties.font = UIFont.preferredFont(forTextStyle: .title3)
+        content.secondaryText = "\(state.dailyBoxOfficeData!.audienceCountOfDate), \(state.dailyBoxOfficeData!.accumulatedAudienceCount)"
+        content.secondaryTextProperties.font = UIFont.preferredFont(forTextStyle: .body)
         dailyBoxOfficeListContentView.configuration = content
         
         rankLabel.text = state.dailyBoxOfficeData?.rank ?? "0"
+        rankLabel.font = UIFont.preferredFont(forTextStyle: .largeTitle)
         rankDifferenceLabel.text = state.dailyBoxOfficeData?.rankDifference ?? "0"
+        rankDifferenceLabel.font = UIFont.preferredFont(forTextStyle: .body)
     }
 }
 
