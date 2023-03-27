@@ -37,7 +37,6 @@ final class DailyBoxOfficeCell: UICollectionViewListCell, Identifiable {
             stackView.addArrangedSubview(rankLabel)
             stackView.addArrangedSubview(rankDifferenceLabel)
             stackView.alignment = .center
-//            stackView.setContentHuggingPriority(.defaultHigh, for: .horizontal)
             
             return stackView
         }()
@@ -57,9 +56,15 @@ final class DailyBoxOfficeCell: UICollectionViewListCell, Identifiable {
             dailyBoxOfficeListContentView.trailingAnchor.constraint(equalTo: self.contentView.trailingAnchor)
         ])
         
-//        dailyBoxOfficeListContentView.setContentCompressionResistancePriority(.defaultLow, for: .horizontal)
-        
         self.isConstraintNeeded = false
+    }
+    
+    func numberFormatter(for audience: String) -> String? {
+        let numberFormatter = NumberFormatter()
+        numberFormatter.numberStyle = .decimal
+        let result = numberFormatter.string(from: Int(audience) as? NSNumber ?? 0)
+        
+        return result
     }
     
     override func updateConfiguration(using state: UICellConfigurationState) {
@@ -70,7 +75,10 @@ final class DailyBoxOfficeCell: UICollectionViewListCell, Identifiable {
         var content = defaultContentConfiguration().updated(for: state)
         content.text = dailyBoxOfficeData.movieName
         content.textProperties.font = UIFont.preferredFont(forTextStyle: .title3)
-        content.secondaryText = "오늘 \(dailyBoxOfficeData.audienceCountOfDate) /  총 \(dailyBoxOfficeData.accumulatedAudienceCount)"
+        let todayAudience = numberFormatter(for: dailyBoxOfficeData.audienceCountOfDate) ?? "0"
+        let accumulatedAudience = numberFormatter(for: dailyBoxOfficeData.accumulatedAudienceCount) ?? "0"
+        
+        content.secondaryText = "오늘 \(todayAudience) /  총 \(accumulatedAudience)"
         content.secondaryTextProperties.font = UIFont.preferredFont(forTextStyle: .body)
         dailyBoxOfficeListContentView.configuration = content
         

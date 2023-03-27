@@ -91,5 +91,3 @@ final class DailyBoxOfficeViewController: UIViewController {
         case main
     }
 }
-
-
