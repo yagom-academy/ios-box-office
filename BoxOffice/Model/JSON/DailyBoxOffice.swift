@@ -5,10 +5,10 @@
 //  Created by 리지, kokkilE on 2023/03/20.
 //
 
-struct DailyBoxOffice: Decodable {
+struct DailyBoxOffice: Decodable, Hashable {
     let boxOfficeResult: BoxOfficeResult
     
-    struct BoxOfficeResult: Decodable {
+    struct BoxOfficeResult: Decodable, Hashable {
         let boxOfficeType: String
         let showRange: String
         let boxOfficeList: [Movie]
@@ -19,7 +19,7 @@ struct DailyBoxOffice: Decodable {
             case boxOfficeList = "dailyBoxOfficeList"
         }
         
-        struct Movie: Decodable {
+        struct Movie: Decodable, Hashable {
             let order: String
             let rank: String
             let rankVariance: String

@@ -39,7 +39,7 @@ extension BoxOfficeEndPoint {
         case .DailyBoxOffice(let targetDate, _):
             return [
                 URLQueryItem(name: "key", value: key),
-                URLQueryItem(name: "targetDate", value: targetDate)
+                URLQueryItem(name: "targetDt", value: targetDate)
             ]
         case .MovieInformation(let movieCode, _):
             return [
