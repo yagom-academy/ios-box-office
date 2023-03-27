@@ -26,10 +26,25 @@ final class BoxOfficeViewController: UIViewController {
         return yesterday
     }
     
+    private lazy var activityIndicator: UIActivityIndicatorView = {
+        let activityIndicator = UIActivityIndicatorView()
+        activityIndicator.center = self.view.center
+        activityIndicator.frame = view.frame
+        activityIndicator.style = UIActivityIndicatorView.Style.large
+        activityIndicator.startAnimating()
+        return activityIndicator
+    }()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        setupUI()
         self.fetchDailyBoxOffice()
+    }
+    
+    func setupUI() {
+        self.view.backgroundColor = .white
+        self.view.addSubview(activityIndicator)
     }
     
     private func fetchDailyBoxOffice() {
@@ -42,8 +57,12 @@ final class BoxOfficeViewController: UIViewController {
             switch result {
             case .success(let boxOffice):
                 self.boxOffice = boxOffice
+                DispatchQueue.main.async {
+                    self.activityIndicator.stopAnimating()
+                }
             case .failure(_):
                 DispatchQueue.main.async {
+                    self.activityIndicator.stopAnimating()
                     self.showAlert()
                 }
             }
