@@ -8,8 +8,10 @@
 import Foundation
 
 protocol Requestable {
-    associatedtype Target = API
-    func fetchData<T: Decodable>(_ target: Target, type: T.Type, completion: @escaping (Result<T, Error>) -> Void)
+    associatedtype Target
+    func fetchData<T: Decodable>(_ target: Target,
+                                 type: T.Type,
+                                 completion: @escaping (Result<T, Error>) -> Void)
 }
 
 final class BoxOfficeProvider<Target: API>: Requestable {
@@ -19,8 +21,9 @@ final class BoxOfficeProvider<Target: API>: Requestable {
         self.session = session
     }
     
-    func fetchData<T>(_ target: Target, type: T.Type, completion: @escaping (Result<T, Error>) -> Void) where T : Decodable {
-        
+    func fetchData<T>(_ target: Target,
+                      type: T.Type,
+                      completion: @escaping (Result<T, Error>) -> Void) where T : Decodable {
         guard let endPoint = self.makeEndpoint(for: target),
               let request = endPoint.urlRequest() else {
             return
@@ -46,6 +49,7 @@ final class BoxOfficeProvider<Target: API>: Requestable {
                 default:
                     completion(.failure(NetworkError.unknownError))
                 }
+                
                 return
             }
             
@@ -68,7 +72,6 @@ final class BoxOfficeProvider<Target: API>: Requestable {
 extension BoxOfficeProvider {
     func makeEndpoint(for target: API) -> Endpoint? {
         guard let url = target.urlComponents?.url else {
-            
             return nil
         }
         
