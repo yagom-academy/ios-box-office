@@ -8,7 +8,8 @@
 import UIKit
 
 final class DailyBoxOfficeViewController: UIViewController {
-    private var collectionView: UICollectionView!
+    private var collectionView = UICollectionView(frame: UIScreen.main.bounds,
+                                                  collectionViewLayout: UICollectionViewFlowLayout())
     private var dailyBoxOffice: DailyBoxOffice?
     private var yesterday = Date(timeIntervalSinceNow: -(3600 * 24))
     
@@ -52,7 +53,6 @@ final class DailyBoxOfficeViewController: UIViewController {
     }
     
     private func configureCollectionView() {
-        let collectionView = UICollectionView(frame: view.bounds, collectionViewLayout: UICollectionViewFlowLayout())
         view.addSubview(collectionView)
         collectionView.translatesAutoresizingMaskIntoConstraints = false
         
@@ -63,9 +63,8 @@ final class DailyBoxOfficeViewController: UIViewController {
             collectionView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor)
         ])
         
-        collectionView.register(DailyBoxOfficeCell.self, forCellWithReuseIdentifier: "DailyBoxOfficeCell")
-        
-        self.collectionView = collectionView
+        collectionView.register(DailyBoxOfficeCell.self,
+                                forCellWithReuseIdentifier: DailyBoxOfficeCell.identifier)
     }
     
     private func configureRefreshControl() {
@@ -85,29 +84,39 @@ final class DailyBoxOfficeViewController: UIViewController {
 }
 
 extension DailyBoxOfficeViewController: UICollectionViewDataSource {
-    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+    func collectionView(_ collectionView: UICollectionView,
+                        numberOfItemsInSection section: Int) -> Int {
         guard let dailyBoxOffice = self.dailyBoxOffice else { return 0 }
         
         return dailyBoxOffice.boxOfficeResult.dailyBoxOfficeList.count
     }
     
-    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "DailyBoxOfficeCell", for: indexPath) as? DailyBoxOfficeCell,
-              let movieData = self.dailyBoxOffice?.boxOfficeResult.dailyBoxOfficeList[indexPath.item] else { return UICollectionViewCell() }
+    func collectionView(_ collectionView: UICollectionView,
+                        cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: DailyBoxOfficeCell.identifier,
+                                                            for: indexPath) as? DailyBoxOfficeCell,
+              let movieData = dailyBoxOffice?.boxOfficeResult.dailyBoxOfficeList[indexPath.item] else {
+            return UICollectionViewCell()
+        }
+        
         cell.setBorder()
         cell.configureSubviews()
-        cell.setData(of: movieData)
+        cell.fillLabels(with: movieData)
         
         return cell
     }
 }
 
 extension DailyBoxOfficeViewController: UICollectionViewDelegateFlowLayout {
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+    func collectionView(_ collectionView: UICollectionView,
+                        layout collectionViewLayout: UICollectionViewLayout,
+                        sizeForItemAt indexPath: IndexPath) -> CGSize {
         return CGSize(width: view.bounds.width, height: 80)
     }
     
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
+    func collectionView(_ collectionView: UICollectionView,
+                        layout collectionViewLayout: UICollectionViewLayout,
+                        minimumLineSpacingForSectionAt section: Int) -> CGFloat {
         return 0
     }
 }
