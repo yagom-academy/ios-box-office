@@ -72,6 +72,32 @@ final class ViewController: UIViewController {
 
 }
 
+// MARK: - DataSource
+extension ViewController {
+    
+    private func configureDataSource() {
+        let cellRegistration = UICollectionView.CellRegistration<MovieListCell, ListItem> { (cell, indexPath, movie) in
+            
+            cell.accessories = [.disclosureIndicator()]
+        }
+        
+        dataSource = UICollectionViewDiffableDataSource<ListSection, ListItem>(collectionView: collectionView) { (collectionView, indexPath, movie) -> UICollectionViewCell? in
+            let cell = collectionView.dequeueConfiguredReusableCell(using: cellRegistration, for: indexPath, item: movie)
+            return cell
+        }
+        
+    }
+    
+    private func makeSnapshot(with movies: [ListItem]) -> NSDiffableDataSourceSnapshot<ListSection, ListItem> {
+        var snapshot = NSDiffableDataSourceSnapshot<ListSection, ListItem>()
+        snapshot.appendSections([.main])
+        snapshot.appendItems(movies, toSection: .main)
+        dataSource.apply(snapshot, animatingDifferences: false)
+        return snapshot
+    }
+    
+}
+
 // MARK: - UICollectionViewDelegate
 extension ViewController: UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
