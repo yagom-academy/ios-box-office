@@ -50,9 +50,18 @@ class EndPoint {
         return urlRequest
     }
     
-    func makeQueryParameter() {
-        
-    }
+//    func makeQueryParameter(boxOfficeType: BoxOfficeType) {
+//        switch boxOfficeType {
+//        case .DailyBoxOffice :
+//            queryItems.append(URLQueryItem(name: "key", value: QueryItemsValue.keyValue.rawValue))
+//            queryItems.append(URLQueryItem(name: QueryItemsName.targetDate.rawValue, value: QueryItemsValue.targetDateValue.rawValue))
+//            return
+//        case .MovieDetail :
+//            queryItems.append(URLQueryItem(name: "key", value: QueryItemsValue.keyValue.rawValue))
+//            queryItems.append(URLQueryItem(name: QueryItemsName.movieCode.rawValue, value: QueryItemsValue.movieCodeValue.rawValue))
+//            return
+//        }
+//    }
 }
 
 enum QueryItemsName: String {
@@ -65,6 +74,11 @@ enum QueryItemsValue: String {
     case keyValue = "f5eef3421c602c6cb7ea224104795888"
     case targetDateValue = "20230327"
     case movieCodeValue = "20124079"
+}
+
+enum BoxOfficeType {
+    case DailyBoxOffice
+    case MovieDetail
 }
 
 //enum URLAddress: String {

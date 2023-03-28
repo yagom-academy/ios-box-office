@@ -99,6 +99,8 @@ extension BoxOfficeViewController: UICollectionViewDataSource {
         
         cell.setUpBoxOffcieCellUI()
         
+        cell.accessories = [.disclosureIndicator() ]
+        
         cell.rankNumberLabel.text = dailyBoxOffice?.boxOfficeResult.dailyBoxOfficeList[indexPath.row].rank
         cell.rankGapLabel.attributedText = convertRankGapPresentation(indexPath: indexPath)
         cell.movieTitleLabel.text = dailyBoxOffice?.boxOfficeResult.dailyBoxOfficeList[indexPath.row].movieName

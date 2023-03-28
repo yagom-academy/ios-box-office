@@ -7,7 +7,7 @@
 
 import UIKit
 
-class BoxOfficeListCell: UICollectionViewCell  {
+class BoxOfficeListCell: UICollectionViewListCell  {
     
     @IBOutlet weak var rankNumberLabel: UILabel!
     @IBOutlet weak var rankGapLabel: UILabel!
