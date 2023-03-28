@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		262FA3CD29D2CA26008334B7 /* BoxofficeInfoTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 262FA3CC29D2CA26008334B7 /* BoxofficeInfoTests.swift */; };
+		264C6EE429D30F9800D2F0A3 /* MockNetworkModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 264C6EE329D30F9800D2F0A3 /* MockNetworkModel.swift */; };
 		26B1733729C845CD0086B7CA /* String+extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26B1733629C845CD0086B7CA /* String+extension.swift */; };
 		26B6853A29C986C5001580FF /* MovieInfoObject.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26B6853929C986C5001580FF /* MovieInfoObject.swift */; };
 		26B6853C29C987A6001580FF /* MovieInfoResultObject.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26B6853B29C987A6001580FF /* MovieInfoResultObject.swift */; };
@@ -53,6 +54,7 @@
 
 /* Begin PBXFileReference section */
 		262FA3CC29D2CA26008334B7 /* BoxofficeInfoTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BoxofficeInfoTests.swift; sourceTree = "<group>"; };
+		264C6EE329D30F9800D2F0A3 /* MockNetworkModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockNetworkModel.swift; sourceTree = "<group>"; };
 		26B1733629C845CD0086B7CA /* String+extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "String+extension.swift"; sourceTree = "<group>"; };
 		26B6853929C986C5001580FF /* MovieInfoObject.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MovieInfoObject.swift; sourceTree = "<group>"; };
 		26B6853B29C987A6001580FF /* MovieInfoResultObject.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MovieInfoResultObject.swift; sourceTree = "<group>"; };
@@ -227,6 +229,7 @@
 			children = (
 				7122D85A29CAC5CB0039DEFB /* StubBoxoffice.swift */,
 				71F1997829CD35D100CF8695 /* MockURLProtocolObject.swift */,
+				264C6EE329D30F9800D2F0A3 /* MockNetworkModel.swift */,
 			);
 			path = TestModel;
 			sourceTree = "<group>";
@@ -366,6 +369,7 @@
 				7122D85B29CAC5CB0039DEFB /* StubBoxoffice.swift in Sources */,
 				71F1997929CD35D100CF8695 /* MockURLProtocolObject.swift in Sources */,
 				26D7C88729CAC1AF00B67672 /* NetworkModelTests.swift in Sources */,
+				264C6EE429D30F9800D2F0A3 /* MockNetworkModel.swift in Sources */,
 				262FA3CD29D2CA26008334B7 /* BoxofficeInfoTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

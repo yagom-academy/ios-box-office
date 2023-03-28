@@ -2,7 +2,7 @@
 //  BoxofficeInfo.swift
 //  BoxOffice
 //
-//  Created by Andrew on 2023/03/28.
+//  Created by Andrew, 레옹아범 on 2023/03/28.
 //
 
 import Foundation
