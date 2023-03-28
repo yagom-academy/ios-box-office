@@ -24,6 +24,7 @@ final class BoxOfficeViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        
         navigationItem.title = generateYesterdayText(type: .hyphen)
         refreshControl.addTarget(self, action: #selector(refreshData), for: .valueChanged)
         registerXib()
@@ -117,7 +118,9 @@ extension BoxOfficeViewController: UICollectionViewDataSource {
             .disclosureIndicator()
         ]
         
-        guard let item = boxOffice?.boxOfficeResult.dailyBoxOfficeList[safe: indexPath.item] else { return  UICollectionViewCell() }
+        guard let item = boxOffice?.boxOfficeResult.dailyBoxOfficeList[safe: indexPath.item] else {
+            return  UICollectionViewCell()
+        }
         
         cell.configureCellContent(item: item)
         
