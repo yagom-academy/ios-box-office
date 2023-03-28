@@ -1,5 +1,5 @@
 //
-//  MovieListCell.swift
+//  DailyMovieListCell.swift
 //  BoxOffice
 //
 //  Created by 리지, kokkilE on 2023/03/27.
@@ -25,7 +25,7 @@ class ItemListCell: UICollectionViewListCell {
 }
 
 @available(iOS 14.0, *)
-final class CustomListCell: ItemListCell {
+final class DailyMovieListCell: ItemListCell {
     
     func defaultListContentConfiguration() -> UIListContentConfiguration {
         return .subtitleCell()
