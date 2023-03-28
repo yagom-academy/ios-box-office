@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct DailyBoxOfficeItem: Codable {
+struct DailyBoxOfficeItem: Codable, Hashable {
     let rowNumber: String
     let rank: String
     let rankingIntensity: String

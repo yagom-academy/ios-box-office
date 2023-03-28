@@ -8,9 +8,10 @@
 import UIKit
 
 class BoxOfficeViewController: UIViewController {
-    let yesterday = Date().addingTimeInterval(3600 * -24)
+    var collectionView: UICollectionView!
+    private let yesterday = Date().addingTimeInterval(3600 * -24)
     
-    lazy var yesterdayLabel: UILabel = {
+    private lazy var yesterdayLabel: UILabel = {
         let label = UILabel()
         let date = yesterday.applyHyphenDate()
         
