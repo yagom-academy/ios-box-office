@@ -25,11 +25,6 @@ struct BoxOfficeContentConfiguration: UIContentConfiguration, Hashable {
         }
         
         let updatedConfiguration = self
-//        if state.isSelected {
-//            updatedConfiguration.rankColor = .red
-//        } else {
-//            updatedConfiguration.rankColor = .blue
-//        }
         
         return updatedConfiguration
     }

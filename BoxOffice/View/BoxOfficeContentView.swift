@@ -81,7 +81,7 @@ class BoxOfficeContentView: UIView, UIContentView {
     
     let accessoryImageView: UIImageView = {
         let imageView = UIImageView()
-        imageView.image = UIImage(systemName: "chevron.right")
+        imageView.image = UIImage(systemName: SystemImageName.chevronRight)
         imageView.translatesAutoresizingMaskIntoConstraints = false
         imageView.tintColor = UIColor.lightGray.withAlphaComponent(0.7)
         return imageView
@@ -170,14 +170,13 @@ private extension BoxOfficeContentView {
             
             switch rankIncrementNumber {
             case ..<0:
-                rankIncrementSymbol.image = UIImage(systemName: "arrowtriangle.down.fill")
+                rankIncrementSymbol.image = UIImage(systemName: SystemImageName.arrowTriangleDownFill)
                 rankIncrementLabel.text = "\(rankIncrementNumber * -1)"
             case 0:
-                rankIncrementSymbol.image = UIImage(systemName: "minus",
-                                                    withConfiguration: UIImage.SymbolConfiguration(pointSize: 40, weight: .bold))
+                rankIncrementSymbol.image = UIImage(systemName: SystemImageName.minus)
                 rankIncrementSymbol.tintColor = .black
             default:
-                rankIncrementSymbol.image = UIImage(systemName: "arrowtriangle.up.fill")
+                rankIncrementSymbol.image = UIImage(systemName: SystemImageName.arrowTriangleUpFill)
                 rankIncrementSymbol.tintColor = .systemRed
                 rankIncrementLabel.text = "\(rankIncrementNumber)"
             }
@@ -185,10 +184,17 @@ private extension BoxOfficeContentView {
         
         titleLabel.text = configuration.title
         
-        if let todayAudienceCount = configuration.audienceCount,
-           let accumulatedAudienceCount = configuration.audienceAccumulationCount {
+        if let todayAudienceCount = configuration.audienceCount?.convertToDecimal(),
+           let accumulatedAudienceCount = configuration.audienceAccumulationCount?.convertToDecimal() {
             let audienceString = "오늘 \(todayAudienceCount) / 총: \(accumulatedAudienceCount)"
             audienceCountLabel.text = audienceString
         }
     }
+}
+
+fileprivate enum SystemImageName {
+    static let chevronRight = "chevron.right"
+    static let arrowTriangleDownFill = "arrowtriangle.down.fill"
+    static let minus = "minus"
+    static let arrowTriangleUpFill = "arrowtriangle.up.fill"
 }
