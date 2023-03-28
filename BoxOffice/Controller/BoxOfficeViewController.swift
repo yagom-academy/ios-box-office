@@ -12,14 +12,23 @@ final class BoxOfficeViewController: UIViewController {
     private var dailyBoxOffice: DailyBoxOffice?
     
     @IBOutlet weak var boxOfficeListCollectionView: UICollectionView!
+
+    lazy var activityIndicator = UIActivityIndicatorView()
+    
     private var boxOfficeAPI = BoxOfficeAPI()
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        setTitle()
         fetchDailyBoxOfficeAPI()
+        setActivityIndicator()
         boxOfficeListCollectionView.dataSource = self
         configureRefreshControl()
         self.boxOfficeListCollectionView.collectionViewLayout = self.setUpCompositionalLayout()
+    }
+    
+    private func setTitle() {
+        self.title = QueryItemsValue.targetDateValue.rawValue
     }
     
     private func configureUI() {
@@ -33,6 +42,13 @@ final class BoxOfficeViewController: UIViewController {
             boxOfficeListCollectionView.trailingAnchor.constraint(equalTo: safeArea.trailingAnchor),
             boxOfficeListCollectionView.bottomAnchor.constraint(equalTo: safeArea.bottomAnchor)
         ])
+    }
+    
+    func setActivityIndicator() {
+        activityIndicator = UIActivityIndicatorView()
+        activityIndicator.style = UIActivityIndicatorView.Style.large
+        activityIndicator.startAnimating()
+        boxOfficeListCollectionView.backgroundView = activityIndicator
     }
     
     func configureRefreshControl() {
@@ -50,15 +66,18 @@ final class BoxOfficeViewController: UIViewController {
     }
     
     func fetchDailyBoxOfficeAPI() {
-        boxOfficeAPI.loadBoxOfficeAPI(endpoint: EndPoint(baseURL: "http://kobis.or.kr", path: Path.dailyBoxOffice, method: HTTPMethod.get,
-                                                         queryItems: [URLQueryItem(name: QueryItemsName.key.rawValue,
+        boxOfficeAPI.loadBoxOfficeAPI(endpoint: EndPoint(baseURL: "http://kobis.or.kr",
+                        path: Path.dailyBoxOffice,
+                        method: HTTPMethod.get,
+                                                        queryItems: [URLQueryItem(name: QueryItemsName.key.rawValue,
                                                                                    value: QueryItemsValue.keyValue.rawValue),
                                                                       URLQueryItem(name: QueryItemsName.targetDate.rawValue,
-                                                                                   value: "20230327")]), parser: Parser<DailyBoxOffice>()) { parsedData in
+                                                                                   value: QueryItemsValue.targetDateValue.rawValue)]), parser: Parser<DailyBoxOffice>()) { parsedData in
             self.dailyBoxOffice = parsedData
             
             DispatchQueue.main.async {
                 self.boxOfficeListCollectionView.reloadData()
+                self.activityIndicator.stopAnimating()
             }
         }
     }

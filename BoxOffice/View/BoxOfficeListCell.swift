@@ -57,7 +57,8 @@ class BoxOfficeListCell: UICollectionViewListCell  {
           
             titleAndAudienceStackView.leadingAnchor.constraint(equalTo: rankStackView.trailingAnchor,constant: 20),
             titleAndAudienceStackView.centerYAnchor.constraint(equalTo: self.centerYAnchor),
-        ])
+            titleAndAudienceStackView.trailingAnchor.constraint(lessThanOrEqualTo: self.trailingAnchor, constant: -20)
+            ])
     }
     
     private func setUpLabelStyle() {
