@@ -11,30 +11,52 @@ fileprivate enum Section: Hashable {
     case main
 }
 
-final class DailyBoxOfficeViewController: UIViewController, UICollectionViewDelegate {
+final class DailyBoxOfficeViewController: UIViewController {
     private var dailyBoxOffice: DailyBoxOffice?
     private var networkManager = NetworkManager()
     private var boxOfficeEndPoint: BoxOfficeEndPoint?
     private typealias DataSource = UICollectionViewDiffableDataSource<Section, DailyBoxOffice.BoxOfficeResult.Movie>
     private var movieDataSource: DataSource?
+    private var refreshControl = UIRefreshControl()
     lazy private var collectionView: UICollectionView = {
         let collectionView = UICollectionView(frame: view.bounds, collectionViewLayout: createMovieListLayout())
         collectionView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
         view.addSubview(collectionView)
-        collectionView.delegate = self
+        //        collectionView.delegate = self
+        collectionView.register(DailyBoxOfficeCollectionViewCell.self, forCellWithReuseIdentifier: DailyBoxOfficeCollectionViewCell.reuseIdentifier)
+        
         return collectionView
     }()
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        boxOfficeEndPoint = BoxOfficeEndPoint.DailyBoxOffice(tagetDate: "20230327", httpMethod: .get)
-        fetchDailyBoxOfficeData()
-        setupCollectionView()
         
+        refreshData()
+        
+        refreshControl.addTarget(self, action: #selector(refreshData), for: .valueChanged)
+        collectionView.refreshControl = refreshControl
+    }
+    
+    @objc private func refreshData() {
+        updateDateToViewTitle()
+        updateDateToEndPoint()
+        fetchDailyBoxOfficeData()
+    }
+    
+    private func updateDateToViewTitle() {
         let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = "yyyy-MM-dd"
         let currentDate = dateFormatter.string(from: Date(timeIntervalSinceNow: -86400))
+        
         self.title = currentDate
+    }
+    
+    private func updateDateToEndPoint() {
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "yyyyMMdd"
+        let currentDate = dateFormatter.string(from: Date(timeIntervalSinceNow: -86400))
+        
+        boxOfficeEndPoint = BoxOfficeEndPoint.DailyBoxOffice(tagetDate: "\(currentDate)", httpMethod: .get)
     }
     
     private func fetchDailyBoxOfficeData() {
@@ -49,10 +71,14 @@ final class DailyBoxOfficeViewController: UIViewController, UICollectionViewDele
                 DispatchQueue.main.async {
                     self?.setupDataSource()
                     self?.setupSnapshot()
+                    self?.refreshControl.endRefreshing()
                 }
             }
         }
     }
+}
+
+extension DailyBoxOfficeViewController {
     
     private func setupDataSource() {
         movieDataSource = DataSource(collectionView: self.collectionView) { collectionView, indexPath, itemIdentifier in
@@ -75,10 +101,6 @@ final class DailyBoxOfficeViewController: UIViewController, UICollectionViewDele
             snapshot.appendItems(dailyBoxOffice.boxOfficeResult.boxOfficeList, toSection: .main)
         }
         movieDataSource?.apply(snapshot, animatingDifferences: true)
-    }
-    
-    private func setupCollectionView() {
-        collectionView.register(DailyBoxOfficeCollectionViewCell.self, forCellWithReuseIdentifier: DailyBoxOfficeCollectionViewCell.reuseIdentifier)
     }
 }
 

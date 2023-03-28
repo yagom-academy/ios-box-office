@@ -59,6 +59,7 @@ final class DailyBoxOfficeCollectionViewCell: UICollectionViewCell {
         mainStackView.axis = .horizontal
         mainStackView.alignment = .center
         mainStackView.distribution = .fill
+        mainStackView.spacing = 5
         mainStackView.addArrangedSubview(movieRankStackView)
         mainStackView.addArrangedSubview(movieListStackView)
         mainStackView.addArrangedSubview(accessoryImageView)
@@ -70,7 +71,7 @@ final class DailyBoxOfficeCollectionViewCell: UICollectionViewCell {
             mainStackView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 10),
             mainStackView.topAnchor.constraint(equalTo: contentView.topAnchor),
             mainStackView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor),
-            mainStackView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor)
+            mainStackView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -20)
         ])
     }
     
@@ -101,7 +102,7 @@ final class DailyBoxOfficeCollectionViewCell: UICollectionViewCell {
         
         accessoryImageView.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([
-            accessoryImageView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -20),
+            accessoryImageView.trailingAnchor.constraint(equalTo: mainStackView.trailingAnchor),
             accessoryImageView.widthAnchor.constraint(equalTo: mainStackView.widthAnchor, multiplier: 0.025),
             accessoryImageView.heightAnchor.constraint(equalTo: mainStackView.heightAnchor, multiplier: 0.2)
         ])
