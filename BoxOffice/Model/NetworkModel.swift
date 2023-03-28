@@ -7,7 +7,7 @@
 
 import Foundation
 
-class a<T: Decodable> {
+class BoxofficeInfo<T: Decodable> {
     private let apiType: APIType
     private let model: NetworkModel
     private var task: URLSessionDataTask?
@@ -17,9 +17,13 @@ class a<T: Decodable> {
         self.model = model
     }
     
-    func decodeData(_ data: Data) -> T? {
-        
-        return T
+    private func decodeData(_ data: Data) -> T? {
+        do {
+            let decodingData = try JSONDecoder().decode(T.self, from: data)
+            return decodingData
+        } catch {
+            return nil
+        }
     }
     
     func fetchData(handler: @escaping (Result<T, BoxofficeError>) -> Void) {
@@ -35,19 +39,17 @@ class a<T: Decodable> {
                     handler(.failure(.decodingError))
                     return
                 }
-                
                 handler(.success(decodingData))
             case .failure(let error):
                 handler(.failure(error))
             }
         }
-        
-        task?.resume()
     }
     
     func cancelTask() {
         task?.cancel()
     }
+    
 }
 
 struct NetworkModel {
@@ -76,9 +78,10 @@ struct NetworkModel {
                 completion(.failure(.incorrectDataTypeError))
                 return
             }
-            
             completion(.success(data))
         }
+        
+        task.resume()
         
         return task
     }

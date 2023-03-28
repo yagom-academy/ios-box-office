@@ -8,22 +8,18 @@
 import UIKit
 
 final class ViewController: UIViewController {
-    
-    var movie = NetworkModel<DailyBoxofficeObject>(apiType: .boxoffice("20230324"), session: URLSession.shared )
+    let boxOfficeInfo = BoxofficeInfo<DailyBoxofficeObject>(apiType: .boxoffice("20230325"), model: NetworkModel(session: URLSession.shared) )
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
-        movie.search { event in
-            switch event {
-            case .success(let data):
-                print(data)
-            case .failure(let error):
-                print(error)
-            }
-        }
-        var giveTask = movie.giveTask()
-        giveTask?.cancel()
-
+        
+//        boxOfficeInfo.fetchData { result in
+//            switch result {
+//            case .success(let data):
+//                print(data)
+//            case .failure(let error):
+//                print(error)
+//            }
+//        }
     }
 }
