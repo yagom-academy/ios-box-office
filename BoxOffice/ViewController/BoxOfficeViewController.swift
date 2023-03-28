@@ -16,19 +16,15 @@ final class BoxOfficeViewController: UIViewController {
     var collectionView: UICollectionView! = nil
     var boxOfficeItems: [BoxOfficeItem] = []
     
-    private var yesterday: String? {
+    private var yesterday: Date? {
         guard let yesterdayDate = Calendar.current.date(
             byAdding: Calendar.Component.day,
             value: -1,
             to: Date()) else {
             return nil
         }
-        
-        let dateFormatter = DateFormatter()
-        dateFormatter.dateFormat = "yyyyMMdd"
-        let yesterday = dateFormatter.string(from: yesterdayDate)
             
-        return yesterday
+        return yesterdayDate
     }
     
     private lazy var activityIndicator: UIActivityIndicatorView = {
@@ -37,6 +33,7 @@ final class BoxOfficeViewController: UIViewController {
         activityIndicator.frame = view.frame
         activityIndicator.style = UIActivityIndicatorView.Style.large
         activityIndicator.startAnimating()
+        
         return activityIndicator
     }()
     
@@ -51,12 +48,17 @@ final class BoxOfficeViewController: UIViewController {
     }
     
     func setupUI() {
+        guard let yesterday = yesterday?.formatToDate(with: "yyyy-MM-dd") else {
+            return
+        }
+        
+        self.title = yesterday
         self.view.backgroundColor = .white
         self.view.addSubview(activityIndicator)
     }
     
     private func fetchDailyBoxOffice() {
-        guard let yesterday = yesterday else {
+        guard let yesterday = yesterday?.formatToDate(with: "yyyyMMdd") else {
             return
         }
         
@@ -114,6 +116,7 @@ extension BoxOfficeViewController {
         let section = NSCollectionLayoutSection(group: group)
 
         let layout = UICollectionViewCompositionalLayout(section: section)
+        
         return layout
     }
 }
@@ -129,6 +132,7 @@ extension BoxOfficeViewController {
         let cellRegistration = UICollectionView.CellRegistration<BoxOfficeListCell, BoxOfficeItem> {
             (cell, indexPath, item) in
             cell.item = item
+            cell.accessories = [.disclosureIndicator()]
         }
         
         dataSource = UICollectionViewDiffableDataSource<Section, BoxOfficeItem>(collectionView: collectionView) {

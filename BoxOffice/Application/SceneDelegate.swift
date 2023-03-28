@@ -17,7 +17,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         let boxOfficeViewController = BoxOfficeViewController()
         let boxOfficeNavigationViewController = UINavigationController(rootViewController: boxOfficeViewController)
         
-        self.window?.rootViewController = boxOfficeViewController
+        self.window?.rootViewController = boxOfficeNavigationViewController
         window?.makeKeyAndVisible()
     }
 

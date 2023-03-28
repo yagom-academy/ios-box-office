@@ -20,11 +20,11 @@ struct BoxOfficeContentConfiguration: UIContentConfiguration, Hashable {
     }
     
     func updated(for state: UIConfigurationState) -> Self {
-        guard let state = state as? UICellConfigurationState else {
+        guard let _ = state as? UICellConfigurationState else {
             return self
         }
         
-        var updatedConfiguration = self
+        let updatedConfiguration = self
 //        if state.isSelected {
 //            updatedConfiguration.rankColor = .red
 //        } else {
