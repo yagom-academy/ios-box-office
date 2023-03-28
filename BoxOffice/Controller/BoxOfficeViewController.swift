@@ -58,6 +58,29 @@ final class BoxOfficeViewController: UIViewController {
             }
         }
     }
+    
+    func convertRankGapPresentation(indexPath: IndexPath) -> NSMutableAttributedString {
+        guard let rankGap = dailyBoxOffice?.boxOfficeResult.dailyBoxOfficeList[indexPath.row].rankGap,
+              let rankOldAndNew = dailyBoxOffice?.boxOfficeResult.dailyBoxOfficeList[indexPath.row].rankOldAndNew,
+              let intRankGap = Int(rankGap) else { return NSMutableAttributedString().makeRedText(string: "") }
+        
+        
+        if rankOldAndNew == "New" {
+            return NSMutableAttributedString().makeRedText(string: "신작")
+        }
+        
+        switch intRankGap {
+        case -20 ... -1:
+            return NSMutableAttributedString().makeBlueText(string: "▼").makeBlackText(string: rankGap.trimmingCharacters(in: ["-"]))
+        case 1...20:
+            return NSMutableAttributedString().makeRedText(string: "▲").makeBlackText(string: rankGap)
+        case 0:
+            return NSMutableAttributedString().makeBlackText(string: "-")
+        default:
+            return NSMutableAttributedString().makeBlackText(string: "")
+        }
+    }
+    
 }
 
 extension BoxOfficeViewController: UICollectionViewDataSource {
@@ -76,7 +99,8 @@ extension BoxOfficeViewController: UICollectionViewDataSource {
         cell.setUpBoxOffcieCellUI()
         
         cell.rankNumberLabel.text = dailyBoxOffice?.boxOfficeResult.dailyBoxOfficeList[indexPath.row].rank
-        cell.rankGapLabel.text = dailyBoxOffice?.boxOfficeResult.dailyBoxOfficeList[indexPath.row].rankGap
+        cell.rankGapLabel.attributedText = convertRankGapPresentation(indexPath: indexPath)
+        
         cell.movieTitleLabel.text = dailyBoxOffice?.boxOfficeResult.dailyBoxOfficeList[indexPath.row].movieName
         cell.audienceCountLabel.text = "오늘 " + audienceCount + " / 총 " + audienceAccumulation
         return cell
