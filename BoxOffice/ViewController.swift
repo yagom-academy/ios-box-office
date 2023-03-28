@@ -78,6 +78,7 @@ extension ViewController {
     private func configureDataSource() {
         let cellRegistration = UICollectionView.CellRegistration<MovieListCell, ListItem> { (cell, indexPath, movie) in
             
+            cell.updateCell(with: movie)
             cell.accessories = [.disclosureIndicator()]
         }
         

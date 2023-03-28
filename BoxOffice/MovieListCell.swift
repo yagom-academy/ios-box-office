@@ -64,6 +64,34 @@ final class MovieListCell: UICollectionViewListCell {
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
+    
+    func updateCell(with item: ListItem) {
+        rankingLabel.text = "\(item.rank)"
+        stateLabel.attributedText = createStateLabel(rankOldandNew: item.rankOldandNew, rankInten: Int(item.rankInten)!)
+        titleLabel.text = "\(item.movieName)"
+        subtitleLabel.text = "오늘 \(Int(item.audienceCount)?.decimalString ?? "0") / 총 \(Int(item.audienceAcc)?.decimalString ?? "0")"
+    }
+    
+    private func createStateLabel(rankOldandNew: String, rankInten: Int) -> NSMutableAttributedString {
+        let attributedString = NSMutableAttributedString()
+        
+        if rankOldandNew == "OLD" {
+            if rankInten == 0 {
+                attributedString.add(string: "-")
+            } else if rankInten > 0 {
+                attributedString.add(string: "▲", color: .systemRed)
+                attributedString.add(string: "\(rankInten)")
+            } else {
+                attributedString.add(string: "▼", color: .systemBlue)
+                attributedString.add(string: "\(-rankInten)")
+            }
+        } else {
+            attributedString.add(string: "신작", color: .systemRed)
+        }
+        
+        return attributedString
+        
+    }
 
     private func setupSubviews() {
         contentView.addSubview(rankingStackview)
