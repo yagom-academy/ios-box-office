@@ -32,7 +32,7 @@ final class BoxOfficeListViewController: UIViewController {
         super.viewDidLoad()
         
         configureView()
-        configureRefreshControll()
+        configureRefreshControl()
     }
     
     private func configureView() {
@@ -83,14 +83,19 @@ final class BoxOfficeListViewController: UIViewController {
         }
     }
     
-    private func configureRefreshControll() {
+    private func configureRefreshControl() {
         collectionView.refreshControl = UIRefreshControl()
-        collectionView.refreshControl?.addTarget(self, action: #selector(handleRefreshControll), for: .valueChanged)
+        collectionView.refreshControl?.addTarget(self,
+                                                 action: #selector(handleRefreshControl),
+                                                 for: .valueChanged)
     }
     
-    @objc func handleRefreshControll() {
-        DispatchQueue.main.async {
-            self.collectionView.refreshControl?.endRefreshing()
+    @objc func handleRefreshControl() {
+        self.fetchBoxOfficeData {
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.7 ) {
+                self.collectionView.reloadData()
+                self.collectionView.refreshControl?.endRefreshing()
+            }
         }
     }
     

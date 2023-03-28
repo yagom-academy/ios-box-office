@@ -100,7 +100,7 @@ class CustomCollectionViewCell: UICollectionViewCell {
         
         if dailyBoxOffice?.rankOldAndNew == "NEW" {
             attributedString = NSMutableAttributedString(string: "신작")
-            let range = (rankIntensity as NSString).range(of: "신작")
+            let range = ("신작" as NSString).range(of: "신작")
             attributedString.addAttribute(.foregroundColor,
                                           value: UIColor.systemRed,
                                           range: range)
