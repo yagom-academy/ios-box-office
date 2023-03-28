@@ -36,7 +36,9 @@ final class DailyBoxOfficeCell: UICollectionViewCell {
     private let accessoryView = {
         let imageView = UIImageView()
         let configuration = UIImage.SymbolConfiguration(weight: .bold)
-        imageView.image = UIImage(systemName: "chevron.right", withConfiguration: configuration)
+        let symbolName = "chevron.right"
+        
+        imageView.image = UIImage(systemName: symbolName, withConfiguration: configuration)
         imageView.tintColor = UIColor.systemGray4
         imageView.translatesAutoresizingMaskIntoConstraints = false
         
@@ -106,6 +108,7 @@ final class DailyBoxOfficeCell: UICollectionViewCell {
     private func fillAudienceCountLabel(with data: DailyBoxOfficeMovie) {
         let todayAudience = NumberFormat.decimal(target: data.audienceCountOfDate) ?? "0"
         let accumulatedAudience = NumberFormat.decimal(target: data.accumulatedAudienceCount) ?? "0"
+        
         audienceCountLabel.text = "오늘 \(todayAudience) / 총 \(accumulatedAudience)"
         audienceCountLabel.font = UIFont.preferredFont(forTextStyle: .body)
     }

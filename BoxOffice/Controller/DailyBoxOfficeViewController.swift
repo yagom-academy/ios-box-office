@@ -120,7 +120,7 @@ extension DailyBoxOfficeViewController: UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView,
                         layout collectionViewLayout: UICollectionViewLayout,
                         sizeForItemAt indexPath: IndexPath) -> CGSize {
-        return CGSize(width: view.bounds.width, height: 80)
+        return CGSize(width: view.bounds.width, height: view.bounds.height / 10)
     }
     
     func collectionView(_ collectionView: UICollectionView,

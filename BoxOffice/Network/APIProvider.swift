@@ -8,12 +8,14 @@
 import UIKit
 
 struct APIProvider {
-    private let endPoint = EndPoint()
+    private let endPoint: URLRequestGenerator
     private let urlSession: DataTaskMakeable
     private var api: API?
     
-    init(urlSession: DataTaskMakeable = URLSession(configuration: .default),
+    init(endPoint: URLRequestGenerator = EndPoint(),
+         urlSession: DataTaskMakeable = URLSession(configuration: .default),
          api: API? = nil) {
+        self.endPoint = endPoint
         self.urlSession = urlSession
         self.api = api
     }
