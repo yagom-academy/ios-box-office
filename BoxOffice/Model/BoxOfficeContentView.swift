@@ -22,32 +22,58 @@ class BoxOfficeContentView: UIView, UIContentView {
         }
     }
     
-    let rankLabel = UILabel()
-    let rankStackView: UIStackView = {
+    let rankLabel: UILabel = {
+        let label = UILabel()
+        label.font = UIFont.preferredFont(forTextStyle: .largeTitle)
+        return label
+    }()
+
+    let rankIncrementSymbol = UIImageView()
+    
+    let rankIncrementLabel: UILabel = {
+        let label = UILabel()
+        label.font = UIFont.preferredFont(forTextStyle: .caption1)
+        return label
+    }()
+    
+    let rankIncrementStackView: UIStackView = {
         let stackView = UIStackView()
         stackView.axis = .horizontal
         stackView.alignment = .center
+        stackView.spacing = 0
         return stackView
     }()
-    let rankInformationStackView = {
+    
+    let rankStackView = {
         let stackView = UIStackView()
+        stackView.translatesAutoresizingMaskIntoConstraints = false
         stackView.axis = .vertical
         stackView.alignment = .center
         return stackView
     }()
-    let rankIncrementSymbol = UIImageView()
-    let rankIncrementLabel = UILabel()
+    
     let movieInformationStackView = {
         let stackView = UIStackView()
         stackView.axis = .vertical
-        stackView.alignment = .center
         return stackView
     }()
-    let titleLabel = UILabel()
-    let audienceCountLabel = UILabel()
+    
+    let titleLabel: UILabel = {
+        let label = UILabel()
+        label.font = .preferredFont(forTextStyle: .title3)
+        return label
+    }()
+    
+    let audienceCountLabel: UILabel = {
+        let label = UILabel()
+        label.font = .preferredFont(forTextStyle: .body)
+        return label
+    }()
+    
     let movieStackView = {
         let stackView = UIStackView()
         stackView.axis = .horizontal
+        stackView.distribution = .fill
         stackView.alignment = .center
         stackView.translatesAutoresizingMaskIntoConstraints = false
         return stackView
@@ -68,23 +94,22 @@ class BoxOfficeContentView: UIView, UIContentView {
 
 private extension BoxOfficeContentView {
     private func setupAllViews() {
-        rankStackView.addArrangedSubview(rankIncrementSymbol)
-        rankStackView.addArrangedSubview(rankIncrementLabel)
+        rankIncrementStackView.addArrangedSubview(rankIncrementSymbol)
+        rankIncrementStackView.addArrangedSubview(rankIncrementLabel)
         
-        rankInformationStackView.addArrangedSubview(rankLabel)
-        rankInformationStackView.addArrangedSubview(rankStackView)
+        rankStackView.addArrangedSubview(rankLabel)
+        rankStackView.addArrangedSubview(rankIncrementStackView)
         
         movieInformationStackView.addArrangedSubview(titleLabel)
         movieInformationStackView.addArrangedSubview(audienceCountLabel)
         
-        movieStackView.addArrangedSubview(rankInformationStackView)
+        movieStackView.addArrangedSubview(rankStackView)
         movieStackView.addArrangedSubview(movieInformationStackView)
 
         addSubview(movieStackView)
         
         NSLayoutConstraint.activate([
-//            movieStackView.centerXAnchor.constraint(equalTo: self.centerXAnchor),
-//            movieStackView.centerYAnchor.constraint(equalTo: self.centerYAnchor)
+            rankStackView.widthAnchor.constraint(equalTo: self.widthAnchor, multiplier: 0.2),
             movieStackView.leadingAnchor.constraint(equalTo: self.leadingAnchor),
             movieStackView.trailingAnchor.constraint(equalTo: self.trailingAnchor),
             movieStackView.topAnchor.constraint(equalTo: self.topAnchor),
@@ -104,7 +129,13 @@ private extension BoxOfficeContentView {
         
         if configuration.rankOldAndNew == "NEW" {
             rankIncrementLabel.text = "신작"
+            rankIncrementLabel.font = .preferredFont(forTextStyle: .footnote)
+            rankIncrementLabel.textColor = .systemRed
         } else {
+            NSLayoutConstraint.activate([
+                rankIncrementSymbol.widthAnchor.constraint(equalToConstant: 10),
+                rankIncrementSymbol.heightAnchor.constraint(equalToConstant: 15),
+            ])
             guard let rankIncrement = configuration.rankIncrement,
                   let rankIncrementNumber = Int(rankIncrement) else {
                 return
@@ -115,9 +146,12 @@ private extension BoxOfficeContentView {
                 rankIncrementSymbol.image = UIImage(systemName: "arrowtriangle.down.fill")
                 rankIncrementLabel.text = "\(rankIncrementNumber * -1)"
             case 0:
-                rankIncrementLabel.text = "-"
+                rankIncrementSymbol.image = UIImage(systemName: "minus",
+                                                    withConfiguration: UIImage.SymbolConfiguration(pointSize: 40, weight: .bold))
+                rankIncrementSymbol.tintColor = .black
             default:
                 rankIncrementSymbol.image = UIImage(systemName: "arrowtriangle.up.fill")
+                rankIncrementSymbol.tintColor = .systemRed
                 rankIncrementLabel.text = "\(rankIncrementNumber)"
             }
         }
