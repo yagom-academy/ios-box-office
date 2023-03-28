@@ -18,12 +18,12 @@ final class BoxOfficeViewController: UIViewController {
         let activityIndicator = UIActivityIndicatorView()
         activityIndicator.style = UIActivityIndicatorView.Style.large
         activityIndicator.startAnimating()
+        
         return activityIndicator
     }()
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
         
         navigationItem.title = generateYesterdayText(type: .hyphen)
         refreshControl.addTarget(self, action: #selector(refreshData), for: .valueChanged)
@@ -58,6 +58,7 @@ final class BoxOfficeViewController: UIViewController {
     private func createListLayout() -> UICollectionViewCompositionalLayout {
         var config = UICollectionLayoutListConfiguration(appearance: .plain)
         config.separatorConfiguration.bottomSeparatorInsets = .init(top: 0, leading: 0, bottom: 0, trailing: 0)
+        
         return UICollectionViewCompositionalLayout.list(using: config)
     }
 
