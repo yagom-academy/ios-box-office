@@ -38,6 +38,7 @@
 		AD3094B129C825640052C64D /* APIProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD3094AF29C825610052C64D /* APIProvider.swift */; };
 		AD3D401D29D1CFC800A56210 /* extension+DateFormatter.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD3D401C29D1CFC800A56210 /* extension+DateFormatter.swift */; };
 		AD3D401F29D28E5200A56210 /* extension+CALayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD3D401E29D28E5200A56210 /* extension+CALayer.swift */; };
+		AD3D402129D2C98B00A56210 /* URLRequestGenerator.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD3D402029D2C98B00A56210 /* URLRequestGenerator.swift */; };
 		ADF3305129CAF5DB00E0EF8B /* KobisAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = ADF3305029CAF5DB00E0EF8B /* KobisAPI.swift */; };
 /* End PBXBuildFile section */
 
@@ -83,6 +84,7 @@
 		AD3094AF29C825610052C64D /* APIProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIProvider.swift; sourceTree = "<group>"; };
 		AD3D401C29D1CFC800A56210 /* extension+DateFormatter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "extension+DateFormatter.swift"; sourceTree = "<group>"; };
 		AD3D401E29D28E5200A56210 /* extension+CALayer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "extension+CALayer.swift"; sourceTree = "<group>"; };
+		AD3D402029D2C98B00A56210 /* URLRequestGenerator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = URLRequestGenerator.swift; sourceTree = "<group>"; };
 		ADF3305029CAF5DB00E0EF8B /* KobisAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KobisAPI.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -130,8 +132,9 @@
 		4B9E3A2529CADF8600B60AD1 /* Protocol */ = {
 			isa = PBXGroup;
 			children = (
-				4B9E3A2629CADF9D00B60AD1 /* DataTaskMakeable.swift */,
 				AD1E9C1E29CDD2CA0023A817 /* API.swift */,
+				4B9E3A2629CADF9D00B60AD1 /* DataTaskMakeable.swift */,
+				AD3D402029D2C98B00A56210 /* URLRequestGenerator.swift */,
 			);
 			path = Protocol;
 			sourceTree = "<group>";
@@ -415,6 +418,7 @@
 				63DF20EF2970E1A0005DF7D1 /* AppDelegate.swift in Sources */,
 				AD0A490829C9866D0030CBC1 /* NetworkError.swift in Sources */,
 				AD3D401D29D1CFC800A56210 /* extension+DateFormatter.swift in Sources */,
+				AD3D402129D2C98B00A56210 /* URLRequestGenerator.swift in Sources */,
 				63DF20F12970E1A0005DF7D1 /* SceneDelegate.swift in Sources */,
 				4B181D0929D2AD8D00B3CD47 /* LoadingIndicator.swift in Sources */,
 				4B9E3A0329C9767E00B60AD1 /* MovieDetails.swift in Sources */,

@@ -23,7 +23,3 @@ struct EndPoint: URLRequestGenerator {
         return URLRequest(url: url)
     }
 }
-
-protocol URLRequestGenerator {
-    func request(for api: API) -> URLRequest?
-}
