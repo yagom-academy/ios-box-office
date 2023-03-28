@@ -10,15 +10,22 @@ import UIKit
 final class DailyBoxOfficeViewController: UIViewController {
     private var networkManager = NetworkManager()
     private var boxOfficeEndPoint: BoxOfficeEndPoint?
-    
     private var refreshControl = UIRefreshControl()
-    
-    lazy private var collectionView = DailyBoxOfficeCollectionView(frame: view.bounds, collectionViewLayout: createMovieListLayout())
+    private typealias DataSource = UICollectionViewDiffableDataSource<Section, DailyBoxOffice.BoxOfficeResult.Movie>
+    private var movieDataSource: DataSource?
+    private var dailyBoxOffice: DailyBoxOffice?
+    lazy private var collectionView: UICollectionView = {
+        let collectionView = UICollectionView(frame: view.bounds, collectionViewLayout: createMovieListLayout())
+        collectionView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
+        collectionView.register(DailyBoxOfficeCollectionViewCell.self, forCellWithReuseIdentifier: DailyBoxOfficeCollectionViewCell.reuseIdentifier)
+        view.addSubview(collectionView)
+        
+        return collectionView
+    }()
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        view.addSubview(collectionView)
         refreshData()
         refreshControl.addTarget(self, action: #selector(refreshData), for: .valueChanged)
         collectionView.refreshControl = refreshControl
@@ -48,20 +55,50 @@ final class DailyBoxOfficeViewController: UIViewController {
     
     private func fetchDailyBoxOfficeData() {
         guard let endPoint = boxOfficeEndPoint else { return }
+        
         networkManager.request(endPoint: endPoint, returnType: DailyBoxOffice.self) { [weak self] in
             switch $0 {
             case .failure(let error):
                 print(error)
             case .success(let result):
-                self?.collectionView.dailyBoxOffice = result
+                self?.dailyBoxOffice = result
                 
                 DispatchQueue.main.async {
-                    self?.collectionView.setupDataSource()
-                    self?.collectionView.setupSnapshot()
+                    self?.setupDataSource()
+                    self?.setupSnapshot()
                     self?.refreshControl.endRefreshing()
                 }
             }
         }
+    }
+}
+
+fileprivate enum Section: Hashable {
+    case main
+}
+
+extension DailyBoxOfficeViewController {
+    func setupDataSource() {
+        movieDataSource = DataSource(collectionView: collectionView) { collectionView, indexPath, itemIdentifier in
+            guard let cell = collectionView.dequeueReusableCell(
+                withReuseIdentifier: DailyBoxOfficeCollectionViewCell.reuseIdentifier,
+                for: indexPath) as? DailyBoxOfficeCollectionViewCell else {
+                return UICollectionViewCell()
+            }
+            cell.configure(with: itemIdentifier)
+            
+            return cell
+        }
+    }
+    
+    func setupSnapshot() {
+        typealias Snapshot = NSDiffableDataSourceSnapshot<Section, DailyBoxOffice.BoxOfficeResult.Movie>
+        var snapshot = Snapshot()
+        snapshot.appendSections([.main])
+        if let dailyBoxOffice = self.dailyBoxOffice {
+            snapshot.appendItems(dailyBoxOffice.boxOfficeResult.boxOfficeList, toSection: .main)
+        }
+        movieDataSource?.apply(snapshot, animatingDifferences: true)
     }
 }
 

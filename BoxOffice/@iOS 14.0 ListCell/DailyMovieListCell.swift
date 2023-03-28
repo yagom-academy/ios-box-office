@@ -10,7 +10,19 @@ import UIKit
 @available(iOS 14.0, *)
 final class DailyMovieListCell: UICollectionViewListCell {
     static let reuseIdentifier = "DailyMovieListCell"
-    var movie: DailyBoxOffice.BoxOfficeResult.Movie? = nil
+    private var movie: DailyBoxOffice.BoxOfficeResult.Movie? = nil
+    
+    private lazy var movieListContentView = UIListContentView(configuration: defaultListContentConfiguration())
+    private lazy var movieRankContentView = UIListContentView(configuration: defaultListContentConfiguration())
+    private var customViewConstraints: (categoryLabelLeading: NSLayoutConstraint,
+                                categoryLabelTrailing: NSLayoutConstraint,
+                                categoryIconTrailing: NSLayoutConstraint)?
+    private var separatorConstraint: NSLayoutConstraint?
+    override var configurationState: UICellConfigurationState {
+        var state = super.configurationState
+        state.movie = self.movie
+        return state
+    }
     
     func updateWithItem(_ newItem: DailyBoxOffice.BoxOfficeResult.Movie) {
         guard movie != newItem else { return }
@@ -18,24 +30,11 @@ final class DailyMovieListCell: UICollectionViewListCell {
         setNeedsUpdateConfiguration()
     }
     
-    override var configurationState: UICellConfigurationState {
-        var state = super.configurationState
-        state.movie = self.movie
-        return state
-    }
-    
-    func defaultListContentConfiguration() -> UIListContentConfiguration {
+    private func defaultListContentConfiguration() -> UIListContentConfiguration {
         return .subtitleCell()
     }
     
-    lazy var movieListContentView = UIListContentView(configuration: defaultListContentConfiguration())
-    lazy var movieRankContentView = UIListContentView(configuration: defaultListContentConfiguration())
-    
-    var customViewConstraints: (categoryLabelLeading: NSLayoutConstraint,
-                                categoryLabelTrailing: NSLayoutConstraint,
-                                categoryIconTrailing: NSLayoutConstraint)?
-    
-    func setupViewsIfNeeded() {
+    private func configureContentView() {
         guard customViewConstraints == nil else { return }
         
         contentView.addSubview(movieListContentView)
@@ -56,8 +55,7 @@ final class DailyMovieListCell: UICollectionViewListCell {
         ])
     }
     
-    var separatorConstraint: NSLayoutConstraint?
-    func updateSeparatorConstraint() {
+    private func updateSeparatorConstraint() {
         guard let textLayoutGuide = movieListContentView.textLayoutGuide else { return }
         if let existingConstraint = separatorConstraint, existingConstraint.isActive {
             return
@@ -69,7 +67,7 @@ final class DailyMovieListCell: UICollectionViewListCell {
     
     // MARK: UpdateConfiguration
     override func updateConfiguration(using state: UICellConfigurationState) {
-        setupViewsIfNeeded()
+        configureContentView()
         
         // MARK: movieListContent
         var movieListContent = defaultListContentConfiguration().updated(for: state)
@@ -130,6 +128,19 @@ final class DailyMovieListCell: UICollectionViewListCell {
     }
 }
 
+@available(iOS 14.0, *)
+extension UIConfigurationStateCustomKey {
+    static let movieKey = UIConfigurationStateCustomKey("movie")
+}
+
+@available(iOS 14.0, *)
+extension UICellConfigurationState {
+    var movie: DailyBoxOffice.BoxOfficeResult.Movie? {
+        get { return self[.movieKey] as? DailyBoxOffice.BoxOfficeResult.Movie }
+        set { self[.movieKey] = newValue }
+    }
+}
+
 fileprivate extension String {
     func convertToFormattedNumber() -> String? {
         let numberFormatter = NumberFormatter()
@@ -141,4 +152,3 @@ fileprivate extension String {
         return stringNumber
     }
 }
-

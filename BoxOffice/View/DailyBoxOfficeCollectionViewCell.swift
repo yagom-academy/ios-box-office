@@ -176,6 +176,3 @@ fileprivate extension String {
         return stringNumber
     }
 }
-
-
-
