@@ -29,6 +29,10 @@ final class DailyBoxOfficeCollectionViewCell: UICollectionViewCell {
         fatalError("init(coder:) has not been implemented")
     }
     
+    override func prepareForReuse() {
+        audienceVarianceLabel.textColor = .black
+    }
+    
     private func configureCell() {
         configureContentView()
         configureSeparatorView()

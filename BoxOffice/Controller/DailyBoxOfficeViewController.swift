@@ -7,32 +7,19 @@
 
 import UIKit
 
-fileprivate enum Section: Hashable {
-    case main
-}
-
 final class DailyBoxOfficeViewController: UIViewController {
-    private var dailyBoxOffice: DailyBoxOffice?
     private var networkManager = NetworkManager()
     private var boxOfficeEndPoint: BoxOfficeEndPoint?
-    private typealias DataSource = UICollectionViewDiffableDataSource<Section, DailyBoxOffice.BoxOfficeResult.Movie>
-    private var movieDataSource: DataSource?
+    
     private var refreshControl = UIRefreshControl()
-    lazy private var collectionView: UICollectionView = {
-        let collectionView = UICollectionView(frame: view.bounds, collectionViewLayout: createMovieListLayout())
-        collectionView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
-        view.addSubview(collectionView)
-        //        collectionView.delegate = self
-        collectionView.register(DailyBoxOfficeCollectionViewCell.self, forCellWithReuseIdentifier: DailyBoxOfficeCollectionViewCell.reuseIdentifier)
-        
-        return collectionView
-    }()
+    
+    lazy private var collectionView = DailyBoxOfficeCollectionView(frame: view.bounds, collectionViewLayout: createMovieListLayout())
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        view.addSubview(collectionView)
         refreshData()
-        
         refreshControl.addTarget(self, action: #selector(refreshData), for: .valueChanged)
         collectionView.refreshControl = refreshControl
     }
@@ -66,41 +53,15 @@ final class DailyBoxOfficeViewController: UIViewController {
             case .failure(let error):
                 print(error)
             case .success(let result):
-                self?.dailyBoxOffice = result
+                self?.collectionView.dailyBoxOffice = result
                 
                 DispatchQueue.main.async {
-                    self?.setupDataSource()
-                    self?.setupSnapshot()
+                    self?.collectionView.setupDataSource()
+                    self?.collectionView.setupSnapshot()
                     self?.refreshControl.endRefreshing()
                 }
             }
         }
-    }
-}
-
-extension DailyBoxOfficeViewController {
-    
-    private func setupDataSource() {
-        movieDataSource = DataSource(collectionView: self.collectionView) { collectionView, indexPath, itemIdentifier in
-            guard let cell = collectionView.dequeueReusableCell(
-                withReuseIdentifier: DailyBoxOfficeCollectionViewCell.reuseIdentifier,
-                for: indexPath) as? DailyBoxOfficeCollectionViewCell else {
-                return UICollectionViewCell()
-            }
-            cell.configure(with: itemIdentifier)
-            
-            return cell
-        }
-    }
-    
-    private func setupSnapshot() {
-        typealias Snapshot = NSDiffableDataSourceSnapshot<Section, DailyBoxOffice.BoxOfficeResult.Movie>
-        var snapshot = Snapshot()
-        snapshot.appendSections([.main])
-        if let dailyBoxOffice = self.dailyBoxOffice {
-            snapshot.appendItems(dailyBoxOffice.boxOfficeResult.boxOfficeList, toSection: .main)
-        }
-        movieDataSource?.apply(snapshot, animatingDifferences: true)
     }
 }
 
