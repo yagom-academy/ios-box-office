@@ -7,20 +7,17 @@
 
 import UIKit
 
-class ViewController: UIViewController {
+final class ViewController: UIViewController {
     
-    let targetDate = "20220301"
-    let movieCode = "20124079"
     let provider = APIProvider.shared
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        fetchBoxOfficeData()
-        fetchMovieDetailData()
     }
 
     func fetchBoxOfficeData() {
-        provider.performRequest(api: .boxOffice(date: targetDate)) { requestResult in
+        guard let yesterday = createFormattedDate(dateFormat: "yyyyMMdd") else { return }
+        provider.performRequest(api: .boxOffice(date: yesterday)) { requestResult in
             switch requestResult {
             case .success(let data):
                 do {
@@ -40,23 +37,13 @@ class ViewController: UIViewController {
             }
         }
     }
-
-    func fetchMovieDetailData() {
-        provider.performRequest(api: .detail(code: movieCode)) { requestResult in
-            switch requestResult {
-            case .success(let data):
-                do {
-                    let movieInfo: MovieInfoItem = try JSONConverter.shared.decodeData(data, T: MovieInfoItem.self)
-                    print(movieInfo)
-                } catch let error as NetworkError {
-                    print(error.description)
-                } catch {
-                    print("Unexpected error: \(error)")
-                }
-            case .failure(let error):
-                print(error)
-            }
-        }
-    }
     
+    func createFormattedDate(dateFormat: String) -> String? {
+        let dateFormatter = DateFormatter()
+        let today = Date()
+        dateFormatter.dateFormat = dateFormat
+        guard let yesterday = Calendar.current.date(byAdding: .day, value: -1, to: today) else { return nil }
+        return dateFormatter.string(from: yesterday)
+    }
+
 }
