@@ -56,7 +56,8 @@ final class BoxOfficeViewController: UIViewController {
     }
     
     private func createListLayout() -> UICollectionViewCompositionalLayout {
-        let config = UICollectionLayoutListConfiguration(appearance: .plain)
+        var config = UICollectionLayoutListConfiguration(appearance: .plain)
+        config.separatorConfiguration.bottomSeparatorInsets = .init(top: 0, leading: 0, bottom: 0, trailing: 0)
         return UICollectionViewCompositionalLayout.list(using: config)
     }
 

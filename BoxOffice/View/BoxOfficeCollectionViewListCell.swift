@@ -25,12 +25,6 @@ final class BoxOfficeCollectionViewListCell: UICollectionViewListCell {
         rankInfoLabel.textColor = .black
     }
     
-    override func updateConstraints() {
-        super.updateConstraints()
-        
-        separatorLayoutGuide.leadingAnchor.constraint(equalTo: self.leadingAnchor).isActive = true
-    }
-    
     private func configureLabels() {
         rankLabel.font = .preferredFont(forTextStyle: .largeTitle)
         rankInfoLabel.font = .preferredFont(forTextStyle: .subheadline)
