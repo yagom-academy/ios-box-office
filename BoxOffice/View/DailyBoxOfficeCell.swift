@@ -106,10 +106,10 @@ final class DailyBoxOfficeCell: UICollectionViewCell {
     }
     
     private func fillAudienceCountLabel(with data: DailyBoxOfficeMovie) {
-        let todayAudience = NumberFormat.decimal(target: data.audienceCountOfDate) ?? "0"
-        let accumulatedAudience = NumberFormat.decimal(target: data.accumulatedAudienceCount) ?? "0"
-        
-        audienceCountLabel.text = "오늘 \(todayAudience) / 총 \(accumulatedAudience)"
+        let todayAudience = NumberFormat.decimal(target: data.audienceCountOfDate) ?? Sign.zero
+        let accumulatedAudience = NumberFormat.decimal(target: data.accumulatedAudienceCount) ?? Sign.zero
+        let textformat = "오늘 %@ / 총 %@"
+        audienceCountLabel.text = String(format: textformat, todayAudience, accumulatedAudience)
         audienceCountLabel.font = UIFont.preferredFont(forTextStyle: .body)
     }
     
@@ -120,30 +120,41 @@ final class DailyBoxOfficeCell: UICollectionViewCell {
     
     private func fillRankDifferenceLabel(with data: DailyBoxOfficeMovie) {
         switch data.rankOldAndNew {
-        case "NEW":
-            rankDifferenceLabel.text = "신작"
+        case Sign.new:
+            rankDifferenceLabel.text = Sign.newMovie
             rankDifferenceLabel.textColor = .systemRed
-        case "OLD":
-            if data.rankDifference.contains("-") {
+        case Sign.old:
+            if data.rankDifference.contains(Sign.minus) {
                 let difference = data.rankDifference.trimmingCharacters(in: ["-"])
-                let text = "⏷" + difference
+                let text = Sign.down + difference
                 let attributedString = NSMutableAttributedString(string: text)
-                let range = NSString(string: text).range(of: "⏷")
+                let range = NSString(string: text).range(of: Sign.down)
                 attributedString.addAttribute(.foregroundColor, value: UIColor.systemBlue, range: range)
                 rankDifferenceLabel.attributedText = attributedString
-            } else if data.rankDifference == "0" {
-                rankDifferenceLabel.text = "-"
+            } else if data.rankDifference == Sign.zero {
+                rankDifferenceLabel.text = Sign.minus
             } else {
-                let text = "⏶" + data.rankDifference
+                let text = Sign.up + data.rankDifference
                 let attributedString = NSMutableAttributedString(string: text)
-                let range = NSString(string: text).range(of: "⏶")
+                let range = NSString(string: text).range(of: Sign.up)
                 attributedString.addAttribute(.foregroundColor, value: UIColor.systemRed, range: range)
                 rankDifferenceLabel.attributedText = attributedString
             }
         default:
-            rankDifferenceLabel.text = ""
+            rankDifferenceLabel.text = Sign.empty
         }
         
         rankDifferenceLabel.font = UIFont.preferredFont(forTextStyle: .body)
+    }
+    
+    private enum Sign {
+        static let new = "NEW"
+        static let old = "OLD"
+        static let newMovie = "신작"
+        static let minus = "-"
+        static let zero = "0"
+        static let down = "⏷"
+        static let up = "⏶"
+        static let empty = ""
     }
 }
