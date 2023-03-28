@@ -14,6 +14,7 @@ final class DailyBoxOfficeViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        LoadingIndicator.showLoading()
         setNavigationTitle()
         loadDailyBoxOffice()
         configureCollectionView()
@@ -41,6 +42,7 @@ final class DailyBoxOfficeViewController: UIViewController {
                 
                 DispatchQueue.main.async {
                     self.collectionView.reloadData()
+                    LoadingIndicator.hideLoading()
                 }
             case .failure(let error):
                 print(error.localizedDescription)
