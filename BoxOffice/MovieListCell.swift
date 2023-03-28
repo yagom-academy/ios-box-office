@@ -9,7 +9,7 @@ import UIKit
 
 final class MovieListCell: UICollectionViewListCell {
     
-    let rankingStackview: UIStackView = {
+    private let rankingStackview: UIStackView = {
         let stackview = UIStackView()
         stackview.axis = .vertical
         stackview.distribution = .fill
@@ -19,7 +19,7 @@ final class MovieListCell: UICollectionViewListCell {
         return stackview
     }()
     
-    let titleStackview: UIStackView = {
+    private let titleStackview: UIStackView = {
         let stackview = UIStackView()
         stackview.axis = .vertical
         stackview.distribution = .fill
@@ -28,31 +28,30 @@ final class MovieListCell: UICollectionViewListCell {
         return stackview
     }()
     
-    let rankingLabel: UILabel = {
+    private let rankingLabel: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
         label.font = UIFont.systemFont(ofSize: 28)
         return label
     }()
     
-    let titleLabel: UILabel = {
+    private let titleLabel: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
         label.font = UIFont.systemFont(ofSize: 20)
         return label
     }()
     
-    let subtitleLabel: UILabel = {
+    private let subtitleLabel: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
         label.font = UIFont.systemFont(ofSize: 15)
         return label
     }()
     
-    let stateLabel: UILabel = {
+    private let stateLabel: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
-        
         return label
     }()
     
@@ -112,7 +111,6 @@ final class MovieListCell: UICollectionViewListCell {
             titleStackview.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -10),
             titleStackview.centerYAnchor.constraint(equalTo: rankingStackview.centerYAnchor),
         ])
-        
     }
     
 }

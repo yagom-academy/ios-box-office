@@ -10,9 +10,9 @@ import UIKit
 final class ViewController: UIViewController {
     
     private var collectionView: UICollectionView!
-    var dataSource: UICollectionViewDiffableDataSource<ListSection, ListItem>!
+    private var dataSource: UICollectionViewDiffableDataSource<ListSection, ListItem>!
     
-    let provider = APIProvider.shared
+    private let provider = APIProvider.shared
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -23,7 +23,7 @@ final class ViewController: UIViewController {
         configureRefreshControl()
     }
 
-    func fetchBoxOfficeData() {
+    private func fetchBoxOfficeData() {
         guard let yesterday = createFormattedDate(dateFormat: "yyyyMMdd") else { return }
         provider.performRequest(api: .boxOffice(date: yesterday)) { requestResult in
             switch requestResult {
@@ -49,7 +49,7 @@ final class ViewController: UIViewController {
         }
     }
     
-    func createFormattedDate(dateFormat: String) -> String? {
+    private func createFormattedDate(dateFormat: String) -> String? {
         let dateFormatter = DateFormatter()
         let today = Date()
         dateFormatter.dateFormat = dateFormat
@@ -84,7 +84,7 @@ final class ViewController: UIViewController {
         collectionView.refreshControl?.attributedTitle = NSAttributedString(string: "Fetching Movie Data...")
     }
     
-    @objc func handleRefreshControl() {
+    @objc private func handleRefreshControl() {
         fetchBoxOfficeData()
     }
 
@@ -119,8 +119,10 @@ extension ViewController {
 
 // MARK: - UICollectionViewDelegate
 extension ViewController: UICollectionViewDelegate {
+    
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         collectionView.deselectItem(at: indexPath, animated: true)
     }
+    
 }
 
