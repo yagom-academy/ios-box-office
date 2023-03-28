@@ -15,7 +15,7 @@ final class BoxOfficeListViewController: UIViewController {
     
     private let collectionView: UICollectionView = {
         let layout = UICollectionViewFlowLayout()
-        layout.minimumLineSpacing = 10
+        layout.minimumLineSpacing = 0
         
         layout.scrollDirection = .vertical
         layout.sectionInset = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
@@ -114,13 +114,11 @@ extension BoxOfficeListViewController: UICollectionViewDataSource {
         guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: CustomCollectionViewCell.identifier, for: indexPath) as? CustomCollectionViewCell else { return CustomCollectionViewCell() }
         
         cell.configureDailyBoxOffice(dailyBoxOffice: dailyBoxOffice)
+        cell.accessories = [.disclosureIndicator()]
+        cell.layer.addBorder([.bottom], color: .systemGray3, width: 0.8)
         
         return cell
     }
-}
-
-extension BoxOfficeListViewController: UICollectionViewDelegate {
-    
 }
 
 extension BoxOfficeListViewController: UICollectionViewDelegateFlowLayout {
@@ -129,11 +127,16 @@ extension BoxOfficeListViewController: UICollectionViewDelegateFlowLayout {
         let height = collectionView.frame.height
         
         let itemsPerRow: CGFloat = 1
-        let itemsPerColumn: CGFloat = 10
+        let itemsPerColumn: CGFloat = 8.5
        
         let cellWidth = width / itemsPerRow
         let cellHeight = height / itemsPerColumn
         
         return CGSize(width: cellWidth, height: cellHeight)
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        collectionView.deselectItem(at: indexPath, animated: true)
+        
     }
 }
