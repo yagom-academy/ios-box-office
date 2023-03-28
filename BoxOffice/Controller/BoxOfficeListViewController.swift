@@ -127,9 +127,9 @@ extension BoxOfficeListViewController: UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         let width = collectionView.frame.width
         let height = collectionView.frame.height
+        
         let itemsPerRow: CGFloat = 1
-       
-        let itemsPerColumn: CGFloat = 9
+        let itemsPerColumn: CGFloat = 10
        
         let cellWidth = width / itemsPerRow
         let cellHeight = height / itemsPerColumn

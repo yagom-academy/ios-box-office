@@ -14,7 +14,8 @@ class CustomCollectionViewCell: UICollectionViewCell {
     private let mainStackView: UIStackView = {
         let stackView = UIStackView()
         stackView.axis = .horizontal
-        stackView.distribution = .fill
+        stackView.distribution = .fillProportionally
+        stackView.alignment = .center
         
         return stackView
     }()
@@ -40,21 +41,27 @@ class CustomCollectionViewCell: UICollectionViewCell {
     }
     
     private func configureMainStackView() {
+        let rankStackView = configureRankStackView()
+        let audienceStackView = configureAudienceStackView()
         
         self.addSubview(mainStackView)
         self.addSubview(separatorView)
         
-        separatorView.translatesAutoresizingMaskIntoConstraints = false
-        separatorView.bottomAnchor.constraint(equalTo: self.bottomAnchor).isActive = true
-        separatorView.leadingAnchor.constraint(equalTo: self.leadingAnchor).isActive = true
-        separatorView.trailingAnchor.constraint(equalTo: self.trailingAnchor).isActive = true
-        separatorView.heightAnchor.constraint(equalToConstant: 1).isActive = true
-        
-        let rankStackView = configureRankStackView()
         mainStackView.addArrangedSubview(rankStackView)
-        mainStackView.addArrangedSubview(configureAudienceStackView())
+        mainStackView.addArrangedSubview(audienceStackView)
+        
         mainStackView.setAutoLayout(equalTo: self.safeAreaLayoutGuide)
-        rankStackView.widthAnchor.constraint(equalTo: rankStackView.heightAnchor).isActive = true
+        
+        separatorView.translatesAutoresizingMaskIntoConstraints = false
+        
+        NSLayoutConstraint.activate([
+            separatorView.bottomAnchor.constraint(equalTo: self.bottomAnchor),
+            separatorView.leadingAnchor.constraint(equalTo: self.leadingAnchor),
+            separatorView.trailingAnchor.constraint(equalTo: self.trailingAnchor),
+            separatorView.heightAnchor.constraint(equalToConstant: 1),
+            rankStackView.heightAnchor.constraint(equalTo: mainStackView.heightAnchor),
+            rankStackView.widthAnchor.constraint(equalTo: rankStackView.heightAnchor),
+        ])
     }
     
     
@@ -62,10 +69,8 @@ class CustomCollectionViewCell: UICollectionViewCell {
         let rankStackView: UIStackView = {
             let stackView = UIStackView()
             stackView.axis = .vertical
-            stackView.distribution = .fill
+            stackView.distribution = .fillEqually
             stackView.alignment = .center
-            
-            stackView.translatesAutoresizingMaskIntoConstraints = false
             
             return stackView
         }()
@@ -137,6 +142,7 @@ class CustomCollectionViewCell: UICollectionViewCell {
             stackView.axis = .vertical
             stackView.distribution = .fillProportionally
             stackView.alignment = .leading
+            stackView.spacing = 8
             
             return stackView
         }()
@@ -156,7 +162,7 @@ class CustomCollectionViewCell: UICollectionViewCell {
                 let accumulation = dailyBoxOffice?.audienceAccumulation.formatNumberString() {
                  label.text = "오늘 \(count) / 총 \(accumulation)"
                  label.textAlignment = .left
-                 label.font = .preferredFont(forTextStyle: .body)
+                 label.font = .preferredFont(forTextStyle: .caption1)
                  
                  return label
              }
