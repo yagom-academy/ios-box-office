@@ -1,11 +1,11 @@
 //
-//  MovieInfo.swift
+//  InfoObject.swift
 //  BoxOffice
 //
 //  Created by 레옹아범 ,Andrew on 2023/03/20.
 //
 
-struct MovieInfo: Decodable {
+struct InfoObject: Decodable {
     let rnum, rank, changedRank, rankStatus: String
     let code, name: String
     let openDate: String

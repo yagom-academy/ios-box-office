@@ -10,12 +10,12 @@ import XCTest
 
 final class MovieInfoTests: XCTestCase {
     
-    var sut: DailyBoxOffice!
+    var sut: DailyBoxofficeObject!
 
     override func setUpWithError() throws {
         let boxofficeSample = NSDataAsset(name: "box_office_sample")!
         
-        sut = try! JSONDecoder().decode(DailyBoxOffice.self, from: boxofficeSample.data)
+        sut = try! JSONDecoder().decode(DailyBoxofficeObject.self, from: boxofficeSample.data)
     }
 
     override func tearDownWithError() throws {
