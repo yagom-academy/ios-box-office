@@ -2,7 +2,7 @@
 //  BoxOfficeTests.swift
 //  BoxOfficeTests
 //
-//  Created by Harry on 2023/03/20.
+//  Created by kaki, harry on 2023/03/20.
 //
 
 import XCTest
@@ -39,7 +39,7 @@ final class BoxOfficeTests: XCTestCase {
         let expectedResult = "1"
      
         // when
-        let boxOfficeNumber = sut.boxOfficeResult.dailyBoxOfficeList[0].number
+        let boxOfficeNumber = sut.boxOfficeResult.dailyBoxOfficeList[0].numberText
         
         // then
         XCTAssertEqual(expectedResult, boxOfficeNumber)
@@ -61,7 +61,7 @@ final class BoxOfficeTests: XCTestCase {
         let expectedResult = "2"
      
         // when
-        let boxOfficeNumber = sut.boxOfficeResult.dailyBoxOfficeList[1].number
+        let boxOfficeNumber = sut.boxOfficeResult.dailyBoxOfficeList[1].numberText
         
         // then
         XCTAssertEqual(expectedResult, boxOfficeNumber)
