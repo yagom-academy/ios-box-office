@@ -7,12 +7,16 @@
 
 import Foundation
 
+protocol NetworkingProtocol {
+    func search(url: URL, completion: @escaping (Result<Data, BoxofficeError>) -> Void) -> URLSessionDataTask
+}
+
 class BoxofficeInfo<T: Decodable> {
     private let apiType: APIType
-    private let model: NetworkModel
+    private let model: NetworkingProtocol
     private var task: URLSessionDataTask?
     
-    init(apiType: APIType, model: NetworkModel) {
+    init(apiType: APIType, model: NetworkingProtocol) {
         self.apiType = apiType
         self.model = model
     }
@@ -52,7 +56,7 @@ class BoxofficeInfo<T: Decodable> {
     
 }
 
-struct NetworkModel {
+struct NetworkModel: NetworkingProtocol {
     private let session: URLSession
     
     init(session: URLSession) {
