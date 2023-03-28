@@ -20,7 +20,7 @@ enum Path: String {
 }
 
 class EndPoint {
-        var baseURL: String
+        var baseURL: String 
         var path: Path
         var method: HTTPMethod
         var queryItems: [URLQueryItem]
@@ -74,8 +74,4 @@ enum QueryItemsValue: String {
 //}
 
 
-EndPoint(baseURL: "asd", path: Path.dailyBoxOffice, method: HTTPMethod.get,
-         queryItems: [URLQueryItem(name: QueryItemsName.key.rawValue,
-                                   value: QueryItemsValue.keyValue.rawValue),
-                      URLQueryItem(name: QueryItemsName.targetDate.rawValue,
-                                   value: "20230327")   ])
+

@@ -9,6 +9,7 @@ import Foundation
 
 struct BoxOfficeAPI {
     func loadBoxOfficeAPI<T: Decodable>(endpoint: EndPoint, parser: Parser<T>, completion: @escaping (T) -> Void) {
+        guard let request = endpoint.makeURLRequest() else { return }
         
         URLSession.shared.dataTask(with: request) { data, response, error in
             guard error == nil else { return }

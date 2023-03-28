@@ -50,7 +50,11 @@ final class BoxOfficeViewController: UIViewController {
     }
     
     func fetchDailyBoxOfficeAPI() {
-        boxOfficeAPI.loadBoxOfficeAPI(endpoint: URLAddress.dailyBoxOfficeURL, parser: Parser<DailyBoxOffice>()) { parsedData in
+        boxOfficeAPI.loadBoxOfficeAPI(endpoint: EndPoint(baseURL: "http://kobis.or.kr", path: Path.dailyBoxOffice, method: HTTPMethod.get,
+                                                         queryItems: [URLQueryItem(name: QueryItemsName.key.rawValue,
+                                                                                   value: QueryItemsValue.keyValue.rawValue),
+                                                                      URLQueryItem(name: QueryItemsName.targetDate.rawValue,
+                                                                                   value: "20230327")]), parser: Parser<DailyBoxOffice>()) { parsedData in
             self.dailyBoxOffice = parsedData
             
             DispatchQueue.main.async {
