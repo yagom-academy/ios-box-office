@@ -135,7 +135,6 @@ extension BoxOfficeViewController {
         let cellRegistration = UICollectionView.CellRegistration<BoxOfficeListCell, BoxOfficeItem> {
             (cell, indexPath, item) in
             cell.item = item
-            cell.accessories = [.disclosureIndicator()]
         }
         
         dataSource = UICollectionViewDiffableDataSource<Section, BoxOfficeItem>(collectionView: collectionView) {

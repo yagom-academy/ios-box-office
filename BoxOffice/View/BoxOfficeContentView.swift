@@ -79,6 +79,14 @@ class BoxOfficeContentView: UIView, UIContentView {
         return stackView
     }()
     
+    let accessoryImageView: UIImageView = {
+        let imageView = UIImageView()
+        imageView.image = UIImage(systemName: "chevron.right")
+        imageView.translatesAutoresizingMaskIntoConstraints = false
+        imageView.tintColor = UIColor.lightGray.withAlphaComponent(0.7)
+        return imageView
+    }()
+    
     let separatorView: UIView = {
         let view = UIView()
         view.translatesAutoresizingMaskIntoConstraints = false
@@ -101,8 +109,6 @@ class BoxOfficeContentView: UIView, UIContentView {
 
 private extension BoxOfficeContentView {
     private func setupAllViews() {
-        
-        
         rankIncrementStackView.addArrangedSubview(rankIncrementSymbol)
         rankIncrementStackView.addArrangedSubview(rankIncrementLabel)
         
@@ -116,15 +122,20 @@ private extension BoxOfficeContentView {
         movieStackView.addArrangedSubview(movieInformationStackView)
 
         addSubview(movieStackView)
+        addSubview(accessoryImageView)
         addSubview(separatorView)
-        
         
         NSLayoutConstraint.activate([
             rankStackView.widthAnchor.constraint(equalTo: self.widthAnchor, multiplier: 0.2),
             movieStackView.leadingAnchor.constraint(equalTo: self.leadingAnchor),
-            movieStackView.trailingAnchor.constraint(equalTo: self.trailingAnchor),
+            movieStackView.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: -10),
             movieStackView.topAnchor.constraint(equalTo: self.topAnchor),
             movieStackView.bottomAnchor.constraint(equalTo: self.bottomAnchor),
+            
+            accessoryImageView.centerYAnchor.constraint(equalTo: self.centerYAnchor),
+            accessoryImageView.widthAnchor.constraint(equalToConstant: 13),
+            accessoryImageView.heightAnchor.constraint(equalToConstant: 20),
+            accessoryImageView.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: -10),
             
             separatorView.leadingAnchor.constraint(equalTo: self.leadingAnchor),
             separatorView.bottomAnchor.constraint(equalTo: self.bottomAnchor),
