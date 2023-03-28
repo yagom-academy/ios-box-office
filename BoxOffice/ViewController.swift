@@ -9,7 +9,7 @@ import UIKit
 
 final class ViewController: UIViewController {
     
-    var movie = BoxofficeInfo<DailyBoxofficeObject>(apiType: .boxoffice("20230324"), session: URLSession.shared )
+    var movie = NetworkModel<DailyBoxofficeObject>(apiType: .boxoffice("20230324"), session: URLSession.shared )
     
     override func viewDidLoad() {
         super.viewDidLoad()

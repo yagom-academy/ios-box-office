@@ -10,7 +10,7 @@ import XCTest
 
 final class BoxofficeInfoTests: XCTestCase {
     
-    private var sut: BoxofficeInfo<DailyBoxofficeObject>!
+    private var sut: NetworkModel<DailyBoxofficeObject>!
     
     override func setUpWithError() throws {
         let configuration = URLSessionConfiguration.default
@@ -18,7 +18,7 @@ final class BoxofficeInfoTests: XCTestCase {
         
         let session = URLSession(configuration: configuration)
         
-        sut = BoxofficeInfo(apiType: .boxoffice("20230322"), session: session)
+        sut = NetworkModel(apiType: .boxoffice("20230322"), session: session)
     }
     
     override func tearDownWithError() throws {
