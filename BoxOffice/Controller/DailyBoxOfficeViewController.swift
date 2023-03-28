@@ -78,7 +78,7 @@ fileprivate enum Section: Hashable {
 }
 
 extension DailyBoxOfficeViewController {
-    func setupDataSource() {
+    private func setupDataSource() {
         movieDataSource = DataSource(collectionView: collectionView) { collectionView, indexPath, itemIdentifier in
             guard let cell = collectionView.dequeueReusableCell(
                 withReuseIdentifier: DailyBoxOfficeCollectionViewCell.reuseIdentifier,
@@ -91,7 +91,7 @@ extension DailyBoxOfficeViewController {
         }
     }
     
-    func setupSnapshot() {
+    private func setupSnapshot() {
         typealias Snapshot = NSDiffableDataSourceSnapshot<Section, DailyBoxOffice.BoxOfficeResult.Movie>
         var snapshot = Snapshot()
         snapshot.appendSections([.main])
@@ -103,7 +103,7 @@ extension DailyBoxOfficeViewController {
 }
 
 extension DailyBoxOfficeViewController {
-    func createMovieListLayout() -> UICollectionViewLayout {
+    private func createMovieListLayout() -> UICollectionViewLayout {
         let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0),
                                               heightDimension: .fractionalHeight(0.1))
         let item = NSCollectionLayoutItem(layoutSize: itemSize)

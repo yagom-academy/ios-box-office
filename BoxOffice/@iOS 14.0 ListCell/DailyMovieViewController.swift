@@ -81,7 +81,7 @@ fileprivate enum Section: Hashable {
 
 @available(iOS 14.0, *)
 extension DailyMovieViewController {
-    func setupDataSource() {
+    private func setupDataSource() {
         let cellRegistration = UICollectionView.CellRegistration<DailyMovieListCell, DailyBoxOffice.BoxOfficeResult.Movie> { (cell, indexPath, item) in
             cell.updateWithItem(item)
             cell.accessories = [.disclosureIndicator()]
@@ -93,7 +93,7 @@ extension DailyMovieViewController {
         }
     }
     
-    func setupSnapshot() {
+    private func setupSnapshot() {
         var snapshot = NSDiffableDataSourceSnapshot<Section, DailyBoxOffice.BoxOfficeResult.Movie>()
         snapshot.appendSections([.main])
         if let dailyBoxOffice = dailyBoxOffice {
