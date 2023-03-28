@@ -9,6 +9,7 @@ import Foundation
 
 protocol NetworkingProtocol {
     func search(url: URL, completion: @escaping (Result<Data, BoxofficeError>) -> Void) -> URLSessionDataTask
+    init(session: URLSession)
 }
 
 class BoxofficeInfo<T: Decodable> {
