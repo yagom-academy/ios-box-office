@@ -11,7 +11,9 @@ final class DailyBoxOfficeViewController: UIViewController {
     private var collectionView = UICollectionView(frame: UIScreen.main.bounds,
                                                   collectionViewLayout: UICollectionViewFlowLayout())
     private var dailyBoxOffice: DailyBoxOffice?
-    private var yesterday = Date(timeIntervalSinceNow: -(3600 * 24))
+    private var yesterday: Date {
+           return Date(timeIntervalSinceNow: 3600 * -24)
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -85,9 +87,9 @@ final class DailyBoxOfficeViewController: UIViewController {
     
     @objc func handlerRefreshControl() {
         loadDailyBoxOffice()
-        collectionView.reloadData()
         
         DispatchQueue.main.async {
+            self.setNavigationTitle()
             self.collectionView.refreshControl?.endRefreshing()
         }
     }
