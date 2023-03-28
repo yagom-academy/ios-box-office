@@ -19,8 +19,6 @@ final class DailyBoxOfficeViewController: UIViewController {
         setNavigationTitle()
         loadDailyBoxOffice()
         configureCollectionView()
-        collectionView.dataSource = self
-        collectionView.delegate = self
         configureRefreshControl()
     }
     
@@ -73,6 +71,8 @@ final class DailyBoxOfficeViewController: UIViewController {
             collectionView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor)
         ])
         
+        collectionView.dataSource = self
+        collectionView.delegate = self
         collectionView.register(DailyBoxOfficeCell.self,
                                 forCellWithReuseIdentifier: DailyBoxOfficeCell.identifier)
     }
