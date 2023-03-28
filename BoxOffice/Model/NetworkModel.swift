@@ -7,56 +7,6 @@
 
 import Foundation
 
-protocol NetworkingProtocol {
-    func search(url: URL, completion: @escaping (Result<Data, BoxofficeError>) -> Void) -> URLSessionDataTask
-    init(session: URLSession)
-}
-
-class BoxofficeInfo<T: Decodable> {
-    private let apiType: APIType
-    private let model: NetworkingProtocol
-    private var task: URLSessionDataTask?
-    
-    init(apiType: APIType, model: NetworkingProtocol) {
-        self.apiType = apiType
-        self.model = model
-    }
-    
-    private func decodeData(_ data: Data) -> T? {
-        do {
-            let decodingData = try JSONDecoder().decode(T.self, from: data)
-            return decodingData
-        } catch {
-            return nil
-        }
-    }
-    
-    func fetchData(handler: @escaping (Result<T, BoxofficeError>) -> Void) {
-        guard let url = apiType.receiveUrl() else {
-            handler(.failure(.urlError))
-            return
-        }
-        
-        task = model.search(url: url) { [weak self] result in
-            switch result {
-            case .success(let data):
-                guard let decodingData = self?.decodeData(data) else {
-                    handler(.failure(.decodingError))
-                    return
-                }
-                handler(.success(decodingData))
-            case .failure(let error):
-                handler(.failure(error))
-            }
-        }
-    }
-    
-    func cancelTask() {
-        task?.cancel()
-    }
-    
-}
-
 struct NetworkModel: NetworkingProtocol {
     private let session: URLSession
     

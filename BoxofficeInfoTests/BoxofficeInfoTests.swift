@@ -148,4 +148,36 @@ final class BoxofficeInfoTests: XCTestCase {
         
         model.validateFailureTask(httpResponse: response, callCount: 1, error: expectationError)
     }
+    
+    func test_decode를_성공했을시_movies_개수가_10개이다() {
+        // given
+        MockURLProtocolObject.requestHandler = { request in
+            guard let url = request.url,
+                  url == self.url else {
+                throw BoxofficeError.urlError
+            }
+            
+            let response = HTTPURLResponse(url: url, statusCode: 200, httpVersion: "2.0", headerFields: nil)!
+            let data = StubBoxoffice().data
+            
+            return (response, data)
+        }
+        
+        let asyncTest = XCTestExpectation()
+        let expectation = 10
+        
+        // when
+        sut.fetchData { event in
+            switch event {
+            case .success(let data):
+                // then
+                asyncTest.fulfill()
+                XCTAssertEqual(data.boxOfficeResult.movies.count, expectation)
+            case .failure(_):
+                XCTFail("잘못된 테스트코드입니다.")
+            }
+        }
+    
+        wait(for: [asyncTest], timeout: 3)
+    }
 }
