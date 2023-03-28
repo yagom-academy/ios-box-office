@@ -37,6 +37,10 @@ final class DailyBoxOfficeViewController: UIViewController {
             switch result {
             case .success(let dailyBoxOffice):
                 self.dailyBoxOffice = dailyBoxOffice
+                
+                DispatchQueue.main.async {
+                    self.collectionView.reloadData()
+                }
             case .failure(let error):
                 print(error.localizedDescription)
             }
@@ -98,10 +102,13 @@ extension DailyBoxOfficeViewController: UICollectionViewDataSource {
         cell.configureSubviews()
         
         cell.movieTitleLable.text = movieData.movieName
+        cell.movieTitleLable.font = UIFont.preferredFont(forTextStyle: .title3)
+        cell.movieTitleLable.numberOfLines = 0
         
         let todayAudience = convertToDecimal(target: movieData.audienceCountOfDate) ?? "0"
         let accumulatedAudience = convertToDecimal(target: movieData.accumulatedAudienceCount) ?? "0"
         cell.audienceCountLabel.text = "오늘 \(todayAudience) / 총 \(accumulatedAudience)"
+        cell.audienceCountLabel.font = UIFont.preferredFont(forTextStyle: .body)
         
         cell.rankLabel.text = movieData.rank
         cell.rankLabel.font = UIFont.preferredFont(forTextStyle: .largeTitle)
