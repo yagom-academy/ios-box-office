@@ -50,7 +50,7 @@ final class BoxOfficeViewController: UIViewController {
     }
     
     func fetchDailyBoxOfficeAPI() {
-        boxOfficeAPI.loadBoxOfficeAPI(urlAddress: URLAddress.dailyBoxOfficeURL, parser: Parser<DailyBoxOffice>()) { parsedData in
+        boxOfficeAPI.loadBoxOfficeAPI(endpoint: URLAddress.dailyBoxOfficeURL, parser: Parser<DailyBoxOffice>()) { parsedData in
             self.dailyBoxOffice = parsedData
             
             DispatchQueue.main.async {

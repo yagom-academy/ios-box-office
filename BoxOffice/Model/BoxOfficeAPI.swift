@@ -8,11 +8,8 @@
 import Foundation
 
 struct BoxOfficeAPI {
-    func loadBoxOfficeAPI<T: Decodable>(urlAddress: String, parser: Parser<T>, completion: @escaping (T) -> Void) {
-        guard let url = URL(string: urlAddress) else { return }
+    func loadBoxOfficeAPI<T: Decodable>(endpoint: EndPoint, parser: Parser<T>, completion: @escaping (T) -> Void) {
         
-        var request = URLRequest(url: url)
-        request.httpMethod = "GET"
         URLSession.shared.dataTask(with: request) { data, response, error in
             guard error == nil else { return }
             
