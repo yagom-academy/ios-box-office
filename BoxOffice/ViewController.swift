@@ -16,6 +16,10 @@ final class ViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        configureViewController()
+        configureHierarchy()
+        configureDataSource()
+        fetchBoxOfficeData()
     }
 
     func fetchBoxOfficeData() {
@@ -25,9 +29,9 @@ final class ViewController: UIViewController {
             case .success(let data):
                 do {
                     let boxOfficeItem: BoxOfficeItem = try JSONConverter.shared.decodeData(data, T: BoxOfficeItem.self)
-                    let myMovielists = boxOfficeItem.boxOfficeResult.dailyBoxOfficeList
-                    for movie in myMovielists {
-                        print(movie)
+                    let myMovielists = boxOfficeItem.boxOfficeResult.dailyBoxOfficeList.map { ListItem(rank: $0.rank, rankInten: $0.rankInten, rankOldandNew: $0.rankOldAndNew.rawValue, movieName: $0.movieName, audienceCount: $0.audienceCount, audienceAcc: $0.audienceAcc) }
+                    DispatchQueue.main.async {
+                        _ = self.makeSnapshot(with: myMovielists)
                     }
                 } catch let error as NetworkError {
                     print(error.description)
