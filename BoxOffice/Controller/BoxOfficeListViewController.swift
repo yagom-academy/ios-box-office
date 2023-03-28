@@ -38,11 +38,14 @@ final class BoxOfficeListViewController: UIViewController {
     private func configureView() {
         view.backgroundColor = .white
         self.title = Date.configureYesterday(isFormatted: true)
+        LoadingIndicator.showLoading()
+        
         collectionView.dataSource = self
         collectionView.delegate = self
         
         fetchBoxOfficeData {
             DispatchQueue.main.async {
+                LoadingIndicator.hideLoading()
                 self.collectionView.reloadData()
             }
         }
