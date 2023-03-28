@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		4B181D0729D287D900B3CD47 /* extension+NumberFormatter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B181D0629D287D900B3CD47 /* extension+NumberFormatter.swift */; };
 		4B81025629D1621900A8DC89 /* DailyBoxOfficeCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B81025529D1621900A8DC89 /* DailyBoxOfficeCell.swift */; };
 		4B9E3A0329C9767E00B60AD1 /* MovieDetails.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B9E3A0229C9767E00B60AD1 /* MovieDetails.swift */; };
 		4B9E3A1B29CAD72E00B60AD1 /* JSONModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B9E3A1A29CAD72E00B60AD1 /* JSONModelTests.swift */; };
@@ -56,6 +57,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		4B181D0629D287D900B3CD47 /* extension+NumberFormatter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "extension+NumberFormatter.swift"; sourceTree = "<group>"; };
 		4B81025529D1621900A8DC89 /* DailyBoxOfficeCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DailyBoxOfficeCell.swift; sourceTree = "<group>"; };
 		4B9E3A0229C9767E00B60AD1 /* MovieDetails.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MovieDetails.swift; sourceTree = "<group>"; };
 		4B9E3A1829CAD72E00B60AD1 /* JSONModelTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = JSONModelTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -240,6 +242,7 @@
 			children = (
 				AD0A48F329C97B730030CBC1 /* JSONModel */,
 				AD3D401C29D1CFC800A56210 /* extension+DateFormatter.swift */,
+				4B181D0629D287D900B3CD47 /* extension+NumberFormatter.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -395,6 +398,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				AD1E9C1F29CDD2CA0023A817 /* API.swift in Sources */,
+				4B181D0729D287D900B3CD47 /* extension+NumberFormatter.swift in Sources */,
 				4B9E3A2729CADF9D00B60AD1 /* DataTaskMakeable.swift in Sources */,
 				4B9E3A5429CD838300B60AD1 /* KobisAPI.swift in Sources */,
 				AD1E9C1D29CDD2920023A817 /* EndPoint.swift in Sources */,
