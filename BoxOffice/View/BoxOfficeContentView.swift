@@ -79,6 +79,13 @@ class BoxOfficeContentView: UIView, UIContentView {
         return stackView
     }()
     
+    let separatorView: UIView = {
+        let view = UIView()
+        view.translatesAutoresizingMaskIntoConstraints = false
+        view.backgroundColor = .lightGray
+        return view
+    }()
+    
     init(configuration: BoxOfficeContentConfiguration) {
         super.init(frame: .zero)
         
@@ -94,6 +101,8 @@ class BoxOfficeContentView: UIView, UIContentView {
 
 private extension BoxOfficeContentView {
     private func setupAllViews() {
+        
+        
         rankIncrementStackView.addArrangedSubview(rankIncrementSymbol)
         rankIncrementStackView.addArrangedSubview(rankIncrementLabel)
         
@@ -107,13 +116,20 @@ private extension BoxOfficeContentView {
         movieStackView.addArrangedSubview(movieInformationStackView)
 
         addSubview(movieStackView)
+        addSubview(separatorView)
+        
         
         NSLayoutConstraint.activate([
             rankStackView.widthAnchor.constraint(equalTo: self.widthAnchor, multiplier: 0.2),
             movieStackView.leadingAnchor.constraint(equalTo: self.leadingAnchor),
             movieStackView.trailingAnchor.constraint(equalTo: self.trailingAnchor),
             movieStackView.topAnchor.constraint(equalTo: self.topAnchor),
-            movieStackView.bottomAnchor.constraint(equalTo: self.bottomAnchor)
+            movieStackView.bottomAnchor.constraint(equalTo: self.bottomAnchor),
+            
+            separatorView.leadingAnchor.constraint(equalTo: self.leadingAnchor),
+            separatorView.bottomAnchor.constraint(equalTo: self.bottomAnchor),
+            separatorView.trailingAnchor.constraint(equalTo: self.trailingAnchor),
+            separatorView.heightAnchor.constraint(equalToConstant: 0.5)
         ])
         rankIncrementSymbol.contentMode = .scaleAspectFit
     }

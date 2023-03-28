@@ -124,7 +124,6 @@
 				984BFCC329C99CD200CA8495 /* MovieInformation.swift */,
 				984BFCC529C99D0C00CA8495 /* MovieDetailInformation.swift */,
 				6241B57429D1BF6100EB4E7C /* BoxOfficeContentConfiguration.swift */,
-				6241B57629D1BFFE00EB4E7C /* BoxOfficeContentView.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -132,6 +131,7 @@
 		622E6D6929C8381300E50CC3 /* View */ = {
 			isa = PBXGroup;
 			children = (
+				6241B57629D1BFFE00EB4E7C /* BoxOfficeContentView.swift */,
 				982FE47F29D1DB8B0037BC8F /* BoxOfficeListCell.swift */,
 			);
 			path = View;

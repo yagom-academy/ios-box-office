@@ -52,7 +52,10 @@ final class BoxOfficeViewController: UIViewController {
             return
         }
         
-        self.title = yesterday
+        self.navigationItem.title = yesterday
+        let appearance = UINavigationBarAppearance()
+        self.navigationController?.navigationBar.standardAppearance = appearance
+        self.navigationController?.navigationBar.scrollEdgeAppearance = appearance
         self.view.backgroundColor = .white
         self.view.addSubview(activityIndicator)
     }
