@@ -18,6 +18,7 @@ final class DailyBoxOfficeCollectionViewCell: UICollectionViewCell {
     private var movieListStackView = UIStackView()
     private var mainStackView = UIStackView()
     private var separatorView = UIView()
+    private var accessoryImageView = UIImageView()
     
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -32,9 +33,9 @@ final class DailyBoxOfficeCollectionViewCell: UICollectionViewCell {
         configureContentView()
         configureSeparatorView()
         configureMainStackView()
-        configureRankStackView()
+        configureMovieRankStackView()
         configureMovieListStackView()
-        configureLabels()
+        configureAccessoryImageView()
     }
     
     private func configureContentView() {
@@ -56,11 +57,11 @@ final class DailyBoxOfficeCollectionViewCell: UICollectionViewCell {
     
     private func configureMainStackView() {
         mainStackView.axis = .horizontal
-        mainStackView.alignment = .fill
+        mainStackView.alignment = .center
         mainStackView.distribution = .fill
-        mainStackView.spacing = 10
         mainStackView.addArrangedSubview(movieRankStackView)
         mainStackView.addArrangedSubview(movieListStackView)
+        mainStackView.addArrangedSubview(accessoryImageView)
         
         addSubview(mainStackView)
         
@@ -73,7 +74,7 @@ final class DailyBoxOfficeCollectionViewCell: UICollectionViewCell {
         ])
     }
     
-    private func configureRankStackView() {
+    private func configureMovieRankStackView() {
         movieRankStackView.axis = .vertical
         movieRankStackView.distribution = .fill
         
@@ -82,90 +83,80 @@ final class DailyBoxOfficeCollectionViewCell: UICollectionViewCell {
         
         movieRankStackView.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([
-            movieRankStackView.topAnchor.constraint(equalTo: self.topAnchor),
-            movieRankStackView.widthAnchor.constraint(equalTo: self.widthAnchor, multiplier: 0.2)
+            movieRankStackView.widthAnchor.constraint(equalTo: mainStackView.widthAnchor, multiplier: 0.2)
         ])
     }
     
     private func configureMovieListStackView() {
         movieListStackView.axis = .vertical
         movieListStackView.distribution = .fillProportionally
+        movieListStackView.spacing = 5
         
         movieListStackView.addArrangedSubview(movieListLabel)
         movieListStackView.addArrangedSubview(audienceInformationLabel)
-        
-        movieListStackView.translatesAutoresizingMaskIntoConstraints = false
-        NSLayoutConstraint.activate([
-            movieListStackView.topAnchor.constraint(equalTo: self.topAnchor),
-            movieListStackView.trailingAnchor.constraint(equalTo: self.trailingAnchor)
-        ])
     }
     
-    private func configureLabels() {
-        movieListLabel.translatesAutoresizingMaskIntoConstraints = false
-        audienceInformationLabel.translatesAutoresizingMaskIntoConstraints = false
+    private func configureAccessoryImageView() {
+        accessoryImageView.image = UIImage(systemName: "chevron.right")?.withTintColor(.systemGray2, renderingMode: .alwaysOriginal)
         
+        accessoryImageView.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([
-            movieListLabel.topAnchor.constraint(equalTo: contentView.topAnchor),
-            audienceInformationLabel.topAnchor.constraint(equalTo: movieListLabel.bottomAnchor),
-            audienceInformationLabel.heightAnchor.constraint(equalTo: contentView.heightAnchor, multiplier: 0.2),
-            audienceInformationLabel.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -10)
-        ])
-        
-        movieRankLabel.translatesAutoresizingMaskIntoConstraints = false
-        audienceVarianceLabel.translatesAutoresizingMaskIntoConstraints = false
-        
-        NSLayoutConstraint.activate([
-            movieRankLabel.topAnchor.constraint(equalTo: contentView.topAnchor),
-            audienceVarianceLabel.topAnchor.constraint(equalTo: movieRankLabel.bottomAnchor),
-            audienceVarianceLabel.heightAnchor.constraint(equalTo: contentView.heightAnchor, multiplier: 0.2),
-            audienceVarianceLabel.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -10)
+            accessoryImageView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -20),
+            accessoryImageView.widthAnchor.constraint(equalTo: mainStackView.widthAnchor, multiplier: 0.025),
+            accessoryImageView.heightAnchor.constraint(equalTo: mainStackView.heightAnchor, multiplier: 0.2)
         ])
     }
     
     func configure(with movieModel: DailyBoxOffice.BoxOfficeResult.Movie) {
-        self.movie = movieModel
+        movie = movieModel
         setupMovieListLabels()
         setupMovieRankLabels()
     }
     
     private func setupMovieListLabels() {
-        guard let movie = movie,
+        guard let movie = self.movie,
               let todayAudience = movie.audienceCount.convertToFormattedNumber(),
               let totalAudience = movie.audienceAccumulation.convertToFormattedNumber() else { return }
         
-        self.movieListLabel.text = movie.name
-        self.movieListLabel.font = UIFont.preferredFont(forTextStyle: .title3)
-        self.movieListLabel.numberOfLines = 0
+        movieListLabel.text = movie.name
+        movieListLabel.font = UIFont.preferredFont(forTextStyle: .title3)
+        movieListLabel.numberOfLines = 0
         
-        self.audienceInformationLabel.text = "오늘 \(todayAudience) / 총 \(totalAudience)"
-        self.audienceInformationLabel.font = UIFont.preferredFont(forTextStyle: .body)
+        audienceInformationLabel.text = "오늘 \(todayAudience) / 총 \(totalAudience)"
+        audienceInformationLabel.font = UIFont.preferredFont(forTextStyle: .body)
     }
     
     private func setupMovieRankLabels() {
-        guard let movie = movie else { return }
+        guard let movie = self.movie else { return }
         
-        self.movieRankLabel.text = movie.order
-        self.movieRankLabel.font = UIFont.preferredFont(forTextStyle: .largeTitle)
-        self.movieRankLabel.textAlignment = .center
+        movieRankLabel.text = movie.order
+        movieRankLabel.font = UIFont.preferredFont(forTextStyle: .largeTitle)
+        movieRankLabel.textAlignment = .center
         
         if movie.rankOldAndNew == "NEW" {
-            self.audienceVarianceLabel.text = "신작"
-            self.audienceVarianceLabel.textColor = .systemRed
+            audienceVarianceLabel.text = "신작"
+            audienceVarianceLabel.textColor = .systemRed
         } else {
             guard let variance = Int(movie.rankVariance) else { return }
+            
             switch variance {
             case ..<0:
-                self.audienceVarianceLabel.text = "🔻\(variance * -1)"
+                let text =  "▼\(variance * -1)"
+                let attributedString = NSMutableAttributedString(string: text)
+                attributedString.addAttribute(.foregroundColor, value: UIColor.blue, range: (text as NSString).range(of: "▼"))
+                audienceVarianceLabel.attributedText = attributedString
             case 0:
-                self.audienceVarianceLabel.text = "-"
+                audienceVarianceLabel.text = "-"
             default:
-                self.audienceVarianceLabel.text = "🔺\(variance)"
+                let text = "▲\(variance)"
+                let attributedString = NSMutableAttributedString(string: text)
+                attributedString.addAttribute(.foregroundColor, value: UIColor.red, range: (text as NSString).range(of: "▲"))
+                audienceVarianceLabel.attributedText = attributedString
             }
         }
         
-        self.audienceVarianceLabel.font = UIFont.preferredFont(forTextStyle: .body)
-        self.audienceVarianceLabel.textAlignment = .center
+        audienceVarianceLabel.font = UIFont.preferredFont(forTextStyle: .body)
+        audienceVarianceLabel.textAlignment = .center
     }
 }
 

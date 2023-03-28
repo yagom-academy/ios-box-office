@@ -12,25 +12,25 @@ fileprivate enum Section: Hashable {
 }
 
 final class DailyBoxOfficeViewController: UIViewController, UICollectionViewDelegate {
-    lazy var collectionView: UICollectionView = {
+    private var dailyBoxOffice: DailyBoxOffice?
+    private var networkManager = NetworkManager()
+    private var boxOfficeEndPoint: BoxOfficeEndPoint?
+    private typealias DataSource = UICollectionViewDiffableDataSource<Section, DailyBoxOffice.BoxOfficeResult.Movie>
+    private var movieDataSource: DataSource?
+    lazy private var collectionView: UICollectionView = {
         let collectionView = UICollectionView(frame: view.bounds, collectionViewLayout: createMovieListLayout())
         collectionView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
         view.addSubview(collectionView)
         collectionView.delegate = self
         return collectionView
     }()
-    private var dailyBoxOffice: DailyBoxOffice?
-    private var networkManager = NetworkManager()
-    private var boxOfficeEndPoint: BoxOfficeEndPoint?
-    private var movieDataSource: DataSource?
-    private typealias DataSource = UICollectionViewDiffableDataSource<Section, DailyBoxOffice.BoxOfficeResult.Movie>
-   
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         boxOfficeEndPoint = BoxOfficeEndPoint.DailyBoxOffice(tagetDate: "20230327", httpMethod: .get)
         fetchDailyBoxOfficeData()
         setupCollectionView()
-
+        
         let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = "yyyy-MM-dd"
         let currentDate = dateFormatter.string(from: Date(timeIntervalSinceNow: -86400))
@@ -55,14 +55,14 @@ final class DailyBoxOfficeViewController: UIViewController, UICollectionViewDele
     }
     
     private func setupDataSource() {
-        self.movieDataSource = DataSource(collectionView: self.collectionView) { collectionView, indexPath, itemIdentifier in
+        movieDataSource = DataSource(collectionView: self.collectionView) { collectionView, indexPath, itemIdentifier in
             guard let cell = collectionView.dequeueReusableCell(
                 withReuseIdentifier: DailyBoxOfficeCollectionViewCell.reuseIdentifier,
                 for: indexPath) as? DailyBoxOfficeCollectionViewCell else {
                 return UICollectionViewCell()
             }
             cell.configure(with: itemIdentifier)
-    
+            
             return cell
         }
     }
@@ -71,14 +71,14 @@ final class DailyBoxOfficeViewController: UIViewController, UICollectionViewDele
         typealias Snapshot = NSDiffableDataSourceSnapshot<Section, DailyBoxOffice.BoxOfficeResult.Movie>
         var snapshot = Snapshot()
         snapshot.appendSections([.main])
-        if let dailyBoxOffice = dailyBoxOffice {
+        if let dailyBoxOffice = self.dailyBoxOffice {
             snapshot.appendItems(dailyBoxOffice.boxOfficeResult.boxOfficeList, toSection: .main)
         }
         movieDataSource?.apply(snapshot, animatingDifferences: true)
     }
     
     private func setupCollectionView() {
-        self.collectionView.register(DailyBoxOfficeCollectionViewCell.self, forCellWithReuseIdentifier: DailyBoxOfficeCollectionViewCell.reuseIdentifier)
+        collectionView.register(DailyBoxOfficeCollectionViewCell.self, forCellWithReuseIdentifier: DailyBoxOfficeCollectionViewCell.reuseIdentifier)
     }
 }
 
@@ -90,9 +90,9 @@ extension DailyBoxOfficeViewController {
         item.contentInsets = NSDirectionalEdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 0)
         
         let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0),
-                                               heightDimension: .fractionalHeight(0.9))
+                                               heightDimension: .fractionalHeight(1.0))
         let group = NSCollectionLayoutGroup.vertical(layoutSize: groupSize, subitems: [item])
-    
+        
         let section = NSCollectionLayoutSection(group: group)
         
         let layout = UICollectionViewCompositionalLayout(section: section)
