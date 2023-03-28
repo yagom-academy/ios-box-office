@@ -8,42 +8,59 @@
 import UIKit
 
 @available(iOS 14.0, *)
-
-fileprivate enum Section: Hashable {
-    case main
-}
-
-@available(iOS 14.0, *)
-class DailyMovieViewController: UIViewController {
+final class DailyMovieViewController: UIViewController {
+    private var networkManager = NetworkManager()
+    private var boxOfficeEndPoint: BoxOfficeEndPoint?
     
-    fileprivate var dataSource: UICollectionViewDiffableDataSource<Section, DailyBoxOffice.BoxOfficeResult.Movie>! = nil
-    var collectionView: UICollectionView!
+    private var refreshControl = UIRefreshControl()
     
-    var networkManager = NetworkManager()
-    var boxOfficeEndPoint: BoxOfficeEndPoint = BoxOfficeEndPoint.DailyBoxOffice(tagetDate: "20230307", httpMethod: .get)
-    var dailyBoxOffice: DailyBoxOffice! = nil
+    lazy private var collectionView = DailyMovieCollectionView(frame: view.bounds, collectionViewLayout: createLayout())
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        view.addSubview(collectionView)
+        collectionView.delegate = self
+        refreshData()
+        refreshControl.addTarget(self, action: #selector(refreshData), for: .valueChanged)
+        collectionView.refreshControl = refreshControl
+    }
+    
+    @objc private func refreshData() {
+        updateDateToViewTitle()
+        updateDateToEndPoint()
         fetchDailyBoxOfficeData()
+    }
+    
+    private func updateDateToViewTitle() {
         let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = "yyyy-MM-dd"
         let currentDate = dateFormatter.string(from: Date(timeIntervalSinceNow: -86400))
+        
         self.title = currentDate
     }
     
+    private func updateDateToEndPoint() {
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "yyyyMMdd"
+        let currentDate = dateFormatter.string(from: Date(timeIntervalSinceNow: -86400))
+        
+        boxOfficeEndPoint = BoxOfficeEndPoint.DailyBoxOffice(tagetDate: "\(currentDate)", httpMethod: .get)
+    }
+    
     private func fetchDailyBoxOfficeData() {
-        networkManager.request(endPoint: boxOfficeEndPoint, returnType: DailyBoxOffice.self) { [self] in
+        guard let endPoint = boxOfficeEndPoint else { return }
+        networkManager.request(endPoint: endPoint, returnType: DailyBoxOffice.self) { [weak self] in
             switch $0 {
             case .failure(let error):
                 print(error)
             case .success(let result):
-                self.dailyBoxOffice = result
+                self?.collectionView.dailyBoxOffice = result
                 
-                DispatchQueue.main.async { [self] in
-                    configureHierarchy()
-                    configureDataSource()
+                DispatchQueue.main.async {
+                    self?.collectionView.setupDataSource()
+                    self?.collectionView.setupSnapshot()
+                    self?.refreshControl.endRefreshing()
                 }
             }
         }
@@ -59,52 +76,17 @@ extension DailyMovieViewController {
 }
 
 @available(iOS 14.0, *)
-extension DailyMovieViewController {
-    private func configureHierarchy() {
-        collectionView = UICollectionView(frame: view.bounds, collectionViewLayout: createLayout())
-        
-        guard let collectionView = collectionView else { return }
-        collectionView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
-        view.addSubview(collectionView)
-        collectionView.delegate = self
-    }
-    
-    /// - Tag: CellRegistration
-    private func configureDataSource() {
-        let cellRegistration = UICollectionView.CellRegistration<DailyMovieListCell, DailyBoxOffice.BoxOfficeResult.Movie> { (cell, indexPath, item) in
-            cell.updateWithItem(item)
-            cell.accessories = [.disclosureIndicator()]
-        }
-        
-        dataSource = UICollectionViewDiffableDataSource<Section, DailyBoxOffice.BoxOfficeResult.Movie>(collectionView: collectionView) {
-            (collectionView: UICollectionView, indexPath: IndexPath, item: DailyBoxOffice.BoxOfficeResult.Movie) -> UICollectionViewCell? in
-            return collectionView.dequeueConfiguredReusableCell(using: cellRegistration, for: indexPath, item: item)
-        }
-        
-        // initial data
-        var snapshot = NSDiffableDataSourceSnapshot<Section, DailyBoxOffice.BoxOfficeResult.Movie>()
-        snapshot.appendSections([.main])
-        if let dailyBoxOffice = dailyBoxOffice {
-            snapshot.appendItems(dailyBoxOffice.boxOfficeResult.boxOfficeList, toSection: .main)
-        }
-        dataSource.apply(snapshot, animatingDifferences: false)
-    }
-}
-
-@available(iOS 14.0, *)
 extension DailyMovieViewController: UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         collectionView.deselectItem(at: indexPath, animated: true)
     }
 }
 
-// Declare a custom key for a custom `item` property.
 @available(iOS 14.0, *)
 extension UIConfigurationStateCustomKey {
     static let movieKey = UIConfigurationStateCustomKey("movie")
 }
 
-// Declare an extension on the cell state struct to provide a typed property for this custom state.
 @available(iOS 14.0, *)
 extension UICellConfigurationState {
     var movie: DailyBoxOffice.BoxOfficeResult.Movie? {

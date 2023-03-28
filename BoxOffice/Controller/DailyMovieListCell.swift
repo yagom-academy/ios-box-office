@@ -8,7 +8,8 @@
 import UIKit
 
 @available(iOS 14.0, *)
-class ItemListCell: UICollectionViewListCell {
+final class DailyMovieListCell: UICollectionViewListCell {
+    static let reuseIdentifier = "DailyMovieListCell"
     var movie: DailyBoxOffice.BoxOfficeResult.Movie? = nil
     
     func updateWithItem(_ newItem: DailyBoxOffice.BoxOfficeResult.Movie) {
@@ -22,10 +23,6 @@ class ItemListCell: UICollectionViewListCell {
         state.movie = self.movie
         return state
     }
-}
-
-@available(iOS 14.0, *)
-final class DailyMovieListCell: ItemListCell {
     
     func defaultListContentConfiguration() -> UIListContentConfiguration {
         return .subtitleCell()
@@ -103,11 +100,17 @@ final class DailyMovieListCell: ItemListCell {
             guard let variance = Int(movie.rankVariance) else { return }
             switch variance {
             case ..<0:
-                movieRankContent.secondaryText = "🔻\(variance * -1)"
+                let text =  "▼\(variance * -1)"
+                let attributedString = NSMutableAttributedString(string: text)
+                attributedString.addAttribute(.foregroundColor, value: UIColor.blue, range: (text as NSString).range(of: "▼"))
+                movieRankContent.secondaryAttributedText = attributedString
             case 0:
                 movieRankContent.secondaryText = "-"
             default:
-                movieRankContent.secondaryText = "🔺\(variance)"
+                let text = "▲\(variance)"
+                let attributedString = NSMutableAttributedString(string: text)
+                attributedString.addAttribute(.foregroundColor, value: UIColor.red, range: (text as NSString).range(of: "▲"))
+                movieRankContent.secondaryAttributedText = attributedString
             }
         }
         
