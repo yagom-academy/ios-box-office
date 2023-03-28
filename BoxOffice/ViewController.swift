@@ -20,6 +20,7 @@ final class ViewController: UIViewController {
         configureHierarchy()
         configureDataSource()
         fetchBoxOfficeData()
+        configureRefreshControl()
     }
 
     func fetchBoxOfficeData() {
@@ -41,6 +42,9 @@ final class ViewController: UIViewController {
                 
             case .failure(let error):
                 print(error)
+            }
+            DispatchQueue.main.async {
+                self.collectionView.refreshControl?.endRefreshing()
             }
         }
     }
@@ -72,6 +76,16 @@ final class ViewController: UIViewController {
         guard let yesterday = createFormattedDate(dateFormat: "yyyy-MM-dd") else { return }
         navigationController?.navigationBar.topItem?.title = yesterday
         navigationController?.navigationBar.titleTextAttributes = [.font: UIFont.systemFont(ofSize: 18, weight: .bold)]
+    }
+    
+    private func configureRefreshControl() {
+        collectionView.refreshControl = UIRefreshControl()
+        collectionView.refreshControl?.addTarget(self, action: #selector(handleRefreshControl), for: .valueChanged)
+        collectionView.refreshControl?.attributedTitle = NSAttributedString(string: "Fetching Movie Data...")
+    }
+    
+    @objc func handleRefreshControl() {
+        fetchBoxOfficeData()
     }
 
 }
