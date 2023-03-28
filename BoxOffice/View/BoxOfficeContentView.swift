@@ -28,20 +28,10 @@ class BoxOfficeContentView: UIView, UIContentView {
         return label
     }()
 
-    let rankIncrementSymbol = UIImageView()
-    
     let rankIncrementLabel: UILabel = {
         let label = UILabel()
         label.font = UIFont.preferredFont(forTextStyle: .caption1)
         return label
-    }()
-    
-    let rankIncrementStackView: UIStackView = {
-        let stackView = UIStackView()
-        stackView.axis = .horizontal
-        stackView.alignment = .center
-        stackView.spacing = 0
-        return stackView
     }()
     
     let rankStackView = {
@@ -109,11 +99,9 @@ class BoxOfficeContentView: UIView, UIContentView {
 
 private extension BoxOfficeContentView {
     private func setupAllViews() {
-        rankIncrementStackView.addArrangedSubview(rankIncrementSymbol)
-        rankIncrementStackView.addArrangedSubview(rankIncrementLabel)
         
         rankStackView.addArrangedSubview(rankLabel)
-        rankStackView.addArrangedSubview(rankIncrementStackView)
+        rankStackView.addArrangedSubview(rankIncrementLabel)
         
         movieInformationStackView.addArrangedSubview(titleLabel)
         movieInformationStackView.addArrangedSubview(audienceCountLabel)
@@ -142,7 +130,6 @@ private extension BoxOfficeContentView {
             separatorView.trailingAnchor.constraint(equalTo: self.trailingAnchor),
             separatorView.heightAnchor.constraint(equalToConstant: 0.5)
         ])
-        rankIncrementSymbol.contentMode = .scaleAspectFit
     }
     
     private func apply(configuration: BoxOfficeContentConfiguration) {
@@ -150,19 +137,19 @@ private extension BoxOfficeContentView {
             return
         }
         
+        rankIncrementLabel.text = nil
+        rankIncrementLabel.textColor = .black
+        
         currentConfiguration = configuration
         
         rankLabel.text = configuration.rank
+        
         
         if configuration.rankOldAndNew == "NEW" {
             rankIncrementLabel.text = "신작"
             rankIncrementLabel.font = .preferredFont(forTextStyle: .footnote)
             rankIncrementLabel.textColor = .systemRed
         } else {
-            NSLayoutConstraint.activate([
-                rankIncrementSymbol.widthAnchor.constraint(equalToConstant: 10),
-                rankIncrementSymbol.heightAnchor.constraint(equalToConstant: 15),
-            ])
             guard let rankIncrement = configuration.rankIncrement,
                   let rankIncrementNumber = Int(rankIncrement) else {
                 return
@@ -170,15 +157,15 @@ private extension BoxOfficeContentView {
             
             switch rankIncrementNumber {
             case ..<0:
-                rankIncrementSymbol.image = UIImage(systemName: SystemImageName.arrowTriangleDownFill)
-                rankIncrementLabel.text = "\(rankIncrementNumber * -1)"
+                let attributedString = NSMutableAttributedString(string: "▼\(rankIncrementNumber * -1)")
+                attributedString.addAttribute(.foregroundColor, value: UIColor.systemBlue, range: NSRange(location: 0, length: 1))
+                rankIncrementLabel.attributedText = attributedString
             case 0:
-                rankIncrementSymbol.image = UIImage(systemName: SystemImageName.minus)
-                rankIncrementSymbol.tintColor = .black
+                rankIncrementLabel.text = "-"
             default:
-                rankIncrementSymbol.image = UIImage(systemName: SystemImageName.arrowTriangleUpFill)
-                rankIncrementSymbol.tintColor = .systemRed
-                rankIncrementLabel.text = "\(rankIncrementNumber)"
+                let attributedString = NSMutableAttributedString(string: "▲\(rankIncrementNumber)")
+                attributedString.addAttribute(.foregroundColor, value: UIColor.systemRed, range: NSRange(location: 0, length: 1))
+                rankIncrementLabel.attributedText = attributedString
             }
         }
         
@@ -190,11 +177,4 @@ private extension BoxOfficeContentView {
             audienceCountLabel.text = audienceString
         }
     }
-}
-
-fileprivate enum SystemImageName {
-    static let chevronRight = "chevron.right"
-    static let arrowTriangleDownFill = "arrowtriangle.down.fill"
-    static let minus = "minus"
-    static let arrowTriangleUpFill = "arrowtriangle.up.fill"
 }

@@ -118,8 +118,6 @@ final class BoxOfficeViewController: UIViewController {
                                     type: BoxOfficeDTO.self) { result in
             switch result {
             case .success(let data):
-                print(data.boxOfficeResult)
-                print("\n\n")
                 self.boxOfficeItems = data.boxOfficeResult.dailyBoxOfficeList.map { movie in
                     return BoxOfficeItem(rank: movie.rank,
                                          rankIncrement: movie.rankIncrement,
@@ -183,14 +181,10 @@ extension BoxOfficeViewController {
             
             return cell
         }
-        
-        snapshot.appendSections([.main])
-        snapshot.appendItems([])
-        
-        dataSource.apply(snapshot, animatingDifferences: false)
     }
     
     private func updateSnapshot() {
+        snapshot.deleteAllItems()
         snapshot.appendSections([.main])
         snapshot.appendItems(boxOfficeItems)
         

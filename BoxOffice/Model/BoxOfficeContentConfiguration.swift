@@ -14,7 +14,6 @@ struct BoxOfficeContentConfiguration: UIContentConfiguration, Hashable {
     var audienceCount: String?
     var audienceAccumulationCount: String?
     
-    
     func makeContentView() -> UIView & UIContentView {
         return BoxOfficeContentView(configuration: self)
     }
