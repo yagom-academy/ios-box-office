@@ -62,7 +62,7 @@ class BoxOfficeListCell: UICollectionViewCell  {
     
     private func setUpLabelStyle() {
         rankNumberLabel.font = UIFont.preferredFont(forTextStyle: .title1)
-        rankGapLabel.font = UIFont.preferredFont(forTextStyle: .headline)
+        rankGapLabel.font = UIFont.preferredFont(forTextStyle: .subheadline)
         movieTitleLabel.font = UIFont.preferredFont(forTextStyle: .title3)
         audienceCountLabel.font = UIFont.preferredFont(forTextStyle: .subheadline)
     }
