@@ -2,7 +2,7 @@
 //  CustomCollectionViewCell.swift
 //  BoxOffice
 //
-//  Created by 김성준 on 2023/03/27.
+//  Created by Rhode, Rilla on 2023/03/27.
 //
 
 import UIKit
@@ -19,13 +19,6 @@ class CustomCollectionViewCell: UICollectionViewListCell {
         
         return stackView
     }()
-    
-//    private let separatorView: UIView = {
-//        let view = UIView()
-//        view.backgroundColor = .gray
-//
-//        return view
-//    }()
     
     override func prepareForReuse() {
         super.prepareForReuse()
@@ -45,21 +38,13 @@ class CustomCollectionViewCell: UICollectionViewListCell {
         let audienceStackView = configureAudienceStackView()
         
         self.addSubview(mainStackView)
-        //self.addSubview(separatorView)
         
         mainStackView.addArrangedSubview(rankStackView)
         mainStackView.addArrangedSubview(audienceStackView)
         
         mainStackView.setAutoLayout(equalTo: self.safeAreaLayoutGuide)
         
-        //separatorView.translatesAutoresizingMaskIntoConstraints = false
-        
         NSLayoutConstraint.activate([
-//            separatorView.bottomAnchor.constraint(equalTo: self.bottomAnchor),
-//            separatorView.leadingAnchor.constraint(equalTo: self.leadingAnchor),
-//            separatorView.trailingAnchor.constraint(equalTo: self.trailingAnchor),
-//            separatorView.heightAnchor.constraint(equalToConstant: 1),
-//            rankStackView.heightAnchor.constraint(equalTo: mainStackView.heightAnchor),
             rankStackView.widthAnchor.constraint(equalTo: mainStackView.heightAnchor),
         ])
     }
