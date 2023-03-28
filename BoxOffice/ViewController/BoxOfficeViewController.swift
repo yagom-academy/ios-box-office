@@ -15,6 +15,9 @@ final class BoxOfficeViewController: UIViewController {
     var dataSource: UICollectionViewDiffableDataSource<Section, BoxOfficeItem>! = nil
     var collectionView: UICollectionView! = nil
     var boxOfficeItems: [BoxOfficeItem] = []
+    private var snapshot = NSDiffableDataSourceSnapshot<Section, BoxOfficeItem>()
+    
+    private var refreshControl = UIRefreshControl()
     
     private var yesterday: Date? {
         guard let yesterdayDate = Calendar.current.date(
@@ -40,10 +43,11 @@ final class BoxOfficeViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        configureHierarchy()
-        configureDataSource()
-        
-        setupUI()
+        self.configureHierarchy()
+        self.configureDataSource()
+        self.collectionView.refreshControl = refreshControl
+        self.refreshControl.addTarget(self, action: #selector(refresh), for: .valueChanged)
+        self.setupUI()
         self.fetchDailyBoxOffice()
     }
     
@@ -103,6 +107,39 @@ final class BoxOfficeViewController: UIViewController {
         
         present(alert, animated: true)
     }
+    
+    @objc private func refresh() {
+        guard let yesterday = yesterday?.formatToDate(with: "yyyyMMdd") else {
+            return
+        }
+        
+        let boxOfficeProvider = BoxOfficeProvider<BoxOfficeAPI>()
+        boxOfficeProvider.fetchData(.dailyBoxOffice(date: yesterday),
+                                    type: BoxOfficeDTO.self) { result in
+            switch result {
+            case .success(let data):
+                print(data.boxOfficeResult)
+                print("\n\n")
+                self.boxOfficeItems = data.boxOfficeResult.dailyBoxOfficeList.map { movie in
+                    return BoxOfficeItem(rank: movie.rank,
+                                         rankIncrement: movie.rankIncrement,
+                                         rankOldAndNew: movie.rankOldAndNew,
+                                         title: movie.movieName,
+                                         audienceCount: movie.audienceCount,
+                                         audienceAccumulationCount: movie.audienceAccumulation)
+                }
+                DispatchQueue.main.async {
+                    self.updateSnapshot()
+                    self.refreshControl.endRefreshing()
+                }
+            case .failure:
+                DispatchQueue.main.async {
+                    self.showAlert()
+                    self.refreshControl.endRefreshing()
+                }
+            }
+        }
+    }
 }
 
 extension BoxOfficeViewController {
@@ -147,8 +184,6 @@ extension BoxOfficeViewController {
             return cell
         }
         
-        // intial State
-        var snapshot = NSDiffableDataSourceSnapshot<Section, BoxOfficeItem>()
         snapshot.appendSections([.main])
         snapshot.appendItems([])
         
@@ -156,7 +191,6 @@ extension BoxOfficeViewController {
     }
     
     private func updateSnapshot() {
-        var snapshot = NSDiffableDataSourceSnapshot<Section, BoxOfficeItem>()
         snapshot.appendSections([.main])
         snapshot.appendItems(boxOfficeItems)
         
