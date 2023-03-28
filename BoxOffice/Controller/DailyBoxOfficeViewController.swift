@@ -32,8 +32,9 @@ final class DailyBoxOfficeViewController: UIViewController {
     
     private func loadDailyBoxOffice() {
         var api = KobisAPI(service: .dailyBoxOffice)
-        let targetDate = DateFormatter(dateFormat: "yyyyMMdd").string(from: yesterday)
-        api.addQuery(name: "targetDt", value: targetDate)
+        let queryName = "targetDt"
+        let queryValue = DateFormatter(dateFormat: "yyyyMMdd").string(from: yesterday)
+        api.addQuery(name: queryName, value: queryValue)
         
         var apiProvider = APIProvider()
         apiProvider.target(api: api)
