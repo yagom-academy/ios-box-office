@@ -23,41 +23,65 @@ final class NetworkManager {
             return
         }
         
-        let task = session.dataTask(with: url) { data, response, error in
-            if let error = error {
-                completion(.failure(NetworkingError.transportError(error)))
-                
-                return
-            }
+        let task = session.dataTask(with: url) { [weak self] data, response, error in
+            guard let manager = self else { return }
             
-            if let httpResponse = response as? HTTPURLResponse,
-               !(200...299).contains(httpResponse.statusCode) {
-                switch httpResponse.statusCode {
-                case 400...499:
-                    completion(.failure(NetworkingError.clientError))
-                case 500...599:
-                    completion(.failure(NetworkingError.serverError))
-                default:
-                    completion(.failure(NetworkingError.unknownError))
+            manager.checkError(data, response, error) { result in
+                switch result {
+                case .success(let data):
+                    completion(manager.decode(data: data, type: type))
+                case .failure(let error):
+                    completion(.failure(NetworkingError.transportError(error)))
                 }
-                
-                return
             }
-            
-            guard let data = data else {
-                completion(.failure(NetworkingError.dataNotFound))
-                
-                return
-            }
-            
-            guard let dataStructure = NetworkDecoder().decode(data: data, type: type) else {
-                completion(.failure(NetworkingError.decodeFailed))
-                
-                return
-            }
-            
-            completion(.success(dataStructure))
         }
+        
         task.resume()
+    }
+    
+    private func checkError(_ data: Data?,
+                            _ response: URLResponse?,
+                            _ error: Error?,
+                            completion: @escaping (Result<Data, Error>) -> Void) {
+        if let error = error {
+            completion(.failure(NetworkingError.transportError(error)))
+            
+            return
+        }
+        
+        if let httpResponse = response as? HTTPURLResponse,
+           !(200...299).contains(httpResponse.statusCode) {
+            completion(.failure(checkStatus(code: httpResponse.statusCode)))
+
+            return
+        }
+        
+        guard let data = data else {
+            completion(.failure(NetworkingError.dataNotFound))
+            
+            return
+        }
+        
+        completion(.success(data))
+    }
+    
+    private func checkStatus(code: Int) -> NetworkingError {
+        switch code {
+        case 400...499:
+            return NetworkingError.clientError(code)
+        case 500...599:
+            return NetworkingError.serverError(code)
+        default:
+            return NetworkingError.unknownError(code)
+        }
+    }
+    
+    private func decode<T: Decodable>(data: Data, type: T.Type) -> Result<T, Error> {
+        do {
+            let result = try JSONDecoder().decode(type, from: data)
+            return .success(result)
+        } catch {
+            return .failure(NetworkingError.decodeFailed)
+        }
     }
 }
