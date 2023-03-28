@@ -26,12 +26,32 @@ class BoxOfficeContentView: UIView, UIContentView {
     let rankStackView: UIStackView = {
         let stackView = UIStackView()
         stackView.axis = .horizontal
+        stackView.alignment = .center
+        return stackView
+    }()
+    let rankInformationStackView = {
+        let stackView = UIStackView()
+        stackView.axis = .vertical
+        stackView.alignment = .center
         return stackView
     }()
     let rankIncrementSymbol = UIImageView()
     let rankIncrementLabel = UILabel()
+    let movieInformationStackView = {
+        let stackView = UIStackView()
+        stackView.axis = .vertical
+        stackView.alignment = .center
+        return stackView
+    }()
     let titleLabel = UILabel()
     let audienceCountLabel = UILabel()
+    let movieStackView = {
+        let stackView = UIStackView()
+        stackView.axis = .horizontal
+        stackView.alignment = .center
+        stackView.translatesAutoresizingMaskIntoConstraints = false
+        return stackView
+    }()
     
     init(configuration: BoxOfficeContentConfiguration) {
         super.init(frame: .zero)
@@ -48,23 +68,14 @@ class BoxOfficeContentView: UIView, UIContentView {
 
 private extension BoxOfficeContentView {
     private func setupAllViews() {
-        print("setupAllViews")
-        let rankInformationStackView = UIStackView()
-        
         rankStackView.addArrangedSubview(rankIncrementSymbol)
         rankStackView.addArrangedSubview(rankIncrementLabel)
         
         rankInformationStackView.addArrangedSubview(rankLabel)
         rankInformationStackView.addArrangedSubview(rankStackView)
         
-        let movieInformationStackView = UIStackView()
-        
         movieInformationStackView.addArrangedSubview(titleLabel)
         movieInformationStackView.addArrangedSubview(audienceCountLabel)
-        
-        let movieStackView = UIStackView()
-        movieStackView.axis = .horizontal
-        movieStackView.translatesAutoresizingMaskIntoConstraints = false
         
         movieStackView.addArrangedSubview(rankInformationStackView)
         movieStackView.addArrangedSubview(movieInformationStackView)
@@ -72,20 +83,22 @@ private extension BoxOfficeContentView {
         addSubview(movieStackView)
         
         NSLayoutConstraint.activate([
-            movieStackView.centerXAnchor.constraint(equalTo: self.centerXAnchor),
-            movieStackView.centerYAnchor.constraint(equalTo: self.centerYAnchor)
-//            movieStackView.leadingAnchor.constraint(equalTo: self.leadingAnchor),
-//            movieStackView.trailingAnchor.constraint(equalTo: self.trailingAnchor),
-//            movieStackView.topAnchor.constraint(equalTo: self.topAnchor),
-//            movieStackView.bottomAnchor.constraint(equalTo: self.bottomAnchor)
+//            movieStackView.centerXAnchor.constraint(equalTo: self.centerXAnchor),
+//            movieStackView.centerYAnchor.constraint(equalTo: self.centerYAnchor)
+            movieStackView.leadingAnchor.constraint(equalTo: self.leadingAnchor),
+            movieStackView.trailingAnchor.constraint(equalTo: self.trailingAnchor),
+            movieStackView.topAnchor.constraint(equalTo: self.topAnchor),
+            movieStackView.bottomAnchor.constraint(equalTo: self.bottomAnchor)
         ])
+        rankIncrementSymbol.contentMode = .scaleAspectFit
     }
     
     private func apply(configuration: BoxOfficeContentConfiguration) {
-        print("apply")
         guard currentConfiguration != configuration else {
             return
         }
+        
+        currentConfiguration = configuration
         
         rankLabel.text = configuration.rank
         

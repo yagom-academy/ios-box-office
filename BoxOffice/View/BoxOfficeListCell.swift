@@ -11,7 +11,6 @@ class BoxOfficeListCell: UICollectionViewListCell {
     var item: BoxOfficeItem?
     
     override func updateConfiguration(using state: UICellConfigurationState) {
-        print("updateConfiguration")
         var newConfiguration = BoxOfficeContentConfiguration().updated(for: state)
         
         newConfiguration.rank = item?.rank
