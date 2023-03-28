@@ -25,6 +25,7 @@ final class DailyBoxOfficeViewController: UIViewController {
     private func setNavigationTitle() {
         let title = DateFormatter(dateFormat: "yyyy-MM-dd").string(from: yesterday)
         self.title = title
+        self.view.backgroundColor = .white
     }
     
     private func loadDailyBoxOffice() {
@@ -73,7 +74,7 @@ final class DailyBoxOfficeViewController: UIViewController {
     
     @objc func handlerRefreshControl() {
         loadDailyBoxOffice()
-        self.collectionView.reloadData()
+        collectionView.reloadData()
         
         DispatchQueue.main.async {
             self.collectionView.refreshControl?.endRefreshing()
@@ -91,7 +92,8 @@ extension DailyBoxOfficeViewController: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "DailyBoxOfficeCell", for: indexPath) as? DailyBoxOfficeCell,
               let movieData = self.dailyBoxOffice?.boxOfficeResult.dailyBoxOfficeList[indexPath.item] else { return UICollectionViewCell() }
-        
+        cell.setBorder()
+        cell.configureSubviews()
         cell.setData(of: movieData)
         
         return cell
@@ -100,6 +102,10 @@ extension DailyBoxOfficeViewController: UICollectionViewDataSource {
 
 extension DailyBoxOfficeViewController: UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        return CGSize(width: view.bounds.width, height: 100)
+        return CGSize(width: view.bounds.width, height: 80)
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
+        return 0
     }
 }

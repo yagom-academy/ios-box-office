@@ -20,6 +20,10 @@ final class DailyBoxOfficeCell: UICollectionViewCell {
         rankDifferenceLabel.textColor = .black
     }
     
+    func setBorder() {
+        layer.addBorder(color: .systemGray5, width: 1)
+    }
+    
     func configureSubviews() {
         let rankStackView = {
           let stackView = UIStackView()
@@ -73,8 +77,6 @@ final class DailyBoxOfficeCell: UICollectionViewCell {
     }
     
     func setData(of data: DailyBoxOfficeMovie) {
-        configureSubviews()
-        
         movieTitleLable.text = data.movieName
         movieTitleLable.font = UIFont.preferredFont(forTextStyle: .title3)
         movieTitleLable.numberOfLines = 0

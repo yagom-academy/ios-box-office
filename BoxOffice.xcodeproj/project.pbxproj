@@ -36,6 +36,7 @@
 		AD3094B029C825610052C64D /* APIProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD3094AF29C825610052C64D /* APIProvider.swift */; };
 		AD3094B129C825640052C64D /* APIProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD3094AF29C825610052C64D /* APIProvider.swift */; };
 		AD3D401D29D1CFC800A56210 /* extension+DateFormatter.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD3D401C29D1CFC800A56210 /* extension+DateFormatter.swift */; };
+		AD3D401F29D28E5200A56210 /* extension+CALayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD3D401E29D28E5200A56210 /* extension+CALayer.swift */; };
 		ADF3305129CAF5DB00E0EF8B /* KobisAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = ADF3305029CAF5DB00E0EF8B /* KobisAPI.swift */; };
 /* End PBXBuildFile section */
 
@@ -79,6 +80,7 @@
 		AD3094A729C824A20052C64D /* APIProviderTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIProviderTests.swift; sourceTree = "<group>"; };
 		AD3094AF29C825610052C64D /* APIProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIProvider.swift; sourceTree = "<group>"; };
 		AD3D401C29D1CFC800A56210 /* extension+DateFormatter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "extension+DateFormatter.swift"; sourceTree = "<group>"; };
+		AD3D401E29D28E5200A56210 /* extension+CALayer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "extension+CALayer.swift"; sourceTree = "<group>"; };
 		ADF3305029CAF5DB00E0EF8B /* KobisAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KobisAPI.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -233,6 +235,7 @@
 			isa = PBXGroup;
 			children = (
 				4B81025529D1621900A8DC89 /* DailyBoxOfficeCell.swift */,
+				AD3D401E29D28E5200A56210 /* extension+CALayer.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -399,6 +402,7 @@
 			files = (
 				AD1E9C1F29CDD2CA0023A817 /* API.swift in Sources */,
 				4B181D0729D287D900B3CD47 /* extension+NumberFormatter.swift in Sources */,
+				AD3D401F29D28E5200A56210 /* extension+CALayer.swift in Sources */,
 				4B9E3A2729CADF9D00B60AD1 /* DataTaskMakeable.swift in Sources */,
 				4B9E3A5429CD838300B60AD1 /* KobisAPI.swift in Sources */,
 				AD1E9C1D29CDD2920023A817 /* EndPoint.swift in Sources */,
