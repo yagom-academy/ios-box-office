@@ -16,7 +16,7 @@ final class DailyBoxOfficeCell: UICollectionViewCell {
     private let movieTitleLable = UILabel()
     private let audienceCountLabel = UILabel()
     private let rankStackView = {
-      let stackView = UIStackView()
+        let stackView = UIStackView()
         stackView.axis = .vertical
         stackView.alignment = .center
         stackView.translatesAutoresizingMaskIntoConstraints = false
@@ -25,7 +25,7 @@ final class DailyBoxOfficeCell: UICollectionViewCell {
     }()
     
     private let movieStackView = {
-       let stackView = UIStackView()
+        let stackView = UIStackView()
         
         stackView.axis = .vertical
         stackView.translatesAutoresizingMaskIntoConstraints = false
@@ -44,6 +44,16 @@ final class DailyBoxOfficeCell: UICollectionViewCell {
         
         return imageView
     }()
+    
+    override var isSelected: Bool {
+        didSet {
+            if isSelected {
+                backgroundColor = .systemGray6
+            } else {
+                backgroundColor = .clear
+            }
+        }
+    }
     
     override func prepareForReuse() {
         super.prepareForReuse()
