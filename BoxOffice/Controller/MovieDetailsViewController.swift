@@ -25,9 +25,11 @@ final class MovieDetailsViewController: UIViewController {
     
     var movieDetails: MovieDetails?
     var movieCode: String
+    var movieName: String
     
-    init(movieCode: String) {
+    init(movieCode: String, movieName: String) {
         self.movieCode = movieCode
+        self.movieName = movieName
         super.init(nibName: nil, bundle: nil)
     }
     
@@ -47,6 +49,26 @@ final class MovieDetailsViewController: UIViewController {
         var api = KobisAPI(service: .movieDetails)
         let queryName = "movieCd"
         api.addQuery(name: queryName, value: movieCode)
+        
+        var apiProvider = APIProvider()
+        apiProvider.target(api: api)
+        apiProvider.startLoad(decodingType: MovieDetails.self) { result in
+            switch result {
+            case .success(let movieDetails):
+                self.movieDetails = movieDetails
+                DispatchQueue.main.async {
+                    self.filldetailLabels(with: movieDetails)
+                }
+            case .failure(let error):
+                print(error.localizedDescription)
+            }
+        }
+    }
+    
+    func loadPosterImage() {
+        var api = DaumImageAPI()
+        let queryName = "query"
+        api.addQuery(name: queryName, value: movieName)
         
         var apiProvider = APIProvider()
         apiProvider.target(api: api)

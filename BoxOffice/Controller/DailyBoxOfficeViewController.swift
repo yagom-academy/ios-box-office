@@ -134,8 +134,9 @@ extension DailyBoxOfficeViewController: UICollectionViewDelegateFlowLayout {
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         let navigationController = self.navigationController
-        guard let movieCode = dailyBoxOffice?.boxOfficeResult.dailyBoxOfficeList[indexPath.item].movieCode else { return }
-        let movieDetailsViewController = MovieDetailsViewController(movieCode: movieCode)
+        guard let movieCode = dailyBoxOffice?.boxOfficeResult.dailyBoxOfficeList[indexPath.item].movieCode,
+              let movieName = dailyBoxOffice?.boxOfficeResult.dailyBoxOfficeList[indexPath.item].movieName else { return }
+        let movieDetailsViewController = MovieDetailsViewController(movieCode: movieCode, movieName: movieName)
         
         navigationController?.pushViewController(movieDetailsViewController, animated: true)
     }
