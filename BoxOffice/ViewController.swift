@@ -30,19 +30,19 @@ final class ViewController: UIViewController {
             case .success(let data):
                 do {
                     let boxOfficeItem: BoxOfficeItem = try JSONConverter.shared.decodeData(data, T: BoxOfficeItem.self)
-                    let dailyBoxOfficeList = boxOfficeItem.boxOfficeResult.dailyBoxOfficeList
-                    var myMovieLists: [ListItem] = []
-                    for dailyBoxOffice in dailyBoxOfficeList {
-                        let listItem = ListItem(rank: dailyBoxOffice.rank,
+                    let dailyBoxOffices = boxOfficeItem.boxOfficeResult.dailyBoxOfficeList
+                    var movieRanking: [ListItem] = []
+                    for dailyBoxOffice in dailyBoxOffices {
+                        let movieItem = ListItem(rank: dailyBoxOffice.rank,
                                                 rankInten: dailyBoxOffice.rankInten,
                                                 rankOldandNew: dailyBoxOffice.rankOldAndNew.rawValue,
                                                 movieName: dailyBoxOffice.movieName,
                                                 audienceCount: dailyBoxOffice.audienceCount,
                                                 audienceAcc: dailyBoxOffice.audienceAcc)
-                        myMovieLists.append(listItem)
+                        movieRanking.append(movieItem)
                     }
                     DispatchQueue.main.async {
-                        _ = self.makeSnapshot(with: myMovieLists)
+                        _ = self.makeSnapshot(with: movieRanking)
                     }
                 } catch let error as NetworkError {
                     print(error.description)
