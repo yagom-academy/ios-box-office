@@ -17,19 +17,17 @@ class BoxOfficeViewController: UIViewController {
     var dataSource: UICollectionViewDiffableDataSource<Section, DailyBoxOfficeItem>!
     let networkManager = NetworkManager()
     
-    private let yesterday = Date().addingTimeInterval((3600 * -24) + -55740)
-    
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .systemBackground
         
-        navigationItem.title = yesterday.applyHyphenDate()
+        navigationItem.title = Date().showYesterdayDate(format: .existHyphen)
 
         fetchBoxOffice()
     }
     
     private func fetchBoxOffice() {
-        let targetDate = yesterday.applyNotHyphenDate()
+        let targetDate = Date().showYesterdayDate(format: .notHyphen)
         
         networkManager.fetchData(url: URLMaker.dailyBoxOffice.url, type: BoxOffice.self) { result in
             switch result {
@@ -87,11 +85,8 @@ extension BoxOfficeViewController {
     @objc func handleRefreshControl() {
         fetchBoxOffice()
         
-        DispatchQueue.main.asyncAfter(deadline: .now() + 1.4) { [weak self] in
-            
-            print("refresh 되어버렸다")
-            
-            self?.navigationItem.title = self?.yesterday.applyHyphenDate()
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.7) { [weak self] in
+            self?.navigationItem.title = Date().showYesterdayDate(format: .existHyphen)
             self?.collectionView.reloadData()
             self?.collectionView.refreshControl?.endRefreshing()
         }
