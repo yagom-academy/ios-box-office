@@ -66,6 +66,7 @@ final class BoxOfficeViewController: UIViewController {
         collectionView.refreshControl = refreshControl
         collectionView.backgroundView = activityIndicator
         collectionView.dataSource = self
+        collectionView.delegate = self
         collectionView.collectionViewLayout = createListLayout()
         view.addSubview(collectionView)
     }
@@ -127,5 +128,19 @@ extension BoxOfficeViewController: UICollectionViewDataSource {
         cell.configureCellContent(item: item)
         
         return cell
+    }
+}
+
+extension BoxOfficeViewController: UICollectionViewDelegate {
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        if let movieInfoVC = storyboard?.instantiateViewController(identifier: MovieInfoViewController.identifier, creator: { creator in
+            let movieCode = self.boxOffice?.boxOfficeResult.dailyBoxOfficeList[safe: indexPath.item]?.movieCodeText
+            let movieName = self.boxOffice?.boxOfficeResult.dailyBoxOfficeList[safe: indexPath.item]?.movieKoreanName
+            let viewController = MovieInfoViewController(movieCode: movieCode, movieName: movieName, coder: creator)
+            
+            return viewController
+        }) {
+            self.navigationController?.pushViewController(movieInfoVC, animated: true)
+        }
     }
 }
