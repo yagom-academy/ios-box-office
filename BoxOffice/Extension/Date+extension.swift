@@ -16,10 +16,14 @@ extension Date {
     
     func applyHyphenDate() -> String {
         Date.dateFormatter.dateFormat = "yyyy-MM-dd"
-        guard let value = Date.dateFormatter.string(for: self) else {
-            
-            return "0000-00-00"
-        }
+        guard let value = Date.dateFormatter.string(for: self) else { return "0000-00-00" }
+        
+        return value
+    }
+    
+    func applyNotHyphenDate() -> String {
+        Date.dateFormatter.dateFormat = "yyMMdd"
+        guard let value = Date.dateFormatter.string(for: self) else { return "000000" }
         
         return value
     }

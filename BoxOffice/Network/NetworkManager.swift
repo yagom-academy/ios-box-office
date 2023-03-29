@@ -24,12 +24,12 @@ final class NetworkManager {
         }
         
         let task = session.dataTask(with: url) { [weak self] data, response, error in
-            guard let manager = self else { return }
+            guard let self else { return }
             
-            manager.checkError(data, response, error) { result in
+            self.checkError(data, response, error) { result in
                 switch result {
                 case .success(let data):
-                    completion(manager.decode(data: data, type: type))
+                    completion(self.decode(data: data, type: type))
                 case .failure(let error):
                     completion(.failure(NetworkingError.transportError(error)))
                 }

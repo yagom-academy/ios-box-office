@@ -8,7 +8,7 @@
 import UIKit
 
 final class RankStackView: UIStackView {
-    private let rankLabel: UILabel = {
+    let rankLabel: UILabel = {
         let label = UILabel()
         
         label.font = .preferredFont(forTextStyle: .title1)
@@ -16,10 +16,10 @@ final class RankStackView: UIStackView {
         return label
     }()
     
-    private let rankInfoLabel: UILabel = {
+    let rankInfoLabel: UILabel = {
         let label = UILabel()
         
-        label.font = .preferredFont(forTextStyle: .body)
+        label.font = .preferredFont(forTextStyle: .caption1)
         
         return label
     }()
@@ -36,7 +36,7 @@ final class RankStackView: UIStackView {
     private func configureRankStackView() {
         self.translatesAutoresizingMaskIntoConstraints = false
         self.axis = .vertical
-        self.spacing = 4
+        self.alignment = .center
         
         self.addArrangedSubview(rankLabel)
         self.addArrangedSubview(rankInfoLabel)

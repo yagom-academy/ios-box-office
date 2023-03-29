@@ -27,6 +27,8 @@ struct DailyBoxOfficeItem: Codable, Hashable {
     let screenCount: String
     let showCount: String
     
+    let identifier = UUID()
+    
     private enum CodingKeys: String, CodingKey {
         case rowNumber = "rnum"
         case rank
