@@ -104,11 +104,7 @@ final class ViewController: UIViewController {
         fetchBoxOfficeData()
     }
     
-}
-
-// MARK: - DataSource
-extension ViewController {
-    
+    // MARK: - DataSource
     private func configureDataSource() {
         let cellRegistration = UICollectionView.CellRegistration<MovieListCell, ListItem> { (cell, indexPath, movie) in
             
