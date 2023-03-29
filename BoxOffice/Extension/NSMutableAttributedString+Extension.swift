@@ -30,5 +30,3 @@ extension NSMutableAttributedString {
         return self
     }
 }
-
-

@@ -8,12 +8,10 @@
 import UIKit
 
 final class BoxOfficeViewController: UIViewController {
-    
-    private var dailyBoxOffice: DailyBoxOffice?
-    
     @IBOutlet weak var boxOfficeListCollectionView: UICollectionView!
     lazy var activityIndicator = UIActivityIndicatorView()
     
+    private var dailyBoxOffice: DailyBoxOffice?
     private var provider = Provider()
     
     override func viewDidLoad() {
