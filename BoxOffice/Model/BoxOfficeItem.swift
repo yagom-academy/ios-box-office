@@ -8,7 +8,7 @@
 import UIKit
 
 struct BoxOfficeItem: Hashable {
-    var id = UUID()
+    let id = UUID()
     let rank: String
     let rankIncrement: String
     let rankOldAndNew: String

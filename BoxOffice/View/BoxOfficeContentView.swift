@@ -7,7 +7,7 @@
 
 import UIKit
 
-class BoxOfficeContentView: UIView, UIContentView {
+final class BoxOfficeContentView: UIView, UIContentView {
     private var currentConfiguration: BoxOfficeContentConfiguration!
     var configuration: UIContentConfiguration {
         get {
@@ -22,19 +22,19 @@ class BoxOfficeContentView: UIView, UIContentView {
         }
     }
     
-    let rankLabel: UILabel = {
+    private let rankLabel: UILabel = {
         let label = UILabel()
         label.font = UIFont.preferredFont(forTextStyle: .largeTitle)
         return label
     }()
 
-    let rankIncrementLabel: UILabel = {
+    private let rankIncrementLabel: UILabel = {
         let label = UILabel()
         label.font = UIFont.preferredFont(forTextStyle: .caption1)
         return label
     }()
     
-    let rankStackView = {
+    private let rankStackView = {
         let stackView = UIStackView()
         stackView.translatesAutoresizingMaskIntoConstraints = false
         stackView.axis = .vertical
@@ -42,25 +42,25 @@ class BoxOfficeContentView: UIView, UIContentView {
         return stackView
     }()
     
-    let movieInformationStackView = {
+    private let movieInformationStackView = {
         let stackView = UIStackView()
         stackView.axis = .vertical
         return stackView
     }()
     
-    let titleLabel: UILabel = {
+    private let titleLabel: UILabel = {
         let label = UILabel()
         label.font = .preferredFont(forTextStyle: .title3)
         return label
     }()
     
-    let audienceCountLabel: UILabel = {
+    private let audienceCountLabel: UILabel = {
         let label = UILabel()
         label.font = .preferredFont(forTextStyle: .body)
         return label
     }()
     
-    let movieStackView = {
+    private let movieStackView = {
         let stackView = UIStackView()
         stackView.axis = .horizontal
         stackView.distribution = .fill
@@ -69,15 +69,15 @@ class BoxOfficeContentView: UIView, UIContentView {
         return stackView
     }()
     
-    let accessoryImageView: UIImageView = {
+    private let accessoryImageView: UIImageView = {
         let imageView = UIImageView()
-        imageView.image = UIImage(systemName: SystemImageName.chevronRight)
+        imageView.image = UIImage(systemName: "chevron.right")
         imageView.translatesAutoresizingMaskIntoConstraints = false
         imageView.tintColor = UIColor.lightGray.withAlphaComponent(0.7)
         return imageView
     }()
     
-    let separatorView: UIView = {
+    private let separatorView: UIView = {
         let view = UIView()
         view.translatesAutoresizingMaskIntoConstraints = false
         view.backgroundColor = .lightGray
@@ -87,9 +87,9 @@ class BoxOfficeContentView: UIView, UIContentView {
     init(configuration: BoxOfficeContentConfiguration) {
         super.init(frame: .zero)
         
-        setupAllViews()
+        self.setupAllViews()
         
-        apply(configuration: configuration)
+        self.apply(configuration: configuration)
     }
     
     required init?(coder: NSCoder) {

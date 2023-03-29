@@ -7,7 +7,7 @@
 
 import UIKit
 
-class BoxOfficeListCell: UICollectionViewListCell {
+final class BoxOfficeListCell: UICollectionViewListCell {
     var item: BoxOfficeItem?
     
     override func updateConfiguration(using state: UICellConfigurationState) {

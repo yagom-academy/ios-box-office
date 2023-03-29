@@ -45,13 +45,11 @@ final class BoxOfficeViewController: UIViewController {
         
         self.configureHierarchy()
         self.configureDataSource()
-        self.collectionView.refreshControl = refreshControl
-        self.refreshControl.addTarget(self, action: #selector(refresh), for: .valueChanged)
         self.setupUI()
         self.fetchDailyBoxOffice()
     }
     
-    func setupUI() {
+    private func setupUI() {
         guard let yesterday = yesterday?.formatToDate(with: "yyyy-MM-dd") else {
             return
         }
@@ -60,7 +58,10 @@ final class BoxOfficeViewController: UIViewController {
         let appearance = UINavigationBarAppearance()
         self.navigationController?.navigationBar.standardAppearance = appearance
         self.navigationController?.navigationBar.scrollEdgeAppearance = appearance
-        self.view.backgroundColor = .white
+        
+        self.collectionView.refreshControl = refreshControl
+        self.refreshControl.addTarget(self, action: #selector(refresh), for: .valueChanged)
+        
         self.view.addSubview(activityIndicator)
     }
     
