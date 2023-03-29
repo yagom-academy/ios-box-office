@@ -93,9 +93,11 @@ final class ViewController: UIViewController {
     }
     
     private func configureRefreshControl() {
-        collectionView.refreshControl = UIRefreshControl()
-        collectionView.refreshControl?.addTarget(self, action: #selector(handleRefreshControl), for: .valueChanged)
-        collectionView.refreshControl?.attributedTitle = NSAttributedString(string: "Fetching Movie Data...")
+        let refreshControl = UIRefreshControl()
+        collectionView.refreshControl = refreshControl
+
+        refreshControl.addTarget(self, action: #selector(handleRefreshControl), for: .valueChanged)
+        refreshControl.attributedTitle = NSAttributedString(string: "Fetching Movie Data...")
     }
     
     @objc private func handleRefreshControl() {
