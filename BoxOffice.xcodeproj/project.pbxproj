@@ -33,6 +33,7 @@
 		AD3D401D29D1CFC800A56210 /* extension+DateFormatter.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD3D401C29D1CFC800A56210 /* extension+DateFormatter.swift */; };
 		AD3D401F29D28E5200A56210 /* extension+CALayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD3D401E29D28E5200A56210 /* extension+CALayer.swift */; };
 		AD3D402129D2C98B00A56210 /* URLRequestGenerator.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD3D402029D2C98B00A56210 /* URLRequestGenerator.swift */; };
+		ADE1B1BD29D4356B00632173 /* SearchedImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = ADE1B1BC29D4356B00632173 /* SearchedImage.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -81,6 +82,7 @@
 		AD3D401C29D1CFC800A56210 /* extension+DateFormatter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "extension+DateFormatter.swift"; sourceTree = "<group>"; };
 		AD3D401E29D28E5200A56210 /* extension+CALayer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "extension+CALayer.swift"; sourceTree = "<group>"; };
 		AD3D402029D2C98B00A56210 /* URLRequestGenerator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = URLRequestGenerator.swift; sourceTree = "<group>"; };
+		ADE1B1BC29D4356B00632173 /* SearchedImage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchedImage.swift; sourceTree = "<group>"; };
 		ADF3305029CAF5DB00E0EF8B /* KobisAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KobisAPI.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -183,6 +185,7 @@
 			children = (
 				AD30949F29C81C710052C64D /* DailyBoxOffice.swift */,
 				4B9E3A0229C9767E00B60AD1 /* MovieDetails.swift */,
+				ADE1B1BC29D4356B00632173 /* SearchedImage.swift */,
 			);
 			path = JSONModel;
 			sourceTree = "<group>";
@@ -403,6 +406,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				ADE1B1BD29D4356B00632173 /* SearchedImage.swift in Sources */,
 				AD1E9C1F29CDD2CA0023A817 /* API.swift in Sources */,
 				4B181D0729D287D900B3CD47 /* NumberFormat.swift in Sources */,
 				4B4A799329D3FD5700514141 /* MovieDetailsViewController.swift in Sources */,
