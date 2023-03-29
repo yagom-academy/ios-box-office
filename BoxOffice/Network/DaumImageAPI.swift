@@ -9,11 +9,11 @@ import UIKit
 
 final class DaumImageAPI: API {
     var baseURL: String {
-        return "https://dapi.kakao.com/v2/"
+        return "https://dapi.kakao.com/v2"
     }
     
     var path: String {
-        return "search/image"
+        return "/search/image"
     }
     
     var queries: [String : String] = [:]

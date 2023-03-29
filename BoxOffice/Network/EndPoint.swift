@@ -9,7 +9,6 @@ import Foundation
 
 struct EndPoint: URLRequestGenerator {
     func request(for api: API) -> URLRequest? {
-
         var urlComponents = URLComponents(string: api.baseURL + api.path)
         urlComponents?.queryItems = []
         
@@ -21,6 +20,12 @@ struct EndPoint: URLRequestGenerator {
         
         guard let url = urlComponents?.url else { return nil }
         
-        return URLRequest(url: url)
+        var urlRequest = URLRequest(url: url)
+        
+        for (key, value) in api.headers {
+            urlRequest.setValue(value, forHTTPHeaderField: key)
+        }
+        
+        return urlRequest
     }
 }
