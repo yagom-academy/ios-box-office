@@ -57,7 +57,7 @@ final class MovieInfoViewController: UIViewController {
                 switch result {
                 case .success(let data):
                     guard let urlText = data.items.first?.imageURLText else { return }
-                    let url = URL(string: urlText)
+                    let url = URL(string: urlText.replacingOccurrences(of: "mit110", with: "mit500"))
                     self.posterImageView.load(url: url)
                 case .failure(let error):
                     print(error.localizedDescription)
