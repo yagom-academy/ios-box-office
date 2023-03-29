@@ -81,7 +81,7 @@
                                                 <rect key="frame" x="19.666666666666657" y="0.0" width="353.66666666666674" height="390.66666666666669"/>
                                             </imageView>
                                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="18" translatesAutoresizingMaskIntoConstraints="NO" id="Yfw-TO-Ftj">
-                                                <rect key="frame" x="19.666666666666657" y="463.66666666666669" width="114.66666666666669" height="250.33333333333331"/>
+                                                <rect key="frame" x="19.666666666666664" y="463.66666666666669" width="114.66666666666669" height="250.33333333333331"/>
                                                 <subviews>
                                                     <stackView opaque="NO" contentMode="scaleToFill" spacing="32" translatesAutoresizingMaskIntoConstraints="NO" id="1dE-Xt-25M">
                                                         <rect key="frame" x="0.0" y="0.0" width="114.66666666666667" height="20.333333333333332"/>
@@ -206,7 +206,6 @@
                                             </stackView>
                                         </subviews>
                                         <constraints>
-                                            <constraint firstItem="jIb-7c-gOp" firstAttribute="width" secondItem="uVP-tU-EAK" secondAttribute="width" multiplier="0.9" id="r1f-0z-DQY"/>
                                             <constraint firstAttribute="height" priority="250" constant="852" id="wCF-IP-TfU"/>
                                         </constraints>
                                     </stackView>
@@ -215,6 +214,7 @@
                                     <constraint firstItem="uVP-tU-EAK" firstAttribute="leading" secondItem="LaE-SE-5Zq" secondAttribute="leading" id="3QM-pX-uTD"/>
                                     <constraint firstItem="uVP-tU-EAK" firstAttribute="top" secondItem="LaE-SE-5Zq" secondAttribute="top" id="Aeq-oS-ljl"/>
                                     <constraint firstItem="uVP-tU-EAK" firstAttribute="width" secondItem="Nsl-fP-fbK" secondAttribute="width" id="Tlc-As-bfW"/>
+                                    <constraint firstItem="jIb-7c-gOp" firstAttribute="width" secondItem="Nsl-fP-fbK" secondAttribute="width" multiplier="0.9" id="ctR-Hr-lxp"/>
                                     <constraint firstItem="uVP-tU-EAK" firstAttribute="bottom" secondItem="LaE-SE-5Zq" secondAttribute="bottom" id="gc5-dU-dau"/>
                                     <constraint firstItem="jIb-7c-gOp" firstAttribute="centerX" secondItem="Nsl-fP-fbK" secondAttribute="centerX" id="qCJ-qS-C8c"/>
                                     <constraint firstItem="uVP-tU-EAK" firstAttribute="trailing" secondItem="LaE-SE-5Zq" secondAttribute="trailing" id="s6v-CY-uPa"/>
@@ -232,6 +232,9 @@
                             <constraint firstItem="2gV-Le-1Kk" firstAttribute="trailing" secondItem="d3G-Ms-WHF" secondAttribute="trailing" id="mva-M6-PVz"/>
                         </constraints>
                     </view>
+                    <connections>
+                        <outlet property="posterImageView" destination="jIb-7c-gOp" id="YVu-WC-Zmh"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Tvs-RO-FMU" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
