@@ -12,29 +12,19 @@ enum Section {
 }
 
 class BoxOfficeViewController: UIViewController {
-    var boxOffice: BoxOffice? = nil
+    var boxOffice: BoxOffice?
     var collectionView: UICollectionView!
     var dataSource: UICollectionViewDiffableDataSource<Section, DailyBoxOfficeItem>!
     let networkManager = NetworkManager()
     
-    private let yesterday = Date().addingTimeInterval(3600 * -24)
-    
-    private lazy var yesterdayLabel: UILabel = {
-        let label = UILabel()
-        let date = yesterday.applyHyphenDate()
-        
-        label.text = date
-        label.translatesAutoresizingMaskIntoConstraints = false
-        
-        return label
-    }()
+    private let yesterday = Date().addingTimeInterval((3600 * -24) + -55740)
     
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .systemBackground
         
         navigationItem.title = yesterday.applyHyphenDate()
-        
+
         fetchBoxOffice()
     }
     
@@ -65,6 +55,7 @@ extension BoxOfficeViewController {
     func configureCollectionView() {
         collectionView = UICollectionView(frame: view.bounds, collectionViewLayout: createListLayout())
         view.addSubview(collectionView)
+        configureRefreshControl()
     }
     
     func configureDataSource() {
@@ -83,5 +74,26 @@ extension BoxOfficeViewController {
         snapshot.appendSections([.main])
         snapshot.appendItems(items)
         dataSource.apply(snapshot)
+    }
+}
+
+extension BoxOfficeViewController {
+    func configureRefreshControl() {
+        let refresh = UIRefreshControl()
+        refresh.addTarget(self, action: #selector(handleRefreshControl), for: .valueChanged)
+        collectionView.refreshControl = refresh
+    }
+    
+    @objc func handleRefreshControl() {
+        fetchBoxOffice()
+        
+        DispatchQueue.main.asyncAfter(deadline: .now() + 1.4) { [weak self] in
+            
+            print("refresh 되어버렸다")
+            
+            self?.navigationItem.title = self?.yesterday.applyHyphenDate()
+            self?.collectionView.reloadData()
+            self?.collectionView.refreshControl?.endRefreshing()
+        }
     }
 }
