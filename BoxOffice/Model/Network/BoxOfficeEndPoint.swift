@@ -45,11 +45,15 @@ extension BoxOfficeEndPoint {
         }
     }
     
-    func createURL() -> URL? {
+    func createRequest() -> URLRequest? {
         var components = URLComponents(string: baseURLString)
         components?.path = path
         components?.queryItems = queries
         
-        return components?.url
+        guard let url = components?.url else { return nil }
+        
+        var request = URLRequest(url: url)
+        
+        return request
     }
 }

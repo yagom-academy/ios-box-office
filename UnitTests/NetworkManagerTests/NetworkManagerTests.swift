@@ -19,10 +19,10 @@ final class NetworkManagerTests: XCTestCase {
     func test_getData_호출시_BoxOffice_sample_data_불러오기에_성공한다() {
         // given
         let expectedResult = try? JSONDecoder().decode(BoxOffice.self, from: SampleData.boxOfficeData!)
-        let url = BoxOfficeEndPoint.fetchDailyBoxOffice(targetDate: "20120101").createURL()
+        let request = BoxOfficeEndPoint.fetchDailyBoxOffice(targetDate: "20120101").createRequest()
         
         // when, then
-        sut.fetchData(url: url, type: BoxOffice.self) { result in
+        sut.fetchData(request: request, type: BoxOffice.self) { result in
             switch result {
             case .success(let data):
                 XCTAssertEqual(expectedResult?.boxOfficeResult.type, data.boxOfficeResult.type)
@@ -37,10 +37,10 @@ final class NetworkManagerTests: XCTestCase {
         let makeRequestFail = true
         sut = .init(session: MockURLSession(makeRequestFail: makeRequestFail))
         let expectedResult = "status: 410"
-        let url = BoxOfficeEndPoint.fetchDailyBoxOffice(targetDate: "20120101").createURL()
+        let request = BoxOfficeEndPoint.fetchDailyBoxOffice(targetDate: "20120101").createRequest()
         
         // when, then
-        sut.fetchData(url: url, type: BoxOffice.self) { result in
+        sut.fetchData(request: request, type: BoxOffice.self) { result in
             switch result {
             case .success:
                 XCTFail()

@@ -36,7 +36,7 @@ final class BoxOfficeViewController: UIViewController {
         let yesterdayText = generateYesterdayText(type: .nonHyphen)
         let endPoint: BoxOfficeEndPoint = .fetchDailyBoxOffice(targetDate: yesterdayText)
         
-        networkManager.fetchData(url: endPoint.createURL(), type: BoxOffice.self) { result in
+        networkManager.fetchData(request: endPoint.createRequest(), type: BoxOffice.self) { result in
             DispatchQueue.main.async {
                 switch result {
                 case .success(let data):
@@ -74,7 +74,7 @@ final class BoxOfficeViewController: UIViewController {
         let yesterdayText = generateYesterdayText(type: .nonHyphen)
         let endPoint: BoxOfficeEndPoint = .fetchDailyBoxOffice(targetDate: yesterdayText)
         
-        networkManager.fetchData(url: endPoint.createURL(), type: BoxOffice.self) { result in
+        networkManager.fetchData(request: endPoint.createRequest(), type: BoxOffice.self) { result in
             DispatchQueue.main.async {
                 switch result {
                 case .success(let data):

@@ -14,13 +14,13 @@ class MockURLSession: URLSessionProtocol {
         self.makeRequestFail = makeRequestFail
     }
     
-    func dataTask(with url: URL, completionHandler: @escaping (Data?, URLResponse?, Error?) -> Void) -> URLSessionDataTaskProtocol {
-        let successResponse = HTTPURLResponse(url: url,
+    func dataTask(with request: URLRequest, completionHandler: @escaping (Data?, URLResponse?, Error?) -> Void) -> URLSessionDataTaskProtocol {
+        let successResponse = HTTPURLResponse(url: request.url!,
                                               statusCode: 200,
                                               httpVersion: "2",
                                               headerFields: nil)
         
-        let failureResponse = HTTPURLResponse(url: url,
+        let failureResponse = HTTPURLResponse(url: request.url!,
                                               statusCode: 410,
                                               httpVersion: "2",
                                               headerFields: nil)
