@@ -10,11 +10,17 @@ import Foundation
 enum BoxOfficeEndPoint {
     case fetchDailyBoxOffice(targetDate: String)
     case fetchMovieInfo(movieCode: String)
+    case fetchMoviePoster(movieName: String)
 }
 
 extension BoxOfficeEndPoint {
     var baseURLString: String {
-        return "https://www.kobis.or.kr"
+        switch self {
+        case .fetchDailyBoxOffice, .fetchMovieInfo:
+            return "https://www.kobis.or.kr"
+        case .fetchMoviePoster:
+            return "https://openapi.naver.com"
+        }
     }
     
     var key: String {
@@ -27,6 +33,8 @@ extension BoxOfficeEndPoint {
             return "/kobisopenapi/webservice/rest/boxoffice/searchDailyBoxOfficeList.json"
         case .fetchMovieInfo:
             return "/kobisopenapi/webservice/rest/movie/searchMovieInfo.json"
+        case .fetchMoviePoster:
+            return "/v1/search/movie.json"
         }
     }
     
@@ -42,18 +50,37 @@ extension BoxOfficeEndPoint {
                 URLQueryItem(name: "key", value: key),
                 URLQueryItem(name: "movieCd", value: movieCode)
             ]
+        case .fetchMoviePoster(let movieName):
+            return [
+                URLQueryItem(name: "query", value: movieName)
+            ]
         }
     }
     
     func createRequest() -> URLRequest? {
-        var components = URLComponents(string: baseURLString)
-        components?.path = path
-        components?.queryItems = queries
-        
-        guard let url = components?.url else { return nil }
-        
-        var request = URLRequest(url: url)
-        
-        return request
+        switch self {
+        case .fetchDailyBoxOffice, .fetchMovieInfo:
+            var components = URLComponents(string: baseURLString)
+            components?.path = path
+            components?.queryItems = queries
+            
+            guard let url = components?.url else { return nil }
+            
+            let request = URLRequest(url: url)
+            
+            return request
+        case .fetchMoviePoster:
+            var components = URLComponents(string: baseURLString)
+            components?.path = path
+            components?.queryItems = queries
+            
+            guard let url = components?.url else { return nil }
+            
+            var request = URLRequest(url: url)
+            request.addValue("PfWbw43R6fwcp_IOpFp3", forHTTPHeaderField: "X-Naver-Client-Id")
+            request.addValue("zvCSt3mORa", forHTTPHeaderField: "X-Naver-Client-Secret")
+            
+            return request
+        }
     }
 }
