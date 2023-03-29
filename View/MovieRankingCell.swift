@@ -14,7 +14,7 @@ class MovieRankingCell: UICollectionViewListCell {
     var movieItem: InfoObject? {
         didSet {
             self.rankLabel.text = movieItem?.rank
-            self.rankStatusLabel.text = movieItem?.rankStatus
+            self.rankStatusLabel.attributedText = movieItem?.rankStatusAttributedText
             self.movieNameLabel.text = movieItem?.name
             self.audienceLabel.text = movieItem?.audienceInfoText
         }
@@ -28,6 +28,7 @@ class MovieRankingCell: UICollectionViewListCell {
     
     private let rankStatusLabel = {
         let label = UILabel()
+        label.tintColor = .blue
         return label
     }()
     
