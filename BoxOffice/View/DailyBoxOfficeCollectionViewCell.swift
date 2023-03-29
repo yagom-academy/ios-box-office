@@ -9,7 +9,7 @@ import UIKit
 
 final class DailyBoxOfficeCollectionViewCell: UICollectionViewCell {
     static let reuseIdentifier = "DailyBoxOfficeCollectionViewCell"
-    private var movie: DailyBoxOffice.BoxOfficeResult.Movie?
+    var movie: DailyBoxOffice.BoxOfficeResult.Movie?
     private var movieListLabel = UILabel()
     private var movieRankLabel = UILabel()
     private var audienceInformationLabel = UILabel()
