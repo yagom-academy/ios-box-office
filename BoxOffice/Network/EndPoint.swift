@@ -31,7 +31,7 @@ enum QueryItemsName: String {
 
 enum QueryItemsValue: String {
     case keyValue = "f5eef3421c602c6cb7ea224104795888"
-    case targetDateValue = "20230105`"
+    case targetDateValue = "20230105"
     case movieCodeValue = "20124079"
 }
 
