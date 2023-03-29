@@ -11,7 +11,8 @@ protocol API {
     var baseURL: String { get }
     var path: String { get }
     var queries: [String: String] { get set }
-    var sampleData: Data { get }
+    var headers: [String: String] { get set }
+    var sampleData: Data? { get }
     
     mutating func addQuery(name: String, value: String)
 }
