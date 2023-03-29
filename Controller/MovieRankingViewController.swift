@@ -16,12 +16,23 @@ final class MovieRankingViewController: UIViewController {
     private var snapshot = NSDiffableDataSourceSnapshot<APIType, InfoObject>()
     private lazy var boxofficeInfo = BoxofficeInfo<DailyBoxofficeObject>(apiType: apiType,
                                                    model: NetworkModel(session: .shared))
+    private let loadingView = UIActivityIndicatorView()
     
     override func viewDidLoad() {
         super.viewDidLoad()
         configureUI()
+        startLoadingView()
         makeDataSource()
         fetchBoxofficeData()
+    }
+    
+    private func startLoadingView() {
+        loadingView.center = view.center
+        loadingView.style = .large
+        view.addSubview(loadingView)
+        DispatchQueue.main.async { [self] in
+            loadingView.startAnimating()
+        }
     }
     
     private func fetchBoxofficeData() {
@@ -32,6 +43,7 @@ final class MovieRankingViewController: UIViewController {
                 self?.movieItems = data.boxOfficeResult.movies
                 DispatchQueue.main.async {
                     self?.applySnapshot()
+                    self?.loadingView.stopAnimating()
                 }
             case .failure(_):
                 return
