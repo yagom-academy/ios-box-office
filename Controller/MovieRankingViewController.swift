@@ -9,8 +9,11 @@ import UIKit
 
 final class MovieRankingViewController: UIViewController {
     
+    private let apiType = APIType.boxoffice("20230328")
+    private var movieItems: [InfoObject] = []
     private var collectionView: UICollectionView!
     private var dataSource: UICollectionViewDiffableDataSource<APIType, InfoObject>!
+    private var snapshot = NSDiffableDataSourceSnapshot<APIType, InfoObject>()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -46,8 +49,15 @@ final class MovieRankingViewController: UIViewController {
     private func makeDataSource() {
         dataSource = UICollectionViewDiffableDataSource<APIType, InfoObject>(collectionView: collectionView, cellProvider: { collectionView, indexPath, itemIdentifier in
             guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: MovieRankingCell.identifier, for: indexPath) as? MovieRankingCell else { return UICollectionViewListCell() }
+            // Cell UI변화시키는 코드 작성
             return cell
         })
     }
     
+    private func applySnapshot() {
+        snapshot.appendSections([apiType])
+        snapshot.appendItems(movieItems)
+        
+        dataSource.apply(snapshot, animatingDifferences: true)
+    }
 }
