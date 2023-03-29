@@ -28,16 +28,21 @@ final class CategoryStackView: UIStackView {
         return label
     }()
     
-    func setArrangedSubviews() {
+    override init(frame: CGRect) {
+        super.init(frame: frame)
+        setArrangedSubviews()
+    }
+    
+    required init(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
+    private func setArrangedSubviews() {
         self.addArrangedSubview(categoryLabel)
         self.addArrangedSubview(detailLabel)
         
         NSLayoutConstraint.activate([
             categoryLabel.widthAnchor.constraint(equalTo: self.widthAnchor, multiplier: 0.2)
         ])
-    }
-    
-    func setAttribute() {
-        self.alignment = .center
     }
 }

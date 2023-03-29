@@ -39,6 +39,7 @@ final class MovieDetailsViewController: UIViewController {
         super.viewDidLoad()
         view.backgroundColor = .white
         loadMovieDetails()
+        fillCategoryLabels()
         configureScrollView()
     }
     
@@ -55,8 +56,6 @@ final class MovieDetailsViewController: UIViewController {
                 self.movieDetails = movieDetails
                 DispatchQueue.main.async {
                     self.filldetailLabels(with: movieDetails)
-                    self.fillCategoryLabels()
-                    self.scrollView.reloadInputViews()
                 }
             case .failure(let error):
                 print(error.localizedDescription)
@@ -66,21 +65,24 @@ final class MovieDetailsViewController: UIViewController {
     
     func filldetailLabels(with movieDetails: MovieDetails) {
         let movieInfo = movieDetails.movieInfoResult.movieInfo
-
+        
         directorView.detailLabel.text = movieInfo.directors
-                                         .map { $0.personName }
-                                         .reduce("") { $0 + ", " + $1 }
+            .map { $0.personName }
+            .reduce("") { $0 + ", " + $1 }
+            .trimmingCharacters(in: [",", " "])
         productionYearView.detailLabel.text = movieInfo.productionYear
         openDateView.detailLabel.text = movieInfo.openDate
         runningTimeView.detailLabel.text = movieInfo.runningTime
         watchGradeView.detailLabel.text = movieInfo.audits.first?.watchGradeName
         nationView.detailLabel.text = movieInfo.nations.first?.nationName
         genreView.detailLabel.text = movieInfo.genres
-                                     .map { $0.genreName }
-                                     .reduce("") { $0 + ", " + $1 }
+            .map { $0.genreName }
+            .reduce("") { $0 + ", " + $1 }
+            .trimmingCharacters(in: [",", " "])
         actorView.detailLabel.text = movieInfo.actors
-                                     .map { $0.personName }
-                                     .reduce("") { $0 + ", " + $1 }
+            .map { $0.personName }
+            .reduce("") { $0 + ", " + $1 }
+            .trimmingCharacters(in: [",", " "])
     }
     
     func fillCategoryLabels() {
@@ -95,19 +97,34 @@ final class MovieDetailsViewController: UIViewController {
     }
     
     func configureScrollView() {
-        let contentView = {
+        let movieInformationView = {
             let stackView = UIStackView()
             stackView.axis = .vertical
-            stackView.alignment = .center
+            stackView.alignment = .fill
+            stackView.spacing = 5
             stackView.translatesAutoresizingMaskIntoConstraints = false
             
             let subviews = [
-                /*posterView,*/ directorView, productionYearView, openDateView,
+                directorView, productionYearView, openDateView,
                 runningTimeView, watchGradeView, nationView, genreView, actorView
             ]
             subviews.forEach {
                 stackView.addArrangedSubview($0)
             }
+            
+            return stackView
+        }()
+        
+        let contentView = {
+            let stackView = UIStackView()
+            
+            [posterView, movieInformationView].forEach {
+                stackView.addArrangedSubview($0)
+            }
+            
+            stackView.axis = .vertical
+            stackView.alignment = .center
+            stackView.translatesAutoresizingMaskIntoConstraints = false
             
             return stackView
         }()
@@ -133,7 +150,10 @@ final class MovieDetailsViewController: UIViewController {
             contentView.widthAnchor.constraint(equalTo: scrollView.frameLayoutGuide.widthAnchor)
         ])
         
-        let heightConstraint = contentView.heightAnchor.constraint(equalTo: scrollView.frameLayoutGuide.heightAnchor)
-        heightConstraint.priority = .defaultLow
+        posterView.translatesAutoresizingMaskIntoConstraints = false
+
+        NSLayoutConstraint.activate([
+            posterView.widthAnchor.constraint(equalTo: contentView.widthAnchor, multiplier: 0.95)
+        ])
     }
 }
