@@ -9,16 +9,19 @@ import UIKit
 
 final class DailyBoxOfficeCollectionViewCell: UICollectionViewCell {
     static let reuseIdentifier = "DailyBoxOfficeCollectionViewCell"
-    private var movie: DailyBoxOffice.BoxOfficeResult.Movie?
-    private var movieListLabel = UILabel()
-    private var movieRankLabel = UILabel()
-    private var audienceInformationLabel = UILabel()
-    private var audienceVarianceLabel = UILabel()
-    private var movieRankStackView = UIStackView()
-    private var movieListStackView = UIStackView()
-    private var mainStackView = UIStackView()
-    private var separatorView = UIView()
+    
     private var accessoryImageView = UIImageView()
+    private var separatorView = UIView()
+    
+    private var mainStackView = UIStackView()
+    
+    private var movieRankStackView = UIStackView()
+    private var movieRankLabel = UILabel()
+    private var audienceVarianceLabel = UILabel()
+    
+    private var movieListStackView = UIStackView()
+    private var movieListLabel = UILabel()
+    private var audienceInformationLabel = UILabel()
     
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -30,6 +33,8 @@ final class DailyBoxOfficeCollectionViewCell: UICollectionViewCell {
     }
     
     override func prepareForReuse() {
+        super.prepareForReuse()
+        
         audienceVarianceLabel.textColor = .black
     }
     
@@ -54,6 +59,7 @@ final class DailyBoxOfficeCollectionViewCell: UICollectionViewCell {
     
     private func configureSeparatorView() {
         separatorView = UIView(frame: CGRect(x: 0, y: 0, width: contentView.frame.size.width, height: 1))
+        separatorView.autoresizingMask = .flexibleWidth
         separatorView.backgroundColor = .placeholderText
         
         addSubview(separatorView)
@@ -112,15 +118,13 @@ final class DailyBoxOfficeCollectionViewCell: UICollectionViewCell {
         ])
     }
     
-    func configure(with movieModel: DailyBoxOffice.BoxOfficeResult.Movie) {
-        movie = movieModel
-        setupMovieListLabels()
-        setupMovieRankLabels()
+    func configure(with movie: DailyBoxOffice.BoxOfficeResult.Movie) {
+        setupMovieListLabels(with: movie)
+        setupMovieRankLabels(with: movie)
     }
     
-    private func setupMovieListLabels() {
-        guard let movie = self.movie,
-              let todayAudience = movie.audienceCount.convertToFormattedNumber(),
+    private func setupMovieListLabels(with movie: DailyBoxOffice.BoxOfficeResult.Movie) {
+        guard let todayAudience = movie.audienceCount.convertToFormattedNumber(),
               let totalAudience = movie.audienceAccumulation.convertToFormattedNumber() else { return }
         
         movieListLabel.text = movie.name
@@ -131,9 +135,7 @@ final class DailyBoxOfficeCollectionViewCell: UICollectionViewCell {
         audienceInformationLabel.font = UIFont.preferredFont(forTextStyle: .body)
     }
     
-    private func setupMovieRankLabels() {
-        guard let movie = self.movie else { return }
-        
+    private func setupMovieRankLabels(with movie: DailyBoxOffice.BoxOfficeResult.Movie) {
         movieRankLabel.text = movie.order
         movieRankLabel.font = UIFont.preferredFont(forTextStyle: .largeTitle)
         movieRankLabel.textAlignment = .center

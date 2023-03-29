@@ -36,6 +36,7 @@ final class DailyBoxOfficeViewController: UIViewController {
     }
     
     private func configureCollectionView() {
+        collectionView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
         collectionView.register(DailyBoxOfficeCollectionViewCell.self, forCellWithReuseIdentifier: DailyBoxOfficeCollectionViewCell.reuseIdentifier)
         collectionView.refreshControl = refreshControl
     }
@@ -66,7 +67,7 @@ final class DailyBoxOfficeViewController: UIViewController {
                 
                 DispatchQueue.main.async {
                     self?.setupDataSource()
-                    self?.setupSnapshot()
+                    self?.applySnapshotToDataSource()
                     self?.refreshControl.endRefreshing()
                 }
             }
@@ -92,7 +93,7 @@ extension DailyBoxOfficeViewController {
         }
     }
     
-    private func setupSnapshot() {
+    private func applySnapshotToDataSource() {
         typealias Snapshot = NSDiffableDataSourceSnapshot<Section, DailyBoxOffice.BoxOfficeResult.Movie>
         var snapshot = Snapshot()
         snapshot.appendSections([.main])
@@ -106,12 +107,12 @@ extension DailyBoxOfficeViewController {
 extension DailyBoxOfficeViewController {
     private func createMovieListLayout() -> UICollectionViewLayout {
         let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0),
-                                              heightDimension: .fractionalHeight(0.1))
+                                              heightDimension: .estimated(44))
         let item = NSCollectionLayoutItem(layoutSize: itemSize)
         item.contentInsets = NSDirectionalEdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 0)
         
         let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0),
-                                               heightDimension: .fractionalHeight(1.0))
+                                               heightDimension: .estimated(44))
         let group = NSCollectionLayoutGroup.vertical(layoutSize: groupSize, subitems: [item])
         
         let section = NSCollectionLayoutSection(group: group)
