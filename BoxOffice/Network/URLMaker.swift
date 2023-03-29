@@ -26,7 +26,7 @@ enum URLMaker {
     private var queryItem: URLQueryItem {
         switch self {
         case .dailyBoxOffice:
-            return URLQueryItem(name: "targetDt", value: "20120101")
+            return URLQueryItem(name: "targetDt", value: "20230327")
         case .movieInfo:
             return URLQueryItem(name: "movieCd", value: "20124079")
         }

@@ -87,12 +87,59 @@ extension BoxOfficeListCell {
         
         content.text = state.dailyBoxOfficeItem?.movieName
         content.textProperties.numberOfLines = 1
-        content.secondaryText = "오늘 \(state.dailyBoxOfficeItem?.audienceCount ?? "0") / 총 \( state.dailyBoxOfficeItem?.audienceAccumulation ?? "0")"
+        content.secondaryText = "오늘 \(state.dailyBoxOfficeItem?.audienceCount.applyNumberFormatter() ?? "0") / 총 \( state.dailyBoxOfficeItem?.audienceAccumulation.applyNumberFormatter() ?? "0")"
         content.secondaryTextProperties.font = .preferredFont(forTextStyle: .callout)
         
         rankStackView.rankLabel.text = state.dailyBoxOfficeItem?.rank
-        rankStackView.rankInfoLabel.text = state.dailyBoxOfficeItem?.rankOldAndNew.rawValue
+        configureRankInfoText(state: state)
         
         boxOfficeListContentView.configuration = content
+    }
+    
+    func configureRankInfoText(state: UICellConfigurationState) {
+        let oldAndNew = state.dailyBoxOfficeItem?.rankOldAndNew
+        if oldAndNew == .new {
+            rankStackView.rankInfoLabel.textColor = .systemRed
+            rankStackView.rankInfoLabel.text = "신작"
+        } else {
+            guard let rankingIntensity = state.dailyBoxOfficeItem?.rankingIntensity,
+                    let variance = Int(rankingIntensity) else { return }
+            
+            switch variance {
+            case ..<0:
+                let text = "▼\(variance * -1)"
+                rankStackView.rankInfoLabel.textColor = .systemBlue
+                rankStackView.rankInfoLabel.attributedText = text.attributeText()
+            case 1...:
+                let text = "▲\(variance)"
+                rankStackView.rankInfoLabel.textColor = .systemRed
+                rankStackView.rankInfoLabel.attributedText = text.attributeText()
+            default:
+                rankStackView.rankInfoLabel.text = "-"
+            }
+        }
+    }
+}
+
+extension String {
+    static let numberFormatter: NumberFormatter = {
+        let numberFormatter = NumberFormatter()
+        numberFormatter.numberStyle = .decimal
+        
+        return numberFormatter
+    }()
+    
+    func applyNumberFormatter() -> String {
+        guard let value = String.numberFormatter.string(for: Int(self)) else { return "0" }
+        
+        return value
+    }
+    
+    func attributeText() -> NSMutableAttributedString {
+        let attributedString = NSMutableAttributedString(string: self)
+        let range = (self as NSString).range(of: String(self.dropFirst(1)))
+        attributedString.addAttribute(.foregroundColor, value: UIColor.black, range: range)
+        
+        return attributedString
     }
 }
