@@ -38,15 +38,19 @@ struct MovieInfo: Decodable, CustomStringConvertible {
     }
     
     var description: String {
+        let genreList = genres.map { $0.genreName }.joined(separator: ", ")
+        let directorList = directors.map { $0.peopleName }.joined(separator: ", ")
+        let actorList = actors.map { $0.peopleName }.joined(separator: ", ")
+        
         return """
-        영화명: \(movieName) (\(movieNameEnglish))
-        영화코드: \(movieCode)
-        개봉연도: \(openDate)
-        상영시간: \(showTime)
-        장르: \(genres.map { $0.genreName }.joined(separator: ", "))
-        감독: \(directors.map { $0.peopleName }.joined(separator: ", "))
-        배우: \(actors.map { $0.peopleName }.joined(separator: ", "))
-        """
+            영화명: \(movieName) (\(movieNameEnglish))
+            영화코드: \(movieCode)
+            개봉연도: \(openDate)
+            상영시간: \(showTime)
+            장르: \(genreList)
+            감독: \(directorList)
+            배우: \(actorList)
+            """
     }
 }
 

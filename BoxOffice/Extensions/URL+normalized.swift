@@ -8,6 +8,7 @@
 import Foundation
 
 extension URL {
+    
     var normalizedURL: URL? {
         guard var components = URLComponents(url: self, resolvingAgainstBaseURL: false) else {
             return nil
@@ -19,4 +20,5 @@ extension URL {
         
         return components.url
     }
+    
 }
