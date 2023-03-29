@@ -13,7 +13,7 @@ final class BoxOfficeTests: XCTestCase {
     
     override func setUpWithError() throws {
         try super.setUpWithError()
-        sut = try AssetDecoder().decode(name: "box_office_sample", type: BoxOffice.self)
+        sut = NetworkDecoder().decode(data: NSDataAsset(name: "box_office_sample")!.data, type: BoxOffice.self)
     }
 
     override func tearDownWithError() throws {
@@ -21,20 +21,36 @@ final class BoxOfficeTests: XCTestCase {
         sut = nil
     }
     
-    func test_잘못된JSON파일이름으로_디코딩했을때_decodeFailed에러를던진다() {
+    func test_잘못된data로_디코딩했을때_decodeFailed에러를던진다() {
         // given
-        let invalidJsonFileName = "invalid_name"
-        let errorMessage = DecoderError.decodeFailed
-        var error: DecoderError?
+        let invalidData = Data(count: 0)
+        let expectation = NetworkingError.decodeFailed
+        var result: NetworkingError?
         
         // when
-        XCTAssertThrowsError(try AssetDecoder().decode(name: invalidJsonFileName, type: BoxOffice.self)) {
+        XCTAssertThrowsError(NetworkDecoder().decode(data: invalidData, type: BoxOffice.self)) {
             errorHandler in
-            error = errorHandler as? DecoderError
+            result = errorHandler as? NetworkingError
         }
         
         // then
-        XCTAssertEqual(error, errorMessage)
+        XCTAssertEqual(result?.description, expectation.description)
+    }
+    
+    func test_잘못정의한Model로_디코딩했을때_decodeFailed에러를던진다() {
+        // given
+        let expectation = NetworkingError.decodeFailed
+        var result: NetworkingError?
+        
+        // when
+        XCTAssertThrowsError(NetworkDecoder().decode(data: NSDataAsset(name: "box_office_sample")!.data,
+                                                          type: DummyBoxOffice.self)) {
+            errorHandler in
+            result = errorHandler as? NetworkingError
+        }
+        
+        // then
+        XCTAssertEqual(result?.description, expectation.description)
     }
     
     func test_boxOfficeType값이_일별_박스오피스이다() {
