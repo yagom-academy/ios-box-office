@@ -5,7 +5,7 @@
 //  Created by 레옹아범 ,Andrew on 2023/03/20.
 //
 
-struct InfoObject: Decodable {
+struct InfoObject: Decodable, Hashable {
     let rnum, rank, changedRank, rankStatus: String
     let code, name: String
     let openDate: String

@@ -6,7 +6,7 @@
 //
 import Foundation
 
-enum APIType {
+enum APIType: Hashable {
     case movie(String)
     case boxoffice(String)
     
