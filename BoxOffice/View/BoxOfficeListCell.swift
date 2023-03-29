@@ -7,7 +7,7 @@
 
 import UIKit
 
-private extension UIConfigurationStateCustomKey {
+extension UIConfigurationStateCustomKey {
     static let boxOffice = UIConfigurationStateCustomKey("boxOffice")
 }
 
@@ -73,7 +73,7 @@ extension BoxOfficeListCell {
             boxOfficeListContentView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
             
             constraints.leading,
-            constraints.trailing
+            constraints.trailing,
         ])
         
         boxOfficeTypeConstraints = constraints
@@ -90,13 +90,14 @@ extension BoxOfficeListCell {
         content.secondaryTextProperties.font = .preferredFont(forTextStyle: .callout)
         
         rankStackView.rankLabel.text = state.dailyBoxOfficeItem?.rank
-        configureRankInfoText(state: state)
+        configureRankInfoLabel(state: state)
         
         boxOfficeListContentView.configuration = content
     }
     
-    func configureRankInfoText(state: UICellConfigurationState) {
+    func configureRankInfoLabel(state: UICellConfigurationState) {
         let oldAndNew = state.dailyBoxOfficeItem?.rankOldAndNew
+        
         if oldAndNew == .new {
             rankStackView.rankInfoLabel.textColor = .systemRed
             rankStackView.rankInfoLabel.text = "신작"
@@ -117,28 +118,5 @@ extension BoxOfficeListCell {
                 rankStackView.rankInfoLabel.text = "-"
             }
         }
-    }
-}
-
-extension String {
-    static let numberFormatter: NumberFormatter = {
-        let numberFormatter = NumberFormatter()
-        numberFormatter.numberStyle = .decimal
-        
-        return numberFormatter
-    }()
-    
-    func applyNumberFormatter() -> String {
-        guard let value = String.numberFormatter.string(for: Int(self)) else { return "0" }
-        
-        return value
-    }
-    
-    func attributeText() -> NSMutableAttributedString {
-        let attributedString = NSMutableAttributedString(string: self)
-        let range = (self as NSString).range(of: String(self.dropFirst(1)))
-        attributedString.addAttribute(.foregroundColor, value: UIColor.black, range: range)
-        
-        return attributedString
     }
 }

@@ -11,33 +11,34 @@ enum Section {
     case main
 }
 
-class BoxOfficeViewController: UIViewController {
-    var boxOffice: BoxOffice?
-    var collectionView: UICollectionView!
-    var dataSource: UICollectionViewDiffableDataSource<Section, DailyBoxOfficeItem>!
-    let networkManager = NetworkManager()
+final class BoxOfficeViewController: UIViewController {
+    private var boxOffice: BoxOffice?
+    private var collectionView: UICollectionView!
+    private var dataSource: UICollectionViewDiffableDataSource<Section, DailyBoxOfficeItem>!
+    private let networkManager = NetworkManager()
     
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .systemBackground
-        
         navigationItem.title = Date().showYesterdayDate(format: .existHyphen)
 
         fetchBoxOffice()
     }
     
     private func fetchBoxOffice() {
-        var api = URLMaker(service: .dailyBoxOffice)
+        var api = KobisURLRequest(service: .dailyBoxOffice)
         let queryName = "targetDt"
         let queryValue = Date().showYesterdayDate(format: .notHyphen)
         
         api.addQuery(name: queryName, value: queryValue)
+        
         let urlRequest = api.request()
         
         networkManager.fetchData(urlRequest: urlRequest, type: BoxOffice.self) { result in
             switch result {
             case .success(let data):
                 self.boxOffice = data
+                
                 DispatchQueue.main.async {
                     self.configureCollectionView()
                     self.configureDataSource()
@@ -49,50 +50,61 @@ class BoxOfficeViewController: UIViewController {
     }
 }
 
+// MARK: - BoxOfficeListCell 등록 및 DataSource 설정
+
 extension BoxOfficeViewController {
-    func createListLayout() -> UICollectionViewCompositionalLayout {
+    private func createListLayout() -> UICollectionViewCompositionalLayout {
         let config = UICollectionLayoutListConfiguration(appearance: .plain)
+        
         return UICollectionViewCompositionalLayout.list(using: config)
     }
     
-    func configureCollectionView() {
-        collectionView = UICollectionView(frame: view.bounds, collectionViewLayout: createListLayout())
+    private func configureCollectionView() {
+        collectionView = UICollectionView(frame: view.bounds,
+                                          collectionViewLayout: createListLayout())
         view.addSubview(collectionView)
         configureRefreshControl()
     }
     
-    func configureDataSource() {
+    private func configureDataSource() {
         guard let items = boxOffice?.result.dailyBoxOfficeList else { return }
         
-        let cellRegistration = UICollectionView.CellRegistration<BoxOfficeListCell, DailyBoxOfficeItem> { (cell, indexPath, movie) in
-            cell.update(with: movie)
+        let cellRegistration = UICollectionView.CellRegistration<BoxOfficeListCell, DailyBoxOfficeItem> {
+            (cell, indexPath, item) in
+            cell.update(with: item)
             cell.accessories = [.disclosureIndicator()]
         }
         
-        dataSource = UICollectionViewDiffableDataSource<Section, DailyBoxOfficeItem>(collectionView: collectionView) { (collectionView, indexPath, itemIdentifier) -> UICollectionViewCell? in
-            return collectionView.dequeueConfiguredReusableCell(using: cellRegistration, for: indexPath, item: itemIdentifier)
+        dataSource = UICollectionViewDiffableDataSource<Section, DailyBoxOfficeItem>(collectionView: collectionView) {
+            (collectionView, indexPath, itemIdentifier) -> UICollectionViewCell? in
+            return collectionView.dequeueConfiguredReusableCell(using: cellRegistration,
+                                                                for: indexPath,
+                                                                item: itemIdentifier)
         }
         
         var snapshot = NSDiffableDataSourceSnapshot<Section, DailyBoxOfficeItem>()
+        
         snapshot.appendSections([.main])
         snapshot.appendItems(items)
         dataSource.apply(snapshot)
     }
 }
 
+// MARK: - Refresh
+
 extension BoxOfficeViewController {
-    func configureRefreshControl() {
+    private func configureRefreshControl() {
         let refresh = UIRefreshControl()
+        
         refresh.addTarget(self, action: #selector(handleRefreshControl), for: .valueChanged)
         collectionView.refreshControl = refresh
     }
     
-    @objc func handleRefreshControl() {
+    @objc private func handleRefreshControl() {
         fetchBoxOffice()
         
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.7) { [weak self] in
             self?.navigationItem.title = Date().showYesterdayDate(format: .existHyphen)
-            self?.collectionView.reloadData()
             self?.collectionView.refreshControl?.endRefreshing()
         }
     }

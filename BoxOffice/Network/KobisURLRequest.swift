@@ -1,5 +1,5 @@
 //
-//  URLMaker.swift
+//  KobisURLRequest.swift
 //  BoxOffice
 //
 //  Created by Christy, Hyemory on 2023/03/22.
@@ -7,14 +7,14 @@
 
 import Foundation
 
-struct URLMaker {
+struct KobisURLRequest {
     enum Service {
         case dailyBoxOffice
         case movieInfo
     }
     
-    let baseURL = "https://kobis.or.kr/kobisopenapi/webservice/rest"
-    let key = URLQueryItem(name: "key", value: "f5eef3421c602c6cb7ea224104795888")
+    private let baseURL = "https://kobis.or.kr/kobisopenapi/webservice/rest"
+    private let key = URLQueryItem(name: "key", value: "f5eef3421c602c6cb7ea224104795888")
     let service: Service
     var queries: [String: String] = [:]
     
@@ -33,15 +33,16 @@ struct URLMaker {
     
     func request() -> URLRequest? {
         var urlComponents = URLComponents(string: baseURL + pagePath)
+        
         urlComponents?.queryItems = [key]
+        
         for (name, value) in queries {
             let queryItem = URLQueryItem(name: name, value: value)
+            
             urlComponents?.queryItems?.append(queryItem)
         }
         
-        guard let url = urlComponents?.url else {
-            return nil
-        }
+        guard let url = urlComponents?.url else { return nil }
         
         return URLRequest(url: url)
     }

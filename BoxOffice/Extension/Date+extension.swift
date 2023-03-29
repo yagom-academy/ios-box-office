@@ -20,7 +20,7 @@ extension Date {
     }()
     
     func showYesterdayDate(format: HyphenStatus) -> String {
-        let yesterday = Date().addingTimeInterval((3600 * -24) - 68160)
+        let yesterday = Date().addingTimeInterval(3600 * -24)
         
         switch format {
         case .existHyphen:
