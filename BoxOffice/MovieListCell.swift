@@ -75,14 +75,17 @@ final class MovieListCell: UICollectionViewListCell {
         let attributedString = NSMutableAttributedString()
         
         if rankOldandNew == "OLD" {
-            if rankInten == 0 {
+            switch rankInten {
+            case 0 :
                 attributedString.add(string: "-")
-            } else if rankInten > 0 {
+            case let rankInten where rankInten > 0 :
                 attributedString.add(string: "▲", color: .systemRed)
                 attributedString.add(string: "\(rankInten)")
-            } else {
+            case let rankInten where rankInten < 0 :
                 attributedString.add(string: "▼", color: .systemBlue)
                 attributedString.add(string: "\(-rankInten)")
+            default:
+                break
             }
         } else {
             attributedString.add(string: "신작", color: .systemRed)
