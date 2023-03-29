@@ -29,6 +29,7 @@ final class DailyBoxOfficeViewController: UIViewController {
         refreshData()
         refreshControl.addTarget(self, action: #selector(refreshData), for: .valueChanged)
         collectionView.refreshControl = refreshControl
+        collectionView.delegate = self
     }
     
     @objc private func refreshData() {
@@ -118,5 +119,14 @@ extension DailyBoxOfficeViewController {
         let layout = UICollectionViewCompositionalLayout(section: section)
         
         return layout
+    }
+}
+
+extension DailyBoxOfficeViewController: UICollectionViewDelegate {
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        guard let cell = collectionView.cellForItem(at: indexPath) as? DailyBoxOfficeCollectionViewCell else { return }
+        
+        let nextViewcontroller = MovieInformationViewController()
+        navigationController?.pushViewController(nextViewcontroller, animated: true)
     }
 }
