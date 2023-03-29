@@ -12,23 +12,68 @@ final class BoxOfficeViewController: UIViewController {
     private var dailyBoxOffice: DailyBoxOffice?
     
     @IBOutlet weak var boxOfficeListCollectionView: UICollectionView!
-
     lazy var activityIndicator = UIActivityIndicatorView()
     
-    private var boxOfficeAPI = BoxOfficeAPI()
+    private var provider = Provider()
     
     override func viewDidLoad() {
         super.viewDidLoad()
         setTitle()
         fetchDailyBoxOfficeAPI()
         setActivityIndicator()
-        boxOfficeListCollectionView.dataSource = self
+        setBoxOfficeListCollectionView()
         configureRefreshControl()
-        self.boxOfficeListCollectionView.collectionViewLayout = self.setUpCompositionalLayout()
+        configureUI()
     }
     
     private func setTitle() {
         self.title = QueryItemsValue.targetDateValue.rawValue
+    }
+    
+    private func fetchDailyBoxOfficeAPI() {
+        let endpoint = EndPoint(baseURL: BaseURL.kobis,
+                                path: Path.dailyBoxOffice,
+                                method: HTTPMethod.get,
+                                queryItems: [URLQueryItem(name: QueryItemsName.key.rawValue,
+                                                          value: QueryItemsValue.keyValue.rawValue),
+                                             URLQueryItem(name: QueryItemsName.targetDate.rawValue,
+                                                          value: QueryItemsValue.targetDateValue.rawValue)])
+        
+        provider.loadBoxOfficeAPI(endpoint: endpoint,
+                                  parser: Parser<DailyBoxOffice>()) { parsedData in
+            self.dailyBoxOffice = parsedData
+            
+            DispatchQueue.main.async {
+                self.boxOfficeListCollectionView.reloadData()
+                self.activityIndicator.stopAnimating()
+            }
+        }
+    }
+    
+    private func setActivityIndicator() {
+        activityIndicator = UIActivityIndicatorView()
+        activityIndicator.style = UIActivityIndicatorView.Style.large
+        activityIndicator.startAnimating()
+        boxOfficeListCollectionView.backgroundView = activityIndicator
+    }
+    
+    private func setBoxOfficeListCollectionView() {
+        boxOfficeListCollectionView.dataSource = self
+        self.boxOfficeListCollectionView.collectionViewLayout = self.setUpCompositionalLayout()
+    }
+    
+    private func configureRefreshControl() {
+        boxOfficeListCollectionView.refreshControl = UIRefreshControl()
+        boxOfficeListCollectionView.refreshControl?.addTarget(self, action:
+                                                                #selector(handleRefreshControl),
+                                                              for: .valueChanged)
+    }
+    
+    @objc func handleRefreshControl() {
+        DispatchQueue.main.async {
+            self.boxOfficeListCollectionView.reloadData()
+            self.boxOfficeListCollectionView.refreshControl?.endRefreshing()
+        }
     }
     
     private func configureUI() {
@@ -43,43 +88,11 @@ final class BoxOfficeViewController: UIViewController {
             boxOfficeListCollectionView.bottomAnchor.constraint(equalTo: safeArea.bottomAnchor)
         ])
     }
-    
-    func setActivityIndicator() {
-        activityIndicator = UIActivityIndicatorView()
-        activityIndicator.style = UIActivityIndicatorView.Style.large
-        activityIndicator.startAnimating()
-        boxOfficeListCollectionView.backgroundView = activityIndicator
-    }
-    
-    func configureRefreshControl() {
-        boxOfficeListCollectionView.refreshControl = UIRefreshControl()
-        boxOfficeListCollectionView.refreshControl?.addTarget(self, action:
-                                          #selector(handleRefreshControl),
-                                          for: .valueChanged)
-    }
-    
-    @objc func handleRefreshControl() {
-        DispatchQueue.main.async {
-            self.boxOfficeListCollectionView.reloadData()
-            self.boxOfficeListCollectionView.refreshControl?.endRefreshing()
-        }
-    }
-    
-    func fetchDailyBoxOfficeAPI() {
-        boxOfficeAPI.loadBoxOfficeAPI(endpoint: EndPoint(baseURL: "http://kobis.or.kr",
-                        path: Path.dailyBoxOffice,
-                        method: HTTPMethod.get,
-                                                        queryItems: [URLQueryItem(name: QueryItemsName.key.rawValue,
-                                                                                   value: QueryItemsValue.keyValue.rawValue),
-                                                                      URLQueryItem(name: QueryItemsName.targetDate.rawValue,
-                                                                                   value: QueryItemsValue.targetDateValue.rawValue)]), parser: Parser<DailyBoxOffice>()) { parsedData in
-            self.dailyBoxOffice = parsedData
-            
-            DispatchQueue.main.async {
-                self.boxOfficeListCollectionView.reloadData()
-                self.activityIndicator.stopAnimating()
-            }
-        }
+}
+
+extension BoxOfficeViewController: UICollectionViewDataSource {
+    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        return dailyBoxOffice?.boxOfficeResult.dailyBoxOfficeList.count ?? 0
     }
     
     func convertRankGapPresentation(indexPath: IndexPath) -> NSMutableAttributedString {
@@ -102,12 +115,6 @@ final class BoxOfficeViewController: UIViewController {
             return NSMutableAttributedString().makeBlackText(string: "")
         }
     }
-}
-
-extension BoxOfficeViewController: UICollectionViewDataSource {
-    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return dailyBoxOffice?.boxOfficeResult.dailyBoxOfficeList.count ?? 0
-    }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cellId = String(describing: BoxOfficeListCell.self)
@@ -124,14 +131,15 @@ extension BoxOfficeViewController: UICollectionViewDataSource {
         cell.rankGapLabel.attributedText = convertRankGapPresentation(indexPath: indexPath)
         cell.movieTitleLabel.text = dailyBoxOffice?.boxOfficeResult.dailyBoxOfficeList[indexPath.row].movieName
         cell.audienceCountLabel.text = "오늘 " + audienceCount + " / 총 " + audienceAccumulation
+        
         return cell
     }
 }
 
 extension BoxOfficeViewController {
-   
+    
     private func setUpCompositionalLayout() -> UICollectionViewLayout {
-   
+        
         let layout = UICollectionViewCompositionalLayout {
             (sectionIndex: Int, layoutEnvironment: NSCollectionLayoutEnvironment) -> NSCollectionLayoutSection? in
             
@@ -144,7 +152,7 @@ extension BoxOfficeViewController {
             let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0), heightDimension: groupHeight)
             let group = NSCollectionLayoutGroup.horizontal(layoutSize: groupSize, subitem: item, count: 1)
             let section = NSCollectionLayoutSection(group: group)
-
+            
             return section
         }
         return layout

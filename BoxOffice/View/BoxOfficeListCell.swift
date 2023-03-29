@@ -14,6 +14,25 @@ class BoxOfficeListCell: UICollectionViewListCell  {
     @IBOutlet weak var movieTitleLabel: UILabel!
     @IBOutlet weak var audienceCountLabel: UILabel!
     
+    private let rankStackView: UIStackView = {
+        let stackView = UIStackView()
+        stackView.translatesAutoresizingMaskIntoConstraints = false
+        stackView.axis = .vertical
+        stackView.alignment = .center
+        stackView.distribution = .fill
+        
+        return stackView
+    }()
+ 
+    private let titleAndAudienceStackView: UIStackView = {
+        let stackView = UIStackView()
+        stackView.translatesAutoresizingMaskIntoConstraints = false
+        stackView.axis = .vertical
+        stackView.distribution = .fillEqually
+        
+        return stackView
+    }()
+    
     func setUpBoxOffcieCellUI(){
         configureUI()
         setUpLabelStyle()
@@ -25,23 +44,6 @@ class BoxOfficeListCell: UICollectionViewListCell  {
         movieTitleLabel.translatesAutoresizingMaskIntoConstraints = false
         audienceCountLabel.translatesAutoresizingMaskIntoConstraints = false
         
-        let rankStackView: UIStackView = {
-            let stackView = UIStackView()
-            stackView.translatesAutoresizingMaskIntoConstraints = false
-            stackView.axis = .vertical
-            stackView.alignment = .center
-            stackView.distribution = .fill
-            return stackView
-        }()
-     
-        let titleAndAudienceStackView: UIStackView = {
-            let stackView = UIStackView()
-            stackView.translatesAutoresizingMaskIntoConstraints = false
-            stackView.axis = .vertical
-            stackView.distribution = .fillEqually
-            return stackView
-        }()
-       
         self.addSubview(rankStackView)
         self.addSubview(titleAndAudienceStackView)
                 
