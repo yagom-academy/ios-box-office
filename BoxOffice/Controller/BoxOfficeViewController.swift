@@ -27,9 +27,14 @@ class BoxOfficeViewController: UIViewController {
     }
     
     private func fetchBoxOffice() {
-        let targetDate = Date().showYesterdayDate(format: .notHyphen)
+        var api = URLMaker(service: .dailyBoxOffice)
+        let queryName = "targetDt"
+        let queryValue = Date().showYesterdayDate(format: .notHyphen)
         
-        networkManager.fetchData(url: URLMaker.dailyBoxOffice.url, type: BoxOffice.self) { result in
+        api.addQuery(name: queryName, value: queryValue)
+        let urlRequest = api.request()
+        
+        networkManager.fetchData(urlRequest: urlRequest, type: BoxOffice.self) { result in
             switch result {
             case .success(let data):
                 self.boxOffice = data

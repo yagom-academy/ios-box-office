@@ -7,15 +7,19 @@
 
 import Foundation
 
-enum URLMaker {
-    static var baseURL = "https://kobis.or.kr/kobisopenapi/webservice/rest"
-    static let key = URLQueryItem(name: "key", value: "f5eef3421c602c6cb7ea224104795888")
+struct URLMaker {
+    enum Service {
+        case dailyBoxOffice
+        case movieInfo
+    }
     
-    case dailyBoxOffice
-    case movieInfo
+    let baseURL = "https://kobis.or.kr/kobisopenapi/webservice/rest"
+    let key = URLQueryItem(name: "key", value: "f5eef3421c602c6cb7ea224104795888")
+    let service: Service
+    var queries: [String: String] = [:]
     
     private var pagePath: String {
-        switch self {
+        switch service {
         case .dailyBoxOffice:
             return "/boxoffice/searchDailyBoxOfficeList.json?"
         case .movieInfo:
@@ -23,20 +27,22 @@ enum URLMaker {
         }
     }
     
-    private var queryItem: URLQueryItem {
-        switch self {
-        case .dailyBoxOffice:
-            return URLQueryItem(name: "targetDt", value: "20230327")
-        case .movieInfo:
-            return URLQueryItem(name: "movieCd", value: "20124079")
-        }
+    mutating func addQuery(name: String, value: String) {
+        self.queries[name] = value
     }
     
-    var url: URL? {
-        var urlComponents = URLComponents(string: URLMaker.baseURL + pagePath)
+    func request() -> URLRequest? {
+        var urlComponents = URLComponents(string: baseURL + pagePath)
+        urlComponents?.queryItems = [key]
+        for (name, value) in queries {
+            let queryItem = URLQueryItem(name: name, value: value)
+            urlComponents?.queryItems?.append(queryItem)
+        }
         
-        urlComponents?.queryItems = [URLMaker.key, queryItem]
+        guard let url = urlComponents?.url else {
+            return nil
+        }
         
-        return urlComponents?.url
+        return URLRequest(url: url)
     }
 }

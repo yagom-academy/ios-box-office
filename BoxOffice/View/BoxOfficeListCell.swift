@@ -56,13 +56,12 @@ extension BoxOfficeListCell {
         }
         
         let constraints = (leading:
-                            rankStackView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
+                            rankStackView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 12),
                            trailing:
                             boxOfficeListContentView.trailingAnchor.constraint(equalTo:
                                                                         contentView.trailingAnchor))
         
         NSLayoutConstraint.activate([
-            rankStackView.leftAnchor.constraint(equalTo: contentView.leftAnchor, constant: 12),
             rankStackView.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 12),
             rankStackView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -12),
             rankStackView.centerYAnchor.constraint(equalTo: contentView.centerYAnchor),
