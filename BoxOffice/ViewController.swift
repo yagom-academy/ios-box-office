@@ -63,7 +63,9 @@ final class ViewController: UIViewController {
         let dateFormatter = DateFormatter()
         let today = Date()
         dateFormatter.dateFormat = dateFormat
-        guard let yesterday = Calendar.current.date(byAdding: .day, value: -1, to: today) else { return nil }
+        guard let yesterday = Calendar.current.date(byAdding: .day, value: -1, to: today) else {
+            return nil
+        }
         return dateFormatter.string(from: yesterday)
     }
     
@@ -83,7 +85,9 @@ final class ViewController: UIViewController {
     }
     
     private func configureViewController() {
-        guard let yesterday = createFormattedDate(dateFormat: "yyyy-MM-dd") else { return }
+        guard let yesterday = createFormattedDate(dateFormat: "yyyy-MM-dd") else {
+            return
+        }
         navigationController?.navigationBar.topItem?.title = yesterday
         navigationController?.navigationBar.titleTextAttributes = [.font: UIFont.systemFont(ofSize: 18, weight: .bold)]
     }
