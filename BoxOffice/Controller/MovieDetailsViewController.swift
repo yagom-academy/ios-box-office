@@ -23,9 +23,75 @@ final class MovieDetailsViewController: UIViewController {
         return scrollView
     }()
     
+    var movieDetails: MovieDetails?
+    var movieCode: String
+    
+    init(movieCode: String) {
+        self.movieCode = movieCode
+        super.init(nibName: nil, bundle: nil)
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
+        view.backgroundColor = .white
+        loadMovieDetails()
+        configureScrollView()
+    }
+    
+    func loadMovieDetails() {
+        var api = KobisAPI(service: .movieDetails)
+        let queryName = "movieCd"
+        api.addQuery(name: queryName, value: movieCode)
         
+        var apiProvider = APIProvider()
+        apiProvider.target(api: api)
+        apiProvider.startLoad(decodingType: MovieDetails.self) { result in
+            switch result {
+            case .success(let movieDetails):
+                self.movieDetails = movieDetails
+                DispatchQueue.main.async {
+                    self.filldetailLabels(with: movieDetails)
+                    self.fillCategoryLabels()
+                    self.scrollView.reloadInputViews()
+                }
+            case .failure(let error):
+                print(error.localizedDescription)
+            }
+        }
+    }
+    
+    func filldetailLabels(with movieDetails: MovieDetails) {
+        let movieInfo = movieDetails.movieInfoResult.movieInfo
+
+        directorView.detailLabel.text = movieInfo.directors
+                                         .map { $0.personName }
+                                         .reduce("") { $0 + ", " + $1 }
+        productionYearView.detailLabel.text = movieInfo.productionYear
+        openDateView.detailLabel.text = movieInfo.openDate
+        runningTimeView.detailLabel.text = movieInfo.runningTime
+        watchGradeView.detailLabel.text = movieInfo.audits.first?.watchGradeName
+        nationView.detailLabel.text = movieInfo.nations.first?.nationName
+        genreView.detailLabel.text = movieInfo.genres
+                                     .map { $0.genreName }
+                                     .reduce("") { $0 + ", " + $1 }
+        actorView.detailLabel.text = movieInfo.actors
+                                     .map { $0.personName }
+                                     .reduce("") { $0 + ", " + $1 }
+    }
+    
+    func fillCategoryLabels() {
+        directorView.categoryLabel.text = "감독"
+        productionYearView.categoryLabel.text = "제작년도"
+        openDateView.categoryLabel.text = "개봉일"
+        runningTimeView.categoryLabel.text = "상영시간"
+        watchGradeView.categoryLabel.text = "관람등급"
+        nationView.categoryLabel.text = "제작국가"
+        genreView.categoryLabel.text = "장르"
+        actorView.categoryLabel.text = "배우"
     }
     
     func configureScrollView() {
@@ -36,7 +102,7 @@ final class MovieDetailsViewController: UIViewController {
             stackView.translatesAutoresizingMaskIntoConstraints = false
             
             let subviews = [
-                posterView, directorView, productionYearView, openDateView,
+                /*posterView,*/ directorView, productionYearView, openDateView,
                 runningTimeView, watchGradeView, nationView, genreView, actorView
             ]
             subviews.forEach {
@@ -47,6 +113,8 @@ final class MovieDetailsViewController: UIViewController {
         }()
         
         scrollView.translatesAutoresizingMaskIntoConstraints = false
+        
+        view.addSubview(scrollView)
         
         NSLayoutConstraint.activate([
             scrollView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor),
