@@ -14,6 +14,15 @@ struct InfoObject: Decodable, Hashable {
     let numberOfScreen: String
     let numberOfShowing: String
     
+    var audienceInfoText: String {
+        let formatNumberOfAudience = numberOfAudience.formatDecimal()
+        let formatTotalOfAudience = totalOfAudience.formatDecimal()
+        
+        guard let todayOfAudienceText = formatNumberOfAudience,
+              let totalOfAudienceText = formatTotalOfAudience else { return "" }
+        return "오늘 \(todayOfAudienceText) / 총 \(totalOfAudienceText)"
+    }
+    
     enum CodingKeys: String, CodingKey {
         case rnum, rank
         case changedRank = "rankInten"

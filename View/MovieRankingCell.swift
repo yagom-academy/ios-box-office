@@ -16,12 +16,13 @@ class MovieRankingCell: UICollectionViewListCell {
             self.rankLabel.text = movieItem?.rank
             self.rankStatusLabel.text = movieItem?.rankStatus
             self.movieNameLabel.text = movieItem?.name
-            self.audienceLabel.text = movieItem?.numberOfAudience
+            self.audienceLabel.text = movieItem?.audienceInfoText
         }
     }
     
     private let rankLabel = {
         let label = UILabel()
+        label.font = .preferredFont(forTextStyle: .largeTitle)
         return label
     }()
     
@@ -33,6 +34,7 @@ class MovieRankingCell: UICollectionViewListCell {
     private let movieNameLabel = {
         let label = UILabel()
         label.numberOfLines = 0
+        label.font = .preferredFont(forTextStyle: .title3)
         return label
     }()
     
