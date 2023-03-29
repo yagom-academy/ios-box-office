@@ -8,27 +8,25 @@
 import UIKit
 
 final class DailyBoxOfficeViewController: UIViewController {
-    private var networkManager = NetworkManager()
-    private var boxOfficeEndPoint: BoxOfficeEndPoint?
-    private var refreshControl = UIRefreshControl()
     private typealias DataSource = UICollectionViewDiffableDataSource<Section, DailyBoxOffice.BoxOfficeResult.Movie>
-    private var movieDataSource: DataSource?
-    private var dailyBoxOffice: DailyBoxOffice?
-    lazy private var collectionView: UICollectionView = {
-        let collectionView = UICollectionView(frame: view.bounds, collectionViewLayout: createMovieListLayout())
-        collectionView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
-        collectionView.register(DailyBoxOfficeCollectionViewCell.self, forCellWithReuseIdentifier: DailyBoxOfficeCollectionViewCell.reuseIdentifier)
-        view.addSubview(collectionView)
-        
-        return collectionView
-    }()
     
+    private let networkManager = NetworkManager()
+    private var boxOfficeEndPoint: BoxOfficeEndPoint?
+    private var dailyBoxOffice: DailyBoxOffice?
+    private var movieDataSource: DataSource?
+    
+    private var dateFormatter = DateFormatter()
+    private var refreshControl = UIRefreshControl()
+    
+    lazy private var collectionView = UICollectionView(frame: view.bounds, collectionViewLayout: createMovieListLayout())
+
     override func viewDidLoad() {
         super.viewDidLoad()
+        view.addSubview(collectionView)
         
+        configureCollectionView()
         refreshData()
         refreshControl.addTarget(self, action: #selector(refreshData), for: .valueChanged)
-        collectionView.refreshControl = refreshControl
     }
     
     @objc private func refreshData() {
@@ -37,8 +35,12 @@ final class DailyBoxOfficeViewController: UIViewController {
         fetchDailyBoxOfficeData()
     }
     
+    private func configureCollectionView() {
+        collectionView.register(DailyBoxOfficeCollectionViewCell.self, forCellWithReuseIdentifier: DailyBoxOfficeCollectionViewCell.reuseIdentifier)
+        collectionView.refreshControl = refreshControl
+    }
+    
     private func updateDateToViewTitle() {
-        let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = "yyyy-MM-dd"
         let currentDate = dateFormatter.string(from: Date(timeIntervalSinceNow: -86400))
         
@@ -46,7 +48,6 @@ final class DailyBoxOfficeViewController: UIViewController {
     }
     
     private func updateDateToEndPoint() {
-        let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = "yyyyMMdd"
         let currentDate = dateFormatter.string(from: Date(timeIntervalSinceNow: -86400))
         
