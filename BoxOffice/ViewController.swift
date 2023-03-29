@@ -22,7 +22,7 @@ final class ViewController: UIViewController {
         fetchBoxOfficeData()
         configureRefreshControl()
     }
-
+    
     private func fetchBoxOfficeData() {
         guard let yesterday = createFormattedDate(dateFormat: "yyyyMMdd") else { return }
         provider.performRequest(api: .boxOffice(date: yesterday)) { requestResult in
@@ -30,9 +30,19 @@ final class ViewController: UIViewController {
             case .success(let data):
                 do {
                     let boxOfficeItem: BoxOfficeItem = try JSONConverter.shared.decodeData(data, T: BoxOfficeItem.self)
-                    let myMovielists = boxOfficeItem.boxOfficeResult.dailyBoxOfficeList.map { ListItem(rank: $0.rank, rankInten: $0.rankInten, rankOldandNew: $0.rankOldAndNew.rawValue, movieName: $0.movieName, audienceCount: $0.audienceCount, audienceAcc: $0.audienceAcc) }
+                    let dailyBoxOfficeList = boxOfficeItem.boxOfficeResult.dailyBoxOfficeList
+                    var myMovieLists: [ListItem] = []
+                    for dailyBoxOffice in dailyBoxOfficeList {
+                        let listItem = ListItem(rank: dailyBoxOffice.rank,
+                                                rankInten: dailyBoxOffice.rankInten,
+                                                rankOldandNew: dailyBoxOffice.rankOldAndNew.rawValue,
+                                                movieName: dailyBoxOffice.movieName,
+                                                audienceCount: dailyBoxOffice.audienceCount,
+                                                audienceAcc: dailyBoxOffice.audienceAcc)
+                        myMovieLists.append(listItem)
+                    }
                     DispatchQueue.main.async {
-                        _ = self.makeSnapshot(with: myMovielists)
+                        _ = self.makeSnapshot(with: myMovieLists)
                     }
                 } catch let error as NetworkError {
                     print(error.description)
@@ -87,7 +97,7 @@ final class ViewController: UIViewController {
     @objc private func handleRefreshControl() {
         fetchBoxOfficeData()
     }
-
+    
 }
 
 // MARK: - DataSource
