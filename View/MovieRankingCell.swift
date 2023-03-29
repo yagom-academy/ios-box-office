@@ -32,6 +32,7 @@ class MovieRankingCell: UICollectionViewListCell {
     
     private let movieNameLabel = {
         let label = UILabel()
+        label.numberOfLines = 0
         return label
     }()
     
@@ -70,11 +71,14 @@ class MovieRankingCell: UICollectionViewListCell {
         addSubview(movieInfoStackView)
         
         NSLayoutConstraint.activate([
-            rankStackView.centerYAnchor.constraint(equalTo: centerYAnchor),
             rankStackView.widthAnchor.constraint(equalTo: widthAnchor , multiplier: 0.25),
+            rankStackView.leadingAnchor.constraint(equalTo: leadingAnchor),
+            rankStackView.topAnchor.constraint(equalTo: topAnchor, constant: 15),
+            rankStackView.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -15),
             
             movieInfoStackView.centerYAnchor.constraint(equalTo: centerYAnchor),
-            movieInfoStackView.widthAnchor.constraint(equalTo: widthAnchor, multiplier: 0.75)
+            movieInfoStackView.leadingAnchor.constraint(equalTo: rankStackView.trailingAnchor),
+            movieInfoStackView.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -30)
         ])
     }
     

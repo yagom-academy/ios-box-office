@@ -14,10 +14,29 @@ final class MovieRankingViewController: UIViewController {
     private var collectionView: UICollectionView!
     private var dataSource: UICollectionViewDiffableDataSource<APIType, InfoObject>!
     private var snapshot = NSDiffableDataSourceSnapshot<APIType, InfoObject>()
+    private lazy var boxofficeInfo = BoxofficeInfo<DailyBoxofficeObject>(apiType: apiType,
+                                                   model: NetworkModel(session: .shared))
     
     override func viewDidLoad() {
         super.viewDidLoad()
         configureUI()
+        makeDataSource()
+        fetchBoxofficeData()
+    }
+    
+    private func fetchBoxofficeData() {
+        boxofficeInfo.fetchData { [weak self] result in
+            switch result {
+            case .success(let data):
+//                print(data)
+                self?.movieItems = data.boxOfficeResult.movies
+                DispatchQueue.main.async {
+                    self?.applySnapshot()
+                }
+            case .failure(_):
+                return
+            }
+        }
     }
     
     private func configureCollectionView() {
@@ -49,7 +68,9 @@ final class MovieRankingViewController: UIViewController {
     private func makeDataSource() {
         dataSource = UICollectionViewDiffableDataSource<APIType, InfoObject>(collectionView: collectionView, cellProvider: { collectionView, indexPath, itemIdentifier in
             guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: MovieRankingCell.identifier, for: indexPath) as? MovieRankingCell else { return UICollectionViewListCell() }
-            // Cell UI변화시키는 코드 작성
+            
+            cell.movieItem = itemIdentifier
+            
             return cell
         })
     }
