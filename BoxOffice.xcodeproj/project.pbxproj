@@ -115,9 +115,10 @@
 				7F9EAFE229C825E00040D291 /* Controller */,
 				7F9EAFE129C825D90040D291 /* View */,
 				7F9EAFE029C825D10040D291 /* Model */,
-				BF558A9029D476550086B08F /* Resources */,
 				63DF20EE2970E1A0005DF7D1 /* AppDelegate.swift */,
 				63DF20F02970E1A0005DF7D1 /* SceneDelegate.swift */,
+				63DF20F72970E1A1005DF7D1 /* Assets.xcassets */,
+				63DF20FC2970E1A1005DF7D1 /* Info.plist */,
 			);
 			path = BoxOffice;
 			sourceTree = "<group>";
@@ -170,15 +171,6 @@
 				BF9A271529CC762200D02E72 /* MockURLSessionDataTask.swift */,
 			);
 			path = BoxOfficeTests;
-			sourceTree = "<group>";
-		};
-		BF558A9029D476550086B08F /* Resources */ = {
-			isa = PBXGroup;
-			children = (
-				63DF20F72970E1A1005DF7D1 /* Assets.xcassets */,
-				63DF20FC2970E1A1005DF7D1 /* Info.plist */,
-			);
-			path = Resources;
 			sourceTree = "<group>";
 		};
 		BF74020729CC2ADB006D8C83 /* protocols */ = {

@@ -25,9 +25,7 @@ final class BoxOfficeListCell: UICollectionViewListCell {
     private func defaultBoxOfficeConfiguration() -> UIListContentConfiguration {
         return .subtitleCell()
     }
-    
-    private var boxOfficeTypeConstraints: (leading: NSLayoutConstraint, trailing: NSLayoutConstraint)?
-    
+
     private lazy var boxOfficeListContentView = UIListContentView(configuration: defaultBoxOfficeConfiguration())
     
     func update(with newItem: DailyBoxOfficeItem) {
@@ -48,35 +46,26 @@ final class BoxOfficeListCell: UICollectionViewListCell {
 
 extension BoxOfficeListCell {
     func setupViewsIfNeeded() {
-        guard boxOfficeTypeConstraints == nil else { return }
         
         [rankStackView, boxOfficeListContentView].forEach {
             contentView.addSubview($0)
             $0.translatesAutoresizingMaskIntoConstraints = false
         }
         
-        let constraints = (leading:
-                            rankStackView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 12),
-                           trailing:
-                            boxOfficeListContentView.trailingAnchor.constraint(equalTo:
-                                                                        contentView.trailingAnchor))
-        
         NSLayoutConstraint.activate([
+            rankStackView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 12),
             rankStackView.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 12),
             rankStackView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -12),
             rankStackView.centerYAnchor.constraint(equalTo: contentView.centerYAnchor),
             rankStackView.widthAnchor.constraint(equalToConstant: 40),
             
+            boxOfficeListContentView.trailingAnchor.constraint(equalTo:
+                                                        contentView.trailingAnchor),
             boxOfficeListContentView.topAnchor.constraint(equalTo: contentView.topAnchor),
             boxOfficeListContentView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor),
             boxOfficeListContentView.leadingAnchor.constraint(equalTo: rankStackView.trailingAnchor, constant: 4),
-            boxOfficeListContentView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
-            
-            constraints.leading,
-            constraints.trailing,
+            boxOfficeListContentView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor)
         ])
-        
-        boxOfficeTypeConstraints = constraints
     }
     
     override func updateConfiguration(using state: UICellConfigurationState) {
