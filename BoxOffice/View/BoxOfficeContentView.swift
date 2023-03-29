@@ -24,12 +24,14 @@ final class BoxOfficeContentView: UIView, UIContentView {
     
     private let rankLabel: UILabel = {
         let label = UILabel()
+        label.adjustsFontForContentSizeCategory = true
         label.font = UIFont.preferredFont(forTextStyle: .largeTitle)
         return label
     }()
 
     private let rankIncrementLabel: UILabel = {
         let label = UILabel()
+        label.adjustsFontForContentSizeCategory = true
         label.font = UIFont.preferredFont(forTextStyle: .caption1)
         return label
     }()
@@ -50,12 +52,15 @@ final class BoxOfficeContentView: UIView, UIContentView {
     
     private let titleLabel: UILabel = {
         let label = UILabel()
+        label.adjustsFontForContentSizeCategory = true
+        label.numberOfLines = 0
         label.font = .preferredFont(forTextStyle: .title3)
         return label
     }()
     
     private let audienceCountLabel: UILabel = {
         let label = UILabel()
+        label.adjustsFontForContentSizeCategory = true
         label.font = .preferredFont(forTextStyle: .body)
         return label
     }()

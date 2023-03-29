@@ -12,10 +12,10 @@ final class BoxOfficeViewController: UIViewController {
         case main
     }
     
-    var dataSource: UICollectionViewDiffableDataSource<Section, BoxOfficeItem>! = nil
+    var dataSource: UICollectionViewDiffableDataSource<Section, BoxOfficeItem.ID>! = nil
     var collectionView: UICollectionView! = nil
     var boxOfficeItems: [BoxOfficeItem] = []
-    private var snapshot = NSDiffableDataSourceSnapshot<Section, BoxOfficeItem>()
+    private var snapshot = NSDiffableDataSourceSnapshot<Section, BoxOfficeItem.ID>()
     
     private var refreshControl = UIRefreshControl()
     
@@ -173,12 +173,14 @@ extension BoxOfficeViewController {
             cell.item = item
         }
         
-        dataSource = UICollectionViewDiffableDataSource<Section, BoxOfficeItem>(collectionView: collectionView) {
-            (collectionView: UICollectionView, indexPath: IndexPath, identifier: BoxOfficeItem) -> UICollectionViewCell? in
+        dataSource = UICollectionViewDiffableDataSource<Section, BoxOfficeItem.ID>(collectionView: collectionView) {
+            (collectionView: UICollectionView, indexPath: IndexPath, identifier: BoxOfficeItem.ID) -> UICollectionViewCell? in
+            
+            let boxOfficeItem = self.boxOfficeItems.filter { $0.id == identifier }.first
             
             let cell = collectionView.dequeueConfiguredReusableCell(using: cellRegistration,
                                                                     for: indexPath,
-                                                                    item: identifier)
+                                                                    item: boxOfficeItem)
             
             return cell
         }
@@ -187,7 +189,7 @@ extension BoxOfficeViewController {
     private func updateSnapshot() {
         snapshot.deleteAllItems()
         snapshot.appendSections([.main])
-        snapshot.appendItems(boxOfficeItems)
+        snapshot.appendItems(boxOfficeItems.map { $0.id })
         
         dataSource.apply(snapshot, animatingDifferences: false)
     }
