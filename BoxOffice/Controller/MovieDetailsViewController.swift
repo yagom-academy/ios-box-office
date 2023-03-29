@@ -16,7 +16,12 @@ final class MovieDetailsViewController: UIViewController {
     private let nationView = CategoryStackView()
     private let genreView = CategoryStackView()
     private let actorView = CategoryStackView()
-    private let posterView = UIImageView()
+    private let posterView = {
+        let imageView = UIImageView()
+        imageView.contentMode = .scaleAspectFit
+        
+        return imageView
+    }()
     private var scrollView = {
         let scrollView = UIScrollView()
         
@@ -24,6 +29,7 @@ final class MovieDetailsViewController: UIViewController {
     }()
     
     var movieDetails: MovieDetails?
+    var searchedImage: SearchedImage?
     var movieCode: String
     var movieName: String
     
@@ -39,8 +45,10 @@ final class MovieDetailsViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        self.title = movieName
         view.backgroundColor = .white
         loadMovieDetails()
+        loadPosterImage()
         fillCategoryLabels()
         configureScrollView()
     }
@@ -68,17 +76,23 @@ final class MovieDetailsViewController: UIViewController {
     func loadPosterImage() {
         var api = DaumImageAPI()
         let queryName = "query"
-        api.addQuery(name: queryName, value: movieName)
+        let queryValue = movieName + " 영화 포스터"
+        api.addQuery(name: queryName, value: queryValue)
         
         var apiProvider = APIProvider()
         apiProvider.target(api: api)
-        apiProvider.startLoad(decodingType: MovieDetails.self) { result in
+        apiProvider.startLoad(decodingType: SearchedImage.self) { result in
             switch result {
-            case .success(let movieDetails):
-                self.movieDetails = movieDetails
+            case .success(let searchedImage):
+                self.searchedImage = searchedImage
+                guard let document = searchedImage.documents.first,
+                      let url = URL(string: document.imageURL),
+                      let data = try? Data(contentsOf: url) else { return }
+            
                 DispatchQueue.main.async {
-                    self.filldetailLabels(with: movieDetails)
+                    self.posterView.image = UIImage(data: data)
                 }
+                
             case .failure(let error):
                 print(error.localizedDescription)
             }
@@ -150,7 +164,7 @@ final class MovieDetailsViewController: UIViewController {
             
             return stackView
         }()
-        
+    
         scrollView.translatesAutoresizingMaskIntoConstraints = false
         
         view.addSubview(scrollView)
@@ -169,13 +183,15 @@ final class MovieDetailsViewController: UIViewController {
             contentView.trailingAnchor.constraint(equalTo: scrollView.trailingAnchor),
             contentView.topAnchor.constraint(equalTo: scrollView.topAnchor),
             contentView.bottomAnchor.constraint(equalTo: scrollView.bottomAnchor),
-            contentView.widthAnchor.constraint(equalTo: scrollView.frameLayoutGuide.widthAnchor)
+            contentView.widthAnchor.constraint(equalTo: scrollView.frameLayoutGuide.widthAnchor),
+            movieInformationView.widthAnchor.constraint(equalTo: scrollView.frameLayoutGuide.widthAnchor)
         ])
         
         posterView.translatesAutoresizingMaskIntoConstraints = false
 
         NSLayoutConstraint.activate([
-            posterView.widthAnchor.constraint(equalTo: contentView.widthAnchor, multiplier: 0.95)
+            posterView.widthAnchor.constraint(lessThanOrEqualTo: scrollView.frameLayoutGuide.widthAnchor, multiplier: 0.95),
+            posterView.heightAnchor.constraint(lessThanOrEqualTo: scrollView.frameLayoutGuide.heightAnchor, multiplier: 0.6)
         ])
     }
 }
