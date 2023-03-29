@@ -22,6 +22,7 @@ final class CategoryStackView: UIStackView {
     var detailLabel = {
         let label = UILabel()
         label.font = UIFont.preferredFont(forTextStyle: .body)
+        label.numberOfLines = 0
         label.translatesAutoresizingMaskIntoConstraints = false
         
         return label
