@@ -19,7 +19,7 @@ struct DailyBoxOffice: Decodable {
             case boxOfficeList = "dailyBoxOfficeList"
         }
         
-        struct Movie: Decodable {
+        struct Movie: Decodable, Hashable {
             let order: String
             let rank: String
             let rankVariance: String
