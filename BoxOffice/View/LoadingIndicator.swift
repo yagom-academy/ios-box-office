@@ -14,7 +14,7 @@ enum LoadingIndicator {
             
             let loadingIndicatorView: UIActivityIndicatorView
             
-            if let existedView = window.subviews.first(where: { $0 is UIActivityIndicatorView })as? UIActivityIndicatorView {
+            if let existedView = window.subviews.first(where: { $0 is UIActivityIndicatorView }) as? UIActivityIndicatorView {
                 loadingIndicatorView = existedView
             } else {
                 loadingIndicatorView = UIActivityIndicatorView()
@@ -31,7 +31,33 @@ enum LoadingIndicator {
     static func hideLoading() {
         DispatchQueue.main.async {
             guard let window = UIApplication.shared.windows.last else { return }
-            window.subviews.filter({ $0 is UIActivityIndicatorView }).forEach { $0.removeFromSuperview() }
+            window.subviews.filter({ $0 is UIActivityIndicatorView })
+                           .forEach { $0.removeFromSuperview() }
+        }
+    }
+    
+    static func showLoading(in view: UIView) {
+        DispatchQueue.main.async {
+            let loadingIndicatorView: UIActivityIndicatorView
+            
+            if let existedView = view.subviews.first(where: { $0 is UIActivityIndicatorView }) as? UIActivityIndicatorView {
+                loadingIndicatorView = existedView
+            } else {
+                loadingIndicatorView = UIActivityIndicatorView()
+                loadingIndicatorView.frame = view.frame
+                loadingIndicatorView.style = .medium
+                loadingIndicatorView.color = .red
+                view.addSubview(loadingIndicatorView)
+            }
+            
+            loadingIndicatorView.startAnimating()
+        }
+    }
+    
+    static func hideLoading(in view: UIView) {
+        DispatchQueue.main.async {
+            view.subviews.filter({ $0 is UIActivityIndicatorView })
+                         .forEach { $0.removeFromSuperview() }
         }
     }
 }

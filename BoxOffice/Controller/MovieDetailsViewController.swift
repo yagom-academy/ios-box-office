@@ -90,9 +90,10 @@ final class MovieDetailsViewController: UIViewController {
                       let data = try? Data(contentsOf: url) else { return }
             
                 DispatchQueue.main.async {
+                    LoadingIndicator.showLoading(in: self.posterView)
                     self.posterView.image = UIImage(data: data)
+                    LoadingIndicator.hideLoading(in: self.posterView)
                 }
-                
             case .failure(let error):
                 print(error.localizedDescription)
             }
