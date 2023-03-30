@@ -133,5 +133,7 @@ extension DailyBoxOfficeViewController: UICollectionViewDelegateFlowLayout {
         let movieDetailsViewController = MovieDetailsViewController(movieCode: movieCode, movieName: movieName)
         
         navigationController?.pushViewController(movieDetailsViewController, animated: true)
+        
+        collectionView.deselectItem(at: indexPath, animated: true)
     }
 }
