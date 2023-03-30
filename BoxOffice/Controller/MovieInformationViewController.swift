@@ -9,12 +9,13 @@ import UIKit
 
 final class MovieInformationViewController: UIViewController {
     private let movieInformationScrollView = MovieInformationScrollView()
+    private let loadingView = UIActivityIndicatorView(style: .large)
     
     private let networkManager = NetworkManager()
     private var movieInformation: MovieInformation?
     private var movieName: String
     private var movieCode: String
-
+    
     lazy private var boxOfficeEndPoint = BoxOfficeEndPoint.MovieInformation(movieCode: movieCode, httpMethod: .get)
     lazy private var moviePosterImageEndPoint = BoxOfficeEndPoint.MoviePosterImage(query: movieName + " 영화 포스터", httpMethod: .get)
     
@@ -36,11 +37,23 @@ final class MovieInformationViewController: UIViewController {
         self.title = movieName
         
         view.addSubview(movieInformationScrollView)
+        view.addSubview(loadingView)
+        
+        loadingView.startAnimating()
         configureScrollView()
-        fetchMovieInformation()
+        configureLoadingView()
         fetchMoviePosterImage()
+        fetchMovieInformation()
     }
-
+    
+    private func configureLoadingView() {
+        loadingView.translatesAutoresizingMaskIntoConstraints = false
+        NSLayoutConstraint.activate([
+            loadingView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            loadingView.centerYAnchor.constraint(equalTo: view.centerYAnchor)
+        ])
+    }
+    
     private func configureScrollView() {
         movieInformationScrollView.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([
@@ -74,7 +87,9 @@ final class MovieInformationViewController: UIViewController {
                 DispatchQueue.main.async {
                     guard let firstDocument = result.documents.first,
                           let imageURL = URL(string: firstDocument.imageURL) else { return }
-                    self?.movieInformationScrollView.moviePosterImageView.load(url: imageURL)
+                    self?.movieInformationScrollView.moviePosterImageView.load(url: imageURL) {
+                        self?.loadingView.stopAnimating()
+                    }
                 }
             }
         }
@@ -82,12 +97,13 @@ final class MovieInformationViewController: UIViewController {
 }
 
 extension UIImageView {
-    func load(url: URL) {
+    func load(url: URL, completion: @escaping () -> Void) {
         DispatchQueue.global().async { [weak self] in
             guard let data = try? Data(contentsOf: url),
                   let image = UIImage(data: data) else { return }
             DispatchQueue.main.async {
                 self?.image = image
+                completion()
             }
         }
     }
