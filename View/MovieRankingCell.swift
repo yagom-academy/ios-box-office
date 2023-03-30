@@ -20,56 +20,72 @@ class MovieRankingCell: UICollectionViewListCell {
         }
     }
     
+    // MARK: UI Properties
     private let rankLabel = {
         let label = UILabel()
+        
         label.font = .preferredFont(forTextStyle: .largeTitle)
+        
         return label
     }()
     
     private let rankStatusLabel = {
         let label = UILabel()
+        
         label.tintColor = .blue
+        
         return label
     }()
     
     private let movieNameLabel = {
         let label = UILabel()
+        
         label.numberOfLines = 0
         label.font = .preferredFont(forTextStyle: .title3)
+        
         return label
     }()
     
     private var audienceLabel = {
         let label = UILabel()
+        
         return label
     }()
     
     private lazy var rankStackView = {
         let stackView = UIStackView(arrangedSubviews: [rankLabel, rankStatusLabel])
+        
         stackView.translatesAutoresizingMaskIntoConstraints = false
         stackView.axis = .vertical
         stackView.alignment = .center
+        
         return stackView
     }()
     
     private lazy var movieInfoStackView = {
         let stackView = UIStackView(arrangedSubviews: [movieNameLabel, audienceLabel])
+        
         stackView.translatesAutoresizingMaskIntoConstraints = false
         stackView.axis = .vertical
+        
         return stackView
     }()
     
     override init(frame: CGRect) {
         super.init(frame: frame)
         configureUI()
-        self.accessories = [.disclosureIndicator()]
     }
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-    
+}
+
+// MARK: UI
+extension MovieRankingCell {
     private func configureUI() {
+        self.accessories = [.disclosureIndicator()]
+        
         addSubview(rankStackView)
         addSubview(movieInfoStackView)
         
@@ -84,5 +100,4 @@ class MovieRankingCell: UICollectionViewListCell {
             movieInfoStackView.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -30)
         ])
     }
-    
 }

@@ -8,25 +8,24 @@
 import UIKit
 
 struct InfoObject: Decodable, Hashable {
-    let rnum, rank, changedRank, rankStatus: String
+    private let rnum, changedRank: String
+    private let rankStatus: RankStatus
+    let rank: String
     let code, name: String
-    let openDate: String
-    let salesAmount, salesShare, changedSales, changedSalesRate, totalOfSales: String
-    let numberOfAudience, changedAudience, changedAudienceRate, totalOfAudience: String
-    let numberOfScreen: String
-    let numberOfShowing: String
+    private let openDate: String
+    private let salesAmount, salesShare, changedSales, changedSalesRate, totalOfSales: String
+    private let numberOfAudience, changedAudience, changedAudienceRate, totalOfAudience: String
+    private let numberOfScreen: String
+    private let numberOfShowing: String
     
     var audienceInfoText: String {
-        let formatNumberOfAudience = numberOfAudience.formatDecimal()
-        let formatTotalOfAudience = totalOfAudience.formatDecimal()
-        
-        guard let todayOfAudienceText = formatNumberOfAudience,
-              let totalOfAudienceText = formatTotalOfAudience else { return "" }
+        guard let todayOfAudienceText = numberOfAudience.formatDecimal(),
+              let totalOfAudienceText = totalOfAudience.formatDecimal() else { return "" }
         return "오늘 \(todayOfAudienceText) / 총 \(totalOfAudienceText)"
     }
     
     var rankStatusText: String {
-        if self.rankStatus == "OLD" {
+        if self.rankStatus == .old {
             guard let changedRankValue = Int(changedRank) else { return "" }
             
             if changedRankValue > 0 {
@@ -42,7 +41,7 @@ struct InfoObject: Decodable, Hashable {
     }
     
     var rankStatusTextColor: UIColor {
-        if self.rankStatus == "OLD" {
+        if self.rankStatus == .old {
             guard let changedRankValue = Int(changedRank) else { return .black }
             
             if changedRankValue > 0 {
@@ -78,6 +77,11 @@ struct InfoObject: Decodable, Hashable {
         attributedText.addAttribute(.foregroundColor, value: color, range: range)
         
         return attributedText
+    }
+    
+    enum RankStatus: String, Decodable {
+        case old = "OLD"
+        case new = "NEW"
     }
     
     enum CodingKeys: String, CodingKey {
