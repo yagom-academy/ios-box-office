@@ -8,7 +8,6 @@
 import UIKit
 
 extension UIView {
-    
     func setAutoLayout(equalTo view: UILayoutGuide) {
         self.translatesAutoresizingMaskIntoConstraints = false
         

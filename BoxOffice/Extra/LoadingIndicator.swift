@@ -15,6 +15,7 @@ final class LoadingIndicator {
             guard let window = UIApplication.shared.windows.last else { return }
 
             let loadingIndicatorView: UIActivityIndicatorView
+            
             if let existedView = window.subviews.first(where: { $0 is UIActivityIndicatorView } ) as? UIActivityIndicatorView {
                 loadingIndicatorView = existedView
             } else {

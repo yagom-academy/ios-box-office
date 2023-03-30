@@ -64,7 +64,6 @@ class CustomCollectionViewCell: UICollectionViewListCell {
         ])
     }
     
-    
     private func configureRankStackView() -> UIStackView {
         let rankStackView: UIStackView = {
             let stackView = UIStackView()
@@ -93,8 +92,6 @@ class CustomCollectionViewCell: UICollectionViewListCell {
         
         rankStackView.addArrangedSubview(rankLabel)
         rankStackView.addArrangedSubview(rankIntensityLabel)
-        
-        
         
         return rankStackView
     }
@@ -166,6 +163,7 @@ class CustomCollectionViewCell: UICollectionViewListCell {
                  
                  return label
              }
+            
             return label
         }()
         

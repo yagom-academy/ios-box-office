@@ -57,6 +57,7 @@ final class BoxOfficeListViewController: UIViewController {
     
     private func fetchBoxOfficeData(completion: @escaping () -> Void) {
         guard let url = urlMaker.makeBoxOfficeURL(date: Date.configureYesterday(isFormatted: false)) else { return }
+        
         server.startLoad(url: url) { result in
             let decoder = DecodeManager()
             do {
