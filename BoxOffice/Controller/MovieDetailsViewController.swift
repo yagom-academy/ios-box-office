@@ -100,7 +100,6 @@ final class MovieDetailsViewController: UIViewController {
                       let data = try? Data(contentsOf: url) else { return }
             
                 DispatchQueue.main.async {
-                    sleep(3)
                     self.posterView.image = UIImage(data: data)
                     LoadingIndicator.hideLoading(in: self.posterView)
                 }
@@ -189,9 +188,8 @@ final class MovieDetailsViewController: UIViewController {
             posterView.topAnchor.constraint(equalTo: contentView.topAnchor),
             posterView.leadingAnchor.constraint(greaterThanOrEqualTo: contentView.leadingAnchor, constant: 15),
             posterView.centerXAnchor.constraint(equalTo: contentView.centerXAnchor),
-            posterView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
             posterView.bottomAnchor.constraint(equalTo: movieInformationView.topAnchor),
-            posterView.widthAnchor.constraint(equalTo: scrollView.frameLayoutGuide.widthAnchor, multiplier: 0.8),
+            posterView.widthAnchor.constraint(equalTo: scrollView.frameLayoutGuide.widthAnchor, multiplier: 0.9),
             posterView.heightAnchor.constraint(equalTo: scrollView.frameLayoutGuide.heightAnchor, multiplier: 0.8),
             movieInformationView.widthAnchor.constraint(equalTo: scrollView.frameLayoutGuide.widthAnchor),
             movieInformationView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),

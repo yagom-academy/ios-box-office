@@ -208,7 +208,6 @@
 			isa = PBXGroup;
 			children = (
 				63DF20F42970E1A0005DF7D1 /* Main.storyboard */,
-				63DF20F92970E1A1005DF7D1 /* LaunchScreen.storyboard */,
 			);
 			path = Storyboard;
 			sourceTree = "<group>";
@@ -217,6 +216,7 @@
 			isa = PBXGroup;
 			children = (
 				63DF20F72970E1A1005DF7D1 /* Assets.xcassets */,
+				63DF20F92970E1A1005DF7D1 /* LaunchScreen.storyboard */,
 			);
 			path = Resource;
 			sourceTree = "<group>";

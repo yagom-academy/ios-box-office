@@ -48,6 +48,7 @@ enum LoadingIndicator {
                 loadingIndicatorView.style = .large
                 view.addSubview(loadingIndicatorView)
                 
+                loadingIndicatorView.translatesAutoresizingMaskIntoConstraints = false
                 loadingIndicatorView.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
                 loadingIndicatorView.centerYAnchor.constraint(equalTo: view.centerYAnchor).isActive = true
             }
