@@ -28,17 +28,19 @@ final class BoxOfficeListViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        configureView()
+        configureMainView()
+        configureCollectionView()
         configureRefreshControl()
     }
     
-    private func configureView() {
-        view.backgroundColor = .white
-        self.title = Date.configureYesterday(isFormatted: true)
-        LoadingIndicator.showLoading()
-        
+    private func configureCollectionView() {
         collectionView.dataSource = self
         collectionView.delegate = self
+        
+        LoadingIndicator.showLoading()
+        
+        view.addSubview(collectionView)
+        collectionView.setAutoLayout(equalTo: view.safeAreaLayoutGuide)
         
         fetchBoxOfficeData {
             DispatchQueue.main.async {
@@ -46,9 +48,11 @@ final class BoxOfficeListViewController: UIViewController {
                 self.collectionView.reloadData()
             }
         }
-        
-        view.addSubview(collectionView)
-        collectionView.setAutoLayout(equalTo: view.safeAreaLayoutGuide)
+    }
+    
+    private func configureMainView() {
+        view.backgroundColor = .white
+        title = Date.configureYesterday(isFormatted: true)
     }
     
     private func fetchBoxOfficeData(completion: @escaping () -> Void) {
@@ -90,7 +94,7 @@ final class BoxOfficeListViewController: UIViewController {
                                                  for: .valueChanged)
     }
     
-    @objc func handleRefreshControl() {
+    @objc private func handleRefreshControl() {
         self.fetchBoxOfficeData {
             DispatchQueue.main.asyncAfter(deadline: .now() + 0.7 ) {
                 self.collectionView.reloadData()
