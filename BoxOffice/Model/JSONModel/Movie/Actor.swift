@@ -8,7 +8,7 @@
 struct Actor: Decodable {
     let peopleName: String
     
-    enum CodingKeys: String, CodingKey {
+    private enum CodingKeys: String, CodingKey {
         case peopleName = "peopleNm"
     }
 }

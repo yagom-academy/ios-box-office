@@ -17,6 +17,9 @@ final class BoxOfficeCollectionViewListCell: UICollectionViewListCell {
         super.awakeFromNib()
         
         configureLabels()
+        self.accessories = [
+            .disclosureIndicator()
+        ]
     }
     
     override func prepareForReuse() {
@@ -25,18 +28,18 @@ final class BoxOfficeCollectionViewListCell: UICollectionViewListCell {
         rankInfoLabel.textColor = .black
     }
     
+    func configure(item: DailyBoxOffice) {
+        rankLabel.text = item.rankText
+        configureRankInfoLabel(item: item)
+        titleLabel.text = item.movieKoreanName
+        audienceInfoLabel.text = "오늘 \(item.audienceCountText.convertToDecimalText()) / 총 \(item.audienceAccumulationText.convertToDecimalText())"
+    }
+    
     private func configureLabels() {
         rankLabel.font = .preferredFont(forTextStyle: .largeTitle)
         rankInfoLabel.font = .preferredFont(forTextStyle: .subheadline)
         titleLabel.font = .preferredFont(forTextStyle: .title3)
         audienceInfoLabel.font = .preferredFont(forTextStyle: .body)
-    }
-    
-    func configureCellContent(item: DailyBoxOffice) {
-        rankLabel.text = item.rankText
-        configureRankInfoLabel(item: item)
-        titleLabel.text = item.movieKoreanName
-        audienceInfoLabel.text = "오늘 \(item.audienceCountText.convertToDecimalText()) / 총 \(item.audienceAccumulationText.convertToDecimalText())"
     }
     
     private func configureRankInfoLabel(item: DailyBoxOffice) {

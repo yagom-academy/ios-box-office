@@ -117,19 +117,14 @@ extension BoxOfficeViewController: UICollectionViewDataSource {
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: BoxOfficeCollectionViewListCell.identifier, for: indexPath) as? BoxOfficeCollectionViewListCell else {
+        guard let cell = collectionView.dequeueReusableCell(
+            withReuseIdentifier: BoxOfficeCollectionViewListCell.identifier,
+            for: indexPath) as? BoxOfficeCollectionViewListCell,
+                let item = boxOffice?.boxOfficeResult.dailyBoxOfficeList[safe: indexPath.item] else {
             return UICollectionViewCell()
         }
         
-        cell.accessories = [
-            .disclosureIndicator()
-        ]
-        
-        guard let item = boxOffice?.boxOfficeResult.dailyBoxOfficeList[safe: indexPath.item] else {
-            return  UICollectionViewCell()
-        }
-        
-        cell.configureCellContent(item: item)
+        cell.configure(item: item)
         
         return cell
     }

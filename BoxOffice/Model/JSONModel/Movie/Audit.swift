@@ -8,7 +8,7 @@
 struct Audit: Decodable {
     let watchGradeName: String
     
-    enum CodingKeys: String, CodingKey {
+    private enum CodingKeys: String, CodingKey {
         case watchGradeName = "watchGradeNm"
     }
 }

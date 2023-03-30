@@ -14,7 +14,7 @@ struct DailyBoxOffice: Decodable {
     let audienceCountText: String
     let audienceAccumulationText: String
     
-    enum CodingKeys: String, CodingKey {
+    private enum CodingKeys: String, CodingKey {
         case rankText = "rank"
         case rankOldAndNew
         case rankIncrementText = "rankInten"
