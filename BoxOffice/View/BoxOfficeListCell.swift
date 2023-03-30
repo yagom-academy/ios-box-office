@@ -12,7 +12,6 @@ final class BoxOfficeListCell: UICollectionViewListCell {
     
     override func updateConfiguration(using state: UICellConfigurationState) {
         var newConfiguration = BoxOfficeContentConfiguration().updated(for: state)
-        
         newConfiguration.rank = item?.rank
         newConfiguration.rankIncrement = item?.rankIncrement
         newConfiguration.rankOldAndNew = item?.rankOldAndNew

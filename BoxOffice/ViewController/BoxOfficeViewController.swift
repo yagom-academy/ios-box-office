@@ -57,13 +57,12 @@ final class BoxOfficeViewController: UIViewController {
         self.navigationController?.navigationBar.standardAppearance = appearance
         self.navigationController?.navigationBar.scrollEdgeAppearance = appearance
         
+        self.view.addSubview(activityIndicator)
         self.activityIndicator.center = self.view.center
-        self.activityIndicator.frame = view.frame
+        self.activityIndicator.frame = self.view.frame
         
         self.collectionView.refreshControl = refreshControl
         self.refreshControl.addTarget(self, action: #selector(refresh), for: .valueChanged)
-        
-        self.view.addSubview(activityIndicator)
     }
     
     private func fetchDailyBoxOffice() {

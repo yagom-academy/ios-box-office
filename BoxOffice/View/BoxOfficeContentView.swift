@@ -29,7 +29,7 @@ final class BoxOfficeContentView: UIView, UIContentView {
         return label
     }()
 
-    private let rankIncrementLabel: UILabel = {
+     let rankIncrementLabel: UILabel = {
         let label = UILabel()
         label.adjustsFontForContentSizeCategory = true
         label.font = UIFont.preferredFont(forTextStyle: .caption1)
@@ -141,13 +141,19 @@ private extension BoxOfficeContentView {
             return
         }
         
+        currentConfiguration = configuration
+        resetReusingView()
+        configureRankInformation(configuration: configuration)
+        configureMovieInformation(configuration: configuration)
+    }
+    
+    private func resetReusingView() {
         rankIncrementLabel.text = nil
         rankIncrementLabel.textColor = .black
-        
-        currentConfiguration = configuration
-        
+    }
+    
+    private func configureRankInformation(configuration: BoxOfficeContentConfiguration) {
         rankLabel.text = configuration.rank
-        
         
         if configuration.rankOldAndNew == "NEW" {
             rankIncrementLabel.text = "신작"
@@ -172,7 +178,9 @@ private extension BoxOfficeContentView {
                 rankIncrementLabel.attributedText = attributedString
             }
         }
-        
+    }
+    
+    private func configureMovieInformation(configuration: BoxOfficeContentConfiguration) {
         titleLabel.text = configuration.title
         
         if let todayAudienceCount = configuration.audienceCount?.convertToDecimal(),
