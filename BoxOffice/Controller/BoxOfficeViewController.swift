@@ -16,11 +16,12 @@ final class BoxOfficeViewController: UIViewController {
     private var collectionView: UICollectionView!
     private var dataSource: UICollectionViewDiffableDataSource<Section, DailyBoxOfficeItem>!
     private let networkManager = NetworkManager()
+    private let dateFormatter = DateFormatter()
     
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .systemBackground
-        navigationItem.title = Date().showYesterdayDate(format: .existHyphen)
+        navigationItem.title = Date().showYesterdayDate(formatter: dateFormatter, in: .existHyphen)
 
         fetchBoxOffice()
     }
@@ -28,7 +29,7 @@ final class BoxOfficeViewController: UIViewController {
     private func fetchBoxOffice() {
         var api = KobisURLRequest(service: .dailyBoxOffice)
         let queryName = "targetDt"
-        let queryValue = Date().showYesterdayDate(format: .notHyphen)
+        let queryValue = Date().showYesterdayDate(formatter: dateFormatter, in: .notHyphen)
         
         api.addQuery(name: queryName, value: queryValue)
         
@@ -104,7 +105,9 @@ extension BoxOfficeViewController {
         fetchBoxOffice()
         
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.7) { [weak self] in
-            self?.navigationItem.title = Date().showYesterdayDate(format: .existHyphen)
+            guard let dateFormatter = self?.dateFormatter else { return }
+            
+            self?.navigationItem.title = Date().showYesterdayDate(formatter: dateFormatter, in: .existHyphen)
             self?.collectionView.refreshControl?.endRefreshing()
         }
     }

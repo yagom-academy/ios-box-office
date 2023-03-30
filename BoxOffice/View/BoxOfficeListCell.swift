@@ -21,13 +21,12 @@ extension UIConfigurationState {
 final class BoxOfficeListCell: UICollectionViewListCell {
     private var dailyBoxOfficeItem: DailyBoxOfficeItem?
     private let rankStackView = RankStackView()
+    private lazy var boxOfficeListContentView = UIListContentView(configuration: defaultBoxOfficeConfiguration())
     
     private func defaultBoxOfficeConfiguration() -> UIListContentConfiguration {
         return .subtitleCell()
     }
 
-    private lazy var boxOfficeListContentView = UIListContentView(configuration: defaultBoxOfficeConfiguration())
-    
     func update(with newItem: DailyBoxOfficeItem) {
         guard dailyBoxOfficeItem != newItem else { return }
         
@@ -44,9 +43,10 @@ final class BoxOfficeListCell: UICollectionViewListCell {
     }
 }
 
+// MARK: - configure UI
+
 extension BoxOfficeListCell {
     func setupViewsIfNeeded() {
-        
         [rankStackView, boxOfficeListContentView].forEach {
             contentView.addSubview($0)
             $0.translatesAutoresizingMaskIntoConstraints = false
@@ -71,11 +71,14 @@ extension BoxOfficeListCell {
     override func updateConfiguration(using state: UICellConfigurationState) {
         setupViewsIfNeeded()
         
+        let numberFormatter = NumberFormatter()
         var content = defaultBoxOfficeConfiguration().updated(for: state)
+        
+        numberFormatter.numberStyle = .decimal
         
         content.text = state.dailyBoxOfficeItem?.movieName
         content.textProperties.numberOfLines = 1
-        content.secondaryText = "오늘 \(state.dailyBoxOfficeItem?.audienceCount.applyNumberFormatter() ?? "0") / 총 \( state.dailyBoxOfficeItem?.audienceAccumulation.applyNumberFormatter() ?? "0")"
+        content.secondaryText = "오늘 \(state.dailyBoxOfficeItem?.audienceCount.applyNumberFormatter(formatter: numberFormatter) ?? "0") / 총 \( state.dailyBoxOfficeItem?.audienceAccumulation.applyNumberFormatter(formatter: numberFormatter) ?? "0")"
         content.secondaryTextProperties.font = .preferredFont(forTextStyle: .callout)
         
         rankStackView.rankLabel.text = state.dailyBoxOfficeItem?.rank
@@ -107,5 +110,18 @@ extension BoxOfficeListCell {
                 rankStackView.rankInfoLabel.text = "-"
             }
         }
+    }
+}
+
+// MARK: - variance String extension
+
+extension String {
+    func attributeText() -> NSMutableAttributedString {
+        let attributedString = NSMutableAttributedString(string: self)
+        let range = (self as NSString).range(of: String(self.dropFirst(1)))
+        
+        attributedString.addAttribute(.foregroundColor, value: UIColor.black, range: range)
+        
+        return attributedString
     }
 }
