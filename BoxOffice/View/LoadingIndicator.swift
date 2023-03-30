@@ -47,6 +47,9 @@ enum LoadingIndicator {
                 loadingIndicatorView.frame = view.frame
                 loadingIndicatorView.style = .large
                 view.addSubview(loadingIndicatorView)
+                
+                loadingIndicatorView.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
+                loadingIndicatorView.centerYAnchor.constraint(equalTo: view.centerYAnchor).isActive = true
             }
             
             loadingIndicatorView.startAnimating()

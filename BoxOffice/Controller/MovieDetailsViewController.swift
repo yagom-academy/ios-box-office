@@ -19,7 +19,6 @@ final class MovieDetailsViewController: UIViewController {
     private let posterView = {
         let imageView = UIImageView()
         imageView.contentMode = .scaleAspectFit
-        imageView.image = UIImage(named: "Loading")
         imageView.translatesAutoresizingMaskIntoConstraints = false
         
         return imageView
@@ -50,11 +49,11 @@ final class MovieDetailsViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         baseSettings()
-        LoadingIndicator.showLoading(in: posterView)
         loadMovieDetails()
         loadPosterImage()
         fillCategoryLabels()
         configureScrollView()
+        LoadingIndicator.showLoading(in: posterView)
     }
     
     private func baseSettings() {
@@ -101,6 +100,7 @@ final class MovieDetailsViewController: UIViewController {
                       let data = try? Data(contentsOf: url) else { return }
             
                 DispatchQueue.main.async {
+                    sleep(3)
                     self.posterView.image = UIImage(data: data)
                     LoadingIndicator.hideLoading(in: self.posterView)
                 }
@@ -116,21 +116,18 @@ final class MovieDetailsViewController: UIViewController {
         
         directorView.detailLabel.text = movieInfo.directors
             .map { $0.personName }
-            .reduce("") { $0 + ", " + $1 }
-            .trimmingCharacters(in: [",", " "])
+            .joined(separator: ", ")
         productionYearView.detailLabel.text = movieInfo.productionYear
         openDateView.detailLabel.text = movieInfo.openDate
-        runningTimeView.detailLabel.text = movieInfo.runningTime
+        runningTimeView.detailLabel.text = movieInfo.runningTime + "분"
         watchGradeView.detailLabel.text = movieInfo.audits.first?.watchGradeName
         nationView.detailLabel.text = movieInfo.nations.first?.nationName
         genreView.detailLabel.text = movieInfo.genres
             .map { $0.genreName }
-            .reduce("") { $0 + ", " + $1 }
-            .trimmingCharacters(in: [",", " "])
+            .joined(separator: ", ")
         actorView.detailLabel.text = movieInfo.actors
             .map { $0.personName }
-            .reduce("") { $0 + ", " + $1 }
-            .trimmingCharacters(in: [",", " "])
+            .joined(separator: ", ")
     }
     
     private func fillCategoryLabels() {
@@ -162,14 +159,12 @@ final class MovieDetailsViewController: UIViewController {
         }()
         
         let contentView = {
-            let stackView = UIStackView()
-            stackView.axis = .vertical
-            stackView.alignment = .center
-            stackView.translatesAutoresizingMaskIntoConstraints = false
+            let view = UIView()
+            view.translatesAutoresizingMaskIntoConstraints = false
             
-            [posterView, movieInformationView].forEach { stackView.addArrangedSubview($0) }
+            [posterView, movieInformationView].forEach { view.addSubview($0) }
             
-            return stackView
+            return view
         }()
     
         view.addSubview(scrollView)
@@ -179,7 +174,7 @@ final class MovieDetailsViewController: UIViewController {
             scrollView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor),
             scrollView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor),
             scrollView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
-            scrollView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor),
+            scrollView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor)
         ])
         
         NSLayoutConstraint.activate([
@@ -187,13 +182,21 @@ final class MovieDetailsViewController: UIViewController {
             contentView.trailingAnchor.constraint(equalTo: scrollView.trailingAnchor),
             contentView.topAnchor.constraint(equalTo: scrollView.topAnchor),
             contentView.bottomAnchor.constraint(equalTo: scrollView.bottomAnchor),
-            contentView.widthAnchor.constraint(equalTo: scrollView.frameLayoutGuide.widthAnchor),
+            contentView.widthAnchor.constraint(equalTo: scrollView.frameLayoutGuide.widthAnchor)
         ])
         
         NSLayoutConstraint.activate([
-            posterView.widthAnchor.constraint(lessThanOrEqualTo: scrollView.frameLayoutGuide.widthAnchor, multiplier: 0.95),
-            posterView.heightAnchor.constraint(lessThanOrEqualTo: scrollView.frameLayoutGuide.heightAnchor, multiplier: 0.6),
-            movieInformationView.widthAnchor.constraint(equalTo: scrollView.frameLayoutGuide.widthAnchor)
+            posterView.topAnchor.constraint(equalTo: contentView.topAnchor),
+            posterView.leadingAnchor.constraint(greaterThanOrEqualTo: contentView.leadingAnchor, constant: 15),
+            posterView.centerXAnchor.constraint(equalTo: contentView.centerXAnchor),
+            posterView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
+            posterView.bottomAnchor.constraint(equalTo: movieInformationView.topAnchor),
+            posterView.widthAnchor.constraint(equalTo: scrollView.frameLayoutGuide.widthAnchor, multiplier: 0.8),
+            posterView.heightAnchor.constraint(equalTo: scrollView.frameLayoutGuide.heightAnchor, multiplier: 0.8),
+            movieInformationView.widthAnchor.constraint(equalTo: scrollView.frameLayoutGuide.widthAnchor),
+            movieInformationView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
+            movieInformationView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
+            movieInformationView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor)
         ])
     }
 }
