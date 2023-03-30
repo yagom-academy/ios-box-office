@@ -27,24 +27,22 @@ final class BoxOfficeViewController: UIViewController {
         
         configure()
         activityIndicator.startAnimating()
-        fetchDailyBoxOffice()
+        loadInitialData()
     }
     
     @objc private func refreshData() {
-        let yesterdayText = generateYesterdayText(type: .nonHyphen)
-        let endPoint: BoxOfficeEndPoint = .fetchDailyBoxOffice(targetDate: yesterdayText)
-        
-        networkManager.fetchData(url: endPoint.createURL(), type: BoxOffice.self) { result in
-            DispatchQueue.main.async {
-                switch result {
-                case .success(let data):
-                    self.boxOffice = data
-                    self.collectionView.reloadData()
-                case .failure(let error):
-                    print(error.localizedDescription)
-                }
-                self.refreshControl.endRefreshing()
-            }
+        fetchDailyBoxOffice { [weak self] in
+            guard let self = self else { return }
+            
+            self.refreshControl.endRefreshing()
+        }
+    }
+    
+    private func loadInitialData() {
+        fetchDailyBoxOffice { [weak self] in
+            guard let self = self else { return }
+            
+            self.activityIndicator.stopAnimating()
         }
     }
     
@@ -74,11 +72,14 @@ final class BoxOfficeViewController: UIViewController {
         configureCollectionView()
     }
     
-    private func fetchDailyBoxOffice() {
+    private func fetchDailyBoxOffice(completion: @escaping () -> Void) {
         let yesterdayText = generateYesterdayText(type: .nonHyphen)
         let endPoint: BoxOfficeEndPoint = .fetchDailyBoxOffice(targetDate: yesterdayText)
         
-        networkManager.fetchData(url: endPoint.createURL(), type: BoxOffice.self) { result in
+        networkManager.fetchData(url: endPoint.createURL(), type: BoxOffice.self) {
+            [weak self] result in
+            guard let self = self else { return }
+            
             DispatchQueue.main.async {
                 switch result {
                 case .success(let data):
@@ -87,7 +88,7 @@ final class BoxOfficeViewController: UIViewController {
                 case .failure(let error):
                     print(error.localizedDescription)
                 }
-                self.activityIndicator.stopAnimating()
+                completion()
             }
         }
     }
