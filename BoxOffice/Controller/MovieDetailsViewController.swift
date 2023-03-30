@@ -19,9 +19,11 @@ final class MovieDetailsViewController: UIViewController {
     private let posterView = {
         let imageView = UIImageView()
         imageView.contentMode = .scaleAspectFit
+        imageView.image = UIImage(named: "Loading")
         
         return imageView
     }()
+    
     private var scrollView = {
         let scrollView = UIScrollView()
         
@@ -51,9 +53,10 @@ final class MovieDetailsViewController: UIViewController {
         loadPosterImage()
         fillCategoryLabels()
         configureScrollView()
+        LoadingIndicator.showLoading(in: posterView)
     }
     
-    func loadMovieDetails() {
+    private func loadMovieDetails() {
         var api = KobisAPI(service: .movieDetails)
         let queryName = "movieCd"
         api.addQuery(name: queryName, value: movieCode)
@@ -73,7 +76,7 @@ final class MovieDetailsViewController: UIViewController {
         }
     }
     
-    func loadPosterImage() {
+    private func loadPosterImage() {
         var api = DaumImageAPI()
         let queryName = "query"
         let queryValue = movieName + " 영화 포스터"
@@ -90,7 +93,6 @@ final class MovieDetailsViewController: UIViewController {
                       let data = try? Data(contentsOf: url) else { return }
             
                 DispatchQueue.main.async {
-                    LoadingIndicator.showLoading(in: self.posterView)
                     self.posterView.image = UIImage(data: data)
                     LoadingIndicator.hideLoading(in: self.posterView)
                 }
@@ -100,7 +102,7 @@ final class MovieDetailsViewController: UIViewController {
         }
     }
     
-    func filldetailLabels(with movieDetails: MovieDetails) {
+    private func filldetailLabels(with movieDetails: MovieDetails) {
         let movieInfo = movieDetails.movieInfoResult.movieInfo
         
         directorView.detailLabel.text = movieInfo.directors
@@ -122,7 +124,7 @@ final class MovieDetailsViewController: UIViewController {
             .trimmingCharacters(in: [",", " "])
     }
     
-    func fillCategoryLabels() {
+    private func fillCategoryLabels() {
         directorView.categoryLabel.text = "감독"
         productionYearView.categoryLabel.text = "제작년도"
         openDateView.categoryLabel.text = "개봉일"
@@ -133,7 +135,7 @@ final class MovieDetailsViewController: UIViewController {
         actorView.categoryLabel.text = "배우"
     }
     
-    func configureScrollView() {
+    private func configureScrollView() {
         let movieInformationView = {
             let stackView = UIStackView()
             stackView.axis = .vertical

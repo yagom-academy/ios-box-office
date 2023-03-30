@@ -45,13 +45,16 @@ enum LoadingIndicator {
             } else {
                 loadingIndicatorView = UIActivityIndicatorView()
                 loadingIndicatorView.frame = view.frame
-                loadingIndicatorView.style = .medium
-                loadingIndicatorView.color = .red
+                loadingIndicatorView.style = .large
                 view.addSubview(loadingIndicatorView)
+                
+                loadingIndicatorView.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
+                loadingIndicatorView.centerYAnchor.constraint(equalTo: view.centerYAnchor).isActive = true
             }
             
             loadingIndicatorView.startAnimating()
         }
+        
     }
     
     static func hideLoading(in view: UIView) {
