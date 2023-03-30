@@ -9,19 +9,7 @@ import UIKit
 
 final class DailyBoxOfficeCollectionViewCell: UICollectionViewCell {
     static let reuseIdentifier = "DailyBoxOfficeCollectionViewCell"
-<<<<<<< HEAD
-    var movie: DailyBoxOffice.BoxOfficeResult.Movie?
-    private var movieListLabel = UILabel()
-    private var movieRankLabel = UILabel()
-    private var audienceInformationLabel = UILabel()
-    private var audienceVarianceLabel = UILabel()
-    private var movieRankStackView = UIStackView()
-    private var movieListStackView = UIStackView()
-    private var mainStackView = UIStackView()
-    private var separatorView = UIView()
-=======
-    
->>>>>>> step3
+
     private var accessoryImageView = UIImageView()
     private var separatorView = UIView()
     

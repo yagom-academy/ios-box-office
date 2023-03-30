@@ -8,16 +8,16 @@
 import UIKit
 
 final class MovieInformationViewController: UIViewController {
-    var movieInformationStackView = MovieInformationStackView()
-    let movieInformationScrollView = UIScrollView()
+    private var movieInformationStackView = MovieInformationStackView()
+    private let movieInformationScrollView = UIScrollView()
+   
+    private var movieName: String
+    private var movieCode: String
     
-    var movieName: String
-    var movieCode: String
-    
-    lazy var boxOfficeEndPoint = BoxOfficeEndPoint.MovieInformation(movieCode: movieCode, httpMethod: .get)
-    lazy var moviePosterImageEndPoint = BoxOfficeEndPoint.MoviePosterImage(query: movieName + " 영화 포스터", httpMethod: .get)
-    let networkManager = NetworkManager()
-    var movieInformation: MovieInformation?
+    lazy private var boxOfficeEndPoint = BoxOfficeEndPoint.MovieInformation(movieCode: movieCode, httpMethod: .get)
+    lazy private var moviePosterImageEndPoint = BoxOfficeEndPoint.MoviePosterImage(query: movieName + " 영화 포스터", httpMethod: .get)
+    private let networkManager = NetworkManager()
+    private var movieInformation: MovieInformation?
     
     init(movieName: String, movieCode: String) {
         self.movieName = movieName
@@ -107,26 +107,3 @@ extension UIImageView {
         }
     }
 }
-
-
-//func updateUI(_ url : String){
-//
-//        var tempImg : UIImage
-//
-//         DispatchQueue.global().async {
-//
-//             if let ImageData = try? Data(contentsOf: URL(string: url)!) {
-//
-//                tempImg = UIImage(data: ImageData)!
-//            }
-//            else{
-//                tempImg = UIImage(named: "Asset 20.png")!
-//            }
-//
-//             DispatchQueue.main.async {
-//
-//                        self.StoreImg.image = tempImg
-//
-//                    }
-//
-//         }

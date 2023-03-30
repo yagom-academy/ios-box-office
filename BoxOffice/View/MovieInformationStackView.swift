@@ -7,20 +7,19 @@
 
 import UIKit
 
-class MovieInformationStackView: UIStackView {
+final class MovieInformationStackView: UIStackView {
     var movie: MovieInformation.MovieInformationResult.Movie?
-    
+  
     var moviePosterImageView = UIImageView()
-    
-    var directorStackView = UIStackView()
-    var productionYearStackView = UIStackView()
-    var openDateStackView = UIStackView()
-    var showTimeStackView = UIStackView()
-    var productionStatusStackView = UIStackView()
-    var nationStackView = UIStackView()
-    var genresStackView = UIStackView()
-    var actorsStackView = UIStackView()
-    
+
+    private var directorStackView = UIStackView()
+    private var productionYearStackView = UIStackView()
+    private var openDateStackView = UIStackView()
+    private var showTimeStackView = UIStackView()
+    private var productionStatusStackView = UIStackView()
+    private var nationStackView = UIStackView()
+    private var genresStackView = UIStackView()
+    private var actorsStackView = UIStackView()
     
     func configure() {
         self.spacing = 10

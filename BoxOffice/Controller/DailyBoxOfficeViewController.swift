@@ -27,11 +27,6 @@ final class DailyBoxOfficeViewController: UIViewController {
         configureCollectionView()
         refreshData()
         refreshControl.addTarget(self, action: #selector(refreshData), for: .valueChanged)
-<<<<<<< HEAD
-        collectionView.refreshControl = refreshControl
-        collectionView.delegate = self
-=======
->>>>>>> step3
     }
     
     @objc private func refreshData() {
