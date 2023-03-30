@@ -60,6 +60,17 @@
                ReferencedContainer = "container:BoxOffice.xcodeproj">
             </BuildableReference>
          </TestableReference>
+         <TestableReference
+            skipped = "NO"
+            parallelizable = "YES">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "98C948FB29D5774D00D3B282"
+               BuildableName = "SearchedImageDTOTests.xctest"
+               BlueprintName = "SearchedImageDTOTests"
+               ReferencedContainer = "container:BoxOffice.xcodeproj">
+            </BuildableReference>
+         </TestableReference>
       </Testables>
    </TestAction>
    <LaunchAction
