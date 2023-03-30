@@ -23,19 +23,39 @@ final class NetworkManagerTests: XCTestCase {
         sut = nil
     }
     
-    func test_() {
+    func test_20220105날짜의URL로요청시_서버에서_해당날짜의BoxOffice의Data를_넘겨준다() {
         //given
-        MockURLProtocolObject.requestHandler = { request in
+        MockURLProtocolObject.requestHandler = { (request: URLRequest )in
+            guard let url = request.url,
+                  url == URLMaker().makeBoxOfficeURL(date: "20220105") else {
+                throw NetworkError.invalidResponse
+            }
+    
             let data = StubBoxOffice().data
-            let responses = HTTPURLResponse(url: request.url!, mimeType: "text", expectedContentLength: 500, textEncodingName: nil)
+            let responses = HTTPURLResponse(url: url,
+                                            mimeType: "text",
+                                            expectedContentLength: 0,
+                                            textEncodingName: nil)
             
             return (responses, data)
         }
         
+        let expectedResult = StubBoxOffice().data
+        let expectation = XCTestExpectation()
+        let url = URLMaker().makeBoxOfficeURL(date: "20220105")
         
         //when
-        
-        //then
-        
+        sut.startLoad(url: url!) { result in
+            switch result {
+            case .success(let successData):
+                //then
+                XCTAssertEqual(expectedResult, successData)
+                expectation.fulfill()
+            case .failure(_):
+                XCTFail()
+            }
+        }
+                
+        wait(for: [expectation], timeout: 3)
     }
 }
