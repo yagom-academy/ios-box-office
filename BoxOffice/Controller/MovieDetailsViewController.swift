@@ -20,20 +20,22 @@ final class MovieDetailsViewController: UIViewController {
         let imageView = UIImageView()
         imageView.contentMode = .scaleAspectFit
         imageView.image = UIImage(named: "Loading")
+        imageView.translatesAutoresizingMaskIntoConstraints = false
         
         return imageView
     }()
     
     private var scrollView = {
         let scrollView = UIScrollView()
+        scrollView.translatesAutoresizingMaskIntoConstraints = false
         
         return scrollView
     }()
     
-    var movieDetails: MovieDetails?
-    var searchedImage: SearchedImage?
-    var movieCode: String
-    var movieName: String
+    private var movieDetails: MovieDetails?
+    private var searchedImage: SearchedImage?
+    private var movieCode: String
+    private var movieName: String
     
     init(movieCode: String, movieName: String) {
         self.movieCode = movieCode
@@ -47,13 +49,17 @@ final class MovieDetailsViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.title = movieName
-        view.backgroundColor = .white
+        baseSettings()
+        LoadingIndicator.showLoading(in: posterView)
         loadMovieDetails()
         loadPosterImage()
         fillCategoryLabels()
         configureScrollView()
-        LoadingIndicator.showLoading(in: posterView)
+    }
+    
+    private func baseSettings() {
+        title = movieName
+        view.backgroundColor = .white
     }
     
     private func loadMovieDetails() {
@@ -67,8 +73,9 @@ final class MovieDetailsViewController: UIViewController {
             switch result {
             case .success(let movieDetails):
                 self.movieDetails = movieDetails
+                
                 DispatchQueue.main.async {
-                    self.filldetailLabels(with: movieDetails)
+                    self.fillDetailLabels(with: movieDetails)
                 }
             case .failure(let error):
                 print(error.localizedDescription)
@@ -88,6 +95,7 @@ final class MovieDetailsViewController: UIViewController {
             switch result {
             case .success(let searchedImage):
                 self.searchedImage = searchedImage
+                
                 guard let document = searchedImage.documents.first,
                       let url = URL(string: document.imageURL),
                       let data = try? Data(contentsOf: url) else { return }
@@ -102,7 +110,7 @@ final class MovieDetailsViewController: UIViewController {
         }
     }
     
-    private func filldetailLabels(with movieDetails: MovieDetails) {
+    private func fillDetailLabels(with movieDetails: MovieDetails) {
         let movieInfo = movieDetails.movieInfoResult.movieInfo
         
         directorView.detailLabel.text = movieInfo.directors
@@ -147,30 +155,24 @@ final class MovieDetailsViewController: UIViewController {
                 directorView, productionYearView, openDateView,
                 runningTimeView, watchGradeView, nationView, genreView, actorView
             ]
-            subviews.forEach {
-                stackView.addArrangedSubview($0)
-            }
+            subviews.forEach { stackView.addArrangedSubview($0) }
             
             return stackView
         }()
         
         let contentView = {
             let stackView = UIStackView()
-            
-            [posterView, movieInformationView].forEach {
-                stackView.addArrangedSubview($0)
-            }
-            
             stackView.axis = .vertical
             stackView.alignment = .center
             stackView.translatesAutoresizingMaskIntoConstraints = false
             
+            [posterView, movieInformationView].forEach { stackView.addArrangedSubview($0) }
+            
             return stackView
         }()
     
-        scrollView.translatesAutoresizingMaskIntoConstraints = false
-        
         view.addSubview(scrollView)
+        scrollView.addSubview(contentView)
         
         NSLayoutConstraint.activate([
             scrollView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor),
@@ -179,22 +181,18 @@ final class MovieDetailsViewController: UIViewController {
             scrollView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor),
         ])
         
-        scrollView.addSubview(contentView)
-        
         NSLayoutConstraint.activate([
             contentView.leadingAnchor.constraint(equalTo: scrollView.leadingAnchor),
             contentView.trailingAnchor.constraint(equalTo: scrollView.trailingAnchor),
             contentView.topAnchor.constraint(equalTo: scrollView.topAnchor),
             contentView.bottomAnchor.constraint(equalTo: scrollView.bottomAnchor),
             contentView.widthAnchor.constraint(equalTo: scrollView.frameLayoutGuide.widthAnchor),
-            movieInformationView.widthAnchor.constraint(equalTo: scrollView.frameLayoutGuide.widthAnchor)
         ])
         
-        posterView.translatesAutoresizingMaskIntoConstraints = false
-
         NSLayoutConstraint.activate([
             posterView.widthAnchor.constraint(lessThanOrEqualTo: scrollView.frameLayoutGuide.widthAnchor, multiplier: 0.95),
-            posterView.heightAnchor.constraint(lessThanOrEqualTo: scrollView.frameLayoutGuide.heightAnchor, multiplier: 0.6)
+            posterView.heightAnchor.constraint(lessThanOrEqualTo: scrollView.frameLayoutGuide.heightAnchor, multiplier: 0.6),
+            movieInformationView.widthAnchor.constraint(equalTo: scrollView.frameLayoutGuide.widthAnchor)
         ])
     }
 }

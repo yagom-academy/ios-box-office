@@ -18,16 +18,16 @@ final class DailyBoxOfficeViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         LoadingIndicator.showLoading()
-        setNavigationTitle()
+        baseSettings()
         loadDailyBoxOffice()
         configureCollectionView()
         configureRefreshControl()
     }
     
-    private func setNavigationTitle() {
-        let title = DateFormatter(dateFormat: "yyyy-MM-dd").string(from: yesterday)
-        self.title = title
-        self.view.backgroundColor = .white
+    private func baseSettings() {
+        let titleText = DateFormatter(dateFormat: "yyyy-MM-dd").string(from: yesterday)
+        title = titleText
+        view.backgroundColor = .white
     }
     
     private func loadDailyBoxOffice() {
@@ -89,7 +89,7 @@ final class DailyBoxOfficeViewController: UIViewController {
         loadDailyBoxOffice()
         
         DispatchQueue.main.async {
-            self.setNavigationTitle()
+            self.baseSettings()
             self.collectionView.refreshControl?.endRefreshing()
         }
     }
