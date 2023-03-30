@@ -36,6 +36,8 @@
 		984BFCD129CA940300CA8495 /* BoxOfficeProviderTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 984BFCD029CA940300CA8495 /* BoxOfficeProviderTests.swift */; };
 		984BFCD829CA943400CA8495 /* MockURLSession.swift in Sources */ = {isa = PBXBuildFile; fileRef = 984BFCD729CA943400CA8495 /* MockURLSession.swift */; };
 		984BFCDA29CA965100CA8495 /* JsonLoader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 984BFCD929CA965100CA8495 /* JsonLoader.swift */; };
+		98C948F529D55BBF00D3B282 /* DaumAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98C948F429D55BBF00D3B282 /* DaumAPI.swift */; };
+		98C948F729D55C4600D3B282 /* HttpMethod.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98C948F629D55C4600D3B282 /* HttpMethod.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -89,6 +91,8 @@
 		984BFCD029CA940300CA8495 /* BoxOfficeProviderTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BoxOfficeProviderTests.swift; sourceTree = "<group>"; };
 		984BFCD729CA943400CA8495 /* MockURLSession.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockURLSession.swift; sourceTree = "<group>"; };
 		984BFCD929CA965100CA8495 /* JsonLoader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JsonLoader.swift; sourceTree = "<group>"; };
+		98C948F429D55BBF00D3B282 /* DaumAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DaumAPI.swift; sourceTree = "<group>"; };
+		98C948F629D55C4600D3B282 /* HttpMethod.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HttpMethod.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -244,6 +248,8 @@
 				625164B829C98E3E0094711C /* BoxOfficeAPI.swift */,
 				984BFCC829CA8E6C00CA8495 /* URLSessionProtocol.swift */,
 				625164BC29CA93300094711C /* URLSessionDataTaskProtocol.swift */,
+				98C948F429D55BBF00D3B282 /* DaumAPI.swift */,
+				98C948F629D55C4600D3B282 /* HttpMethod.swift */,
 			);
 			path = Network;
 			sourceTree = "<group>";
@@ -397,9 +403,11 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				98C948F529D55BBF00D3B282 /* DaumAPI.swift in Sources */,
 				6252F8C029CDD8E10067DF7B /* Requestable.swift in Sources */,
 				984BFCC429C99CD200CA8495 /* MovieInformation.swift in Sources */,
 				984BFCC229C8524D00CA8495 /* DataAssetError.swift in Sources */,
+				98C948F729D55C4600D3B282 /* HttpMethod.swift in Sources */,
 				982FE48329D2AF890037BC8F /* Date+.swift in Sources */,
 				982FE48029D1DB8B0037BC8F /* BoxOfficeListCell.swift in Sources */,
 				982FE47E29D189BE0037BC8F /* BoxOfficeDTO.swift in Sources */,

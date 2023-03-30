@@ -1,18 +1,17 @@
 //
-//  BoxOfficeAPI.swift
+//  DaumAPI.swift
 //  BoxOffice
 //
-//  Created by vetto, brody on 23/03/21.
+//  Created by vetto, brody on 23/03/30.
 //
 
 import Foundation
 
-enum BoxOfficeAPI {
-    case dailyBoxOffice(date: String)
-    case detailMovieInformation(movieCode: String)
+enum DaumAPI {
+    case searchImage(movieName: String)
 }
 
-extension BoxOfficeAPI: Requestable {
+extension DaumAPI: Requestable {
     var urlComponents: URLComponents? {
         var components = URLComponents(string: baseURL)
         components?.path = self.path
@@ -29,24 +28,20 @@ extension BoxOfficeAPI: Requestable {
     }
     
     var baseURL: String {
-        return "http://kobis.or.kr"
+        return "http://dapi.kakao.com"
     }
     
     var path: String {
         switch self {
-        case .dailyBoxOffice:
-            return "/kobisopenapi/webservice/rest/boxoffice/searchDailyBoxOfficeList.json"
-        case .detailMovieInformation:
-            return "/kobisopenapi/webservice/rest/movie/searchMovieInfo.json"
+        case .searchImage:
+            return "/v2/search/image"
         }
     }
     
     var queries: [String: String] {
         switch self {
-        case .dailyBoxOffice(let date):
-            return ["key": self.key, "targetDt": date]
-        case .detailMovieInformation(let movieCode):
-            return ["key": self.key, "movieCd": movieCode]
+        case .searchImage(let movieName):
+            return ["query": movieName]
         }
     }
     
@@ -61,8 +56,8 @@ extension BoxOfficeAPI: Requestable {
           }
 
           let plist = NSDictionary(contentsOfFile: filePath)
-          guard let value = plist?.object(forKey: "API_KEY") as? String else {
-            fatalError("Info.plist에서 API_KEY를 찾을 수 없습니다.")
+          guard let value = plist?.object(forKey: "DAUM_API_KEY") as? String else {
+            fatalError("Info.plist에서 DAUM_API_KEY를 찾을 수 없습니다.")
           }
 
           return value

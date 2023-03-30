@@ -9,9 +9,9 @@ import Foundation
 
 final class Endpoint {
     let url: String
-    let method: BoxOfficeHttpMethod
+    let method: HttpMethod
     
-    init(url: String, method: BoxOfficeHttpMethod) {
+    init(url: String, method: HttpMethod) {
         self.url = url
         self.method = method
     }
