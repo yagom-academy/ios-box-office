@@ -20,12 +20,27 @@ class CustomCollectionViewCell: UICollectionViewListCell {
         return stackView
     }()
     
+    override init(frame: CGRect) {
+        super.init(frame: frame)
+        
+        configureCellStyle()
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
     override func prepareForReuse() {
         super.prepareForReuse()
         
         mainStackView.arrangedSubviews.forEach { view in
             view.removeFromSuperview()
         }
+    }
+    
+    func configureCellStyle() {
+        self.accessories = [.disclosureIndicator()]
+        self.layer.addBorder([.bottom], color: .systemGray3, width: 0.8)
     }
     
     func configureDailyBoxOffice(dailyBoxOffice: DailyBoxOffice?) {

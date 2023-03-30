@@ -118,9 +118,7 @@ extension BoxOfficeListViewController: UICollectionViewDataSource {
         guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: CustomCollectionViewCell.identifier, for: indexPath) as? CustomCollectionViewCell else { return CustomCollectionViewCell() }
         
         cell.configureDailyBoxOffice(dailyBoxOffice: dailyBoxOffice)
-        cell.accessories = [.disclosureIndicator()]
-        cell.layer.addBorder([.bottom], color: .systemGray3, width: 0.8)
-        
+
         return cell
     }
 }
@@ -141,6 +139,5 @@ extension BoxOfficeListViewController: UICollectionViewDelegateFlowLayout {
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         collectionView.deselectItem(at: indexPath, animated: true)
-        
     }
 }
