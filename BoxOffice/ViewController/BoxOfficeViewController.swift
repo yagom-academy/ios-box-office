@@ -30,10 +30,8 @@ final class BoxOfficeViewController: UIViewController {
         return yesterdayDate
     }
     
-    private lazy var activityIndicator: UIActivityIndicatorView = {
+    private let activityIndicator: UIActivityIndicatorView = {
         let activityIndicator = UIActivityIndicatorView()
-        activityIndicator.center = self.view.center
-        activityIndicator.frame = view.frame
         activityIndicator.style = UIActivityIndicatorView.Style.large
         activityIndicator.startAnimating()
         
@@ -59,6 +57,9 @@ final class BoxOfficeViewController: UIViewController {
         self.navigationController?.navigationBar.standardAppearance = appearance
         self.navigationController?.navigationBar.scrollEdgeAppearance = appearance
         
+        self.activityIndicator.center = self.view.center
+        self.activityIndicator.frame = view.frame
+        
         self.collectionView.refreshControl = refreshControl
         self.refreshControl.addTarget(self, action: #selector(refresh), for: .valueChanged)
         
@@ -72,10 +73,10 @@ final class BoxOfficeViewController: UIViewController {
         
         let boxOfficeProvider = BoxOfficeProvider<BoxOfficeAPI>()
         boxOfficeProvider.fetchData(.dailyBoxOffice(date: yesterday),
-                                    type: BoxOfficeDTO.self) { result in
+                                    type: BoxOfficeDTO.self) { [weak self] result in
             switch result {
             case .success(let data):
-                self.boxOfficeItems = data.boxOfficeResult.dailyBoxOfficeList.map { movie in
+                self?.boxOfficeItems = data.boxOfficeResult.dailyBoxOfficeList.map { movie in
                     return BoxOfficeItem(rank: movie.rank,
                                          rankIncrement: movie.rankIncrement,
                                          rankOldAndNew: movie.rankOldAndNew,
@@ -84,13 +85,13 @@ final class BoxOfficeViewController: UIViewController {
                                          audienceAccumulationCount: movie.audienceAccumulation)
                 }
                 DispatchQueue.main.async {
-                    self.activityIndicator.stopAnimating()
-                    self.updateSnapshot()
+                    self?.activityIndicator.stopAnimating()
+                    self?.updateSnapshot()
                 }
             case .failure:
                 DispatchQueue.main.async {
-                    self.activityIndicator.stopAnimating()
-                    self.showAlert()
+                    self?.activityIndicator.stopAnimating()
+                    self?.showAlert()
                 }
             }
         }
@@ -116,10 +117,10 @@ final class BoxOfficeViewController: UIViewController {
         
         let boxOfficeProvider = BoxOfficeProvider<BoxOfficeAPI>()
         boxOfficeProvider.fetchData(.dailyBoxOffice(date: yesterday),
-                                    type: BoxOfficeDTO.self) { result in
+                                    type: BoxOfficeDTO.self) { [weak self] result in
             switch result {
             case .success(let data):
-                self.boxOfficeItems = data.boxOfficeResult.dailyBoxOfficeList.map { movie in
+                self?.boxOfficeItems = data.boxOfficeResult.dailyBoxOfficeList.map { movie in
                     return BoxOfficeItem(rank: movie.rank,
                                          rankIncrement: movie.rankIncrement,
                                          rankOldAndNew: movie.rankOldAndNew,
@@ -128,13 +129,13 @@ final class BoxOfficeViewController: UIViewController {
                                          audienceAccumulationCount: movie.audienceAccumulation)
                 }
                 DispatchQueue.main.async {
-                    self.updateSnapshot()
-                    self.refreshControl.endRefreshing()
+                    self?.updateSnapshot()
+                    self?.refreshControl.endRefreshing()
                 }
             case .failure:
                 DispatchQueue.main.async {
-                    self.showAlert()
-                    self.refreshControl.endRefreshing()
+                    self?.showAlert()
+                    self?.refreshControl.endRefreshing()
                 }
             }
         }
@@ -153,7 +154,6 @@ extension BoxOfficeViewController {
                                                          subitems: [item])
 
         let section = NSCollectionLayoutSection(group: group)
-
         let layout = UICollectionViewCompositionalLayout(section: section)
         
         return layout

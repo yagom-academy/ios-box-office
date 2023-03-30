@@ -93,7 +93,6 @@ final class BoxOfficeContentView: UIView, UIContentView {
         super.init(frame: .zero)
         
         self.setupAllViews()
-        
         self.apply(configuration: configuration)
     }
     
