@@ -28,7 +28,7 @@ extension DaumAPI: Requestable {
     }
     
     var baseURL: String {
-        return "http://dapi.kakao.com"
+        return "https://dapi.kakao.com"
     }
     
     var path: String {
@@ -62,5 +62,9 @@ extension DaumAPI: Requestable {
 
           return value
         }
+    }
+    
+    var headers: [String : String]? {
+        return ["Authorization": "KakaoAK \(key)"]
     }
 }

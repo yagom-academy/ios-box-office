@@ -68,4 +68,8 @@ extension BoxOfficeAPI: Requestable {
           return value
         }
     }
+    
+    var headers: [String : String]? {
+        return nil
+    }
 }

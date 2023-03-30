@@ -41,6 +41,11 @@ final class BoxOfficeViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        let boxOfficeProvider = BoxOfficeProvider<DaumAPI>()
+        boxOfficeProvider.fetchData(.searchImage(movieName: "maple"), type: BoxOfficeDTO.self) { result in
+
+        }
+        
         self.configureHierarchy()
         self.configureDataSource()
         self.setupUI()

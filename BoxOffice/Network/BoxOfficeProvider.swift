@@ -29,6 +29,7 @@ final class BoxOfficeProvider<Target: Requestable>: Provider {
               let request = endPoint.urlRequest() else {
             return
         }
+        print(request)
         
         let task = session.dataTask(with: request) { data, response, error in
             let result = self.checkError(with: data, response, error)
@@ -41,6 +42,7 @@ final class BoxOfficeProvider<Target: Requestable>: Provider {
                     completion(.failure(error))
                 }
             case .failure(let error):
+                
                 completion(.failure(error))
             }
         }
@@ -87,6 +89,6 @@ extension BoxOfficeProvider {
             return nil
         }
         
-        return Endpoint(url: url.absoluteString, method: .get)
+        return Endpoint(url: url.absoluteString, method: .get, headers: target.headers)
     }
 }
