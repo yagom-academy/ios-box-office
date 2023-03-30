@@ -18,8 +18,6 @@ final class MovieRankingViewController: UIViewController {
                                                    model: NetworkModel(session: .shared))
     private let loadingView = UIActivityIndicatorView()
     private let refreshView = UIRefreshControl()
-    private let date = Date()
-    
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -87,7 +85,7 @@ final class MovieRankingViewController: UIViewController {
     
     private func configureUI() {
         view.backgroundColor = .systemBackground
-//        navigationItem.title = "\(Calendar.current.date(byAdding: .day, value: -1, to: date))"
+        navigationItem.title = "\(Date.yesterday.formatString())"
         configureCollectionView()
         configureCollectionViewLayout()
     }
