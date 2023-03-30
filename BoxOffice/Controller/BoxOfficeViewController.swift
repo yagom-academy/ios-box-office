@@ -66,14 +66,14 @@ final class BoxOfficeViewController: UIViewController {
     }
     
     private func configure() {
-        navigationItem.title = generateYesterdayText(type: .hyphen)
+        navigationItem.title = YesterdayDateFormatter.text(format: .nonHyphen)
         self.view.addSubview(activityIndicator)
         refreshControl.addTarget(self, action: #selector(refreshData), for: .valueChanged)
         configureCollectionView()
     }
     
     private func fetchDailyBoxOffice(completion: @escaping () -> Void) {
-        let yesterdayText = generateYesterdayText(type: .nonHyphen)
+        let yesterdayText = YesterdayDateFormatter.text(format: .nonHyphen)
         let endPoint: BoxOfficeEndPoint = .fetchDailyBoxOffice(targetDate: yesterdayText)
         
         networkManager.fetchData(url: endPoint.createURL(), type: BoxOffice.self) {
@@ -91,21 +91,6 @@ final class BoxOfficeViewController: UIViewController {
                 completion()
             }
         }
-    }
-    
-    private func generateYesterdayText(type: DateFormatType) -> String {
-        guard let yesterday = Calendar.current.date(byAdding: .day, value: -1, to: Date()) else {
-            return ""
-        }
-        
-        let dateFormatter: DateFormatter = {
-            let dateFormatter = DateFormatter()
-            dateFormatter.dateFormat = type.rawValue
-            
-            return dateFormatter
-        }()
-        
-        return dateFormatter.string(from: yesterday)
     }
 }
 
