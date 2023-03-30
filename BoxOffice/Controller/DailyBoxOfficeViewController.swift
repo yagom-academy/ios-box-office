@@ -49,17 +49,11 @@ final class DailyBoxOfficeViewController: UIViewController {
                 }
             case .failure(let error):
                 DispatchQueue.main.async {
-                    self.makeAlert(to: error)
+                    AlertController.showAlert(for: error, to: self)
                     LoadingIndicator.hideLoading()
                 }
             }
         }
-    }
-    
-    private func makeAlert(to error: Error) {
-        let alert = UIAlertController(title: NetworkError.title, message: error.localizedDescription, preferredStyle: .alert)
-        alert.addAction(UIAlertAction(title: "닫기", style: .default))
-        self.present(alert, animated: true)
     }
     
     private func configureCollectionView() {
