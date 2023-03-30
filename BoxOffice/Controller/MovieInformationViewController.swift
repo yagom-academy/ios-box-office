@@ -8,16 +8,15 @@
 import UIKit
 
 final class MovieInformationViewController: UIViewController {
-    private var movieInformationStackView = MovieInformationStackView()
-    private let movieInformationScrollView = UIScrollView()
-   
-    private var movieName: String
-    private var movieCode: String
+    private let movieInformationScrollView = MovieInformationScrollView()
     
-    lazy private var boxOfficeEndPoint = BoxOfficeEndPoint.MovieInformation(movieCode: movieCode, httpMethod: .get)
-    lazy private var moviePosterImageEndPoint = BoxOfficeEndPoint.MoviePosterImage(query: movieName + " 영화 포스터", httpMethod: .get)
     private let networkManager = NetworkManager()
     private var movieInformation: MovieInformation?
+    private var movieName: String
+    private var movieCode: String
+
+    lazy private var boxOfficeEndPoint = BoxOfficeEndPoint.MovieInformation(movieCode: movieCode, httpMethod: .get)
+    lazy private var moviePosterImageEndPoint = BoxOfficeEndPoint.MoviePosterImage(query: movieName + " 영화 포스터", httpMethod: .get)
     
     init(movieName: String, movieCode: String) {
         self.movieName = movieName
@@ -38,31 +37,17 @@ final class MovieInformationViewController: UIViewController {
         
         view.addSubview(movieInformationScrollView)
         configureScrollView()
-        configureContentView()
         fetchMovieInformation()
         fetchMoviePosterImage()
     }
-    
+
     private func configureScrollView() {
-        movieInformationScrollView.addSubview(movieInformationStackView)
-        
         movieInformationScrollView.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([
             movieInformationScrollView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
             movieInformationScrollView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor),
             movieInformationScrollView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor),
             movieInformationScrollView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor)
-        ])
-    }
-    
-    private func configureContentView() {
-        movieInformationStackView.translatesAutoresizingMaskIntoConstraints = false
-        NSLayoutConstraint.activate([
-            movieInformationStackView.topAnchor.constraint(equalTo: movieInformationScrollView.topAnchor),
-            movieInformationStackView.leadingAnchor.constraint(equalTo: movieInformationScrollView.leadingAnchor),
-            movieInformationStackView.bottomAnchor.constraint(equalTo: movieInformationScrollView.bottomAnchor),
-            movieInformationStackView.trailingAnchor.constraint(equalTo: movieInformationScrollView.trailingAnchor),
-            movieInformationStackView.widthAnchor.constraint(equalTo: movieInformationScrollView.widthAnchor, multiplier: 1)
         ])
     }
     
@@ -73,8 +58,8 @@ final class MovieInformationViewController: UIViewController {
                 print(error)
             case .success(let result):
                 DispatchQueue.main.async {
-                    self?.movieInformationStackView.movie = result.movieInformationResult.movie
-                    self?.movieInformationStackView.configure()
+                    self?.movieInformationScrollView.movie = result.movieInformationResult.movie
+                    self?.movieInformationScrollView.configure()
                 }
             }
         }
@@ -89,7 +74,7 @@ final class MovieInformationViewController: UIViewController {
                 DispatchQueue.main.async {
                     guard let firstDocument = result.documents.first,
                           let imageURL = URL(string: firstDocument.imageURL) else { return }
-                    self?.movieInformationStackView.moviePosterImageView.load(url: imageURL)
+                    self?.movieInformationScrollView.moviePosterImageView.load(url: imageURL)
                 }
             }
         }

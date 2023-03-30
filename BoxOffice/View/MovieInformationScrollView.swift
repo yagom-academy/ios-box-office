@@ -1,5 +1,5 @@
 //
-//  MovieInformationStackView.swift
+//  MovieInformationScrollView.swift
 //  BoxOffice
 //
 //  Created by 리지, kokkilE on 2023/03/29.
@@ -7,11 +7,13 @@
 
 import UIKit
 
-final class MovieInformationStackView: UIStackView {
+final class MovieInformationScrollView: UIScrollView {
     var movie: MovieInformation.MovieInformationResult.Movie?
-  
-    var moviePosterImageView = UIImageView()
-
+    
+    private let movieInformationContentView = UIView()
+    private let movieInformationStackView = UIStackView()
+    let moviePosterImageView = UIImageView()
+    
     private var directorStackView = UIStackView()
     private var productionYearStackView = UIStackView()
     private var openDateStackView = UIStackView()
@@ -22,11 +24,11 @@ final class MovieInformationStackView: UIStackView {
     private var actorsStackView = UIStackView()
     
     func configure() {
-        self.spacing = 10
-        self.axis = .vertical
-        self.distribution = .fill
+        self.addSubview(movieInformationContentView)
         
-        configureMoviePosterImageView()
+        configureContentView()
+        configureStackView()
+        configureImageView()
         configureDirectorStackView()
         configureProductionYearStackView()
         configureOpenDateStackView()
@@ -36,19 +38,52 @@ final class MovieInformationStackView: UIStackView {
         configureGenreStackView()
         configureActorStackView()
     }
+
+    private func configureContentView() {
+        movieInformationContentView.addSubview(movieInformationStackView)
+        
+        movieInformationContentView.translatesAutoresizingMaskIntoConstraints = false
+        NSLayoutConstraint.activate([
+            movieInformationContentView.topAnchor.constraint(equalTo: self.topAnchor),
+            movieInformationContentView.leadingAnchor.constraint(equalTo: self.leadingAnchor),
+            movieInformationContentView.bottomAnchor.constraint(equalTo: self.bottomAnchor),
+            movieInformationContentView.trailingAnchor.constraint(equalTo: self.trailingAnchor),
+            movieInformationContentView.widthAnchor.constraint(equalTo: self.widthAnchor, multiplier: 1)
+        ])
+    }
     
-    private func configureMoviePosterImageView() {
-        self.addArrangedSubview(moviePosterImageView)
+    private func configureStackView() {
+        movieInformationStackView.addArrangedSubview(moviePosterImageView)
+        movieInformationStackView.spacing = 10
+        movieInformationStackView.axis = .vertical
+        
+        movieInformationStackView.translatesAutoresizingMaskIntoConstraints = false
+        NSLayoutConstraint.activate([
+            movieInformationStackView.topAnchor.constraint(equalTo: movieInformationContentView.topAnchor),
+            movieInformationStackView.leadingAnchor.constraint(equalTo: movieInformationContentView.leadingAnchor),
+            movieInformationStackView.bottomAnchor.constraint(equalTo: movieInformationContentView.bottomAnchor),
+            movieInformationStackView.trailingAnchor.constraint(equalTo: movieInformationContentView.trailingAnchor)
+        ])
+    }
+    
+    private func configureImageView() {
+        moviePosterImageView.contentMode = .scaleAspectFit
+        moviePosterImageView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
+
+        moviePosterImageView.translatesAutoresizingMaskIntoConstraints = false
+        NSLayoutConstraint.activate([
+            moviePosterImageView.heightAnchor.constraint(lessThanOrEqualTo: self.frameLayoutGuide.heightAnchor, multiplier: 0.5)
+        ])
     }
     
     private func configureDirectorStackView() {
-        self.addArrangedSubview(productionYearStackView)
+        movieInformationStackView.addArrangedSubview(productionYearStackView)
         productionYearStackView.distribution = .fill
         
         let titleLabel = UILabel()
         titleLabel.text = "감독"
         titleLabel.textAlignment = .center
-        titleLabel.font = .boldSystemFont(ofSize: 20)
+        titleLabel.font = .boldSystemFont(ofSize: 17)
         
         productionYearStackView.addArrangedSubview(titleLabel)
         
@@ -73,13 +108,12 @@ final class MovieInformationStackView: UIStackView {
     }
     
     private func configureProductionYearStackView() {
-        self.addArrangedSubview(directorStackView)
-        directorStackView.distribution = .fill
+        movieInformationStackView.addArrangedSubview(directorStackView)
         
         let titleLabel = UILabel()
         titleLabel.text = "제작년도"
         titleLabel.textAlignment = .center
-        titleLabel.font = .boldSystemFont(ofSize: 20)
+        titleLabel.font = .boldSystemFont(ofSize: 17)
         
         directorStackView.addArrangedSubview(titleLabel)
         
@@ -95,13 +129,13 @@ final class MovieInformationStackView: UIStackView {
     }
     
     private func configureOpenDateStackView() {
-        self.addArrangedSubview(openDateStackView)
+        movieInformationStackView.addArrangedSubview(openDateStackView)
         openDateStackView.distribution = .fill
         
         let titleLabel = UILabel()
         titleLabel.text = "개봉일"
         titleLabel.textAlignment = .center
-        titleLabel.font = .boldSystemFont(ofSize: 20)
+        titleLabel.font = .boldSystemFont(ofSize: 17)
         
         openDateStackView.addArrangedSubview(titleLabel)
         
@@ -117,13 +151,13 @@ final class MovieInformationStackView: UIStackView {
     }
     
     private func configureShowTimeStackView() {
-        self.addArrangedSubview(showTimeStackView)
+        movieInformationStackView.addArrangedSubview(showTimeStackView)
         showTimeStackView.distribution = .fill
         
         let titleLabel = UILabel()
         titleLabel.text = "상영시간"
         titleLabel.textAlignment = .center
-        titleLabel.font = .boldSystemFont(ofSize: 20)
+        titleLabel.font = .boldSystemFont(ofSize: 17)
         
         showTimeStackView.addArrangedSubview(titleLabel)
         
@@ -139,13 +173,13 @@ final class MovieInformationStackView: UIStackView {
     }
     
     private func configureWatchGradeStackView() {
-        self.addArrangedSubview(watchGradeStackView)
+        movieInformationStackView.addArrangedSubview(watchGradeStackView)
         watchGradeStackView.distribution = .fill
         
         let titleLabel = UILabel()
         titleLabel.text = "관람등급"
         titleLabel.textAlignment = .center
-        titleLabel.font = .boldSystemFont(ofSize: 20)
+        titleLabel.font = .boldSystemFont(ofSize: 17)
         
         watchGradeStackView.addArrangedSubview(titleLabel)
         
@@ -172,13 +206,13 @@ final class MovieInformationStackView: UIStackView {
     }
     
     private func configureNationStackView() {
-        self.addArrangedSubview(nationStackView)
+        movieInformationStackView.addArrangedSubview(nationStackView)
         nationStackView.distribution = .fill
         
         let titleLabel = UILabel()
         titleLabel.text = "제작국가"
         titleLabel.textAlignment = .center
-        titleLabel.font = .boldSystemFont(ofSize: 20)
+        titleLabel.font = .boldSystemFont(ofSize: 17)
         
         nationStackView.addArrangedSubview(titleLabel)
         
@@ -203,13 +237,13 @@ final class MovieInformationStackView: UIStackView {
     }
     
     private func configureGenreStackView() {
-        self.addArrangedSubview(genresStackView)
+        movieInformationStackView.addArrangedSubview(genresStackView)
         genresStackView.distribution = .fill
         
         let titleLabel = UILabel()
         titleLabel.text = "장르"
         titleLabel.textAlignment = .center
-        titleLabel.font = .boldSystemFont(ofSize: 20)
+        titleLabel.font = .boldSystemFont(ofSize: 17)
         
         genresStackView.addArrangedSubview(titleLabel)
         
@@ -234,13 +268,13 @@ final class MovieInformationStackView: UIStackView {
     }
     
     private func configureActorStackView() {
-        self.addArrangedSubview(actorsStackView)
+        movieInformationStackView.addArrangedSubview(actorsStackView)
         actorsStackView.distribution = .fill
         
         let titleLabel = UILabel()
         titleLabel.text = "배우"
         titleLabel.textAlignment = .center
-        titleLabel.font = .boldSystemFont(ofSize: 20)
+        titleLabel.font = .boldSystemFont(ofSize: 17)
         
         actorsStackView.addArrangedSubview(titleLabel)
         
