@@ -14,10 +14,10 @@ final class BoxOfficeViewController: UIViewController {
     private let refreshControl = UIRefreshControl()
     private var boxOffice: BoxOffice?
     
-    private var activityIndicator: UIActivityIndicatorView = {
+    private lazy var activityIndicator: UIActivityIndicatorView = {
         let activityIndicator = UIActivityIndicatorView()
         activityIndicator.style = UIActivityIndicatorView.Style.large
-        activityIndicator.startAnimating()
+        activityIndicator.center = self.view.center
         
         return activityIndicator
     }()
@@ -25,10 +25,8 @@ final class BoxOfficeViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        navigationItem.title = generateYesterdayText(type: .hyphen)
-        refreshControl.addTarget(self, action: #selector(refreshData), for: .valueChanged)
-        registerXib()
-        configureCollectionView()
+        configure()
+        activityIndicator.startAnimating()
         fetchDailyBoxOffice()
     }
     
@@ -64,10 +62,16 @@ final class BoxOfficeViewController: UIViewController {
 
     private func configureCollectionView() {
         collectionView.refreshControl = refreshControl
-        collectionView.backgroundView = activityIndicator
         collectionView.dataSource = self
         collectionView.collectionViewLayout = createListLayout()
-        view.addSubview(collectionView)
+        registerXib()
+    }
+    
+    private func configure() {
+        navigationItem.title = generateYesterdayText(type: .hyphen)
+        self.view.addSubview(activityIndicator)
+        refreshControl.addTarget(self, action: #selector(refreshData), for: .valueChanged)
+        configureCollectionView()
     }
     
     private func fetchDailyBoxOffice() {
