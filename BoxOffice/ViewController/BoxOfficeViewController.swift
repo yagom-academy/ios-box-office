@@ -42,14 +42,14 @@ final class BoxOfficeViewController: UIViewController {
         super.viewDidLoad()
         
         let boxOfficeProvider = BoxOfficeProvider<DaumAPI>()
-        boxOfficeProvider.fetchData(.searchImage(movieName: "maple"), type: BoxOfficeDTO.self) { result in
+        boxOfficeProvider.fetchData(.searchImage(movieName: "메이플스토리"), type: SearchedMovieImageDTO.self) { result in
 
         }
         
-        self.configureHierarchy()
-        self.configureDataSource()
-        self.setupUI()
-        self.fetchDailyBoxOffice()
+//        self.configureHierarchy()
+//        self.configureDataSource()
+//        self.setupUI()
+//        self.fetchDailyBoxOffice()
     }
     
     private func setupUI() {
