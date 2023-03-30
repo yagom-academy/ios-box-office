@@ -42,7 +42,7 @@ final class NetworkManagerTests: XCTestCase {
         
         let expectedResult = StubBoxOffice().data
         let expectation = XCTestExpectation()
-        let url = URLMaker().makeBoxOfficeURL(date: "20220105")
+        let url = URLMaker().makeBoxOfficeURL(date: "20220104")
         
         //when
         sut.startLoad(url: url!) { result in
@@ -53,6 +53,40 @@ final class NetworkManagerTests: XCTestCase {
                 expectation.fulfill()
             case .failure(_):
                 XCTFail()
+            }
+        }
+                
+        wait(for: [expectation], timeout: 3)
+    }
+    
+    func test_20220105이_아닌날짜의URL로요청시_서버에서_error가_발생한다() {
+        //given
+        MockURLProtocolObject.requestHandler = { (request: URLRequest )in
+            guard let url = request.url,
+                  url == URLMaker().makeBoxOfficeURL(date: "20220105") else {
+                throw NetworkError.invalidResponse
+            }
+    
+            let data = StubBoxOffice().data
+            let responses = HTTPURLResponse(url: url,
+                                            mimeType: "text",
+                                            expectedContentLength: 0,
+                                            textEncodingName: nil)
+            return (responses, data)
+        }
+
+        let expectation = XCTestExpectation()
+        let url = URLMaker().makeBoxOfficeURL(date: "20220101")
+        
+        //when
+        sut.startLoad(url: url!) { result in
+            switch result {
+            case .success(_):
+                XCTFail()
+            case .failure(let error):
+                //then
+                XCTAssertNotNil(error)
+                expectation.fulfill()
             }
         }
                 
