@@ -16,7 +16,7 @@ final class MovieInformationStackView: UIStackView {
     private var productionYearStackView = UIStackView()
     private var openDateStackView = UIStackView()
     private var showTimeStackView = UIStackView()
-    private var productionStatusStackView = UIStackView()
+    private var watchGradeStackView = UIStackView()
     private var nationStackView = UIStackView()
     private var genresStackView = UIStackView()
     private var actorsStackView = UIStackView()
@@ -24,14 +24,14 @@ final class MovieInformationStackView: UIStackView {
     func configure() {
         self.spacing = 10
         self.axis = .vertical
-        self.distribution = .fillEqually
+        self.distribution = .fill
         
         configureMoviePosterImageView()
         configureDirectorStackView()
         configureProductionYearStackView()
         configureOpenDateStackView()
         configureShowTimeStackView()
-        configureProductionStatusStackView()
+        configureWatchGradeStackView()
         configureNationStackView()
         configureGenreStackView()
         configureActorStackView()
@@ -60,13 +60,14 @@ final class MovieInformationStackView: UIStackView {
         let descriptionLabel = UILabel()
         productionYearStackView.addArrangedSubview(descriptionLabel)
         
-        guard let count = movie?.directors.count else { return }
+        guard let movie = movie else { return }
         
-        for index in 0..<count {
+        for index in 0..<movie.directors.count {
             if index == 0 {
-                descriptionLabel.text = movie?.directors[index].name
+                descriptionLabel.text = movie.directors[index].name
             } else {
-                descriptionLabel.text! += ", " + (movie?.directors[index].name)!
+                guard let description = descriptionLabel.text else { return }
+                descriptionLabel.text = description + ", " + movie.directors[index].name
             }
         }
     }
@@ -137,26 +138,37 @@ final class MovieInformationStackView: UIStackView {
         showTimeStackView.addArrangedSubview(descriptionLabel)
     }
     
-    private func configureProductionStatusStackView() {
-        self.addArrangedSubview(productionStatusStackView)
-        productionStatusStackView.distribution = .fill
+    private func configureWatchGradeStackView() {
+        self.addArrangedSubview(watchGradeStackView)
+        watchGradeStackView.distribution = .fill
         
         let titleLabel = UILabel()
         titleLabel.text = "관람등급"
         titleLabel.textAlignment = .center
         titleLabel.font = .boldSystemFont(ofSize: 20)
         
-        productionStatusStackView.addArrangedSubview(titleLabel)
+        watchGradeStackView.addArrangedSubview(titleLabel)
         
         titleLabel.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([
-            titleLabel.widthAnchor.constraint(equalTo: productionStatusStackView.widthAnchor, multiplier: 0.2)
+            titleLabel.widthAnchor.constraint(equalTo: watchGradeStackView.widthAnchor, multiplier: 0.2)
         ])
         
         let descriptionLabel = UILabel()
         descriptionLabel.text = movie?.productionStatus
         
-        productionStatusStackView.addArrangedSubview(descriptionLabel)
+        guard let movie = movie else { return }
+        
+        for index in 0..<movie.audits.count {
+            if index == 0 {
+                descriptionLabel.text = movie.audits[index].watchGrade
+            } else {
+                guard let description = descriptionLabel.text else { return }
+                descriptionLabel.text = description + ", " + movie.audits[index].watchGrade
+            }
+        }
+        
+        watchGradeStackView.addArrangedSubview(descriptionLabel)
     }
     
     private func configureNationStackView() {
@@ -178,13 +190,14 @@ final class MovieInformationStackView: UIStackView {
         let descriptionLabel = UILabel()
         nationStackView.addArrangedSubview(descriptionLabel)
         
-        guard let count = movie?.nations.count else { return }
+        guard let movie = movie else { return }
         
-        for index in 0..<count {
+        for index in 0..<movie.nations.count {
             if index == 0 {
-                descriptionLabel.text = movie?.nations[index].name
+                descriptionLabel.text = movie.nations[index].name
             } else {
-                descriptionLabel.text! += ", " + (movie?.nations[index].name)!
+                guard let description = descriptionLabel.text else { return }
+                descriptionLabel.text = description + ", " + movie.nations[index].name
             }
         }
     }
@@ -208,13 +221,14 @@ final class MovieInformationStackView: UIStackView {
         let descriptionLabel = UILabel()
         genresStackView.addArrangedSubview(descriptionLabel)
         
-        guard let count = movie?.genres.count else { return }
+        guard let movie = movie else { return }
         
-        for index in 0..<count {
+        for index in 0..<movie.genres.count {
             if index == 0 {
-                descriptionLabel.text = movie?.genres[index].name
+                descriptionLabel.text = movie.genres[index].name
             } else {
-                descriptionLabel.text! += ", " + (movie?.genres[index].name)!
+                guard let description = descriptionLabel.text else { return }
+                descriptionLabel.text = description + ", " + movie.genres[index].name
             }
         }
     }
@@ -238,13 +252,15 @@ final class MovieInformationStackView: UIStackView {
         let descriptionLabel = UILabel()
         actorsStackView.addArrangedSubview(descriptionLabel)
         descriptionLabel.numberOfLines = 0
-        guard let count = movie?.actors.count else { return }
         
-        for index in 0..<count {
+        guard let movie = movie else { return }
+        
+        for index in 0..<movie.actors.count {
             if index == 0 {
-                descriptionLabel.text = movie?.actors[index].name
+                descriptionLabel.text = movie.actors[index].name
             } else {
-                descriptionLabel.text! += ", " + (movie?.actors[index].name)!
+                guard let description = descriptionLabel.text else { return }
+                descriptionLabel.text = description + ", " + movie.actors[index].name
             }
         }
     }

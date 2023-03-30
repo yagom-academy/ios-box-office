@@ -37,7 +37,7 @@ final class DailyBoxOfficeCollectionViewCell: UICollectionViewCell {
         
         audienceVarianceLabel.textColor = .black
     }
-    
+        
     private func configureCell() {
         configureContentView()
         configureSeparatorView()

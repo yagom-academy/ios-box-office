@@ -36,6 +36,7 @@ final class DailyBoxOfficeViewController: UIViewController {
     }
     
     private func configureCollectionView() {
+        collectionView.delegate = self
         collectionView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
         collectionView.register(DailyBoxOfficeCollectionViewCell.self, forCellWithReuseIdentifier: DailyBoxOfficeCollectionViewCell.reuseIdentifier)
         collectionView.refreshControl = refreshControl
@@ -125,9 +126,8 @@ extension DailyBoxOfficeViewController {
 
 extension DailyBoxOfficeViewController: UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        guard let cell = collectionView.cellForItem(at: indexPath) as? DailyBoxOfficeCollectionViewCell,
-              let movieName = cell.movie?.name,
-              let movieCode = cell.movie?.code else { return }
+        guard let movieName = dailyBoxOffice?.boxOfficeResult.boxOfficeList[indexPath.item].name,
+              let movieCode = dailyBoxOffice?.boxOfficeResult.boxOfficeList[indexPath.item].code else { return }
         
         let nextViewcontroller = MovieInformationViewController(movieName: movieName, movieCode: movieCode)
         navigationController?.pushViewController(nextViewcontroller, animated: true)
