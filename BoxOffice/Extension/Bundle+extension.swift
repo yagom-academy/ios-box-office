@@ -12,6 +12,7 @@ extension Bundle {
         guard let file = path(forResource: "BoxOfficeInfo", ofType: "plist"),
               let resource = NSDictionary(contentsOfFile: file),
               let key = resource["APIKEY"] as? String else { fatalError("BoxOfficeInfo.plist에 APIKEY 설정 값을 주세요.") }
+        
         return key
     }
 }

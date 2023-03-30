@@ -25,7 +25,8 @@ struct InfoObject: Decodable, Hashable {
     }
     
     var rankStatusText: String {
-        if self.rankStatus == .old {
+        switch self.rankStatus {
+        case .old:
             guard let changedRankValue = Int(changedRank) else { return "" }
             
             if changedRankValue > 0 {
@@ -35,13 +36,14 @@ struct InfoObject: Decodable, Hashable {
             } else {
                 return "▼ \(abs(changedRankValue))"
             }
-        } else {
+        case .new:
             return "신작"
         }
     }
     
     var rankStatusTextColor: UIColor {
-        if self.rankStatus == .old {
+        switch self.rankStatus {
+        case .old:
             guard let changedRankValue = Int(changedRank) else { return .black }
             
             if changedRankValue > 0 {
@@ -51,7 +53,7 @@ struct InfoObject: Decodable, Hashable {
             } else {
                 return .blue
             }
-        } else {
+        case .new:
             return .red
         }
     }
