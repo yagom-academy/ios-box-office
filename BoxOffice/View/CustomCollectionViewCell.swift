@@ -7,7 +7,7 @@
 
 import UIKit
 
-class CustomCollectionViewCell: UICollectionViewListCell {
+final class CustomCollectionViewCell: UICollectionViewListCell {
     static let identifier = "CustomCollectionViewCell"
     private var dailyBoxOffice: DailyBoxOffice?
     
