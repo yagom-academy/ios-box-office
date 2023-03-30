@@ -7,11 +7,11 @@
 
 import UIKit
 
-private enum Section {
-    case main
-}
-
 final class BoxOfficeViewController: UIViewController {
+    enum Section {
+        case main
+    }
+    
     private var boxOffice: BoxOffice?
     private lazy var collectionView = UICollectionView(frame: view.bounds,
                                                        collectionViewLayout: createListLayout())
@@ -36,19 +36,28 @@ final class BoxOfficeViewController: UIViewController {
         
         let urlRequest = api.request()
         
-        networkManager.fetchData(urlRequest: urlRequest, type: BoxOffice.self) { result in
+        networkManager.fetchData(urlRequest: urlRequest, type: BoxOffice.self) { [weak self] result in
             switch result {
             case .success(let data):
-                self.boxOffice = data
+                self?.boxOffice = data
                 
                 DispatchQueue.main.async {
-                    self.createCollectionView()
-                    self.configureDataSource()
+                    self?.createCollectionView()
+                    self?.configureDataSource()
                 }
             case .failure(let error):
-                print(error.localizedDescription)
+                DispatchQueue.main.async {
+                    self?.displayAlert(from: error)
+                }
             }
         }
+    }
+    
+    private func displayAlert(from error: Error) {
+        guard let networkingError = error as? NetworkingError else { return }
+        let alert = UIAlertController(title: networkingError.description, message: "모리스티에게 문의해 주세요.", preferredStyle: .alert)
+        alert.addAction(UIAlertAction(title: "닫기", style: .cancel))
+        present(alert, animated: true)
     }
 }
 

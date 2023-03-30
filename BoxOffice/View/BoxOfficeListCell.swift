@@ -20,8 +20,24 @@ extension UIConfigurationState {
 
 final class BoxOfficeListCell: UICollectionViewListCell {
     private var dailyBoxOfficeItem: DailyBoxOfficeItem?
-    private let rankStackView = RankStackView()
+    private let rankStackView = UIStackView()
     private lazy var boxOfficeListContentView = UIListContentView(configuration: defaultBoxOfficeConfiguration())
+    
+    private let rankLabel: UILabel = {
+        let label = UILabel()
+        
+        label.font = .preferredFont(forTextStyle: .title1)
+        
+        return label
+    }()
+    
+    private let rankInfoLabel: UILabel = {
+        let label = UILabel()
+        
+        label.font = .preferredFont(forTextStyle: .caption1)
+        
+        return label
+    }()
     
     private func defaultBoxOfficeConfiguration() -> UIListContentConfiguration {
         return .subtitleCell()
@@ -46,7 +62,51 @@ final class BoxOfficeListCell: UICollectionViewListCell {
 // MARK: - configure UI
 
 extension BoxOfficeListCell {
-    func setupViewsIfNeeded() {
+    enum RankInfo {
+        case new
+        case noChange
+        case increase(Int)
+        case decrease(Int)
+        
+        var description: String {
+            switch self {
+            case .new:
+                return "신작"
+            case .noChange:
+                return "-"
+            case .increase(let variance):
+                return "▲\(variance)"
+            case .decrease(let variance):
+                return "▼\(variance * -1)"
+            }
+        }
+        
+        var fontColor: UIColor {
+            switch self {
+            case .new:
+                return .systemRed
+            case .noChange:
+                return .black
+            case .increase:
+                return .systemRed
+            case .decrease:
+                return .systemBlue
+            }
+        }
+    }
+    
+    private func configureRankStackView() {
+        rankStackView.translatesAutoresizingMaskIntoConstraints = false
+        rankStackView.axis = .vertical
+        rankStackView.alignment = .center
+        
+        rankStackView.addArrangedSubview(rankLabel)
+        rankStackView.addArrangedSubview(rankInfoLabel)
+    }
+    
+    private func setupViewsIfNeeded() {
+        configureRankStackView()
+        
         [rankStackView, boxOfficeListContentView].forEach {
             contentView.addSubview($0)
             $0.translatesAutoresizingMaskIntoConstraints = false
@@ -81,33 +141,32 @@ extension BoxOfficeListCell {
         content.secondaryText = "오늘 \(state.dailyBoxOfficeItem?.audienceCount.applyNumberFormatter(formatter: numberFormatter) ?? "0") / 총 \( state.dailyBoxOfficeItem?.audienceAccumulation.applyNumberFormatter(formatter: numberFormatter) ?? "0")"
         content.secondaryTextProperties.font = .preferredFont(forTextStyle: .callout)
         
-        rankStackView.rankLabel.text = state.dailyBoxOfficeItem?.rank
+        rankLabel.text = state.dailyBoxOfficeItem?.rank
         configureRankInfoLabel(state: state)
         
         boxOfficeListContentView.configuration = content
     }
     
-    func configureRankInfoLabel(state: UICellConfigurationState) {
+    private func configureRankInfoLabel(state: UICellConfigurationState) {
         let oldAndNew = state.dailyBoxOfficeItem?.rankOldAndNew
         
         if oldAndNew == .new {
-            rankStackView.rankInfoLabel.textColor = .systemRed
-            rankStackView.rankInfoLabel.text = "신작"
+            rankInfoLabel.textColor = RankInfo.new.fontColor
+            rankInfoLabel.text = RankInfo.new.description
         } else {
             guard let rankingIntensity = state.dailyBoxOfficeItem?.rankingIntensity,
                     let variance = Int(rankingIntensity) else { return }
             
             switch variance {
             case ..<0:
-                let text = "▼\(variance * -1)"
-                rankStackView.rankInfoLabel.textColor = .systemBlue
-                rankStackView.rankInfoLabel.attributedText = text.attributeText()
+                rankInfoLabel.textColor = RankInfo.decrease(variance).fontColor
+                rankInfoLabel.attributedText = RankInfo.decrease(variance).description.attributeText()
             case 1...:
-                let text = "▲\(variance)"
-                rankStackView.rankInfoLabel.textColor = .systemRed
-                rankStackView.rankInfoLabel.attributedText = text.attributeText()
+                rankInfoLabel.textColor = RankInfo.increase(variance).fontColor
+                rankInfoLabel.attributedText = RankInfo.increase(variance).description.attributeText()
             default:
-                rankStackView.rankInfoLabel.text = "-"
+                rankInfoLabel.textColor = RankInfo.noChange.fontColor
+                rankInfoLabel.text = RankInfo.noChange.description
             }
         }
     }
