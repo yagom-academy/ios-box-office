@@ -11,8 +11,10 @@ struct MoviePoster: Decodable {
 
 struct Item: Decodable {
     let imageURLText: String
+    let movieName: String
     
     enum CodingKeys: String, CodingKey {
         case imageURLText = "image"
+        case movieName = "title"
     }
 }

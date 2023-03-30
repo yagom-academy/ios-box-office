@@ -22,7 +22,7 @@ final class BoxOfficeCollectionViewListCell: UICollectionViewListCell {
     override func prepareForReuse() {
         super.prepareForReuse()
         
-        rankInfoLabel.textColor = .black
+        rankInfoLabel.textColor = .label
     }
     
     private func configureLabels() {
@@ -66,7 +66,7 @@ fileprivate extension String {
         let index = self.index(after: self.startIndex)
         
         let range = String(self[index...])
-        attributedString.addAttribute(.foregroundColor, value: UIColor.black, range: (self as NSString).range(of: range))
+        attributedString.addAttribute(.foregroundColor, value: UIColor.label, range: (self as NSString).range(of: range))
         
         return attributedString
     }

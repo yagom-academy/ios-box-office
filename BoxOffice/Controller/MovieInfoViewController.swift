@@ -56,13 +56,25 @@ final class MovieInfoViewController: UIViewController {
             DispatchQueue.main.async {
                 switch result {
                 case .success(let data):
-                    guard let urlText = data.items.first?.imageURLText else { return }
-                    let url = URL(string: urlText.replacingOccurrences(of: "mit110", with: "mit500"))
+                    let url = self.searchPosterURL(data: data)
                     self.posterImageView.load(url: url)
                 case .failure(let error):
                     print(error.localizedDescription)
                 }
             }
         }
+    }
+    
+    private func searchPosterURL(data: MoviePoster) -> URL? {
+        for item in data.items {
+            let title = item.movieName.replacingOccurrences(of: "<b>", with: "")
+                .replacingOccurrences(of: "</b>", with: "")
+            if title == movieName {
+                let urlText = item.imageURLText.replacingOccurrences(of: "mit110", with: "mit500")
+                
+                return URL(string: urlText)
+            }
+        }
+        return nil
     }
 }
