@@ -14,7 +14,7 @@ final class CustomCollectionViewCell: UICollectionViewListCell {
     private let mainStackView: UIStackView = {
         let stackView = UIStackView()
         stackView.axis = .horizontal
-        stackView.distribution = .fillProportionally
+        stackView.distribution = .fill
         stackView.alignment = .center
         
         return stackView
