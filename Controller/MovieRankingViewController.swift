@@ -15,9 +15,17 @@ final class MovieRankingViewController: UIViewController {
     private lazy var boxofficeInfo = BoxofficeInfo<DailyBoxofficeObject>(apiType: apiType,
                                                    model: NetworkModel(session: .shared))
     // MARK: UI Properties
-    private var collectionView: UICollectionView!
     private let loadingView = UIActivityIndicatorView()
     private let refreshController = UIRefreshControl()
+    private let collectionView = {
+        let configuration = UICollectionLayoutListConfiguration(appearance: .plain)
+        let layout = UICollectionViewCompositionalLayout.list(using: configuration)
+        let collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
+        
+        collectionView.register(MovieRankingCell.self, forCellWithReuseIdentifier: MovieRankingCell.identifier)
+        
+        return collectionView
+    }()
     
     // MARK: DataSource Properties
     private var dataSource: UICollectionViewDiffableDataSource<APIType, InfoObject>!
@@ -73,7 +81,6 @@ extension MovieRankingViewController {
         view.backgroundColor = .systemBackground
         navigationItem.title = "\(Date.yesterday.formatString())"
         
-        configureCollectionView()
         configureCollectionViewLayout()
         configureLoadingView()
     }
@@ -111,14 +118,6 @@ extension MovieRankingViewController {
 
 // MARK: CollectionView UI
 extension MovieRankingViewController {
-    private func configureCollectionView() {
-        let configuration = UICollectionLayoutListConfiguration(appearance: .plain)
-        let layout = UICollectionViewCompositionalLayout.list(using: configuration)
-        
-        collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
-        collectionView.register(MovieRankingCell.self, forCellWithReuseIdentifier: MovieRankingCell.identifier)
-    }
-    
     private func configureCollectionViewLayout() {
         view.addSubview(collectionView)
         
