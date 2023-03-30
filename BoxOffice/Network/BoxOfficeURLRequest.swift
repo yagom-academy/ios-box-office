@@ -1,5 +1,5 @@
 //
-//  KobisURLRequest.swift
+//  BoxOfficeURLRequest.swift
 //  BoxOffice
 //
 //  Created by Christy, Hyemory on 2023/03/22.
@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct KobisURLRequest {
+struct BoxOfficeURLRequest {
     enum Service {
         case dailyBoxOffice
         case movieInfo

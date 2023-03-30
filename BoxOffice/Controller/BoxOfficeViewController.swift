@@ -7,14 +7,15 @@
 
 import UIKit
 
-enum Section {
+private enum Section {
     case main
 }
 
 final class BoxOfficeViewController: UIViewController {
     private var boxOffice: BoxOffice?
-    private var collectionView: UICollectionView!
-    private var dataSource: UICollectionViewDiffableDataSource<Section, DailyBoxOfficeItem>!
+    private lazy var collectionView = UICollectionView(frame: view.bounds,
+                                                       collectionViewLayout: createListLayout())
+    private var dataSource: UICollectionViewDiffableDataSource<Section, DailyBoxOfficeItem>?
     private let networkManager = NetworkManager()
     private let dateFormatter = DateFormatter()
     
@@ -27,7 +28,7 @@ final class BoxOfficeViewController: UIViewController {
     }
     
     private func fetchBoxOffice() {
-        var api = KobisURLRequest(service: .dailyBoxOffice)
+        var api = BoxOfficeURLRequest(service: .dailyBoxOffice)
         let queryName = "targetDt"
         let queryValue = Date().showYesterdayDate(formatter: dateFormatter, in: .notHyphen)
         
@@ -41,7 +42,7 @@ final class BoxOfficeViewController: UIViewController {
                 self.boxOffice = data
                 
                 DispatchQueue.main.async {
-                    self.configureCollectionView()
+                    self.createCollectionView()
                     self.configureDataSource()
                 }
             case .failure(let error):
@@ -60,7 +61,7 @@ extension BoxOfficeViewController {
         return UICollectionViewCompositionalLayout.list(using: config)
     }
     
-    private func configureCollectionView() {
+    private func createCollectionView() {
         collectionView = UICollectionView(frame: view.bounds,
                                           collectionViewLayout: createListLayout())
         view.addSubview(collectionView)
@@ -87,7 +88,7 @@ extension BoxOfficeViewController {
         
         snapshot.appendSections([.main])
         snapshot.appendItems(items)
-        dataSource.apply(snapshot)
+        dataSource?.apply(snapshot)
     }
 }
 

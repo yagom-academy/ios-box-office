@@ -15,7 +15,7 @@
 		7F0F794B29C94D4D00111C12 /* NetworkingError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F0F794A29C94D4D00111C12 /* NetworkingError.swift */; };
 		7F0F794D29CADEAE00111C12 /* Movie.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F0F794C29CADEAE00111C12 /* Movie.swift */; };
 		7F0F794F29CAE04200111C12 /* MovieInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F0F794E29CAE04200111C12 /* MovieInfo.swift */; };
-		7F0F795129CAFC3900111C12 /* KobisURLRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F0F795029CAFC3900111C12 /* KobisURLRequest.swift */; };
+		7F0F795129CAFC3900111C12 /* BoxOfficeURLRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F0F795029CAFC3900111C12 /* BoxOfficeURLRequest.swift */; };
 		7F0F795329CC483100111C12 /* DummyBoxOffice.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F0F795229CC483100111C12 /* DummyBoxOffice.swift */; };
 		7F7E335329D2D96D0025D81C /* Date+extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F7E335229D2D96D0025D81C /* Date+extension.swift */; };
 		BF12279829C82855005CC152 /* DailyBoxOfficeItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF12279729C82855005CC152 /* DailyBoxOfficeItem.swift */; };
@@ -53,7 +53,7 @@
 		7F0F794A29C94D4D00111C12 /* NetworkingError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkingError.swift; sourceTree = "<group>"; };
 		7F0F794C29CADEAE00111C12 /* Movie.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Movie.swift; sourceTree = "<group>"; };
 		7F0F794E29CAE04200111C12 /* MovieInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MovieInfo.swift; sourceTree = "<group>"; };
-		7F0F795029CAFC3900111C12 /* KobisURLRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KobisURLRequest.swift; sourceTree = "<group>"; };
+		7F0F795029CAFC3900111C12 /* BoxOfficeURLRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BoxOfficeURLRequest.swift; sourceTree = "<group>"; };
 		7F0F795229CC483100111C12 /* DummyBoxOffice.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DummyBoxOffice.swift; sourceTree = "<group>"; };
 		7F7E335229D2D96D0025D81C /* Date+extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Date+extension.swift"; sourceTree = "<group>"; };
 		BF12279729C82855005CC152 /* DailyBoxOfficeItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DailyBoxOfficeItem.swift; sourceTree = "<group>"; };
@@ -115,10 +115,9 @@
 				7F9EAFE229C825E00040D291 /* Controller */,
 				7F9EAFE129C825D90040D291 /* View */,
 				7F9EAFE029C825D10040D291 /* Model */,
+				7FBDFB4029D582C700C0EDE0 /* Resource */,
 				63DF20EE2970E1A0005DF7D1 /* AppDelegate.swift */,
 				63DF20F02970E1A0005DF7D1 /* SceneDelegate.swift */,
-				63DF20F72970E1A1005DF7D1 /* Assets.xcassets */,
-				63DF20FC2970E1A1005DF7D1 /* Info.plist */,
 			);
 			path = BoxOffice;
 			sourceTree = "<group>";
@@ -148,7 +147,6 @@
 			children = (
 				BF245A6429D2DEC3000B197B /* BoxOfficeListCell.swift */,
 				BF245A6629D2F1F0000B197B /* RankStackView.swift */,
-				63DF20F92970E1A1005DF7D1 /* LaunchScreen.storyboard */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -159,6 +157,16 @@
 				63DF20F22970E1A0005DF7D1 /* BoxOfficeViewController.swift */,
 			);
 			path = Controller;
+			sourceTree = "<group>";
+		};
+		7FBDFB4029D582C700C0EDE0 /* Resource */ = {
+			isa = PBXGroup;
+			children = (
+				63DF20F72970E1A1005DF7D1 /* Assets.xcassets */,
+				63DF20F92970E1A1005DF7D1 /* LaunchScreen.storyboard */,
+				63DF20FC2970E1A1005DF7D1 /* Info.plist */,
+			);
+			path = Resource;
 			sourceTree = "<group>";
 		};
 		BF1227A229C84EEB005CC152 /* BoxOfficeTests */ = {
@@ -188,7 +196,7 @@
 				BF74020729CC2ADB006D8C83 /* protocols */,
 				BFC35E7E29C99B300093B526 /* NetworkManager.swift */,
 				7F0F794A29C94D4D00111C12 /* NetworkingError.swift */,
-				7F0F795029CAFC3900111C12 /* KobisURLRequest.swift */,
+				7F0F795029CAFC3900111C12 /* BoxOfficeURLRequest.swift */,
 			);
 			path = Network;
 			sourceTree = "<group>";
@@ -299,7 +307,7 @@
 				7F0F794D29CADEAE00111C12 /* Movie.swift in Sources */,
 				BF12279A29C83736005CC152 /* BoxOffice.swift in Sources */,
 				7F0F794B29C94D4D00111C12 /* NetworkingError.swift in Sources */,
-				7F0F795129CAFC3900111C12 /* KobisURLRequest.swift in Sources */,
+				7F0F795129CAFC3900111C12 /* BoxOfficeURLRequest.swift in Sources */,
 				63DF20EF2970E1A0005DF7D1 /* AppDelegate.swift in Sources */,
 				7F7E335329D2D96D0025D81C /* Date+extension.swift in Sources */,
 				BF245A6729D2F1F0000B197B /* RankStackView.swift in Sources */,
@@ -468,7 +476,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_FILE = BoxOffice/Info.plist;
+				INFOPLIST_FILE = BoxOffice/Resource/Info.plist;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
@@ -495,7 +503,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_FILE = BoxOffice/Info.plist;
+				INFOPLIST_FILE = BoxOffice/Resource/Info.plist;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
