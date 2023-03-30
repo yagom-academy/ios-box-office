@@ -9,7 +9,6 @@ import UIKit
 
 final class CustomCollectionViewCell: UICollectionViewListCell {
     static let identifier = "CustomCollectionViewCell"
-    private var dailyBoxOffice: DailyBoxOffice?
     
     private let mainStackView: UIStackView = {
         let stackView = UIStackView()
@@ -44,19 +43,16 @@ final class CustomCollectionViewCell: UICollectionViewListCell {
     }
     
     func configureDailyBoxOffice(dailyBoxOffice: DailyBoxOffice?) {
-        self.dailyBoxOffice = dailyBoxOffice
-        configureMainStackView()
+        configureMainStackView(dailyBoxOffice: dailyBoxOffice)
     }
     
-    private func configureMainStackView() {
-        let rankStackView = configureRankStackView()
-        let audienceStackView = configureAudienceStackView()
+    private func configureMainStackView(dailyBoxOffice: DailyBoxOffice?) {
+        let rankStackView = configureRankStackView(dailyBoxOffice: dailyBoxOffice)
+        let audienceStackView = configureAudienceStackView(dailyBoxOffice: dailyBoxOffice)
         
         self.addSubview(mainStackView)
-        
         mainStackView.addArrangedSubview(rankStackView)
         mainStackView.addArrangedSubview(audienceStackView)
-        
         mainStackView.setAutoLayout(equalTo: self.safeAreaLayoutGuide)
         
         NSLayoutConstraint.activate([
@@ -64,7 +60,7 @@ final class CustomCollectionViewCell: UICollectionViewListCell {
         ])
     }
     
-    private func configureRankStackView() -> UIStackView {
+    private func configureRankStackView(dailyBoxOffice: DailyBoxOffice?) -> UIStackView {
         let rankStackView: UIStackView = {
             let stackView = UIStackView()
             stackView.axis = .vertical
@@ -84,7 +80,7 @@ final class CustomCollectionViewCell: UICollectionViewListCell {
         
         let rankIntensityLabel: UILabel = {
             let label = UILabel()
-            label.attributedText = configureRankIntensityText()
+            label.attributedText = configureRankIntensityText(dailyBoxOffice: dailyBoxOffice)
             label.font = .preferredFont(forTextStyle: .body)
             
             return label
@@ -96,7 +92,7 @@ final class CustomCollectionViewCell: UICollectionViewListCell {
         return rankStackView
     }
     
-    private func configureRankIntensityText() -> NSMutableAttributedString? {
+    private func configureRankIntensityText(dailyBoxOffice: DailyBoxOffice?) -> NSMutableAttributedString? {
         var attributedString: NSMutableAttributedString
         guard var rankIntensity = dailyBoxOffice?.rankIntensity else { return nil }
         
@@ -133,7 +129,7 @@ final class CustomCollectionViewCell: UICollectionViewListCell {
         return attributedString
     }
     
-    private func configureAudienceStackView() -> UIStackView {
+    private func configureAudienceStackView(dailyBoxOffice: DailyBoxOffice?) -> UIStackView {
         let audienceStackView: UIStackView = {
             let stackView = UIStackView()
             stackView.axis = .vertical
