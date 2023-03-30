@@ -62,9 +62,9 @@ final class BoxOfficeListViewController: UIViewController {
         server.startLoad(url: url) { result in
             let decoder = DecodeManager()
             do {
-                guard let verifiedFetchingResult = try self.verifyFetchingResult(result: result) else { return }
+                guard let verifiedFetchingResult = try self.verifyResult(result: result) else { return }
                 let decodedFile = decoder.decodeJSON(data: verifiedFetchingResult, type: BoxOffice.self)
-                let verifiedDecodingResult = try self.verifyDecodingResult(result: decodedFile)
+                let verifiedDecodingResult = try self.verifyResult(result: decodedFile)
                 
                 self.boxOffice = verifiedDecodingResult
                 completion()
@@ -73,17 +73,8 @@ final class BoxOfficeListViewController: UIViewController {
             }
         }
     }
-    
-    private func verifyFetchingResult(result: Result<Data, NetworkError>) throws -> Data?  {
-        switch result {
-        case .success(let data):
-            return data
-        case .failure(let error):
-            throw error
-        }
-    }
-    
-    private func verifyDecodingResult<T: Decodable>(result: Result<T, DecodeError>) throws -> T? {
+ 
+    private func verifyResult<T, E: Error>(result: Result<T, E>) throws -> T? {
         switch result {
         case .success(let data):
             return data
