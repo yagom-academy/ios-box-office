@@ -8,7 +8,7 @@
 import XCTest
 @testable import BoxOffice
 
-final class SearchedImageDTOTests: XCTestCase {
+final class SearchedMovieImageDTOTests: XCTestCase {
     
     override func setUp() {
         super.setUp()
