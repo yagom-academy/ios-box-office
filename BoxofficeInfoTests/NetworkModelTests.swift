@@ -50,7 +50,6 @@ final class NetworkModelTests: XCTestCase {
                 XCTAssertEqual(expectation, data)
                 asyncTest.fulfill()
             case .failure(let error):
-                print("error: \(error)")
                 XCTFail("잘못된 테스트코드 입니다.")
             }
         }

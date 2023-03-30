@@ -96,12 +96,13 @@ extension MovieRankingViewController {
             
             return cell
         })
+        
+        snapshot.appendSections([apiType])
     }
     
     private func applySnapshot() {
-        snapshot.deleteSections([apiType])
+        snapshot.deleteItems(movieItems)
         
-        snapshot.appendSections([apiType])
         snapshot.appendItems(movieItems)
         
         dataSource.apply(snapshot, animatingDifferences: true)
