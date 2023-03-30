@@ -46,7 +46,7 @@ final class MovieRankingViewController: UIViewController {
     
     @objc private func refreshCollectionView() {
         DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
-//            self.fetchBoxofficeData()
+            self.fetchBoxofficeData()
             self.collectionView.refreshControl?.endRefreshing()
         }
     }
@@ -55,7 +55,6 @@ final class MovieRankingViewController: UIViewController {
         boxofficeInfo.fetchData { [weak self] result in
             switch result {
             case .success(let data):
-//                print(data)
                 self?.movieItems = data.boxOfficeResult.movies
                 DispatchQueue.main.async {
                     self?.applySnapshot()
@@ -104,6 +103,8 @@ final class MovieRankingViewController: UIViewController {
     }
     
     private func applySnapshot() {
+        snapshot.deleteSections([apiType])
+        
         snapshot.appendSections([apiType])
         snapshot.appendItems(movieItems)
         
