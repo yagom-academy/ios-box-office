@@ -18,7 +18,7 @@ final class DailyMovieViewController: UIViewController {
     lazy private var collectionView: UICollectionView = {
         let collectionView = UICollectionView(frame: view.bounds, collectionViewLayout: createLayout())
         collectionView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
-        collectionView.register(DailyBoxOfficeCollectionViewCell.self, forCellWithReuseIdentifier: DailyBoxOfficeCollectionViewCell.reuseIdentifier)
+        collectionView.register(DailyMovieListCell.self, forCellWithReuseIdentifier: DailyMovieListCell.reuseIdentifier)
         view.addSubview(collectionView)
         
         return collectionView

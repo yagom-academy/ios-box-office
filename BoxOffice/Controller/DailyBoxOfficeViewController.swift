@@ -8,28 +8,30 @@
 import UIKit
 
 final class DailyBoxOfficeViewController: UIViewController {
-    private var networkManager = NetworkManager()
-    private var boxOfficeEndPoint: BoxOfficeEndPoint?
-    private var refreshControl = UIRefreshControl()
     private typealias DataSource = UICollectionViewDiffableDataSource<Section, DailyBoxOffice.BoxOfficeResult.Movie>
-    private var movieDataSource: DataSource?
-    private var dailyBoxOffice: DailyBoxOffice?
-    lazy private var collectionView: UICollectionView = {
-        let collectionView = UICollectionView(frame: view.bounds, collectionViewLayout: createMovieListLayout())
-        collectionView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
-        collectionView.register(DailyBoxOfficeCollectionViewCell.self, forCellWithReuseIdentifier: DailyBoxOfficeCollectionViewCell.reuseIdentifier)
-        view.addSubview(collectionView)
-        
-        return collectionView
-    }()
     
+    private let networkManager = NetworkManager()
+    private var boxOfficeEndPoint: BoxOfficeEndPoint?
+    private var dailyBoxOffice: DailyBoxOffice?
+    private var movieDataSource: DataSource?
+    
+    private var dateFormatter = DateFormatter()
+    private var refreshControl = UIRefreshControl()
+    
+    lazy private var collectionView = UICollectionView(frame: view.bounds, collectionViewLayout: createMovieListLayout())
+
     override func viewDidLoad() {
         super.viewDidLoad()
+        view.addSubview(collectionView)
         
+        configureCollectionView()
         refreshData()
         refreshControl.addTarget(self, action: #selector(refreshData), for: .valueChanged)
+<<<<<<< HEAD
         collectionView.refreshControl = refreshControl
         collectionView.delegate = self
+=======
+>>>>>>> step3
     }
     
     @objc private func refreshData() {
@@ -38,8 +40,13 @@ final class DailyBoxOfficeViewController: UIViewController {
         fetchDailyBoxOfficeData()
     }
     
+    private func configureCollectionView() {
+        collectionView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
+        collectionView.register(DailyBoxOfficeCollectionViewCell.self, forCellWithReuseIdentifier: DailyBoxOfficeCollectionViewCell.reuseIdentifier)
+        collectionView.refreshControl = refreshControl
+    }
+    
     private func updateDateToViewTitle() {
-        let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = "yyyy-MM-dd"
         let currentDate = dateFormatter.string(from: Date(timeIntervalSinceNow: -86400))
         
@@ -47,7 +54,6 @@ final class DailyBoxOfficeViewController: UIViewController {
     }
     
     private func updateDateToEndPoint() {
-        let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = "yyyyMMdd"
         let currentDate = dateFormatter.string(from: Date(timeIntervalSinceNow: -86400))
         
@@ -66,7 +72,7 @@ final class DailyBoxOfficeViewController: UIViewController {
                 
                 DispatchQueue.main.async {
                     self?.setupDataSource()
-                    self?.setupSnapshot()
+                    self?.applySnapshotToDataSource()
                     self?.refreshControl.endRefreshing()
                 }
             }
@@ -92,7 +98,7 @@ extension DailyBoxOfficeViewController {
         }
     }
     
-    private func setupSnapshot() {
+    private func applySnapshotToDataSource() {
         typealias Snapshot = NSDiffableDataSourceSnapshot<Section, DailyBoxOffice.BoxOfficeResult.Movie>
         var snapshot = Snapshot()
         snapshot.appendSections([.main])
@@ -106,12 +112,12 @@ extension DailyBoxOfficeViewController {
 extension DailyBoxOfficeViewController {
     private func createMovieListLayout() -> UICollectionViewLayout {
         let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0),
-                                              heightDimension: .fractionalHeight(0.1))
+                                              heightDimension: .estimated(44))
         let item = NSCollectionLayoutItem(layoutSize: itemSize)
         item.contentInsets = NSDirectionalEdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 0)
         
         let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0),
-                                               heightDimension: .fractionalHeight(1.0))
+                                               heightDimension: .estimated(44))
         let group = NSCollectionLayoutGroup.vertical(layoutSize: groupSize, subitems: [item])
         
         let section = NSCollectionLayoutSection(group: group)
