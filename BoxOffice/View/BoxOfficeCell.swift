@@ -58,6 +58,7 @@ final class BoxOfficeCell: UICollectionViewCell {
         
         stackView.axis = .vertical
         stackView.translatesAutoresizingMaskIntoConstraints = false
+        stackView.setContentHuggingPriority(.init(rawValue: 1), for: .horizontal)
         
         return stackView
     }()
@@ -70,6 +71,8 @@ final class BoxOfficeCell: UICollectionViewCell {
         imageView.image = UIImage(systemName: symbolName, withConfiguration: configuration)
         imageView.tintColor = UIColor.systemGray4
         imageView.translatesAutoresizingMaskIntoConstraints = false
+        imageView.setContentHuggingPriority(.required, for: .horizontal)
+        imageView.setContentCompressionResistancePriority(.required, for: .horizontal)
         
         return imageView
     }()
@@ -84,12 +87,21 @@ final class BoxOfficeCell: UICollectionViewCell {
         return stackView
     }()
     
-    override func prepareForReuse() {
-        super.prepareForReuse()
-        
+    override var isSelected: Bool {
+        didSet {
+            if isSelected {
+                backgroundColor = .systemGray5
+            } else {
+                backgroundColor = .clear
+            }
+        }
     }
     
-    private func configureBoxOfficeStackView() {
+    override func prepareForReuse() {
+        super.prepareForReuse()
+    }
+    
+    func configureBoxOfficeStackView() {
         rankStackView.addArrangedSubview(rankLabel)
         rankStackView.addArrangedSubview(rankInfoLabel)
         
@@ -103,11 +115,21 @@ final class BoxOfficeCell: UICollectionViewCell {
         contentView.addSubview(boxOfficeStackView)
         
         NSLayoutConstraint.activate([
-            rankStackView.widthAnchor.constraint(equalTo: contentView.widthAnchor, multiplier: 0.1),
-            rankStackView.heightAnchor.constraint(equalTo: contentView.heightAnchor, multiplier: 0.15),
-            accessoryView.widthAnchor.constraint(equalTo: contentView.widthAnchor, multiplier: 0.1),
-            accessoryView.heightAnchor.constraint(equalTo: contentView.heightAnchor, multiplier: 0.15)
+            rankStackView.widthAnchor.constraint(equalTo: boxOfficeStackView.widthAnchor, multiplier: 0.2),
+            
+            movieStackView.leadingAnchor.constraint(equalTo: rankStackView.trailingAnchor),
+            
+            accessoryView.trailingAnchor.constraint(equalTo: boxOfficeStackView.trailingAnchor),
+
+            boxOfficeStackView.topAnchor.constraint(equalTo: contentView.topAnchor),
+            boxOfficeStackView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor),
+            boxOfficeStackView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
+            boxOfficeStackView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -16),
         ])
+    }
+    
+    func drawCellBorder() {
+        layer.drawBorder(color: .systemGray5, width: 1)
     }
     
     private func configureRankLabel(data: DailyBoxOfficeItem){

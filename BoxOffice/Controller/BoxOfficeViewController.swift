@@ -8,14 +8,9 @@
 import UIKit
 
 final class BoxOfficeViewController: UIViewController {
-    enum Section {
-        case main
-    }
-    
     private var boxOffice: BoxOffice?
     private lazy var collectionView = UICollectionView(frame: view.bounds,
-                                                       collectionViewLayout: createListLayout())
-    private var dataSource: UICollectionViewDiffableDataSource<Section, DailyBoxOfficeItem>?
+                                                       collectionViewLayout: UICollectionViewFlowLayout())
     private let networkManager = NetworkManager()
     private let dateFormatter = DateFormatter()
     
@@ -23,8 +18,13 @@ final class BoxOfficeViewController: UIViewController {
         super.viewDidLoad()
         view.backgroundColor = .systemBackground
         navigationItem.title = Date().showYesterdayDate(formatter: dateFormatter, in: .existHyphen)
-
+        
+        collectionView.dataSource = self
+        collectionView.delegate = self
+        
         fetchBoxOffice()
+        configureCollectionView()
+        configureRefreshControl()
     }
     
     private func fetchBoxOffice() {
@@ -42,8 +42,7 @@ final class BoxOfficeViewController: UIViewController {
                 self?.boxOffice = data
                 
                 DispatchQueue.main.async {
-                    self?.createCollectionView()
-                    self?.configureDataSource()
+                    self?.collectionView.reloadData()
                 }
             case .failure(let error):
                 DispatchQueue.main.async {
@@ -64,40 +63,18 @@ final class BoxOfficeViewController: UIViewController {
 // MARK: - BoxOfficeListCell 등록 및 DataSource 설정
 
 extension BoxOfficeViewController {
-    private func createListLayout() -> UICollectionViewCompositionalLayout {
-        let config = UICollectionLayoutListConfiguration(appearance: .plain)
-        
-        return UICollectionViewCompositionalLayout.list(using: config)
-    }
-    
-    private func createCollectionView() {
-        collectionView = UICollectionView(frame: view.bounds,
-                                          collectionViewLayout: createListLayout())
+    private func configureCollectionView() {
         view.addSubview(collectionView)
-        configureRefreshControl()
-    }
-    
-    private func configureDataSource() {
-        guard let items = boxOffice?.result.dailyBoxOfficeList else { return }
+        collectionView.translatesAutoresizingMaskIntoConstraints = false
         
-        let cellRegistration = UICollectionView.CellRegistration<BoxOfficeListCell, DailyBoxOfficeItem> {
-            (cell, indexPath, item) in
-            cell.update(with: item)
-            cell.accessories = [.disclosureIndicator()]
-        }
+        NSLayoutConstraint.activate([
+            collectionView.topAnchor.constraint(equalTo: view.topAnchor),
+            collectionView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
+            collectionView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            collectionView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+        ])
         
-        dataSource = UICollectionViewDiffableDataSource<Section, DailyBoxOfficeItem>(collectionView: collectionView) {
-            (collectionView, indexPath, itemIdentifier) -> UICollectionViewCell? in
-            return collectionView.dequeueConfiguredReusableCell(using: cellRegistration,
-                                                                for: indexPath,
-                                                                item: itemIdentifier)
-        }
-        
-        var snapshot = NSDiffableDataSourceSnapshot<Section, DailyBoxOfficeItem>()
-        
-        snapshot.appendSections([.main])
-        snapshot.appendItems(items)
-        dataSource?.apply(snapshot)
+        collectionView.register(BoxOfficeCell.self, forCellWithReuseIdentifier: BoxOfficeCell.identifier)
     }
 }
 
@@ -120,5 +97,38 @@ extension BoxOfficeViewController {
             self?.navigationItem.title = Date().showYesterdayDate(formatter: dateFormatter, in: .existHyphen)
             self?.collectionView.refreshControl?.endRefreshing()
         }
+    }
+}
+
+// MARK: - Data Source
+
+extension BoxOfficeViewController: UICollectionViewDataSource {
+    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        guard let boxOffice = self.boxOffice else { return 0 }
+        
+        return boxOffice.result.dailyBoxOfficeList.count
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: BoxOfficeCell.identifier, for: indexPath) as? BoxOfficeCell,
+              let boxOfficeItem = boxOffice?.result.dailyBoxOfficeList[indexPath.item] else { return UICollectionViewCell() }
+        
+        cell.configureBoxOfficeStackView()
+        cell.configureLabels(data: boxOfficeItem)
+        cell.drawCellBorder()
+        
+        return cell
+    }
+}
+
+// MARK: - Delegate Flow Layout
+
+extension BoxOfficeViewController: UICollectionViewDelegateFlowLayout {
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+        return CGSize(width: view.bounds.width, height: view.bounds.height / 12)
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
+        return 0
     }
 }
