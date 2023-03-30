@@ -17,6 +17,9 @@ final class MovieRankingViewController: UIViewController {
     private lazy var boxofficeInfo = BoxofficeInfo<DailyBoxofficeObject>(apiType: apiType,
                                                    model: NetworkModel(session: .shared))
     private let loadingView = UIActivityIndicatorView()
+    private let refreshView = UIRefreshControl()
+    private let date = Date()
+    
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -24,6 +27,7 @@ final class MovieRankingViewController: UIViewController {
         startLoadingView()
         makeDataSource()
         fetchBoxofficeData()
+        refreshLoadingView()
     }
     
     private func startLoadingView() {
@@ -32,6 +36,18 @@ final class MovieRankingViewController: UIViewController {
         view.addSubview(loadingView)
         DispatchQueue.main.async { [self] in
             loadingView.startAnimating()
+        }
+    }
+    
+    private func refreshLoadingView() {
+        refreshView.addTarget(self, action: #selector(refreshCollectionView), for: .valueChanged)
+        collectionView.refreshControl = refreshView
+    }
+    
+    @objc private func refreshCollectionView() {
+        DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
+//            self.fetchBoxofficeData()
+            self.collectionView.refreshControl?.endRefreshing()
         }
     }
     
@@ -72,7 +88,7 @@ final class MovieRankingViewController: UIViewController {
     
     private func configureUI() {
         view.backgroundColor = .systemBackground
-        navigationItem.title = "2023-03-29"
+//        navigationItem.title = "\(Calendar.current.date(byAdding: .day, value: -1, to: date))"
         configureCollectionView()
         configureCollectionViewLayout()
     }
