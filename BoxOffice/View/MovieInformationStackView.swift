@@ -10,7 +10,7 @@ import UIKit
 class MovieInformationStackView: UIStackView {
     var movie: MovieInformation.MovieInformationResult.Movie?
     
-    var moviePosterImage = UIImageView()
+    var moviePosterImageView = UIImageView()
     
     var directorStackView = UIStackView()
     var productionYearStackView = UIStackView()
@@ -27,6 +27,7 @@ class MovieInformationStackView: UIStackView {
         self.axis = .vertical
         self.distribution = .fillEqually
         
+        configureMoviePosterImageView()
         configureDirectorStackView()
         configureProductionYearStackView()
         configureOpenDateStackView()
@@ -35,6 +36,10 @@ class MovieInformationStackView: UIStackView {
         configureNationStackView()
         configureGenreStackView()
         configureActorStackView()
+    }
+    
+    private func configureMoviePosterImageView() {
+        self.addArrangedSubview(moviePosterImageView)
     }
     
     private func configureDirectorStackView() {

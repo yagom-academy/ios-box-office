@@ -9,9 +9,13 @@ import UIKit
 
 final class MovieInformationViewController: UIViewController {
     var movieInformationStackView = MovieInformationStackView()
+    let movieInformationScrollView = UIScrollView()
+    
     var movieName: String
     var movieCode: String
+    
     lazy var boxOfficeEndPoint = BoxOfficeEndPoint.MovieInformation(movieCode: movieCode, httpMethod: .get)
+    lazy var moviePosterImageEndPoint = BoxOfficeEndPoint.MoviePosterImage(query: movieName + " 영화 포스터", httpMethod: .get)
     let networkManager = NetworkManager()
     var movieInformation: MovieInformation?
     
@@ -32,18 +36,33 @@ final class MovieInformationViewController: UIViewController {
         view.backgroundColor = .white
         self.title = movieName
         
-        view.addSubview(movieInformationStackView)
+        view.addSubview(movieInformationScrollView)
+        configureScrollView()
         configureContentView()
         fetchMovieInformation()
+        fetchMoviePosterImage()
+    }
+    
+    private func configureScrollView() {
+        movieInformationScrollView.addSubview(movieInformationStackView)
+        
+        movieInformationScrollView.translatesAutoresizingMaskIntoConstraints = false
+        NSLayoutConstraint.activate([
+            movieInformationScrollView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
+            movieInformationScrollView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor),
+            movieInformationScrollView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor),
+            movieInformationScrollView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor)
+        ])
     }
     
     private func configureContentView() {
         movieInformationStackView.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([
-            movieInformationStackView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
-            movieInformationStackView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor),
-            movieInformationStackView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor),
-            movieInformationStackView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor)
+            movieInformationStackView.topAnchor.constraint(equalTo: movieInformationScrollView.topAnchor),
+            movieInformationStackView.leadingAnchor.constraint(equalTo: movieInformationScrollView.leadingAnchor),
+            movieInformationStackView.bottomAnchor.constraint(equalTo: movieInformationScrollView.bottomAnchor),
+            movieInformationStackView.trailingAnchor.constraint(equalTo: movieInformationScrollView.trailingAnchor),
+            movieInformationStackView.widthAnchor.constraint(equalTo: movieInformationScrollView.widthAnchor, multiplier: 1)
         ])
     }
     
@@ -60,4 +79,54 @@ final class MovieInformationViewController: UIViewController {
             }
         }
     }
+    
+    private func fetchMoviePosterImage() {
+        networkManager.request(endPoint: moviePosterImageEndPoint, returnType: MoviePosterImage.self) { [weak self] in
+            switch $0 {
+            case .failure(let error):
+                print(error)
+            case .success(let result):
+                DispatchQueue.main.async {
+                    guard let firstDocument = result.documents.first,
+                          let imageURL = URL(string: firstDocument.imageURL) else { return }
+                    self?.movieInformationStackView.moviePosterImageView.load(url: imageURL)
+                }
+            }
+        }
+    }
 }
+
+extension UIImageView {
+    func load(url: URL) {
+        DispatchQueue.global().async { [weak self] in
+            guard let data = try? Data(contentsOf: url),
+                  let image = UIImage(data: data) else { return }
+            DispatchQueue.main.async {
+                self?.image = image
+            }
+        }
+    }
+}
+
+
+//func updateUI(_ url : String){
+//
+//        var tempImg : UIImage
+//
+//         DispatchQueue.global().async {
+//
+//             if let ImageData = try? Data(contentsOf: URL(string: url)!) {
+//
+//                tempImg = UIImage(data: ImageData)!
+//            }
+//            else{
+//                tempImg = UIImage(named: "Asset 20.png")!
+//            }
+//
+//             DispatchQueue.main.async {
+//
+//                        self.StoreImg.image = tempImg
+//
+//                    }
+//
+//         }
