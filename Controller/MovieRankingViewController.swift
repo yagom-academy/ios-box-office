@@ -9,7 +9,7 @@ import UIKit
 
 final class MovieRankingViewController: UIViewController {
     
-    private let apiType = APIType.boxoffice("20230328")
+    private let apiType = APIType.boxoffice(Date.yesterday.formatAPIDate())
     private var movieItems: [InfoObject] = []
     private var collectionView: UICollectionView!
     private var dataSource: UICollectionViewDiffableDataSource<APIType, InfoObject>!
