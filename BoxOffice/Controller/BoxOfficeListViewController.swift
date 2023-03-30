@@ -59,31 +59,34 @@ final class BoxOfficeListViewController: UIViewController {
         guard let url = urlMaker.makeBoxOfficeURL(date: Date.configureYesterday(isFormatted: false)) else { return }
         server.startLoad(url: url) { result in
             let decoder = DecodeManager()
-            
-            guard let verifiedFetchingResult = self.verifyFetchingResult(result: result) else { return }
-            let decodedFile = decoder.decodeJSON(data: verifiedFetchingResult, type: BoxOffice.self)
-            let verifiedDecodingResult = self.verifyDecodingResult(result: decodedFile)
-            
-            self.boxOffice = verifiedDecodingResult
-            completion()
+            do {
+                guard let verifiedFetchingResult = try self.verifyFetchingResult(result: result) else { return }
+                let decodedFile = decoder.decodeJSON(data: verifiedFetchingResult, type: BoxOffice.self)
+                let verifiedDecodingResult = try self.verifyDecodingResult(result: decodedFile)
+                
+                self.boxOffice = verifiedDecodingResult
+                completion()
+            } catch {
+                print(error.localizedDescription)
+            }
         }
     }
     
-    private func verifyFetchingResult(result: Result<Data, NetworkError>) -> Data? {
+    private func verifyFetchingResult(result: Result<Data, NetworkError>) throws -> Data?  {
         switch result {
         case .success(let data):
             return data
-        case .failure(_):
-            return nil
+        case .failure(let error):
+            throw error
         }
     }
     
-    private func verifyDecodingResult<T: Decodable>(result: Result<T, DecodeError>) -> T? {
+    private func verifyDecodingResult<T: Decodable>(result: Result<T, DecodeError>) throws -> T? {
         switch result {
         case .success(let data):
             return data
-        case .failure(_):
-            return nil
+        case .failure(let error):
+            throw error
         }
     }
     
