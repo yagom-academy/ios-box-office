@@ -26,7 +26,7 @@ final class NetworkManagerTests: XCTestCase {
         
         //when
         let expectation = XCTestExpectation()
-        let testURL = URLMaker().makeBoxOfficeURL(date: Date.currentDate)
+        let testURL = URLMaker().makeBoxOfficeURL(date: Date.configureYesterday(isFormatted: false))
         
         sut.startLoad(url: testURL!) { result in
             //then
