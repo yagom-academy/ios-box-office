@@ -78,7 +78,7 @@ final class MovieDetailsViewController: UIViewController {
                     self.fillDetailLabels(with: movieDetails)
                 }
             case .failure(let error):
-                print(error.localizedDescription)
+                self.makeAlert(to: error)
             }
         }
     }
@@ -105,9 +105,16 @@ final class MovieDetailsViewController: UIViewController {
                     LoadingIndicator.hideLoading(in: self.posterView)
                 }
             case .failure(let error):
-                print(error.localizedDescription)
+                self.makeAlert(to: error)
+                LoadingIndicator.hideLoading(in: self.posterView)
             }
         }
+    }
+    
+    private func makeAlert(to error: Error) {
+        let alert = UIAlertController(title: NetworkError.title, message: error.localizedDescription, preferredStyle: .alert)
+        alert.addAction(UIAlertAction(title: "닫기", style: .default))
+        self.present(alert, animated: true)
     }
     
     private func fillDetailLabels(with movieDetails: MovieDetails) {
