@@ -22,12 +22,23 @@ final class MovieInfoViewController: UIViewController {
     private let movieName: String?
     private let networkManager = NetworkManager()
     private var movieInfo: Movie?
+    private var posterImage: UIImage?
+    
+    private lazy var activityIndicator: UIActivityIndicatorView = {
+        let activityIndicator = UIActivityIndicatorView()
+        activityIndicator.style = UIActivityIndicatorView.Style.large
+        activityIndicator.center = self.view.center
+        
+        return activityIndicator
+    }()
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
         navigationItem.title = movieName
-        fetchMovieInfo()
+        self.view.addSubview(activityIndicator)
+        activityIndicator.startAnimating()
+        fetchMovieInfo(completion: checkFetchComplete)
         fetchMoviePoster()
     }
     
@@ -41,22 +52,20 @@ final class MovieInfoViewController: UIViewController {
         fatalError("init(coder:) has not been implemented")
     }
     
-    private func fetchMovieInfo() {
+    private func fetchMovieInfo(completion: @escaping () -> ()) {
         guard let movieCode = movieCode else { return }
         let endPoint: BoxOfficeEndPoint = .fetchMovieInfo(movieCode: movieCode)
         
         networkManager.fetchData(request: endPoint.createRequest(), type: Movie.self) {
-            result in
-            DispatchQueue.main.async { [weak self] in
-                guard let self = self else { return }
-                switch result {
-                case .success(let data):
-                    self.movieInfo = data
-                    self.configureLabels(data: data)
-                case .failure(let error):
-                    print(error.localizedDescription)
-                }
+            [weak self] result in
+            guard let self = self else { return }
+            switch result {
+            case .success(let data):
+                self.movieInfo = data
+            case .failure(let error):
+                print(error.localizedDescription)
             }
+            completion()
         }
     }
     
@@ -64,16 +73,15 @@ final class MovieInfoViewController: UIViewController {
         guard let movieName = movieName else { return }
         let endPoint: BoxOfficeEndPoint = .fetchMoviePoster(movieName: movieName)
         
-        networkManager.fetchData(request: endPoint.createRequest(), type: MoviePoster.self) { result in
-            DispatchQueue.main.async { [weak self] in
-                guard let self = self else { return }
-                switch result {
-                case .success(let data):
-                    let url = self.searchPosterURL(data: data)
-                    self.posterImageView.load(url: url)
-                case .failure(let error):
-                    print(error.localizedDescription)
-                }
+        networkManager.fetchData(request: endPoint.createRequest(), type: MoviePoster.self) {
+            [weak self] result in
+            guard let self = self else { return }
+            switch result {
+            case .success(let data):
+                let url = self.searchPosterURL(data: data)
+                configurePosterImage(url: url, completion: checkFetchComplete)
+            case .failure(let error):
+                print(error.localizedDescription)
             }
         }
     }
@@ -86,17 +94,44 @@ final class MovieInfoViewController: UIViewController {
         return URL(string: urlText)
     }
     
+    private func configurePosterImage(url: URL?, completion: @escaping () -> ()) {
+        guard let url = url else { return }
+        
+        DispatchQueue.global().async {
+            if let data = try? Data(contentsOf: url) {
+                if let image = UIImage(data: data) {
+                    DispatchQueue.main.async { [weak self] in
+                        Thread.sleep(forTimeInterval: 3)
+                        guard let self = self else { return }
+                        self.posterImage = image
+                        completion()
+                    }
+                }
+            }
+        }
+    }
+    
     private func configureLabels(data: Movie) {
         let info = data.movieInfoResult.info
         
         directorLabel.text = info.directors.map { $0.peopleName }.concatenate()
         productionYearLabel.text = info.productionYearText
-        openDateLabel.text = DateFormatter.hyphenText(text: info.openDateText) 
+        openDateLabel.text = DateFormatter.hyphenText(text: info.openDateText)
         showTimeLabel.text = info.showTimeText
         nationLabel.text = info.nations.map { $0.nationName }.concatenate()
         genreLabel.text = info.genres.map { $0.genreName }.concatenate()
         watchGradeLabel.text = info.audits.map { $0.watchGradeName }.concatenate()
         actorLabel.text = info.actors.map { $0.peopleName }.concatenate()
+    }
+    
+    private func checkFetchComplete() {
+        guard posterImage != nil && movieInfo != nil, let movieInfo = movieInfo else { return }
+        DispatchQueue.main.async { [weak self] in
+            guard let self = self else { return }
+            self.activityIndicator.stopAnimating()
+            self.posterImageView.image = self.posterImage
+            self.configureLabels(data: movieInfo)
+        }
     }
 }
 
