@@ -92,7 +92,7 @@ final class BoxOfficeListViewController: UIViewController {
     
     @objc private func handleRefreshControl() {
         self.fetchBoxOfficeData {
-            DispatchQueue.main.asyncAfter(deadline: .now() + 0.7 ) {
+            DispatchQueue.main.async {
                 self.collectionView.reloadData()
                 self.collectionView.refreshControl?.endRefreshing()
             }
