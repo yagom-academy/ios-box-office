@@ -102,18 +102,14 @@ extension BoxOfficeViewController: UICollectionViewDataSource {
         let cellId = String(describing: BoxOfficeListCell.self)
         let cell = boxOfficeListCollectionView.dequeueReusableCell(withReuseIdentifier: cellId, for: indexPath) as! BoxOfficeListCell
         
-        guard let audienceCount = dailyBoxOffice?.boxOfficeResult.dailyBoxOfficeList[indexPath.row].audienceCount else { return cell }
-        guard let audienceAccumulation = dailyBoxOffice?.boxOfficeResult.dailyBoxOfficeList[indexPath.row].audienceAccumulation else { return cell }
+        guard let validDailyBoxOffice = dailyBoxOffice else {
+            return cell
+        }
         
         cell.setUpBoxOffcieCellUI()
-        
+        cell.setUpLabel(by: validDailyBoxOffice, indexPath: indexPath)
         cell.accessories = [.disclosureIndicator() ]
-        
-        cell.rankNumberLabel.text = dailyBoxOffice?.boxOfficeResult.dailyBoxOfficeList[indexPath.row].rank
-        cell.rankGapLabel.attributedText = convertRankGapPresentation(indexPath: indexPath)
-        cell.movieTitleLabel.text = dailyBoxOffice?.boxOfficeResult.dailyBoxOfficeList[indexPath.row].movieName
-        cell.audienceCountLabel.text = "오늘 " + audienceCount + " / 총 " + audienceAccumulation
-        
+    
         return cell
     }
     
