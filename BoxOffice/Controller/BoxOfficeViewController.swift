@@ -14,10 +14,10 @@ final class BoxOfficeViewController: UIViewController {
     private let refreshControl = UIRefreshControl()
     private var boxOffice: BoxOffice?
     
-    private var activityIndicator: UIActivityIndicatorView = {
+    private lazy var activityIndicator: UIActivityIndicatorView = {
         let activityIndicator = UIActivityIndicatorView()
         activityIndicator.style = UIActivityIndicatorView.Style.large
-        activityIndicator.startAnimating()
+        activityIndicator.center = self.view.center
         
         return activityIndicator
     }()
@@ -25,28 +25,24 @@ final class BoxOfficeViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        navigationItem.title = generateYesterdayText(type: .hyphen)
-        refreshControl.addTarget(self, action: #selector(refreshData), for: .valueChanged)
-        registerXib()
-        configureCollectionView()
-        fetchDailyBoxOffice()
+        configure()
+        activityIndicator.startAnimating()
+        loadInitialData()
     }
     
     @objc private func refreshData() {
-        let yesterdayText = generateYesterdayText(type: .nonHyphen)
-        let endPoint: BoxOfficeEndPoint = .fetchDailyBoxOffice(targetDate: yesterdayText)
-        
-        networkManager.fetchData(request: endPoint.createRequest(), type: BoxOffice.self) { result in
-            DispatchQueue.main.async {
-                switch result {
-                case .success(let data):
-                    self.boxOffice = data
-                    self.collectionView.reloadData()
-                case .failure(let error):
-                    print(error.localizedDescription)
-                }
-                self.refreshControl.endRefreshing()
-            }
+        fetchDailyBoxOffice { [weak self] in
+            guard let self = self else { return }
+            
+            self.refreshControl.endRefreshing()
+        }
+    }
+    
+    private func loadInitialData() {
+        fetchDailyBoxOffice { [weak self] in
+            guard let self = self else { return }
+            
+            self.activityIndicator.stopAnimating()
         }
     }
     
@@ -64,18 +60,27 @@ final class BoxOfficeViewController: UIViewController {
 
     private func configureCollectionView() {
         collectionView.refreshControl = refreshControl
-        collectionView.backgroundView = activityIndicator
         collectionView.dataSource = self
         collectionView.delegate = self
         collectionView.collectionViewLayout = createListLayout()
-        view.addSubview(collectionView)
+        registerXib()
     }
     
-    private func fetchDailyBoxOffice() {
-        let yesterdayText = generateYesterdayText(type: .nonHyphen)
+    private func configure() {
+        navigationItem.title = YesterdayDateFormatter.text(format: .nonHyphen)
+        self.view.addSubview(activityIndicator)
+        refreshControl.addTarget(self, action: #selector(refreshData), for: .valueChanged)
+        configureCollectionView()
+    }
+    
+    private func fetchDailyBoxOffice(completion: @escaping () -> Void) {
+        let yesterdayText = YesterdayDateFormatter.text(format: .nonHyphen)
         let endPoint: BoxOfficeEndPoint = .fetchDailyBoxOffice(targetDate: yesterdayText)
         
-        networkManager.fetchData(request: endPoint.createRequest(), type: BoxOffice.self) { result in
+        networkManager.fetchData(url: endPoint.createURL(), type: BoxOffice.self) {
+            [weak self] result in
+            guard let self = self else { return }
+            
             DispatchQueue.main.async {
                 switch result {
                 case .success(let data):
@@ -84,24 +89,9 @@ final class BoxOfficeViewController: UIViewController {
                 case .failure(let error):
                     print(error.localizedDescription)
                 }
-                self.activityIndicator.stopAnimating()
+                completion()
             }
         }
-    }
-    
-    private func generateYesterdayText(type: DateFormatType) -> String {
-        guard let yesterday = Calendar.current.date(byAdding: .day, value: -1, to: Date()) else {
-            return ""
-        }
-        
-        let dateFormatter: DateFormatter = {
-            let dateFormatter = DateFormatter()
-            dateFormatter.dateFormat = type.rawValue
-            
-            return dateFormatter
-        }()
-        
-        return dateFormatter.string(from: yesterday)
     }
 }
 
@@ -113,19 +103,14 @@ extension BoxOfficeViewController: UICollectionViewDataSource {
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: BoxOfficeCollectionViewListCell.identifier, for: indexPath) as? BoxOfficeCollectionViewListCell else {
+        guard let cell = collectionView.dequeueReusableCell(
+            withReuseIdentifier: BoxOfficeCollectionViewListCell.identifier,
+            for: indexPath) as? BoxOfficeCollectionViewListCell,
+                let item = boxOffice?.boxOfficeResult.dailyBoxOfficeList[safe: indexPath.item] else {
             return UICollectionViewCell()
         }
         
-        cell.accessories = [
-            .disclosureIndicator()
-        ]
-        
-        guard let item = boxOffice?.boxOfficeResult.dailyBoxOfficeList[safe: indexPath.item] else {
-            return  UICollectionViewCell()
-        }
-        
-        cell.configureCellContent(item: item)
+        cell.configure(item: item)
         
         return cell
     }

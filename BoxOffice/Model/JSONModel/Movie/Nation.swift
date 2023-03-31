@@ -8,7 +8,7 @@
 struct Nation: Decodable {
     let nationName: String
     
-    enum CodingKeys: String, CodingKey {
+    private enum CodingKeys: String, CodingKey {
         case nationName = "nationNm"
     }
 }
