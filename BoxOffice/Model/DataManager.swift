@@ -9,6 +9,10 @@ import UIKit
 
 struct DataManager {
     var data: InfoObject
+    private let apiType = APIType.boxoffice(formattedString)
+    private var movieItems: [InfoObject] = []
+    private lazy var boxofficeInfo = BoxofficeInfo<DailyBoxofficeObject>(apiType: apiType,
+                                                   model: NetworkModel(session: .shared))
     
     var audienceInfoText: String {
         guard let todayOfAudienceText = data.numberOfAudience.formatDecimal(),

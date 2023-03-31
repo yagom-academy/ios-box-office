@@ -11,10 +11,6 @@ final class MovieRankingViewController: UIViewController {
     
     // MARK: Properties
     private let formattedString = Date.apiDateFormatter.string(from: .yesterday)
-    private let apiType = APIType.boxoffice(formattedString)
-    private var movieItems: [InfoObject] = []
-    private lazy var boxofficeInfo = BoxofficeInfo<DailyBoxofficeObject>(apiType: apiType,
-                                                   model: NetworkModel(session: .shared))
     // MARK: UI Properties
     private let loadingView = UIActivityIndicatorView()
     private let refreshController = UIRefreshControl()
@@ -29,7 +25,7 @@ final class MovieRankingViewController: UIViewController {
     }()
     
     // MARK: DataSource Properties
-    private var dataSource: UICollectionViewDiffableDataSource<APIType, InfoObject>!
+    private var dataSource: UICollectionViewDiffableDataSource<APIType, InfoObject>?
     private var snapshot = NSDiffableDataSourceSnapshot<APIType, InfoObject>()
     
     override func viewDidLoad() {
@@ -106,16 +102,15 @@ extension MovieRankingViewController {
             
             return cell
         })
-        
-        snapshot.appendSections([apiType])
     }
     
     private func applySnapshot() {
-        snapshot.deleteItems(movieItems)
+        var snapshot = NSDiffableDataSourceSnapshot<APIType, InfoObject>()
         
+        snapshot.appendSections([apiType])
         snapshot.appendItems(movieItems)
         
-        dataSource.apply(snapshot, animatingDifferences: true)
+        dataSource?.apply(snapshot, animatingDifferences: true)
     }
 }
 
