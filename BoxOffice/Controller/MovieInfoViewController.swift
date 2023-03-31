@@ -66,15 +66,10 @@ final class MovieInfoViewController: UIViewController {
     }
     
     private func searchPosterURL(data: MoviePoster) -> URL? {
-        for item in data.items {
-            let title = item.movieName.replacingOccurrences(of: "<b>", with: "")
-                .replacingOccurrences(of: "</b>", with: "")
-            if title == movieName {
-                let urlText = item.imageURLText.replacingOccurrences(of: "mit110", with: "mit500")
-                
-                return URL(string: urlText)
-            }
-        }
-        return nil
+        guard let firstItem = data.items.first else { return nil }
+        
+        let urlText = firstItem.imageURLText
+        
+        return URL(string: urlText)
     }
 }

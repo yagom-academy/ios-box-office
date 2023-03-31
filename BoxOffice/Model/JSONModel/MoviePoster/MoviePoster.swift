@@ -7,14 +7,16 @@
 
 struct MoviePoster: Decodable {
     let items: [Item]
+    
+    private enum CodingKeys: String, CodingKey {
+        case items = "documents"
+    }
 }
 
 struct Item: Decodable {
     let imageURLText: String
-    let movieName: String
     
-    enum CodingKeys: String, CodingKey {
-        case imageURLText = "image"
-        case movieName = "title"
+    private enum CodingKeys: String, CodingKey {
+        case imageURLText = "image_url"
     }
 }

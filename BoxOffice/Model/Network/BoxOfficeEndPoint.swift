@@ -19,7 +19,7 @@ extension BoxOfficeEndPoint {
         case .fetchDailyBoxOffice, .fetchMovieInfo:
             return "https://www.kobis.or.kr"
         case .fetchMoviePoster:
-            return "https://openapi.naver.com"
+            return "https://dapi.kakao.com"
         }
     }
     
@@ -34,7 +34,7 @@ extension BoxOfficeEndPoint {
         case .fetchMovieInfo:
             return "/kobisopenapi/webservice/rest/movie/searchMovieInfo.json"
         case .fetchMoviePoster:
-            return "/v1/search/movie.json"
+            return "/v2/search/image"
         }
     }
     
@@ -52,7 +52,7 @@ extension BoxOfficeEndPoint {
             ]
         case .fetchMoviePoster(let movieName):
             return [
-                URLQueryItem(name: "query", value: movieName)
+                URLQueryItem(name: "query", value: movieName + " 영화 포스터")
             ]
         }
     }
@@ -77,8 +77,7 @@ extension BoxOfficeEndPoint {
             guard let url = components?.url else { return nil }
             
             var request = URLRequest(url: url)
-            request.addValue("PfWbw43R6fwcp_IOpFp3", forHTTPHeaderField: "X-Naver-Client-Id")
-            request.addValue("zvCSt3mORa", forHTTPHeaderField: "X-Naver-Client-Secret")
+            request.addValue("KakaoAK 5b4b66233a752c37813727124f19cb93", forHTTPHeaderField: "Authorization")
             
             return request
         }
