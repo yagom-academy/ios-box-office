@@ -2,23 +2,25 @@
 //  Date+.swift
 //  BoxOffice
 //
-//  Created by 김성준 on 2023/03/21.
+//  Created by Rhode, Rilla on 2023/03/21.
 //
 
 import Foundation
 
 extension Date {
-    static var currentDate: String {
-        return Date.configureCurrentDate()
-    }
-    
-    private static func configureCurrentDate() -> String {
-        let nowDate = Date()
+    static func configureYesterday(isFormatted: Bool) -> String {
+        let yesterdayDate = Date(timeIntervalSinceNow: -86400)
         let dateFormatter = DateFormatter()
-        dateFormatter.dateFormat = "yyyyMMdd"
         
-        let convertDate = dateFormatter.string(from: nowDate)
+        if isFormatted {
+            dateFormatter.dateFormat = "yyyy-MM-dd"
+        } else {
+            dateFormatter.dateFormat = "yyyyMMdd"
+        }
+        
+        let convertDate = dateFormatter.string(from: yesterdayDate)
                 
         return convertDate
     }
 }
+

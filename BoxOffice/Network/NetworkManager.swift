@@ -7,13 +7,18 @@
 
 import Foundation
 
-struct NetworkManager {
+final class NetworkManager {
+    private let session: any URLSessionProtocol
+    
+    init(session: any URLSessionProtocol = URLSession.shared) {
+        self.session = session
+    }
     
     func startLoad(url: URL, complete: @escaping (Result<Data, NetworkError>) -> Void) {
         var request = URLRequest(url: url)
         request.httpMethod = "GET"
         
-        URLSession.shared.dataTask(with: request) { data, response, error in
+        session.dataTask(with: request) { data, response, error in
             guard error == nil else {
                 complete(.failure(.responseError(error: error)))
                 return
@@ -25,7 +30,7 @@ struct NetworkManager {
             }
             
             guard (200...299).contains(httpResponse.statusCode) else {
-                complete(.failure(.responseCodeError(code: httpResponse.statusCode)))
+                complete(.failure(.responseCodeError))
                 return
             }
             

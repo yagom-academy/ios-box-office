@@ -8,7 +8,7 @@
 import Foundation
 
 enum NetworkError: LocalizedError {
-    case responseCodeError(code: Int)
+    case responseCodeError
     case invalidResponse
     case invalidMimeType
     case noData
@@ -16,8 +16,8 @@ enum NetworkError: LocalizedError {
     
     var errorDescription: String? {
         switch self {
-        case .responseCodeError(code: let code):
-            return "response error 응답코드:\(code)"
+        case .responseCodeError:
+            return "response error"
         case .invalidResponse:
             return "비정상적인 response입니다."
         case .invalidMimeType:

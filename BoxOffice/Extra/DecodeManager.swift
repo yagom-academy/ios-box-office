@@ -8,9 +8,7 @@
 import UIKit
 
 final class DecodeManager {
-    
     private let decoder = JSONDecoder()
-    
     
     func decodeJSON<T: Decodable>(fileName: String, type: T.Type) -> Result<T, DecodeError> {
         
