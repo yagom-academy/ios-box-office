@@ -16,8 +16,12 @@ final class BoxOfficeViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        setTitle()
         fetchDailyBoxOfficeAPI()
+        setUpView()
+    }
+    
+    private func setUpView() {
+        setTitle()
         setActivityIndicator()
         setBoxOfficeListCollectionView()
         configureRefreshControl()

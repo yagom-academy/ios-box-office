@@ -53,7 +53,7 @@ class EndPoint {
         self.queryItems = queryItems
     }
     
-    func makeURL() -> URL? {
+    private func makeURL() -> URL? {
         var urlComponents = URLComponents(string: baseURL.rawValue)
         urlComponents?.path = path.rawValue
         urlComponents?.queryItems = queryItems
