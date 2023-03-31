@@ -10,20 +10,21 @@ import UIKit
 final class DailyBoxOfficeCollectionViewCell: UICollectionViewCell {
     static let reuseIdentifier = "DailyBoxOfficeCollectionViewCell"
 
-    private var accessoryImageView = UIImageView()
-    private var separatorView = UIView()
+    private let accessoryImageView = UIImageView()
+    private let separatorView = UIView()
     
-    private var mainStackView = UIStackView()
+    private let mainStackView = UIStackView()
     
-    private var movieRankStackView = UIStackView()
-    private var movieRankLabel = UILabel()
-    private var audienceVarianceLabel = UILabel()
+    private let movieRankStackView = UIStackView()
+    private let movieRankLabel = UILabel()
+    private let audienceVarianceLabel = UILabel()
     
-    private var movieListStackView = UIStackView()
-    private var movieListLabel = UILabel()
-    private var audienceInformationLabel = UILabel()
+    private let movieListStackView = UIStackView()
+    private let movieListLabel = UILabel()
+    private let audienceInformationLabel = UILabel()
     
     override init(frame: CGRect) {
+        
         super.init(frame: frame)
         configureCell()
     }
@@ -58,7 +59,7 @@ final class DailyBoxOfficeCollectionViewCell: UICollectionViewCell {
     }
     
     private func configureSeparatorView() {
-        separatorView = UIView(frame: CGRect(x: 0, y: 0, width: contentView.frame.size.width, height: 1))
+        separatorView.frame = CGRect(x: 0, y: 0, width: contentView.frame.size.width, height: 1)
         separatorView.autoresizingMask = .flexibleWidth
         separatorView.backgroundColor = .placeholderText
         
