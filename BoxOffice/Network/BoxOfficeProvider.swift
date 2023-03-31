@@ -29,7 +29,6 @@ final class BoxOfficeProvider<Target: Requestable>: Provider {
               let request = endPoint.urlRequest() else {
             return
         }
-        print(request)
         
         let task = session.dataTask(with: request) { data, response, error in
             let result = self.checkError(with: data, response, error)

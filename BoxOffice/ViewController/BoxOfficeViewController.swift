@@ -41,15 +41,15 @@ final class BoxOfficeViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        let boxOfficeProvider = BoxOfficeProvider<DaumAPI>()
-        boxOfficeProvider.fetchData(.searchImage(movieName: "메이플스토리"), type: SearchedMovieImageDTO.self) { result in
-
-        }
+//        let boxOfficeProvider = BoxOfficeProvider<DaumAPI>()
+//        boxOfficeProvider.fetchData(.searchImage(movieName: "메이플스토리"), type: SearchedMovieImageDTO.self) { result in
+//
+//        }
         
-//        self.configureHierarchy()
-//        self.configureDataSource()
-//        self.setupUI()
-//        self.fetchDailyBoxOffice()
+        self.configureHierarchy()
+        self.configureDataSource()
+        self.setupUI()
+        self.fetchDailyBoxOffice()
     }
     
     private func setupUI() {
@@ -168,6 +168,7 @@ extension BoxOfficeViewController {
     private func configureHierarchy() {
         collectionView = UICollectionView(frame: view.bounds, collectionViewLayout: createLayout())
         collectionView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
+        collectionView.delegate = self
         view.addSubview(collectionView)
     }
     
@@ -196,5 +197,13 @@ extension BoxOfficeViewController {
         snapshot.appendItems(boxOfficeItems.map { $0.id })
         
         dataSource.apply(snapshot, animatingDifferences: false)
+    }
+}
+
+extension BoxOfficeViewController: UICollectionViewDelegate {
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        let selectedTitle = boxOfficeItems[indexPath.row].title
+        let movieDetailViewController = MovieDetailViewController(movieName: selectedTitle)
+        self.navigationController?.pushViewController(movieDetailViewController, animated: true)
     }
 }

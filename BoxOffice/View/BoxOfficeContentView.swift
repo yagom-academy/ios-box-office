@@ -142,7 +142,8 @@ private extension BoxOfficeContentView {
         }
         
         currentConfiguration = configuration
-        resetReusingView()
+        rankIncrementLabel.textColor = configuration.audienceAccumulationCountColor
+//        resetReusingView()
         configureRankInformation(configuration: configuration)
         configureMovieInformation(configuration: configuration)
     }

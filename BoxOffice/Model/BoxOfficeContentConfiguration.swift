@@ -13,6 +13,7 @@ struct BoxOfficeContentConfiguration: UIContentConfiguration, Hashable {
     var title: String?
     var audienceCount: String?
     var audienceAccumulationCount: String?
+    var audienceAccumulationCountColor: UIColor?
     
     func makeContentView() -> UIView & UIContentView {
         return BoxOfficeContentView(configuration: self)
@@ -23,7 +24,8 @@ struct BoxOfficeContentConfiguration: UIContentConfiguration, Hashable {
             return self
         }
         
-        let updatedConfiguration = self
+        var updatedConfiguration = self
+        updatedConfiguration.audienceAccumulationCountColor = .black
         
         return updatedConfiguration
     }
