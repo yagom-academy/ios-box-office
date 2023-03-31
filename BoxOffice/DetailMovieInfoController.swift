@@ -47,6 +47,14 @@ final class DetailMovieInfoController: UIViewController {
         return imageView
     }()
     
+    private var indicatorView: UIActivityIndicatorView = {
+        let indicatorView = UIActivityIndicatorView(style: .large)
+        indicatorView.color = .systemRed
+        indicatorView.isHidden = true
+        indicatorView.translatesAutoresizingMaskIntoConstraints = false
+        return indicatorView
+    }()
+    
     init(movieCode: String, movieName: String) {
         self.movieCode = movieCode
         self.movieName = movieName
@@ -88,6 +96,8 @@ final class DetailMovieInfoController: UIViewController {
     private func fetchImageForMovie(movieName: String) {
         let query = ImageAPI.imageQuery(movieName)
         let imageAPI = ImageAPI.imageSearchQuery(query: query)
+        indicatorView.isHidden = false
+        indicatorView.startAnimating()
         
         provider.performImageRequest(api: imageAPI, completionHandler: { [weak self] requestResult in
             guard let self = self else { return }
@@ -100,13 +110,16 @@ final class DetailMovieInfoController: UIViewController {
                     DispatchQueue.main.async {
                         if let imageInfo = imageInfo, let url = URL(string: imageInfo.imageUrl) {
                             self.imageView.load(url: url, originalWidth: imageInfo.width)
+                            self.stopIndicator()
                         }
                     }
                 } catch {
+                    self.stopIndicator()
                     print("Unexpected error: \(error)")
                 }
                 
             case .failure(let error):
+                self.stopIndicator()
                 print(error)
             }
         })
@@ -118,7 +131,7 @@ final class DetailMovieInfoController: UIViewController {
         let labels = [
             MovieInfoView(title: MovieInfoTitle.director, content: item.directors.map { $0.peopleName }.joinedString),
             MovieInfoView(title: MovieInfoTitle.productionYear, content: item.productionYear),
-            MovieInfoView(title: MovieInfoTitle.openDate, content: item.openDate),
+            MovieInfoView(title: MovieInfoTitle.openDate, content: formatDate(item.openDate)),
             MovieInfoView(title: MovieInfoTitle.showTime, content: item.showTime),
             MovieInfoView(title: MovieInfoTitle.watchGradeName, content: item.audits.map { $0.watchGradeName }.joinedString),
             MovieInfoView(title: MovieInfoTitle.nationName, content: item.nations.map { $0.nationName}.joinedString),
@@ -158,6 +171,27 @@ final class DetailMovieInfoController: UIViewController {
             mainStackview.widthAnchor.constraint(equalTo: scrollView.frameLayoutGuide.widthAnchor),
         ])
         
+        imageView.addSubview(indicatorView)
+        NSLayoutConstraint.activate([
+            indicatorView.centerXAnchor.constraint(equalTo: imageView.centerXAnchor),
+            indicatorView.centerYAnchor.constraint(equalTo: imageView.centerYAnchor),
+        ])
+        
     }
     
+    private func stopIndicator() {
+        indicatorView.stopAnimating()
+        indicatorView.isHidden = true
+    }
+    
+    private func formatDate(_ dateString: String) -> String {
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "yyyyMMdd"
+        if let date = dateFormatter.date(from: dateString) {
+            dateFormatter.dateFormat = "yyyy-MM-dd"
+            return dateFormatter.string(from: date)
+        }
+        return dateString
+    }
+        
 }
