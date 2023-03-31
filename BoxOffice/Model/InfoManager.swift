@@ -1,5 +1,5 @@
 //
-//  DataManager.swift
+//  InfoManager.swift
 //  BoxOffice
 //
 //  Created by 레옹아범 ,Andrew on 2023/03/31.
@@ -7,22 +7,7 @@
 
 import UIKit
 
-struct DataManager {
-    let navigationTitleText: String
-    private let apiType: APIType
-    private var movieItems: [InfoObject] = []
-    private let boxofficeInfo: BoxofficeInfo<DailyBoxofficeObject>
-    
-    init(date: Date) {
-        self.navigationTitleText = Date.dateFormatter.string(from: date)
-        let dataText = Date.apiDateFormatter.string(from: date)
-        self.apiType = APIType.boxoffice(dataText)
-        self.boxofficeInfo = BoxofficeInfo<DailyBoxofficeObject>(apiType: self.apiType, model: NetworkModel(session: .shared))
-    }
-    
-}
-
-struct MovieInfoManager {
+struct InfoManager {
     private var data: InfoObject
     
     init(data: InfoObject) {

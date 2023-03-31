@@ -10,7 +10,13 @@ import UIKit
 final class MovieRankingViewController: UIViewController {
     
     // MARK: Propertie
-    private var dataManager: DataManager?
+    private var dataManager = {
+        guard let yesterday = Date.yesterday else {
+            return RankingManager(date: Date())
+        }
+        
+        return RankingManager(date: yesterday)
+    }()
     
     // MARK: UI Properties
     private let loadingView = UIActivityIndicatorView()
@@ -31,7 +37,6 @@ final class MovieRankingViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        makeDataManager()
         configureUI()
         startLoadingView()
         makeDataSource()
@@ -40,25 +45,19 @@ final class MovieRankingViewController: UIViewController {
     }
     
     private func fetchBoxofficeData() {
-        boxofficeInfo.fetchData { [weak self] result in
+        dataManager.boxofficeInfo.fetchData { [weak self] result in
             switch result {
             case .success(let data):
-                self?.movieItems = data.boxOfficeResult.movies
+                self?.dataManager.movieItems = data.boxOfficeResult.movies
                 DispatchQueue.main.async {
                     self?.applySnapshot()
                     self?.loadingView.stopAnimating()
+                    self?.collectionView.refreshControl?.endRefreshing()
                 }
             case .failure(_):
                 return
             }
         }
-    }
-    
-    private func makeDataManager() {
-        guard let yesterday = Date.yesterday else {
-            return
-        }
-        dataManager = DataManager(date: yesterday)
     }
 
     private func startLoadingView() {
@@ -71,10 +70,7 @@ final class MovieRankingViewController: UIViewController {
     }
     
     @objc private func refreshCollectionView() {
-        DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
-            self.fetchBoxofficeData()
-            self.collectionView.refreshControl?.endRefreshing()
-        }
+        self.fetchBoxofficeData()
     }
 }
 
@@ -86,11 +82,7 @@ extension MovieRankingViewController {
         configureCollectionViewLayout()
         configureLoadingView()
         
-        guard let formattedString = dataManager?.navigationTitleText else {
-            return
-        }
-        
-        navigationItem.title = "\(formattedString)"
+        navigationItem.title = "\(dataManager.navigationTitleText)"
     }
     
     private func configureLoadingView() {
@@ -104,7 +96,7 @@ extension MovieRankingViewController {
         dataSource = UICollectionViewDiffableDataSource<APIType, InfoObject>(collectionView: collectionView, cellProvider: { collectionView, indexPath, itemIdentifier in
             guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: MovieRankingCell.identifier, for: indexPath) as? MovieRankingCell else { return UICollectionViewListCell() }
             
-            let infoManager = MovieInfoManager(data: itemIdentifier)
+            let infoManager = InfoManager(data: itemIdentifier)
             
             cell.updateLabelText(for: infoManager)
             
@@ -115,8 +107,8 @@ extension MovieRankingViewController {
     private func applySnapshot() {
         var snapshot = NSDiffableDataSourceSnapshot<APIType, InfoObject>()
         
-        snapshot.appendSections([apiType])
-        snapshot.appendItems(movieItems)
+        snapshot.appendSections([dataManager.apiType])
+        snapshot.appendItems(dataManager.movieItems)
         
         dataSource?.apply(snapshot, animatingDifferences: true)
     }

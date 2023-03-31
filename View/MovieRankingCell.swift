@@ -11,7 +11,7 @@ final class MovieRankingCell: UICollectionViewListCell {
         
     static let identifier = "MovieRankingCell"
     
-    func updateLabelText(for manager: MovieInfoManager) {
+    func updateLabelText(for manager: InfoManager) {
         self.rankLabel.text = manager.rank
         self.rankStatusLabel.attributedText = manager.rankStatusAttributedText
         self.movieNameLabel.text = manager.name
