@@ -41,7 +41,7 @@ final class BoxOfficeListViewController: UIViewController {
         LoadingIndicator.showLoading()
         
         view.addSubview(collectionView)
-        collectionView.setAutoLayout(equalTo: view.safeAreaLayoutGuide)
+        setCollectionViewAutoLayout()
         
         fetchBoxOfficeData {
             DispatchQueue.main.async {
@@ -49,6 +49,17 @@ final class BoxOfficeListViewController: UIViewController {
                 self.collectionView.reloadData()
             }
         }
+    }
+    
+    private func setCollectionViewAutoLayout() {
+        collectionView.translatesAutoresizingMaskIntoConstraints = false
+        
+        NSLayoutConstraint.activate([
+            collectionView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor),
+            collectionView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor),
+            collectionView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
+            collectionView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor),
+        ])
     }
     
     private func configureMainView() {

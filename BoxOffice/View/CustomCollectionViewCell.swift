@@ -15,6 +15,7 @@ final class CustomCollectionViewCell: UICollectionViewListCell {
         stackView.axis = .horizontal
         stackView.distribution = .fill
         stackView.alignment = .center
+        stackView.translatesAutoresizingMaskIntoConstraints = false
         
         return stackView
     }()
@@ -53,13 +54,16 @@ final class CustomCollectionViewCell: UICollectionViewListCell {
         self.addSubview(mainStackView)
         mainStackView.addArrangedSubview(rankStackView)
         mainStackView.addArrangedSubview(audienceStackView)
-        mainStackView.setAutoLayout(equalTo: self.safeAreaLayoutGuide)
-        
+ 
         NSLayoutConstraint.activate([
+            mainStackView.leadingAnchor.constraint(equalTo: self.leadingAnchor),
+            mainStackView.trailingAnchor.constraint(equalTo: self.trailingAnchor),
+            mainStackView.topAnchor.constraint(equalTo: self.topAnchor),
+            mainStackView.bottomAnchor.constraint(equalTo: self.bottomAnchor),
             rankStackView.widthAnchor.constraint(equalTo: mainStackView.heightAnchor),
         ])
     }
-    
+
     private func configureRankStackView(dailyBoxOffice: DailyBoxOffice?) -> UIStackView {
         let rankStackView: UIStackView = {
             let stackView = UIStackView()
