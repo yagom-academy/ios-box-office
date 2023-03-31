@@ -54,6 +54,7 @@ final class DetailMovieInfoController: UIViewController {
         title = movieName
         view.backgroundColor = .white
         fetchMovieDetailData()
+        fetchImageForMovie(movieName: movieName)
         setupViews()
     }
     
@@ -82,6 +83,33 @@ final class DetailMovieInfoController: UIViewController {
                 print(error)
             }
         }
+    }
+    
+    private func fetchImageForMovie(movieName: String) {
+        let query = ImageAPI.imageQuery(movieName)
+        let imageAPI = ImageAPI.imageSearchQuery(query: query)
+        
+        provider.performImageRequest(api: imageAPI, completionHandler: { [weak self] requestResult in
+            guard let self = self else { return }
+            switch requestResult {
+            case .success(let data):
+                do {
+                    let imageSearchResult: ImageSearchResult = try JSONConverter.shared.decodeData(data, T: ImageSearchResult.self)
+                    let imageInfo = imageSearchResult.documents.first
+                    
+                    DispatchQueue.main.async {
+                        if let imageInfo = imageInfo, let url = URL(string: imageInfo.imageUrl) {
+                            self.imageView.load(url: url, originalWidth: imageInfo.width)
+                        }
+                    }
+                } catch {
+                    print("Unexpected error: \(error)")
+                }
+                
+            case .failure(let error):
+                print(error)
+            }
+        })
     }
     
     private func updateStackView(_ item: MovieInfo) {
