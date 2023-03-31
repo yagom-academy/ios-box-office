@@ -25,7 +25,8 @@ final class DailyBoxOfficeViewController: UIViewController {
     }
     
     private func baseSettings() {
-        let titleText = DateFormatter(dateFormat: "yyyy-MM-dd").string(from: yesterday)
+        let titleText = DateFormatter.shared.string(from: yesterday, dateFormat: "yyyy-MM-dd")
+
         title = titleText
         view.backgroundColor = .white
     }
@@ -33,7 +34,7 @@ final class DailyBoxOfficeViewController: UIViewController {
     private func loadDailyBoxOffice() {
         var api = KobisAPI(service: .dailyBoxOffice)
         let queryName = "targetDt"
-        let queryValue = DateFormatter(dateFormat: "yyyyMMdd").string(from: yesterday)
+        let queryValue = DateFormatter.shared.string(from: yesterday, dateFormat: "yyyyMMdd")
         api.addQuery(name: queryName, value: queryValue)
         
         var apiProvider = APIProvider()

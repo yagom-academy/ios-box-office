@@ -117,7 +117,10 @@ final class MovieDetailsViewController: UIViewController {
             .map { $0.personName }
             .joined(separator: ", ")
         productionYearView.detailLabel.text = movieInfo.productionYear
-        openDateView.detailLabel.text = movieInfo.openDate
+        let date = DateFormatter.shared.converFormat(of: movieInfo.openDate,
+                                                     from: "yyyyMMdd",
+                                                     to: "yyyy-MM-dd")
+        openDateView.detailLabel.text = date
         runningTimeView.detailLabel.text = movieInfo.runningTime + "분"
         watchGradeView.detailLabel.text = movieInfo.audits.first?.watchGradeName
         nationView.detailLabel.text = movieInfo.nations.first?.nationName

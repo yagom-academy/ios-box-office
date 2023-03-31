@@ -126,8 +126,8 @@ final class DailyBoxOfficeCell: UICollectionViewCell {
     }
     
     private func fillAudienceCountLabel(with data: DailyBoxOfficeMovie) {
-        let todayAudience = NumberFormat.decimal(target: data.audienceCountOfDate) ?? Sign.zero
-        let accumulatedAudience = NumberFormat.decimal(target: data.accumulatedAudienceCount) ?? Sign.zero
+        let todayAudience = NumberFormatter.shared.decimal(target: data.audienceCountOfDate) ?? Sign.zero
+        let accumulatedAudience = NumberFormatter.shared.decimal(target: data.accumulatedAudienceCount) ?? Sign.zero
         let textformat = "오늘 %@ / 총 %@"
         audienceCountLabel.text = String(format: textformat, todayAudience, accumulatedAudience)
         audienceCountLabel.font = UIFont.preferredFont(forTextStyle: .body)

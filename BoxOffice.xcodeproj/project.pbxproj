@@ -148,6 +148,15 @@
 			path = APIProviderTests;
 			sourceTree = "<group>";
 		};
+		4BDF6F6D29D6C62A0058FCC0 /* Extenstion */ = {
+			isa = PBXGroup;
+			children = (
+				AD3D401C29D1CFC800A56210 /* extension+DateFormatter.swift */,
+				AD3D401E29D28E5200A56210 /* extension+CALayer.swift */,
+			);
+			path = Extenstion;
+			sourceTree = "<group>";
+		};
 		63DF20E22970E1A0005DF7D1 = {
 			isa = PBXGroup;
 			children = (
@@ -269,8 +278,7 @@
 		ADE5948C29D6A1AC002AF96B /* Utility */ = {
 			isa = PBXGroup;
 			children = (
-				AD3D401C29D1CFC800A56210 /* extension+DateFormatter.swift */,
-				AD3D401E29D28E5200A56210 /* extension+CALayer.swift */,
+				4BDF6F6D29D6C62A0058FCC0 /* Extenstion */,
 				4B181D0629D287D900B3CD47 /* NumberFormat.swift */,
 				4B4A799829D5639B00514141 /* AlertController.swift */,
 				4B181D0829D2AD8D00B3CD47 /* LoadingIndicator.swift */,

@@ -7,8 +7,10 @@
 
 import Foundation
 
-enum NumberFormat {
-    static func decimal(target: String) -> String? {
+extension NumberFormatter {
+    static let shared = NumberFormatter()
+    
+    func decimal(target: String) -> String? {
         let numberFormatter = NumberFormatter()
         numberFormatter.numberStyle = .decimal
         let result = numberFormatter.string(from: Int(target) as? NSNumber ?? 0)
