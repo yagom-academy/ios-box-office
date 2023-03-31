@@ -34,11 +34,12 @@ final class ViewController: UIViewController {
                     var movieRanking: [ListItem] = []
                     for dailyBoxOffice in dailyBoxOffices {
                         let movieItem = ListItem(rank: dailyBoxOffice.rank,
-                                                rankInten: dailyBoxOffice.rankInten,
-                                                rankOldandNew: dailyBoxOffice.rankOldAndNew.rawValue,
-                                                movieName: dailyBoxOffice.movieName,
-                                                audienceCount: dailyBoxOffice.audienceCount,
-                                                audienceAcc: dailyBoxOffice.audienceAcc)
+                                                 rankInten: dailyBoxOffice.rankInten,
+                                                 rankOldandNew: dailyBoxOffice.rankOldAndNew.rawValue,
+                                                 movieName: dailyBoxOffice.movieName,
+                                                 audienceCount: dailyBoxOffice.audienceCount,
+                                                 audienceAcc: dailyBoxOffice.audienceAcc,
+                                                 movieCode: dailyBoxOffice.movieCode)
                         movieRanking.append(movieItem)
                     }
                     DispatchQueue.main.async {
@@ -133,7 +134,14 @@ final class ViewController: UIViewController {
 extension ViewController: UICollectionViewDelegate {
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        collectionView.deselectItem(at: indexPath, animated: true)
+        
+        guard let movieCode = self.dataSource.itemIdentifier(for: indexPath)?.movieCode,
+              let movieName = self.dataSource.itemIdentifier(for: indexPath)?.movieName else {
+            collectionView.deselectItem(at: indexPath, animated: true)
+            return
+        }
+        let viewController = DetailMovieInfoController(movieCode: movieCode, movieName: movieName)
+        navigationController?.pushViewController(viewController, animated: true)
     }
     
 }
