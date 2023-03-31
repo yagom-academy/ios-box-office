@@ -9,12 +9,15 @@ import UIKit
 
 @available(iOS 14.0, *)
 final class DailyMovieViewController: UIViewController {
+    private typealias DataSource = UICollectionViewDiffableDataSource<Section, MovieItem>
+    
     private var networkManager = NetworkManager()
     private var boxOfficeEndPoint: BoxOfficeEndPoint?
-    private var refreshControl = UIRefreshControl()
-    private var dailyBoxOffice: DailyBoxOffice?
-    private typealias DataSource = UICollectionViewDiffableDataSource<Section, DailyBoxOffice.BoxOfficeResult.Movie>
     private var movieDataSource: DataSource?
+    private var movieItems: [MovieItem] = []
+    
+    private var refreshControl = UIRefreshControl()
+
     lazy private var collectionView: UICollectionView = {
         let collectionView = UICollectionView(frame: view.bounds, collectionViewLayout: createLayout())
         collectionView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
@@ -63,7 +66,9 @@ final class DailyMovieViewController: UIViewController {
             case .failure(let error):
                 print(error)
             case .success(let result):
-                self?.dailyBoxOffice = result
+                for index in 0..<result.boxOfficeResult.boxOfficeList.count {
+                    self?.movieItems.append(MovieItem.init(from: result.boxOfficeResult.boxOfficeList[index]))
+                }
                 
                 DispatchQueue.main.async {
                     self?.setupDataSource()
@@ -75,30 +80,25 @@ final class DailyMovieViewController: UIViewController {
     }
 }
 
-fileprivate enum Section: Hashable {
-    case main
-}
-
 @available(iOS 14.0, *)
 extension DailyMovieViewController {
     private func setupDataSource() {
-        let cellRegistration = UICollectionView.CellRegistration<DailyMovieListCell, DailyBoxOffice.BoxOfficeResult.Movie> { (cell, indexPath, item) in
+        let cellRegistration = UICollectionView.CellRegistration<DailyMovieListCell, MovieItem> { (cell, indexPath, item) in
             cell.updateWithItem(item)
             cell.accessories = [.disclosureIndicator()]
         }
         
         movieDataSource = DataSource(collectionView: collectionView) {
-            (collectionView: UICollectionView, indexPath: IndexPath, item: DailyBoxOffice.BoxOfficeResult.Movie) -> UICollectionViewCell? in
+            (collectionView: UICollectionView, indexPath: IndexPath, item: MovieItem) -> UICollectionViewCell? in
             return collectionView.dequeueConfiguredReusableCell(using: cellRegistration, for: indexPath, item: item)
         }
     }
     
     private func setupSnapshot() {
-        var snapshot = NSDiffableDataSourceSnapshot<Section, DailyBoxOffice.BoxOfficeResult.Movie>()
+        var snapshot = NSDiffableDataSourceSnapshot<Section, MovieItem>()
         snapshot.appendSections([.main])
-        if let dailyBoxOffice = dailyBoxOffice {
-            snapshot.appendItems(dailyBoxOffice.boxOfficeResult.boxOfficeList, toSection: .main)
-        }
+        snapshot.appendItems(movieItems, toSection: .main)
+        
         movieDataSource?.apply(snapshot, animatingDifferences: false)
     }
 }

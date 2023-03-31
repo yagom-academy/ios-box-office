@@ -118,12 +118,12 @@ final class DailyBoxOfficeCollectionViewCell: UICollectionViewCell {
         ])
     }
     
-    func configure(with movie: DailyBoxOffice.BoxOfficeResult.Movie) {
+    func configure(with movie: MovieItem) {
         setupMovieListLabels(with: movie)
         setupMovieRankLabels(with: movie)
     }
     
-    private func setupMovieListLabels(with movie: DailyBoxOffice.BoxOfficeResult.Movie) {
+    private func setupMovieListLabels(with movie: MovieItem) {
         guard let todayAudience = movie.audienceCount.convertToFormattedNumber(),
               let totalAudience = movie.audienceAccumulation.convertToFormattedNumber() else { return }
         
@@ -135,8 +135,8 @@ final class DailyBoxOfficeCollectionViewCell: UICollectionViewCell {
         audienceInformationLabel.font = UIFont.preferredFont(forTextStyle: .body)
     }
     
-    private func setupMovieRankLabels(with movie: DailyBoxOffice.BoxOfficeResult.Movie) {
-        movieRankLabel.text = movie.order
+    private func setupMovieRankLabels(with movie: MovieItem) {
+        movieRankLabel.text = movie.rank
         movieRankLabel.font = UIFont.preferredFont(forTextStyle: .largeTitle)
         movieRankLabel.textAlignment = .center
         
