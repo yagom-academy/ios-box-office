@@ -8,12 +8,12 @@
 import UIKit
 
 final class DailyBoxOfficeViewController: UIViewController {
-    private typealias DataSource = UICollectionViewDiffableDataSource<Section, MovieItem>
+    private typealias DataSource = UICollectionViewDiffableDataSource<Section, DailyBoxOfficeItem>
     
     private let networkManager = NetworkManager()
     private var boxOfficeEndPoint: BoxOfficeEndPoint?
     private var movieDataSource: DataSource?
-    private var movieItems: [MovieItem] = []
+    private var dailyBoxOfficeItem: [DailyBoxOfficeItem] = []
     
     private var dateFormatter = DateFormatter()
     private var refreshControl = UIRefreshControl()
@@ -65,7 +65,7 @@ final class DailyBoxOfficeViewController: UIViewController {
                 print(error)
             case .success(let result):
                 for index in 0..<result.boxOfficeResult.boxOfficeList.count {
-                    self?.movieItems.append(MovieItem.init(from: result.boxOfficeResult.boxOfficeList[index]))
+                    self?.dailyBoxOfficeItem.append(DailyBoxOfficeItem.init(from: result.boxOfficeResult.boxOfficeList[index]))
                 }
                 
                 DispatchQueue.main.async {
@@ -93,10 +93,10 @@ extension DailyBoxOfficeViewController {
     }
     
     private func applySnapshotToDataSource() {
-        typealias Snapshot = NSDiffableDataSourceSnapshot<Section, MovieItem>
+        typealias Snapshot = NSDiffableDataSourceSnapshot<Section, DailyBoxOfficeItem>
         var snapshot = Snapshot()
         snapshot.appendSections([.main])
-        snapshot.appendItems(movieItems, toSection: .main)
+        snapshot.appendItems(dailyBoxOfficeItem, toSection: .main)
         
         movieDataSource?.apply(snapshot, animatingDifferences: true)
     }
@@ -123,8 +123,8 @@ extension DailyBoxOfficeViewController {
 
 extension DailyBoxOfficeViewController: UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        let movieName = movieItems[indexPath.item].name
-        let movieCode = movieItems[indexPath.item].code
+        let movieName = dailyBoxOfficeItem[indexPath.item].name
+        let movieCode = dailyBoxOfficeItem[indexPath.item].code
         
         let nextViewcontroller = MovieInformationViewController(movieName: movieName, movieCode: movieCode)
         navigationController?.pushViewController(nextViewcontroller, animated: true)
@@ -135,7 +135,7 @@ enum Section: Hashable {
     case main
 }
 
-struct MovieItem: Hashable {
+struct DailyBoxOfficeItem: Hashable {
     init(from movie: DailyBoxOffice.BoxOfficeResult.Movie) {
         self.rank = movie.rank
         self.rankVariance = movie.rankVariance

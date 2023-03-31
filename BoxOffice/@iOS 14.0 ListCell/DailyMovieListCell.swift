@@ -11,7 +11,7 @@ import UIKit
 final class DailyMovieListCell: UICollectionViewListCell {
     static let reuseIdentifier = "DailyMovieListCell"
     
-    private var movie: MovieItem? = nil
+    private var movie: DailyBoxOfficeItem? = nil
     
     private lazy var movieListContentView = UIListContentView(configuration: defaultListContentConfiguration())
     private lazy var movieRankContentView = UIListContentView(configuration: defaultListContentConfiguration())
@@ -25,7 +25,7 @@ final class DailyMovieListCell: UICollectionViewListCell {
         return state
     }
     
-    func updateWithItem(_ newItem: MovieItem) {
+    func updateWithItem(_ newItem: DailyBoxOfficeItem) {
         guard movie != newItem else { return }
         movie = newItem
         setNeedsUpdateConfiguration()
@@ -136,8 +136,8 @@ extension UIConfigurationStateCustomKey {
 
 @available(iOS 14.0, *)
 extension UICellConfigurationState {
-    var movie: MovieItem? {
-        get { return self[.movieKey] as? MovieItem }
+    var movie: DailyBoxOfficeItem? {
+        get { return self[.movieKey] as? DailyBoxOfficeItem }
         set { self[.movieKey] = newValue }
     }
 }

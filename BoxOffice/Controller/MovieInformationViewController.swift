@@ -12,7 +12,6 @@ final class MovieInformationViewController: UIViewController {
     private let loadingView = UIActivityIndicatorView(style: .large)
     
     private let networkManager = NetworkManager()
-    private var movieInformation: MovieInformation?
     private var movieName: String
     private var movieCode: String
     
@@ -39,11 +38,16 @@ final class MovieInformationViewController: UIViewController {
         view.addSubview(movieInformationScrollView)
         view.addSubview(loadingView)
         
-        loadingView.startAnimating()
         configureScrollView()
         configureLoadingView()
         fetchMoviePoster()
         fetchMovieInformation()
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        
+        loadingView.startAnimating()
     }
     
     private func configureLoadingView() {
@@ -70,9 +74,10 @@ final class MovieInformationViewController: UIViewController {
             case .failure(let error):
                 print(error)
             case .success(let result):
+                let movieInformationItem = MovieInformationItem(from: result.movieInformationResult.movie)
+                
                 DispatchQueue.main.async {
-                    self?.movieInformationScrollView.movie = result.movieInformationResult.movie
-                    self?.movieInformationScrollView.configure()
+                    self?.movieInformationScrollView.configure(by: movieInformationItem)
                 }
             }
         }
@@ -136,4 +141,83 @@ extension UIImageView {
         }
         task.resume()
     }
+}
+
+struct MovieInformationItem: Hashable {
+    init(from movie: MovieInformation.MovieInformationResult.Movie) {
+        self.directors = {
+            var directors = ""
+            for index in 0..<movie.directors.count {
+                if index == 0 {
+                    directors = movie.directors[index].name
+                } else {
+                    directors = directors + ", " + movie.directors[index].name
+                }
+            }
+            
+            return directors
+        }()
+        self.audits = {
+            var audits = ""
+            for index in 0..<movie.audits.count {
+                if index == 0 {
+                    audits = movie.audits[index].watchGrade
+                } else {
+                    audits = audits + ", " + movie.audits[index].watchGrade
+                }
+            }
+            
+            return audits
+        }()
+        self.nations = {
+            var nations = ""
+            for index in 0..<movie.nations.count {
+                if index == 0 {
+                    nations = movie.nations[index].name
+                } else {
+                    nations = nations + ", " + movie.nations[index].name
+                }
+            }
+            
+            return nations
+        }()
+        self.genres = {
+            var genres = ""
+            for index in 0..<movie.genres.count {
+                if index == 0 {
+                    genres = movie.genres[index].name
+                } else {
+                    genres = genres + ", " + movie.genres[index].name
+                }
+            }
+            
+            return genres
+        }()
+        self.actors = {
+            var actors = ""
+            for index in 0..<movie.actors.count {
+                if index == 0 {
+                    actors = movie.actors[index].name
+                } else {
+                    actors = actors + ", " + movie.actors[index].name
+                }
+            }
+            
+            return actors
+        }()
+        
+        self.productionYear = movie.productionYear
+        self.openDate = movie.openDate
+        self.showTime = movie.showTime
+    }
+    
+    let identifier = UUID()
+    let directors: String
+    let productionYear: String
+    let openDate: String
+    let showTime: String
+    let audits: String
+    let nations: String
+    let genres: String
+    let actors: String
 }

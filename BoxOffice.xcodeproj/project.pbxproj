@@ -157,8 +157,8 @@
 			children = (
 				FB06D42429C82596009981F2 /* DailyBoxOffice.swift */,
 				AAF925D129C9C6EF00C26B45 /* MovieInformation.swift */,
-				FB06D43B29C9A650009981F2 /* Decoder.swift */,
 				FBCA718A29D578210018A0A6 /* MoviePosterImage.swift */,
+				FB06D43B29C9A650009981F2 /* Decoder.swift */,
 			);
 			path = JSON;
 			sourceTree = "<group>";
