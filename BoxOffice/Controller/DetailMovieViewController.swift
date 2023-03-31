@@ -13,6 +13,21 @@ final class DetailMovieViewController: UIViewController {
     private var detailMovieInformation: DetailMovieInformation?
     private var movieCode: String
     
+    private let scrollView: UIScrollView = {
+        let scrollview = UIScrollView()
+        scrollview.translatesAutoresizingMaskIntoConstraints = false
+        
+        return scrollview
+    }()
+    private let contentStackView: UIStackView = {
+        let stackView = UIStackView()
+        stackView.axis = .vertical
+        stackView.alignment = .fill
+        stackView.translatesAutoresizingMaskIntoConstraints = false
+        
+        return stackView
+    }()
+    
     init(movieCode: String) {
         self.movieCode = movieCode
         super.init(nibName: nil, bundle: nil)
@@ -56,5 +71,59 @@ final class DetailMovieViewController: UIViewController {
         case .failure(let error):
             throw error
         }
+    }
+    
+    private func configureScrollView() {
+        view.addSubview(scrollView)
+        
+        NSLayoutConstraint.activate([
+            scrollView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor),
+            scrollView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor),
+            scrollView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
+            scrollView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor),
+        ])
+    }
+    
+    private func configureStackView() {
+        scrollView.addSubview(contentStackView)
+        
+        NSLayoutConstraint.activate([
+            contentStackView.leadingAnchor.constraint(equalTo: scrollView.safeAreaLayoutGuide.leadingAnchor),
+            contentStackView.trailingAnchor.constraint(equalTo: scrollView.safeAreaLayoutGuide.trailingAnchor),
+            contentStackView.topAnchor.constraint(equalTo: scrollView.safeAreaLayoutGuide.topAnchor),
+            contentStackView.bottomAnchor.constraint(equalTo: scrollView.safeAreaLayoutGuide.bottomAnchor),
+        ])
+    }
+    
+    private func makeInfoStackView(title: String, context: String?) -> UIStackView  {
+        let titleLabel: UILabel = {
+            let label = UILabel()
+            label.text = title
+            label.font = .preferredFont(forTextStyle: .title2)
+            label.textAlignment = .center
+            
+            return label
+        }()
+        
+        let contextLabel: UILabel = {
+            let label = UILabel()
+            label.text = context
+            label.font = .preferredFont(forTextStyle: .body)
+            label.textAlignment = .center
+            label.numberOfLines = 0
+            
+            return label
+        }()
+        
+        let stackView: UIStackView = {
+            let stackView = UIStackView(arrangedSubviews: [titleLabel, contextLabel])
+            stackView.axis = .horizontal
+            stackView.alignment = .leading
+            stackView.distribution = .fill
+            
+            return stackView
+        }()
+        
+        return stackView
     }
 }
