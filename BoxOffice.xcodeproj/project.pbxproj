@@ -149,17 +149,17 @@
 		08CE13B229CAF80100C15A16 /* DetailMovieInformation */ = {
 			isa = PBXGroup;
 			children = (
-				08CE13B329CAF80100C15A16 /* ShowType.swift */,
+				08CE13B829CAF80100C15A16 /* DetailMovieInformation.swift */,
+				08CE13BC29CAF80100C15A16 /* MovieInformationResult.swift */,
+				08CE13B729CAF80100C15A16 /* MovieInformation.swift */,
 				08CE13B429CAF80100C15A16 /* Nation.swift */,
 				08CE13B529CAF80100C15A16 /* Genre.swift */,
-				08CE13B629CAF80100C15A16 /* Staff.swift */,
-				08CE13B729CAF80100C15A16 /* MovieInformation.swift */,
-				08CE13B829CAF80100C15A16 /* DetailMovieInformation.swift */,
+				08CE13BD29CAF80100C15A16 /* Director.swift */,
 				08CE13B929CAF80100C15A16 /* Actor.swift */,
+				08CE13B329CAF80100C15A16 /* ShowType.swift */,
 				08CE13BA29CAF80100C15A16 /* Company.swift */,
 				08CE13BB29CAF80100C15A16 /* Audit.swift */,
-				08CE13BC29CAF80100C15A16 /* MovieInformationResult.swift */,
-				08CE13BD29CAF80100C15A16 /* Director.swift */,
+				08CE13B629CAF80100C15A16 /* Staff.swift */,
 			);
 			path = DetailMovieInformation;
 			sourceTree = "<group>";
@@ -237,15 +237,15 @@
 		63DF20ED2970E1A0005DF7D1 /* BoxOffice */ = {
 			isa = PBXGroup;
 			children = (
+				D06CB3B029C8764D00136FD3 /* Resources */,
 				08E1C12E29C82D0D000FAF49 /* App */,
+				D08946D229CA91DB00669A1C /* Error */,
+				08DD8EAB29C96AAB00DA67E2 /* Extension */,
+				D06CB3AF29C8762B00136FD3 /* Extra */,
 				08DD8EA529C9667600DA67E2 /* Network */,
 				08E1C12D29C82D01000FAF49 /* Model */,
 				D06CB3B129C8766700136FD3 /* View */,
 				D06CB3AE29C8761300136FD3 /* Controller */,
-				D06CB3AF29C8762B00136FD3 /* Extra */,
-				D08946D229CA91DB00669A1C /* Error */,
-				D06CB3B029C8764D00136FD3 /* Resources */,
-				08DD8EAB29C96AAB00DA67E2 /* Extension */,
 			);
 			path = BoxOffice;
 			sourceTree = "<group>";
