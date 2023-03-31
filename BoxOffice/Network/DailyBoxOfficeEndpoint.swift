@@ -7,9 +7,10 @@
 
 import Foundation
 
-class DailyBoxOfficeEndpoint: EndpointMakeable {
+struct DailyBoxOfficeEndpoint: EndpointMakeable {
     var baseURL: String = "http://kobis.or.kr"
     var path: String = "/kobisopenapi/webservice/rest/boxoffice/searchDailyBoxOfficeList.json"
     var method: String = HTTPMethod.get.rawValue
     var queryItems: [URLQueryItem] = [URLQueryItem(name: "key", value: "f5eef3421c602c6cb7ea224104795888")]
 }
+

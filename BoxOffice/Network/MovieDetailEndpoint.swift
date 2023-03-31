@@ -7,7 +7,7 @@
 
 import Foundation
 
-class MovieDetailEndpoint: EndpointMakeable {
+struct MovieDetailEndpoint: EndpointMakeable {
     var baseURL: String = "http://kobis.or.kr"
     var path: String = "/kobisopenapi/webservice/rest/movie/searchMovieInfo.json"
     var method: String = HTTPMethod.get.rawValue
