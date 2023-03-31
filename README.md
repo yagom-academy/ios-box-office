@@ -22,14 +22,22 @@
 
 ## 타임라인
 
-### step1 
+### Step1 : 모델 타입 구현
+<details>
+
+ 
 
 | 날짜          | 주요 진행 사항                                             |
 | ------------- | ----------------------------------------------------- |
 | 03.20     | Json 데이터와 매칭할 일별 박스오피스API 데이터 모델 타입 구현 |
 | 03.20     | Json 테스트케이스 구현 | 
 
-### step2, step2-1 
+</details>
+
+
+### Step 2, 2-1 : 네트워킹 타입 구현 및 Mock 테스트 케이스 구현 
+<details>
+
 
 | 날짜          | 주요 진행 사항                                             |
 | ------------- | ----------------------------------------------------- |
@@ -45,6 +53,31 @@
 | 03.23     | URLSessionDataTask를 모방하여 동작하는 클래스 구현   |
 | 03.23     | APIProvider 메서드를 테스트하기 위한 MockURLSession 클래스 구현 | 
 
+</details>
+
+### Step 3 : 박스오피스 목록 화면 구현
+<details>
+| 날짜          | 주요 진행 사항                                             |
+| ------------- | ----------------------------------------------------- |
+| 03.24    | Json 데이터와 매칭할 상세 박스오피스API 데이터 모델 타입 구현 |
+| 03.24 - 03.26     | 목록화면을 위한 CollectionView 및 MovieListViewCell 구현 |
+| 03.27 | 새로고침을 위한 refreshControl 구현 |
+| 03.28 - 03.29 | step3에 대한 코드 개선 및 step4 시작 |
+</details>
+
+    
+### Step 4 : 영화 상세화면 구현
+<details>
+| 날짜          | 주요 진행 사항                                             |
+| ------------- | ----------------------------------------------------- |
+| 03.28    | 상세화면을 위한 DetailViewController 생성 및 코드 작성 |
+| 03.28     | 상세화면 목록을 가져오기 위한 fetchMovieDetailData 구현  |
+| 03.28 - 03.29 | 목록 데이터를 그려줄 함수 구현 |
+| 03.29 | 이미지를 가져오기 위한 데이터 모델 구현 | 
+| 03.30 - 03.31 | 이미지 검색을 위한 함수 구현 및 레이아웃 구현 
+| 03.31 | 이미지 로딩 전 indicator 구현 |
+</details>
+
 ## 트러블슈팅 
 
 ### 1️⃣ API TEST 
@@ -53,7 +86,7 @@
 2. URL 파라미터 쿼리의 위치가 변경되어 속성이 같아도 같은 URL로 인식하지 않는다는 문제
 
 
-해당 테스트에서는 각각 일치하지 않는 URL을 넣고 에러를 발생시키는 테스트입니다. <br>
+해당 테스트에서는 각각 일치하지 않는 URL을 넣고 에러를 발생시키는 테스트입니다. 
 하지만 해당 테스트에서는 일치하지 않는 URL은 넘기고 서버에러를 만들어주고 있습니다.  
 ![](https://i.imgur.com/44HNwk7.png)
 
@@ -79,7 +112,7 @@ extension URL {
 
 
 ```
-MockURLSession에서는 요청 URL과 응답URL을 비교하여 다르다면,<br>
+MockURLSession에서는 요청 URL과 응답URL을 비교하여 다르다면,
 URLError.differentURL 에러를 반환하는 로직을 추가하여 위 두가지 문제를 해결해주었습니다. 
 
 ```swift
@@ -95,7 +128,7 @@ if request.url?.normalizedURL != self.response.urlResponse?.url?.normalizedURL {
 APIProvider클래스 내의 dataTask 함수는 URLSession의 dataTask를 실행하여
 네트워크 요청을 수행하고 결과를 completionHandler에 전달하고 있습니다. 
 
-또한 함수 내에서 클라이언트 에러, 서버 에러 등의 네트워크 에러를 처리하고 있습니다. <br>
+또한 함수 내에서 클라이언트 에러, 서버 에러 등의 네트워크 에러를 처리하고 있습니다.  
 하지만 여기서 저는 Http 상태코드에 따른 에러처리를 200~299 성공 상태 코드가 아니면 
 모두 `serverError` 경우로 단 한가지로만 처리해주고 있었습니다. 
 
@@ -116,11 +149,11 @@ APIProvider클래스 내의 dataTask 함수는 URLSession의 dataTask를 실행�
 
 Http 상태코드는 간단히 아래와 같이 분류됩니다.
 
-- 100 - 199 : 정보성 상태 코드
-- 200 - 299 : 성공 상태 코드
-- 300 - 399 : 리다이렉션 상태 코드
-- 400 - 499 : 클라이언트 에러 상태 코드
-- 500 - 599 : 서버 에러 상태 코드
+100 - 199 : 정보성 상태 코드
+200 - 299 : 성공 상태 코드
+300 - 399 : 리다이렉션 상태 코드
+400 - 499 : 클라이언트 에러 상태 코드
+500 - 599 : 서버 에러 상태 코드
 
 
 위의 상태코드를 참고하여 아래와 같이 결과에 따라 성공상태에 데이터를 받고 나머지의 경우 각각 다른 에러처리를 해주는 방향으로 로직을 수정해보았습니다. 
@@ -153,7 +186,7 @@ guard let response = urlResponse as? HTTPURLResponse else {
 
 ### 3️⃣ API 관리를 위한 MovieAPI 
 
-Step2에서는 오늘의 일일 박스오피스 조회, 영화 개별 상세조회에 대한 네트워킹 타입을 구현해야합니다.<br>
+Step2에서는 오늘의 일일 박스오피스 조회, 영화 개별 상세조회에 대한 네트워킹 타입을 구현해야합니다.
 각 API 요청에 대한 필요한 정보를 전달 할 수 있도록 연관 값을 사용하였습니다.
 
  
@@ -195,14 +228,14 @@ extension MovieAPI {
 ```
 
 ### 4️⃣ 에러타입
-네트워크 요청 처리 중 발생할 수 있는 에러들을 총 4가지로 나타내주었습니다.<br>
+네트워크 요청 처리 중 발생할 수 있는 에러들을 총 4가지로 나타내주었습니다.
 또한 에러 메시지를 사용자 친화적으로 제공할 수 있는 LocalizedError 를 채택해보았습니다.
 
-- `clientError` - 클라이언트가 잘못된 데이터를 전송하거나 요청이 올바르지 않은 경우
-- `serverError` - 서버가 내부 오류로 인해 요청을 처리할 수 없거나 서버가 올바른 응답을 제공하지 못한 경우
-- `invalidURLComponents` - API 요청을 구성하는 데 필요한 URL 구성 요소가 올바르지 않은 형식인 경우
-- `invalidURLRequest` - 요청 URL이 올바르게 생성되지 않은 경우
-- `missingData` - 데이터가 없는 경우
+`clientError` - 클라이언트가 잘못된 데이터를 전송하거나 요청이 올바르지 않은 경우
+`serverError` - 서버가 내부 오류로 인해 요청을 처리할 수 없거나 서버가 올바른 응답을 제공하지 못한 경우
+`invalidURLComponents` - API 요청을 구성하는 데 필요한 URL 구성 요소가 올바르지 않은 형식인 경우
+`invalidURLRequest` - 요청 URL이 올바르게 생성되지 않은 경우
+`missingData` - 데이터가 없는 경우
 
 ```swift
 enum NetworkError: LocalizedError, CustomStringConvertible {
@@ -210,7 +243,7 @@ enum NetworkError: LocalizedError, CustomStringConvertible {
     case serverError
     case invalidURLComponents
     case invalidURLRequest
-    case missingData 
+		case missingData 
     
     var description: String {
         switch self {
@@ -222,15 +255,127 @@ enum NetworkError: LocalizedError, CustomStringConvertible {
             return "INVALID_URL_COMPONENTS"
         case .invalidURLRequest:
             return "INVALID_URL_REQUEST"
-	case .missingData:
+				case .missingData:
             return "MISSING_DATA"
         }
     }
 }
 ```
 
+### 5️⃣ createStateLabel 함수
+
+영화의 순위 변동에 따라 상태 레이블을 생성해주는 함수 
+
+영화진흥위원회API에서 확인할 수 있는 rankOldandNew(랭킹에 신규진입여부)와 rankInten(전일대비 순위의 증감분)을 매개변수로 받아주었습니다. 
+
+1. rankOldandNew가 “Old”인 경우에는 아래 세 조건이 들어갑니다.
+ 
+    -  변동 없으면 "-"
+    -  순위 상승 : 빨간 화살표 + 등락 편차  ▲
+    -  순위 하락 : 파란 화살표 + 등락 편차  ▼
+
+2. rankOldandNew가 “New”인 경우에는 “신작”으로 표시해줍니다.
+
+```swift
+private func createStateLabel(rankOldandNew: String, rankInten: Int) -> NSMutableAttributedString {
+        let attributedString = NSMutableAttributedString()
+        
+        if rankOldandNew == "OLD" {
+            if rankInten == 0 {
+                attributedString.add(string: "-")
+            } else if rankInten > 0 {
+                attributedString.add(string: "▲", color: .systemRed)
+                attributedString.add(string: "\(rankInten)")
+            } else {
+                attributedString.add(string: "▼", color: .systemBlue)
+                attributedString.add(string: "\(-rankInten)")
+            }
+        } else {
+            attributedString.add(string: "신작", color: .systemRed)
+        }
+        
+        return attributedString
+        
+}
+```
+
+또한 새로운 NSAttributedString을 만들어 주어진 속성으로 초기화한 다음, 
+기존의 NSMutableAttributedString에 추가하고 반환할 수 있도록 extension을 구현하여 위와 같이 편리하게 원하는 문자열을 추가할 수 있습니다. 
+
+```swift
+extension NSMutableAttributedString {
+    
+    @discardableResult
+    func add(
+        string: String,
+        font: UIFont = .systemFont(ofSize: 12),
+        color: UIColor = .label
+    ) -> NSMutableAttributedString {
+        let attributes: [NSAttributedString.Key: Any] = [
+            .font: font,
+            .foregroundColor: color
+        ]
+        
+        append(NSAttributedString(string: string, attributes: attributes))
+        
+        return self
+    }
+    
+}
+```
+
+### 6️⃣ ImageView extension 구현 
+
+이미지를 가져올 때 이미지가 크면 제가 사이즈를 조절해주더라도
+줄여준 만큼 여백이 생기는 문제가 있었습니다. 
+`scale`을 이용해서 이미지의 크기를 조절할 수 있도록 했습니다.
+원본 이미지의 가로 크기와 UIImageView의 가로 크기를 비교하여 이미지의 스케일을 계산하고, 이용해 UIImage를 생성하는 방식입니다.
+
+데이터에서 이미지를 만드는 과정이 메모리를 많이 사용하는데, 
+이런 방식으로 구현하면 imageView에 맞게 크기를 지정해서 불필요한 메모리 사용을 줄일 수 있습니다.   
+
+```swift
+extension UIImageView {
+    
+    func load(url: URL, originalWidth: Int = 0) {
+        let viewWidth = frame.width
+        
+        DispatchQueue.global().async { [weak self] in
+            guard let self = self, let data = try? Data(contentsOf: url) else { return }
+            
+            let scale = CGFloat(originalWidth) / CGFloat(viewWidth)
+            
+            let image = UIImage(data: data, scale: scale)
+            
+            DispatchQueue.main.async {
+                self.image = image
+            }
+        }
+    }
+    
+}
+```
+### 7️⃣  Custom log 사용 
+
+커스텀 로그를 사용하면 코드의 실행 흐름을 쉽게 파악할 수 있습니다. 로그를 통해 아래와 같이 함수 호출, 에러 발생 위치 등의 정보를 정확하게 확인 할 수 있어서 사용하게 되었습니다.
+
+![](https://i.imgur.com/p9B5LMu.png)
+
+```swift
+func DEBUG_LOG(_ msg: Any, file: String = #file, function: String = #function, line: Int = #line) {
+    #if DEBUG
+    let filename = file.split(separator: "/").last ?? ""
+    let funcName = function.split(separator: "(").first ?? ""
+    print("😡[\(filename)] \(funcName) (\(line)): \(msg)")
+    #endif
+}
+```
+
+
 ## 참고링크 
 
+<details>
+<summary>step1, step2, step2-1</summary>
 - [URLSession](https://developer.apple.com/documentation/foundation/urlsession)
 [Fetching Website Data into Memory](https://developer.apple.com/documentation/foundation/url_loading_system/fetching_website_data_into_memory)
 - [swift에서 Json Parsing하기](https://learn-hyeoni.tistory.com/m/45)
@@ -247,3 +392,24 @@ enum NetworkError: LocalizedError, CustomStringConvertible {
 - [iOS Networking and Testing](https://techblog.woowahan.com/2704/)
 - [[Swift] Mock 을 이용한 Network Unit Test 하기](https://sujinnaljin.medium.com/swift-mock-을-이용한-network-unit-test-하기-a69570defb41)
 - [HTTPS상태코드](https://dev-mystory.tistory.com/274)
+</details>
+
+<details>
+<summary>step3, step4</summary>
+- [UIrefreshcontrol](https://developer.apple.com/documentation/uikit/uirefreshcontrol)
+- [UIcollectionviewcompositionallayout](https://developer.apple.com/documentation/uikit/uicollectionviewcompositionallayout)
+- [Uicollectionlayoutlistconfiguration](https://developer.apple.com/documentation/uikit/uicollectionlayoutlistconfiguration)
+- [implementing_modern_collection_views](https://developer.apple.com/documentation/uikit/views_and_controls/collection_views/implementing_modern_collection_views)
+- [Swift-UICollectionView-CompositionalLayout-UIKit](https://github.com/vvbutko/Swift-UICollectionView-CompositionalLayout-UIKit)
+- [how-to-create-uicollectionview-list-with-compositional-layout/](https://www.vbutko.com/articles/how-to-create-uicollectionview-list-with-compositional-layout/)
+- [when-to-use-uicollectionview-instead-of-uitableview](https://stackoverflow.com/questions/23078847/when-to-use-uicollectionview-instead-of-uitableview)
+- [nsmutableattributedstring](https://developer.apple.com/documentation/foundation/nsmutableattributedstring)
+- [Return Early Pattern](https://medium.com/swlh/return-early-pattern-3d18a41bba8)
+- [Lists in UICollectionView](https://developer.apple.com/videos/play/wwdc2020/10026)
+- [creating-lists-with-collection-view/](https://useyourloaf.com/blog/creating-lists-with-collection-view/)
+- [CollectionView - FlowLayout](https://co-dong.tistory.com/69)
+- [iOS-TableView-xib로-구현하기](https://shark-sea.kr/entry/iOS-TableView-xib%EB%A1%9C-%EA%B5%AC%ED%98%84%ED%95%98%EA%B8%B0)
+- [Swift-Custom-Cell로-UICollectionView-구현하기](https://velog.io/@jyw3927/Swift-Custom-Cell%EB%A1%9C-UICollectionView-%EA%B5%AC%ED%98%84%ED%95%98%EA%B8%B0-i4xtxih4)
+- [이미지API가져오기](https://rhkdgus0779.tistory.com/70)
+- [indicator-view](https://ios-development.tistory.com/682)
+</details>
