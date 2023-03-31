@@ -64,9 +64,7 @@ final class DailyBoxOfficeViewController: UIViewController {
             case .failure(let error):
                 print(error)
             case .success(let result):
-                for index in 0..<result.boxOfficeResult.boxOfficeList.count {
-                    self?.dailyBoxOfficeItem.append(DailyBoxOfficeItem.init(from: result.boxOfficeResult.boxOfficeList[index]))
-                }
+                self?.applyMoviesToDailyBoxOfficeItem(from: result.boxOfficeResult.boxOfficeList)
                 
                 DispatchQueue.main.async {
                     self?.setupDataSource()
@@ -74,6 +72,12 @@ final class DailyBoxOfficeViewController: UIViewController {
                     self?.refreshControl.endRefreshing()
                 }
             }
+        }
+    }
+    
+    private func applyMoviesToDailyBoxOfficeItem(from movies: [DailyBoxOffice.BoxOfficeResult.Movie]) {
+        dailyBoxOfficeItem = movies.map {
+            DailyBoxOfficeItem(from: $0)
         }
     }
 }
@@ -136,6 +140,15 @@ enum Section: Hashable {
 }
 
 struct DailyBoxOfficeItem: Hashable {
+    let identifier = UUID()
+    let rank: String
+    let rankVariance: String
+    let rankOldAndNew: String
+    let code: String
+    let name: String
+    let audienceCount: String
+    let audienceAccumulation: String
+    
     init(from movie: DailyBoxOffice.BoxOfficeResult.Movie) {
         self.rank = movie.rank
         self.rankVariance = movie.rankVariance
@@ -145,13 +158,4 @@ struct DailyBoxOfficeItem: Hashable {
         self.audienceCount = movie.audienceCount
         self.audienceAccumulation = movie.audienceAccumulation
     }
-    
-    let identifier = UUID()
-    let rank: String
-    let rankVariance: String
-    let rankOldAndNew: String
-    let code: String
-    let name: String
-    let audienceCount: String
-    let audienceAccumulation: String
 }

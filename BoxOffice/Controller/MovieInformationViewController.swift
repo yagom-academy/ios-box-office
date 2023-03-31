@@ -12,8 +12,8 @@ final class MovieInformationViewController: UIViewController {
     private let loadingView = UIActivityIndicatorView(style: .large)
     
     private let networkManager = NetworkManager()
-    private var movieName: String
-    private var movieCode: String
+    private let movieName: String
+    private let movieCode: String
     
     lazy private var boxOfficeEndPoint = BoxOfficeEndPoint.MovieInformation(movieCode: movieCode, httpMethod: .get)
     lazy private var moviePosterImageEndPoint = BoxOfficeEndPoint.MoviePosterImage(query: movieName + " 영화 포스터", httpMethod: .get)
@@ -101,52 +101,32 @@ final class MovieInformationViewController: UIViewController {
             }
         }
         
-        loadImage(from: imageURL) { [weak self] result in
+        networkManager.loadImage(from: imageURL) { [weak self] result in
             switch result {
             case .failure(let error):
                 print(error)
             case .success(let image):
+                ImageCacheManager.shared.setObject(image, forKey: cachedKey)
                 DispatchQueue.main.async {
-                    ImageCacheManager.shared.setObject(image, forKey: cachedKey)
                     self?.movieInformationScrollView.moviePosterImageView.image = image
                     self?.loadingView.stopAnimating()
                 }
             }
         }
     }
-    
-    private func loadImage(from imageURL: URL, completion: @escaping ((Result<UIImage, NetworkError>) -> Void)) {
-        let urlRequest = URLRequest(url: imageURL)
-        
-        let task = URLSession.shared.dataTask(with: urlRequest) { data, response, error in
-            if error != nil {
-                completion(.failure(.unknown))
-                return
-            }
-            
-            guard let httpResponse = response as? HTTPURLResponse else {
-                completion(.failure(.httpResponse))
-                return
-            }
-            
-            guard (200...299).contains(httpResponse.statusCode) else {
-                completion(.failure(.httpStatusCode(code: httpResponse.statusCode)))
-                return
-            }
-            
-            if let data = data {
-                guard let result = UIImage(data: data) else {
-                    completion(.failure(.decode))
-                    return
-                }
-                completion(.success(result))
-            }
-        }
-        task.resume()
-    }
 }
 
 struct MovieInformationItem: Hashable {
+    let identifier = UUID()
+    let directors: String
+    let productionYear: String
+    let openDate: String
+    let showTime: String
+    let audits: String
+    let nations: String
+    let genres: String
+    let actors: String
+    
     init(from movie: MovieInformation.MovieInformationResult.Movie) {
         self.directors = {
             var directors = ""
@@ -213,14 +193,4 @@ struct MovieInformationItem: Hashable {
         self.openDate = movie.openDate
         self.showTime = movie.showTime
     }
-    
-    let identifier = UUID()
-    let directors: String
-    let productionYear: String
-    let openDate: String
-    let showTime: String
-    let audits: String
-    let nations: String
-    let genres: String
-    let actors: String
 }
