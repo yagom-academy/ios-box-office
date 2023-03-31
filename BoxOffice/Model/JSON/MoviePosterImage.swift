@@ -7,13 +7,18 @@
 
 struct MoviePosterImage: Decodable {
     let documents: [Document]
-    let meta: Meta
+    let metaData: Meta
+    
+    enum CodingKeys: String, CodingKey {
+        case documents
+        case metaData = "meta"
+    }
     
     struct Document: Decodable {
         let collection: String
         let datetime: String
         let displaySitename: String
-        let docURL: String
+        let documentURL: String
         let height: Int
         let imageURL: String
         let thumbnailURL: String
@@ -22,7 +27,7 @@ struct MoviePosterImage: Decodable {
         enum CodingKeys: String, CodingKey {
             case collection, datetime
             case displaySitename = "display_sitename"
-            case docURL = "doc_url"
+            case documentURL = "doc_url"
             case height
             case imageURL = "image_url"
             case thumbnailURL = "thumbnail_url"

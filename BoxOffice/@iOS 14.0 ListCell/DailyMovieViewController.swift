@@ -11,12 +11,12 @@ import UIKit
 final class DailyMovieViewController: UIViewController {
     private typealias DataSource = UICollectionViewDiffableDataSource<Section, DailyBoxOfficeItem>
     
-    private var networkManager = NetworkManager()
+    private let networkManager = NetworkManager()
     private var boxOfficeEndPoint: BoxOfficeEndPoint?
     private var movieDataSource: DataSource?
     private var movieItems: [DailyBoxOfficeItem] = []
     
-    private var refreshControl = UIRefreshControl()
+    private let refreshControl = UIRefreshControl()
 
     lazy private var collectionView: UICollectionView = {
         let collectionView = UICollectionView(frame: view.bounds, collectionViewLayout: createLayout())
@@ -55,7 +55,7 @@ final class DailyMovieViewController: UIViewController {
         dateFormatter.dateFormat = "yyyyMMdd"
         let currentDate = dateFormatter.string(from: Date(timeIntervalSinceNow: -86400))
         
-        boxOfficeEndPoint = BoxOfficeEndPoint.DailyBoxOffice(tagetDate: "\(currentDate)", httpMethod: .get)
+        boxOfficeEndPoint = BoxOfficeEndPoint.DailyBoxOffice(tagetDate: "\(currentDate)")
     }
     
     private func fetchDailyBoxOfficeData() {

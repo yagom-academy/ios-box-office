@@ -8,9 +8,9 @@
 import Foundation
 
 enum BoxOfficeEndPoint {
-    case DailyBoxOffice(tagetDate: String, httpMethod: HttpMethod)
-    case MovieInformation(movieCode: String, httpMethod: HttpMethod)
-    case MoviePosterImage(query: String, httpMethod: HttpMethod)
+    case DailyBoxOffice(tagetDate: String)
+    case MovieInformation(movieCode: String)
+    case MoviePosterImage(query: String)
 }
 
 extension BoxOfficeEndPoint {
@@ -42,31 +42,20 @@ extension BoxOfficeEndPoint {
     
     var queryItems: [URLQueryItem] {
         switch self {
-        case .DailyBoxOffice(let targetDate, _):
+        case .DailyBoxOffice(let targetDate):
             return [
                 URLQueryItem(name: "key", value: key),
                 URLQueryItem(name: "targetDt", value: targetDate)
             ]
-        case .MovieInformation(let movieCode, _):
+        case .MovieInformation(let movieCode):
             return [
                 URLQueryItem(name: "key", value: key),
                 URLQueryItem(name: "movieCd", value: movieCode)
             ]
-        case .MoviePosterImage(let query, _):
+        case .MoviePosterImage(let query):
             return [
                 URLQueryItem(name: "query", value: query)
             ]
-        }
-    }
-    
-    var httpMethod: String {
-        switch self {
-        case .DailyBoxOffice(_, let method):
-            return method.description
-        case .MovieInformation(_, let method):
-            return method.description
-        case .MoviePosterImage(_, let method):
-            return method.description
         }
     }
     
@@ -82,7 +71,7 @@ extension BoxOfficeEndPoint {
     func createURLRequest() -> URLRequest? {
         guard let url = createURL() else { return nil }
         var urlRequest = URLRequest(url: url)
-        urlRequest.httpMethod = httpMethod
+        urlRequest.httpMethod = HttpMethod.get.description
         
         switch self {
         case .MoviePosterImage:

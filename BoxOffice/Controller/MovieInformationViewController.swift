@@ -15,12 +15,14 @@ final class MovieInformationViewController: UIViewController {
     private let movieName: String
     private let movieCode: String
     
-    lazy private var boxOfficeEndPoint = BoxOfficeEndPoint.MovieInformation(movieCode: movieCode, httpMethod: .get)
-    lazy private var moviePosterImageEndPoint = BoxOfficeEndPoint.MoviePosterImage(query: movieName + " 영화 포스터", httpMethod: .get)
+    private let boxOfficeEndPoint: BoxOfficeEndPoint
+    private let moviePosterImageEndPoint: BoxOfficeEndPoint
     
     init(movieName: String, movieCode: String) {
         self.movieName = movieName
         self.movieCode = movieCode
+        self.boxOfficeEndPoint = BoxOfficeEndPoint.MovieInformation(movieCode: movieCode)
+        self.moviePosterImageEndPoint = BoxOfficeEndPoint.MoviePosterImage(query: movieName + " 영화 포스터")
         
         super.init(nibName: nil, bundle: nil)
     }
@@ -92,10 +94,9 @@ final class MovieInformationViewController: UIViewController {
     }
     
     private func fetchMoviePosterImage(from imageURL: URL) {
-        let cachedKey = NSString(string: imageURL.absoluteString)
-        if let cachedImage = ImageCacheManager.shared.object(forKey: cachedKey) {
+        if let cachedImage = ImageCacheManager.shared.cachedImage(urlString: imageURL.absoluteString) {
             DispatchQueue.main.async {
-                self.movieInformationScrollView.moviePosterImageView.image = cachedImage
+                self.movieInformationScrollView.setupMoviePoterImage(cachedImage)
                 self.loadingView.stopAnimating()
                 return
             }
@@ -106,9 +107,9 @@ final class MovieInformationViewController: UIViewController {
             case .failure(let error):
                 print(error)
             case .success(let image):
-                ImageCacheManager.shared.setObject(image, forKey: cachedKey)
+                ImageCacheManager.shared.setObject(image: image, urlString: imageURL.absoluteString)
                 DispatchQueue.main.async {
-                    self?.movieInformationScrollView.moviePosterImageView.image = image
+                    self?.movieInformationScrollView.setupMoviePoterImage(image)
                     self?.loadingView.stopAnimating()
                 }
             }

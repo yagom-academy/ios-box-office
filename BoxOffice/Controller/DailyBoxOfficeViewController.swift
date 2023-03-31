@@ -15,8 +15,8 @@ final class DailyBoxOfficeViewController: UIViewController {
     private var movieDataSource: DataSource?
     private var dailyBoxOfficeItem: [DailyBoxOfficeItem] = []
     
-    private var dateFormatter = DateFormatter()
-    private var refreshControl = UIRefreshControl()
+    private let dateFormatter = DateFormatter()
+    private let refreshControl = UIRefreshControl()
     
     lazy private var collectionView = UICollectionView(frame: view.bounds, collectionViewLayout: createMovieListLayout())
     
@@ -53,7 +53,7 @@ final class DailyBoxOfficeViewController: UIViewController {
         dateFormatter.dateFormat = "yyyyMMdd"
         let currentDate = dateFormatter.string(from: Date(timeIntervalSinceNow: -86400))
         
-        boxOfficeEndPoint = BoxOfficeEndPoint.DailyBoxOffice(tagetDate: "\(currentDate)", httpMethod: .get)
+        boxOfficeEndPoint = BoxOfficeEndPoint.DailyBoxOffice(tagetDate: "\(currentDate)")
     }
     
     private func fetchDailyBoxOfficeData() {

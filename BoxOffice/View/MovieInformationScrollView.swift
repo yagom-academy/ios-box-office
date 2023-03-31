@@ -10,16 +10,16 @@ import UIKit
 final class MovieInformationScrollView: UIScrollView {
     private let movieInformationContentView = UIView()
     private let movieInformationStackView = UIStackView()
-    let moviePosterImageView = UIImageView()
+    private let moviePosterImageView = UIImageView()
     
-    private var directorStackView = UIStackView()
-    private var productionYearStackView = UIStackView()
-    private var openDateStackView = UIStackView()
-    private var showTimeStackView = UIStackView()
-    private var watchGradeStackView = UIStackView()
-    private var nationStackView = UIStackView()
-    private var genresStackView = UIStackView()
-    private var actorsStackView = UIStackView()
+    private let directorStackView = UIStackView()
+    private let productionYearStackView = UIStackView()
+    private let openDateStackView = UIStackView()
+    private let showTimeStackView = UIStackView()
+    private let watchGradeStackView = UIStackView()
+    private let nationStackView = UIStackView()
+    private let genresStackView = UIStackView()
+    private let actorsStackView = UIStackView()
     
     func configure(by movie: MovieInformationItem) {
         self.addSubview(movieInformationContentView)
@@ -35,6 +35,10 @@ final class MovieInformationScrollView: UIScrollView {
         configureNationStackView(by: movie)
         configureGenreStackView(by: movie)
         configureActorStackView(by: movie)
+    }
+    
+    func setupMoviePoterImage(_ image: UIImage) {
+        self.moviePosterImageView.image = image
     }
 
     private func configureContentView() {
