@@ -71,7 +71,8 @@ final class BoxOfficeViewController: UIViewController {
                                                               for: .valueChanged)
     }
     
-    @objc func handleRefreshControl() {
+    @objc
+    func handleRefreshControl() {
         DispatchQueue.main.async {
             self.boxOfficeListCollectionView.reloadData()
             self.boxOfficeListCollectionView.refreshControl?.endRefreshing()
@@ -97,27 +98,6 @@ extension BoxOfficeViewController: UICollectionViewDataSource {
         return dailyBoxOffice?.boxOfficeResult.dailyBoxOfficeList.count ?? 0
     }
     
-    func convertRankGapPresentation(indexPath: IndexPath) -> NSMutableAttributedString {
-        guard let rankGap = dailyBoxOffice?.boxOfficeResult.dailyBoxOfficeList[indexPath.row].rankGap,
-              let rankOldAndNew = dailyBoxOffice?.boxOfficeResult.dailyBoxOfficeList[indexPath.row].rankOldAndNew,
-              let intRankGap = Int(rankGap) else { return NSMutableAttributedString().makeRedText(string: "") }
-        
-        if rankOldAndNew == "NEW" {
-            return NSMutableAttributedString().makeRedText(string: "신작")
-        }
-        
-        switch intRankGap {
-        case -20 ... -1:
-            return NSMutableAttributedString().makeBlueText(string: "▼").makeBlackText(string: rankGap.trimmingCharacters(in: ["-"]))
-        case 1...20:
-            return NSMutableAttributedString().makeRedText(string: "▲").makeBlackText(string: rankGap)
-        case 0:
-            return NSMutableAttributedString().makeBlackText(string: "-")
-        default:
-            return NSMutableAttributedString().makeBlackText(string: "")
-        }
-    }
-    
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cellId = String(describing: BoxOfficeListCell.self)
         let cell = boxOfficeListCollectionView.dequeueReusableCell(withReuseIdentifier: cellId, for: indexPath) as! BoxOfficeListCell
@@ -136,6 +116,27 @@ extension BoxOfficeViewController: UICollectionViewDataSource {
         
         return cell
     }
+    
+    private func convertRankGapPresentation(indexPath: IndexPath) -> NSMutableAttributedString {
+         guard let rankGap = dailyBoxOffice?.boxOfficeResult.dailyBoxOfficeList[indexPath.row].rankGap,
+               let rankOldAndNew = dailyBoxOffice?.boxOfficeResult.dailyBoxOfficeList[indexPath.row].rankOldAndNew,
+               let intRankGap = Int(rankGap) else { return NSMutableAttributedString().makeRedText(string: "") }
+         
+         if rankOldAndNew == "NEW" {
+             return NSMutableAttributedString().makeRedText(string: "신작")
+         }
+         
+         switch intRankGap {
+         case -20 ... -1:
+             return NSMutableAttributedString().makeBlueText(string: "▼").makeBlackText(string: rankGap.trimmingCharacters(in: ["-"]))
+         case 1...20:
+             return NSMutableAttributedString().makeRedText(string: "▲").makeBlackText(string: rankGap)
+         case 0:
+             return NSMutableAttributedString().makeBlackText(string: "-")
+         default:
+             return NSMutableAttributedString().makeBlackText(string: "")
+         }
+     }
 }
 
 extension BoxOfficeViewController {
