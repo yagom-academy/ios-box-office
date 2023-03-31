@@ -7,17 +7,15 @@
 
 import UIKit
 
-class MovieRankingCell: UICollectionViewListCell {
+final class MovieRankingCell: UICollectionViewListCell {
         
     static let identifier = "MovieRankingCell"
     
-    var movieItem: InfoObject? {
-        didSet {
-            self.rankLabel.text = movieItem?.rank
-            self.rankStatusLabel.attributedText = movieItem?.rankStatusAttributedText
-            self.movieNameLabel.text = movieItem?.name
-            self.audienceLabel.text = movieItem?.audienceInfoText
-        }
+    func updateLabelText(for dataManager: DataManager) {
+        self.rankLabel.text = dataManager?.rank
+        self.rankStatusLabel.attributedText = dataManager?.rankStatusAttributedText
+        self.movieNameLabel.text = dataManager?.name
+        self.audienceLabel.text = dataManager?.audienceInfoText
     }
     
     // MARK: UI Properties

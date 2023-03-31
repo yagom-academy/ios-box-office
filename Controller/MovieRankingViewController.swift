@@ -34,8 +34,8 @@ final class MovieRankingViewController: UIViewController {
         configureUI()
         startLoadingView()
         makeDataSource()
-        fetchBoxofficeData()
         configureRefreshController()
+        fetchBoxofficeData()
     }
     
     private func fetchBoxofficeData() {
@@ -54,9 +54,7 @@ final class MovieRankingViewController: UIViewController {
     }
 
     private func startLoadingView() {
-        DispatchQueue.main.async {
-            self.loadingView.startAnimating()
-        }
+        self.loadingView.startAnimating()
     }
     
     private func configureRefreshController() {
@@ -89,10 +87,7 @@ extension MovieRankingViewController {
         
         view.addSubview(loadingView)
     }
-}
-
-// MARK: DataSource
-extension MovieRankingViewController {
+    
     private func makeDataSource() {
         dataSource = UICollectionViewDiffableDataSource<APIType, InfoObject>(collectionView: collectionView, cellProvider: { collectionView, indexPath, itemIdentifier in
             guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: MovieRankingCell.identifier, for: indexPath) as? MovieRankingCell else { return UICollectionViewListCell() }
@@ -112,10 +107,7 @@ extension MovieRankingViewController {
         
         dataSource?.apply(snapshot, animatingDifferences: true)
     }
-}
 
-// MARK: CollectionView UI
-extension MovieRankingViewController {
     private func configureCollectionViewLayout() {
         view.addSubview(collectionView)
         
