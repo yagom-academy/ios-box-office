@@ -88,6 +88,7 @@ final class BoxOfficeViewController: UIViewController {
                     self.collectionView.reloadData()
                 case .failure(let error):
                     print(error.localizedDescription)
+                    self.showFailAlert(error: error)
                 }
                 completion()
             }

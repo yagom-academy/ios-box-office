@@ -17,6 +17,7 @@ final class MovieInfoViewController: UIViewController {
     @IBOutlet private weak var genreLabel: UILabel!
     @IBOutlet private weak var watchGradeLabel: UILabel!
     @IBOutlet private weak var actorLabel: UILabel!
+    @IBOutlet private weak var contentStackView: UIStackView!
     
     private let movieCode: String?
     private let movieName: String?
@@ -35,11 +36,7 @@ final class MovieInfoViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        navigationItem.title = movieName
-        self.view.addSubview(activityIndicator)
-        activityIndicator.startAnimating()
-        fetchMovieInfo(completion: checkFetchComplete)
-        fetchMoviePoster()
+        configureInitialView()
     }
     
     init?(movieCode: String?, movieName: String?, coder: NSCoder) {
@@ -52,18 +49,30 @@ final class MovieInfoViewController: UIViewController {
         fatalError("init(coder:) has not been implemented")
     }
     
+    private func configureInitialView() {
+        navigationItem.title = movieName
+        contentStackView.isHidden = true
+        self.view.addSubview(activityIndicator)
+        activityIndicator.startAnimating()
+        fetchMovieInfo(completion: checkFetchComplete)
+        fetchMoviePoster()
+    }
+    
     private func fetchMovieInfo(completion: @escaping () -> ()) {
         guard let movieCode = movieCode else { return }
+        
         let endPoint: BoxOfficeEndPoint = .fetchMovieInfo(movieCode: movieCode)
         
         networkManager.fetchData(request: endPoint.createRequest(), type: Movie.self) {
             [weak self] result in
             guard let self = self else { return }
+            
             switch result {
             case .success(let data):
                 self.movieInfo = data
             case .failure(let error):
                 print(error.localizedDescription)
+                self.showFailAlert(error: error)
             }
             completion()
         }
@@ -71,17 +80,20 @@ final class MovieInfoViewController: UIViewController {
     
     private func fetchMoviePoster() {
         guard let movieName = movieName else { return }
+        
         let endPoint: BoxOfficeEndPoint = .fetchMoviePoster(movieName: movieName)
         
         networkManager.fetchData(request: endPoint.createRequest(), type: MoviePoster.self) {
             [weak self] result in
             guard let self = self else { return }
+            
             switch result {
             case .success(let data):
                 let url = self.searchPosterURL(data: data)
-                configurePosterImage(url: url, completion: checkFetchComplete)
+                self.loadPosterImage(url: url, completion: self.checkFetchComplete)
             case .failure(let error):
                 print(error.localizedDescription)
+                self.showFailAlert(error: error)
             }
         }
     }
@@ -94,19 +106,19 @@ final class MovieInfoViewController: UIViewController {
         return URL(string: urlText)
     }
     
-    private func configurePosterImage(url: URL?, completion: @escaping () -> ()) {
+    private func loadPosterImage(url: URL?, completion: @escaping () -> ()) {
         guard let url = url else { return }
         
         DispatchQueue.global().async {
-            if let data = try? Data(contentsOf: url) {
-                if let image = UIImage(data: data) {
-                    DispatchQueue.main.async { [weak self] in
-                        Thread.sleep(forTimeInterval: 3)
-                        guard let self = self else { return }
-                        self.posterImage = image
-                        completion()
-                    }
-                }
+            guard let data = try? Data(contentsOf: url) else { return }
+            
+            guard let image = UIImage(data: data) else { return }
+            
+            DispatchQueue.main.async { [weak self] in
+                guard let self = self else { return }
+                
+                self.posterImage = image
+                completion()
             }
         }
     }
@@ -125,12 +137,16 @@ final class MovieInfoViewController: UIViewController {
     }
     
     private func checkFetchComplete() {
-        guard posterImage != nil && movieInfo != nil, let movieInfo = movieInfo else { return }
+        guard posterImage != nil && movieInfo != nil,
+              let movieInfo = movieInfo else { return }
+        
         DispatchQueue.main.async { [weak self] in
             guard let self = self else { return }
+            
             self.activityIndicator.stopAnimating()
             self.posterImageView.image = self.posterImage
             self.configureLabels(data: movieInfo)
+            self.contentStackView.isHidden = false
         }
     }
 }

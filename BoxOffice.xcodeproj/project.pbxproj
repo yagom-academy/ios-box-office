@@ -10,7 +10,6 @@
 		162AFFA629C823E100D1926E /* BoxOffice.swift in Sources */ = {isa = PBXBuildFile; fileRef = 162AFFA529C823E100D1926E /* BoxOffice.swift */; };
 		162AFFAE29C9566000D1926E /* MovieTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 162AFFAD29C9566000D1926E /* MovieTests.swift */; };
 		1631BC4829D3DC3800C2943D /* MovieInfoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1631BC4729D3DC3800C2943D /* MovieInfoViewController.swift */; };
-		1631BC4A29D3F02B00C2943D /* UIImageView+Load.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1631BC4929D3F02B00C2943D /* UIImageView+Load.swift */; };
 		1639531A29D1731D00032636 /* MovieInfoResult.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1639531929D1731D00032636 /* MovieInfoResult.swift */; };
 		1639531C29D1733800032636 /* MovieInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1639531B29D1733800032636 /* MovieInfo.swift */; };
 		1639531E29D1735000032636 /* Actor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1639531D29D1735000032636 /* Actor.swift */; };
@@ -32,6 +31,7 @@
 		4A32B3A729CC2B81005A8575 /* MockURLSession.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A32B3A629CC2B81005A8575 /* MockURLSession.swift */; };
 		4A32B3A929CC2DB2005A8575 /* MockURLSessionDataTask.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A32B3A829CC2DB2005A8575 /* MockURLSessionDataTask.swift */; };
 		4A32B3AD29CC36A8005A8575 /* URLSessionDataTaskProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A32B3AC29CC36A8005A8575 /* URLSessionDataTaskProtocol.swift */; };
+		4A51039629D7063900DB9887 /* UIViewController+showFailAlert.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A51039529D7063900DB9887 /* UIViewController+showFailAlert.swift */; };
 		4A7F488B29D3D79100D164BE /* MoviePoster.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A7F488A29D3D79100D164BE /* MoviePoster.swift */; };
 		4ABC80DE29C8287700FB065A /* BoxOfficeTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4ABC80DD29C8287700FB065A /* BoxOfficeTests.swift */; };
 		4ABC810529C9507100FB065A /* Movie.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4ABC810429C9507100FB065A /* Movie.swift */; };
@@ -76,7 +76,6 @@
 		162AFFAB29C9565F00D1926E /* MovieTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = MovieTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		162AFFAD29C9566000D1926E /* MovieTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MovieTests.swift; sourceTree = "<group>"; };
 		1631BC4729D3DC3800C2943D /* MovieInfoViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MovieInfoViewController.swift; sourceTree = "<group>"; };
-		1631BC4929D3F02B00C2943D /* UIImageView+Load.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIImageView+Load.swift"; sourceTree = "<group>"; };
 		1639531929D1731D00032636 /* MovieInfoResult.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MovieInfoResult.swift; sourceTree = "<group>"; };
 		1639531B29D1733800032636 /* MovieInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MovieInfo.swift; sourceTree = "<group>"; };
 		1639531D29D1735000032636 /* Actor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Actor.swift; sourceTree = "<group>"; };
@@ -99,6 +98,7 @@
 		4A32B3A629CC2B81005A8575 /* MockURLSession.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockURLSession.swift; sourceTree = "<group>"; };
 		4A32B3A829CC2DB2005A8575 /* MockURLSessionDataTask.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = MockURLSessionDataTask.swift; path = UnitTests/NetworkManagerTests/MockURLSessionDataTask.swift; sourceTree = SOURCE_ROOT; };
 		4A32B3AC29CC36A8005A8575 /* URLSessionDataTaskProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = URLSessionDataTaskProtocol.swift; sourceTree = "<group>"; };
+		4A51039529D7063900DB9887 /* UIViewController+showFailAlert.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIViewController+showFailAlert.swift"; sourceTree = "<group>"; };
 		4A7F488A29D3D79100D164BE /* MoviePoster.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MoviePoster.swift; sourceTree = "<group>"; };
 		4ABC80DB29C8287700FB065A /* BoxOfficeTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = BoxOfficeTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		4ABC80DD29C8287700FB065A /* BoxOfficeTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BoxOfficeTests.swift; sourceTree = "<group>"; };
@@ -255,8 +255,8 @@
 				16E737DA29CD8378009B5DE8 /* Identifying.swift */,
 				1639532929D179EF00032636 /* Array+Subscript.swift */,
 				1639532D29D1BE6800032636 /* String+DecimalFormatter.swift */,
-				1631BC4929D3F02B00C2943D /* UIImageView+Load.swift */,
 				4A03E4B829D1CFF70066AF87 /* DateFormmatter+HyphenFormat.swift */,
+				4A51039529D7063900DB9887 /* UIViewController+showFailAlert.swift */,
 			);
 			path = Etc;
 			sourceTree = "<group>";
@@ -534,13 +534,13 @@
 				63DF20F12970E1A0005DF7D1 /* SceneDelegate.swift in Sources */,
 				1639532629D1739A00032636 /* Nation.swift in Sources */,
 				162AFFA629C823E100D1926E /* BoxOffice.swift in Sources */,
+				4A51039629D7063900DB9887 /* UIViewController+showFailAlert.swift in Sources */,
 				1639532A29D179EF00032636 /* Array+Subscript.swift in Sources */,
 				1639532E29D1BE6800032636 /* String+DecimalFormatter.swift in Sources */,
 				4A32B3AD29CC36A8005A8575 /* URLSessionDataTaskProtocol.swift in Sources */,
 				4A03E49F29D16C2D0066AF87 /* RankOldAndNew.swift in Sources */,
 				4A32B3A929CC2DB2005A8575 /* MockURLSessionDataTask.swift in Sources */,
 				1639532229D1737900032636 /* Director.swift in Sources */,
-				1631BC4A29D3F02B00C2943D /* UIImageView+Load.swift in Sources */,
 				4ABC810529C9507100FB065A /* Movie.swift in Sources */,
 				16B6214F29CAE13C00D6BA27 /* BoxOfficeEndPoint.swift in Sources */,
 			);
