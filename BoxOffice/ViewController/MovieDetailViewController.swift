@@ -46,6 +46,7 @@ final class MovieDetailViewController: UIViewController {
         let stackView = UIStackView()
         stackView.translatesAutoresizingMaskIntoConstraints = false
         stackView.axis = .vertical
+        stackView.spacing = 10
         return stackView
     }()
     
@@ -110,8 +111,34 @@ final class MovieDetailViewController: UIViewController {
         stackView.addArrangedSubview(actorStackView)
         
         NSLayoutConstraint.activate([
-            posterImageView.widthAnchor.constraint(equalTo: self.scrollView.frameLayoutGuide.widthAnchor, multiplier: 0.9),
-            posterImageView.heightAnchor.constraint(equalTo: posterImageView.widthAnchor, multiplier: 1.5)
+            posterImageView.widthAnchor.constraint(equalTo: self.scrollView.frameLayoutGuide.widthAnchor, multiplier: 0.8),
+            posterImageView.heightAnchor.constraint(equalTo: posterImageView.widthAnchor, multiplier: 1.5),
+            
+            directorStackView.leadingAnchor.constraint(equalTo: self.view.leadingAnchor, constant: 10),
+            productYearStackView.leadingAnchor.constraint(equalTo: self.view.leadingAnchor, constant: 10),
+            openDateStackView.leadingAnchor.constraint(equalTo: self.view.leadingAnchor, constant: 10),
+            showingTimeStackView.leadingAnchor.constraint(equalTo: self.view.leadingAnchor, constant: 10),
+            watchGradeStackView.leadingAnchor.constraint(equalTo: self.view.leadingAnchor, constant: 10),
+            nationStackView.leadingAnchor.constraint(equalTo: self.view.leadingAnchor, constant: 10),
+            genreStackView.leadingAnchor.constraint(equalTo: self.view.leadingAnchor, constant: 10),
+            actorStackView.leadingAnchor.constraint(equalTo: self.view.leadingAnchor, constant: 10),
+            
+            directorStackView.trailingAnchor.constraint(equalTo: self.view.trailingAnchor, constant: -10),
+            productYearStackView.trailingAnchor.constraint(equalTo: self.view.trailingAnchor, constant: -10),
+            openDateStackView.trailingAnchor.constraint(equalTo: self.view.trailingAnchor, constant: -10),
+            showingTimeStackView.trailingAnchor.constraint(equalTo: self.view.trailingAnchor, constant: -10),
+            watchGradeStackView.trailingAnchor.constraint(equalTo: self.view.trailingAnchor, constant: -10),
+            nationStackView.trailingAnchor.constraint(equalTo: self.view.trailingAnchor, constant: -10),
+            genreStackView.trailingAnchor.constraint(equalTo: self.view.trailingAnchor, constant: -10),
+            actorStackView.trailingAnchor.constraint(equalTo: self.view.trailingAnchor, constant: -10),
+            
+            directorStackView.categoryLabel.widthAnchor.constraint(equalTo: productYearStackView.categoryLabel.widthAnchor),
+            directorStackView.categoryLabel.widthAnchor.constraint(equalTo: openDateStackView.categoryLabel.widthAnchor),
+            directorStackView.categoryLabel.widthAnchor.constraint(equalTo: showingTimeStackView.categoryLabel.widthAnchor),
+            directorStackView.categoryLabel.widthAnchor.constraint(equalTo: watchGradeStackView.categoryLabel.widthAnchor),
+            directorStackView.categoryLabel.widthAnchor.constraint(equalTo: nationStackView.categoryLabel.widthAnchor),
+            directorStackView.categoryLabel.widthAnchor.constraint(equalTo: genreStackView.categoryLabel.widthAnchor),
+            directorStackView.categoryLabel.widthAnchor.constraint(equalTo: actorStackView.categoryLabel.widthAnchor),
         ])
     }
     
@@ -121,7 +148,9 @@ final class MovieDetailViewController: UIViewController {
                                     type: MovieInformationDTO.self) { [weak self] result in
             switch result {
             case .success(let data):
-                self?.movieDetailInformation = data.toDomain()
+                DispatchQueue.main.async {
+                    self?.movieDetailInformation = data.toDomain()
+                }
             case .failure:
                 print("실패")
             }

@@ -8,15 +8,20 @@
 import UIKit
 
 final class CategoryStackView: UIStackView {
-    private let categoryLabel: UILabel = {
+    let categoryLabel: UILabel = {
         let label = UILabel()
-        label.font = UIFont.preferredFont(forTextStyle: .body)
+        label.font = UIFont.preferredFont(forTextStyle: .headline)
+        label.setContentCompressionResistancePriority(.defaultHigh, for: .horizontal)
+        label.textAlignment = .center
+        label.adjustsFontForContentSizeCategory = true
         return label
     }()
     
     private let informationLabel: UILabel = {
         let label = UILabel()
-        label.font = UIFont.preferredFont(forTextStyle: .caption1)
+        label.font = UIFont.preferredFont(forTextStyle: .body)
+        label.numberOfLines = 0
+        label.adjustsFontForContentSizeCategory = true
         return label
     }()
     
@@ -31,7 +36,7 @@ final class CategoryStackView: UIStackView {
     
     private func configure(category: String) {
         self.axis = .horizontal
-        self.alignment = .center
+        self.spacing = 10
         self.addArrangedSubview(categoryLabel)
         self.addArrangedSubview(informationLabel)
         
