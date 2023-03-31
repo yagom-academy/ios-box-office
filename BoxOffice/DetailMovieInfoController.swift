@@ -78,7 +78,6 @@ final class DetailMovieInfoController: UIViewController {
                 do {
                     let movieInfo: MovieInfoItem = try JSONConverter.shared.decodeData(data, T: MovieInfoItem.self)
                     let movieInfoItem = movieInfo.movieInfoResult.movieInfo
-                    print(movieInfoItem)
                     DispatchQueue.main.async {
                         self.updateStackView(movieInfoItem)
                     }
