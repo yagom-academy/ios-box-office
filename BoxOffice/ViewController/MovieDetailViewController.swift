@@ -79,6 +79,7 @@ final class MovieDetailViewController: UIViewController {
     override func viewDidLoad() {
         setupUI()
         fetchMovieDetail()
+        fetchMoviePoster()
     }
     
     private func setupUI() {
@@ -150,6 +151,26 @@ final class MovieDetailViewController: UIViewController {
             case .success(let data):
                 DispatchQueue.main.async {
                     self?.movieDetailInformation = data.toDomain()
+                }
+            case .failure:
+                print("실패")
+            }
+        }
+    }
+    
+    private func fetchMoviePoster() {
+        let boxOfficeProvider = BoxOfficeProvider<DaumAPI>()
+        boxOfficeProvider.fetchData(.searchImage(movieName: "\(self.movieName) 영화 포스터"),
+                                    type: SearchedMovieImageDTO.self) { [weak self] result in
+            switch result {
+            case .success(let data):
+                guard let url = data.documents.first?.imageURL,
+                      let imageUrl = URL(string: url) else {
+                    return
+                }
+                guard let image = try? Data(contentsOf: imageUrl) else { return }
+                DispatchQueue.main.async {
+                    self?.posterImageView.image = UIImage(data: image)
                 }
             case .failure:
                 print("실패")
