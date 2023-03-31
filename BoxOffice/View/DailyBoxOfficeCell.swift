@@ -55,16 +55,26 @@ final class DailyBoxOfficeCell: UICollectionViewCell {
         }
     }
     
+    override init(frame: CGRect) {
+        super.init(frame: frame)
+        setBorder()
+        configureSubviews()
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
     override func prepareForReuse() {
         super.prepareForReuse()
         rankDifferenceLabel.textColor = .black
     }
     
-    func setBorder() {
+    private func setBorder() {
         layer.addBorder(color: .systemGray5, width: 1)
     }
     
-    func configureSubviews() {
+    private func configureSubviews() {
         setViewHierarchy()
         setSubviewConstraints()
     }
