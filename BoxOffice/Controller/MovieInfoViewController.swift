@@ -9,6 +9,14 @@ import UIKit
 
 final class MovieInfoViewController: UIViewController {
     @IBOutlet private weak var posterImageView: UIImageView!
+    @IBOutlet private weak var directorLabel: UILabel!
+    @IBOutlet private weak var productionYearLabel: UILabel!
+    @IBOutlet private weak var openDateLabel: UILabel!
+    @IBOutlet private weak var showTimeLabel: UILabel!
+    @IBOutlet private weak var nationLabel: UILabel!
+    @IBOutlet private weak var genreLabel: UILabel!
+    @IBOutlet private weak var watchGradeLabel: UILabel!
+    @IBOutlet private weak var actorLabel: UILabel!
     
     private let movieCode: String?
     private let movieName: String?
@@ -37,7 +45,8 @@ final class MovieInfoViewController: UIViewController {
         let endPoint: BoxOfficeEndPoint = .fetchMovieInfo(movieCode: movieCode)
         
         networkManager.fetchData(request: endPoint.createRequest(), type: Movie.self) { result in
-            DispatchQueue.main.async {
+            DispatchQueue.main.async { [weak self] in
+                guard let self = self else { return }
                 switch result {
                 case .success(let data):
                     self.movieInfo = data

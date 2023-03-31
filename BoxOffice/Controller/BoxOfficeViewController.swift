@@ -25,8 +25,7 @@ final class BoxOfficeViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        configure()
-        activityIndicator.startAnimating()
+        configureInitialView()
         loadInitialData()
     }
     
@@ -66,8 +65,9 @@ final class BoxOfficeViewController: UIViewController {
         registerXib()
     }
     
-    private func configure() {
-        navigationItem.title = YesterdayDateFormatter.text(format: .nonHyphen)
+    private func configureInitialView() {
+        activityIndicator.startAnimating()
+        navigationItem.title = YesterdayDateFormatter.text(format: .hyphen)
         self.view.addSubview(activityIndicator)
         refreshControl.addTarget(self, action: #selector(refreshData), for: .valueChanged)
         configureCollectionView()
@@ -77,11 +77,11 @@ final class BoxOfficeViewController: UIViewController {
         let yesterdayText = YesterdayDateFormatter.text(format: .nonHyphen)
         let endPoint: BoxOfficeEndPoint = .fetchDailyBoxOffice(targetDate: yesterdayText)
         
-        networkManager.fetchData(url: endPoint.createURL(), type: BoxOffice.self) {
-            [weak self] result in
-            guard let self = self else { return }
-            
-            DispatchQueue.main.async {
+        networkManager.fetchData(request: endPoint.createRequest(), type: BoxOffice.self) {
+            result in
+            DispatchQueue.main.async { [weak self] in
+                guard let self = self else { return }
+                
                 switch result {
                 case .success(let data):
                     self.boxOffice = data
