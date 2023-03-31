@@ -101,7 +101,8 @@ extension MovieRankingViewController {
         dataSource = UICollectionViewDiffableDataSource<APIType, InfoObject>(collectionView: collectionView, cellProvider: { collectionView, indexPath, itemIdentifier in
             guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: MovieRankingCell.identifier, for: indexPath) as? MovieRankingCell else { return UICollectionViewListCell() }
             
-            cell.movieItem = itemIdentifier
+            let dataManager = DataManager(data: itemIdentifier)
+            cell.movieItem = dataManager
             
             return cell
         })
