@@ -11,11 +11,11 @@ final class MovieRankingCell: UICollectionViewListCell {
         
     static let identifier = "MovieRankingCell"
     
-    func updateLabelText(for dataManager: DataManager) {
-        self.rankLabel.text = dataManager?.rank
-        self.rankStatusLabel.attributedText = dataManager?.rankStatusAttributedText
-        self.movieNameLabel.text = dataManager?.name
-        self.audienceLabel.text = dataManager?.audienceInfoText
+    func updateLabelText(for manager: MovieInfoManager) {
+        self.rankLabel.text = manager.rank
+        self.rankStatusLabel.attributedText = manager.rankStatusAttributedText
+        self.movieNameLabel.text = manager.name
+        self.audienceLabel.text = manager.audienceInfoText
     }
     
     // MARK: UI Properties

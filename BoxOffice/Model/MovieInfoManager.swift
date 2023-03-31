@@ -8,11 +8,34 @@
 import UIKit
 
 struct DataManager {
-    var data: InfoObject
-    private let apiType = APIType.boxoffice(formattedString)
+    let navigationTitleText: String
+    private let apiType: APIType
     private var movieItems: [InfoObject] = []
-    private lazy var boxofficeInfo = BoxofficeInfo<DailyBoxofficeObject>(apiType: apiType,
-                                                   model: NetworkModel(session: .shared))
+    private let boxofficeInfo: BoxofficeInfo<DailyBoxofficeObject>
+    
+    init(date: Date) {
+        self.navigationTitleText = Date.dateFormatter.string(from: date)
+        let dataText = Date.apiDateFormatter.string(from: date)
+        self.apiType = APIType.boxoffice(dataText)
+        self.boxofficeInfo = BoxofficeInfo<DailyBoxofficeObject>(apiType: self.apiType, model: NetworkModel(session: .shared))
+    }
+    
+}
+
+struct MovieInfoManager {
+    private var data: InfoObject
+    
+    init(data: InfoObject) {
+        self.data = data
+    }
+    
+    var rank: String {
+        return data.rank
+    }
+    
+    var name: String {
+        return data.name
+    }
     
     var audienceInfoText: String {
         guard let todayOfAudienceText = data.numberOfAudience.formatDecimal(),

@@ -9,8 +9,9 @@ import UIKit
 
 final class MovieRankingViewController: UIViewController {
     
-    // MARK: Properties
-    private let formattedString = Date.apiDateFormatter.string(from: .yesterday)
+    // MARK: Propertie
+    private var dataManager: DataManager?
+    
     // MARK: UI Properties
     private let loadingView = UIActivityIndicatorView()
     private let refreshController = UIRefreshControl()
@@ -30,7 +31,7 @@ final class MovieRankingViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+        makeDataManager()
         configureUI()
         startLoadingView()
         makeDataSource()
@@ -51,6 +52,13 @@ final class MovieRankingViewController: UIViewController {
                 return
             }
         }
+    }
+    
+    private func makeDataManager() {
+        guard let yesterday = Date.yesterday else {
+            return
+        }
+        dataManager = DataManager(date: yesterday)
     }
 
     private func startLoadingView() {
@@ -73,12 +81,16 @@ final class MovieRankingViewController: UIViewController {
 // MARK: UI
 extension MovieRankingViewController {
     private func configureUI() {
-        let formattedYesterday = Date.dateFormatter.string(from: .yesterday)
         view.backgroundColor = .systemBackground
-        navigationItem.title = "\(formattedYesterday)"
         
         configureCollectionViewLayout()
         configureLoadingView()
+        
+        guard let formattedString = dataManager?.navigationTitleText else {
+            return
+        }
+        
+        navigationItem.title = "\(formattedString)"
     }
     
     private func configureLoadingView() {
@@ -92,8 +104,9 @@ extension MovieRankingViewController {
         dataSource = UICollectionViewDiffableDataSource<APIType, InfoObject>(collectionView: collectionView, cellProvider: { collectionView, indexPath, itemIdentifier in
             guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: MovieRankingCell.identifier, for: indexPath) as? MovieRankingCell else { return UICollectionViewListCell() }
             
-            let dataManager = DataManager(data: itemIdentifier)
-            cell.movieItem = dataManager
+            let infoManager = MovieInfoManager(data: itemIdentifier)
+            
+            cell.updateLabelText(for: infoManager)
             
             return cell
         })
