@@ -15,7 +15,6 @@ struct RankingManager {
     
     init(date: Date) {
         let dataText = Date.apiDateFormatter.string(from: date)
-        
         self.date = date
         self.apiType = APIType.boxoffice(dataText)
         self.boxofficeInfo = BoxofficeInfo<DailyBoxofficeObject>(apiType: self.apiType, model: NetworkModel(session: .shared))

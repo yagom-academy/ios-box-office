@@ -54,10 +54,20 @@ final class MovieRankingViewController: UIViewController {
                     self?.loadingView.stopAnimating()
                     self?.collectionView.refreshControl?.endRefreshing()
                 }
-            case .failure(_):
-                return
+            case .failure(let error):
+                DispatchQueue.main.async {
+                    self?.presentErrorAlert(error: error)
+                }
             }
         }
+    }
+    
+    private func presentErrorAlert(error: Error) {
+        let alert = UIAlertController(title: error.localizedDescription,
+                                      message: nil,
+                                      preferredStyle: .alert)
+        alert.addAction(UIAlertAction(title: "확인", style: .default))
+        present(alert, animated: true, completion: nil)
     }
 
     private func startLoadingView() {
