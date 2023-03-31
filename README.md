@@ -9,8 +9,9 @@
 
 1. [팀원](#팀원)
 2. [타임라인](#타임라인)
-3. [트러블슈팅](#트러블슈팅)
-4. [참고링크](#참고링크)
+3. [실행화면](#실행화면)
+4. [트러블슈팅](#트러블슈팅)
+5. [참고링크](#참고링크)
 
 
 ## 팀원
@@ -78,6 +79,15 @@
 | 03.31 | 이미지 로딩 전 indicator 구현 |
 </details>
 
+
+## 실행화면 
+
+| 영화 목록화면   |  영화 상세화면 |
+| :-----------: | :-----------: | 
+| <img height="450px" width="240px" src="https://i.imgur.com/YwREJJx.gif"> | <img  height="450px" width="240px"  src="https://i.imgur.com/A9GCkPU.gif">
+
+
+
 ## 트러블슈팅 
 
 ### 1️⃣ API TEST 
@@ -86,7 +96,7 @@
 2. URL 파라미터 쿼리의 위치가 변경되어 속성이 같아도 같은 URL로 인식하지 않는다는 문제
 
 
-해당 테스트에서는 각각 일치하지 않는 URL을 넣고 에러를 발생시키는 테스트입니다. 
+해당 테스트에서는 각각 일치하지 않는 URL을 넣고 에러를 발생시키는 테스트입니다. <br>
 하지만 해당 테스트에서는 일치하지 않는 URL은 넘기고 서버에러를 만들어주고 있습니다.  
 ![](https://i.imgur.com/44HNwk7.png)
 
@@ -112,7 +122,7 @@ extension URL {
 
 
 ```
-MockURLSession에서는 요청 URL과 응답URL을 비교하여 다르다면,
+MockURLSession에서는 요청 URL과 응답URL을 비교하여 다르다면,<br>
 URLError.differentURL 에러를 반환하는 로직을 추가하여 위 두가지 문제를 해결해주었습니다. 
 
 ```swift
@@ -128,7 +138,7 @@ if request.url?.normalizedURL != self.response.urlResponse?.url?.normalizedURL {
 APIProvider클래스 내의 dataTask 함수는 URLSession의 dataTask를 실행하여
 네트워크 요청을 수행하고 결과를 completionHandler에 전달하고 있습니다. 
 
-또한 함수 내에서 클라이언트 에러, 서버 에러 등의 네트워크 에러를 처리하고 있습니다.  
+또한 함수 내에서 클라이언트 에러, 서버 에러 등의 네트워크 에러를 처리하고 있습니다. <br>
 하지만 여기서 저는 Http 상태코드에 따른 에러처리를 200~299 성공 상태 코드가 아니면 
 모두 `serverError` 경우로 단 한가지로만 처리해주고 있었습니다. 
 
@@ -149,11 +159,11 @@ APIProvider클래스 내의 dataTask 함수는 URLSession의 dataTask를 실행�
 
 Http 상태코드는 간단히 아래와 같이 분류됩니다.
 
-100 - 199 : 정보성 상태 코드
-200 - 299 : 성공 상태 코드
-300 - 399 : 리다이렉션 상태 코드
-400 - 499 : 클라이언트 에러 상태 코드
-500 - 599 : 서버 에러 상태 코드
+- 100 - 199 : 정보성 상태 코드
+- 200 - 299 : 성공 상태 코드
+- 300 - 399 : 리다이렉션 상태 코드
+- 400 - 499 : 클라이언트 에러 상태 코드
+- 500 - 599 : 서버 에러 상태 코드
 
 
 위의 상태코드를 참고하여 아래와 같이 결과에 따라 성공상태에 데이터를 받고 나머지의 경우 각각 다른 에러처리를 해주는 방향으로 로직을 수정해보았습니다. 
@@ -186,7 +196,7 @@ guard let response = urlResponse as? HTTPURLResponse else {
 
 ### 3️⃣ API 관리를 위한 MovieAPI 
 
-Step2에서는 오늘의 일일 박스오피스 조회, 영화 개별 상세조회에 대한 네트워킹 타입을 구현해야합니다.
+Step2에서는 오늘의 일일 박스오피스 조회, 영화 개별 상세조회에 대한 네트워킹 타입을 구현해야합니다.<br>
 각 API 요청에 대한 필요한 정보를 전달 할 수 있도록 연관 값을 사용하였습니다.
 
  
@@ -228,14 +238,14 @@ extension MovieAPI {
 ```
 
 ### 4️⃣ 에러타입
-네트워크 요청 처리 중 발생할 수 있는 에러들을 총 4가지로 나타내주었습니다.
+네트워크 요청 처리 중 발생할 수 있는 에러들을 총 4가지로 나타내주었습니다.<br>
 또한 에러 메시지를 사용자 친화적으로 제공할 수 있는 LocalizedError 를 채택해보았습니다.
 
-`clientError` - 클라이언트가 잘못된 데이터를 전송하거나 요청이 올바르지 않은 경우
-`serverError` - 서버가 내부 오류로 인해 요청을 처리할 수 없거나 서버가 올바른 응답을 제공하지 못한 경우
-`invalidURLComponents` - API 요청을 구성하는 데 필요한 URL 구성 요소가 올바르지 않은 형식인 경우
-`invalidURLRequest` - 요청 URL이 올바르게 생성되지 않은 경우
-`missingData` - 데이터가 없는 경우
+- `clientError` - 클라이언트가 잘못된 데이터를 전송하거나 요청이 올바르지 않은 경우
+- `serverError` - 서버가 내부 오류로 인해 요청을 처리할 수 없거나 서버가 올바른 응답을 제공하지 못한 경우
+- `invalidURLComponents` - API 요청을 구성하는 데 필요한 URL 구성 요소가 올바르지 않은 형식인 경우
+- `invalidURLRequest` - 요청 URL이 올바르게 생성되지 않은 경우
+- `missingData` - 데이터가 없는 경우
 
 ```swift
 enum NetworkError: LocalizedError, CustomStringConvertible {
@@ -243,7 +253,7 @@ enum NetworkError: LocalizedError, CustomStringConvertible {
     case serverError
     case invalidURLComponents
     case invalidURLRequest
-		case missingData 
+    case missingData 
     
     var description: String {
         switch self {
@@ -255,7 +265,7 @@ enum NetworkError: LocalizedError, CustomStringConvertible {
             return "INVALID_URL_COMPONENTS"
         case .invalidURLRequest:
             return "INVALID_URL_REQUEST"
-				case .missingData:
+	case .missingData:
             return "MISSING_DATA"
         }
     }
@@ -299,7 +309,7 @@ private func createStateLabel(rankOldandNew: String, rankInten: Int) -> NSMutabl
 }
 ```
 
-또한 새로운 NSAttributedString을 만들어 주어진 속성으로 초기화한 다음, 
+또한 새로운 NSAttributedString을 만들어 주어진 속성으로 초기화한 다음, <br>
 기존의 NSMutableAttributedString에 추가하고 반환할 수 있도록 extension을 구현하여 위와 같이 편리하게 원하는 문자열을 추가할 수 있습니다. 
 
 ```swift
@@ -331,7 +341,7 @@ extension NSMutableAttributedString {
 `scale`을 이용해서 이미지의 크기를 조절할 수 있도록 했습니다.
 원본 이미지의 가로 크기와 UIImageView의 가로 크기를 비교하여 이미지의 스케일을 계산하고, 이용해 UIImage를 생성하는 방식입니다.
 
-데이터에서 이미지를 만드는 과정이 메모리를 많이 사용하는데, 
+데이터에서 이미지를 만드는 과정이 메모리를 많이 사용하는데, <br>
 이런 방식으로 구현하면 imageView에 맞게 크기를 지정해서 불필요한 메모리 사용을 줄일 수 있습니다.   
 
 ```swift
@@ -357,7 +367,8 @@ extension UIImageView {
 ```
 ### 7️⃣  Custom log 사용 
 
-커스텀 로그를 사용하면 코드의 실행 흐름을 쉽게 파악할 수 있습니다. 로그를 통해 아래와 같이 함수 호출, 에러 발생 위치 등의 정보를 정확하게 확인 할 수 있어서 사용하게 되었습니다.
+커스텀 로그를 사용하면 코드의 실행 흐름을 쉽게 파악할 수 있습니다. <br>
+로그를 통해 아래와 같이 함수 호출, 에러 발생 위치 등의 정보를 정확하게 확인 할 수 있어서 사용하게 되었습니다.
 
 ![](https://i.imgur.com/p9B5LMu.png)
 
