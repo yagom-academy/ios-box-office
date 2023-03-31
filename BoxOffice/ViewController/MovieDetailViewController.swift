@@ -10,7 +10,31 @@ import UIKit
 final class MovieDetailViewController: UIViewController {
     let movieName: String
     let movieCode: String
-    private var movieDetailInformation: MovieDetailInformationItem?
+    private var movieDetailInformation: MovieDetailInformationItem? {
+        didSet {
+            guard let information = movieDetailInformation else {
+                return
+            }
+            directorStackView.setupInformationLabel(
+                as: information.directors.map { $0.personName }.joined(separator: ", ")
+            )
+            productYearStackView.setupInformationLabel(as: information.productYear)
+            openDateStackView.setupInformationLabel(as: information.openDate)
+            showingTimeStackView.setupInformationLabel(as: information.showingTime)
+            watchGradeStackView.setupInformationLabel(
+                as: information.audits.map { $0.watchGradeName }.joined(separator: ", ")
+            )
+            nationStackView.setupInformationLabel(
+                as: information.nations.map { $0.nationName }.joined(separator: ", ")
+            )
+            genreStackView.setupInformationLabel(
+                as: information.genres.map { $0.genreName }.joined(separator: ", ")
+            )
+            actorStackView.setupInformationLabel(
+                as: information.actors.map { $0.personName }.joined(separator: ", ")
+            )
+        }
+    }
     
     private let scrollView: UIScrollView = {
         let scrollView = UIScrollView()
@@ -52,11 +76,8 @@ final class MovieDetailViewController: UIViewController {
     }
     
     override func viewDidLoad() {
-        
-        
-        
         setupUI()
-//        fetchMovieDetail()
+        fetchMovieDetail()
     }
     
     private func setupUI() {
@@ -75,12 +96,10 @@ final class MovieDetailViewController: UIViewController {
             stackView.leadingAnchor.constraint(equalTo: self.scrollView.contentLayoutGuide.leadingAnchor),
             stackView.trailingAnchor.constraint(equalTo: self.scrollView.contentLayoutGuide.trailingAnchor),
             stackView.bottomAnchor.constraint(equalTo: self.scrollView.contentLayoutGuide.bottomAnchor),
-            stackView.widthAnchor.constraint(equalTo: self.scrollView.widthAnchor),
-            
+            stackView.widthAnchor.constraint(equalTo: self.scrollView.widthAnchor)
         ])
     
         stackView.addArrangedSubview(posterImageView)
-        
         stackView.addArrangedSubview(directorStackView)
         stackView.addArrangedSubview(productYearStackView)
         stackView.addArrangedSubview(openDateStackView)
@@ -91,26 +110,10 @@ final class MovieDetailViewController: UIViewController {
         stackView.addArrangedSubview(actorStackView)
         
         NSLayoutConstraint.activate([
-           
             posterImageView.widthAnchor.constraint(equalTo: self.scrollView.frameLayoutGuide.widthAnchor, multiplier: 0.9),
             posterImageView.heightAnchor.constraint(equalTo: posterImageView.widthAnchor, multiplier: 1.5)
         ])
-        
-        
-        
     }
-    
-//    private func addInformationStackViews() {
-//
-//        let label = UILabel()
-//        label.text = "감독"
-//        let label2 = UILabel()
-//        label2.text = movieDetailInformation!.directors.map { $0.personName }.joined(separator: ",")
-//
-//        let stackView = UIStackView(arrangedSubviews: [label, label2])
-//        stackView.axis = .horizontal
-//        stackView.alignment = .center
-//    }
     
     private func fetchMovieDetail() {
         let boxOfficeProvider = BoxOfficeProvider<BoxOfficeAPI>()
