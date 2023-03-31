@@ -10,7 +10,8 @@ import UIKit
 final class MovieRankingViewController: UIViewController {
     
     // MARK: Properties
-    private let apiType = APIType.boxoffice(Date.yesterday.formatAPIDate())
+    private let formattedString = Date.apiDateFormatter.string(from: .yesterday)
+    private let apiType = APIType.boxoffice(formattedString)
     private var movieItems: [InfoObject] = []
     private lazy var boxofficeInfo = BoxofficeInfo<DailyBoxofficeObject>(apiType: apiType,
                                                    model: NetworkModel(session: .shared))
@@ -78,8 +79,9 @@ final class MovieRankingViewController: UIViewController {
 // MARK: UI
 extension MovieRankingViewController {
     private func configureUI() {
+        let formattedYesterday = Date.dateFormatter.string(from: .yesterday)
         view.backgroundColor = .systemBackground
-        navigationItem.title = "\(Date.yesterday.formatString())"
+        navigationItem.title = "\(formattedYesterday)"
         
         configureCollectionViewLayout()
         configureLoadingView()

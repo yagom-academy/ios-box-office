@@ -8,11 +8,8 @@
 import Foundation
 
 extension Date {
-    static var yesterday: Date {
-        guard let day = Calendar.current.date(byAdding: .day, value: -1, to: Date()) else {
-            return Date()
-        }
-        return day
+    static var yesterday: Date? {
+        return Calendar.current.date(byAdding: .day, value: -1, to: Date())
     }
     
     static let dateFormatter = {
@@ -26,11 +23,6 @@ extension Date {
         formatter.dateFormat = "yyyyMMdd"
         return formatter
     }()
-    
-    func formatString() -> String {
-        let formattedString = Date.dateFormatter.string(from: self)
-        return formattedString
-    }
     
     func formatAPIDate() -> String {
         let formattedString = Date.apiDateFormatter.string(from: self)
