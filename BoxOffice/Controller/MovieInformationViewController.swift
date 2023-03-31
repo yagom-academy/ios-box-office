@@ -42,7 +42,7 @@ final class MovieInformationViewController: UIViewController {
         loadingView.startAnimating()
         configureScrollView()
         configureLoadingView()
-        fetchMoviePosterImage()
+        fetchMoviePoster()
         fetchMovieInformation()
     }
     
@@ -78,18 +78,28 @@ final class MovieInformationViewController: UIViewController {
         }
     }
     
-    private func fetchMoviePosterImage() {
+    private func fetchMoviePoster() {
         networkManager.request(endPoint: moviePosterImageEndPoint, returnType: MoviePosterImage.self) { [weak self] in
             switch $0 {
             case .failure(let error):
                 print(error)
             case .success(let result):
+                guard let firstDocument = result.documents.first,
+                      let imageURL = URL(string: firstDocument.imageURL) else { return }
+                self?.fetchMoviePosterImage(from: imageURL)
+            }
+        }
+    }
+    
+    private func fetchMoviePosterImage(from imageURL: URL) {
+        movieInformationScrollView.moviePosterImageView.load(url: imageURL) { [weak self] result in
+            switch result {
+            case .failure(let error):
+                print(error)
+            case .success(let image):
                 DispatchQueue.main.async {
-                    guard let firstDocument = result.documents.first,
-                          let imageURL = URL(string: firstDocument.imageURL) else { return }
-                    self?.movieInformationScrollView.moviePosterImageView.load(url: imageURL) {
-                        self?.loadingView.stopAnimating()
-                    }
+                    self?.movieInformationScrollView.moviePosterImageView.image = image
+                    self?.loadingView.stopAnimating()
                 }
             }
         }
@@ -97,14 +107,33 @@ final class MovieInformationViewController: UIViewController {
 }
 
 extension UIImageView {
-    func load(url: URL, completion: @escaping () -> Void) {
-        DispatchQueue.global().async { [weak self] in
-            guard let data = try? Data(contentsOf: url),
-                  let image = UIImage(data: data) else { return }
-            DispatchQueue.main.async {
-                self?.image = image
-                completion()
+    func load(url: URL, completion: @escaping ((Result<UIImage, NetworkError>) -> Void)) {
+        let urlRequest = URLRequest(url: url)
+        
+        let task = URLSession.shared.dataTask(with: urlRequest) { data, response, error in
+            if error != nil {
+                completion(.failure(.unknown))
+                return
+            }
+            
+            guard let httpResponse = response as? HTTPURLResponse else {
+                completion(.failure(.httpResponse))
+                return
+            }
+            
+            guard (200...299).contains(httpResponse.statusCode) else {
+                completion(.failure(.httpStatusCode(code: httpResponse.statusCode)))
+                return
+            }
+            
+            if let data = data {
+                guard let result = UIImage(data: data) else {
+                    completion(.failure(.decode))
+                    return
+                }
+                completion(.success(result))
             }
         }
+        task.resume()
     }
 }
