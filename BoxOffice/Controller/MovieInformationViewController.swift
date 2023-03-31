@@ -38,16 +38,11 @@ final class MovieInformationViewController: UIViewController {
         view.addSubview(movieInformationScrollView)
         view.addSubview(loadingView)
         
+        loadingView.startAnimating()
         configureScrollView()
         configureLoadingView()
         fetchMoviePoster()
         fetchMovieInformation()
-    }
-    
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-        
-        loadingView.startAnimating()
     }
     
     private func configureLoadingView() {
@@ -97,23 +92,31 @@ final class MovieInformationViewController: UIViewController {
     }
     
     private func fetchMoviePosterImage(from imageURL: URL) {
-        movieInformationScrollView.moviePosterImageView.load(url: imageURL) { [weak self] result in
+        let cachedKey = NSString(string: imageURL.absoluteString)
+        if let cachedImage = ImageCacheManager.shared.object(forKey: cachedKey) {
+            DispatchQueue.main.async {
+                self.movieInformationScrollView.moviePosterImageView.image = cachedImage
+                self.loadingView.stopAnimating()
+                return
+            }
+        }
+        
+        loadImage(from: imageURL) { [weak self] result in
             switch result {
             case .failure(let error):
                 print(error)
             case .success(let image):
                 DispatchQueue.main.async {
+                    ImageCacheManager.shared.setObject(image, forKey: cachedKey)
                     self?.movieInformationScrollView.moviePosterImageView.image = image
                     self?.loadingView.stopAnimating()
                 }
             }
         }
     }
-}
-
-extension UIImageView {
-    func load(url: URL, completion: @escaping ((Result<UIImage, NetworkError>) -> Void)) {
-        let urlRequest = URLRequest(url: url)
+    
+    private func loadImage(from imageURL: URL, completion: @escaping ((Result<UIImage, NetworkError>) -> Void)) {
+        let urlRequest = URLRequest(url: imageURL)
         
         let task = URLSession.shared.dataTask(with: urlRequest) { data, response, error in
             if error != nil {
