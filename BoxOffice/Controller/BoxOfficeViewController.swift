@@ -120,21 +120,21 @@ extension BoxOfficeViewController: UICollectionViewDataSource {
     private func convertRankGapPresentation(indexPath: IndexPath) -> NSMutableAttributedString {
          guard let rankGap = dailyBoxOffice?.boxOfficeResult.dailyBoxOfficeList[indexPath.row].rankGap,
                let rankOldAndNew = dailyBoxOffice?.boxOfficeResult.dailyBoxOfficeList[indexPath.row].rankOldAndNew,
-               let intRankGap = Int(rankGap) else { return NSMutableAttributedString().makeRedText(string: "") }
+               let intRankGap = Int(rankGap) else { return NSMutableAttributedString().makeColorToText(string: "", color: .red) }
          
          if rankOldAndNew == "NEW" {
-             return NSMutableAttributedString().makeRedText(string: "신작")
+             return NSMutableAttributedString().makeColorToText(string: "신작", color: .red)
          }
          
          switch intRankGap {
          case -20 ... -1:
-             return NSMutableAttributedString().makeBlueText(string: "▼").makeBlackText(string: rankGap.trimmingCharacters(in: ["-"]))
+             return NSMutableAttributedString().makeColorToText(string: "▼", color: .blue).makeColorToText(string: rankGap.trimmingCharacters(in: ["-"]), color: .black)
          case 1...20:
-             return NSMutableAttributedString().makeRedText(string: "▲").makeBlackText(string: rankGap)
+             return NSMutableAttributedString().makeColorToText(string: "▲", color: .red).makeColorToText(string: rankGap, color: .black)
          case 0:
-             return NSMutableAttributedString().makeBlackText(string: "-")
+             return NSMutableAttributedString().makeColorToText(string: "-", color: .black)
          default:
-             return NSMutableAttributedString().makeBlackText(string: "")
+             return NSMutableAttributedString().makeColorToText(string: "", color: .black)
          }
      }
 }

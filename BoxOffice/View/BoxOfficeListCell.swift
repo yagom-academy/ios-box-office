@@ -33,7 +33,7 @@ class BoxOfficeListCell: UICollectionViewListCell  {
         return stackView
     }()
     
-    func setUpBoxOffcieCellUI(){
+    func setUpBoxOffcieCellUI() {
         configureUI()
         setUpLabelStyle()
     }
