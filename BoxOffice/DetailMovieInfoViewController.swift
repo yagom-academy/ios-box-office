@@ -1,5 +1,5 @@
 //
-//  DetailMovieInfoController.swift
+//  DetailMovieInfoViewController.swift
 //  BoxOffice
 //
 //  Created by Seoyeon Hong on 2023/03/31.
@@ -7,7 +7,7 @@
 
 import UIKit
 
-final class DetailMovieInfoController: UIViewController {
+final class DetailMovieInfoViewController: UIViewController {
     
     enum MovieInfoTitle {
         static let director = "감독"
@@ -25,13 +25,13 @@ final class DetailMovieInfoController: UIViewController {
     private let provider = APIProvider.shared
     
     private let mainStackview: UIStackView = {
-        let stackview = UIStackView()
-        stackview.axis = .vertical
-        stackview.distribution = .fill
-        stackview.alignment = .center
-        stackview.translatesAutoresizingMaskIntoConstraints = false
-        stackview.spacing = 5
-        return stackview
+        let stackView = UIStackView()
+        stackView.axis = .vertical
+        stackView.distribution = .fill
+        stackView.alignment = .center
+        stackView.translatesAutoresizingMaskIntoConstraints = false
+        stackView.spacing = 5
+        return stackView
     }()
     
     private let scrollView: UIScrollView = {
@@ -78,16 +78,17 @@ final class DetailMovieInfoController: UIViewController {
                 do {
                     let movieInfo: MovieInfoItem = try JSONConverter.shared.decodeData(data, T: MovieInfoItem.self)
                     let movieInfoItem = movieInfo.movieInfoResult.movieInfo
+                    DEBUG_LOG(movieInfo)
                     DispatchQueue.main.async {
                         self.updateStackView(movieInfoItem)
                     }
                 } catch let error as NetworkError {
-                    print(error.description)
+                    DEBUG_LOG(error.description)
                 } catch {
-                    print("Unexpected error: \(error)")
+                    DEBUG_LOG("Unexpected error: \(error)")
                 }
             case .failure(let error):
-                print(error)
+                DEBUG_LOG(error)
             }
         }
     }
@@ -114,12 +115,12 @@ final class DetailMovieInfoController: UIViewController {
                     }
                 } catch {
                     self.stopIndicator()
-                    print("Unexpected error: \(error)")
+                    DEBUG_LOG("Unexpected error: \(error)")
                 }
                 
             case .failure(let error):
                 self.stopIndicator()
-                print(error)
+                DEBUG_LOG(error)
             }
         })
     }
@@ -144,7 +145,7 @@ final class DetailMovieInfoController: UIViewController {
         }
     }
     
-    func setupViews() {
+    private func setupViews() {
         view.addSubview(scrollView)
         scrollView.addSubview(imageView)
         scrollView.addSubview(mainStackview)

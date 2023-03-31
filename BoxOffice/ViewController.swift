@@ -46,13 +46,13 @@ final class ViewController: UIViewController {
                         _ = self.makeSnapshot(with: movieRanking)
                     }
                 } catch let error as NetworkError {
-                    print(error.description)
+                    DEBUG_LOG(error.description)
                 } catch {
-                    print("Unexpected error: \(error)")
+                    DEBUG_LOG("Unexpected error: \(error)")
                 }
                 
             case .failure(let error):
-                print(error)
+                DEBUG_LOG(error)
             }
             DispatchQueue.main.async {
                 self.collectionView.refreshControl?.endRefreshing()
@@ -140,9 +140,8 @@ extension ViewController: UICollectionViewDelegate {
             collectionView.deselectItem(at: indexPath, animated: true)
             return
         }
-        let viewController = DetailMovieInfoController(movieCode: movieCode, movieName: movieName)
+        let viewController = DetailMovieInfoViewController(movieCode: movieCode, movieName: movieName)
         navigationController?.pushViewController(viewController, animated: true)
     }
     
 }
-

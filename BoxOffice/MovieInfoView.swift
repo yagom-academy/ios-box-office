@@ -47,4 +47,5 @@ final class MovieInfoView: UIView {
         contentLabel.translatesAutoresizingMaskIntoConstraints = false
         contentLabel.font = .systemFont(ofSize: 16)
     }
+    
 }
