@@ -274,9 +274,9 @@
 		4AF7A99929C9824A002925FF /* JSONModel */ = {
 			isa = PBXGroup;
 			children = (
-				4A7F488929D3D77E00D164BE /* MoviePoster */,
 				1639532729D173A400032636 /* BoxOffice */,
 				1639532829D173AB00032636 /* Movie */,
+				4A7F488929D3D77E00D164BE /* MoviePoster */,
 			);
 			path = JSONModel;
 			sourceTree = "<group>";
