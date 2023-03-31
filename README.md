@@ -16,7 +16,8 @@
 3. [실행화면](#-실행화면) 
 4. [트러블 슈팅](#-트러블-슈팅) 
 5. [핵심경험](#-핵심경험)
-6. [참고 링크](#-참고-링크)
+6. [팀 회고](#-팀-회고)
+7. [참고 링크](#-참고-링크)
 
 
 # 📆 타임라인 
@@ -504,9 +505,27 @@ extension DailyBoxOfficeViewController: UICollectionViewDataSource {
 
 
 </details>
+
 ----
 
+</br>
 
+# 👥 팀 회고
+
+<details>
+    <summary><big>팀 회고 펼쳐보기</big></summary>
+ 
+## 우리팀이 잘한 점
+- 시간약속을 잘 지키며 프로젝트에 임했어요🙂
+- 중요한 건 컬렉션뷰에 꺾이지 않는 마음🔥
+- PR 보내기 전 리팩토링 고민하는 시간을 따로 가졌어요💭
+
+## 우리팀이 노력할 점
+- git과 더 친해지도록 해요... conflict🥲
+- Naming과 코드 컨벤션에 좀 더 기준을 가질 수 있도록 해요
+
+</details>
+ 
 # 📚 참고 링크
 
 * [🍎 apple developer 공식문서 - fetching website data into memory](https://developer.apple.com/documentation/foundation/url_loading_system/fetching_website_data_into_memory)
