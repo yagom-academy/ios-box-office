@@ -73,4 +73,26 @@ final class APIProvider {
         dataTask(request: urlRequest, completionHandler: completionHandler)
     }
     
+    func performImageRequest(api: ImageAPI, completionHandler: @escaping (Result<Data, NetworkError>) -> Void) {
+        guard var urlComponents = URLComponents(string: api.baseURL) else {
+            completionHandler(.failure(.invalidURLComponents))
+            return
+        }
+        urlComponents.path = api.path
+        
+        let queryParams = api.parameter.map { URLQueryItem(name: $0.key , value: $0.value) }
+        urlComponents.queryItems = queryParams
+        
+        guard let url = urlComponents.url else {
+            completionHandler(.failure(.invalidURLRequest))
+            return
+        }
+        
+        var urlRequest = URLRequest(url: url)
+        urlRequest.httpMethod = api.method
+        urlRequest.allHTTPHeaderFields = api.headers
+        
+        dataTask(request: urlRequest, completionHandler: completionHandler)
+    }
+
 }
