@@ -12,10 +12,10 @@ enum DateFormat: String {
     case nonHyphen = "YYYYMMdd"
 }
 
-enum YesterdayDateFormatter {
-    private static let dateFormatter = DateFormatter()
+extension DateFormatter {
+    static let dateFormatter = DateFormatter()
     
-    static func text(format: DateFormat) -> String {
+    static func yesterDayText(format: DateFormat) -> String {
         guard let yesterday = Calendar.current.date(byAdding: .day, value: -1, to: Date()) else {
             return ""
         }
@@ -23,5 +23,12 @@ enum YesterdayDateFormatter {
         dateFormatter.dateFormat = format.rawValue
         
         return dateFormatter.string(from: yesterday)
+    }
+    
+    static func hyphenText(text: String) -> String {
+        guard let date = dateFormatter.date(from: text) else { return "" }
+        dateFormatter.dateFormat = DateFormat.hyphen.rawValue
+
+        return dateFormatter.string(from: date)
     }
 }

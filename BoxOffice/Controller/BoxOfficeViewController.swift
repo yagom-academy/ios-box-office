@@ -67,14 +67,14 @@ final class BoxOfficeViewController: UIViewController {
     
     private func configureInitialView() {
         activityIndicator.startAnimating()
-        navigationItem.title = YesterdayDateFormatter.text(format: .hyphen)
+        navigationItem.title = DateFormatter.yesterDayText(format: .hyphen)
         self.view.addSubview(activityIndicator)
         refreshControl.addTarget(self, action: #selector(refreshData), for: .valueChanged)
         configureCollectionView()
     }
     
     private func fetchDailyBoxOffice(completion: @escaping () -> Void) {
-        let yesterdayText = YesterdayDateFormatter.text(format: .nonHyphen)
+        let yesterdayText = DateFormatter.yesterDayText(format: .nonHyphen)
         let endPoint: BoxOfficeEndPoint = .fetchDailyBoxOffice(targetDate: yesterdayText)
         
         networkManager.fetchData(request: endPoint.createRequest(), type: BoxOffice.self) {
