@@ -53,7 +53,7 @@ final class MovieDetailViewController: UIViewController {
     private let posterImageView: UIImageView = {
         let imageView = UIImageView()
         imageView.translatesAutoresizingMaskIntoConstraints = false
-        imageView.contentMode = .scaleAspectFit
+        imageView.contentMode = .scaleAspectFill
         return imageView
     }()
     
@@ -112,7 +112,8 @@ final class MovieDetailViewController: UIViewController {
         stackView.addArrangedSubview(actorStackView)
         
         NSLayoutConstraint.activate([
-            posterImageView.widthAnchor.constraint(equalTo: self.scrollView.frameLayoutGuide.widthAnchor, multiplier: 0.8),
+            posterImageView.centerXAnchor.constraint(equalTo: self.view.centerXAnchor),
+            posterImageView.widthAnchor.constraint(equalTo: self.view.widthAnchor, multiplier: 0.7),
             posterImageView.heightAnchor.constraint(equalTo: posterImageView.widthAnchor, multiplier: 1.5),
             
             directorStackView.leadingAnchor.constraint(equalTo: self.view.leadingAnchor, constant: 10),
