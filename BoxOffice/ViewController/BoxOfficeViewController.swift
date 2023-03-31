@@ -81,7 +81,8 @@ final class BoxOfficeViewController: UIViewController {
             switch result {
             case .success(let data):
                 self?.boxOfficeItems = data.boxOfficeResult.dailyBoxOfficeList.map { movie in
-                    return BoxOfficeItem(rank: movie.rank,
+                    return BoxOfficeItem(code: movie.movieCode,
+                                         rank: movie.rank,
                                          rankIncrement: movie.rankIncrement,
                                          rankOldAndNew: movie.rankOldAndNew,
                                          title: movie.movieName,
@@ -125,7 +126,8 @@ final class BoxOfficeViewController: UIViewController {
             switch result {
             case .success(let data):
                 self?.boxOfficeItems = data.boxOfficeResult.dailyBoxOfficeList.map { movie in
-                    return BoxOfficeItem(rank: movie.rank,
+                    return BoxOfficeItem(code: movie.movieCode,
+                                         rank: movie.rank,
                                          rankIncrement: movie.rankIncrement,
                                          rankOldAndNew: movie.rankOldAndNew,
                                          title: movie.movieName,
@@ -203,7 +205,9 @@ extension BoxOfficeViewController {
 extension BoxOfficeViewController: UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         let selectedTitle = boxOfficeItems[indexPath.row].title
-        let movieDetailViewController = MovieDetailViewController(movieName: selectedTitle)
+        let selectedCode = boxOfficeItems[indexPath.row].code
+        let movieDetailViewController = MovieDetailViewController(movieName: selectedTitle,
+                                                                  movieCode: selectedCode)
         self.navigationController?.pushViewController(movieDetailViewController, animated: true)
     }
 }

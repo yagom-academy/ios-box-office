@@ -8,11 +8,13 @@
 import UIKit
 
 final class MovieDetailViewController: UIViewController {
-    
     let movieName: String
+    let movieCode: String
+    var movieDetailInformation: MovieDetailInformationItem?
     
-    init(movieName: String) {
+    init(movieName: String, movieCode: String) {
         self.movieName = movieName
+        self.movieCode = movieCode
         super.init(nibName: nil, bundle: nil)
     }
     
@@ -22,6 +24,7 @@ final class MovieDetailViewController: UIViewController {
     
     override func viewDidLoad() {
         setupUI()
+        fetchMovieDetail()
     }
     
     private func setupUI() {
@@ -29,4 +32,17 @@ final class MovieDetailViewController: UIViewController {
         view.backgroundColor = .white
     }
     
+    private func fetchMovieDetail() {
+        let boxOfficeProvider = BoxOfficeProvider<BoxOfficeAPI>()
+        boxOfficeProvider.fetchData(.detailMovieInformation(movieCode: self.movieCode),
+                                    type: MovieInformationDTO.self) { [weak self] result in
+            switch result {
+            case .success(let data):
+                self?.movieDetailInformation = data.toDomain()
+                print(self?.movieDetailInformation)
+            case .failure:
+                print("실패")
+            }
+        }
+    }
 }

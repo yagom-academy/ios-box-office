@@ -1,5 +1,5 @@
 //
-//  MovieDetailInformation.swift
+//  MovieDetailInformationDTO.swift
 //  BoxOffice
 //
 //  Created by vetto, brody on 23/03/21.
