@@ -2,7 +2,7 @@
 //  EndPoint.swift
 //  BoxOffice
 //
-//  Created by kimseongjun on 2023/03/28.
+//  Created by goat, songjun on 2023/03/28.
 //
 
 import Foundation
@@ -41,11 +41,11 @@ enum BoxOfficeType {
 }
 
 class EndPoint {
-        var baseURL: BaseURL
-        var path: Path
-        var method: HTTPMethod
-        var queryItems: [URLQueryItem]
-        
+    var baseURL: BaseURL
+    var path: Path
+    var method: HTTPMethod
+    var queryItems: [URLQueryItem]
+    
     init(baseURL: BaseURL, path: Path, method: HTTPMethod, queryItems: [URLQueryItem]) {
         self.baseURL = baseURL
         self.path = path
