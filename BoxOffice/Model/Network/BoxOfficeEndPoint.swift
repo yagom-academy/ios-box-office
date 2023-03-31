@@ -13,7 +13,7 @@ enum BoxOfficeEndPoint {
 }
 
 extension BoxOfficeEndPoint {
-    var baseURL: String {
+    var baseURLString: String {
         return "https://www.kobis.or.kr"
     }
     
@@ -46,7 +46,7 @@ extension BoxOfficeEndPoint {
     }
     
     func createURL() -> URL? {
-        var components = URLComponents(string: baseURL)
+        var components = URLComponents(string: baseURLString)
         components?.path = path
         components?.queryItems = queries
         

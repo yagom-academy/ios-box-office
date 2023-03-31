@@ -28,18 +28,18 @@ final class BoxOfficeTests: XCTestCase {
         let expectedResult = "일별 박스오피스"
      
         // when
-        let boxOfficeType = sut.boxOfficeResult.boxOfficeType
+        let boxOfficeType = sut.boxOfficeResult.type
         
         // then
         XCTAssertEqual(expectedResult, boxOfficeType)
     }
     
-    func test_첫번째_dailyBoxOffice의_number값이_문자열1이다() {
+    func test_첫번째_dailyBoxOffice의_rank값이_문자열1이다() {
         // given
         let expectedResult = "1"
      
         // when
-        let boxOfficeNumber = sut.boxOfficeResult.dailyBoxOfficeList[0].numberText
+        let boxOfficeNumber = sut.boxOfficeResult.dailyBoxOfficeList[safe: 0]?.rankText
         
         // then
         XCTAssertEqual(expectedResult, boxOfficeNumber)
@@ -50,18 +50,18 @@ final class BoxOfficeTests: XCTestCase {
         let expectedResult = "경관의 피"
      
         // when
-        let moviewKoreanName = sut.boxOfficeResult.dailyBoxOfficeList[0].movieKoreanName
+        let movieKoreanName = sut.boxOfficeResult.dailyBoxOfficeList[safe: 0]?.movieKoreanName
         
         // then
-        XCTAssertEqual(expectedResult, moviewKoreanName)
+        XCTAssertEqual(expectedResult, movieKoreanName)
     }
     
-    func test_두번째_dailyBoxOffice의_number값이_문자열2이다() {
+    func test_두번째_dailyBoxOffice의_rank값이_문자열2이다() {
         // given
         let expectedResult = "2"
      
         // when
-        let boxOfficeNumber = sut.boxOfficeResult.dailyBoxOfficeList[1].numberText
+        let boxOfficeNumber = sut.boxOfficeResult.dailyBoxOfficeList[safe: 1]?.rankText
         
         // then
         XCTAssertEqual(expectedResult, boxOfficeNumber)
@@ -72,7 +72,7 @@ final class BoxOfficeTests: XCTestCase {
         let expectedResult: RankOldAndNew = .old
      
         // when
-        let rankOldAndNew = sut.boxOfficeResult.dailyBoxOfficeList[1].rankOldAndNew
+        let rankOldAndNew = sut.boxOfficeResult.dailyBoxOfficeList[safe: 1]?.rankOldAndNew
         
         // then
         XCTAssertEqual(expectedResult, rankOldAndNew)
