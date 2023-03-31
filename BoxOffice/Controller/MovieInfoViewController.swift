@@ -61,7 +61,7 @@ final class MovieInfoViewController: UIViewController {
     private func fetchMovieInfo(completion: @escaping () -> ()) {
         guard let movieCode = movieCode else { return }
         
-        let endPoint: BoxOfficeEndPoint = .fetchMovieInfo(movieCode: movieCode)
+        let endPoint: BoxOfficeEndpoint = .fetchMovieInfo(movieCode: movieCode)
         
         networkManager.fetchData(request: endPoint.createRequest(), type: Movie.self) {
             [weak self] result in
@@ -81,7 +81,7 @@ final class MovieInfoViewController: UIViewController {
     private func fetchMoviePoster() {
         guard let movieName = movieName else { return }
         
-        let endPoint: BoxOfficeEndPoint = .fetchMoviePoster(movieName: movieName)
+        let endPoint: BoxOfficeEndpoint = .fetchMoviePoster(movieName: movieName)
         
         networkManager.fetchData(request: endPoint.createRequest(), type: MoviePoster.self) {
             [weak self] result in

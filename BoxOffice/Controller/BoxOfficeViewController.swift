@@ -75,7 +75,7 @@ final class BoxOfficeViewController: UIViewController {
     
     private func fetchDailyBoxOffice(completion: @escaping () -> Void) {
         let yesterdayText = DateFormatter.yesterdayText(format: .nonHyphen)
-        let endPoint: BoxOfficeEndPoint = .fetchDailyBoxOffice(targetDate: yesterdayText)
+        let endPoint: BoxOfficeEndpoint = .fetchDailyBoxOffice(targetDate: yesterdayText)
         
         networkManager.fetchData(request: endPoint.createRequest(), type: BoxOffice.self) {
             result in

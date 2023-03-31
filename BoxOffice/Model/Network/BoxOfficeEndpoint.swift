@@ -1,5 +1,5 @@
 //
-//  BoxOfficeEndPoint.swift
+//  BoxOfficeEndpoint.swift
 //  BoxOffice
 //
 //  Created by kaki, harry on 2023/03/22.
@@ -7,13 +7,13 @@
 
 import Foundation
 
-enum BoxOfficeEndPoint {
+enum BoxOfficeEndpoint {
     case fetchDailyBoxOffice(targetDate: String)
     case fetchMovieInfo(movieCode: String)
     case fetchMoviePoster(movieName: String)
 }
 
-extension BoxOfficeEndPoint {
+extension BoxOfficeEndpoint {
     var baseURLString: String {
         switch self {
         case .fetchDailyBoxOffice, .fetchMovieInfo:
