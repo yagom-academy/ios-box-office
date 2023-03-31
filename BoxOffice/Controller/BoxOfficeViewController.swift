@@ -29,19 +29,14 @@ final class BoxOfficeViewController: UIViewController {
     }
     
     private func setTitle() {
-        self.title = QueryItemsValue.targetDateValue.rawValue
+        self.title = "20230329"
     }
     
     private func fetchDailyBoxOfficeAPI() {
-        let endpoint = EndPoint(baseURL: BaseURL.kobis,
-                                path: Path.dailyBoxOffice,
-                                method: HTTPMethod.get,
-                                queryItems: [URLQueryItem(name: QueryItemsName.key.rawValue,
-                                                          value: QueryItemsValue.keyValue.rawValue),
-                                             URLQueryItem(name: QueryItemsName.targetDate.rawValue,
-                                                          value: QueryItemsValue.targetDateValue.rawValue)])
+        let dailyBoxOfficeEndpoint = DailyBoxOfficeEndpoint()
+        dailyBoxOfficeEndpoint.queryItems.append(URLQueryItem(name: "targetDt", value: "20230329"))
         
-        provider.loadBoxOfficeAPI(endpoint: endpoint,
+        provider.loadBoxOfficeAPI(endpoint: dailyBoxOfficeEndpoint,
                                   parser: Parser<DailyBoxOffice>()) { parsedData in
             self.dailyBoxOffice = parsedData
             

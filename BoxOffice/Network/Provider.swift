@@ -8,7 +8,7 @@
 import Foundation
 
 struct Provider {
-    func loadBoxOfficeAPI<T: Decodable>(endpoint: EndPoint, parser: Parser<T>, completion: @escaping (T) -> Void) {
+    func loadBoxOfficeAPI<T: Decodable>(endpoint: EndpointMakeable, parser: Parser<T>, completion: @escaping (T) -> Void) {
         guard let request = endpoint.makeURLRequest() else { return }
         
         let dataTask = URLSession.shared.dataTask(with: request) { data, response, error in
