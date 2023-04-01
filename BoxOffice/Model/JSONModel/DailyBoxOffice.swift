@@ -22,11 +22,16 @@ struct BoxOfficeResult: Decodable {
     }
 }
 
+enum RankOldAndNew: String, Decodable {
+    case new = "NEW"
+    case old = "OLD"
+}
+
 struct DailyBoxOfficeMovie: Decodable, Hashable {
     let rankNumber: String
     let rank: String
     let rankDifference: String
-    let rankOldAndNew: String
+    let rankOldAndNew: RankOldAndNew
     let movieCode: String
     let movieName: String
     let openDate: String

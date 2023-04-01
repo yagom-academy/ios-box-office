@@ -130,10 +130,10 @@ final class DailyBoxOfficeCell: UICollectionViewCell {
     
     private func configureRankDifferenceLabel(with data: DailyBoxOfficeMovie) {
         switch data.rankOldAndNew {
-        case Sign.new:
+        case .new:
             rankDifferenceLabel.text = Sign.newMovie
             rankDifferenceLabel.textColor = .systemRed
-        case Sign.old:
+        case .old:
             if data.rankDifference.contains(Sign.minus) {
                 let difference = data.rankDifference.trimmingCharacters(in: ["-"])
                 let text = Sign.down + difference
@@ -150,8 +150,6 @@ final class DailyBoxOfficeCell: UICollectionViewCell {
                 attributedString.addAttribute(.foregroundColor, value: UIColor.systemRed, range: range)
                 rankDifferenceLabel.attributedText = attributedString
             }
-        default:
-            rankDifferenceLabel.text = Sign.empty
         }
         
         rankDifferenceLabel.font = UIFont.preferredFont(forTextStyle: .body)
