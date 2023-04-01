@@ -64,6 +64,23 @@ final class DetailMovieViewController: UIViewController {
         }
     }
     
+    private func fetchMoviePosterData(movieName: String, completionHandler: @escaping () -> Void) {
+        guard let posterRequest = urlMaker.makeMoviePosterURLRequest(movieName: "전우치") else { return }
+        server.startLoad(request: posterRequest) { result in
+            let decoder = DecodeManager()
+            do {
+                guard let verifiedFetchingResult = try self.verifyResult(result: result) else { return }
+                let decodedFile = decoder.decodeJSON(data: verifiedFetchingResult, type: MoviePoster.self)
+                let verifiedDecodingResult = try self.verifyResult(result: decodedFile)
+                
+                let poster = verifiedDecodingResult
+                completionHandler()
+            } catch {
+                print(error.localizedDescription)
+            }
+        }
+    }
+    
     private func verifyResult<T, E: Error>(result: Result<T, E>) throws -> T? {
         switch result {
         case .success(let data):

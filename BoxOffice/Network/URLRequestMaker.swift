@@ -19,8 +19,7 @@ struct URLRequestMaker {
         components?.queryItems = [keyItem, targetDateItem]
         guard let url = components?.url else { return nil }
         
-        var request = URLRequest(url: url)
-        request.httpMethod = "GET"
+        let request = URLRequest(url: url)
         
         return request
     }
@@ -33,8 +32,7 @@ struct URLRequestMaker {
         components?.queryItems = [keyItem, movieCodeItem]
         guard let url = components?.url else { return nil }
         
-        var request = URLRequest(url: url)
-        request.httpMethod = "GET"
+        let request = URLRequest(url: url)
         
         return request
     }
@@ -48,7 +46,6 @@ struct URLRequestMaker {
         guard let url = components?.url else { return nil }
         
         var request = URLRequest(url: url)
-        request.httpMethod = "GET"
         request.addValue("KakaoAK \(kakaoAPIKey)", forHTTPHeaderField: "Authorization")
         
         return request
