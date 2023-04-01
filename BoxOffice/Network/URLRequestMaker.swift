@@ -1,5 +1,5 @@
 //
-//  URLMaker.swift
+//  URLRequestMaker.swift
 //  BoxOffice
 //
 //  Created by Rhode, Rilla on 2023/03/21.
@@ -7,33 +7,50 @@
 
 import Foundation
 
-struct URLMaker {
+struct URLRequestMaker {
     private let kobisAPIKey = "d1fb8a58834af4265bbe3cb487e9a994"
     private let kakaoAPIKey = "c81ecfbda2df87ff1ed83ba3bd2f6c71"
     
-    func makeBoxOfficeURL(date: String) -> URL? {
+    func makeBoxOfficeURLRequest(date: String) -> URLRequest? {
         var components = URLComponents(string: "http://kobis.or.kr/kobisopenapi/webservice/rest/boxoffice/searchDailyBoxOfficeList.json")
         let keyItem = URLQueryItem(name: "key", value: kobisAPIKey)
         let targetDateItem = URLQueryItem(name: "targetDt", value: date)
         
         components?.queryItems = [keyItem, targetDateItem]
+        guard let url = components?.url else { return nil }
         
-        return components?.url
+        var request = URLRequest(url: url)
+        request.httpMethod = "GET"
+        
+        return request
     }
     
-    func makeMovieInformationURL(movieCode: String) -> URL? {
+    func makeMovieInformationURLRequest(movieCode: String) -> URLRequest? {
         var components = URLComponents(string: "http://www.kobis.or.kr/kobisopenapi/webservice/rest/movie/searchMovieInfo.json")
         let keyItem = URLQueryItem(name: "key", value: kobisAPIKey)
         let movieCodeItem = URLQueryItem(name: "movieCd", value: movieCode)
         
         components?.queryItems = [keyItem, movieCodeItem]
+        guard let url = components?.url else { return nil }
         
-        return components?.url
+        var request = URLRequest(url: url)
+        request.httpMethod = "GET"
+        
+        return request
     }
     
-    func makeMoviePosterURL(movieName: String) -> URL? {
+    func makeMoviePosterURLRequest(movieName: String) -> URLRequest? {
         var components = URLComponents(string: "https://dapi.kakao.com/v2/search/image")
-        let keyItem = URLQueryItem(name: "key", value: kakaoAPIKey)
         let movieNameForSearch = "\(movieName) 영화포스터"
+        let queryItem = URLQueryItem(name: "query", value: movieNameForSearch)
+        
+        components?.queryItems = [queryItem]
+        guard let url = components?.url else { return nil }
+        
+        var request = URLRequest(url: url)
+        request.httpMethod = "GET"
+        request.addValue("KakaoAK \(kakaoAPIKey)", forHTTPHeaderField: "Authorization")
+        
+        return request
     }
 }

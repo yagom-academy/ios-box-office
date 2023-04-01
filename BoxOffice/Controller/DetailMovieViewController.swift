@@ -9,7 +9,7 @@ import UIKit
 
 final class DetailMovieViewController: UIViewController {
     private let server = NetworkManager()
-    private let urlMaker = URLMaker()
+    private let urlMaker = URLRequestMaker()
     private var detailMovieInformation: DetailMovieInformation?
     private var movieCode: String
     
@@ -47,9 +47,9 @@ final class DetailMovieViewController: UIViewController {
     }
     
     private func fetchMovieInformationData(movieCode: String, completion: @escaping () -> Void) {
-        guard let url = urlMaker.makeMovieInformationURL(movieCode: movieCode) else { return }
+        guard let request = urlMaker.makeMovieInformationURLRequest(movieCode: movieCode) else { return }
         
-        server.startLoad(url: url) { result in
+        server.startLoad(request: request) { result in
             let decoder = DecodeManager()
             do {
                 guard let verifiedFetchingResult = try self.verifyResult(result: result) else { return }

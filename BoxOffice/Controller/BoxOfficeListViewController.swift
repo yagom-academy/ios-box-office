@@ -10,7 +10,7 @@ import UIKit
 
 final class BoxOfficeListViewController: UIViewController {
     private let server = NetworkManager()
-    private let urlMaker = URLMaker()
+    private let urlMaker = URLRequestMaker()
     private var boxOffice: BoxOffice?
     
     private let collectionView: UICollectionView = {
@@ -68,9 +68,9 @@ final class BoxOfficeListViewController: UIViewController {
     }
     
     private func fetchBoxOfficeData(completion: @escaping () -> Void) {
-        guard let url = urlMaker.makeBoxOfficeURL(date: Date.configureYesterday(isFormatted: false)) else { return }
+        guard let request = urlMaker.makeBoxOfficeURLRequest(date: Date.configureYesterday(isFormatted: false)) else { return }
         
-        server.startLoad(url: url) { result in
+        server.startLoad(request: request) { result in
             let decoder = DecodeManager()
             do {
                 guard let verifiedFetchingResult = try self.verifyResult(result: result) else { return }

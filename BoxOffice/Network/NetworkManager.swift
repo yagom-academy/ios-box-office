@@ -14,10 +14,7 @@ final class NetworkManager {
         self.session = session
     }
     
-    func startLoad(url: URL, complete: @escaping (Result<Data, NetworkError>) -> Void) {
-        var request = URLRequest(url: url)
-        request.httpMethod = "GET"
-        
+    func startLoad(request: URLRequest, complete: @escaping (Result<Data, NetworkError>) -> Void) {
         session.dataTask(with: request) { data, response, error in
             guard error == nil else {
                 complete(.failure(.responseError(error: error)))
