@@ -31,6 +31,7 @@ enum LoadingIndicator {
     static func hideLoading() {
         DispatchQueue.main.async {
             guard let window = UIApplication.shared.windows.last else { return }
+            
             window.subviews.filter({ $0 is UIActivityIndicatorView }).forEach { $0.removeFromSuperview() }
         }
     }

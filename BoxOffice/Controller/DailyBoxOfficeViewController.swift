@@ -12,7 +12,7 @@ final class DailyBoxOfficeViewController: UIViewController {
                                                   collectionViewLayout: UICollectionViewFlowLayout())
     private var dailyBoxOffice: DailyBoxOffice?
     private var yesterday: Date {
-           return Date(timeIntervalSinceNow: 3600 * -24)
+        return Date(timeIntervalSinceNow: 3600 * -24)
     }
     
     override func viewDidLoad() {
@@ -32,7 +32,7 @@ final class DailyBoxOfficeViewController: UIViewController {
     
     private func loadDailyBoxOffice() {
         var api = KobisAPI(service: .dailyBoxOffice)
-        let queryName = "targetDt"
+        let queryName = "targetDtㄹㄷ"
         let queryValue = DateFormatter(dateFormat: "yyyyMMdd").string(from: yesterday)
         api.addQuery(name: queryName, value: queryValue)
         
@@ -45,14 +45,14 @@ final class DailyBoxOfficeViewController: UIViewController {
                 
                 DispatchQueue.main.async {
                     self.collectionView.reloadData()
-                    LoadingIndicator.hideLoading()
                 }
             case .failure(let error):
                 DispatchQueue.main.async {
                     self.makeAlert(for: error)
-                    LoadingIndicator.hideLoading()
                 }
             }
+            
+            LoadingIndicator.hideLoading()
         }
     }
     
