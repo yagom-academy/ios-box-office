@@ -47,8 +47,6 @@ struct DailyBoxOfficeMovie: Decodable, Hashable {
     let screenCount: String
     let showCount: String
     
-    let identifier = UUID()
-    
     private enum CodingKeys: String, CodingKey {
         case rank, rankOldAndNew, salesShare
         case rankNumber = "rnum"
