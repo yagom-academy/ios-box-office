@@ -7,33 +7,29 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		4B181D0729D287D900B3CD47 /* extension+String.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B181D0629D287D900B3CD47 /* extension+String.swift */; };
+		4B181D0929D2AD8D00B3CD47 /* LoadingIndicator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B181D0829D2AD8D00B3CD47 /* LoadingIndicator.swift */; };
+		4B81025629D1621900A8DC89 /* DailyBoxOfficeCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B81025529D1621900A8DC89 /* DailyBoxOfficeCell.swift */; };
 		4B9E3A0329C9767E00B60AD1 /* MovieDetails.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B9E3A0229C9767E00B60AD1 /* MovieDetails.swift */; };
 		4B9E3A1B29CAD72E00B60AD1 /* JSONModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B9E3A1A29CAD72E00B60AD1 /* JSONModelTests.swift */; };
-		4B9E3A2129CAD7E000B60AD1 /* DailyBoxOffice.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD30949F29C81C710052C64D /* DailyBoxOffice.swift */; };
-		4B9E3A2229CAD7E300B60AD1 /* MovieDetails.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B9E3A0229C9767E00B60AD1 /* MovieDetails.swift */; };
 		4B9E3A2729CADF9D00B60AD1 /* DataTaskMakeable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B9E3A2629CADF9D00B60AD1 /* DataTaskMakeable.swift */; };
 		4B9E3A2A29CAE42100B60AD1 /* TestDoubles.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B9E3A2929CAE42100B60AD1 /* TestDoubles.swift */; };
-		4B9E3A2B29CAE48200B60AD1 /* DataTaskMakeable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B9E3A2629CADF9D00B60AD1 /* DataTaskMakeable.swift */; };
 		4B9E3A5429CD838300B60AD1 /* KobisAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = ADF3305029CAF5DB00E0EF8B /* KobisAPI.swift */; };
 		63DF20EF2970E1A0005DF7D1 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63DF20EE2970E1A0005DF7D1 /* AppDelegate.swift */; };
 		63DF20F12970E1A0005DF7D1 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63DF20F02970E1A0005DF7D1 /* SceneDelegate.swift */; };
-		63DF20F32970E1A0005DF7D1 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63DF20F22970E1A0005DF7D1 /* ViewController.swift */; };
+		63DF20F32970E1A0005DF7D1 /* DailyBoxOfficeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63DF20F22970E1A0005DF7D1 /* DailyBoxOfficeViewController.swift */; };
 		63DF20F62970E1A0005DF7D1 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 63DF20F42970E1A0005DF7D1 /* Main.storyboard */; };
 		63DF20F82970E1A1005DF7D1 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 63DF20F72970E1A1005DF7D1 /* Assets.xcassets */; };
 		63DF20FB2970E1A1005DF7D1 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 63DF20F92970E1A1005DF7D1 /* LaunchScreen.storyboard */; };
-		AD0A490629C985C90030CBC1 /* MovieDetails.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B9E3A0229C9767E00B60AD1 /* MovieDetails.swift */; };
 		AD0A490829C9866D0030CBC1 /* NetworkError.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD0A490729C9866D0030CBC1 /* NetworkError.swift */; };
-		AD0A490929C986760030CBC1 /* NetworkError.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD0A490729C9866D0030CBC1 /* NetworkError.swift */; };
 		AD1E9C1D29CDD2920023A817 /* EndPoint.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD1E9C1C29CDD2920023A817 /* EndPoint.swift */; };
 		AD1E9C1F29CDD2CA0023A817 /* API.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD1E9C1E29CDD2CA0023A817 /* API.swift */; };
-		AD1E9C2329CDD4D30023A817 /* API.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD1E9C1E29CDD2CA0023A817 /* API.swift */; };
-		AD1E9C2429CDD4DA0023A817 /* EndPoint.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD1E9C1C29CDD2920023A817 /* EndPoint.swift */; };
 		AD3094A029C81C710052C64D /* DailyBoxOffice.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD30949F29C81C710052C64D /* DailyBoxOffice.swift */; };
 		AD3094A829C824A20052C64D /* APIProviderTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD3094A729C824A20052C64D /* APIProviderTests.swift */; };
-		AD3094AE29C824AE0052C64D /* DailyBoxOffice.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD30949F29C81C710052C64D /* DailyBoxOffice.swift */; };
 		AD3094B029C825610052C64D /* APIProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD3094AF29C825610052C64D /* APIProvider.swift */; };
-		AD3094B129C825640052C64D /* APIProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD3094AF29C825610052C64D /* APIProvider.swift */; };
-		ADF3305129CAF5DB00E0EF8B /* KobisAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = ADF3305029CAF5DB00E0EF8B /* KobisAPI.swift */; };
+		AD3D401D29D1CFC800A56210 /* extension+DateFormatter.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD3D401C29D1CFC800A56210 /* extension+DateFormatter.swift */; };
+		AD3D401F29D28E5200A56210 /* extension+CALayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD3D401E29D28E5200A56210 /* extension+CALayer.swift */; };
+		AD3D402129D2C98B00A56210 /* URLRequestGenerator.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD3D402029D2C98B00A56210 /* URLRequestGenerator.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -54,6 +50,9 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		4B181D0629D287D900B3CD47 /* extension+String.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "extension+String.swift"; sourceTree = "<group>"; };
+		4B181D0829D2AD8D00B3CD47 /* LoadingIndicator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoadingIndicator.swift; sourceTree = "<group>"; };
+		4B81025529D1621900A8DC89 /* DailyBoxOfficeCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DailyBoxOfficeCell.swift; sourceTree = "<group>"; };
 		4B9E3A0229C9767E00B60AD1 /* MovieDetails.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MovieDetails.swift; sourceTree = "<group>"; };
 		4B9E3A1829CAD72E00B60AD1 /* JSONModelTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = JSONModelTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		4B9E3A1A29CAD72E00B60AD1 /* JSONModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JSONModelTests.swift; sourceTree = "<group>"; };
@@ -62,7 +61,7 @@
 		63DF20EB2970E1A0005DF7D1 /* BoxOffice.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = BoxOffice.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		63DF20EE2970E1A0005DF7D1 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		63DF20F02970E1A0005DF7D1 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
-		63DF20F22970E1A0005DF7D1 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
+		63DF20F22970E1A0005DF7D1 /* DailyBoxOfficeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DailyBoxOfficeViewController.swift; sourceTree = "<group>"; };
 		63DF20F52970E1A0005DF7D1 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		63DF20F72970E1A1005DF7D1 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		63DF20FA2970E1A1005DF7D1 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
@@ -73,6 +72,9 @@
 		AD3094A529C824A20052C64D /* BoxOfficeTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = BoxOfficeTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		AD3094A729C824A20052C64D /* APIProviderTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIProviderTests.swift; sourceTree = "<group>"; };
 		AD3094AF29C825610052C64D /* APIProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIProvider.swift; sourceTree = "<group>"; };
+		AD3D401C29D1CFC800A56210 /* extension+DateFormatter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "extension+DateFormatter.swift"; sourceTree = "<group>"; };
+		AD3D401E29D28E5200A56210 /* extension+CALayer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "extension+CALayer.swift"; sourceTree = "<group>"; };
+		AD3D402029D2C98B00A56210 /* URLRequestGenerator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = URLRequestGenerator.swift; sourceTree = "<group>"; };
 		ADF3305029CAF5DB00E0EF8B /* KobisAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KobisAPI.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -120,8 +122,9 @@
 		4B9E3A2529CADF8600B60AD1 /* Protocol */ = {
 			isa = PBXGroup;
 			children = (
-				4B9E3A2629CADF9D00B60AD1 /* DataTaskMakeable.swift */,
 				AD1E9C1E29CDD2CA0023A817 /* API.swift */,
+				4B9E3A2629CADF9D00B60AD1 /* DataTaskMakeable.swift */,
+				AD3D402029D2C98B00A56210 /* URLRequestGenerator.swift */,
 			);
 			path = Protocol;
 			sourceTree = "<group>";
@@ -133,6 +136,25 @@
 				4B9E3A2929CAE42100B60AD1 /* TestDoubles.swift */,
 			);
 			path = APIProviderTests;
+			sourceTree = "<group>";
+		};
+		4BDF6F6E29D812360058FCC0 /* Utility */ = {
+			isa = PBXGroup;
+			children = (
+				4BDF6F6F29D8124C0058FCC0 /* Extension */,
+				4B181D0829D2AD8D00B3CD47 /* LoadingIndicator.swift */,
+			);
+			path = Utility;
+			sourceTree = "<group>";
+		};
+		4BDF6F6F29D8124C0058FCC0 /* Extension */ = {
+			isa = PBXGroup;
+			children = (
+				AD3D401E29D28E5200A56210 /* extension+CALayer.swift */,
+				AD3D401C29D1CFC800A56210 /* extension+DateFormatter.swift */,
+				4B181D0629D287D900B3CD47 /* extension+String.swift */,
+			);
+			path = Extension;
 			sourceTree = "<group>";
 		};
 		63DF20E22970E1A0005DF7D1 = {
@@ -161,21 +183,21 @@
 				AD30949E29C81B0B0052C64D /* Model */,
 				AD30949D29C81B090052C64D /* View */,
 				AD30949C29C81B060052C64D /* Controller */,
-				4B9E3A1329C986EC00B60AD1 /* Error */,
 				AD1E9C1B29CDD2700023A817 /* Network */,
+				4BDF6F6E29D812360058FCC0 /* Utility */,
 				AD1E9C2129CDD3800023A817 /* Resource */,
 				AD1E9C2029CDD3540023A817 /* Storyboard */,
 			);
 			path = BoxOffice;
 			sourceTree = "<group>";
 		};
-		AD0A48F329C97B730030CBC1 /* JSONModel */ = {
+		AD0A48F329C97B730030CBC1 /* ResponseModel */ = {
 			isa = PBXGroup;
 			children = (
 				AD30949F29C81C710052C64D /* DailyBoxOffice.swift */,
 				4B9E3A0229C9767E00B60AD1 /* MovieDetails.swift */,
 			);
-			path = JSONModel;
+			path = ResponseModel;
 			sourceTree = "<group>";
 		};
 		AD1E9C1B29CDD2700023A817 /* Network */ = {
@@ -184,6 +206,7 @@
 				AD3094AF29C825610052C64D /* APIProvider.swift */,
 				AD1E9C1C29CDD2920023A817 /* EndPoint.swift */,
 				ADF3305029CAF5DB00E0EF8B /* KobisAPI.swift */,
+				4B9E3A1329C986EC00B60AD1 /* Error */,
 				4B9E3A2529CADF8600B60AD1 /* Protocol */,
 			);
 			path = Network;
@@ -193,7 +216,6 @@
 			isa = PBXGroup;
 			children = (
 				63DF20F42970E1A0005DF7D1 /* Main.storyboard */,
-				63DF20F92970E1A1005DF7D1 /* LaunchScreen.storyboard */,
 			);
 			path = Storyboard;
 			sourceTree = "<group>";
@@ -202,6 +224,7 @@
 			isa = PBXGroup;
 			children = (
 				63DF20F72970E1A1005DF7D1 /* Assets.xcassets */,
+				63DF20F92970E1A1005DF7D1 /* LaunchScreen.storyboard */,
 			);
 			path = Resource;
 			sourceTree = "<group>";
@@ -218,7 +241,7 @@
 		AD30949C29C81B060052C64D /* Controller */ = {
 			isa = PBXGroup;
 			children = (
-				63DF20F22970E1A0005DF7D1 /* ViewController.swift */,
+				63DF20F22970E1A0005DF7D1 /* DailyBoxOfficeViewController.swift */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -226,6 +249,7 @@
 		AD30949D29C81B090052C64D /* View */ = {
 			isa = PBXGroup;
 			children = (
+				4B81025529D1621900A8DC89 /* DailyBoxOfficeCell.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -233,7 +257,7 @@
 		AD30949E29C81B0B0052C64D /* Model */ = {
 			isa = PBXGroup;
 			children = (
-				AD0A48F329C97B730030CBC1 /* JSONModel */,
+				AD0A48F329C97B730030CBC1 /* ResponseModel */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -379,8 +403,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				4B9E3A1B29CAD72E00B60AD1 /* JSONModelTests.swift in Sources */,
-				4B9E3A2129CAD7E000B60AD1 /* DailyBoxOffice.swift in Sources */,
-				4B9E3A2229CAD7E300B60AD1 /* MovieDetails.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -389,16 +411,22 @@
 			buildActionMask = 2147483647;
 			files = (
 				AD1E9C1F29CDD2CA0023A817 /* API.swift in Sources */,
+				4B181D0729D287D900B3CD47 /* extension+String.swift in Sources */,
+				AD3D401F29D28E5200A56210 /* extension+CALayer.swift in Sources */,
 				4B9E3A2729CADF9D00B60AD1 /* DataTaskMakeable.swift in Sources */,
 				4B9E3A5429CD838300B60AD1 /* KobisAPI.swift in Sources */,
 				AD1E9C1D29CDD2920023A817 /* EndPoint.swift in Sources */,
-				63DF20F32970E1A0005DF7D1 /* ViewController.swift in Sources */,
+				63DF20F32970E1A0005DF7D1 /* DailyBoxOfficeViewController.swift in Sources */,
 				AD3094B029C825610052C64D /* APIProvider.swift in Sources */,
 				AD3094A029C81C710052C64D /* DailyBoxOffice.swift in Sources */,
 				63DF20EF2970E1A0005DF7D1 /* AppDelegate.swift in Sources */,
 				AD0A490829C9866D0030CBC1 /* NetworkError.swift in Sources */,
+				AD3D401D29D1CFC800A56210 /* extension+DateFormatter.swift in Sources */,
+				AD3D402129D2C98B00A56210 /* URLRequestGenerator.swift in Sources */,
 				63DF20F12970E1A0005DF7D1 /* SceneDelegate.swift in Sources */,
+				4B181D0929D2AD8D00B3CD47 /* LoadingIndicator.swift in Sources */,
 				4B9E3A0329C9767E00B60AD1 /* MovieDetails.swift in Sources */,
+				4B81025629D1621900A8DC89 /* DailyBoxOfficeCell.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -406,16 +434,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				4B9E3A2B29CAE48200B60AD1 /* DataTaskMakeable.swift in Sources */,
-				ADF3305129CAF5DB00E0EF8B /* KobisAPI.swift in Sources */,
-				AD1E9C2429CDD4DA0023A817 /* EndPoint.swift in Sources */,
 				4B9E3A2A29CAE42100B60AD1 /* TestDoubles.swift in Sources */,
 				AD3094A829C824A20052C64D /* APIProviderTests.swift in Sources */,
-				AD3094B129C825640052C64D /* APIProvider.swift in Sources */,
-				AD3094AE29C824AE0052C64D /* DailyBoxOffice.swift in Sources */,
-				AD0A490929C986760030CBC1 /* NetworkError.swift in Sources */,
-				AD1E9C2329CDD4D30023A817 /* API.swift in Sources */,
-				AD0A490629C985C90030CBC1 /* MovieDetails.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -624,7 +644,7 @@
 				INFOPLIST_KEY_UIMainStoryboardFile = Main;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
-				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -652,7 +672,7 @@
 				INFOPLIST_KEY_UIMainStoryboardFile = Main;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
-				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",

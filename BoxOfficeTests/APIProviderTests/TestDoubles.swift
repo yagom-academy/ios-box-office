@@ -6,6 +6,7 @@
 //
 
 import UIKit
+@testable import BoxOffice
 
 class MockURLSessionDataTask: URLSessionDataTask {
     var resumeDidCall: () -> Void = { }
