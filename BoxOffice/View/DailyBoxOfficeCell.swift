@@ -10,7 +10,6 @@ import UIKit
 final class DailyBoxOfficeCell: UICollectionViewCell {
     static let identifier = "DailyBoxOfficeCell"
     
-    private var isConstraintNeeded = true
     private let rankLabel = UILabel()
     private let rankDifferenceLabel = UILabel()
     private let movieTitleLabel = UILabel()
@@ -55,16 +54,26 @@ final class DailyBoxOfficeCell: UICollectionViewCell {
         }
     }
     
+    override init(frame: CGRect) {
+        super.init(frame: frame)
+        setBorder()
+        configureSubviews()
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
     override func prepareForReuse() {
         super.prepareForReuse()
         rankDifferenceLabel.textColor = .black
     }
     
-    func setBorder() {
+    private func setBorder() {
         layer.addBorder(color: .systemGray5, width: 1)
     }
     
-    func configureSubviews() {
+    private func configureSubviews() {
         setViewHierarchy()
         setSubviewConstraints()
     }
@@ -82,24 +91,20 @@ final class DailyBoxOfficeCell: UICollectionViewCell {
     }
     
     private func setSubviewConstraints() {
-        if isConstraintNeeded {
-            NSLayoutConstraint.activate([
-                rankStackView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 10),
-                rankStackView.centerYAnchor.constraint(equalTo: contentView.centerYAnchor),
-                rankStackView.widthAnchor.constraint(equalTo: contentView.widthAnchor, multiplier: 0.15),
-                
-                movieStackView.leadingAnchor.constraint(equalTo: rankStackView.trailingAnchor, constant: 10),
-                movieStackView.centerYAnchor.constraint(equalTo: contentView.centerYAnchor),
-                
-                accessoryView.leadingAnchor.constraint(equalTo: movieStackView.trailingAnchor),
-                accessoryView.centerYAnchor.constraint(equalTo: contentView.centerYAnchor),
-                accessoryView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -20),
-                accessoryView.widthAnchor.constraint(equalToConstant: 10),
-                accessoryView.heightAnchor.constraint(equalToConstant: 15)
-            ])
-        }
-        
-        isConstraintNeeded = false
+        NSLayoutConstraint.activate([
+            rankStackView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 10),
+            rankStackView.centerYAnchor.constraint(equalTo: contentView.centerYAnchor),
+            rankStackView.widthAnchor.constraint(equalTo: contentView.widthAnchor, multiplier: 0.15),
+            
+            movieStackView.leadingAnchor.constraint(equalTo: rankStackView.trailingAnchor, constant: 10),
+            movieStackView.centerYAnchor.constraint(equalTo: contentView.centerYAnchor),
+            
+            accessoryView.leadingAnchor.constraint(equalTo: movieStackView.trailingAnchor),
+            accessoryView.centerYAnchor.constraint(equalTo: contentView.centerYAnchor),
+            accessoryView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -20),
+            accessoryView.widthAnchor.constraint(equalToConstant: 10),
+            accessoryView.heightAnchor.constraint(equalToConstant: 15)
+        ])
     }
     
     func configureLabels(with data: DailyBoxOfficeMovie) {

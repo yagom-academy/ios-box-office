@@ -111,8 +111,6 @@ extension DailyBoxOfficeViewController: UICollectionViewDataSource {
             return UICollectionViewCell()
         }
         
-        cell.setBorder()
-        cell.configureSubviews()
         cell.configureLabels(with: movieData)
         
         return cell
