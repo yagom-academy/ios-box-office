@@ -70,7 +70,7 @@ final class BoxOfficeListViewController: UIViewController {
     private func fetchBoxOfficeData(completion: @escaping () -> Void) {
         guard let request = urlMaker.makeBoxOfficeURLRequest(date: Date.configureYesterday(isFormatted: false)) else { return }
         
-        server.startLoad(request: request) { result in
+        server.startLoad(request: request, mime: "json") { result in
             let decoder = DecodeManager()
             do {
                 guard let verifiedFetchingResult = try self.verifyResult(result: result) else { return }

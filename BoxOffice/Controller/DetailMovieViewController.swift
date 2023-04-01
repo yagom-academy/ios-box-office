@@ -10,8 +10,9 @@ import UIKit
 final class DetailMovieViewController: UIViewController {
     private let server = NetworkManager()
     private let urlMaker = URLRequestMaker()
-    private var detailMovieInformation: DetailMovieInformation?
     private var movieCode: String
+    private var detailMovieInformation: DetailMovieInformation?
+    private var moviePoster: MoviePoster?
     
     private let scrollView: UIScrollView = {
         let scrollview = UIScrollView()
@@ -49,7 +50,7 @@ final class DetailMovieViewController: UIViewController {
     private func fetchMovieInformationData(movieCode: String, completion: @escaping () -> Void) {
         guard let request = urlMaker.makeMovieInformationURLRequest(movieCode: movieCode) else { return }
         
-        server.startLoad(request: request) { result in
+        server.startLoad(request: request, mime: "json") { result in
             let decoder = DecodeManager()
             do {
                 guard let verifiedFetchingResult = try self.verifyResult(result: result) else { return }
@@ -65,16 +66,31 @@ final class DetailMovieViewController: UIViewController {
     }
     
     private func fetchMoviePosterData(movieName: String, completionHandler: @escaping () -> Void) {
-        guard let posterRequest = urlMaker.makeMoviePosterURLRequest(movieName: "전우치") else { return }
-        server.startLoad(request: posterRequest) { result in
+        guard let posterRequest = urlMaker.makeMoviePosterURLRequest(movieName: movieName) else { return }
+        server.startLoad(request: posterRequest, mime: "json") { result in
             let decoder = DecodeManager()
             do {
                 guard let verifiedFetchingResult = try self.verifyResult(result: result) else { return }
                 let decodedFile = decoder.decodeJSON(data: verifiedFetchingResult, type: MoviePoster.self)
                 let verifiedDecodingResult = try self.verifyResult(result: decodedFile)
                 
-                let poster = verifiedDecodingResult
+                self.moviePoster = verifiedDecodingResult
                 completionHandler()
+            } catch {
+                print(error.localizedDescription)
+            }
+        }
+    }
+    
+    private func fetchPosterImageData() {
+        guard let urlString = moviePoster?.documents[0].imageURL,
+              let url = URL(string: urlString)  else { return }
+        let request = URLRequest(url: url)
+        server.startLoad(request: request, mime: "image") { result in
+            do {
+                guard let verifiedFetchingResult = try self.verifyResult(result: result) else { return }
+                let image = UIImage(data: verifiedFetchingResult)
+                
             } catch {
                 print(error.localizedDescription)
             }

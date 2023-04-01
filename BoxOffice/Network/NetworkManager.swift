@@ -14,7 +14,7 @@ final class NetworkManager {
         self.session = session
     }
     
-    func startLoad(request: URLRequest, complete: @escaping (Result<Data, NetworkError>) -> Void) {
+    func startLoad(request: URLRequest, mime: String, complete: @escaping (Result<Data, NetworkError>) -> Void) {
         session.dataTask(with: request) { data, response, error in
             guard error == nil else {
                 complete(.failure(.responseError(error: error)))
@@ -33,7 +33,7 @@ final class NetworkManager {
             
             let mimeType = response?.mimeType
             
-            guard ((mimeType?.lowercased().contains("text")) != nil) else {
+            guard ((mimeType?.lowercased().contains(mime)) != nil) else {
                 complete(.failure(.invalidMimeType))
                 return
             }
