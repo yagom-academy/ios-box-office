@@ -16,7 +16,7 @@ extension DateFormatter {
         return self.string(from: date)
     }
     
-    func converFormat(of date: String, from targetFormat: String, to resultFormat: String) -> String? {
+    func convertFormat(of date: String, from targetFormat: String, to resultFormat: String) -> String? {
         self.dateFormat = targetFormat
         guard let date = DateFormatter.shared.date(from: date) else { return nil }
         
