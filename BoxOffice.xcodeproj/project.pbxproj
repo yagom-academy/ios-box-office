@@ -138,6 +138,25 @@
 			path = APIProviderTests;
 			sourceTree = "<group>";
 		};
+		4BDF6F6E29D812360058FCC0 /* Utility */ = {
+			isa = PBXGroup;
+			children = (
+				4BDF6F6F29D8124C0058FCC0 /* Extension */,
+				4B181D0829D2AD8D00B3CD47 /* LoadingIndicator.swift */,
+			);
+			path = Utility;
+			sourceTree = "<group>";
+		};
+		4BDF6F6F29D8124C0058FCC0 /* Extension */ = {
+			isa = PBXGroup;
+			children = (
+				AD3D401E29D28E5200A56210 /* extension+CALayer.swift */,
+				AD3D401C29D1CFC800A56210 /* extension+DateFormatter.swift */,
+				4B181D0629D287D900B3CD47 /* extension+String.swift */,
+			);
+			path = Extension;
+			sourceTree = "<group>";
+		};
 		63DF20E22970E1A0005DF7D1 = {
 			isa = PBXGroup;
 			children = (
@@ -164,21 +183,21 @@
 				AD30949E29C81B0B0052C64D /* Model */,
 				AD30949D29C81B090052C64D /* View */,
 				AD30949C29C81B060052C64D /* Controller */,
-				4B9E3A1329C986EC00B60AD1 /* Error */,
 				AD1E9C1B29CDD2700023A817 /* Network */,
+				4BDF6F6E29D812360058FCC0 /* Utility */,
 				AD1E9C2129CDD3800023A817 /* Resource */,
 				AD1E9C2029CDD3540023A817 /* Storyboard */,
 			);
 			path = BoxOffice;
 			sourceTree = "<group>";
 		};
-		AD0A48F329C97B730030CBC1 /* JSONModel */ = {
+		AD0A48F329C97B730030CBC1 /* ResponseModel */ = {
 			isa = PBXGroup;
 			children = (
 				AD30949F29C81C710052C64D /* DailyBoxOffice.swift */,
 				4B9E3A0229C9767E00B60AD1 /* MovieDetails.swift */,
 			);
-			path = JSONModel;
+			path = ResponseModel;
 			sourceTree = "<group>";
 		};
 		AD1E9C1B29CDD2700023A817 /* Network */ = {
@@ -187,6 +206,7 @@
 				AD3094AF29C825610052C64D /* APIProvider.swift */,
 				AD1E9C1C29CDD2920023A817 /* EndPoint.swift */,
 				ADF3305029CAF5DB00E0EF8B /* KobisAPI.swift */,
+				4B9E3A1329C986EC00B60AD1 /* Error */,
 				4B9E3A2529CADF8600B60AD1 /* Protocol */,
 			);
 			path = Network;
@@ -196,7 +216,6 @@
 			isa = PBXGroup;
 			children = (
 				63DF20F42970E1A0005DF7D1 /* Main.storyboard */,
-				63DF20F92970E1A1005DF7D1 /* LaunchScreen.storyboard */,
 			);
 			path = Storyboard;
 			sourceTree = "<group>";
@@ -205,6 +224,7 @@
 			isa = PBXGroup;
 			children = (
 				63DF20F72970E1A1005DF7D1 /* Assets.xcassets */,
+				63DF20F92970E1A1005DF7D1 /* LaunchScreen.storyboard */,
 			);
 			path = Resource;
 			sourceTree = "<group>";
@@ -230,8 +250,6 @@
 			isa = PBXGroup;
 			children = (
 				4B81025529D1621900A8DC89 /* DailyBoxOfficeCell.swift */,
-				AD3D401E29D28E5200A56210 /* extension+CALayer.swift */,
-				4B181D0829D2AD8D00B3CD47 /* LoadingIndicator.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -239,9 +257,7 @@
 		AD30949E29C81B0B0052C64D /* Model */ = {
 			isa = PBXGroup;
 			children = (
-				AD3D401C29D1CFC800A56210 /* extension+DateFormatter.swift */,
-				4B181D0629D287D900B3CD47 /* extension+String.swift */,
-				AD0A48F329C97B730030CBC1 /* JSONModel */,
+				AD0A48F329C97B730030CBC1 /* ResponseModel */,
 			);
 			path = Model;
 			sourceTree = "<group>";
