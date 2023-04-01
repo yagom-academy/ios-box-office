@@ -40,6 +40,7 @@ final class DetailMovieViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        configureMainView()
     }
     
     private func configureMainView() {
