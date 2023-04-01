@@ -11,7 +11,7 @@ final class DetailMovieViewController: UIViewController {
     private let server = NetworkManager()
     private let urlMaker = URLRequestMaker()
     private var movieCode: String
-    private var detailMovieInformation: DetailMovieInformation?
+    private var movieInformation: MovieInformation?
     private var moviePoster: MoviePoster?
     
     private let scrollView: UIScrollView = {
@@ -20,6 +20,7 @@ final class DetailMovieViewController: UIViewController {
         
         return scrollview
     }()
+    
     private let contentStackView: UIStackView = {
         let stackView = UIStackView()
         stackView.axis = .vertical
@@ -28,6 +29,8 @@ final class DetailMovieViewController: UIViewController {
         
         return stackView
     }()
+    
+    private let imageView = UIImageView()
     
     init(movieCode: String) {
         self.movieCode = movieCode
@@ -40,12 +43,31 @@ final class DetailMovieViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
         configureMainView()
+        configureScrollView()
+        configureStackView()
+        contentStackView.addArrangedSubview(imageView)
+        
+        fetchData()
+    }
+    
+    private func fetchData() {
+        fetchMovieInformationData(movieCode: movieCode) {
+            guard let movieName = self.movieInformation?.movieName else { return }
+            self.fetchMoviePosterData(movieName: movieName) {
+                self.fetchPosterImageData { image in
+                    DispatchQueue.main.async {
+                        self.imageView.image = image
+                    }
+                }
+            }
+        }
     }
     
     private func configureMainView() {
         view.backgroundColor = .white
-        title = detailMovieInformation?.movieInformationResult.movieInformation.movieName
+        title = movieInformation?.movieName
     }
     
     private func fetchMovieInformationData(movieCode: String, completion: @escaping () -> Void) {
@@ -58,7 +80,7 @@ final class DetailMovieViewController: UIViewController {
                 let decodedFile = decoder.decodeJSON(data: verifiedFetchingResult, type: DetailMovieInformation.self)
                 let verifiedDecodingResult = try self.verifyResult(result: decodedFile)
                 
-                self.detailMovieInformation = verifiedDecodingResult
+                self.movieInformation = verifiedDecodingResult?.movieInformationResult.movieInformation
                 completion()
             } catch {
                 print(error.localizedDescription)
@@ -83,7 +105,7 @@ final class DetailMovieViewController: UIViewController {
         }
     }
     
-    private func fetchPosterImageData() {
+    private func fetchPosterImageData(completionHandler: @escaping (UIImage?) -> Void) {
         guard let urlString = moviePoster?.documents[0].imageURL,
               let url = URL(string: urlString)  else { return }
         let request = URLRequest(url: url)
@@ -91,7 +113,7 @@ final class DetailMovieViewController: UIViewController {
             do {
                 guard let verifiedFetchingResult = try self.verifyResult(result: result) else { return }
                 let image = UIImage(data: verifiedFetchingResult)
-                
+                completionHandler(image)
             } catch {
                 print(error.localizedDescription)
             }
