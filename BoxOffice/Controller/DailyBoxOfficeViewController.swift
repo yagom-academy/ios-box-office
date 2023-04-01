@@ -49,14 +49,14 @@ final class DailyBoxOfficeViewController: UIViewController {
                 }
             case .failure(let error):
                 DispatchQueue.main.async {
-                    self.makeAlert(to: error)
+                    self.makeAlert(for: error)
                     LoadingIndicator.hideLoading()
                 }
             }
         }
     }
     
-    private func makeAlert(to error: Error) {
+    private func makeAlert(for error: Error) {
         let alert = UIAlertController(title: NetworkError.title, message: error.localizedDescription, preferredStyle: .alert)
         alert.addAction(UIAlertAction(title: "닫기", style: .default))
         self.present(alert, animated: true)
@@ -113,7 +113,7 @@ extension DailyBoxOfficeViewController: UICollectionViewDataSource {
         
         cell.setBorder()
         cell.configureSubviews()
-        cell.fillLabels(with: movieData)
+        cell.configureLabels(with: movieData)
         
         return cell
     }
