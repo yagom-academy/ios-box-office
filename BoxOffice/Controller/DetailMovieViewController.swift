@@ -8,6 +8,7 @@
 import UIKit
 
 final class DetailMovieViewController: UIViewController {
+    // MARK: - Property
     private let server = NetworkManager()
     private let urlMaker = URLRequestMaker()
     private var movieCode: String
@@ -39,14 +40,8 @@ final class DetailMovieViewController: UIViewController {
     }()
     
     private let imageView = UIImageView()
-    private var image: UIImage? {
-        didSet {
-            DispatchQueue.main.async {
-                self.configureImageView()
-            }
-        }
-    }
-    
+
+    // MARK: - Method
     init(movieCode: String) {
         self.movieCode = movieCode
         super.init(nibName: nil, bundle: nil)
@@ -71,35 +66,11 @@ final class DetailMovieViewController: UIViewController {
                 
                 self.fetchPosterImageData { image in
                     DispatchQueue.main.async {
-                        self.image = image
+                        self.imageView.image = image
                     }
                 }
             }
         }
-    }
-    
-    private func configureImageView() {
-        imageView.image = image
-        imageView.contentMode = .scaleAspectFit
-        
-        if moviePoster?.documents[0].height ?? 0 > moviePoster?.documents[0].width ?? 0 {
-            NSLayoutConstraint.activate([
-                imageView.heightAnchor.constraint(equalTo: view.safeAreaLayoutGuide.heightAnchor, multiplier: 0.6)
-            ])
-        } else {
-            NSLayoutConstraint.activate([
-                imageView.widthAnchor.constraint(equalTo: view.safeAreaLayoutGuide.widthAnchor, multiplier: 0.6)
-            ])
-        }
-    }
-    
-    private func configureMainView() {
-        
-        title = movieInformation?.movieName
-        
-        configureScrollView()
-        configureStackView()
-        configureContentStackView()
     }
     
     private func fetchMovieInformationData(movieCode: String, completion: @escaping () -> Void) {
@@ -161,6 +132,25 @@ final class DetailMovieViewController: UIViewController {
         }
     }
     
+    private func configureMainView() {
+        
+        title = movieInformation?.movieName
+        
+        configureScrollView()
+        configureStackView()
+        configureContentStackView()
+        configureImageView()
+    }
+    
+    private func configureImageView() {
+        imageView.contentMode = .scaleAspectFit
+        
+        NSLayoutConstraint.activate([
+            imageView.heightAnchor.constraint(equalTo: view.safeAreaLayoutGuide.heightAnchor, multiplier: 0.6)
+        ])
+        
+    }
+
     private func configureScrollView() {
         view.addSubview(scrollView)
         
@@ -237,14 +227,13 @@ final class DetailMovieViewController: UIViewController {
             stackView.axis = .horizontal
             stackView.alignment = .fill
             stackView.distribution = .fill
-            stackView.spacing = 8
+            stackView.spacing = 10
             
             return stackView
         }()
         
         NSLayoutConstraint.activate([
             titleLabel.widthAnchor.constraint(equalTo: stackView.widthAnchor, multiplier: 0.17),
-            contextLabel.widthAnchor.constraint(equalTo: stackView.widthAnchor, multiplier: 0.83)
         ])
         
         return stackView
