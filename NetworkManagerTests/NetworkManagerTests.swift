@@ -26,14 +26,13 @@ final class NetworkManagerTests: XCTestCase {
     func test_20220105날짜의URL로요청시_서버에서_해당날짜의BoxOffice의Data를_넘겨준다() {
         //given
         MockURLProtocolObject.requestHandler = { (request: URLRequest )in
-            guard let url = request.url,
-                  url == URLMaker().makeBoxOfficeURL(date: "20220105") else {
+            guard let url = request.url, request == URLRequestMaker().makeBoxOfficeURLRequest(date: "20220105") else {
                 throw NetworkError.invalidResponse
             }
     
             let data = StubBoxOffice().data
             let responses = HTTPURLResponse(url: url,
-                                            mimeType: "text",
+                                            mimeType: "json",
                                             expectedContentLength: 0,
                                             textEncodingName: nil)
             
@@ -42,10 +41,12 @@ final class NetworkManagerTests: XCTestCase {
         
         let expectedResult = StubBoxOffice().data
         let expectation = XCTestExpectation()
-        let url = URLMaker().makeBoxOfficeURL(date: "20220104")
+        guard let request = URLRequestMaker().makeBoxOfficeURLRequest(date: "20220105") else {
+            return
+        }
         
         //when
-        sut.startLoad(url: url!) { result in
+        sut.startLoad(request: request, mime: "json") { result in
             switch result {
             case .success(let successData):
                 //then
@@ -63,23 +64,25 @@ final class NetworkManagerTests: XCTestCase {
         //given
         MockURLProtocolObject.requestHandler = { (request: URLRequest )in
             guard let url = request.url,
-                  url == URLMaker().makeBoxOfficeURL(date: "20220105") else {
+            request == URLRequestMaker().makeBoxOfficeURLRequest(date: "20220105") else {
                 throw NetworkError.invalidResponse
             }
     
             let data = StubBoxOffice().data
             let responses = HTTPURLResponse(url: url,
-                                            mimeType: "text",
+                                            mimeType: "json",
                                             expectedContentLength: 0,
                                             textEncodingName: nil)
             return (responses, data)
         }
 
         let expectation = XCTestExpectation()
-        let url = URLMaker().makeBoxOfficeURL(date: "20220101")
+        guard let request = URLRequestMaker().makeBoxOfficeURLRequest(date: "20220101") else {
+            return
+        }
         
         //when
-        sut.startLoad(url: url!) { result in
+        sut.startLoad(request: request, mime: "json") { result in
             switch result {
             case .success(_):
                 XCTFail()
