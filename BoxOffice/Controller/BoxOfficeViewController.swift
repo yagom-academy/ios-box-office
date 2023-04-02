@@ -14,14 +14,24 @@ final class BoxOfficeViewController: UIViewController {
     private let networkManager = NetworkManager()
     private let dateFormatter = DateFormatter()
     
+    private let loadingView: LoadingVIew = {
+        let view = LoadingVIew()
+        
+        view.translatesAutoresizingMaskIntoConstraints = false
+        
+        return view
+      }()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
+        
         view.backgroundColor = .systemBackground
         navigationItem.title = Date().showYesterdayDate(formatter: dateFormatter, in: .existHyphen)
         
         collectionView.dataSource = self
         collectionView.delegate = self
         
+        self.loadingView.isLoading = true
         fetchBoxOffice()
         configureCollectionView()
         configureRefreshControl()
@@ -35,9 +45,7 @@ final class BoxOfficeViewController: UIViewController {
         api.addQuery(name: queryName, value: queryValue)
         
         let urlRequest = api.request()
-        
-        //
-        
+
         networkManager.fetchData(urlRequest: urlRequest, type: BoxOffice.self) { [weak self] result in
             switch result {
             case .success(let data):
@@ -45,6 +53,7 @@ final class BoxOfficeViewController: UIViewController {
                 
                 DispatchQueue.main.async {
                     self?.collectionView.reloadData()
+                    self?.loadingView.isLoading = false
                 }
             case .failure(let error):
                 DispatchQueue.main.async {
@@ -67,6 +76,8 @@ final class BoxOfficeViewController: UIViewController {
 extension BoxOfficeViewController {
     private func configureCollectionView() {
         view.addSubview(collectionView)
+        view.addSubview(loadingView)
+        
         collectionView.translatesAutoresizingMaskIntoConstraints = false
         
         NSLayoutConstraint.activate([
@@ -74,6 +85,11 @@ extension BoxOfficeViewController {
             collectionView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
             collectionView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
             collectionView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+            
+            loadingView.leftAnchor.constraint(equalTo: self.collectionView.leftAnchor),
+            loadingView.rightAnchor.constraint(equalTo: self.collectionView.rightAnchor),
+            loadingView.bottomAnchor.constraint(equalTo: self.collectionView.bottomAnchor),
+            loadingView.topAnchor.constraint(equalTo: self.collectionView.topAnchor),
         ])
         
         collectionView.register(BoxOfficeCell.self, forCellWithReuseIdentifier: BoxOfficeCell.identifier)

@@ -11,8 +11,25 @@ class MovieInfoViewController: UIViewController {
     let movieCode: String
     private var movie: Movie?
     private var moviePoster: MoviePoster?
-    private var imageView = UIImageView()
+    private var posterImageView = UIImageView()
     private let networkManager = NetworkManager()
+    private let contentScrollView: UIScrollView = {
+        let scrollView = UIScrollView()
+        
+        scrollView.translatesAutoresizingMaskIntoConstraints = false
+        scrollView.showsVerticalScrollIndicator = false
+        
+        return scrollView
+    }()
+    
+    private let loadingView: LoadingVIew = {
+        let view = LoadingVIew()
+        
+        view.translatesAutoresizingMaskIntoConstraints = false
+        
+        return view
+      }()
+    
     private let movieInfoListStackView = UIStackView()
     
     init(movieCode: String) {
@@ -29,9 +46,8 @@ class MovieInfoViewController: UIViewController {
         
         view.backgroundColor = .systemBackground
         
+        self.loadingView.isLoading = true
         fetchMovieInfo()
-        
-        layout()
     }
     
     private func fetchMovieInfo() {
@@ -49,6 +65,7 @@ class MovieInfoViewController: UIViewController {
                 
                 DispatchQueue.main.async {
                     self?.navigationItem.title = self?.movie?.result.movieInfo.movieName
+                    self?.configureScrollView()
                     self?.configureMovieInfoListStackView(data: (self?.movie?.result.movieInfo)!)
                     self?.fetchMoviePoster()
                 }
@@ -78,7 +95,8 @@ class MovieInfoViewController: UIViewController {
                       let data = try? Data(contentsOf: url) else { return }
                 
                 DispatchQueue.main.async {
-                    self?.imageView.image = UIImage(data: data)
+                    self?.loadingView.isLoading = false
+                    self?.posterImageView.image = UIImage(data: data)
                 }
             case .failure(let error):
                 DispatchQueue.main.async {
@@ -95,13 +113,33 @@ class MovieInfoViewController: UIViewController {
         present(alert, animated: true)
     }
     
+    private func configureScrollView() {
+        self.view.addSubview(contentScrollView)
+        self.view.addSubview(loadingView)
+        
+        NSLayoutConstraint.activate([
+            contentScrollView.topAnchor.constraint(equalTo: self.view.topAnchor),
+            contentScrollView.leadingAnchor.constraint(equalTo: self.view.leadingAnchor),
+            contentScrollView.trailingAnchor.constraint(equalTo: self.view.trailingAnchor),
+            contentScrollView.bottomAnchor.constraint(equalTo: self.view.bottomAnchor),
+            
+            loadingView.leftAnchor.constraint(equalTo: self.contentScrollView.leftAnchor),
+            loadingView.rightAnchor.constraint(equalTo: self.contentScrollView.rightAnchor),
+            loadingView.bottomAnchor.constraint(equalTo: self.contentScrollView.bottomAnchor),
+            loadingView.topAnchor.constraint(equalTo: self.contentScrollView.topAnchor),
+        ])
+    }
+
     private func configureMovieInfoListStackView(data: MovieInfo) {
         
         movieInfoListStackView.translatesAutoresizingMaskIntoConstraints = false
         movieInfoListStackView.axis = .vertical
         movieInfoListStackView.spacing = 12
         
-        view.addSubview(movieInfoListStackView)
+        posterImageView.translatesAutoresizingMaskIntoConstraints =  false
+        
+        contentScrollView.addSubview(posterImageView)
+        contentScrollView.addSubview(movieInfoListStackView)
         
         let directors = data.directors.map { $0.name }.joined(separator: ", ")
         let productionYear = data.productionYear
@@ -112,7 +150,6 @@ class MovieInfoViewController: UIViewController {
         let genres = data.genres.map { $0.name }.joined(separator: ", ")
         let actors = data.actors.map { $0.name }.joined(separator: ", ")
         
-        movieInfoListStackView.addArrangedSubview(imageView)
         movieInfoListStackView.addArrangedSubview(RowStackView(title: "감독", value: directors))
         movieInfoListStackView.addArrangedSubview(RowStackView(title: "제작년도", value: productionYear))
         movieInfoListStackView.addArrangedSubview(RowStackView(title: "개봉일", value: openDate))
@@ -123,15 +160,16 @@ class MovieInfoViewController: UIViewController {
         movieInfoListStackView.addArrangedSubview(RowStackView(title: "배우", value: actors))
         
         NSLayoutConstraint.activate([
-            movieInfoListStackView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
-            movieInfoListStackView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor),
-            movieInfoListStackView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor),
-    
+            posterImageView.centerXAnchor.constraint(equalTo: contentScrollView.centerXAnchor),
+            posterImageView.topAnchor.constraint(equalTo: contentScrollView.topAnchor),
+            posterImageView.widthAnchor.constraint(equalTo: contentScrollView.widthAnchor, multiplier: 0.9),
+            posterImageView.heightAnchor.constraint(equalTo: contentScrollView.heightAnchor, multiplier: 0.6),
+            
+            movieInfoListStackView.topAnchor.constraint(equalTo: posterImageView.bottomAnchor),
+            movieInfoListStackView.leadingAnchor.constraint(equalTo: contentScrollView.leadingAnchor),
+            movieInfoListStackView.trailingAnchor.constraint(equalTo: contentScrollView.trailingAnchor),
+            movieInfoListStackView.widthAnchor.constraint(equalTo: contentScrollView.widthAnchor),
+            movieInfoListStackView.bottomAnchor.constraint(equalTo: contentScrollView.bottomAnchor)
         ])
-        
-    }
-    
-    private func layout() {
-        
     }
 }
