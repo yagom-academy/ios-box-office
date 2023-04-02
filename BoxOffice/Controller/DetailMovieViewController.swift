@@ -25,6 +25,8 @@ final class DetailMovieViewController: UIViewController {
         let stackView = UIStackView()
         stackView.axis = .vertical
         stackView.alignment = .fill
+        stackView.distribution = .fill
+        stackView.spacing = 8
         stackView.translatesAutoresizingMaskIntoConstraints = false
         
         return stackView
@@ -48,6 +50,7 @@ final class DetailMovieViewController: UIViewController {
         configureScrollView()
         configureStackView()
         contentStackView.addArrangedSubview(imageView)
+        configureContentStackView()
         
         fetchData()
     }
@@ -133,21 +136,43 @@ final class DetailMovieViewController: UIViewController {
         view.addSubview(scrollView)
         
         NSLayoutConstraint.activate([
-            scrollView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor),
-            scrollView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor),
+            scrollView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 20),
+            scrollView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -20),
             scrollView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
             scrollView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor),
         ])
+    }
+    
+    private func configureContentStackView() {
+        let directorStackView = makeInfoStackView(title: "감독", context: "a")
+        let productYearStackView = makeInfoStackView(title: "제작년도", context: "a")
+        let openDateStackView = makeInfoStackView(title: "개봉일", context: "a")
+        let showTimeStackView = makeInfoStackView(title: "상영시간", context: "a")
+        let productStatusNameStackView = makeInfoStackView(title: "관람등급", context: "a")
+        let nationStackView = makeInfoStackView(title: "제작국가", context: "a")
+        let genresStackView = makeInfoStackView(title: "장르", context: "a")
+        let actorsStackView = makeInfoStackView(title: "배우", context: "fjdlskfjldskfjldskjfldskjfldskfjldskjfldsjfldskfjdlskfjdlskfjldskfjdlskfjdlsafjdlsfkjdslfkjdaslkfjdslkfjdlafkjdaslfkjdaslfkajdlfdkjfldskajfldsakjfldaskjfads")
+
+        contentStackView.addArrangedSubview(directorStackView)
+        contentStackView.addArrangedSubview(productYearStackView)
+        contentStackView.addArrangedSubview(openDateStackView)
+        contentStackView.addArrangedSubview(showTimeStackView)
+        contentStackView.addArrangedSubview(productStatusNameStackView)
+        contentStackView.addArrangedSubview(nationStackView)
+        contentStackView.addArrangedSubview(genresStackView)
+        contentStackView.addArrangedSubview(actorsStackView)
     }
     
     private func configureStackView() {
         scrollView.addSubview(contentStackView)
         
         NSLayoutConstraint.activate([
-            contentStackView.leadingAnchor.constraint(equalTo: scrollView.safeAreaLayoutGuide.leadingAnchor),
-            contentStackView.trailingAnchor.constraint(equalTo: scrollView.safeAreaLayoutGuide.trailingAnchor),
-            contentStackView.topAnchor.constraint(equalTo: scrollView.safeAreaLayoutGuide.topAnchor),
-            contentStackView.bottomAnchor.constraint(equalTo: scrollView.safeAreaLayoutGuide.bottomAnchor),
+            contentStackView.leadingAnchor.constraint(equalTo: scrollView.contentLayoutGuide.leadingAnchor),
+            contentStackView.trailingAnchor.constraint(equalTo: scrollView.contentLayoutGuide.trailingAnchor),
+            contentStackView.topAnchor.constraint(equalTo: scrollView.contentLayoutGuide.topAnchor),
+            contentStackView.bottomAnchor.constraint(equalTo: scrollView.contentLayoutGuide.bottomAnchor),
+            contentStackView.leadingAnchor.constraint(equalTo: scrollView.frameLayoutGuide.leadingAnchor),
+            contentStackView.trailingAnchor.constraint(equalTo: scrollView.frameLayoutGuide.trailingAnchor),
         ])
     }
     
@@ -155,7 +180,7 @@ final class DetailMovieViewController: UIViewController {
         let titleLabel: UILabel = {
             let label = UILabel()
             label.text = title
-            label.font = .preferredFont(forTextStyle: .title2)
+            label.font = .boldSystemFont(ofSize: 17)
             label.textAlignment = .center
             
             return label
@@ -164,8 +189,8 @@ final class DetailMovieViewController: UIViewController {
         let contextLabel: UILabel = {
             let label = UILabel()
             label.text = context
-            label.font = .preferredFont(forTextStyle: .body)
-            label.textAlignment = .center
+            label.font = .systemFont(ofSize: 17)
+            label.textAlignment = .left
             label.numberOfLines = 0
             
             return label
@@ -174,11 +199,16 @@ final class DetailMovieViewController: UIViewController {
         let stackView: UIStackView = {
             let stackView = UIStackView(arrangedSubviews: [titleLabel, contextLabel])
             stackView.axis = .horizontal
-            stackView.alignment = .leading
+            stackView.alignment = .fill
             stackView.distribution = .fill
+            stackView.spacing = 8
             
             return stackView
         }()
+        
+        NSLayoutConstraint.activate([
+            titleLabel.widthAnchor.constraint(equalTo: stackView.widthAnchor, multiplier: 0.17)
+        ])
         
         return stackView
     }
