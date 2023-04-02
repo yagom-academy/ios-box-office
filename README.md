@@ -382,11 +382,10 @@ func DEBUG_LOG(_ msg: Any, file: String = #file, function: String = #function, l
 }
 ```
 
-
 ## 참고링크 
 
-<details>
-<summary>step1, step2, step2-1</summary>
+### step1, step2, step2-1
+
 - [URLSession](https://developer.apple.com/documentation/foundation/urlsession)
 [Fetching Website Data into Memory](https://developer.apple.com/documentation/foundation/url_loading_system/fetching_website_data_into_memory)
 - [swift에서 Json Parsing하기](https://learn-hyeoni.tistory.com/m/45)
@@ -403,10 +402,9 @@ func DEBUG_LOG(_ msg: Any, file: String = #file, function: String = #function, l
 - [iOS Networking and Testing](https://techblog.woowahan.com/2704/)
 - [[Swift] Mock 을 이용한 Network Unit Test 하기](https://sujinnaljin.medium.com/swift-mock-을-이용한-network-unit-test-하기-a69570defb41)
 - [HTTPS상태코드](https://dev-mystory.tistory.com/274)
-</details>
 
-<details>
-<summary>step3, step4</summary>
+
+### step3, step4 
 - [UIrefreshcontrol](https://developer.apple.com/documentation/uikit/uirefreshcontrol)
 - [UIcollectionviewcompositionallayout](https://developer.apple.com/documentation/uikit/uicollectionviewcompositionallayout)
 - [Uicollectionlayoutlistconfiguration](https://developer.apple.com/documentation/uikit/uicollectionlayoutlistconfiguration)
@@ -423,4 +421,3 @@ func DEBUG_LOG(_ msg: Any, file: String = #file, function: String = #function, l
 - [Swift-Custom-Cell로-UICollectionView-구현하기](https://velog.io/@jyw3927/Swift-Custom-Cell%EB%A1%9C-UICollectionView-%EA%B5%AC%ED%98%84%ED%95%98%EA%B8%B0-i4xtxih4)
 - [이미지API가져오기](https://rhkdgus0779.tistory.com/70)
 - [indicator-view](https://ios-development.tistory.com/682)
-</details>
