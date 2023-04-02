@@ -148,6 +148,7 @@ final class DetailMovieInfoViewController: UIViewController {
         view.addSubview(scrollView)
         scrollView.addSubview(imageView)
         scrollView.addSubview(mainStackView)
+        imageView.addSubview(indicatorView)
         
         NSLayoutConstraint.activate([
             scrollView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
@@ -170,7 +171,6 @@ final class DetailMovieInfoViewController: UIViewController {
             mainStackView.widthAnchor.constraint(equalTo: scrollView.frameLayoutGuide.widthAnchor),
         ])
         
-        imageView.addSubview(indicatorView)
         NSLayoutConstraint.activate([
             indicatorView.centerXAnchor.constraint(equalTo: imageView.centerXAnchor),
             indicatorView.centerYAnchor.constraint(equalTo: imageView.centerYAnchor),
