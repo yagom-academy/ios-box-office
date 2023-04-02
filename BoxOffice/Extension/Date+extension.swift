@@ -31,4 +31,5 @@ extension Date {
         
         return value
     }
+    // enum이 밖으로 빠지고 status가 없어야 좀 더 확장성있는 코드가 될 것 같다.
 }

@@ -9,18 +9,11 @@ import UIKit
 
 class MovieInfoViewController: UIViewController {
     let movieCode: String
-    
     private var movie: Movie?
+    private var moviePoster: MoviePoster?
+    private var imageView = UIImageView()
     private let networkManager = NetworkManager()
     private let movieInfoListStackView = UIStackView()
-    private let directorsStackView: RowStackView?
-//    private let directorsStackView: RowStackView?
-//    private let directorsStackView: RowStackView?
-//    private let directorsStackView: RowStackView?
-//    private let directorsStackView: RowStackView?
-//    private let directorsStackView: RowStackView?
-//    private let directorsStackView: RowStackView?
-//    private let directorsStackView: RowStackView?
     
     init(movieCode: String) {
         self.movieCode = movieCode
@@ -37,7 +30,7 @@ class MovieInfoViewController: UIViewController {
         view.backgroundColor = .systemBackground
         
         fetchMovieInfo()
-
+        
         layout()
     }
     
@@ -57,6 +50,35 @@ class MovieInfoViewController: UIViewController {
                 DispatchQueue.main.async {
                     self?.navigationItem.title = self?.movie?.result.movieInfo.movieName
                     self?.configureMovieInfoListStackView(data: (self?.movie?.result.movieInfo)!)
+                    self?.fetchMoviePoster()
+                }
+            case .failure(let error):
+                DispatchQueue.main.async {
+                    self?.displayAlert(from: error)
+                }
+            }
+        }
+    }
+    
+    private func fetchMoviePoster() {
+        var api = BoxOfficeURLRequest(service: .moviePoster)
+        let queryName = "query"
+        let movieName = movie?.result.movieInfo.movieName ?? ""
+        
+        api.addQuery(name: queryName, value: (movieName + " 영화 포스터"))
+        
+        let urlRequest = api.request()
+        
+        networkManager.fetchData(urlRequest: urlRequest, type: MoviePoster.self) { [weak self] result in
+            switch result {
+            case .success(let data):
+                self?.moviePoster = data
+                
+                guard let url = URL(string: data.documents.first?.imageURL ?? ""),
+                      let data = try? Data(contentsOf: url) else { return }
+                
+                DispatchQueue.main.async {
+                    self?.imageView.image = UIImage(data: data)
                 }
             case .failure(let error):
                 DispatchQueue.main.async {
@@ -77,7 +99,7 @@ class MovieInfoViewController: UIViewController {
         
         movieInfoListStackView.translatesAutoresizingMaskIntoConstraints = false
         movieInfoListStackView.axis = .vertical
-        movieInfoListStackView.alignment = .center
+        movieInfoListStackView.spacing = 12
         
         view.addSubview(movieInfoListStackView)
         
@@ -90,6 +112,7 @@ class MovieInfoViewController: UIViewController {
         let genres = data.genres.map { $0.name }.joined(separator: ", ")
         let actors = data.actors.map { $0.name }.joined(separator: ", ")
         
+        movieInfoListStackView.addArrangedSubview(imageView)
         movieInfoListStackView.addArrangedSubview(RowStackView(title: "감독", value: directors))
         movieInfoListStackView.addArrangedSubview(RowStackView(title: "제작년도", value: productionYear))
         movieInfoListStackView.addArrangedSubview(RowStackView(title: "개봉일", value: openDate))
@@ -99,13 +122,11 @@ class MovieInfoViewController: UIViewController {
         movieInfoListStackView.addArrangedSubview(RowStackView(title: "장르", value: genres))
         movieInfoListStackView.addArrangedSubview(RowStackView(title: "배우", value: actors))
         
-        // RowStackView 오토레이아웃 잡아야 함!
-        
         NSLayoutConstraint.activate([
             movieInfoListStackView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
-            movieInfoListStackView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor),
             movieInfoListStackView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor),
             movieInfoListStackView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor),
+    
         ])
         
     }

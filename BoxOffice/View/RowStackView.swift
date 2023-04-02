@@ -11,7 +11,7 @@ class RowStackView: UIStackView {
     private let titleLabel = {
         let label = UILabel()
         
-        label.font = .preferredFont(forTextStyle: .body)
+        label.font = .boldSystemFont(ofSize: 16)
         label.textAlignment = .center
         
         return label
@@ -29,6 +29,8 @@ class RowStackView: UIStackView {
     
     override init(frame: CGRect) {
         super.init(frame: frame)
+        
+        configureStackView()
     }
     
     required init(coder: NSCoder) {
@@ -37,7 +39,7 @@ class RowStackView: UIStackView {
     
     convenience init(title: String, value: String) {
         self.init(frame: .zero)
-        
+
         self.titleLabel.text = title
         self.valueLabel.text = value
     }
@@ -45,7 +47,6 @@ class RowStackView: UIStackView {
     func configureStackView() {
         self.translatesAutoresizingMaskIntoConstraints = false
         self.axis = .horizontal
-        self.alignment = .center
         
         self.addArrangedSubview(titleLabel)
         self.addArrangedSubview(valueLabel)

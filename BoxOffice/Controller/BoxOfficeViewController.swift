@@ -9,8 +9,8 @@ import UIKit
 
 final class BoxOfficeViewController: UIViewController {
     private var boxOffice: BoxOffice?
-    private lazy var collectionView = UICollectionView(frame: view.bounds,
-                                                       collectionViewLayout: UICollectionViewFlowLayout())
+    private lazy var collectionView = UICollectionView(frame: .zero,
+                                                       collectionViewLayout: UICollectionViewFlowLayout()) // 컴포지셔널이랑 무슨 차이 있는지 조사하면 좋음!
     private let networkManager = NetworkManager()
     private let dateFormatter = DateFormatter()
     
@@ -35,6 +35,8 @@ final class BoxOfficeViewController: UIViewController {
         api.addQuery(name: queryName, value: queryValue)
         
         let urlRequest = api.request()
+        
+        //
         
         networkManager.fetchData(urlRequest: urlRequest, type: BoxOffice.self) { [weak self] result in
             switch result {
@@ -112,10 +114,10 @@ extension BoxOfficeViewController: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: BoxOfficeCell.identifier, for: indexPath) as? BoxOfficeCell,
               let boxOfficeItem = boxOffice?.result.dailyBoxOfficeList[indexPath.item] else { return UICollectionViewCell() }
-        
-        cell.configureBoxOfficeStackView()
-        cell.configureLabels(data: boxOfficeItem)
-        cell.drawCellBorder()
+            // safe 서브스크립트? (바로 접근하면 위험)
+        cell.configureBoxOfficeStackView() // 제약조건이 다시 잡히기 때문에 이동 필요 (cell init)
+        cell.configureLabels(data: boxOfficeItem) // 네이밍 수정 configure with
+        cell.drawCellBorder() // 제약조건이 다시 잡히기 때문에 이동 필요 (cell init)
         
         return cell
     }

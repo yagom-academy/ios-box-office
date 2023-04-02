@@ -8,7 +8,7 @@
 import UIKit
 
 final class BoxOfficeCell: UICollectionViewCell {
-    static let identifier = "BoxOfficeCell"
+    static let identifier = "BoxOfficeCell" // 어떻게하면 공통적으로 가지게할 수 있을까? - 프로토콜
     
     private let rankLabel = {
         let label = UILabel()
