@@ -39,6 +39,13 @@ final class DetailMovieViewController: UIViewController {
     }()
     
     private let imageView = UIImageView()
+    private var image: UIImage? {
+        didSet {
+            DispatchQueue.main.async {
+                self.configureImageView()
+            }
+        }
+    }
     
     init(movieCode: String) {
         self.movieCode = movieCode
@@ -64,7 +71,7 @@ final class DetailMovieViewController: UIViewController {
                 
                 self.fetchPosterImageData { image in
                     DispatchQueue.main.async {
-                        self.imageView.image = image
+                        self.image = image
                     }
                 }
             }
@@ -72,11 +79,18 @@ final class DetailMovieViewController: UIViewController {
     }
     
     private func configureImageView() {
-        contentStackView.addArrangedSubview(imageView)
+        imageView.image = image
         imageView.contentMode = .scaleAspectFit
-        NSLayoutConstraint.activate([
-            imageView.heightAnchor.constraint(equalTo: view.safeAreaLayoutGuide.heightAnchor, multiplier: 0.6)
+        
+        if moviePoster?.documents[0].height ?? 0 > moviePoster?.documents[0].width ?? 0 {
+            NSLayoutConstraint.activate([
+                imageView.heightAnchor.constraint(equalTo: view.safeAreaLayoutGuide.heightAnchor, multiplier: 0.6)
             ])
+        } else {
+            NSLayoutConstraint.activate([
+                imageView.widthAnchor.constraint(equalTo: view.safeAreaLayoutGuide.widthAnchor, multiplier: 0.6)
+            ])
+        }
     }
     
     private func configureMainView() {
@@ -85,7 +99,6 @@ final class DetailMovieViewController: UIViewController {
         
         configureScrollView()
         configureStackView()
-        configureImageView()
         configureContentStackView()
     }
     
@@ -174,7 +187,8 @@ final class DetailMovieViewController: UIViewController {
         let nationStackView = makeInfoStackView(title: "제작국가", context: nation)
         let genresStackView = makeInfoStackView(title: "장르", context: genre)
         let actorsStackView = makeInfoStackView(title: "배우", context: actor)
-
+        
+        contentStackView.addArrangedSubview(imageView)
         contentStackView.addArrangedSubview(directorStackView)
         contentStackView.addArrangedSubview(productYearStackView)
         contentStackView.addArrangedSubview(openDateStackView)
@@ -229,7 +243,8 @@ final class DetailMovieViewController: UIViewController {
         }()
         
         NSLayoutConstraint.activate([
-            titleLabel.widthAnchor.constraint(equalTo: stackView.widthAnchor, multiplier: 0.17)
+            titleLabel.widthAnchor.constraint(equalTo: stackView.widthAnchor, multiplier: 0.17),
+            contextLabel.widthAnchor.constraint(equalTo: stackView.widthAnchor, multiplier: 0.83)
         ])
         
         return stackView
