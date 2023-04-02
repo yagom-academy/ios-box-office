@@ -18,7 +18,7 @@ enum ImageAPI {
 extension ImageAPI {
     
     var key: String {
-        return "add584f521686e2b3defebd44c63cdfb"
+        return imageAPIkey
     }
     
     var baseURL: String {
@@ -44,7 +44,7 @@ extension ImageAPI {
     }
     
     var headers: [String: String] {
-        return ["Authorization": "KakaoAK \(key)"]
+        return ["Authorization": "KakaoAK \(imageAPIkey)"]
     }
     
 }

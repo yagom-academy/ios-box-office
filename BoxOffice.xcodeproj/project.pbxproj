@@ -14,6 +14,7 @@
 		368A11CC29D6AB52007C8877 /* ImageSearchResult.swift in Sources */ = {isa = PBXBuildFile; fileRef = 368A11CB29D6AB52007C8877 /* ImageSearchResult.swift */; };
 		368A11CE29D6AD14007C8877 /* UIImageview+load.swift in Sources */ = {isa = PBXBuildFile; fileRef = 368A11CD29D6AD14007C8877 /* UIImageview+load.swift */; };
 		368A11D029D6B1B6007C8877 /* CustomLog.swift in Sources */ = {isa = PBXBuildFile; fileRef = 368A11CF29D6B1B6007C8877 /* CustomLog.swift */; };
+		368A11D629D9D373007C8877 /* SecretKey.swift in Sources */ = {isa = PBXBuildFile; fileRef = 368A11D529D9D373007C8877 /* SecretKey.swift */; };
 		36B59D5B29C83D3B00A4FC11 /* BoxOfficeItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36B59D5A29C83D3B00A4FC11 /* BoxOfficeItem.swift */; };
 		36B59E2329CAF99300A4FC11 /* APIProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36B59E2229CAF99300A4FC11 /* APIProvider.swift */; };
 		36B59E2529CAFA2A00A4FC11 /* NetworkError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36B59E2429CAFA2A00A4FC11 /* NetworkError.swift */; };
@@ -56,6 +57,7 @@
 		368A11CB29D6AB52007C8877 /* ImageSearchResult.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageSearchResult.swift; sourceTree = "<group>"; };
 		368A11CD29D6AD14007C8877 /* UIImageview+load.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIImageview+load.swift"; sourceTree = "<group>"; };
 		368A11CF29D6B1B6007C8877 /* CustomLog.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomLog.swift; sourceTree = "<group>"; };
+		368A11D529D9D373007C8877 /* SecretKey.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SecretKey.swift; sourceTree = "<group>"; };
 		36B59D5A29C83D3B00A4FC11 /* BoxOfficeItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BoxOfficeItem.swift; sourceTree = "<group>"; };
 		36B59D6029C8469100A4FC11 /* BoxOfficeTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = BoxOfficeTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		36B59E2229CAF99300A4FC11 /* APIProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIProvider.swift; sourceTree = "<group>"; };
@@ -130,6 +132,7 @@
 				36CF324F29D28E9900E3DEE6 /* MovieRankingItem.swift */,
 				368A11C929D6AAE9007C8877 /* ImageAPI.swift */,
 				368A11CB29D6AB52007C8877 /* ImageSearchResult.swift */,
+				368A11D529D9D373007C8877 /* SecretKey.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -347,6 +350,7 @@
 				36B59E5329CB395E00A4FC11 /* URLSessionDataTaskable.swift in Sources */,
 				36CF325029D28E9900E3DEE6 /* MovieRankingItem.swift in Sources */,
 				36CF325229D2911500E3DEE6 /* MovieListCell.swift in Sources */,
+				368A11D629D9D373007C8877 /* SecretKey.swift in Sources */,
 				36B59E2729CAFCE900A4FC11 /* JSONConverter .swift in Sources */,
 				36B59E2529CAFA2A00A4FC11 /* NetworkError.swift in Sources */,
 				36B59D5B29C83D3B00A4FC11 /* BoxOfficeItem.swift in Sources */,

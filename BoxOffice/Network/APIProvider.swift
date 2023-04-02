@@ -80,8 +80,12 @@ final class APIProvider {
         }
         urlComponents.path = api.path
         
-        let queryParams = api.parameter.map { URLQueryItem(name: $0.key , value: $0.value) }
+        let keyParam = URLQueryItem(name: "key", value: api.key)
+        
+        var queryParams = api.parameter.map { URLQueryItem(name: $0.key , value: $0.value) }
+        queryParams.append(keyParam)
         urlComponents.queryItems = queryParams
+
         
         guard let url = urlComponents.url else {
             completionHandler(.failure(.invalidURLRequest))
