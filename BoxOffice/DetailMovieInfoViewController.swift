@@ -24,7 +24,7 @@ final class DetailMovieInfoViewController: UIViewController {
     private let movieName: String
     private let provider = APIProvider.shared
     
-    private let mainStackview: UIStackView = {
+    private let mainStackView: UIStackView = {
         let stackView = UIStackView()
         stackView.axis = .vertical
         stackView.distribution = .fill
@@ -126,7 +126,7 @@ final class DetailMovieInfoViewController: UIViewController {
     }
     
     private func updateStackView(_ item: MovieInfo) {
-        mainStackview.arrangedSubviews.forEach { mainStackview.removeArrangedSubview($0) }
+        mainStackView.arrangedSubviews.forEach { mainStackView.removeArrangedSubview($0) }
         
         let labels = [
             MovieInfoView(title: MovieInfoTitle.director, content: item.directors.map { $0.peopleName }.joinedString),
@@ -140,15 +140,15 @@ final class DetailMovieInfoViewController: UIViewController {
         ]
         
         labels.forEach {
-            mainStackview.addArrangedSubview($0)
-            $0.widthAnchor.constraint(equalTo: mainStackview.widthAnchor).isActive = true
+            mainStackView.addArrangedSubview($0)
+            $0.widthAnchor.constraint(equalTo: mainStackView.widthAnchor).isActive = true
         }
     }
     
     private func setupViews() {
         view.addSubview(scrollView)
         scrollView.addSubview(imageView)
-        scrollView.addSubview(mainStackview)
+        scrollView.addSubview(mainStackView)
         
         NSLayoutConstraint.activate([
             scrollView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
@@ -164,11 +164,11 @@ final class DetailMovieInfoViewController: UIViewController {
         ])
         
         NSLayoutConstraint.activate([
-            mainStackview.topAnchor.constraint(equalTo: imageView.bottomAnchor),
-            mainStackview.leadingAnchor.constraint(equalTo: scrollView.contentLayoutGuide.leadingAnchor),
-            mainStackview.trailingAnchor.constraint(equalTo: scrollView.contentLayoutGuide.trailingAnchor),
-            mainStackview.bottomAnchor.constraint(equalTo: scrollView.contentLayoutGuide.bottomAnchor),
-            mainStackview.widthAnchor.constraint(equalTo: scrollView.frameLayoutGuide.widthAnchor),
+            mainStackView.topAnchor.constraint(equalTo: imageView.bottomAnchor),
+            mainStackView.leadingAnchor.constraint(equalTo: scrollView.contentLayoutGuide.leadingAnchor),
+            mainStackView.trailingAnchor.constraint(equalTo: scrollView.contentLayoutGuide.trailingAnchor),
+            mainStackView.bottomAnchor.constraint(equalTo: scrollView.contentLayoutGuide.bottomAnchor),
+            mainStackView.widthAnchor.constraint(equalTo: scrollView.frameLayoutGuide.widthAnchor),
         ])
         
         imageView.addSubview(indicatorView)
