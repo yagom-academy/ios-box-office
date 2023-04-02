@@ -5,7 +5,8 @@
 //  Created by Rhode, Rilla on 2023/03/21.
 //
 
-struct Staff: Decodable {
+struct Staff: Decodable, StringConvertible {
+    var description: String { return peopleName }
     let peopleName: String
     let peopleNameEnglish: String
     let staffRoleName: String

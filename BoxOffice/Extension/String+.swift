@@ -19,3 +19,5 @@ extension String {
         return formattedNumber
     }
 }
+
+extension String: StringConvertible { }

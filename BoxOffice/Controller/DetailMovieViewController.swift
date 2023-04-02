@@ -32,7 +32,7 @@ final class DetailMovieViewController: UIViewController {
         stackView.axis = .vertical
         stackView.alignment = .fill
         stackView.distribution = .fill
-        stackView.spacing = 8
+        stackView.spacing = 15
         stackView.translatesAutoresizingMaskIntoConstraints = false
         
         return stackView
@@ -160,14 +160,20 @@ final class DetailMovieViewController: UIViewController {
     }
     
     private func configureContentStackView() {
-        let directorStackView = makeInfoStackView(title: "감독", context: "a")
+        let director = convertString(items: movieInformation?.directors ?? [])
+        let showType = convertString(items: movieInformation?.showTypes ?? [])
+        let nation = convertString(items: movieInformation?.nations ?? [])
+        let genre = convertString(items: movieInformation?.genres ?? [])
+        let actor = convertString(items: movieInformation?.actors ?? [])
+        
+        let directorStackView = makeInfoStackView(title: "감독", context: director)
         let productYearStackView = makeInfoStackView(title: "제작년도", context: movieInformation?.productYear)
         let openDateStackView = makeInfoStackView(title: "개봉일", context: movieInformation?.openDate)
         let showTimeStackView = makeInfoStackView(title: "상영시간", context: movieInformation?.showTime)
-        let showTypeStackView = makeInfoStackView(title: "관람등급", context: movieInformation?.productStatusName)
-        let nationStackView = makeInfoStackView(title: "제작국가", context: "a")
-        let genresStackView = makeInfoStackView(title: "장르", context: "a")
-        let actorsStackView = makeInfoStackView(title: "배우", context: "fjdlskfjldskfjldskjfldskjfldskfjldskjfldsjfldskfjdlskfjdlskfjldskfjdlskfjdlsafjdlsfkjdslfkjdaslkfjdslkfjdlafkjdaslfkjdaslfkajdlfdkjfldskajfldsakfjdlskfjldskfjldskjfldskjfldskfjldskjfldsjfldskfjdlskfjdlskfjldskfjdlskfjdlsafjdlsfkjdslfkjdaslkfjdslkfjdlafkjdaslfkjdaslfkajdlfdkjfldskajfldsakjfldaskjfadsjfldaskjfads")
+        let showTypeStackView = makeInfoStackView(title: "관람등급", context: showType)
+        let nationStackView = makeInfoStackView(title: "제작국가", context: nation)
+        let genresStackView = makeInfoStackView(title: "장르", context: genre)
+        let actorsStackView = makeInfoStackView(title: "배우", context: actor)
 
         contentStackView.addArrangedSubview(directorStackView)
         contentStackView.addArrangedSubview(productYearStackView)
@@ -227,5 +233,19 @@ final class DetailMovieViewController: UIViewController {
         ])
         
         return stackView
+    }
+    
+    private func convertString(items: [StringConvertible]) -> String {
+        guard items.isEmpty == false else { return "-"}
+        
+        var resultString = ""
+        items.forEach { item in
+            if resultString.isEmpty {
+                resultString = item.description
+            } else {
+                resultString +=  ", \(item.description)"
+            }
+        }
+        return resultString
     }
 }
