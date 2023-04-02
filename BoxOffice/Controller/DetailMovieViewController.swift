@@ -11,7 +11,13 @@ final class DetailMovieViewController: UIViewController {
     private let server = NetworkManager()
     private let urlMaker = URLRequestMaker()
     private var movieCode: String
-    private var movieInformation: MovieInformation?
+    private var movieInformation: MovieInformation? {
+        didSet {
+            DispatchQueue.main.async {
+                self.configureMainView()
+            }
+        }
+    }
     private var moviePoster: MoviePoster?
     
     private let scrollView: UIScrollView = {
@@ -45,20 +51,17 @@ final class DetailMovieViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        configureMainView()
-        configureScrollView()
-        configureStackView()
-        configureImageView()
-        configureContentStackView()
-        
+        view.backgroundColor = .white
+   
         fetchData()
     }
     
     private func fetchData() {
         fetchMovieInformationData(movieCode: movieCode) {
             guard let movieName = self.movieInformation?.movieName else { return }
+
             self.fetchMoviePosterData(movieName: movieName) {
+                
                 self.fetchPosterImageData { image in
                     DispatchQueue.main.async {
                         self.imageView.image = image
@@ -77,8 +80,13 @@ final class DetailMovieViewController: UIViewController {
     }
     
     private func configureMainView() {
-        view.backgroundColor = .white
+        
         title = movieInformation?.movieName
+        
+        configureScrollView()
+        configureStackView()
+        configureImageView()
+        configureContentStackView()
     }
     
     private func fetchMovieInformationData(movieCode: String, completion: @escaping () -> Void) {
@@ -153,19 +161,19 @@ final class DetailMovieViewController: UIViewController {
     
     private func configureContentStackView() {
         let directorStackView = makeInfoStackView(title: "감독", context: "a")
-        let productYearStackView = makeInfoStackView(title: "제작년도", context: "a")
-        let openDateStackView = makeInfoStackView(title: "개봉일", context: "a")
-        let showTimeStackView = makeInfoStackView(title: "상영시간", context: "a")
-        let productStatusNameStackView = makeInfoStackView(title: "관람등급", context: "a")
+        let productYearStackView = makeInfoStackView(title: "제작년도", context: movieInformation?.productYear)
+        let openDateStackView = makeInfoStackView(title: "개봉일", context: movieInformation?.openDate)
+        let showTimeStackView = makeInfoStackView(title: "상영시간", context: movieInformation?.showTime)
+        let showTypeStackView = makeInfoStackView(title: "관람등급", context: movieInformation?.productStatusName)
         let nationStackView = makeInfoStackView(title: "제작국가", context: "a")
         let genresStackView = makeInfoStackView(title: "장르", context: "a")
-        let actorsStackView = makeInfoStackView(title: "배우", context: "fjdlskfjldskfjldskjfldskjfldskfjldskjfldsjfldskfjdlskfjdlskfjldskfjdlskfjdlsafjdlsfkjdslfkjdaslkfjdslkfjdlafkjdaslfkjdaslfkajdlfdkjfldskajfldsakjfldaskjfads")
+        let actorsStackView = makeInfoStackView(title: "배우", context: "fjdlskfjldskfjldskjfldskjfldskfjldskjfldsjfldskfjdlskfjdlskfjldskfjdlskfjdlsafjdlsfkjdslfkjdaslkfjdslkfjdlafkjdaslfkjdaslfkajdlfdkjfldskajfldsakfjdlskfjldskfjldskjfldskjfldskfjldskjfldsjfldskfjdlskfjdlskfjldskfjdlskfjdlsafjdlsfkjdslfkjdaslkfjdslkfjdlafkjdaslfkjdaslfkajdlfdkjfldskajfldsakjfldaskjfadsjfldaskjfads")
 
         contentStackView.addArrangedSubview(directorStackView)
         contentStackView.addArrangedSubview(productYearStackView)
         contentStackView.addArrangedSubview(openDateStackView)
         contentStackView.addArrangedSubview(showTimeStackView)
-        contentStackView.addArrangedSubview(productStatusNameStackView)
+        contentStackView.addArrangedSubview(showTypeStackView)
         contentStackView.addArrangedSubview(nationStackView)
         contentStackView.addArrangedSubview(genresStackView)
         contentStackView.addArrangedSubview(actorsStackView)
