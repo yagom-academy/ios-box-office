@@ -96,8 +96,7 @@ final class DetailMovieInfoViewController: UIViewController {
     private func fetchImageForMovie(movieName: String) {
         let query = ImageAPI.imageQuery(movieName)
         let imageAPI = ImageAPI.imageSearchQuery(query: query)
-        indicatorView.isHidden = false
-        indicatorView.startAnimating()
+        startIndicator()
         
         provider.performImageRequest(api: imageAPI, completionHandler: { [weak self] requestResult in
             guard let self = self else { return }
@@ -177,6 +176,11 @@ final class DetailMovieInfoViewController: UIViewController {
             indicatorView.centerYAnchor.constraint(equalTo: imageView.centerYAnchor),
         ])
         
+    }
+    
+    private func startIndicator() {
+        indicatorView.isHidden = false
+        indicatorView.startAnimating()
     }
     
     private func stopIndicator() {
