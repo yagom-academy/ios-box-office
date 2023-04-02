@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct DailyBoxOfficeItem: Codable {
+struct DailyBoxOfficeItem: Codable, Hashable {
     let rowNumber: String
     let rank: String
     let rankingIntensity: String
@@ -26,6 +26,8 @@ struct DailyBoxOfficeItem: Codable {
     let audienceAccumulation: String
     let screenCount: String
     let showCount: String
+    
+    let identifier = UUID()
     
     private enum CodingKeys: String, CodingKey {
         case rowNumber = "rnum"

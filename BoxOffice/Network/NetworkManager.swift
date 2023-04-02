@@ -14,22 +14,22 @@ final class NetworkManager {
         self.session = session
     }
     
-    func fetchData<T: Decodable>(url: URL?,
+    func fetchData<T: Decodable>(urlRequest: URLRequest?,
                                  type: T.Type,
                                  completion: @escaping (Result<T, Error>) -> Void) {
-        guard let url = url else {
+        guard let request = urlRequest else {
             completion(.failure(NetworkingError.invalidURL))
             
             return
         }
         
-        let task = session.dataTask(with: url) { [weak self] data, response, error in
-            guard let manager = self else { return }
+        let task = session.dataTask(with: request) { [weak self] data, response, error in
+            guard let self else { return }
             
-            manager.checkError(data, response, error) { result in
+            self.checkError(data, response, error) { result in
                 switch result {
                 case .success(let data):
-                    completion(manager.decode(data: data, type: type))
+                    completion(self.decode(data: data, type: type))
                 case .failure(let error):
                     completion(.failure(NetworkingError.transportError(error)))
                 }
