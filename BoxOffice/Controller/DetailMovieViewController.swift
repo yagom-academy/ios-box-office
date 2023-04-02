@@ -49,7 +49,7 @@ final class DetailMovieViewController: UIViewController {
         configureMainView()
         configureScrollView()
         configureStackView()
-        contentStackView.addArrangedSubview(imageView)
+        configureImageView()
         configureContentStackView()
         
         fetchData()
@@ -66,6 +66,14 @@ final class DetailMovieViewController: UIViewController {
                 }
             }
         }
+    }
+    
+    private func configureImageView() {
+        contentStackView.addArrangedSubview(imageView)
+        imageView.contentMode = .scaleAspectFit
+        NSLayoutConstraint.activate([
+            imageView.heightAnchor.constraint(equalTo: view.safeAreaLayoutGuide.heightAnchor, multiplier: 0.6)
+            ])
     }
     
     private func configureMainView() {
