@@ -136,7 +136,7 @@ final class DetailMovieInfoViewController: UIViewController {
             MovieInfoView(title: MovieInfoTitle.watchGradeName, content: item.audits.map { $0.watchGradeName }.joinedString),
             MovieInfoView(title: MovieInfoTitle.nationName, content: item.nations.map { $0.nationName}.joinedString),
             MovieInfoView(title: MovieInfoTitle.genreName, content: item.genres.map { $0.genreName }.joinedString),
-            MovieInfoView(title: MovieInfoTitle.actorName, content: item.actors.map { $0.actorName }.joinedString),
+            MovieInfoView(title: MovieInfoTitle.actorName, content: item.actors.map { $0.name }.joinedString),
         ]
         
         labels.forEach {

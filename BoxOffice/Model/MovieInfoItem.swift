@@ -38,10 +38,10 @@ struct MovieInfo: Decodable {
 }
 
 struct Actor: Decodable {
-    let actorName: String
+    let name: String
     
     enum CodingKeys: String, CodingKey {
-        case actorName = "peopleNm"
+        case name = "peopleNm"
     }
 }
 
