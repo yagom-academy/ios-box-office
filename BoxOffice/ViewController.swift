@@ -23,6 +23,24 @@ final class ViewController: UIViewController {
         configureRefreshControl()
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+
+        if let indexPath = self.collectionView.indexPathsForSelectedItems?.first {
+            if let coordinator = self.transitionCoordinator {
+                coordinator.animate(alongsideTransition: { context in
+                    self.collectionView.deselectItem(at: indexPath, animated: true)
+                }) { (context) in
+                    if context.isCancelled {
+                        self.collectionView.selectItem(at: indexPath, animated: false, scrollPosition: [])
+                    }
+                }
+            } else {
+                self.collectionView.deselectItem(at: indexPath, animated: animated)
+            }
+        }
+    }
+    
     private func fetchBoxOfficeData() {
         guard let yesterday = createFormattedDate(dateFormat: "yyyyMMdd") else { return }
         provider.performRequest(api: .boxOffice(date: yesterday)) { requestResult in
