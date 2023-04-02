@@ -7,7 +7,7 @@
 
 import UIKit
 
-class RowStackView: UIStackView {
+final class RowStackView: UIStackView {
     private let titleLabel = {
         let label = UILabel()
         

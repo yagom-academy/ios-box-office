@@ -7,7 +7,7 @@
 
 import UIKit
 
-class MovieInfoViewController: UIViewController {
+final class MovieInfoViewController: UIViewController {
     let movieCode: String
     private var movie: Movie?
     private var moviePoster: MoviePoster?

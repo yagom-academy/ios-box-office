@@ -2,7 +2,7 @@
 //  Array+extension.swift
 //  BoxOffice
 //
-//  Created by Hyejeong Jeong on 2023/04/02.
+//  Created by Christy, Hyemory on 2023/04/02.
 //
 
 extension Array {
