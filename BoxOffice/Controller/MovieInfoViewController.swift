@@ -11,9 +11,17 @@ class MovieInfoViewController: UIViewController {
     let movieCode: String
     private var movie: Movie?
     private var moviePoster: MoviePoster?
-    private var posterImageView = UIImageView()
     private let networkManager = NetworkManager()
-    private let contentScrollView: UIScrollView = {
+    
+    private let dateFormatter = {
+        let dateFormatter = DateFormatter()
+        
+        dateFormatter.dateFormat = "yyyy-MM-dd"
+        
+        return dateFormatter
+    }()
+    
+    private let contentScrollView = {
         let scrollView = UIScrollView()
         
         scrollView.translatesAutoresizingMaskIntoConstraints = false
@@ -22,7 +30,15 @@ class MovieInfoViewController: UIViewController {
         return scrollView
     }()
     
-    private let loadingView: LoadingVIew = {
+    private var posterImageView = {
+        let imageView = UIImageView()
+        
+        imageView.translatesAutoresizingMaskIntoConstraints = false
+        
+        return imageView
+    }()
+    
+    private let loadingView = {
         let view = LoadingVIew()
         
         view.translatesAutoresizingMaskIntoConstraints = false
@@ -30,7 +46,15 @@ class MovieInfoViewController: UIViewController {
         return view
       }()
     
-    private let movieInfoListStackView = UIStackView()
+    private let movieInfoListStackView = {
+        let stackView = UIStackView()
+        
+        stackView.translatesAutoresizingMaskIntoConstraints = false
+        stackView.axis = .vertical
+        stackView.spacing = 12
+        
+        return stackView
+    }()
     
     init(movieCode: String) {
         self.movieCode = movieCode
@@ -44,10 +68,13 @@ class MovieInfoViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        view.backgroundColor = .systemBackground
-        
-        self.loadingView.isLoading = true
+        configureUIOption()
         fetchMovieInfo()
+    }
+    
+    private func configureUIOption() {
+        view.backgroundColor = .systemBackground
+        loadingView.isLoading = true
     }
     
     private func fetchMovieInfo() {
@@ -63,10 +90,13 @@ class MovieInfoViewController: UIViewController {
             case .success(let data):
                 self?.movie = data
                 
+                guard let movieInfo = self?.movie?.result.movieInfo else { return }
+                
                 DispatchQueue.main.async {
-                    self?.navigationItem.title = self?.movie?.result.movieInfo.movieName
+                    self?.navigationItem.title = movieInfo.movieName
                     self?.configureScrollView()
-                    self?.configureMovieInfoListStackView(data: (self?.movie?.result.movieInfo)!)
+                    self?.configureMovieInfoListStackView(data: movieInfo)
+                    self?.configureMovieInfoLayout()
                     self?.fetchMoviePoster()
                 }
             case .failure(let error):
@@ -95,8 +125,8 @@ class MovieInfoViewController: UIViewController {
                       let data = try? Data(contentsOf: url) else { return }
                 
                 DispatchQueue.main.async {
-                    self?.loadingView.isLoading = false
                     self?.posterImageView.image = UIImage(data: data)
+                    self?.loadingView.isLoading = false
                 }
             case .failure(let error):
                 DispatchQueue.main.async {
@@ -114,36 +144,29 @@ class MovieInfoViewController: UIViewController {
     }
     
     private func configureScrollView() {
-        self.view.addSubview(contentScrollView)
-        self.view.addSubview(loadingView)
-        
-        NSLayoutConstraint.activate([
-            contentScrollView.topAnchor.constraint(equalTo: self.view.topAnchor),
-            contentScrollView.leadingAnchor.constraint(equalTo: self.view.leadingAnchor),
-            contentScrollView.trailingAnchor.constraint(equalTo: self.view.trailingAnchor),
-            contentScrollView.bottomAnchor.constraint(equalTo: self.view.bottomAnchor),
-            
-            loadingView.leftAnchor.constraint(equalTo: self.contentScrollView.leftAnchor),
-            loadingView.rightAnchor.constraint(equalTo: self.contentScrollView.rightAnchor),
-            loadingView.bottomAnchor.constraint(equalTo: self.contentScrollView.bottomAnchor),
-            loadingView.topAnchor.constraint(equalTo: self.contentScrollView.topAnchor),
-        ])
-    }
-
-    private func configureMovieInfoListStackView(data: MovieInfo) {
-        
-        movieInfoListStackView.translatesAutoresizingMaskIntoConstraints = false
-        movieInfoListStackView.axis = .vertical
-        movieInfoListStackView.spacing = 12
-        
-        posterImageView.translatesAutoresizingMaskIntoConstraints =  false
+        view.addSubview(contentScrollView)
+        view.addSubview(loadingView)
         
         contentScrollView.addSubview(posterImageView)
         contentScrollView.addSubview(movieInfoListStackView)
         
+        NSLayoutConstraint.activate([
+            contentScrollView.topAnchor.constraint(equalTo: view.topAnchor),
+            contentScrollView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            contentScrollView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+            contentScrollView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
+            
+            loadingView.leftAnchor.constraint(equalTo: contentScrollView.leftAnchor),
+            loadingView.rightAnchor.constraint(equalTo: contentScrollView.rightAnchor),
+            loadingView.bottomAnchor.constraint(equalTo: contentScrollView.bottomAnchor),
+            loadingView.topAnchor.constraint(equalTo: contentScrollView.topAnchor),
+        ])
+    }
+
+    private func configureMovieInfoListStackView(data: MovieInfo) {
         let directors = data.directors.map { $0.name }.joined(separator: ", ")
         let productionYear = data.productionYear
-        let openDate = data.openDate
+        let openDate = data.openDate.toDate()
         let showTime = data.showTime
         let watchGradeName = data.audits.map { $0.watchGradeName }.joined(separator: ", ")
         let nations = data.nations.map { $0.name }.joined(separator: ", ")
@@ -152,13 +175,15 @@ class MovieInfoViewController: UIViewController {
         
         movieInfoListStackView.addArrangedSubview(RowStackView(title: "감독", value: directors))
         movieInfoListStackView.addArrangedSubview(RowStackView(title: "제작년도", value: productionYear))
-        movieInfoListStackView.addArrangedSubview(RowStackView(title: "개봉일", value: openDate))
+        movieInfoListStackView.addArrangedSubview(RowStackView(title: "개봉일", value: openDate?.showYesterdayDate(formatter: dateFormatter) ?? "개봉일 정보 없음"))
         movieInfoListStackView.addArrangedSubview(RowStackView(title: "상영시간", value: showTime))
         movieInfoListStackView.addArrangedSubview(RowStackView(title: "관람등급", value: watchGradeName))
         movieInfoListStackView.addArrangedSubview(RowStackView(title: "제작국가", value: nations))
         movieInfoListStackView.addArrangedSubview(RowStackView(title: "장르", value: genres))
         movieInfoListStackView.addArrangedSubview(RowStackView(title: "배우", value: actors))
-        
+    }
+    
+    private func configureMovieInfoLayout() {
         NSLayoutConstraint.activate([
             posterImageView.centerXAnchor.constraint(equalTo: contentScrollView.centerXAnchor),
             posterImageView.topAnchor.constraint(equalTo: contentScrollView.topAnchor),
@@ -169,7 +194,7 @@ class MovieInfoViewController: UIViewController {
             movieInfoListStackView.leadingAnchor.constraint(equalTo: contentScrollView.leadingAnchor),
             movieInfoListStackView.trailingAnchor.constraint(equalTo: contentScrollView.trailingAnchor),
             movieInfoListStackView.widthAnchor.constraint(equalTo: contentScrollView.widthAnchor),
-            movieInfoListStackView.bottomAnchor.constraint(equalTo: contentScrollView.bottomAnchor)
+            movieInfoListStackView.bottomAnchor.constraint(equalTo: contentScrollView.bottomAnchor),
         ])
     }
 }

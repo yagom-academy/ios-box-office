@@ -96,11 +96,22 @@ final class BoxOfficeCell: UICollectionViewCell {
         }
     }
     
+    override init(frame: CGRect) {
+        super.init(frame: frame)
+        
+        configureBoxOfficeStackView()
+        drawCellBorder()
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
     override func prepareForReuse() {
         super.prepareForReuse()
     }
     
-    func configureBoxOfficeStackView() {
+    private func configureBoxOfficeStackView() {
         rankStackView.addArrangedSubview(rankLabel)
         rankStackView.addArrangedSubview(rankInfoLabel)
         
@@ -127,7 +138,7 @@ final class BoxOfficeCell: UICollectionViewCell {
         ])
     }
     
-    func drawCellBorder() {
+    private func drawCellBorder() {
         layer.drawBorder(color: .systemGray5, width: 1)
     }
     
@@ -169,11 +180,11 @@ final class BoxOfficeCell: UICollectionViewCell {
         audienceCountLabel.text = "오늘 \(data.audienceCount.applyNumberFormatter(formatter: numberFormatter)) / 총 \(data.audienceAccumulation.applyNumberFormatter(formatter: numberFormatter))"
     }
     
-    func configureLabels(data: DailyBoxOfficeItem) {
-        configureRankLabel(data: data)
-        configureRankInfoLabel(data: data)
-        configureMovieNameLabel(data: data)
-        configureAudienceCountLabel(data: data)
+    func configure(with boxOfficeItem: DailyBoxOfficeItem) {
+        configureRankLabel(data: boxOfficeItem)
+        configureRankInfoLabel(data: boxOfficeItem)
+        configureMovieNameLabel(data: boxOfficeItem)
+        configureAudienceCountLabel(data: boxOfficeItem)
     }
     
     enum RankInfo {

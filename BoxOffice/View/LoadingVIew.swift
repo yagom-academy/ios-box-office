@@ -7,7 +7,7 @@
 
 import UIKit
 
-class LoadingVIew: UIView {
+final class LoadingVIew: UIView {
     private let backgroundView: UIView = {
         let view = UIView()
         
@@ -18,36 +18,36 @@ class LoadingVIew: UIView {
     }()
     
     private let activityIndicatorView: UIActivityIndicatorView = {
-       let view = UIActivityIndicatorView(style: .large)
+        let view = UIActivityIndicatorView(style: .large)
         
-       view.translatesAutoresizingMaskIntoConstraints = false
+        view.translatesAutoresizingMaskIntoConstraints = false
         
-       return view
-     }()
-     
-     var isLoading = false {
-       didSet {
-         self.isHidden = !self.isLoading
-         self.isLoading ? self.activityIndicatorView.startAnimating() : self.activityIndicatorView.stopAnimating()
-       }
-     }
-     
-     override init(frame: CGRect) {
-       super.init(frame: frame)
-       
-       self.addSubview(self.backgroundView)
-       self.addSubview(self.activityIndicatorView)
-       
-       NSLayoutConstraint.activate([
-         self.backgroundView.leftAnchor.constraint(equalTo: self.leftAnchor),
-         self.backgroundView.rightAnchor.constraint(equalTo: self.rightAnchor),
-         self.backgroundView.bottomAnchor.constraint(equalTo: self.bottomAnchor),
-         self.backgroundView.topAnchor.constraint(equalTo: self.topAnchor),
-
-         self.activityIndicatorView.centerYAnchor.constraint(equalTo: self.centerYAnchor),
-         self.activityIndicatorView.centerXAnchor.constraint(equalTo: self.centerXAnchor),
-       ])
-     }
+        return view
+    }()
+    
+    var isLoading = false {
+        didSet {
+            self.isHidden = !self.isLoading
+            self.isLoading ? self.activityIndicatorView.startAnimating() : self.activityIndicatorView.stopAnimating()
+        }
+    }
+    
+    override init(frame: CGRect) {
+        super.init(frame: frame)
+        
+        self.addSubview(backgroundView)
+        self.addSubview(activityIndicatorView)
+        
+        NSLayoutConstraint.activate([
+            backgroundView.leftAnchor.constraint(equalTo: self.leftAnchor),
+            backgroundView.rightAnchor.constraint(equalTo: self.rightAnchor),
+            backgroundView.bottomAnchor.constraint(equalTo: self.bottomAnchor),
+            backgroundView.topAnchor.constraint(equalTo: self.topAnchor),
+            
+            activityIndicatorView.centerYAnchor.constraint(equalTo: self.centerYAnchor),
+            activityIndicatorView.centerXAnchor.constraint(equalTo: self.centerXAnchor),
+        ])
+    }
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")

@@ -10,7 +10,7 @@ import UIKit
 final class BoxOfficeViewController: UIViewController {
     private var boxOffice: BoxOffice?
     private lazy var collectionView = UICollectionView(frame: .zero,
-                                                       collectionViewLayout: UICollectionViewFlowLayout()) // 컴포지셔널이랑 무슨 차이 있는지 조사하면 좋음!
+                                                       collectionViewLayout: UICollectionViewFlowLayout())
     private let networkManager = NetworkManager()
     private let dateFormatter = DateFormatter()
     
@@ -25,22 +25,24 @@ final class BoxOfficeViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        view.backgroundColor = .systemBackground
-        navigationItem.title = Date().showYesterdayDate(formatter: dateFormatter, in: .existHyphen)
-        
-        collectionView.dataSource = self
-        collectionView.delegate = self
-        
-        self.loadingView.isLoading = true
+        configureUIOption()
         fetchBoxOffice()
         configureCollectionView()
         configureRefreshControl()
     }
     
+    private func configureUIOption() {
+        loadingView.isLoading = true
+        view.backgroundColor = .systemBackground
+        dateFormatter.dateFormat = "yyyy-MM-dd"
+        navigationItem.title = Date().showYesterdayDate(formatter: dateFormatter)
+    }
+    
     private func fetchBoxOffice() {
         var api = BoxOfficeURLRequest(service: .dailyBoxOffice)
         let queryName = "targetDt"
-        let queryValue = Date().showYesterdayDate(formatter: dateFormatter, in: .notHyphen)
+        dateFormatter.dateFormat = "yyyyMMdd"
+        let queryValue = Date().showYesterdayDate(formatter: dateFormatter)
         
         api.addQuery(name: queryName, value: queryValue)
         
@@ -75,6 +77,9 @@ final class BoxOfficeViewController: UIViewController {
 
 extension BoxOfficeViewController {
     private func configureCollectionView() {
+        collectionView.dataSource = self
+        collectionView.delegate = self
+        
         view.addSubview(collectionView)
         view.addSubview(loadingView)
         
@@ -112,7 +117,8 @@ extension BoxOfficeViewController {
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.7) { [weak self] in
             guard let dateFormatter = self?.dateFormatter else { return }
             
-            self?.navigationItem.title = Date().showYesterdayDate(formatter: dateFormatter, in: .existHyphen)
+            dateFormatter.dateFormat = "yyyy-MM-dd"
+            self?.navigationItem.title = Date().showYesterdayDate(formatter: dateFormatter)
             self?.collectionView.refreshControl?.endRefreshing()
         }
     }
@@ -129,11 +135,9 @@ extension BoxOfficeViewController: UICollectionViewDataSource {
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: BoxOfficeCell.identifier, for: indexPath) as? BoxOfficeCell,
-              let boxOfficeItem = boxOffice?.result.dailyBoxOfficeList[indexPath.item] else { return UICollectionViewCell() }
-            // safe 서브스크립트? (바로 접근하면 위험)
-        cell.configureBoxOfficeStackView() // 제약조건이 다시 잡히기 때문에 이동 필요 (cell init)
-        cell.configureLabels(data: boxOfficeItem) // 네이밍 수정 configure with
-        cell.drawCellBorder() // 제약조건이 다시 잡히기 때문에 이동 필요 (cell init)
+              let boxOfficeItem = boxOffice?.result.dailyBoxOfficeList[safe: indexPath.item] else { return UICollectionViewCell() }
+
+        cell.configure(with: boxOfficeItem)
         
         return cell
     }
