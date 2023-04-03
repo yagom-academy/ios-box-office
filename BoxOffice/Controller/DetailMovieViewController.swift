@@ -53,9 +53,8 @@ final class DetailMovieViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        view.backgroundColor = .white
-   
-        fetchData()
+        
+        configureViewController()
     }
     
     private func fetchData() {
@@ -132,6 +131,11 @@ final class DetailMovieViewController: UIViewController {
         }
     }
     
+    private func configureViewController() {
+        view.backgroundColor = .white
+        fetchData()
+    }
+    
     private func configureMainView() {
         
         title = movieInformation?.movieName
@@ -168,11 +172,14 @@ final class DetailMovieViewController: UIViewController {
         let nation = convertString(items: movieInformation?.nations ?? [])
         let genre = convertString(items: movieInformation?.genres ?? [])
         let actor = convertString(items: movieInformation?.actors ?? [])
+        let productYear = movieInformation?.productYear
+        let openDate = movieInformation?.openDate
+        let showTime = movieInformation?.showTime
         
         let directorStackView = makeInfoStackView(title: "감독", context: director)
-        let productYearStackView = makeInfoStackView(title: "제작년도", context: movieInformation?.productYear)
-        let openDateStackView = makeInfoStackView(title: "개봉일", context: movieInformation?.openDate)
-        let showTimeStackView = makeInfoStackView(title: "상영시간", context: movieInformation?.showTime)
+        let productYearStackView = makeInfoStackView(title: "제작년도", context: productYear)
+        let openDateStackView = makeInfoStackView(title: "개봉일", context: openDate)
+        let showTimeStackView = makeInfoStackView(title: "상영시간", context: showTime)
         let showTypeStackView = makeInfoStackView(title: "관람등급", context: showType)
         let nationStackView = makeInfoStackView(title: "제작국가", context: nation)
         let genresStackView = makeInfoStackView(title: "장르", context: genre)
