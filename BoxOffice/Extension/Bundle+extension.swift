@@ -8,11 +8,20 @@
 import Foundation
 
 extension Bundle {
-    var apiKey: String {
+    var koficApiKey: String {
         guard let file = path(forResource: "BoxOfficeInfo", ofType: "plist"),
               let resource = NSDictionary(contentsOfFile: file),
-              let key = resource["APIKEY"] as? String else { fatalError("BoxOfficeInfo.plist에 APIKEY 설정 값을 주세요.") }
+              let key = resource["KOFICAPIKEY"] as? String else { fatalError("BoxOfficeInfo.plist에 KOFICAPIKEY 설정 값을 확인해주세요") }
         
         return key
     }
+    
+    var kakaoApiKey: String {
+        guard let file = path(forResource: "BoxOfficeInfo", ofType: "plist"),
+              let resource = NSDictionary(contentsOfFile: file),
+              let key = resource["KAKAOAPIKEY"] as? String else { fatalError("BoxOfficeInfo.plist에 KAKAOAPIKEY 설정 값을 확인해주세요") }
+        
+        return key
+    }
+    
 }

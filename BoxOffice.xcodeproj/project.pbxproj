@@ -36,6 +36,7 @@
 		71A0A45B29C9931B006D3932 /* BoxofficeError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71A0A45A29C9931B006D3932 /* BoxofficeError.swift */; };
 		71C59E3729D41B440016E247 /* MovieRankingCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71C59E3629D41B440016E247 /* MovieRankingCell.swift */; };
 		71D8B04A29D56CC80005A625 /* Date+extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71D8B04929D56CC80005A625 /* Date+extension.swift */; };
+		71E6434F29DAA38C001F733E /* MovieImageObject.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71E6434E29DAA38C001F733E /* MovieImageObject.swift */; };
 		71F1997929CD35D100CF8695 /* MockURLProtocolObject.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71F1997829CD35D100CF8695 /* MockURLProtocolObject.swift */; };
 /* End PBXBuildFile section */
 
@@ -90,6 +91,7 @@
 		71A0A45A29C9931B006D3932 /* BoxofficeError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BoxofficeError.swift; sourceTree = "<group>"; };
 		71C59E3629D41B440016E247 /* MovieRankingCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MovieRankingCell.swift; sourceTree = "<group>"; };
 		71D8B04929D56CC80005A625 /* Date+extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Date+extension.swift"; sourceTree = "<group>"; };
+		71E6434E29DAA38C001F733E /* MovieImageObject.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MovieImageObject.swift; sourceTree = "<group>"; };
 		71F1997829CD35D100CF8695 /* MockURLProtocolObject.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockURLProtocolObject.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -153,6 +155,7 @@
 				26B6853929C986C5001580FF /* MovieInfoObject.swift */,
 				26B6853B29C987A6001580FF /* MovieInfoResultObject.swift */,
 				26B6853D29C988C1001580FF /* MovieInfoDescObject.swift */,
+				71E6434E29DAA38C001F733E /* MovieImageObject.swift */,
 			);
 			path = MovieDTO;
 			sourceTree = "<group>";
@@ -424,6 +427,7 @@
 				7122D85929CABAB50039DEFB /* NetworkModel.swift in Sources */,
 				269BFC9A29D6D0FF00263E4C /* RankingManager.swift in Sources */,
 				7113202929C8337200B5A9DB /* DailyBoxofficeObject.swift in Sources */,
+				71E6434F29DAA38C001F733E /* MovieImageObject.swift in Sources */,
 				26B6853C29C987A6001580FF /* MovieInfoResultObject.swift in Sources */,
 				715553E129D30E8200B7FC3D /* BoxofficeInfo.swift in Sources */,
 			);
