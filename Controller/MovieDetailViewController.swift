@@ -9,6 +9,8 @@ import UIKit
 
 final class MovieDetailViewController: UIViewController {
     
+    var movieName: String = ""
+    
     private let scrollView = {
         let scrollView = UIScrollView()
         scrollView.translatesAutoresizingMaskIntoConstraints = false
@@ -18,5 +20,7 @@ final class MovieDetailViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        self.view.backgroundColor = .systemBackground
     }
 }

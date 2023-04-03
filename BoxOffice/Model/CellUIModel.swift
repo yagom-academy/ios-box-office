@@ -1,5 +1,5 @@
 //
-//  InfoManager.swift
+//  CellUIModel.swift
 //  BoxOffice
 //
 //  Created by 레옹아범 ,Andrew on 2023/03/31.
@@ -7,7 +7,7 @@
 
 import UIKit
 
-struct InfoManager {
+struct CellUIModel {
     private var data: InfoObject
     
     init(data: InfoObject) {

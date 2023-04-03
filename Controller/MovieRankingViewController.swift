@@ -87,7 +87,11 @@ final class MovieRankingViewController: UIViewController {
 
 extension MovieRankingViewController: UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        print(dataManager.movieItems[indexPath.row].name )
+        let nextViewController = MovieDetailViewController()
+        
+        nextViewController.movieName = dataManager.movieItems[indexPath.row].name
+        
+        navigationController?.pushViewController(nextViewController, animated: true)
     }
 }
 
@@ -113,9 +117,9 @@ extension MovieRankingViewController {
         dataSource = UICollectionViewDiffableDataSource<APIType, InfoObject>(collectionView: collectionView, cellProvider: { collectionView, indexPath, itemIdentifier in
             guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: MovieRankingCell.identifier, for: indexPath) as? MovieRankingCell else { return UICollectionViewListCell() }
             
-            let infoManager = InfoManager(data: itemIdentifier)
+            let uiModel = CellUIModel(data: itemIdentifier)
             
-            cell.updateLabelText(for: infoManager)
+            cell.updateLabelText(for: uiModel)
             
             return cell
         })

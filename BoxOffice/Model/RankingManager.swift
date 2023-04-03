@@ -23,5 +23,4 @@ struct RankingManager {
     var navigationTitleText: String {
         return Date.dateFormatter.string(from: date)
     }
-    
 }
