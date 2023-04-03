@@ -7,12 +7,19 @@
 
 import UIKit
 
+protocol DateDelegate: AnyObject {
+    func sendDate(date: Date)
+}
+
 final class CalendarViewController: UIViewController {
     let selectedDate: Date
+    weak var dateDelegate: DateDelegate?
     
     private let calendarView: UICalendarView = {
         let calendarView = UICalendarView()
         calendarView.availableDateRange = DateInterval(start: .distantPast, end: .now)
+        calendarView.locale = Locale(identifier: "ko_KR")
+        calendarView.tintColor = .systemMint
         
         return calendarView
     }()
@@ -61,8 +68,9 @@ final class CalendarViewController: UIViewController {
 
 extension CalendarViewController: UICalendarSelectionSingleDateDelegate {
     func dateSelection(_ selection: UICalendarSelectionSingleDate, didSelectDate dateComponents: DateComponents?) {
-        print(DateFormatter.hyphenText(date: dateComponents!.date!))
+        guard let date = dateComponents?.date else { return }
         
+        dateDelegate?.sendDate(date: date)
         dismiss(animated: true)
     }
 }

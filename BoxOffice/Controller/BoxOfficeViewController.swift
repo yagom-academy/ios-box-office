@@ -13,7 +13,12 @@ final class BoxOfficeViewController: UIViewController {
     private let networkManager = NetworkManager()
     private let refreshControl = UIRefreshControl()
     private var boxOffice: BoxOffice?
-    var selectedDate = Date()
+    var selectedDate = Date() {
+        didSet {
+            navigationItem.title = DateFormatter.hyphenText(date: selectedDate)
+            loadData()
+        }
+    }
     
     private lazy var activityIndicator: UIActivityIndicatorView = {
         let activityIndicator = UIActivityIndicatorView()
@@ -27,7 +32,7 @@ final class BoxOfficeViewController: UIViewController {
         super.viewDidLoad()
         
         configureInitialView()
-        loadInitialData()
+        loadData()
     }
     
     @IBAction func chooseDateButtonTapped(_ sender: UIBarButtonItem) {
@@ -35,6 +40,7 @@ final class BoxOfficeViewController: UIViewController {
             [weak self] creator in
             guard let self = self else { return UIViewController() }
             let viewController = CalendarViewController(date: self.selectedDate, coder: creator)
+            viewController?.dateDelegate = self
             
             return viewController
         }) {
@@ -50,7 +56,9 @@ final class BoxOfficeViewController: UIViewController {
         }
     }
     
-    private func loadInitialData() {
+    private func loadData() {
+        activityIndicator.startAnimating()
+        
         fetchDailyBoxOffice { [weak self] in
             guard let self = self else { return }
             
@@ -79,7 +87,6 @@ final class BoxOfficeViewController: UIViewController {
     }
     
     private func configureInitialView() {
-        activityIndicator.startAnimating()
         navigationItem.title = DateFormatter.hyphenText(date: selectedDate)
         self.view.addSubview(activityIndicator)
         refreshControl.addTarget(self, action: #selector(refreshData), for: .valueChanged)
@@ -87,7 +94,7 @@ final class BoxOfficeViewController: UIViewController {
     }
     
     private func fetchDailyBoxOffice(completion: @escaping () -> Void) {
-        let yesterdayText = DateFormatter.yesterdayText(format: .nonHyphen)
+        let yesterdayText = DateFormatter.yesterdayText(date: selectedDate)
         let endPoint: BoxOfficeEndpoint = .fetchDailyBoxOffice(targetDate: yesterdayText)
         
         networkManager.fetchData(request: endPoint.createRequest(), type: BoxOffice.self) {
@@ -141,5 +148,11 @@ extension BoxOfficeViewController: UICollectionViewDelegate {
         }) {
             self.navigationController?.pushViewController(movieInfoVC, animated: true)
         }
+    }
+}
+
+extension BoxOfficeViewController: DateDelegate {
+    func sendDate(date: Date) {
+        self.selectedDate = date
     }
 }

@@ -15,12 +15,12 @@ enum DateFormat: String {
 extension DateFormatter {
     static let dateFormatter = DateFormatter()
     
-    static func yesterdayText(format: DateFormat) -> String {
-        guard let yesterday = Calendar.current.date(byAdding: .day, value: -1, to: Date()) else {
+    static func yesterdayText(date: Date) -> String {
+        guard let yesterday = Calendar.current.date(byAdding: .day, value: -1, to: date) else {
             return ""
         }
         
-        dateFormatter.dateFormat = format.rawValue
+        dateFormatter.dateFormat = DateFormat.nonHyphen.rawValue
         
         return dateFormatter.string(from: yesterday)
     }
