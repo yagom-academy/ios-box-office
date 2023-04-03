@@ -30,7 +30,7 @@ class MovieDetailViewController: UIViewController {
             
             DispatchQueue.main.async {
                 self.movieDetailView.directorTitleLabel.text = "감독"
-                self.movieDetailView.directorDataLabel.text = self.reformDirectorString()
+                self.movieDetailView.directorDataLabel.text = self.reformString(labelText: "감독")
                 self.movieDetailView.productYearTitleLabel.text = "제작년도"
                 self.movieDetailView.productYearDataLabel.text = self.movieDetail?.movieInformationResult.movieInformation.productYear
                
@@ -42,53 +42,41 @@ class MovieDetailViewController: UIViewController {
                 self.movieDetailView.showTimeDataLabel.text = self.movieDetail?.movieInformationResult.movieInformation.showTime
                 
                 self.movieDetailView.auditsTitleLabel.text = "관람등급"
-                self.movieDetailView.auditsDataLabel.text = self.reformAuditString()
+                self.movieDetailView.auditsDataLabel.text = self.reformString(labelText: "관람등급")
                 
                 self.movieDetailView.nationTitleLabel.text = "제작국가"
-                self.movieDetailView.nationDataLabel.text = self.reformNationString()
+                self.movieDetailView.nationDataLabel.text = self.reformString(labelText: "제작국가")
                 
                 self.movieDetailView.genreTitleLabel.text = "장르"
-                self.movieDetailView.genreDataLabel.text = self.reformGenreString()
+                self.movieDetailView.genreDataLabel.text = self.reformString(labelText: "장르")
                 
                 self.movieDetailView.actorTitleLabel.text = "배우"
-                self.movieDetailView.actorDataLabel.text = self.reformActorString()
+                self.movieDetailView.actorDataLabel.text = self.reformString(labelText: "배우")
             }
         }
     }
 
-    private func reformDirectorString() -> String {
-        var directorName: String = ""
-        movieDetail?.movieInformationResult.movieInformation.directors.forEach{ directorName += $0.peopleName + ", " }
+    private func reformString(labelText: String) -> String {
+        var result = ""
+        
+        switch labelText {
+        case "감독":
+            movieDetail?.movieInformationResult.movieInformation.directors.forEach{ result += $0.peopleName + ", " }
+        case "관람등급":
+            movieDetail?.movieInformationResult.movieInformation.audits.forEach{ result += $0.watchGradeName + ", " }
+        case "제작국가":
+            movieDetail?.movieInformationResult.movieInformation.nations.forEach{ result += $0.nationName + ", " }
+        case "장르":
+            movieDetail?.movieInformationResult.movieInformation.genres.forEach{ result += $0.genreName + ", " }
+        case "배우":
+            movieDetail?.movieInformationResult.movieInformation.actors.forEach{ result += $0.peopleName + ", "}
+        default:
+            return ""
+        }
     
-        return directorName.trimmingCharacters(in: [","," "])
-    }
-    
-    private func reformAuditString() -> String {
-        var audits: String = ""
-        movieDetail?.movieInformationResult.movieInformation.audits.forEach{ audits += $0.watchGradeName + ", " }
-    
-        return audits.trimmingCharacters(in: [","," "])
-    }
-    
-    private func reformNationString() -> String {
-        var nations: String = ""
-        movieDetail?.movieInformationResult.movieInformation.nations.forEach{ nations += $0.nationName + ", " }
-    
-        return nations.trimmingCharacters(in: [","," "])
-    }
-    
-    private func reformGenreString() -> String {
-        var genres: String = ""
-        movieDetail?.movieInformationResult.movieInformation.genres.forEach{ genres += $0.genreName + ", " }
-    
-        return genres.trimmingCharacters(in: [","," "])
-    }
-    
-    private func reformActorString() -> String {
-        var actors: String = ""
-        movieDetail?.movieInformationResult.movieInformation.actors.forEach{ actors += $0.peopleName + ", "}
-    
-        return actors.trimmingCharacters(in: [","," "])
+        result = result.trimmingCharacters(in: [","," "])
+        
+        return result
     }
     
     private func fetchImage() {
