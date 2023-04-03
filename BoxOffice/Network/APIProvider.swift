@@ -12,7 +12,7 @@ struct APIProvider {
     private let urlSession: DataTaskMakeable
     private var api: API?
     
-    init(endPoint: URLRequestGenerator = EndPoint(),
+    init(endPoint: URLRequestGenerator = Endpoint(),
          urlSession: DataTaskMakeable = URLSession(configuration: .default),
          api: API? = nil) {
         self.endPoint = endPoint

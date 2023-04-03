@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct EndPoint: URLRequestGenerator {
+struct Endpoint: URLRequestGenerator {
     func request(for api: API) -> URLRequest? {
         var urlComponents = URLComponents(string: api.baseURL + api.path)
         urlComponents?.queryItems = []

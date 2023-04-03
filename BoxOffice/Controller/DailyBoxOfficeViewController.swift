@@ -18,13 +18,18 @@ final class DailyBoxOfficeViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         LoadingIndicator.showLoading()
-        baseSettings()
+        configureRootView()
+        configureNavigationBar()
         loadDailyBoxOffice()
         configureCollectionView()
         configureRefreshControl()
     }
     
-    private func baseSettings() {
+    private func configureRootView() {
+        view.addSubview(collectionView)
+    }
+    
+    private func configureNavigationBar() {
         let titleText = DateFormatter.shared.string(from: yesterday, dateFormat: "yyyy-MM-dd")
 
         title = titleText
@@ -50,7 +55,6 @@ final class DailyBoxOfficeViewController: UIViewController {
             case .failure(let error):
                 DispatchQueue.main.async {
                     AlertController.showAlert(for: error, to: self)
-                    LoadingIndicator.hideLoading()
                 }
             }
             
@@ -59,7 +63,6 @@ final class DailyBoxOfficeViewController: UIViewController {
     }
     
     private func configureCollectionView() {
-        view.addSubview(collectionView)
         collectionView.translatesAutoresizingMaskIntoConstraints = false
         
         NSLayoutConstraint.activate([
@@ -85,7 +88,7 @@ final class DailyBoxOfficeViewController: UIViewController {
         loadDailyBoxOffice()
         
         DispatchQueue.main.async {
-            self.baseSettings()
+            self.configureNavigationBar()
             self.collectionView.refreshControl?.endRefreshing()
         }
     }

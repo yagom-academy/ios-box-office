@@ -48,17 +48,22 @@ final class MovieDetailsViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        baseSettings()
+        configureRootView()
+        configureNavigationBar()
         loadMovieDetails()
         loadPosterImage()
-        fillCategoryLabels()
+        configureCategoryLabels()
         configureScrollView()
         LoadingIndicator.showLoading(in: posterView)
     }
     
-    private func baseSettings() {
-        title = movieName
+    private func configureRootView() {
         view.backgroundColor = .white
+        view.addSubview(scrollView)
+    }
+    
+    private func configureNavigationBar() {
+        title = movieName
     }
     
     private func loadMovieDetails() {
@@ -74,7 +79,7 @@ final class MovieDetailsViewController: UIViewController {
                 self.movieDetails = movieDetails
                 
                 DispatchQueue.main.async {
-                    self.fillDetailLabels(with: movieDetails)
+                    self.configureDetailLabels(with: movieDetails)
                 }
             case .failure(let error):
                 AlertController.showAlert(for: error, to: self)
@@ -101,16 +106,15 @@ final class MovieDetailsViewController: UIViewController {
             
                 DispatchQueue.main.async {
                     self.posterView.image = UIImage(data: data)
-                    LoadingIndicator.hideLoading(in: self.posterView)
                 }
             case .failure(let error):
                 AlertController.showAlert(for: error, to: self)
-                LoadingIndicator.hideLoading(in: self.posterView)
             }
+            LoadingIndicator.hideLoading(in: self.posterView)
         }
     }
     
-    private func fillDetailLabels(with movieDetails: MovieDetails) {
+    private func configureDetailLabels(with movieDetails: MovieDetails) {
         let movieInfo = movieDetails.movieInfoResult.movieInfo
         
         directorView.detailLabel.text = movieInfo.directors
@@ -132,7 +136,7 @@ final class MovieDetailsViewController: UIViewController {
             .joined(separator: ", ")
     }
     
-    private func fillCategoryLabels() {
+    private func configureCategoryLabels() {
         directorView.categoryLabel.text = "감독"
         productionYearView.categoryLabel.text = "제작년도"
         openDateView.categoryLabel.text = "개봉일"
@@ -169,7 +173,6 @@ final class MovieDetailsViewController: UIViewController {
             return view
         }()
     
-        view.addSubview(scrollView)
         scrollView.addSubview(contentView)
         
         NSLayoutConstraint.activate([
