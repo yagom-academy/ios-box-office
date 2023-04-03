@@ -7,7 +7,7 @@
 
 import UIKit
 
-struct DaumImageSearch: Decodable {
+struct ImageSearch: Decodable {
     let documents: [Document]
 }
 

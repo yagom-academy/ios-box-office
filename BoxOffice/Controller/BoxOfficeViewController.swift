@@ -20,18 +20,6 @@ final class BoxOfficeViewController: UIViewController {
         setUpView()
     }
     
-    private func setUpView() {
-        setTitle()
-        setActivityIndicator()
-        setBoxOfficeListCollectionView()
-        configureRefreshControl()
-        configureUI()
-    }
-    
-    private func setTitle() {
-        self.title = QueryItem.dailyBoxOfficeValue
-    }
-    
     private func fetchDailyBoxOfficeAPI() {
         var dailyBoxOfficeEndpoint = DailyBoxOfficeEndpoint()
         dailyBoxOfficeEndpoint.queryItems.append(URLQueryItem(name: QueryItem.dailyBoxOfficeKey, value: QueryItem.dailyBoxOfficeValue))
@@ -45,6 +33,18 @@ final class BoxOfficeViewController: UIViewController {
                 self.activityIndicator.stopAnimating()
             }
         }
+    }
+    
+    private func setUpView() {
+        setTitle()
+        setActivityIndicator()
+        setBoxOfficeListCollectionView()
+        configureRefreshControl()
+        configureUI()
+    }
+    
+    private func setTitle() {
+        self.title = QueryItem.dailyBoxOfficeValue
     }
     
     private func setActivityIndicator() {
@@ -104,7 +104,7 @@ extension BoxOfficeViewController: UICollectionViewDataSource {
         
         cell.setUpBoxOffcieCellUI()
         cell.setUpLabel(by: validDailyBoxOffice, indexPath: indexPath)
-        cell.accessories = [.disclosureIndicator() ]
+        cell.accessories = [.disclosureIndicator()]
     
         return cell
     }
@@ -142,9 +142,7 @@ extension BoxOfficeViewController: UICollectionViewDelegate {
 }
 
 extension BoxOfficeViewController {
-    
     private func setUpCompositionalLayout() -> UICollectionViewLayout {
-        
         let layout = UICollectionViewCompositionalLayout {
             (sectionIndex: Int, layoutEnvironment: NSCollectionLayoutEnvironment) -> NSCollectionLayoutSection? in
             
