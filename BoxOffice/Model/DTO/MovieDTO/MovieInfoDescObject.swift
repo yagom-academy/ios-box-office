@@ -23,7 +23,7 @@ struct MovieInfoDescObject: Decodable {
         case showTime = "showTm"
         case productedYear = "prdtYear"
         case openDate = "openDt"
-        case aduits = "audits"
+        case audits = "audits"
         case genre = "genreNm"
         case directors, nations, actors
     }
