@@ -12,7 +12,7 @@ final class DailyBoxOfficeViewController: UIViewController {
                                                   collectionViewLayout: UICollectionViewFlowLayout())
     private var dailyBoxOffice: DailyBoxOffice?
     private var yesterday: Date {
-           return Date(timeIntervalSinceNow: 3600 * -24)
+        return Date(timeIntervalSinceNow: 3600 * -24)
     }
     
     override func viewDidLoad() {
@@ -46,7 +46,6 @@ final class DailyBoxOfficeViewController: UIViewController {
                 
                 DispatchQueue.main.async {
                     self.collectionView.reloadData()
-                    LoadingIndicator.hideLoading()
                 }
             case .failure(let error):
                 DispatchQueue.main.async {
@@ -54,6 +53,8 @@ final class DailyBoxOfficeViewController: UIViewController {
                     LoadingIndicator.hideLoading()
                 }
             }
+            
+            LoadingIndicator.hideLoading()
         }
     }
     
@@ -106,7 +107,7 @@ extension DailyBoxOfficeViewController: UICollectionViewDataSource {
             return UICollectionViewCell()
         }
         
-        cell.fillLabels(with: movieData)
+        cell.configureLabels(with: movieData)
         
         return cell
     }

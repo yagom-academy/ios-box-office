@@ -7,7 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		4B181D0729D287D900B3CD47 /* NumberFormat.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B181D0629D287D900B3CD47 /* NumberFormat.swift */; };
+		4B181D0729D287D900B3CD47 /* extension+String.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B181D0629D287D900B3CD47 /* extension+String.swift */; };
 		4B181D0929D2AD8D00B3CD47 /* LoadingIndicator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B181D0829D2AD8D00B3CD47 /* LoadingIndicator.swift */; };
 		4B4A799329D3FD5700514141 /* MovieDetailsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B4A799229D3FD5700514141 /* MovieDetailsViewController.swift */; };
 		4B4A799529D400F100514141 /* CategoryStackView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B4A799429D400F100514141 /* CategoryStackView.swift */; };
@@ -55,7 +55,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		4B181D0629D287D900B3CD47 /* NumberFormat.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NumberFormat.swift; sourceTree = "<group>"; };
+		4B181D0629D287D900B3CD47 /* extension+String.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "extension+String.swift"; sourceTree = "<group>"; };
 		4B181D0829D2AD8D00B3CD47 /* LoadingIndicator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoadingIndicator.swift; sourceTree = "<group>"; };
 		4B4A799229D3FD5700514141 /* MovieDetailsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MovieDetailsViewController.swift; sourceTree = "<group>"; };
 		4B4A799429D400F100514141 /* CategoryStackView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryStackView.swift; sourceTree = "<group>"; };
@@ -148,11 +148,21 @@
 			path = APIProviderTests;
 			sourceTree = "<group>";
 		};
-		4BDF6F6D29D6C62A0058FCC0 /* Extension */ = {
+		4BDF6F6E29D812360058FCC0 /* Utility */ = {
 			isa = PBXGroup;
 			children = (
-				AD3D401C29D1CFC800A56210 /* extension+DateFormatter.swift */,
+				4BDF6F6F29D8124C0058FCC0 /* Extension */,
+				4B181D0829D2AD8D00B3CD47 /* LoadingIndicator.swift */,
+			);
+			path = Utility;
+			sourceTree = "<group>";
+		};
+		4BDF6F6F29D8124C0058FCC0 /* Extension */ = {
+			isa = PBXGroup;
+			children = (
 				AD3D401E29D28E5200A56210 /* extension+CALayer.swift */,
+				AD3D401C29D1CFC800A56210 /* extension+DateFormatter.swift */,
+				4B181D0629D287D900B3CD47 /* extension+String.swift */,
 			);
 			path = Extension;
 			sourceTree = "<group>";
@@ -184,7 +194,7 @@
 				AD30949D29C81B090052C64D /* View */,
 				AD30949C29C81B060052C64D /* Controller */,
 				AD1E9C1B29CDD2700023A817 /* Network */,
-				ADE5948C29D6A1AC002AF96B /* Utility */,
+				4BDF6F6E29D812360058FCC0 /* Utility */,
 				AD1E9C2129CDD3800023A817 /* Resource */,
 				AD1E9C2029CDD3540023A817 /* Storyboard */,
 			);
@@ -253,7 +263,6 @@
 			isa = PBXGroup;
 			children = (
 				4B81025529D1621900A8DC89 /* DailyBoxOfficeCell.swift */,
-				4B4A799429D400F100514141 /* CategoryStackView.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -281,7 +290,6 @@
 				4BDF6F6D29D6C62A0058FCC0 /* Extension */,
 				4B181D0629D287D900B3CD47 /* NumberFormat.swift */,
 				4B4A799829D5639B00514141 /* AlertController.swift */,
-				4B181D0829D2AD8D00B3CD47 /* LoadingIndicator.swift */,
 			);
 			path = Utility;
 			sourceTree = "<group>";
@@ -427,8 +435,8 @@
 			files = (
 				ADE1B1BD29D4356B00632173 /* SearchedImage.swift in Sources */,
 				AD1E9C1F29CDD2CA0023A817 /* API.swift in Sources */,
-				4B181D0729D287D900B3CD47 /* NumberFormat.swift in Sources */,
 				4B4A799329D3FD5700514141 /* MovieDetailsViewController.swift in Sources */,
+				4B181D0729D287D900B3CD47 /* extension+String.swift in Sources */,
 				AD3D401F29D28E5200A56210 /* extension+CALayer.swift in Sources */,
 				4B9E3A2729CADF9D00B60AD1 /* DataTaskMakeable.swift in Sources */,
 				4B4A799729D4317100514141 /* DaumImageAPI.swift in Sources */,

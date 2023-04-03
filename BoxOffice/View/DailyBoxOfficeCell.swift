@@ -10,10 +10,9 @@ import UIKit
 final class DailyBoxOfficeCell: UICollectionViewCell {
     static let identifier = "DailyBoxOfficeCell"
     
-    private var isConstraintNeeded = true
     private let rankLabel = UILabel()
     private let rankDifferenceLabel = UILabel()
-    private let movieTitleLable = UILabel()
+    private let movieTitleLabel = UILabel()
     private let audienceCountLabel = UILabel()
     private let rankStackView = {
         let stackView = UIStackView()
@@ -83,7 +82,7 @@ final class DailyBoxOfficeCell: UICollectionViewCell {
         rankStackView.addArrangedSubview(rankLabel)
         rankStackView.addArrangedSubview(rankDifferenceLabel)
         
-        movieStackView.addArrangedSubview(movieTitleLable)
+        movieStackView.addArrangedSubview(movieTitleLabel)
         movieStackView.addArrangedSubview(audienceCountLabel)
         
         contentView.addSubview(rankStackView)
@@ -92,58 +91,54 @@ final class DailyBoxOfficeCell: UICollectionViewCell {
     }
     
     private func setSubviewConstraints() {
-        if isConstraintNeeded {
-            NSLayoutConstraint.activate([
-                rankStackView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 10),
-                rankStackView.centerYAnchor.constraint(equalTo: contentView.centerYAnchor),
-                rankStackView.widthAnchor.constraint(equalTo: contentView.widthAnchor, multiplier: 0.15),
-                
-                movieStackView.leadingAnchor.constraint(equalTo: rankStackView.trailingAnchor, constant: 10),
-                movieStackView.centerYAnchor.constraint(equalTo: contentView.centerYAnchor),
-                
-                accessoryView.leadingAnchor.constraint(equalTo: movieStackView.trailingAnchor),
-                accessoryView.centerYAnchor.constraint(equalTo: contentView.centerYAnchor),
-                accessoryView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -20),
-                accessoryView.widthAnchor.constraint(equalToConstant: 10),
-                accessoryView.heightAnchor.constraint(equalToConstant: 15)
-            ])
-        }
-        
-        isConstraintNeeded = false
+        NSLayoutConstraint.activate([
+            rankStackView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 10),
+            rankStackView.centerYAnchor.constraint(equalTo: contentView.centerYAnchor),
+            rankStackView.widthAnchor.constraint(equalTo: contentView.widthAnchor, multiplier: 0.15),
+            
+            movieStackView.leadingAnchor.constraint(equalTo: rankStackView.trailingAnchor, constant: 10),
+            movieStackView.centerYAnchor.constraint(equalTo: contentView.centerYAnchor),
+            
+            accessoryView.leadingAnchor.constraint(equalTo: movieStackView.trailingAnchor),
+            accessoryView.centerYAnchor.constraint(equalTo: contentView.centerYAnchor),
+            accessoryView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -20),
+            accessoryView.widthAnchor.constraint(equalToConstant: 10),
+            accessoryView.heightAnchor.constraint(equalToConstant: 15)
+        ])
     }
     
-    func fillLabels(with data: DailyBoxOfficeMovie) {
-        fillRankLabel(with: data)
-        fillRankDifferenceLabel(with: data)
-        fillMovieTitleLabel(with: data)
-        fillAudienceCountLabel(with: data)
+    func configureLabels(with data: DailyBoxOfficeMovie) {
+        configureRankLabel(with: data)
+        configureRankDifferenceLabel(with: data)
+        configureMovieTitleLabel(with: data)
+        configureAudienceCountLabel(with: data)
     }
     
-    private func fillMovieTitleLabel(with data: DailyBoxOfficeMovie) {
-        movieTitleLable.text = data.movieName
-        movieTitleLable.font = UIFont.preferredFont(forTextStyle: .title3)
-        movieTitleLable.numberOfLines = 0
+    private func configureMovieTitleLabel(with data: DailyBoxOfficeMovie) {
+        movieTitleLabel.text = data.movieName
+        movieTitleLabel.font = UIFont.preferredFont(forTextStyle: .title3)
+        movieTitleLabel.numberOfLines = 0
     }
     
-    private func fillAudienceCountLabel(with data: DailyBoxOfficeMovie) {
-        let todayAudience = NumberFormatter.shared.decimal(target: data.audienceCountOfDate) ?? Sign.zero
-        let accumulatedAudience = NumberFormatter.shared.decimal(target: data.accumulatedAudienceCount) ?? Sign.zero
+    private func configureAudienceCountLabel(with data: DailyBoxOfficeMovie) {
+        let todayAudience = data.audienceCountOfDate.decimal() ?? Sign.zero
+        let accumulatedAudience = data.accumulatedAudienceCount.decimal() ?? Sign.zero
         let textformat = "오늘 %@ / 총 %@"
         audienceCountLabel.text = String(format: textformat, todayAudience, accumulatedAudience)
         audienceCountLabel.font = UIFont.preferredFont(forTextStyle: .body)
     }
     
-    private func fillRankLabel(with data: DailyBoxOfficeMovie) {
+    private func configureRankLabel(with data: DailyBoxOfficeMovie) {
         rankLabel.text = data.rank
         rankLabel.font = UIFont.preferredFont(forTextStyle: .largeTitle)
     }
     
-    private func fillRankDifferenceLabel(with data: DailyBoxOfficeMovie) {
+    private func configureRankDifferenceLabel(with data: DailyBoxOfficeMovie) {
         switch data.rankOldAndNew {
-        case Sign.new:
+        case .new:
             rankDifferenceLabel.text = Sign.newMovie
             rankDifferenceLabel.textColor = .systemRed
-        case Sign.old:
+        case .old:
             if data.rankDifference.contains(Sign.minus) {
                 let difference = data.rankDifference.trimmingCharacters(in: ["-"])
                 let text = Sign.down + difference
@@ -160,8 +155,6 @@ final class DailyBoxOfficeCell: UICollectionViewCell {
                 attributedString.addAttribute(.foregroundColor, value: UIColor.systemRed, range: range)
                 rankDifferenceLabel.attributedText = attributedString
             }
-        default:
-            rankDifferenceLabel.text = Sign.empty
         }
         
         rankDifferenceLabel.font = UIFont.preferredFont(forTextStyle: .body)
