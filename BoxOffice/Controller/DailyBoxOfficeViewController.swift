@@ -8,7 +8,7 @@
 import UIKit
 
 final class DailyBoxOfficeViewController: UIViewController {
-    private var collectionView = UICollectionView(frame: UIScreen.main.bounds,
+    private let collectionView = UICollectionView(frame: UIScreen.main.bounds,
                                                   collectionViewLayout: UICollectionViewFlowLayout())
     private var dailyBoxOffice: DailyBoxOffice?
     private var yesterday: Date {
@@ -32,8 +32,15 @@ final class DailyBoxOfficeViewController: UIViewController {
     
     private func configureNavigationBar() {
         let titleText = DateFormatter.shared.string(from: yesterday, dateFormat: "yyyy-MM-dd")
-
         title = titleText
+    
+        let datePicker = UIBarButtonItem(title: "날짜선택", style: .plain, target: self, action: #selector(showCalendar))
+        navigationItem.rightBarButtonItem = datePicker
+    }
+    
+    @objc func showCalendar() {
+        let calendarViewController = CalendarViewController()
+        self.navigationController?.present(calendarViewController, animated: true)
     }
     
     private func loadDailyBoxOffice() {

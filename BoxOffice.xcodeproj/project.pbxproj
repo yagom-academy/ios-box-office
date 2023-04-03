@@ -11,6 +11,7 @@
 		4B181D0929D2AD8D00B3CD47 /* LoadingIndicator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B181D0829D2AD8D00B3CD47 /* LoadingIndicator.swift */; };
 		4B4A799329D3FD5700514141 /* MovieDetailsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B4A799229D3FD5700514141 /* MovieDetailsViewController.swift */; };
 		4B4A799729D4317100514141 /* DaumSearchAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B4A799629D4317100514141 /* DaumSearchAPI.swift */; };
+		4B7EF57829DAC94A00F73EB7 /* CalendarViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B7EF57729DAC94A00F73EB7 /* CalendarViewController.swift */; };
 		4B81025629D1621900A8DC89 /* DailyBoxOfficeCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B81025529D1621900A8DC89 /* DailyBoxOfficeCell.swift */; };
 		4B9E3A0329C9767E00B60AD1 /* MovieDetails.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B9E3A0229C9767E00B60AD1 /* MovieDetails.swift */; };
 		4B9E3A1B29CAD72E00B60AD1 /* JSONModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B9E3A1A29CAD72E00B60AD1 /* JSONModelTests.swift */; };
@@ -59,10 +60,11 @@
 		4B181D0829D2AD8D00B3CD47 /* LoadingIndicator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoadingIndicator.swift; sourceTree = "<group>"; };
 		4B4A799229D3FD5700514141 /* MovieDetailsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MovieDetailsViewController.swift; sourceTree = "<group>"; };
 		4B4A799629D4317100514141 /* DaumSearchAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DaumSearchAPI.swift; sourceTree = "<group>"; };
+		4B7EF57529DAC63F00F73EB7 /* BoxOfficeTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = BoxOfficeTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		4B7EF57629DAC63F00F73EB7 /* JSONModelTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = JSONModelTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		4B7EF57729DAC94A00F73EB7 /* CalendarViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarViewController.swift; sourceTree = "<group>"; };
 		4B81025529D1621900A8DC89 /* DailyBoxOfficeCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DailyBoxOfficeCell.swift; sourceTree = "<group>"; };
-		4B829D3F29DAABBD00C20962 /* BoxOffice.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; name = BoxOffice.app; path = "/Users/soyeon/Desktop/yagom/ios-box-office/build/Debug-iphoneos/BoxOffice.app"; sourceTree = "<absolute>"; };
-		4B829D4029DAABBD00C20962 /* BoxOfficeTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; name = BoxOfficeTests.xctest; path = "/Users/soyeon/Desktop/yagom/ios-box-office/build/Debug/BoxOfficeTests.xctest"; sourceTree = "<absolute>"; };
-		4B829D4129DAABBD00C20962 /* JSONModelTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; name = JSONModelTests.xctest; path = "/Users/soyeon/Desktop/yagom/ios-box-office/build/Debug/JSONModelTests.xctest"; sourceTree = "<absolute>"; };
+		4B829D4229DAC58C00C20962 /* BoxOffice.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = BoxOffice.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		4B9E3A0229C9767E00B60AD1 /* MovieDetails.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MovieDetails.swift; sourceTree = "<group>"; };
 		4B9E3A1A29CAD72E00B60AD1 /* JSONModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JSONModelTests.swift; sourceTree = "<group>"; };
 		4B9E3A2629CADF9D00B60AD1 /* DataTaskMakeable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataTaskMakeable.swift; sourceTree = "<group>"; };
@@ -173,6 +175,9 @@
 			children = (
 				63DF20ED2970E1A0005DF7D1 /* BoxOffice */,
 				AD3094A629C824A20052C64D /* BoxOfficeTests */,
+				4B829D4229DAC58C00C20962 /* BoxOffice.app */,
+				4B7EF57529DAC63F00F73EB7 /* BoxOfficeTests.xctest */,
+				4B7EF57629DAC63F00F73EB7 /* JSONModelTests.xctest */,
 			);
 			sourceTree = "<group>";
 		};
@@ -245,6 +250,7 @@
 			children = (
 				63DF20F22970E1A0005DF7D1 /* DailyBoxOfficeViewController.swift */,
 				4B4A799229D3FD5700514141 /* MovieDetailsViewController.swift */,
+				4B7EF57729DAC94A00F73EB7 /* CalendarViewController.swift */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -293,7 +299,7 @@
 			);
 			name = JSONModelTests;
 			productName = JSONModelTests;
-			productReference = 4B829D4129DAABBD00C20962 /* JSONModelTests.xctest */;
+			productReference = 4B7EF57629DAC63F00F73EB7 /* JSONModelTests.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
 		};
 		63DF20EA2970E1A0005DF7D1 /* BoxOffice */ = {
@@ -310,7 +316,7 @@
 			);
 			name = BoxOffice;
 			productName = BoxOffice;
-			productReference = 4B829D3F29DAABBD00C20962 /* BoxOffice.app */;
+			productReference = 4B829D4229DAC58C00C20962 /* BoxOffice.app */;
 			productType = "com.apple.product-type.application";
 		};
 		AD3094A429C824A20052C64D /* BoxOfficeTests */ = {
@@ -328,7 +334,7 @@
 			);
 			name = BoxOfficeTests;
 			productName = BoxOfficeTests;
-			productReference = 4B829D4029DAABBD00C20962 /* BoxOfficeTests.xctest */;
+			productReference = 4B7EF57529DAC63F00F73EB7 /* BoxOfficeTests.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
 		};
 /* End PBXNativeTarget section */
@@ -418,6 +424,7 @@
 				AD69655D29DA9929004A7502 /* CategoryStackView.swift in Sources */,
 				AD1E9C1F29CDD2CA0023A817 /* API.swift in Sources */,
 				4B4A799329D3FD5700514141 /* MovieDetailsViewController.swift in Sources */,
+				4B7EF57829DAC94A00F73EB7 /* CalendarViewController.swift in Sources */,
 				4B181D0729D287D900B3CD47 /* extension+String.swift in Sources */,
 				AD3D401F29D28E5200A56210 /* extension+CALayer.swift in Sources */,
 				4B9E3A2729CADF9D00B60AD1 /* DataTaskMakeable.swift in Sources */,
@@ -653,7 +660,7 @@
 				INFOPLIST_KEY_UIMainStoryboardFile = Main;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
-				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 16.1;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -681,7 +688,7 @@
 				INFOPLIST_KEY_UIMainStoryboardFile = Main;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
-				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 16.1;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
