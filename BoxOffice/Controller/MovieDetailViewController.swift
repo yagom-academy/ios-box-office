@@ -104,7 +104,7 @@ class MovieDetailViewController: UIViewController {
             
             guard let url = URL(string: parsedData.documents[0].imageURL) else { return }
             guard let data = try? Data(contentsOf: url) else { return }
-            print(data)
+
             DispatchQueue.main.async {
                 self.movieDetailView.imageView.image = UIImage(data: data)
             }

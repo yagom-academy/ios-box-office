@@ -14,7 +14,6 @@ enum Endpoint {
     static let movieDetailPath = "/kobisopenapi/webservice/rest/movie/searchMovieInfo.json"
     static let imageSearchPath = "/v2/search/image"
     static let method = HTTPMethod.self
-    
 }
 
 enum QueryItem {

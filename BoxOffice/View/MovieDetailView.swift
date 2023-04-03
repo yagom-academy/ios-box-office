@@ -34,165 +34,56 @@ class MovieDetailView: UIView {
         return stackView
     }()
     
-    let directorStackView: UIStackView = {
+    lazy var directorStackView = makeHorizontalStackView()
+    lazy var productYearStackView  = makeHorizontalStackView()
+    lazy var openDayStackView = makeHorizontalStackView()
+    lazy var showTimeStackView = makeHorizontalStackView()
+    lazy var auditsStackView = makeHorizontalStackView()
+    lazy var nationsStackView = makeHorizontalStackView()
+    lazy var genreStackView = makeHorizontalStackView()
+    lazy var actorStackView = makeHorizontalStackView()
+    
+    private func makeHorizontalStackView() -> UIStackView {
         let stackView = UIStackView()
         stackView.translatesAutoresizingMaskIntoConstraints = false
         stackView.axis = .horizontal
         return stackView
-    }()
-    
-    let productYearStackView: UIStackView = {
-        let stackView = UIStackView()
-        stackView.translatesAutoresizingMaskIntoConstraints = false
-        stackView.axis = .horizontal
-        return stackView
-    }()
-    
-    let openDayStackView: UIStackView = {
-        let stackView = UIStackView()
-        stackView.translatesAutoresizingMaskIntoConstraints = false
-        stackView.axis = .horizontal
-        return stackView
-    }()
-    
-    let showTimeStackView: UIStackView = {
-        let stackView = UIStackView()
-        stackView.translatesAutoresizingMaskIntoConstraints = false
-        stackView.axis = .horizontal
-        return stackView
-    }()
-    
-    let auditsStackView: UIStackView = {
-        let stackView = UIStackView()
-        stackView.translatesAutoresizingMaskIntoConstraints = false
-        stackView.axis = .horizontal
-        return stackView
-    }()
-    
-    let nationsStackView: UIStackView = {
-        let stackView = UIStackView()
-        stackView.translatesAutoresizingMaskIntoConstraints = false
-        stackView.axis = .horizontal
-        return stackView
-    }()
-    
-    let genreStackView: UIStackView = {
-        let stackView = UIStackView()
-        stackView.translatesAutoresizingMaskIntoConstraints = false
-        stackView.axis = .horizontal
-        return stackView
-    }()
-    
-    let actorStackView: UIStackView = {
-        let stackView = UIStackView()
-        stackView.translatesAutoresizingMaskIntoConstraints = false
-        stackView.axis = .horizontal
-        return stackView
-    }()
-    
-    let directorTitleLabel: UILabel = {
-        let label = UILabel()
-        label.textAlignment = .center
-        label.font = UIFont.boldSystemFont(ofSize: 16)
-        return label
-    }()
-    
-    let directorDataLabel: UILabel = {
-        let label = UILabel()
-        
-        return label
-    }()
-    
-    let productYearTitleLabel: UILabel = {
-        let label = UILabel()
-        label.textAlignment = .center
-        label.font = UIFont.boldSystemFont(ofSize: 16)
-        return label
-    }()
-    
-    let productYearDataLabel: UILabel = {
-        let label = UILabel()
-        
-        return label
-    }()
+    }
+
+    lazy var directorTitleLabel = makeTitleLabel()
+    let directorDataLabel = UILabel()
+
+    lazy var  productYearTitleLabel = makeTitleLabel()
+    let productYearDataLabel = UILabel()
    
-    let openDayTitleLabel: UILabel = {
-        let label = UILabel()
-        label.textAlignment = .center
-        label.font = UIFont.boldSystemFont(ofSize: 16)
-        return label
-    }()
+    lazy var  openDayTitleLabel = makeTitleLabel()
+    let openDayDataLabel = UILabel()
     
-    let openDayDataLabel: UILabel = {
-        let label = UILabel()
-        
-        return label
-    }()
+    lazy var showTimeTitleLabel = makeTitleLabel()
+    let showTimeDataLabel = UILabel()
     
-    let showTimeTitleLabel: UILabel = {
-        let label = UILabel()
-        label.textAlignment = .center
-        label.font = UIFont.boldSystemFont(ofSize: 16)
-        return label
-    }()
+    lazy var auditsTitleLabel = makeTitleLabel()
+    let auditsDataLabel = UILabel()
     
-    let showTimeDataLabel: UILabel = {
-        let label = UILabel()
-        
-        return label
-    }()
+    lazy var nationTitleLabel = makeTitleLabel()
+    let nationDataLabel = UILabel()
     
-    let auditsTitleLabel: UILabel = {
-        let label = UILabel()
-        label.textAlignment = .center
-        label.font = UIFont.boldSystemFont(ofSize: 16)
-        return label
-    }()
+    lazy var genreTitleLabel = makeTitleLabel()
+    let genreDataLabel = UILabel()
     
-    let auditsDataLabel: UILabel = {
-        let label = UILabel()
-        
-        return label
-    }()
-    
-    let nationTitleLabel: UILabel = {
-        let label = UILabel()
-        label.textAlignment = .center
-        label.font = UIFont.boldSystemFont(ofSize: 16)
-        return label
-    }()
-    
-    let nationDataLabel: UILabel = {
-        let label = UILabel()
-        
-        return label
-    }()
-    
-    let genreTitleLabel: UILabel = {
-        let label = UILabel()
-        label.textAlignment = .center
-        label.font = UIFont.boldSystemFont(ofSize: 16)
-        return label
-    }()
-    
-    let genreDataLabel: UILabel = {
-        let label = UILabel()
-        
-        return label
-    }()
-    
-    let actorTitleLabel: UILabel = {
-        let label = UILabel()
-        label.textAlignment = .center
-        label.font = UIFont.boldSystemFont(ofSize: 16)
-        return label
-    }()
-    
+    lazy var actorTitleLabel: UILabel = makeTitleLabel()
     let actorDataLabel: UILabel = {
         let label = UILabel()
         label.numberOfLines = 0
         return label
     }()
+    
+    private func makeTitleLabel() -> UILabel {
+        let label = UILabel()
+        label.textAlignment = .center
+        label.font = UIFont.boldSystemFont(ofSize: 16)
+        return label
+    }
    
     override init(frame: CGRect) {
         super.init(frame: frame)

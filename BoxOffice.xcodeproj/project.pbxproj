@@ -22,7 +22,7 @@
 		5817F45029C82C4500C8595C /* Parser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5817F44F29C82C4500C8595C /* Parser.swift */; };
 		5817F45829C8483500C8595C /* ParserTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5817F45729C8483500C8595C /* ParserTests.swift */; };
 		5817F45F29C98B7100C8595C /* MovieDetail.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5817F45E29C98B7100C8595C /* MovieDetail.swift */; };
-		5894F2D329D6C4BB00271F07 /* StringEnum.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5894F2D229D6C4BB00271F07 /* StringEnum.swift */; };
+		5894F2D329D6C4BB00271F07 /* EndPointString.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5894F2D229D6C4BB00271F07 /* EndPointString.swift */; };
 		63DF20EF2970E1A0005DF7D1 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63DF20EE2970E1A0005DF7D1 /* AppDelegate.swift */; };
 		63DF20F12970E1A0005DF7D1 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63DF20F02970E1A0005DF7D1 /* SceneDelegate.swift */; };
 		63DF20F32970E1A0005DF7D1 /* BoxOfficeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63DF20F22970E1A0005DF7D1 /* BoxOfficeViewController.swift */; };
@@ -58,7 +58,7 @@
 		5817F45529C8483500C8595C /* BoxOfficeTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = BoxOfficeTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		5817F45729C8483500C8595C /* ParserTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ParserTests.swift; sourceTree = "<group>"; };
 		5817F45E29C98B7100C8595C /* MovieDetail.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MovieDetail.swift; sourceTree = "<group>"; };
-		5894F2D229D6C4BB00271F07 /* StringEnum.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StringEnum.swift; sourceTree = "<group>"; };
+		5894F2D229D6C4BB00271F07 /* EndPointString.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EndPointString.swift; sourceTree = "<group>"; };
 		63DF20EB2970E1A0005DF7D1 /* BoxOffice.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = BoxOffice.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		63DF20EE2970E1A0005DF7D1 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		63DF20F02970E1A0005DF7D1 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -128,10 +128,12 @@
 			children = (
 				1CB8C01229D2C115006203E4 /* EndpointMakeable.swift */,
 				1CB8C01429D2C11C006203E4 /* Provider.swift */,
+				5817F44F29C82C4500C8595C /* Parser.swift */,
+				1C5CAA7329D6AFC60053F19A /* HTTPMethod.swift */,
 				1C5CAA6F29D6AF920053F19A /* MovieDetailEndpoint.swift */,
 				1C5CAA7129D6AFB00053F19A /* DailyBoxOfficeEndpoint.swift */,
-				1C5CAA7329D6AFC60053F19A /* HTTPMethod.swift */,
 				1C5CAA8129DA9F460053F19A /* ImageSearchEndpoint.swift */,
+				5894F2D229D6C4BB00271F07 /* EndPointString.swift */,
 			);
 			path = Network;
 			sourceTree = "<group>";
@@ -139,11 +141,9 @@
 		5817F44E29C825C400C8595C /* Model */ = {
 			isa = PBXGroup;
 			children = (
-				5894F2D229D6C4BB00271F07 /* StringEnum.swift */,
 				1C63036629C827F7006F755D /* DailyBoxOffice.swift */,
 				5817F45E29C98B7100C8595C /* MovieDetail.swift */,
 				1C5CAA7D29DA9F020053F19A /* ImageSearch.swift */,
-				5817F44F29C82C4500C8595C /* Parser.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -301,7 +301,7 @@
 			files = (
 				63DF20F32970E1A0005DF7D1 /* BoxOfficeViewController.swift in Sources */,
 				1C5CAA7C29DA9EE60053F19A /* MovieDetailViewController.swift in Sources */,
-				5894F2D329D6C4BB00271F07 /* StringEnum.swift in Sources */,
+				5894F2D329D6C4BB00271F07 /* EndPointString.swift in Sources */,
 				1CB8C01029D2AF70006203E4 /* NSMutableAttributedString+Extension.swift in Sources */,
 				1CB8C01529D2C11C006203E4 /* Provider.swift in Sources */,
 				1C5CAA7E29DA9F020053F19A /* ImageSearch.swift in Sources */,
