@@ -15,50 +15,33 @@ struct MovieInfoResult: Decodable {
     let movieInfo: MovieInfo
 }
 
-struct MovieInfo: Decodable, CustomStringConvertible {
+struct MovieInfo: Decodable {
     let movieCode: String
     let movieName: String
-    let movieNameEnglish: String
     let showTime: String
+    let productionYear: String
     let openDate: String
     let nations: [Nation]
     let genres: [Genre]
     let directors: [Director]
     let actors: [Actor]
-    let companys: [Company]
     let audits: [Audit]
     
     enum CodingKeys: String, CodingKey {
         case movieCode = "movieCd"
         case movieName = "movieNm"
-        case movieNameEnglish = "movieNmEn"
         case showTime = "showTm"
+        case productionYear = "prdtYear"
         case openDate = "openDt"
-        case nations, genres, directors, actors, companys, audits
-    }
-    
-    var description: String {
-        let genreList = genres.map { $0.genreName }.joined(separator: ", ")
-        let directorList = directors.map { $0.peopleName }.joined(separator: ", ")
-        let actorList = actors.map { $0.peopleName }.joined(separator: ", ")
-        
-        return """
-            영화명: \(movieName) (\(movieNameEnglish))
-            영화코드: \(movieCode)
-            개봉연도: \(openDate)
-            상영시간: \(showTime)
-            장르: \(genreList)
-            감독: \(directorList)
-            배우: \(actorList)
-            """
+        case nations, genres, directors, actors, audits
     }
 }
 
 struct Actor: Decodable {
-    let peopleName: String
+    let name: String
     
     enum CodingKeys: String, CodingKey {
-        case peopleName = "peopleNm"
+        case name = "peopleNm"
     }
 }
 
@@ -67,17 +50,6 @@ struct Audit: Decodable {
     
     enum CodingKeys: String, CodingKey {
         case watchGradeName = "watchGradeNm"
-    }
-}
-
-struct Company: Decodable {
-    let companyName: String
-    let companyPartName: String
-    
-    enum CodingKeys: String, CodingKey {
-        case companyName = "companyNm"
-        case companyPartName = "companyPartNm"
-        
     }
 }
 

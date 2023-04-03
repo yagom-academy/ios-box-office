@@ -18,4 +18,5 @@ struct ListItem: Hashable {
     let movieName: String
     let audienceCount: String
     let audienceAcc: String
+    let movieCode: String 
 }

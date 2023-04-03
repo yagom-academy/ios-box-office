@@ -14,8 +14,9 @@ enum MovieAPI {
 }
 
 extension MovieAPI {
+    
     var key: String {
-      return "5946533a51615e4910d26ed447f2a666"
+      return boxOfficeAPIkey
     }
     
     var baseURL: String {

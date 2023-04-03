@@ -23,6 +23,24 @@ final class ViewController: UIViewController {
         configureRefreshControl()
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+
+        if let indexPath = self.collectionView.indexPathsForSelectedItems?.first {
+            if let coordinator = self.transitionCoordinator {
+                coordinator.animate(alongsideTransition: { context in
+                    self.collectionView.deselectItem(at: indexPath, animated: true)
+                }) { (context) in
+                    if context.isCancelled {
+                        self.collectionView.selectItem(at: indexPath, animated: false, scrollPosition: [])
+                    }
+                }
+            } else {
+                self.collectionView.deselectItem(at: indexPath, animated: animated)
+            }
+        }
+    }
+    
     private func fetchBoxOfficeData() {
         guard let yesterday = createFormattedDate(dateFormat: "yyyyMMdd") else { return }
         provider.performRequest(api: .boxOffice(date: yesterday)) { requestResult in
@@ -34,24 +52,25 @@ final class ViewController: UIViewController {
                     var movieRanking: [ListItem] = []
                     for dailyBoxOffice in dailyBoxOffices {
                         let movieItem = ListItem(rank: dailyBoxOffice.rank,
-                                                rankInten: dailyBoxOffice.rankInten,
-                                                rankOldandNew: dailyBoxOffice.rankOldAndNew.rawValue,
-                                                movieName: dailyBoxOffice.movieName,
-                                                audienceCount: dailyBoxOffice.audienceCount,
-                                                audienceAcc: dailyBoxOffice.audienceAcc)
+                                                 rankInten: dailyBoxOffice.rankInten,
+                                                 rankOldandNew: dailyBoxOffice.rankOldAndNew.rawValue,
+                                                 movieName: dailyBoxOffice.movieName,
+                                                 audienceCount: dailyBoxOffice.audienceCount,
+                                                 audienceAcc: dailyBoxOffice.audienceAcc,
+                                                 movieCode: dailyBoxOffice.movieCode)
                         movieRanking.append(movieItem)
                     }
                     DispatchQueue.main.async {
                         _ = self.makeSnapshot(with: movieRanking)
                     }
                 } catch let error as NetworkError {
-                    print(error.description)
+                    DEBUG_LOG(error.description)
                 } catch {
-                    print("Unexpected error: \(error)")
+                    DEBUG_LOG("Unexpected error: \(error)")
                 }
                 
             case .failure(let error):
-                print(error)
+                DEBUG_LOG(error)
             }
             DispatchQueue.main.async {
                 self.collectionView.refreshControl?.endRefreshing()
@@ -94,10 +113,10 @@ final class ViewController: UIViewController {
     
     private func configureRefreshControl() {
         let refreshControl = UIRefreshControl()
-        collectionView.refreshControl = refreshControl
-
+        
         refreshControl.addTarget(self, action: #selector(handleRefreshControl), for: .valueChanged)
         refreshControl.attributedTitle = NSAttributedString(string: "Fetching Movie Data...")
+        collectionView.refreshControl = refreshControl
     }
     
     @objc private func handleRefreshControl() {
@@ -133,8 +152,14 @@ final class ViewController: UIViewController {
 extension ViewController: UICollectionViewDelegate {
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        collectionView.deselectItem(at: indexPath, animated: true)
+        
+        guard let movieCode = self.dataSource.itemIdentifier(for: indexPath)?.movieCode,
+              let movieName = self.dataSource.itemIdentifier(for: indexPath)?.movieName else {
+            collectionView.deselectItem(at: indexPath, animated: true)
+            return
+        }
+        let viewController = DetailMovieInfoViewController(movieCode: movieCode, movieName: movieName)
+        navigationController?.pushViewController(viewController, animated: true)
     }
     
 }
-
