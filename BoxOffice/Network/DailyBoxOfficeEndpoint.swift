@@ -8,9 +8,10 @@
 import Foundation
 
 struct DailyBoxOfficeEndpoint: EndpointMakeable {
-    var baseURL: String = Endpoint.baseURL
-    var path: String = Endpoint.path
+    var baseURL: String = Endpoint.kobisURL
+    var path: String = Endpoint.kobisPath
     var method: String = HTTPMethod.get.rawValue
-    var queryItems: [URLQueryItem] = [URLQueryItem(name: Endpoint.QueryItemkey, value: Endpoint.QueryItemValue)]
+    var queryItems: [URLQueryItem] = [URLQueryItem(name: QueryItem.queryItemKey, value: QueryItem.queryItemValue)]
+    var header: [String : String]?
 }
 

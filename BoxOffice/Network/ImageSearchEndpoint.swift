@@ -1,13 +1,13 @@
 //
-//  MovieDetailEndpoint.swift
+//  ImageSearchEndpoint.swift
 //  BoxOffice
 //
-//  Created by goat, songjun on 2023/03/31.
+//  Created by kimseongjun on 2023/04/03.
 //
 
 import Foundation
 
-struct MovieDetailEndpoint: EndpointMakeable {
+struct ImageSearchEndpoint: EndpointMakeable {
     var baseURL: String = Endpoint.kobisURL
     var path: String = Endpoint.kobisPath
     var method: String = HTTPMethod.get.rawValue

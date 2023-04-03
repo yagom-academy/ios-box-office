@@ -12,6 +12,7 @@ protocol EndpointMakeable {
     var path: String { get }
     var method: String { get }
     var queryItems: [URLQueryItem] { get }
+    var header: [String: String]? { get }
     
     func makeURL() -> URL?
     func makeURLRequest() -> URLRequest?
