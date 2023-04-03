@@ -17,6 +17,7 @@ final class DailyBoxOfficeViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        LoadingIndicator.showLoading()
         configureRootView()
         configureNavigationBar()
         loadDailyBoxOffice()
@@ -36,7 +37,6 @@ final class DailyBoxOfficeViewController: UIViewController {
     }
     
     private func loadDailyBoxOffice() {
-        LoadingIndicator.showLoading()
         var api = KobisAPI(service: .dailyBoxOffice)
         let queryName = "targetDt"
         let queryValue = DateFormatter.shared.string(from: yesterday, dateFormat: "yyyyMMdd")
@@ -51,6 +51,7 @@ final class DailyBoxOfficeViewController: UIViewController {
                 
                 DispatchQueue.main.async {
                     self.collectionView.reloadData()
+                    self.collectionView.refreshControl?.endRefreshing()
                 }
             case .failure(let error):
                 DispatchQueue.main.async {
@@ -89,7 +90,6 @@ final class DailyBoxOfficeViewController: UIViewController {
         
         DispatchQueue.main.async {
             self.configureNavigationBar()
-            self.collectionView.refreshControl?.endRefreshing()
         }
     }
 }
