@@ -27,13 +27,13 @@ final class DailyBoxOfficeViewController: UIViewController {
     
     private func configureRootView() {
         view.addSubview(collectionView)
+        view.backgroundColor = .white
     }
     
     private func configureNavigationBar() {
         let titleText = DateFormatter.shared.string(from: yesterday, dateFormat: "yyyy-MM-dd")
 
         title = titleText
-        view.backgroundColor = .white
     }
     
     private func loadDailyBoxOffice() {
