@@ -19,6 +19,15 @@ final class MovieDetailViewController: UIViewController {
         }
     }
     
+    private let activityIndicator: UIActivityIndicatorView = {
+        let activityIndicator = UIActivityIndicatorView()
+        activityIndicator.style = UIActivityIndicatorView.Style.large
+        activityIndicator.translatesAutoresizingMaskIntoConstraints = false
+        activityIndicator.startAnimating()
+        
+        return activityIndicator
+    }()
+    
     private let scrollView: UIScrollView = {
         let scrollView = UIScrollView()
         scrollView.translatesAutoresizingMaskIntoConstraints = false
@@ -57,10 +66,12 @@ final class MovieDetailViewController: UIViewController {
     
     private func setupUI() {
         self.navigationItem.title = movieName
-        view.backgroundColor = .white
+        self.view.backgroundColor = .white
+        
         self.view.addSubview(self.scrollView)
         self.scrollView.addSubview(self.contentView)
         
+        self.contentView.addSubview(self.activityIndicator)
         self.contentView.addSubview(self.posterImageView)
         self.contentView.addSubview(self.movieInformationStackView)
         
@@ -80,12 +91,15 @@ final class MovieDetailViewController: UIViewController {
             posterImageView.widthAnchor.constraint(equalTo: self.view.widthAnchor, multiplier: 0.9),
             posterImageView.heightAnchor.constraint(equalTo: self.view.widthAnchor, multiplier: 1),
             posterImageView.topAnchor.constraint(equalTo: self.contentView.topAnchor),
+            
+            activityIndicator.centerXAnchor.constraint(equalTo: self.posterImageView.centerXAnchor),
+            activityIndicator.centerYAnchor.constraint(equalTo: self.posterImageView.centerYAnchor),
+            
             movieInformationStackView.topAnchor.constraint(equalTo: self.posterImageView.bottomAnchor, constant: 10),
             movieInformationStackView.leadingAnchor.constraint(equalTo: self.contentView.leadingAnchor, constant: 10),
             movieInformationStackView.trailingAnchor.constraint(equalTo: self.contentView.trailingAnchor, constant: -10),
             movieInformationStackView.bottomAnchor.constraint(equalTo: self.contentView.bottomAnchor),
         ])
-        
     }
     
     private func fetchMovieDetail() {
@@ -116,6 +130,7 @@ final class MovieDetailViewController: UIViewController {
                 guard let image = try? Data(contentsOf: imageUrl) else { return }
                 DispatchQueue.main.async {
                     self?.posterImageView.image = UIImage(data: image)
+                    self?.activityIndicator.stopAnimating()
                 }
             case .failure:
                 print("실패")
