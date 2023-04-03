@@ -35,6 +35,8 @@ extension EndpointMakeable {
         var urlRequest = URLRequest(url: url)
         urlRequest.httpMethod = method
         
+        header?.forEach { urlRequest.setValue($1, forHTTPHeaderField: $0) }
+        
         return urlRequest
     }
 }

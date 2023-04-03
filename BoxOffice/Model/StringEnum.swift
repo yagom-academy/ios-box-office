@@ -10,7 +10,8 @@ import Foundation
 enum Endpoint {
     static let kobisURL = "http://kobis.or.kr"
     static let kakaoURL = "https://dapi.kakao.com"
-    static let kobisPath = "/kobisopenapi/webservice/rest/boxoffice/searchDailyBoxOfficeList.json"
+    static let dailyBoxOfficePath = "/kobisopenapi/webservice/rest/boxoffice/searchDailyBoxOfficeList.json"
+    static let movieDetailPath = "/kobisopenapi/webservice/rest/movie/searchMovieInfo.json"
     static let imageSearchPath = "/v2/search/image"
     static let method = HTTPMethod.self
     
@@ -23,6 +24,7 @@ enum QueryItem {
     static let dailyBoxOfficeValue = "20230330"
     static let movieDetailKey = "movieCd"
     static let movieDetailValue = "20230330"
+    static let searchImageKey = "query"
 }
 
 

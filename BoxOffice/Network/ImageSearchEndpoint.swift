@@ -8,9 +8,9 @@
 import Foundation
 
 struct ImageSearchEndpoint: EndpointMakeable {
-    var baseURL: String = Endpoint.kobisURL
-    var path: String = Endpoint.kobisPath
+    var baseURL: String = Endpoint.kakaoURL
+    var path: String = Endpoint.imageSearchPath
     var method: String = HTTPMethod.get.rawValue
-    var queryItems: [URLQueryItem] = [URLQueryItem(name: QueryItem.queryItemKey, value: QueryItem.queryItemValue)]
+    var queryItems: [URLQueryItem] = []
     var header: [String : String]?
 }
