@@ -43,10 +43,10 @@ final class BoxOfficeListViewController: UIViewController {
         view.addSubview(collectionView)
         setCollectionViewAutoLayout()
         
-        fetchBoxOfficeData {
+        fetchBoxOfficeData { [weak self] in
             DispatchQueue.main.async {
                 LoadingIndicator.hideLoading()
-                self.collectionView.reloadData()
+                self?.collectionView.reloadData()
             }
         }
     }
@@ -70,14 +70,14 @@ final class BoxOfficeListViewController: UIViewController {
     private func fetchBoxOfficeData(completion: @escaping () -> Void) {
         guard let request = urlMaker.makeBoxOfficeURLRequest(date: Date.configureYesterday(isFormatted: false)) else { return }
         
-        server.startLoad(request: request, mime: "json") { result in
+        server.startLoad(request: request, mime: "json") { [weak self] result in
             let decoder = DecodeManager()
             do {
-                guard let verifiedFetchingResult = try self.verifyResult(result: result) else { return }
+                guard let verifiedFetchingResult = try self?.verifyResult(result: result) else { return }
                 let decodedFile = decoder.decodeJSON(data: verifiedFetchingResult, type: BoxOffice.self)
-                let verifiedDecodingResult = try self.verifyResult(result: decodedFile)
+                let verifiedDecodingResult = try self?.verifyResult(result: decodedFile)
                 
-                self.boxOffice = verifiedDecodingResult
+                self?.boxOffice = verifiedDecodingResult
                 completion()
             } catch {
                 print(error.localizedDescription)

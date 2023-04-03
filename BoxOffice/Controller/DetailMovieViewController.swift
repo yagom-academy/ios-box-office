@@ -58,16 +58,16 @@ final class DetailMovieViewController: UIViewController {
     }
     
     private func fetchData() {
-        fetchMovieInformationData(movieCode: movieCode) {
-            guard let movieName = self.movieInformation?.movieName else { return }
+        fetchMovieInformationData(movieCode: movieCode) { [weak self] in
+            guard let movieName = self?.movieInformation?.movieName else { return }
 
-            self.fetchMoviePosterData(movieName: movieName) {
-                guard let urlString = self.moviePoster?.documents[0].imageURL else { return }
+            self?.fetchMoviePosterData(movieName: movieName) {
+                guard let urlString = self?.moviePoster?.documents[0].imageURL else { return }
                 
                 CacheManager.loadImage(imageURL: urlString) { image in
                     DispatchQueue.main.async {
                         LoadingIndicator.hideLoading()
-                        self.imageView.image = image
+                        self?.imageView.image = image
                     }
                 }
             }
@@ -77,14 +77,14 @@ final class DetailMovieViewController: UIViewController {
     private func fetchMovieInformationData(movieCode: String, completion: @escaping () -> Void) {
         guard let request = urlMaker.makeMovieInformationURLRequest(movieCode: movieCode) else { return }
         
-        server.startLoad(request: request, mime: "json") { result in
+        server.startLoad(request: request, mime: "json") { [weak self] result in
             let decoder = DecodeManager()
             do {
-                guard let verifiedFetchingResult = try self.verifyResult(result: result) else { return }
+                guard let verifiedFetchingResult = try self?.verifyResult(result: result) else { return }
                 let decodedFile = decoder.decodeJSON(data: verifiedFetchingResult, type: DetailMovieInformation.self)
-                let verifiedDecodingResult = try self.verifyResult(result: decodedFile)
+                let verifiedDecodingResult = try self?.verifyResult(result: decodedFile)
                 
-                self.movieInformation = verifiedDecodingResult?.movieInformationResult.movieInformation
+                self?.movieInformation = verifiedDecodingResult?.movieInformationResult.movieInformation
                 completion()
             } catch {
                 print(error.localizedDescription)
@@ -94,14 +94,14 @@ final class DetailMovieViewController: UIViewController {
     
     private func fetchMoviePosterData(movieName: String, completionHandler: @escaping () -> Void) {
         guard let posterRequest = urlMaker.makeMoviePosterURLRequest(movieName: movieName) else { return }
-        server.startLoad(request: posterRequest, mime: "json") { result in
+        server.startLoad(request: posterRequest, mime: "json") { [weak self] result in
             let decoder = DecodeManager()
             do {
-                guard let verifiedFetchingResult = try self.verifyResult(result: result) else { return }
+                guard let verifiedFetchingResult = try self?.verifyResult(result: result) else { return }
                 let decodedFile = decoder.decodeJSON(data: verifiedFetchingResult, type: MoviePoster.self)
-                let verifiedDecodingResult = try self.verifyResult(result: decodedFile)
+                let verifiedDecodingResult = try self?.verifyResult(result: decodedFile)
                 
-                self.moviePoster = verifiedDecodingResult
+                self?.moviePoster = verifiedDecodingResult
                 completionHandler()
             } catch {
                 print(error.localizedDescription)
