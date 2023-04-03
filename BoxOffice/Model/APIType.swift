@@ -9,7 +9,7 @@ import Foundation
 enum APIType: Hashable {
     case movie(String)
     case boxoffice(String)
-//    case movieImage(String)
+    case movieImage(String)
     
     func receiveUrl() -> URL? {
         let key = Bundle.main.koficApiKey
@@ -22,6 +22,10 @@ enum APIType: Hashable {
         case .boxoffice(let date):
             let boxofficeUrl = URL(string: "http://kobis.or.kr/kobisopenapi/webservice/rest/boxoffice/searchDailyBoxOfficeList.json?key=\(key)&targetDt=\(date)")
             return boxofficeUrl
+        
+        case .movieImage(let movieName):
+            let imageUrl = URL(string: "https://dapi.kakao.com/v2/search/image?query=\(movieName)포스터")
+            return imageUrl
         }
     }
 }

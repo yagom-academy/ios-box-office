@@ -14,8 +14,8 @@ struct NetworkModel: NetworkingProtocol {
         self.session = session
     }
     
-    func search(url: URL, completion: @escaping (Result<Data, BoxofficeError>) -> Void) -> URLSessionDataTask {
-        let task = session.dataTask(with: url) { data, response, error in
+    func search(request: URLRequest, completion: @escaping (Result<Data, BoxofficeError>) -> Void) -> URLSessionDataTask {
+        let task = session.dataTask(with: request) { data, response, error in
             guard error == nil else {
                 completion(.failure(.sessionError))
                 return

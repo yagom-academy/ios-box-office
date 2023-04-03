@@ -38,7 +38,9 @@ class BoxofficeInfo<T: Decodable> {
             cancelTask()
         }
         
-        task = model.search(url: url) { [weak self] result in
+        let request = makeRequest(url: url)
+        
+        task = model.search(request: request) { [weak self] result in
             switch result {
             case .success(let data):
                 guard let decodingData = self?.decodeData(data) else {
@@ -50,6 +52,13 @@ class BoxofficeInfo<T: Decodable> {
                 handler(.failure(error))
             }
         }
+    }
+    
+    func makeRequest(url: URL) -> URLRequest {
+        var urlRequest = URLRequest(url: url)
+        urlRequest.addValue("KakaoAK \(Bundle.main.kakaoApiKey))", forHTTPHeaderField: "Authorization")
+        
+        return urlRequest
     }
     
     func cancelTask() {
