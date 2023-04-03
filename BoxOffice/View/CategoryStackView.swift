@@ -14,6 +14,7 @@ final class CategoryStackView: UIStackView {
         label.setContentCompressionResistancePriority(.defaultHigh, for: .horizontal)
         label.textAlignment = .center
         label.adjustsFontForContentSizeCategory = true
+        
         return label
     }()
     
@@ -22,6 +23,7 @@ final class CategoryStackView: UIStackView {
         label.font = UIFont.preferredFont(forTextStyle: .body)
         label.numberOfLines = 0
         label.adjustsFontForContentSizeCategory = true
+        
         return label
     }()
     

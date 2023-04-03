@@ -26,6 +26,27 @@ final class MovieInformationStackView: UIStackView {
         fatalError("init(coder:) has not been implemented")
     }
     
+    func setupInformation(information: MovieDetailInformationItem) {
+        directorStackView.setupInformationLabel(
+            as: information.directors.map { $0.personName }.joined(separator: ", ")
+        )
+        productYearStackView.setupInformationLabel(as: information.productYear)
+        openDateStackView.setupInformationLabel(as: information.openDate)
+        showingTimeStackView.setupInformationLabel(as: information.showingTime)
+        watchGradeStackView.setupInformationLabel(
+            as: information.audits.map { $0.watchGradeName }.joined(separator: ", ")
+        )
+        nationStackView.setupInformationLabel(
+            as: information.nations.map { $0.nationName }.joined(separator: ", ")
+        )
+        genreStackView.setupInformationLabel(
+            as: information.genres.map { $0.genreName }.joined(separator: ", ")
+        )
+        actorStackView.setupInformationLabel(
+            as: information.actors.map { $0.personName }.joined(separator: ", ")
+        )
+    }
+    
     private func setupUI() {
         self.translatesAutoresizingMaskIntoConstraints = false
         self.axis = .vertical
@@ -49,27 +70,6 @@ final class MovieInformationStackView: UIStackView {
             directorStackView.categoryLabel.widthAnchor.constraint(equalTo: genreStackView.categoryLabel.widthAnchor),
             directorStackView.categoryLabel.widthAnchor.constraint(equalTo: actorStackView.categoryLabel.widthAnchor),
         ])
-    }
-    
-    func setupInformation(information: MovieDetailInformationItem) {
-        directorStackView.setupInformationLabel(
-            as: information.directors.map { $0.personName }.joined(separator: ", ")
-        )
-        productYearStackView.setupInformationLabel(as: information.productYear)
-        openDateStackView.setupInformationLabel(as: information.openDate)
-        showingTimeStackView.setupInformationLabel(as: information.showingTime)
-        watchGradeStackView.setupInformationLabel(
-            as: information.audits.map { $0.watchGradeName }.joined(separator: ", ")
-        )
-        nationStackView.setupInformationLabel(
-            as: information.nations.map { $0.nationName }.joined(separator: ", ")
-        )
-        genreStackView.setupInformationLabel(
-            as: information.genres.map { $0.genreName }.joined(separator: ", ")
-        )
-        actorStackView.setupInformationLabel(
-            as: information.actors.map { $0.personName }.joined(separator: ", ")
-        )
     }
 }
 

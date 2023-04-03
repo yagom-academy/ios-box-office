@@ -6,13 +6,13 @@
 //
 
 struct MovieInformationDTO: Decodable {
-    let movieInfoResult: MovieInformationResult
+    private let movieInfoResult: MovieInformationResult
     
-    struct MovieInformationResult: Decodable {
+    private struct MovieInformationResult: Decodable {
         let movieInformation: MovieDetailInformation
         let source: String
         
-        enum CodingKeys: String, CodingKey {
+        private enum CodingKeys: String, CodingKey {
             case movieInformation = "movieInfo"
             case source
         }

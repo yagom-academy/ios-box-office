@@ -8,8 +8,8 @@
 import UIKit
 
 final class MovieDetailViewController: UIViewController {
-    let movieName: String
-    let movieCode: String
+    private let movieName: String
+    private let movieCode: String
     private var movieDetailInformation: MovieDetailInformationItem? {
         didSet {
             guard let information = movieDetailInformation else {
@@ -31,18 +31,21 @@ final class MovieDetailViewController: UIViewController {
     private let scrollView: UIScrollView = {
         let scrollView = UIScrollView()
         scrollView.translatesAutoresizingMaskIntoConstraints = false
+        
         return scrollView
     }()
     
     private let contentView: UIView = {
         let view = UIView()
         view.translatesAutoresizingMaskIntoConstraints = false
+        
         return view
     }()
     
     private let posterImageView: UIImageView = {
         let imageView = UIImageView()
         imageView.translatesAutoresizingMaskIntoConstraints = false
+        
         return imageView
     }()
     

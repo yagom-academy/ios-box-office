@@ -13,7 +13,7 @@ struct BoxOfficeDTO: Decodable {
         let showingDuration: String
         let dailyBoxOfficeList: [DailyBoxOffice]
         
-        enum CodingKeys: String, CodingKey {
+        private enum CodingKeys: String, CodingKey {
             case boxOfficeType = "boxofficeType"
             case showingDuration = "showRange"
             case dailyBoxOfficeList

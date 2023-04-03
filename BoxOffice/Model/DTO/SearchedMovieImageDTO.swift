@@ -15,7 +15,7 @@ struct SearchedMovieImageDTO: Decodable {
         let pageableCount: Int
         let isEnd: Bool
         
-        enum CodingKeys: String, CodingKey {
+        private enum CodingKeys: String, CodingKey {
             case totalCount = "total_count"
             case pageableCount = "pageable_count"
             case isEnd = "is_end"
@@ -32,7 +32,7 @@ struct SearchedMovieImageDTO: Decodable {
         let docURL: String
         let dateTime: String
         
-        enum CodingKeys: String, CodingKey {
+        private enum CodingKeys: String, CodingKey {
             case collection
             case thumbnailURL = "thumbnail_url"
             case imageURL = "image_url"
