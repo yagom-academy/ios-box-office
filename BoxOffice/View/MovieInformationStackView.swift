@@ -27,6 +27,7 @@ final class MovieInformationStackView: UIStackView {
     }
     
     private func setupUI() {
+        self.translatesAutoresizingMaskIntoConstraints = false
         self.axis = .vertical
         self.spacing = 8
         
@@ -40,24 +41,6 @@ final class MovieInformationStackView: UIStackView {
         self.addArrangedSubview(actorStackView)
         
         NSLayoutConstraint.activate([
-            directorStackView.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: 10),
-            productYearStackView.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: 10),
-            openDateStackView.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: 10),
-            showingTimeStackView.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: 10),
-            watchGradeStackView.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: 10),
-            nationStackView.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: 10),
-            genreStackView.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: 10),
-            actorStackView.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: 10),
-            
-            directorStackView.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: -10),
-            productYearStackView.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: -10),
-            openDateStackView.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: -10),
-            showingTimeStackView.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: -10),
-            watchGradeStackView.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: -10),
-            nationStackView.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: -10),
-            genreStackView.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: -10),
-            actorStackView.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: -10),
-            
             directorStackView.categoryLabel.widthAnchor.constraint(equalTo: productYearStackView.categoryLabel.widthAnchor),
             directorStackView.categoryLabel.widthAnchor.constraint(equalTo: openDateStackView.categoryLabel.widthAnchor),
             directorStackView.categoryLabel.widthAnchor.constraint(equalTo: showingTimeStackView.categoryLabel.widthAnchor),

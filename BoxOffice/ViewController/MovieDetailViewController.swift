@@ -24,19 +24,16 @@ final class MovieDetailViewController: UIViewController {
         scrollView.translatesAutoresizingMaskIntoConstraints = false
         return scrollView
     }()
-
-    private let stackView: UIStackView = {
-        let stackView = UIStackView()
-        stackView.translatesAutoresizingMaskIntoConstraints = false
-        stackView.axis = .vertical
-        stackView.spacing = 10
-        return stackView
+    
+    private let contentView: UIView = {
+        let view = UIView()
+        view.translatesAutoresizingMaskIntoConstraints = false
+        return view
     }()
     
     private let posterImageView: UIImageView = {
         let imageView = UIImageView()
         imageView.translatesAutoresizingMaskIntoConstraints = false
-        imageView.contentMode = .scaleAspectFill
         return imageView
     }()
     
@@ -62,7 +59,10 @@ final class MovieDetailViewController: UIViewController {
         self.navigationItem.title = movieName
         view.backgroundColor = .white
         self.view.addSubview(self.scrollView)
-        self.scrollView.addSubview(self.stackView)
+        self.scrollView.addSubview(self.contentView)
+        
+        self.contentView.addSubview(self.posterImageView)
+        self.contentView.addSubview(self.movieInformationStackView)
         
         NSLayoutConstraint.activate([
             scrollView.topAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.topAnchor),
@@ -70,15 +70,22 @@ final class MovieDetailViewController: UIViewController {
             scrollView.trailingAnchor.constraint(equalTo: self.view.trailingAnchor),
             scrollView.bottomAnchor.constraint(equalTo: self.view.bottomAnchor),
             
-            stackView.topAnchor.constraint(equalTo: self.scrollView.contentLayoutGuide.topAnchor),
-            stackView.leadingAnchor.constraint(equalTo: self.scrollView.contentLayoutGuide.leadingAnchor),
-            stackView.trailingAnchor.constraint(equalTo: self.scrollView.contentLayoutGuide.trailingAnchor),
-            stackView.bottomAnchor.constraint(equalTo: self.scrollView.contentLayoutGuide.bottomAnchor),
-            stackView.widthAnchor.constraint(equalTo: self.scrollView.widthAnchor)
+            contentView.leadingAnchor.constraint(equalTo: self.scrollView.contentLayoutGuide.leadingAnchor),
+            contentView.trailingAnchor.constraint(equalTo: self.scrollView.contentLayoutGuide.trailingAnchor),
+            contentView.topAnchor.constraint(equalTo: self.scrollView.contentLayoutGuide.topAnchor),
+            contentView.bottomAnchor.constraint(equalTo: self.scrollView.contentLayoutGuide.bottomAnchor),
+            contentView.widthAnchor.constraint(equalTo: self.scrollView.frameLayoutGuide.widthAnchor),
+            
+            posterImageView.centerXAnchor.constraint(equalTo: self.view.centerXAnchor),
+            posterImageView.widthAnchor.constraint(equalTo: self.view.widthAnchor, multiplier: 0.9),
+            posterImageView.heightAnchor.constraint(equalTo: self.view.widthAnchor, multiplier: 1),
+            posterImageView.topAnchor.constraint(equalTo: self.contentView.topAnchor),
+            movieInformationStackView.topAnchor.constraint(equalTo: self.posterImageView.bottomAnchor, constant: 10),
+            movieInformationStackView.leadingAnchor.constraint(equalTo: self.contentView.leadingAnchor, constant: 10),
+            movieInformationStackView.trailingAnchor.constraint(equalTo: self.contentView.trailingAnchor, constant: -10),
+            movieInformationStackView.bottomAnchor.constraint(equalTo: self.contentView.bottomAnchor),
         ])
-    
-        stackView.addArrangedSubview(posterImageView)
-        stackView.addArrangedSubview(movieInformationStackView)
+        
     }
     
     private func fetchMovieDetail() {
