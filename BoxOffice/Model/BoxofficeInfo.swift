@@ -5,9 +5,9 @@
 //  Created by Andrew, 레옹아범 on 2023/03/28.
 //
 
-import Foundation
+import UIKit
 
-class BoxofficeInfo<T: Decodable> {
+class BoxofficeInfo<T> {
     private let apiType: APIType
     private let model: NetworkingProtocol
     private var task: URLSessionDataTask?
@@ -19,7 +19,7 @@ class BoxofficeInfo<T: Decodable> {
         self.isRunningOnlyOneTask = isRunningOnlyOneTask
     }
     
-    private func decodeData(_ data: Data) -> T? {
+    private func decodeData(_ data: Data) -> T? where T: Decodable {
         do {
             let decodingData = try JSONDecoder().decode(T.self, from: data)
             return decodingData
@@ -28,17 +28,50 @@ class BoxofficeInfo<T: Decodable> {
         }
     }
     
-    func fetchData(handler: @escaping (Result<T, BoxofficeError>) -> Void) {
+    private func makeRequest() -> URLRequest? {
         guard let url = apiType.receiveUrl() else {
-            handler(.failure(.urlError))
-            return
+            return nil
         }
         
         if isRunningOnlyOneTask {
             cancelTask()
         }
         
-        let request = makeRequest(url: url)
+        var urlRequest = URLRequest(url: url)
+        urlRequest.addValue(apiType.header, forHTTPHeaderField: "Authorization")
+        
+        return urlRequest
+    }
+    
+    private func cancelTask() {
+        task?.cancel()
+    }
+    
+    func fetchImage(handler: @escaping (Result<UIImage, BoxofficeError>) -> Void) {
+        guard let request = makeRequest() else {
+            handler(.failure(.urlError))
+            return
+        }
+        
+        task = model.search(request: request) { result in
+            switch result {
+            case .success(let data):
+                guard let image = UIImage(data: data) else {
+                    handler(.failure(.decodingError))
+                    return
+                }
+                handler(.success(image))
+            case .failure(let error):
+                handler(.failure(error))
+            }
+        }
+    }
+    
+    func fetchData(handler: @escaping (Result<T, BoxofficeError>) -> Void) where T: Decodable {
+        guard let request = makeRequest() else {
+            handler(.failure(.urlError))
+            return
+        }
         
         task = model.search(request: request) { [weak self] result in
             switch result {
@@ -52,16 +85,5 @@ class BoxofficeInfo<T: Decodable> {
                 handler(.failure(error))
             }
         }
-    }
-    
-    func makeRequest(url: URL) -> URLRequest {
-        var urlRequest = URLRequest(url: url)
-        urlRequest.addValue("KakaoAK \(Bundle.main.kakaoApiKey))", forHTTPHeaderField: "Authorization")
-        
-        return urlRequest
-    }
-    
-    func cancelTask() {
-        task?.cancel()
     }
 }

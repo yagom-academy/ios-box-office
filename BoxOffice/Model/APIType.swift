@@ -11,6 +11,15 @@ enum APIType: Hashable {
     case boxoffice(String)
     case movieImage(String)
     
+    var header: String {
+        switch self {
+        case .movie(_), .boxoffice(_):
+            return ""
+        case .movieImage(_):
+            return "KakaoAK \(Bundle.main.kakaoApiKey))"
+        }
+    }
+    
     func receiveUrl() -> URL? {
         let key = Bundle.main.koficApiKey
         
