@@ -7,7 +7,16 @@
 
 import UIKit
 
-final class DailyBoxOfficeViewController: UIViewController {
+protocol DateUpdatable {
+    var selectedDate: Date { get set }
+    
+    func refreshData()
+}
+
+@available(iOS 16.0, *)
+final class DailyBoxOfficeViewController: UIViewController, DateUpdatable {
+    var selectedDate: Date = Date(timeIntervalSinceNow: -86400)
+    
     private typealias DataSource = UICollectionViewDiffableDataSource<Section, DailyBoxOfficeItem>
     
     private let networkManager = NetworkManager()
@@ -18,18 +27,22 @@ final class DailyBoxOfficeViewController: UIViewController {
     private let dateFormatter = DateFormatter()
     private let refreshControl = UIRefreshControl()
     
+    private let selectDateButton = UIBarButtonItem()
+    
     lazy private var collectionView = UICollectionView(frame: view.bounds, collectionViewLayout: createMovieListLayout())
+    
     
     override func viewDidLoad() {
         super.viewDidLoad()
         view.addSubview(collectionView)
-        
+    
         configureCollectionView()
+        configureSelectionDateButton()
         refreshData()
         refreshControl.addTarget(self, action: #selector(refreshData), for: .valueChanged)
     }
     
-    @objc private func refreshData() {
+    @objc func refreshData() {
         updateDateToViewTitle()
         updateDateToEndPoint()
         fetchDailyBoxOfficeData()
@@ -42,16 +55,30 @@ final class DailyBoxOfficeViewController: UIViewController {
         collectionView.refreshControl = refreshControl
     }
     
+    private func configureSelectionDateButton() {
+        navigationItem.rightBarButtonItem = selectDateButton
+        selectDateButton.title = "날짜선택"
+        selectDateButton.style = .plain
+        selectDateButton.target = self
+        selectDateButton.action = #selector(selectDateButtonTapped)
+    }
+
+    @objc private func selectDateButtonTapped() {
+        let nextViewController = SelectDateViewController()
+        nextViewController.delegate = self
+        navigationController?.present(nextViewController, animated: true)
+    }
+    
     private func updateDateToViewTitle() {
         dateFormatter.dateFormat = "yyyy-MM-dd"
-        let currentDate = dateFormatter.string(from: Date(timeIntervalSinceNow: -86400))
+        let currentDate = dateFormatter.string(from: selectedDate)
         
         self.title = currentDate
     }
     
     private func updateDateToEndPoint() {
         dateFormatter.dateFormat = "yyyyMMdd"
-        let currentDate = dateFormatter.string(from: Date(timeIntervalSinceNow: -86400))
+        let currentDate = dateFormatter.string(from: selectedDate)
         
         boxOfficeEndPoint = BoxOfficeEndPoint.DailyBoxOffice(tagetDate: "\(currentDate)")
     }
@@ -82,6 +109,7 @@ final class DailyBoxOfficeViewController: UIViewController {
     }
 }
 
+@available(iOS 16.0, *)
 extension DailyBoxOfficeViewController {
     private func setupDataSource() {
         movieDataSource = DataSource(collectionView: collectionView) { collectionView, indexPath, itemIdentifier in
@@ -106,6 +134,7 @@ extension DailyBoxOfficeViewController {
     }
 }
 
+@available(iOS 16.0, *)
 extension DailyBoxOfficeViewController {
     private func createMovieListLayout() -> UICollectionViewLayout {
         let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0),
@@ -125,6 +154,7 @@ extension DailyBoxOfficeViewController {
     }
 }
 
+@available(iOS 16.0, *)
 extension DailyBoxOfficeViewController: UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         let movieName = dailyBoxOfficeItem[indexPath.item].name
