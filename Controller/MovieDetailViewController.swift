@@ -28,7 +28,7 @@ final class MovieDetailViewController: UIViewController {
         return imageView
     }()
     
-    private let descStackView = DescStackView()
+    let descStackView = DescStackView()
 
     override func viewDidLoad() {
         super.viewDidLoad()

@@ -36,6 +36,8 @@ final class ContentStackView: UIStackView {
         self.addArrangedSubview(categoryLabel)
         self.addArrangedSubview(contentLabel)
         self.spacing = 5
+        
+        categoryLabel.widthAnchor.constraint(equalTo: self.widthAnchor, multiplier: 0.15).isActive = true
     }
 
 }
