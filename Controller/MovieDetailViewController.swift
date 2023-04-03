@@ -10,6 +10,9 @@ import UIKit
 final class MovieDetailViewController: UIViewController {
     
     var movieName: String = ""
+    var movieCode: String = ""
+    private lazy var dataManager = MovieDescManager(apiType: .movie(movieCode))
+    private lazy var imageManager = MovieDescManager(apiType: .movieImage(movieName))
     
     private let scrollView = {
         let scrollView = UIScrollView()
@@ -30,8 +33,26 @@ final class MovieDetailViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         configureUI()
+        fetchData()
     }
     
+    private func fetchData() {
+        dataManager.boxofficeInfo.fetchData { [weak self] result in
+            switch result {
+            case .success(let data):
+                DispatchQueue.main.async {
+                    self?.descStackView.updateTextLabel(data.movieInfoResult.movieInfo)
+                }
+            case .failure(let error):
+                print(error.localizedDescription)
+            }
+        }
+    }
+}
+
+
+// MARK: - UI
+extension MovieDetailViewController {
     private func configureUI() {
         view.backgroundColor = .systemBackground
         navigationItem.title = movieName
@@ -57,5 +78,4 @@ final class MovieDetailViewController: UIViewController {
             descStackView.bottomAnchor.constraint(equalTo: scrollView.bottomAnchor),
         ])
     }
-    
 }

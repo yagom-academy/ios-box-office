@@ -85,11 +85,13 @@ final class MovieRankingViewController: UIViewController {
     }
 }
 
+// MARK: Delegate
 extension MovieRankingViewController: UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         let nextViewController = MovieDetailViewController()
         
         nextViewController.movieName = dataManager.movieItems[indexPath.row].name
+        nextViewController.movieCode = dataManager.movieItems[indexPath.row].code
         
         navigationController?.pushViewController(nextViewController, animated: true)
     }
