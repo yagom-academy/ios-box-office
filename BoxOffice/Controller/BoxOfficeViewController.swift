@@ -56,6 +56,7 @@ final class BoxOfficeViewController: UIViewController {
     
     private func setBoxOfficeListCollectionView() {
         boxOfficeListCollectionView.dataSource = self
+        boxOfficeListCollectionView.delegate = self
         self.boxOfficeListCollectionView.collectionViewLayout = self.setUpCompositionalLayout()
     }
     
@@ -128,6 +129,16 @@ extension BoxOfficeViewController: UICollectionViewDataSource {
              return NSMutableAttributedString().makeColorToText(string: "", color: .black)
          }
      }
+}
+
+extension BoxOfficeViewController: UICollectionViewDelegate {
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        let movieDetailVC = MovieDetailViewController()
+        guard let movieCode = dailyBoxOffice?.boxOfficeResult.dailyBoxOfficeList[indexPath.row].movieCode else { return }
+        movieDetailVC.fetchMoiveDetailAPI(movieCode: movieCode)
+       
+        self.navigationController?.pushViewController(movieDetailVC, animated: true)
+    }
 }
 
 extension BoxOfficeViewController {
