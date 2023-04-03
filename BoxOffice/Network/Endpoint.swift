@@ -1,5 +1,5 @@
 //
-//  EndPoint.swift
+//  Endpoint.swift
 //  BoxOffice
 //
 //  Created by Muri, Rowan on 2023/03/24.
