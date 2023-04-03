@@ -112,7 +112,8 @@ final class MovieDetailViewController: UIViewController {
                     self?.movieDetailInformation = data.toDomain()
                 }
             case .failure:
-                print("실패")
+                let alertViewController = AlertManager.shared.showFailureAlert()
+                self?.present(alertViewController, animated: true)
             }
         }
     }
@@ -133,7 +134,8 @@ final class MovieDetailViewController: UIViewController {
                     self?.activityIndicator.stopAnimating()
                 }
             case .failure:
-                print("실패")
+                let alertViewController = AlertManager.shared.showFailureAlert()
+                self?.present(alertViewController, animated: true)
             }
         }
     }

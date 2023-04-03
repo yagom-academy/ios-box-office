@@ -44,6 +44,6 @@ final class CategoryStackView: UIStackView {
     }
     
     func setupInformationLabel(as information: String) {
-        self.informationLabel.text = information
+        self.informationLabel.text = information.isEmpty ? "-" : information
     }
 }
