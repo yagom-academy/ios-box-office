@@ -12,7 +12,6 @@ final class ViewController: UIViewController {
     private var collectionView: UICollectionView!
     private var dataSource: UICollectionViewDiffableDataSource<ListSection, ListItem>!
     private var dataSelectionButton: UIBarButtonItem!
-    
     private let provider = APIProvider.shared
     
     override func viewDidLoad() {
@@ -144,6 +143,8 @@ final class ViewController: UIViewController {
     }
     
     @objc private func moveToCalendarView() {
+        let calendarViewController = CalendarViewController()
+        self.present(calendarViewController, animated: true)
         
     }
     
