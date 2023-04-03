@@ -8,7 +8,7 @@
 import UIKit
 
 final class DailyBoxOfficeViewController: UIViewController {
-    private var collectionView = UICollectionView(frame: UIScreen.main.bounds,
+    private let collectionView = UICollectionView(frame: UIScreen.main.bounds,
                                                   collectionViewLayout: UICollectionViewFlowLayout())
     private var dailyBoxOffice: DailyBoxOffice?
     private var yesterday: Date {

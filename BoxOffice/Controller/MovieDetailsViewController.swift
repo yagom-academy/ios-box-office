@@ -24,7 +24,7 @@ final class MovieDetailsViewController: UIViewController {
         return imageView
     }()
     
-    private var scrollView = {
+    private let scrollView = {
         let scrollView = UIScrollView()
         scrollView.translatesAutoresizingMaskIntoConstraints = false
         
