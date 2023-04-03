@@ -8,6 +8,6 @@
 import Foundation
 
 enum DateFormatOption: String {
-    case title = "yyyy-MM-dd"
-    case api = "yyyyMMdd"
+    case calendar = "yyyy-MM-dd"
+    case numerical = "yyyyMMdd"
 }

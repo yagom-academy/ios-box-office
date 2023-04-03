@@ -17,6 +17,7 @@
 		368A11D629D9D373007C8877 /* SecretKey.swift in Sources */ = {isa = PBXBuildFile; fileRef = 368A11D529D9D373007C8877 /* SecretKey.swift */; };
 		368A11D829DAAC95007C8877 /* CalendarViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 368A11D729DAAC95007C8877 /* CalendarViewController.swift */; };
 		368A11DA29DB2AF2007C8877 /* DateFormatOption.swift in Sources */ = {isa = PBXBuildFile; fileRef = 368A11D929DB2AF2007C8877 /* DateFormatOption.swift */; };
+		368A11DC29DB320C007C8877 /* DateManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 368A11DB29DB320C007C8877 /* DateManager.swift */; };
 		36B59D5B29C83D3B00A4FC11 /* BoxOfficeItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36B59D5A29C83D3B00A4FC11 /* BoxOfficeItem.swift */; };
 		36B59E2329CAF99300A4FC11 /* APIProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36B59E2229CAF99300A4FC11 /* APIProvider.swift */; };
 		36B59E2529CAFA2A00A4FC11 /* NetworkError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36B59E2429CAFA2A00A4FC11 /* NetworkError.swift */; };
@@ -62,6 +63,7 @@
 		368A11D529D9D373007C8877 /* SecretKey.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SecretKey.swift; sourceTree = "<group>"; };
 		368A11D729DAAC95007C8877 /* CalendarViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarViewController.swift; sourceTree = "<group>"; };
 		368A11D929DB2AF2007C8877 /* DateFormatOption.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateFormatOption.swift; sourceTree = "<group>"; };
+		368A11DB29DB320C007C8877 /* DateManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateManager.swift; sourceTree = "<group>"; };
 		36B59D5A29C83D3B00A4FC11 /* BoxOfficeItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BoxOfficeItem.swift; sourceTree = "<group>"; };
 		36B59D6029C8469100A4FC11 /* BoxOfficeTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = BoxOfficeTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		36B59E2229CAF99300A4FC11 /* APIProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIProvider.swift; sourceTree = "<group>"; };
@@ -232,6 +234,7 @@
 				36CF325129D2911500E3DEE6 /* MovieListCell.swift */,
 				368A11C329D6A64E007C8877 /* DetailMovieInfoViewController.swift */,
 				368A11D729DAAC95007C8877 /* CalendarViewController.swift */,
+				368A11DB29DB320C007C8877 /* DateManager.swift */,
 			);
 			path = BoxOffice;
 			sourceTree = "<group>";
@@ -370,6 +373,7 @@
 				36B59E2B29CAFDF600A4FC11 /* MovieInfoItem.swift in Sources */,
 				36B59E2D29CAFE5900A4FC11 /* MovieAPI.swift in Sources */,
 				368A11C829D6A828007C8877 /* JoinedString.swift in Sources */,
+				368A11DC29DB320C007C8877 /* DateManager.swift in Sources */,
 				36B59E5A29CB5A5100A4FC11 /* URL+normalized.swift in Sources */,
 				368A11C629D6A7E4007C8877 /* MovieInfoView.swift in Sources */,
 				368A11D029D6B1B6007C8877 /* CustomLog.swift in Sources */,
