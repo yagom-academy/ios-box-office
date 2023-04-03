@@ -9,7 +9,7 @@ import UIKit
 
 final class DetailMovieViewController: UIViewController {
     // MARK: - Property
-    private let server = NetworkManager()
+    private let server = NetworkManager.shared
     private let urlMaker = URLRequestMaker()
     private var movieCode: String
     private var movieInformation: MovieInformation? {

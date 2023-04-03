@@ -8,6 +8,7 @@
 import Foundation
 
 final class NetworkManager {
+    static let shared = NetworkManager()
     private let session: URLSession
     
     init(session: URLSession = URLSession.shared) {

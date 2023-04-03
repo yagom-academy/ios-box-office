@@ -10,6 +10,9 @@ import UIKit
 
 final class CacheManager {
     private static let imageCache = NSCache<NSString, UIImage>()
+    private static let networkManager = NetworkManager.shared
+    
+    private init() {}
     
     static func loadImage(imageURL: String, completion: @escaping (UIImage?) -> Void ){
         guard let url = URL(string: imageURL) else { return }
@@ -20,7 +23,7 @@ final class CacheManager {
             guard let url = URL(string: imageURL) else { return }
             let request = URLRequest(url: url)
             
-            NetworkManager().startLoad(request: request, mime: "image") { result in
+            networkManager.startLoad(request: request, mime: "image") { result in
                 switch result {
                 case .success(let data):
                     let image = UIImage(data: data)

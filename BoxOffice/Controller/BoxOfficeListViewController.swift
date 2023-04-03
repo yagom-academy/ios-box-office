@@ -9,7 +9,7 @@
 import UIKit
 
 final class BoxOfficeListViewController: UIViewController {
-    private let server = NetworkManager()
+    private let server = NetworkManager.shared
     private let urlMaker = URLRequestMaker()
     private var boxOffice: BoxOffice?
     
