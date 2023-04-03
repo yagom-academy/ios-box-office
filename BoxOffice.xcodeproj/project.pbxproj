@@ -32,6 +32,7 @@
 		4A32B3A929CC2DB2005A8575 /* MockURLSessionDataTask.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A32B3A829CC2DB2005A8575 /* MockURLSessionDataTask.swift */; };
 		4A32B3AD29CC36A8005A8575 /* URLSessionDataTaskProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A32B3AC29CC36A8005A8575 /* URLSessionDataTaskProtocol.swift */; };
 		4A51039629D7063900DB9887 /* UIViewController+showFailAlert.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A51039529D7063900DB9887 /* UIViewController+showFailAlert.swift */; };
+		4A51039A29DAAD2E00DB9887 /* CalendarViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A51039929DAAD2E00DB9887 /* CalendarViewController.swift */; };
 		4A7F488B29D3D79100D164BE /* MoviePoster.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A7F488A29D3D79100D164BE /* MoviePoster.swift */; };
 		4ABC80DE29C8287700FB065A /* BoxOfficeTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4ABC80DD29C8287700FB065A /* BoxOfficeTests.swift */; };
 		4ABC810529C9507100FB065A /* Movie.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4ABC810429C9507100FB065A /* Movie.swift */; };
@@ -99,6 +100,7 @@
 		4A32B3A829CC2DB2005A8575 /* MockURLSessionDataTask.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = MockURLSessionDataTask.swift; path = UnitTests/NetworkManagerTests/MockURLSessionDataTask.swift; sourceTree = SOURCE_ROOT; };
 		4A32B3AC29CC36A8005A8575 /* URLSessionDataTaskProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = URLSessionDataTaskProtocol.swift; sourceTree = "<group>"; };
 		4A51039529D7063900DB9887 /* UIViewController+showFailAlert.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIViewController+showFailAlert.swift"; sourceTree = "<group>"; };
+		4A51039929DAAD2E00DB9887 /* CalendarViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarViewController.swift; sourceTree = "<group>"; };
 		4A7F488A29D3D79100D164BE /* MoviePoster.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MoviePoster.swift; sourceTree = "<group>"; };
 		4ABC80DB29C8287700FB065A /* BoxOfficeTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = BoxOfficeTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		4ABC80DD29C8287700FB065A /* BoxOfficeTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BoxOfficeTests.swift; sourceTree = "<group>"; };
@@ -243,6 +245,7 @@
 			children = (
 				63DF20F22970E1A0005DF7D1 /* BoxOfficeViewController.swift */,
 				1631BC4729D3DC3800C2943D /* MovieInfoViewController.swift */,
+				4A51039929DAAD2E00DB9887 /* CalendarViewController.swift */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -528,6 +531,7 @@
 				4A03E4B929D1CFF70066AF87 /* DateFormmatter+HyphenFormat.swift in Sources */,
 				1639531A29D1731D00032636 /* MovieInfoResult.swift in Sources */,
 				4A7F488B29D3D79100D164BE /* MoviePoster.swift in Sources */,
+				4A51039A29DAAD2E00DB9887 /* CalendarViewController.swift in Sources */,
 				63DF20F32970E1A0005DF7D1 /* BoxOfficeViewController.swift in Sources */,
 				63DF20EF2970E1A0005DF7D1 /* AppDelegate.swift in Sources */,
 				1639532429D1738900032636 /* Genre.swift in Sources */,
@@ -842,7 +846,7 @@
 				INFOPLIST_KEY_UIMainStoryboardFile = Main;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
-				IPHONEOS_DEPLOYMENT_TARGET = 14.5;
+				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -870,7 +874,7 @@
 				INFOPLIST_KEY_UIMainStoryboardFile = Main;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
-				IPHONEOS_DEPLOYMENT_TARGET = 14.5;
+				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",

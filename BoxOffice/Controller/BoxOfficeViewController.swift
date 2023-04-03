@@ -29,6 +29,12 @@ final class BoxOfficeViewController: UIViewController {
         loadInitialData()
     }
     
+    @IBAction func chooseDateButtonTapped(_ sender: UIBarButtonItem) {
+        guard let calendarVC = storyboard?.instantiateViewController(withIdentifier: CalendarViewController.identifier) else { return }
+        present(calendarVC, animated: true)
+        
+    }
+    
     @objc private func refreshData() {
         fetchDailyBoxOffice { [weak self] in
             guard let self = self else { return }
