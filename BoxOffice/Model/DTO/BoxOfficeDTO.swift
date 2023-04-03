@@ -1,11 +1,11 @@
 //
-//  BoxOffice.swift
+//  BoxOfficeDTO.swift
 //  BoxOffice
 //
 //  Created by vetto, brody on 23/03/20.
 //
 
-struct BoxOffice: Decodable {
+struct BoxOfficeDTO: Decodable {
     let boxOfficeResult: BoxOfficeResult
     
     struct BoxOfficeResult: Decodable {

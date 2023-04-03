@@ -7,8 +7,10 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		622E6D6E29C838AC00E50CC3 /* BoxOffice.swift in Sources */ = {isa = PBXBuildFile; fileRef = 622E6D6D29C838AC00E50CC3 /* BoxOffice.swift */; };
+		622E6D6E29C838AC00E50CC3 /* BoxOfficeItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 622E6D6D29C838AC00E50CC3 /* BoxOfficeItem.swift */; };
 		622E6D7829C854AF00E50CC3 /* BoxOfficeJsonDecoderTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 622E6D7729C854AF00E50CC3 /* BoxOfficeJsonDecoderTests.swift */; };
+		6241B57529D1BF6100EB4E7C /* BoxOfficeContentConfiguration.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6241B57429D1BF6100EB4E7C /* BoxOfficeContentConfiguration.swift */; };
+		6241B57729D1BFFE00EB4E7C /* BoxOfficeContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6241B57629D1BFFE00EB4E7C /* BoxOfficeContentView.swift */; };
 		625164B929C98E3E0094711C /* BoxOfficeAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 625164B829C98E3E0094711C /* BoxOfficeAPI.swift */; };
 		625164BB29C98EEC0094711C /* NetworkError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 625164BA29C98EEC0094711C /* NetworkError.swift */; };
 		625164BD29CA93300094711C /* URLSessionDataTaskProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 625164BC29CA93300094711C /* URLSessionDataTaskProtocol.swift */; };
@@ -16,12 +18,15 @@
 		6252F8C029CDD8E10067DF7B /* Requestable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6252F8BF29CDD8E10067DF7B /* Requestable.swift */; };
 		6252F8C229CDE1320067DF7B /* Endpoint.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6252F8C129CDE1320067DF7B /* Endpoint.swift */; };
 		6252F8C429CDE3F90067DF7B /* BoxOfficeProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6252F8C329CDE3F90067DF7B /* BoxOfficeProvider.swift */; };
+		629D6A3C29D2C8C40066FE14 /* String+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 629D6A3B29D2C8C40066FE14 /* String+.swift */; };
 		63DF20EF2970E1A0005DF7D1 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63DF20EE2970E1A0005DF7D1 /* AppDelegate.swift */; };
 		63DF20F12970E1A0005DF7D1 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63DF20F02970E1A0005DF7D1 /* SceneDelegate.swift */; };
 		63DF20F32970E1A0005DF7D1 /* BoxOfficeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63DF20F22970E1A0005DF7D1 /* BoxOfficeViewController.swift */; };
-		63DF20F62970E1A0005DF7D1 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 63DF20F42970E1A0005DF7D1 /* Main.storyboard */; };
 		63DF20F82970E1A1005DF7D1 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 63DF20F72970E1A1005DF7D1 /* Assets.xcassets */; };
 		63DF20FB2970E1A1005DF7D1 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 63DF20F92970E1A1005DF7D1 /* LaunchScreen.storyboard */; };
+		982FE47E29D189BE0037BC8F /* BoxOfficeDTO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 982FE47D29D189BE0037BC8F /* BoxOfficeDTO.swift */; };
+		982FE48029D1DB8B0037BC8F /* BoxOfficeListCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 982FE47F29D1DB8B0037BC8F /* BoxOfficeListCell.swift */; };
+		982FE48329D2AF890037BC8F /* Date+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 982FE48229D2AF890037BC8F /* Date+.swift */; };
 		984BFCBB29C8338100CA8495 /* DailyBoxOffice.swift in Sources */ = {isa = PBXBuildFile; fileRef = 984BFCBA29C8338100CA8495 /* DailyBoxOffice.swift */; };
 		984BFCBF29C8504B00CA8495 /* BoxOfficeJsonDecoder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 984BFCBE29C8504B00CA8495 /* BoxOfficeJsonDecoder.swift */; };
 		984BFCC229C8524D00CA8495 /* DataAssetError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 984BFCC129C8524D00CA8495 /* DataAssetError.swift */; };
@@ -51,9 +56,11 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		622E6D6D29C838AC00E50CC3 /* BoxOffice.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BoxOffice.swift; sourceTree = "<group>"; };
+		622E6D6D29C838AC00E50CC3 /* BoxOfficeItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BoxOfficeItem.swift; sourceTree = "<group>"; };
 		622E6D7529C854AF00E50CC3 /* BoxOfficeJsonDecoderTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = BoxOfficeJsonDecoderTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		622E6D7729C854AF00E50CC3 /* BoxOfficeJsonDecoderTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BoxOfficeJsonDecoderTests.swift; sourceTree = "<group>"; };
+		6241B57429D1BF6100EB4E7C /* BoxOfficeContentConfiguration.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BoxOfficeContentConfiguration.swift; sourceTree = "<group>"; };
+		6241B57629D1BFFE00EB4E7C /* BoxOfficeContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BoxOfficeContentView.swift; sourceTree = "<group>"; };
 		625164B829C98E3E0094711C /* BoxOfficeAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BoxOfficeAPI.swift; sourceTree = "<group>"; };
 		625164BA29C98EEC0094711C /* NetworkError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkError.swift; sourceTree = "<group>"; };
 		625164BC29CA93300094711C /* URLSessionDataTaskProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = URLSessionDataTaskProtocol.swift; sourceTree = "<group>"; };
@@ -61,14 +68,17 @@
 		6252F8BF29CDD8E10067DF7B /* Requestable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Requestable.swift; sourceTree = "<group>"; };
 		6252F8C129CDE1320067DF7B /* Endpoint.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Endpoint.swift; sourceTree = "<group>"; };
 		6252F8C329CDE3F90067DF7B /* BoxOfficeProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BoxOfficeProvider.swift; sourceTree = "<group>"; };
+		629D6A3B29D2C8C40066FE14 /* String+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "String+.swift"; sourceTree = "<group>"; };
 		63DF20EB2970E1A0005DF7D1 /* BoxOffice.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = BoxOffice.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		63DF20EE2970E1A0005DF7D1 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		63DF20F02970E1A0005DF7D1 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
 		63DF20F22970E1A0005DF7D1 /* BoxOfficeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BoxOfficeViewController.swift; sourceTree = "<group>"; };
-		63DF20F52970E1A0005DF7D1 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		63DF20F72970E1A1005DF7D1 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		63DF20FA2970E1A1005DF7D1 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		63DF20FC2970E1A1005DF7D1 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		982FE47D29D189BE0037BC8F /* BoxOfficeDTO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BoxOfficeDTO.swift; sourceTree = "<group>"; };
+		982FE47F29D1DB8B0037BC8F /* BoxOfficeListCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BoxOfficeListCell.swift; sourceTree = "<group>"; };
+		982FE48229D2AF890037BC8F /* Date+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Date+.swift"; sourceTree = "<group>"; };
 		984BFCBA29C8338100CA8495 /* DailyBoxOffice.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DailyBoxOffice.swift; sourceTree = "<group>"; };
 		984BFCBE29C8504B00CA8495 /* BoxOfficeJsonDecoder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BoxOfficeJsonDecoder.swift; sourceTree = "<group>"; };
 		984BFCC129C8524D00CA8495 /* DataAssetError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataAssetError.swift; sourceTree = "<group>"; };
@@ -109,15 +119,13 @@
 		622E6D6829C8380700E50CC3 /* Model */ = {
 			isa = PBXGroup;
 			children = (
+				982FE47C29D189A40037BC8F /* DTO */,
 				984BFCBA29C8338100CA8495 /* DailyBoxOffice.swift */,
-				622E6D6D29C838AC00E50CC3 /* BoxOffice.swift */,
+				622E6D6D29C838AC00E50CC3 /* BoxOfficeItem.swift */,
 				984BFCBE29C8504B00CA8495 /* BoxOfficeJsonDecoder.swift */,
-				625164B829C98E3E0094711C /* BoxOfficeAPI.swift */,
 				984BFCC329C99CD200CA8495 /* MovieInformation.swift */,
 				984BFCC529C99D0C00CA8495 /* MovieDetailInformation.swift */,
-				6252F8BF29CDD8E10067DF7B /* Requestable.swift */,
-				6252F8C129CDE1320067DF7B /* Endpoint.swift */,
-				6252F8C329CDE3F90067DF7B /* BoxOfficeProvider.swift */,
+				6241B57429D1BF6100EB4E7C /* BoxOfficeContentConfiguration.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -125,7 +133,8 @@
 		622E6D6929C8381300E50CC3 /* View */ = {
 			isa = PBXGroup;
 			children = (
-				63DF20F42970E1A0005DF7D1 /* Main.storyboard */,
+				6241B57629D1BFFE00EB4E7C /* BoxOfficeContentView.swift */,
+				982FE47F29D1DB8B0037BC8F /* BoxOfficeListCell.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -187,6 +196,7 @@
 		63DF20ED2970E1A0005DF7D1 /* BoxOffice */ = {
 			isa = PBXGroup;
 			children = (
+				982FE48129D2AF5A0037BC8F /* Extension */,
 				984BFCC729CA8E4900CA8495 /* Network */,
 				984BFCC029C8523400CA8495 /* Error */,
 				622E6D6C29C8383300E50CC3 /* Application */,
@@ -197,6 +207,23 @@
 				63DF20FC2970E1A1005DF7D1 /* Info.plist */,
 			);
 			path = BoxOffice;
+			sourceTree = "<group>";
+		};
+		982FE47C29D189A40037BC8F /* DTO */ = {
+			isa = PBXGroup;
+			children = (
+				982FE47D29D189BE0037BC8F /* BoxOfficeDTO.swift */,
+			);
+			path = DTO;
+			sourceTree = "<group>";
+		};
+		982FE48129D2AF5A0037BC8F /* Extension */ = {
+			isa = PBXGroup;
+			children = (
+				982FE48229D2AF890037BC8F /* Date+.swift */,
+				629D6A3B29D2C8C40066FE14 /* String+.swift */,
+			);
+			path = Extension;
 			sourceTree = "<group>";
 		};
 		984BFCC029C8523400CA8495 /* Error */ = {
@@ -211,6 +238,10 @@
 		984BFCC729CA8E4900CA8495 /* Network */ = {
 			isa = PBXGroup;
 			children = (
+				6252F8C329CDE3F90067DF7B /* BoxOfficeProvider.swift */,
+				6252F8C129CDE1320067DF7B /* Endpoint.swift */,
+				6252F8BF29CDD8E10067DF7B /* Requestable.swift */,
+				625164B829C98E3E0094711C /* BoxOfficeAPI.swift */,
 				984BFCC829CA8E6C00CA8495 /* URLSessionProtocol.swift */,
 				625164BC29CA93300094711C /* URLSessionDataTaskProtocol.swift */,
 			);
@@ -341,7 +372,6 @@
 			files = (
 				63DF20FB2970E1A1005DF7D1 /* LaunchScreen.storyboard in Resources */,
 				63DF20F82970E1A1005DF7D1 /* Assets.xcassets in Resources */,
-				63DF20F62970E1A0005DF7D1 /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -370,8 +400,13 @@
 				6252F8C029CDD8E10067DF7B /* Requestable.swift in Sources */,
 				984BFCC429C99CD200CA8495 /* MovieInformation.swift in Sources */,
 				984BFCC229C8524D00CA8495 /* DataAssetError.swift in Sources */,
+				982FE48329D2AF890037BC8F /* Date+.swift in Sources */,
+				982FE48029D1DB8B0037BC8F /* BoxOfficeListCell.swift in Sources */,
+				982FE47E29D189BE0037BC8F /* BoxOfficeDTO.swift in Sources */,
+				6241B57729D1BFFE00EB4E7C /* BoxOfficeContentView.swift in Sources */,
 				63DF20F32970E1A0005DF7D1 /* BoxOfficeViewController.swift in Sources */,
-				622E6D6E29C838AC00E50CC3 /* BoxOffice.swift in Sources */,
+				622E6D6E29C838AC00E50CC3 /* BoxOfficeItem.swift in Sources */,
+				6241B57529D1BF6100EB4E7C /* BoxOfficeContentConfiguration.swift in Sources */,
 				6252F8C429CDE3F90067DF7B /* BoxOfficeProvider.swift in Sources */,
 				625164BD29CA93300094711C /* URLSessionDataTaskProtocol.swift in Sources */,
 				63DF20EF2970E1A0005DF7D1 /* AppDelegate.swift in Sources */,
@@ -380,6 +415,7 @@
 				6252F8C229CDE1320067DF7B /* Endpoint.swift in Sources */,
 				984BFCC929CA8E6C00CA8495 /* URLSessionProtocol.swift in Sources */,
 				984BFCC629C99D0C00CA8495 /* MovieDetailInformation.swift in Sources */,
+				629D6A3C29D2C8C40066FE14 /* String+.swift in Sources */,
 				984BFCBB29C8338100CA8495 /* DailyBoxOffice.swift in Sources */,
 				625164B929C98E3E0094711C /* BoxOfficeAPI.swift in Sources */,
 				625164BB29C98EEC0094711C /* NetworkError.swift in Sources */,
@@ -413,14 +449,6 @@
 /* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
-		63DF20F42970E1A0005DF7D1 /* Main.storyboard */ = {
-			isa = PBXVariantGroup;
-			children = (
-				63DF20F52970E1A0005DF7D1 /* Base */,
-			);
-			name = Main.storyboard;
-			sourceTree = "<group>";
-		};
 		63DF20F92970E1A1005DF7D1 /* LaunchScreen.storyboard */ = {
 			isa = PBXVariantGroup;
 			children = (
@@ -601,10 +629,9 @@
 				INFOPLIST_FILE = BoxOffice/Info.plist;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
-				INFOPLIST_KEY_UIMainStoryboardFile = Main;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
-				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -629,10 +656,9 @@
 				INFOPLIST_FILE = BoxOffice/Info.plist;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
-				INFOPLIST_KEY_UIMainStoryboardFile = Main;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
-				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
