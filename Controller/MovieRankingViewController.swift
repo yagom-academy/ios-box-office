@@ -21,11 +21,12 @@ final class MovieRankingViewController: UIViewController {
     // MARK: UI Properties
     private let loadingView = UIActivityIndicatorView()
     private let refreshController = UIRefreshControl()
-    private let collectionView = {
+    private lazy var collectionView = {
         let configuration = UICollectionLayoutListConfiguration(appearance: .plain)
         let layout = UICollectionViewCompositionalLayout.list(using: configuration)
         let collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
         
+        collectionView.delegate = self
         collectionView.register(MovieRankingCell.self, forCellWithReuseIdentifier: MovieRankingCell.identifier)
         
         return collectionView
@@ -84,6 +85,12 @@ final class MovieRankingViewController: UIViewController {
     }
 }
 
+extension MovieRankingViewController: UICollectionViewDelegate {
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        print(dataManager.movieItems[indexPath.row].name )
+    }
+}
+
 // MARK: UI
 extension MovieRankingViewController {
     private func configureUI() {
@@ -136,4 +143,3 @@ extension MovieRankingViewController {
         ])
     }
 }
-
