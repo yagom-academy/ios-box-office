@@ -34,4 +34,10 @@ extension DateFormatter {
 
         return dateFormatter.string(from: date)
     }
+    
+    static func hyphenText(date: Date) -> String {
+        dateFormatter.dateFormat = DateFormat.hyphen.rawValue
+
+        return dateFormatter.string(from: date)
+    }
 }

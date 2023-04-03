@@ -13,6 +13,7 @@ final class BoxOfficeViewController: UIViewController {
     private let networkManager = NetworkManager()
     private let refreshControl = UIRefreshControl()
     private var boxOffice: BoxOffice?
+    var selectedDate = Date()
     
     private lazy var activityIndicator: UIActivityIndicatorView = {
         let activityIndicator = UIActivityIndicatorView()
@@ -30,9 +31,15 @@ final class BoxOfficeViewController: UIViewController {
     }
     
     @IBAction func chooseDateButtonTapped(_ sender: UIBarButtonItem) {
-        guard let calendarVC = storyboard?.instantiateViewController(withIdentifier: CalendarViewController.identifier) else { return }
-        present(calendarVC, animated: true)
-        
+        if let calendarVC = storyboard?.instantiateViewController(identifier: CalendarViewController.identifier, creator: {
+            [weak self] creator in
+            guard let self = self else { return UIViewController() }
+            let viewController = CalendarViewController(date: self.selectedDate, coder: creator)
+            
+            return viewController
+        }) {
+            self.present(calendarVC, animated: true)
+        }
     }
     
     @objc private func refreshData() {
@@ -73,7 +80,7 @@ final class BoxOfficeViewController: UIViewController {
     
     private func configureInitialView() {
         activityIndicator.startAnimating()
-        navigationItem.title = DateFormatter.yesterdayText(format: .hyphen)
+        navigationItem.title = DateFormatter.hyphenText(date: selectedDate)
         self.view.addSubview(activityIndicator)
         refreshControl.addTarget(self, action: #selector(refreshData), for: .valueChanged)
         configureCollectionView()
