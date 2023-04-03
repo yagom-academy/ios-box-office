@@ -18,6 +18,16 @@ extension String {
         
         return formattedNumber
     }
+    
+    func formatDateString() -> String? {
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "yyyyMMdd"
+        
+        guard let date = dateFormatter.date(from: self) else { return nil }
+        dateFormatter.dateFormat = "yyyy-MM-dd"
+        
+        return dateFormatter.string(from: date)
+    }
 }
 
 extension String: StringConvertible { }

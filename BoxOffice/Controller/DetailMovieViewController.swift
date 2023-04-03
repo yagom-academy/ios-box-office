@@ -168,19 +168,19 @@ final class DetailMovieViewController: UIViewController {
     
     private func configureContentStackView() {
         let director = convertString(items: movieInformation?.directors ?? [])
-        let showType = convertString(items: movieInformation?.showTypes ?? [])
+        let watchGrade = convertString(items: movieInformation?.audits ?? [])
         let nation = convertString(items: movieInformation?.nations ?? [])
         let genre = convertString(items: movieInformation?.genres ?? [])
         let actor = convertString(items: movieInformation?.actors ?? [])
         let productYear = movieInformation?.productYear
-        let openDate = movieInformation?.openDate
+        let openDate = movieInformation?.openDate.formatDateString()
         let showTime = movieInformation?.showTime
         
         let directorStackView = makeInfoStackView(title: "감독", context: director)
         let productYearStackView = makeInfoStackView(title: "제작년도", context: productYear)
         let openDateStackView = makeInfoStackView(title: "개봉일", context: openDate)
         let showTimeStackView = makeInfoStackView(title: "상영시간", context: showTime)
-        let showTypeStackView = makeInfoStackView(title: "관람등급", context: showType)
+        let watchGradeStackView = makeInfoStackView(title: "관람등급", context: watchGrade)
         let nationStackView = makeInfoStackView(title: "제작국가", context: nation)
         let genresStackView = makeInfoStackView(title: "장르", context: genre)
         let actorsStackView = makeInfoStackView(title: "배우", context: actor)
@@ -190,7 +190,7 @@ final class DetailMovieViewController: UIViewController {
         contentStackView.addArrangedSubview(productYearStackView)
         contentStackView.addArrangedSubview(openDateStackView)
         contentStackView.addArrangedSubview(showTimeStackView)
-        contentStackView.addArrangedSubview(showTypeStackView)
+        contentStackView.addArrangedSubview(watchGradeStackView)
         contentStackView.addArrangedSubview(nationStackView)
         contentStackView.addArrangedSubview(genresStackView)
         contentStackView.addArrangedSubview(actorsStackView)
