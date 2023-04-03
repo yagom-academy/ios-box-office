@@ -17,10 +17,28 @@ final class MovieDetailViewController: UIViewController {
         
         return scrollView
     }()
+    
+    private let posterImageView = {
+        let imageView = UIImageView()
+        
+        return imageView
+    }
+    
+    private let categoryLabel = CategoryLabel()
+    private let contentLabel = ContentLabel()
 
     override func viewDidLoad() {
         super.viewDidLoad()
         
         self.view.backgroundColor = .systemBackground
+        
+        NSLayoutConstraint.activate([
+            scrollView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
+            scrollView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor),
+            scrollView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor),
+            scrollView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor),
+            
+            
+        ])
     }
 }
