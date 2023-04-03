@@ -24,8 +24,7 @@ final class MovieDetailViewController: UIViewController {
         return imageView
     }
     
-    private let categoryLabel = CategoryLabel()
-    private let contentLabel = ContentLabel()
+    private let descStackView = DescStackView()
 
     override func viewDidLoad() {
         super.viewDidLoad()

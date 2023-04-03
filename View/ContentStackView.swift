@@ -7,22 +7,27 @@
 
 import UIKit
 
-class ContentStackView: UIStackView {
+final class ContentStackView: UIStackView {
 
     private let categoryLabel = CategoryLabel()
     private let contentLabel = ContentLabel()
     
     override init(frame: CGRect) {
         super.init(frame: frame)
+    }
+    
+    convenience init(categoryText: String) {
+        self.init(frame: CGRect.zero)
         configure()
+        
+        self.categoryLabel.text = categoryText
     }
     
     required init(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
     
-    private func updateLabelText(_ categoryText: String, _ contentText: String) {
-        categoryLabel.text = categoryText
+    func updateLabelText(_ contentText: String) {
         contentLabel.text = contentText
     }
     

@@ -13,7 +13,7 @@ struct MovieInfoDescObject: Decodable {
     let productedYear: String
     let directors: [DirectorObject]
     let openDate: String
-    let aduits: [AuditObject]
+    let audits: [AuditObject]
     let nations: [NationObject]
     let genre: [GenreObject]
     let actors: [ActorObject]
