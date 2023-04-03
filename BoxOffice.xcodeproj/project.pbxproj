@@ -60,6 +60,9 @@
 		4B4A799229D3FD5700514141 /* MovieDetailsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MovieDetailsViewController.swift; sourceTree = "<group>"; };
 		4B4A799629D4317100514141 /* DaumSearchAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DaumSearchAPI.swift; sourceTree = "<group>"; };
 		4B81025529D1621900A8DC89 /* DailyBoxOfficeCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DailyBoxOfficeCell.swift; sourceTree = "<group>"; };
+		4B829D3629DAA91300C20962 /* BoxOffice.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; name = BoxOffice.app; path = "/Users/soyeon/Desktop/yagom/ios-box-office/build/Debug-iphoneos/BoxOffice.app"; sourceTree = "<absolute>"; };
+		4B829D3729DAA91300C20962 /* BoxOfficeTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; name = BoxOfficeTests.xctest; path = "/Users/soyeon/Desktop/yagom/ios-box-office/build/Debug/BoxOfficeTests.xctest"; sourceTree = "<absolute>"; };
+		4B829D3829DAA91300C20962 /* JSONModelTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; name = JSONModelTests.xctest; path = "/Users/soyeon/Desktop/yagom/ios-box-office/build/Debug/JSONModelTests.xctest"; sourceTree = "<absolute>"; };
 		4B9E3A0229C9767E00B60AD1 /* MovieDetails.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MovieDetails.swift; sourceTree = "<group>"; };
 		4B9E3A1A29CAD72E00B60AD1 /* JSONModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JSONModelTests.swift; sourceTree = "<group>"; };
 		4B9E3A2629CADF9D00B60AD1 /* DataTaskMakeable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataTaskMakeable.swift; sourceTree = "<group>"; };
@@ -81,9 +84,6 @@
 		AD3D402029D2C98B00A56210 /* URLRequestGenerator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = URLRequestGenerator.swift; sourceTree = "<group>"; };
 		AD69655C29DA9929004A7502 /* CategoryStackView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CategoryStackView.swift; sourceTree = "<group>"; };
 		AD69655E29DA993D004A7502 /* AlertController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AlertController.swift; sourceTree = "<group>"; };
-		AD69656029DAA3F7004A7502 /* BoxOffice.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; name = BoxOffice.app; path = "/Users/kimkyeongjun/Desktop/StarterCamp/WEEK13/ios-box-office/build/Debug-iphoneos/BoxOffice.app"; sourceTree = "<absolute>"; };
-		AD69656129DAA3F7004A7502 /* BoxOfficeTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; name = BoxOfficeTests.xctest; path = "/Users/kimkyeongjun/Desktop/StarterCamp/WEEK13/ios-box-office/build/Debug/BoxOfficeTests.xctest"; sourceTree = "<absolute>"; };
-		AD69656229DAA3F7004A7502 /* JSONModelTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; name = JSONModelTests.xctest; path = "/Users/kimkyeongjun/Desktop/StarterCamp/WEEK13/ios-box-office/build/Debug/JSONModelTests.xctest"; sourceTree = "<absolute>"; };
 		ADE1B1BC29D4356B00632173 /* DaumSearchResult.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DaumSearchResult.swift; sourceTree = "<group>"; };
 		ADF3305029CAF5DB00E0EF8B /* KobisAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KobisAPI.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -293,7 +293,7 @@
 			);
 			name = JSONModelTests;
 			productName = JSONModelTests;
-			productReference = AD69656229DAA3F7004A7502 /* JSONModelTests.xctest */;
+			productReference = 4B829D3829DAA91300C20962 /* JSONModelTests.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
 		};
 		63DF20EA2970E1A0005DF7D1 /* BoxOffice */ = {
@@ -310,7 +310,7 @@
 			);
 			name = BoxOffice;
 			productName = BoxOffice;
-			productReference = AD69656029DAA3F7004A7502 /* BoxOffice.app */;
+			productReference = 4B829D3629DAA91300C20962 /* BoxOffice.app */;
 			productType = "com.apple.product-type.application";
 		};
 		AD3094A429C824A20052C64D /* BoxOfficeTests */ = {
@@ -328,7 +328,7 @@
 			);
 			name = BoxOfficeTests;
 			productName = BoxOfficeTests;
-			productReference = AD69656129DAA3F7004A7502 /* BoxOfficeTests.xctest */;
+			productReference = 4B829D3729DAA91300C20962 /* BoxOfficeTests.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
 		};
 /* End PBXNativeTarget section */
