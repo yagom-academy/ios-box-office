@@ -94,6 +94,7 @@ final class DetailMovieViewController: UIViewController {
     
     private func fetchMoviePosterData(movieName: String, completionHandler: @escaping () -> Void) {
         guard let posterRequest = urlMaker.makeMoviePosterURLRequest(movieName: movieName) else { return }
+        
         server.startLoad(request: posterRequest, mime: "json") { [weak self] result in
             let decoder = DecodeManager()
             do {
@@ -125,7 +126,6 @@ final class DetailMovieViewController: UIViewController {
     }
     
     private func configureMainView() {
-        
         title = movieInformation?.movieName
         
         configureScrollView()
