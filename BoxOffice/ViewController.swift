@@ -11,6 +11,7 @@ final class ViewController: UIViewController {
     
     private var collectionView: UICollectionView!
     private var dataSource: UICollectionViewDiffableDataSource<ListSection, ListItem>!
+    private var dataSelectionButton: UIBarButtonItem!
     
     private let provider = APIProvider.shared
     
@@ -21,6 +22,8 @@ final class ViewController: UIViewController {
         configureDataSource()
         fetchBoxOfficeData()
         configureRefreshControl()
+        configureDateSelectionButton()
+        configureNavigationBar()
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -119,8 +122,20 @@ final class ViewController: UIViewController {
         collectionView.refreshControl = refreshControl
     }
     
+    private func configureDateSelectionButton() {
+        dataSelectionButton = UIBarButtonItem(title: "날짜선택", style: .plain, target: self, action: #selector(moveToCalendarView))
+    }
+    
+    private func configureNavigationBar() {
+        self.navigationItem.rightBarButtonItem = dataSelectionButton
+    }
+    
     @objc private func handleRefreshControl() {
         fetchBoxOfficeData()
+    }
+    
+    @objc private func moveToCalendarView() {
+        
     }
     
     // MARK: - DataSource
