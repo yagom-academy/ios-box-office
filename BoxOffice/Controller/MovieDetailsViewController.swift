@@ -32,7 +32,7 @@ final class MovieDetailsViewController: UIViewController {
     }()
     
     private var movieDetails: MovieDetails?
-    private var searchedImage: SearchedImage?
+    private var searchedResult: DaumSearchResult?
     private var movieCode: String
     private var movieName: String
     
@@ -54,7 +54,6 @@ final class MovieDetailsViewController: UIViewController {
         loadPosterImage()
         configureCategoryLabels()
         configureScrollView()
-        LoadingIndicator.showLoading(in: posterView)
     }
     
     private func configureRootView() {
@@ -88,19 +87,20 @@ final class MovieDetailsViewController: UIViewController {
     }
     
     private func loadPosterImage() {
-        var api = DaumImageAPI()
+        LoadingIndicator.showLoading(in: posterView)
+        var api = DaumSearchAPI()
         let queryName = "query"
         let queryValue = movieName + " 영화 포스터"
         api.addQuery(name: queryName, value: queryValue)
         
         var apiProvider = APIProvider()
         apiProvider.target(api: api)
-        apiProvider.startLoad(decodingType: SearchedImage.self) { result in
+        apiProvider.startLoad(decodingType: DaumSearchResult.self) { result in
             switch result {
-            case .success(let searchedImage):
-                self.searchedImage = searchedImage
+            case .success(let searchedResult):
+                self.searchedResult = searchedResult
                 
-                guard let document = searchedImage.documents.first,
+                guard let document = searchedResult.documents.first,
                       let url = URL(string: document.imageURL),
                       let data = try? Data(contentsOf: url) else { return }
             

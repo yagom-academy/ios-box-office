@@ -17,7 +17,6 @@ final class DailyBoxOfficeViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        LoadingIndicator.showLoading()
         configureRootView()
         configureNavigationBar()
         loadDailyBoxOffice()
@@ -37,6 +36,7 @@ final class DailyBoxOfficeViewController: UIViewController {
     }
     
     private func loadDailyBoxOffice() {
+        LoadingIndicator.showLoading()
         var api = KobisAPI(service: .dailyBoxOffice)
         let queryName = "targetDt"
         let queryValue = DateFormatter.shared.string(from: yesterday, dateFormat: "yyyyMMdd")

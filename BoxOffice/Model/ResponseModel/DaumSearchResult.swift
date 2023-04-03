@@ -1,13 +1,18 @@
 //
-//  SearchedImage.swift
+//  SearchedResult.swift
 //  BoxOffice
 //
 //  Created by Muri, Rowan on 2023/03/29.
 //
 
-struct SearchedImage: Decodable {
+struct DaumSearchResult: Decodable {
     let documents: [Document]
-    let meta: Meta
+    let metadata: Metadata
+    
+    enum CodingKeys: String, CodingKey {
+        case documents
+        case metadata = "meta"
+    }
 }
 
 struct Document: Decodable {
@@ -39,7 +44,7 @@ enum Collection: String, Decodable {
     case news = "news"
 }
 
-struct Meta: Decodable {
+struct Metadata: Decodable {
     let isEnd: Bool
     let pageableCount, totalCount: Int
 

@@ -1,5 +1,5 @@
 //
-//  DaumImageAPI.swift
+//  DaumSearchAPI.swift
 //  BoxOffice
 //
 //  Created by Muri, Rowan on 2023/03/29.
@@ -7,7 +7,7 @@
 
 import UIKit
 
-final class DaumImageAPI: API {
+final class DaumSearchAPI: API {
     var baseURL: String {
         return "https://dapi.kakao.com/v2"
     }

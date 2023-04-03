@@ -30,16 +30,16 @@ final class CategoryStackView: UIStackView {
     
     override init(frame: CGRect) {
         super.init(frame: frame)
-        setArrangedSubviews()
+        configureSubviews()
     }
     
     required init(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
     
-    private func setArrangedSubviews() {
-        self.addArrangedSubview(categoryLabel)
-        self.addArrangedSubview(detailLabel)
+    private func configureSubviews() {
+        addArrangedSubview(categoryLabel)
+        addArrangedSubview(detailLabel)
         
         NSLayoutConstraint.activate([
             categoryLabel.widthAnchor.constraint(equalTo: self.widthAnchor, multiplier: 0.2)

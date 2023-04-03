@@ -24,7 +24,7 @@ final class APIProviderTests: XCTestCase {
     
     func test_startLoad호출시_decodingType이_DailyBoxOffice이고_target으로20230101을받을때_네트워킹이_성공한경우() {
         // given
-        let expectedResult = try? JSONDecoder().decode(DailyBoxOffice.self, from: kobisAPI.sampleData)
+        let expectedResult = try? JSONDecoder().decode(DailyBoxOffice.self, from: kobisAPI.sampleData!)
         let date = "20230101"
         let queryName = "targetDt"
         kobisAPI.addQuery(name: queryName, value: date)
@@ -87,7 +87,7 @@ final class APIProviderTests: XCTestCase {
     func test_startLoad호출시_decodingType이_MovieDetails이고_target으로20199882을받을때_네트워킹이_성공한경우() {
         // given
         kobisAPI.service = .movieDetails
-        let expectedResult = try? JSONDecoder().decode(MovieDetails.self, from: kobisAPI.sampleData)
+        let expectedResult = try? JSONDecoder().decode(MovieDetails.self, from: kobisAPI.sampleData!)
         sut = APIProvider(urlSession: MockURLSession(kobisAPI: kobisAPI))
         let code = "20199882"
         let queryName = "movieCd"

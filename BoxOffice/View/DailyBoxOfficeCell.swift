@@ -74,11 +74,11 @@ final class DailyBoxOfficeCell: UICollectionViewCell {
     }
     
     private func configureSubviews() {
-        setViewHierarchy()
-        setSubviewConstraints()
+        configureViewHierarchy()
+        configureSubviewConstraints()
     }
     
-    private func setViewHierarchy() {
+    private func configureViewHierarchy() {
         rankStackView.addArrangedSubview(rankLabel)
         rankStackView.addArrangedSubview(rankDifferenceLabel)
         
@@ -90,7 +90,7 @@ final class DailyBoxOfficeCell: UICollectionViewCell {
         contentView.addSubview(accessoryView)
     }
     
-    private func setSubviewConstraints() {
+    private func configureSubviewConstraints() {
         NSLayoutConstraint.activate([
             rankStackView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 10),
             rankStackView.centerYAnchor.constraint(equalTo: contentView.centerYAnchor),
