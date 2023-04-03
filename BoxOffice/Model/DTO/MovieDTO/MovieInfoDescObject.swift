@@ -9,18 +9,58 @@ import Foundation
 
 struct MovieInfoDescObject: Decodable {
     let name: String
-    let englishName: String
-    let time: String
+    let showTime: String
     let productedYear: String
-    let status: String
-    let type: String
+    let directors: [DirectorObject]
+    let openDate: String
+    let aduits: [AuditObject]
+    let nations: [NationObject]
+    let genre: [GenreObject]
+    let actors: [ActorObject]
     
     enum CodingKeys: String, CodingKey {
         case name = "movieNm"
-        case englishName = "movieNmEn"
-        case time = "showTm"
+        case showTime = "showTm"
         case productedYear = "prdtYear"
-        case status = "prdtStatNm"
-        case type = "typeNm"
+        case openDate = "openDt"
+        case aduits = "audits"
+        case genre = "genreNm"
+        case directors, nations, actors
     }
+}
+
+struct ActorObject: Decodable {
+    let name: String
+    
+    enum CodingKeys: String, CodingKey {
+        case name = "peopleNm"
+    }
+}
+
+struct GenreObject: Decodable {
+    let name: String
+    
+    enum CodingKeys: String, CodingKey {
+        case name = "genreNm"
+    }
+}
+
+struct NationObject: Decodable {
+    let name: String
+    
+    enum CodingKeys: String, CodingKey {
+        case name = "nationNm"
+    }
+}
+
+struct DirectorObject: Decodable {
+    let name: String
+    
+    enum CodingKeys: String, CodingKey {
+        case name = "peopleNm"
+    }
+}
+
+struct AuditObject: Decodable {
+    let watchGradeNm: String
 }
