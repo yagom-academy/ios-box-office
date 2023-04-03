@@ -5,14 +5,23 @@
 //  Created by 레옹아범 ,Andrew on 2023/03/20.
 //
 
-struct InfoObject: Decodable {
-    let rnum, rank, changedRank, rankStatus: String
+import UIKit
+
+struct InfoObject: Decodable, Hashable {
+    let rnum, changedRank: String
+    let rankStatus: RankStatus
+    let rank: String
     let code, name: String
-    let openDate: String
-    let salesAmount, salesShare, changedSales, changedSalesRate, totalOfSales: String
+    private let openDate: String
+    private let salesAmount, salesShare, changedSales, changedSalesRate, totalOfSales: String
     let numberOfAudience, changedAudience, changedAudienceRate, totalOfAudience: String
-    let numberOfScreen: String
-    let numberOfShowing: String
+    private let numberOfScreen: String
+    private let numberOfShowing: String
+    
+    enum RankStatus: String, Decodable {
+        case old = "OLD"
+        case new = "NEW"
+    }
     
     enum CodingKeys: String, CodingKey {
         case rnum, rank
