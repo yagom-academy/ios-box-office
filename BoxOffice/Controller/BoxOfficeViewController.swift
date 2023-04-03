@@ -13,7 +13,7 @@ final class BoxOfficeViewController: UIViewController {
     private let networkManager = NetworkManager()
     private let refreshControl = UIRefreshControl()
     private var boxOffice: BoxOffice?
-    var selectedDate = Date() {
+    private var selectedDate = Date() {
         didSet {
             navigationItem.title = DateFormatter.hyphenText(date: selectedDate)
             loadData()
@@ -35,25 +35,11 @@ final class BoxOfficeViewController: UIViewController {
         loadData()
     }
     
-    @IBAction func chooseDateButtonTapped(_ sender: UIBarButtonItem) {
-        if let calendarVC = storyboard?.instantiateViewController(identifier: CalendarViewController.identifier, creator: {
-            [weak self] creator in
-            guard let self = self else { return UIViewController() }
-            let viewController = CalendarViewController(date: self.selectedDate, coder: creator)
-            viewController?.dateDelegate = self
-            
-            return viewController
-        }) {
-            self.present(calendarVC, animated: true)
-        }
-    }
-    
-    @objc private func refreshData() {
-        fetchDailyBoxOffice { [weak self] in
-            guard let self = self else { return }
-            
-            self.refreshControl.endRefreshing()
-        }
+    private func configureInitialView() {
+        navigationItem.title = DateFormatter.hyphenText(date: selectedDate)
+        self.view.addSubview(activityIndicator)
+        refreshControl.addTarget(self, action: #selector(refreshData), for: .valueChanged)
+        configureCollectionView()
     }
     
     private func loadData() {
@@ -86,13 +72,6 @@ final class BoxOfficeViewController: UIViewController {
         registerXib()
     }
     
-    private func configureInitialView() {
-        navigationItem.title = DateFormatter.hyphenText(date: selectedDate)
-        self.view.addSubview(activityIndicator)
-        refreshControl.addTarget(self, action: #selector(refreshData), for: .valueChanged)
-        configureCollectionView()
-    }
-    
     private func fetchDailyBoxOffice(completion: @escaping () -> Void) {
         let yesterdayText = DateFormatter.yesterdayText(date: selectedDate)
         let endPoint: BoxOfficeEndpoint = .fetchDailyBoxOffice(targetDate: yesterdayText)
@@ -112,6 +91,27 @@ final class BoxOfficeViewController: UIViewController {
                 }
                 completion()
             }
+        }
+    }
+    
+    @objc private func refreshData() {
+        fetchDailyBoxOffice { [weak self] in
+            guard let self = self else { return }
+            
+            self.refreshControl.endRefreshing()
+        }
+    }
+    
+    @IBAction private func chooseDateButtonTapped(_ sender: UIBarButtonItem) {
+        if let calendarVC = storyboard?.instantiateViewController(identifier: CalendarViewController.identifier, creator: {
+            [weak self] creator in
+            guard let self = self else { return UIViewController() }
+            let viewController = CalendarViewController(date: self.selectedDate, coder: creator)
+            viewController?.dateDelegate = self
+            
+            return viewController
+        }) {
+            self.present(calendarVC, animated: true)
         }
     }
 }

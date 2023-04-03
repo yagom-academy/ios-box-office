@@ -19,7 +19,7 @@ final class CalendarViewController: UIViewController {
         let calendarView = UICalendarView()
         calendarView.availableDateRange = DateInterval(start: .distantPast, end: .now)
         calendarView.locale = Locale(identifier: "ko_KR")
-        calendarView.tintColor = .systemMint
+        calendarView.tintColor = .systemCyan
         
         return calendarView
     }()
@@ -40,13 +40,6 @@ final class CalendarViewController: UIViewController {
         fatalError("init(coder:) has not been implemented")
     }
     
-    private func selectToday() -> DateComponents {
-        let calendar = Calendar.current
-        let components = calendar.dateComponents([.year, .month, .day], from: selectedDate)
-        
-        return components
-    }
-    
     private func configureLayout() {
         calendarView.translatesAutoresizingMaskIntoConstraints = false
         view.addSubview(calendarView)
@@ -62,7 +55,14 @@ final class CalendarViewController: UIViewController {
     private func configureCalendarView() {
         let selectionSingleDate = UICalendarSelectionSingleDate(delegate: self)
         calendarView.selectionBehavior = selectionSingleDate
-        selectionSingleDate.selectedDate = selectToday()
+        selectionSingleDate.selectedDate = selectInitialDate()
+    }
+    
+    private func selectInitialDate() -> DateComponents {
+        let calendar = Calendar.current
+        let components = calendar.dateComponents([.year, .month, .day], from: selectedDate)
+        
+        return components
     }
 }
 
