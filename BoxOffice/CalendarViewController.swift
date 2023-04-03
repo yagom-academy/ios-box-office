@@ -47,19 +47,12 @@ final class CalendarViewController: UIViewController {
     }
     
     private func configureCalendar() {
-        let yesterday: Date = createYesterdayDate()
+        let yesterday: Date = DateManager.createYesterdayDate()
         calendarView.availableDateRange = DateInterval(start:.distantPast, end: yesterday)
         let dateSelection = UICalendarSelectionSingleDate(delegate: self)
         let selectedDateComponents = Calendar.current.dateComponents([.year, .month, .day], from: self.selectedDate)
         dateSelection.selectedDate = selectedDateComponents
         calendarView.selectionBehavior = dateSelection
-    }
-    
-    private func createYesterdayDate() -> Date {
-        let today = Date()
-        let yesterday = Calendar.current.date(byAdding: .day, value: -1, to: today) ?? today
-        
-        return yesterday
     }
     
 }
@@ -69,7 +62,6 @@ extension CalendarViewController: UICalendarSelectionSingleDateDelegate {
     
     func dateSelection(_ selection: UICalendarSelectionSingleDate, didSelectDate dateComponents: DateComponents?) {
         guard let date = dateComponents?.date else { return }
-        DEBUG_LOG(date)
         selectionDelegate?.dateSelection(date)
         dismiss(animated: true)
     }
