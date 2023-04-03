@@ -14,8 +14,8 @@ final class BoxOfficeViewController: UIViewController {
     private let networkManager = NetworkManager()
     private let dateFormatter = DateFormatter()
     
-    private let loadingView: LoadingVIew = {
-        let view = LoadingVIew()
+    private let loadingView: LoadingView = {
+        let view = LoadingView()
         
         view.translatesAutoresizingMaskIntoConstraints = false
         

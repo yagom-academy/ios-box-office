@@ -13,7 +13,7 @@ protocol IdentifierType {
 
 extension IdentifierType {
     static var identifier: String {
-        return String(describing:  self)
+        return String(describing: self)
     }
 }
 

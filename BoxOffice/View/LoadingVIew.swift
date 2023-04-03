@@ -1,5 +1,5 @@
 //
-//  LoadingVIew.swift
+//  LoadingView.swift
 //  BoxOffice
 //
 //  Created by Christy, Hyemory on 2023/04/02.
@@ -7,7 +7,7 @@
 
 import UIKit
 
-final class LoadingVIew: UIView {
+final class LoadingView: UIView {
     private let backgroundView: UIView = {
         let view = UIView()
         

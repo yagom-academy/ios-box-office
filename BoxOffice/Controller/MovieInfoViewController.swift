@@ -39,7 +39,7 @@ final class MovieInfoViewController: UIViewController {
     }()
     
     private let loadingView = {
-        let view = LoadingVIew()
+        let view = LoadingView()
         
         view.translatesAutoresizingMaskIntoConstraints = false
         
@@ -154,7 +154,7 @@ final class MovieInfoViewController: UIViewController {
             contentScrollView.topAnchor.constraint(equalTo: view.topAnchor),
             contentScrollView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
             contentScrollView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
-            contentScrollView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
+            contentScrollView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor),
             
             loadingView.leftAnchor.constraint(equalTo: contentScrollView.leftAnchor),
             loadingView.rightAnchor.constraint(equalTo: contentScrollView.rightAnchor),
