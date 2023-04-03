@@ -14,7 +14,7 @@ final class ViewController: UIViewController {
     
     private let provider = APIProvider.shared
     
-    private lazy var currentDate: Date = createYesterdayDate() {
+    private lazy var currentDate: Date = DateManager.createYesterdayDate() {
         didSet {
             setTitle(date: currentDate)
         }
@@ -42,7 +42,7 @@ final class ViewController: UIViewController {
     }
     
     private func setTitle(date: Date) {
-        createDateString(date: date, option: .title)
+        DateManager.formattedDateString(of: date, option: .calendar)
             .map { title = $0 }
     }
     
@@ -90,7 +90,7 @@ final class ViewController: UIViewController {
     }
    
     private func fetchBoxOfficeData() {
-        guard let dateString = createDateString(date: currentDate, option: .api) else { return }
+        guard let dateString = DateManager.formattedDateString(of: currentDate, option: .numerical) else { return }
         
         provider.performRequest(api: .boxOffice(date: dateString)) { [weak self] requestResult in
             guard let self else { return }
@@ -140,31 +140,17 @@ final class ViewController: UIViewController {
         return snapshot
     }
     
-    private func createYesterdayDate() -> Date {
-        let today = Date()
-        let yesterday = Calendar.current.date(byAdding: .day, value: -1, to: today) ?? today
-        
-        return yesterday
-    }
-    
-    private func createDateString(date: Date, option: DateFormatOption) -> String? {
-        let dateFormatter = DateFormatter()
-        dateFormatter.dateFormat = option.rawValue
-        return dateFormatter.string(from: date)
-    }
-    
     @objc private func moveToCalendarView() {
-        let date: Date = currentDate
-        let calendarViewController = CalendarViewController(selectedDate: date)
+        let calendarViewController = CalendarViewController(selectedDate: currentDate)
         calendarViewController.selectionDelegate = self
         present(calendarViewController, animated: true)
     }
     
 }
 
-extension ViewController: SelectionDelegate {
+extension ViewController: DateSelectionDelegate {
     
-    func selection(_ date: Date) {
+    func dateSelection(_ date: Date) {
         currentDate = date
         fetchBoxOfficeData()
     }

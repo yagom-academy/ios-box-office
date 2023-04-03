@@ -7,13 +7,13 @@
 
 import UIKit
 
-protocol SelectionDelegate: AnyObject {
-    func selection(_ date: Date)
+protocol DateSelectionDelegate: AnyObject {
+    func dateSelection(_ date: Date)
 }
 
 final class CalendarViewController: UIViewController {
     
-    weak var selectionDelegate: SelectionDelegate?
+    weak var selectionDelegate: DateSelectionDelegate?
     
     private let selectedDate: Date
     private let calendarView = UICalendarView()
@@ -70,7 +70,7 @@ extension CalendarViewController: UICalendarSelectionSingleDateDelegate {
     func dateSelection(_ selection: UICalendarSelectionSingleDate, didSelectDate dateComponents: DateComponents?) {
         guard let date = dateComponents?.date else { return }
         DEBUG_LOG(date)
-        selectionDelegate?.selection(date)
+        selectionDelegate?.dateSelection(date)
         dismiss(animated: true)
     }
     
