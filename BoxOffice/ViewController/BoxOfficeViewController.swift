@@ -74,15 +74,7 @@ final class BoxOfficeViewController: UIViewController {
                                     type: BoxOfficeDTO.self) { [weak self] result in
             switch result {
             case .success(let data):
-                self?.boxOfficeItems = data.boxOfficeResult.dailyBoxOfficeList.map { movie in
-                    return BoxOfficeItem(code: movie.movieCode,
-                                         rank: movie.rank,
-                                         rankIncrement: movie.rankIncrement,
-                                         rankOldAndNew: movie.rankOldAndNew,
-                                         title: movie.movieName,
-                                         audienceCount: movie.audienceCount,
-                                         audienceAccumulationCount: movie.audienceAccumulation)
-                }
+                self?.boxOfficeItems = data.toDomain()
                 DispatchQueue.main.async {
                     self?.activityIndicator.stopAnimating()
                     self?.updateSnapshot()
@@ -107,15 +99,7 @@ final class BoxOfficeViewController: UIViewController {
                                     type: BoxOfficeDTO.self) { [weak self] result in
             switch result {
             case .success(let data):
-                self?.boxOfficeItems = data.boxOfficeResult.dailyBoxOfficeList.map { movie in
-                    return BoxOfficeItem(code: movie.movieCode,
-                                         rank: movie.rank,
-                                         rankIncrement: movie.rankIncrement,
-                                         rankOldAndNew: movie.rankOldAndNew,
-                                         title: movie.movieName,
-                                         audienceCount: movie.audienceCount,
-                                         audienceAccumulationCount: movie.audienceAccumulation)
-                }
+                self?.boxOfficeItems = data.toDomain()
                 DispatchQueue.main.async {
                     self?.updateSnapshot()
                     self?.refreshControl.endRefreshing()

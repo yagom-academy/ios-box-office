@@ -6,17 +6,31 @@
 //
 
 struct BoxOfficeDTO: Decodable {
-    let boxOfficeResult: BoxOfficeResult
+    private let boxOfficeResult: BoxOfficeResult
     
-    struct BoxOfficeResult: Decodable {
-        let boxOfficeType: String
-        let showingDuration: String
+    private struct BoxOfficeResult: Decodable {
+        private let boxOfficeType: String
+        private let showingDuration: String
         let dailyBoxOfficeList: [DailyBoxOffice]
         
         private enum CodingKeys: String, CodingKey {
             case boxOfficeType = "boxofficeType"
             case showingDuration = "showRange"
             case dailyBoxOfficeList
+        }
+    }
+}
+
+extension BoxOfficeDTO {
+    func toDomain() -> [BoxOfficeItem] {
+        return boxOfficeResult.dailyBoxOfficeList.map { movie in
+            return BoxOfficeItem(code: movie.movieCode,
+                                 rank: movie.rank,
+                                 rankIncrement: movie.rankIncrement,
+                                 rankOldAndNew: movie.rankOldAndNew,
+                                 title: movie.movieName,
+                                 audienceCount: movie.audienceCount,
+                                 audienceAccumulationCount: movie.audienceAccumulation)
         }
     }
 }
