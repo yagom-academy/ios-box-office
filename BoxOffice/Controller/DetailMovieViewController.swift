@@ -62,9 +62,11 @@ final class DetailMovieViewController: UIViewController {
             guard let movieName = self.movieInformation?.movieName else { return }
 
             self.fetchMoviePosterData(movieName: movieName) {
+                guard let urlString = self.moviePoster?.documents[0].imageURL else { return }
                 
-                self.fetchPosterImageData { image in
+                CacheManager.loadImage(imageURL: urlString) { image in
                     DispatchQueue.main.async {
+                        LoadingIndicator.hideLoading()
                         self.imageView.image = image
                     }
                 }
@@ -107,21 +109,6 @@ final class DetailMovieViewController: UIViewController {
         }
     }
     
-    private func fetchPosterImageData(completionHandler: @escaping (UIImage?) -> Void) {
-        guard let urlString = moviePoster?.documents[0].imageURL,
-              let url = URL(string: urlString)  else { return }
-        let request = URLRequest(url: url)
-        server.startLoad(request: request, mime: "image") { result in
-            do {
-                guard let verifiedFetchingResult = try self.verifyResult(result: result) else { return }
-                let image = UIImage(data: verifiedFetchingResult)
-                completionHandler(image)
-            } catch {
-                print(error.localizedDescription)
-            }
-        }
-    }
-    
     private func verifyResult<T, E: Error>(result: Result<T, E>) throws -> T? {
         switch result {
         case .success(let data):
@@ -133,6 +120,7 @@ final class DetailMovieViewController: UIViewController {
     
     private func configureViewController() {
         view.backgroundColor = .white
+        LoadingIndicator.showLoading()
         fetchData()
     }
     

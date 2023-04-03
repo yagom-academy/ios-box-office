@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		0852EA6E29DA9F5200D8AA6D /* CacheManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0852EA6D29DA9F5200D8AA6D /* CacheManager.swift */; };
 		0891E3C329D3424A00FE3AF8 /* CALayer+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0891E3C229D3424A00FE3AF8 /* CALayer+.swift */; };
 		0891E3C529D34C5600FE3AF8 /* LoadingIndicator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0891E3C429D34C5600FE3AF8 /* LoadingIndicator.swift */; };
 		08A6747529D1CA53008F3064 /* String+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08A6747429D1CA53008F3064 /* String+.swift */; };
@@ -81,6 +82,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		0852EA6D29DA9F5200D8AA6D /* CacheManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CacheManager.swift; sourceTree = "<group>"; };
 		0891E3C229D3424A00FE3AF8 /* CALayer+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CALayer+.swift"; sourceTree = "<group>"; };
 		0891E3C429D34C5600FE3AF8 /* LoadingIndicator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoadingIndicator.swift; sourceTree = "<group>"; };
 		08A6747429D1CA53008F3064 /* String+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "String+.swift"; sourceTree = "<group>"; };
@@ -183,6 +185,7 @@
 			children = (
 				08DD8EA329C9665B00DA67E2 /* NetworkManager.swift */,
 				D08946D729CB2EC900669A1C /* URLRequestMaker.swift */,
+				0852EA6D29DA9F5200D8AA6D /* CacheManager.swift */,
 			);
 			path = Network;
 			sourceTree = "<group>";
@@ -498,6 +501,7 @@
 				08CE13D029CAF80100C15A16 /* MovieInformationResult.swift in Sources */,
 				08E1C13029C83D1F000FAF49 /* DecodeManager.swift in Sources */,
 				0891E3C329D3424A00FE3AF8 /* CALayer+.swift in Sources */,
+				0852EA6E29DA9F5200D8AA6D /* CacheManager.swift in Sources */,
 				08CE13CA29CAF80100C15A16 /* Actor.swift in Sources */,
 				63DF20F12970E1A0005DF7D1 /* SceneDelegate.swift in Sources */,
 				08CE13C229CAF80100C15A16 /* Genre.swift in Sources */,
