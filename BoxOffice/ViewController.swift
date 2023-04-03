@@ -117,13 +117,22 @@ final class ViewController: UIViewController {
     private func configureRefreshControl() {
         let refreshControl = UIRefreshControl()
         
-        refreshControl.addTarget(self, action: #selector(handleRefreshControl), for: .valueChanged)
+        refreshControl.addTarget(
+            self,
+            action: #selector(handleRefreshControl),
+            for: .valueChanged
+        )
         refreshControl.attributedTitle = NSAttributedString(string: "Fetching Movie Data...")
         collectionView.refreshControl = refreshControl
     }
     
     private func configureDateSelectionButton() {
-        dataSelectionButton = UIBarButtonItem(title: "날짜선택", style: .plain, target: self, action: #selector(moveToCalendarView))
+        dataSelectionButton = UIBarButtonItem(
+            title: "날짜선택",
+            style: .plain,
+            target: self,
+            action: #selector(moveToCalendarView)
+        )
     }
     
     private func configureNavigationBar() {
