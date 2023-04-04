@@ -34,13 +34,16 @@ final class DailyBoxOfficeViewController: UIViewController {
         let titleText = DateFormatter.shared.string(from: yesterday, dateFormat: "yyyy-MM-dd")
         title = titleText
     
-        let datePicker = UIBarButtonItem(title: "날짜선택", style: .plain, target: self, action: #selector(showCalendar))
-        navigationItem.rightBarButtonItem = datePicker
+        let dateChangeButton = UIBarButtonItem(title: "날짜선택",
+                                               style: .plain,
+                                               target: self,
+                                               action: #selector(showCalendar))
+        navigationItem.rightBarButtonItem = dateChangeButton
     }
     
     @objc func showCalendar() {
         let calendarViewController = CalendarViewController()
-        self.navigationController?.present(calendarViewController, animated: true)
+        navigationController?.present(calendarViewController, animated: true)
     }
     
     private func loadDailyBoxOffice() {
