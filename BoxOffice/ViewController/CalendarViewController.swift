@@ -18,19 +18,28 @@ final class CalendarViewController: UIViewController {
             month: Calendar.current.component(.month, from: Date()),
             day: Calendar.current.component(.day, from: Date())
         )
+        let fromDate = Calendar.current.date(from: DateComponents(year: 2004, month: 1, day: 1)) ?? Date()
+        calendarView.availableDateRange = DateInterval(start: fromDate,
+                                                       end: Date())
         
         return calendarView
     }()
     
     override func viewDidLoad() {
-        self.view.backgroundColor = .white
-        
+        setupCalendarView()
+        configureUI()
+    }
+    
+    private func setupCalendarView() {
         self.calendarView.delegate = self
         let singleDateSelection = UICalendarSelectionSingleDate(delegate: self)
         self.calendarView.selectionBehavior = singleDateSelection
-        self.calendarView.translatesAutoresizingMaskIntoConstraints = false
-        
+    }
+    
+    private func configureUI() {
+        self.view.backgroundColor = .white
         self.view.addSubview(self.calendarView)
+        self.calendarView.translatesAutoresizingMaskIntoConstraints = false
         
         NSLayoutConstraint.activate([
             self.calendarView.leadingAnchor.constraint(equalTo: self.view.leadingAnchor),
