@@ -8,7 +8,7 @@
 import UIKit
 
 struct CellUIModel {
-    private var data: InfoObject
+    private let data: InfoObject
     
     init(data: InfoObject) {
         self.data = data
