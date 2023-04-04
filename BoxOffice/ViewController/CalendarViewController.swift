@@ -19,22 +19,19 @@ final class CalendarViewController: UIViewController {
         
         var calendar = Calendar(identifier: .gregorian)
         calendar.locale = Locale(identifier: "ko_KR")
-    
         calendarView.calendar = calendar
-        let fromDate = Calendar.current.date(from: DateComponents(year: 2004, month: 1, day: 1)) ?? Date()
-        let endDate = Calendar.current.date(from: DateComponents(year: 2023, month: 4, day: 4)) ?? Date()
-        calendarView.availableDateRange = DateInterval(start: fromDate,
-                                                       end: endDate)
         
         return calendarView
     }()
     
     private let selectedDate: Date
+    private let yesterday: Date
     
     weak var delegate: DateChangeable?
     
-    init(selectedDate: Date) {
+    init(selectedDate: Date, yesterday: Date) {
         self.selectedDate = selectedDate
+        self.yesterday = yesterday
         super.init(nibName: nil, bundle: nil)
     }
     
@@ -55,8 +52,13 @@ final class CalendarViewController: UIViewController {
         calendarView.visibleDateComponents = DateComponents(
             calendar: Calendar(identifier: .gregorian),
             year: Calendar.current.component(.year, from: self.selectedDate),
-            month: Calendar.current.component(.month, from: self.selectedDate)
+            month: Calendar.current.component(.month, from: self.selectedDate),
+            day: Calendar.current.component(.day, from: self.selectedDate)
         )
+        
+        let fromDate = Calendar.current.date(from: DateComponents(year: 2004, month: 1, day: 1)) ?? Date()
+        calendarView.availableDateRange = DateInterval(start: fromDate,
+                                                       end: self.yesterday)
     }
     
     private func configureUI() {
