@@ -88,10 +88,15 @@ extension MovieDetailViewController {
     private func configureUI() {
         view.backgroundColor = .systemBackground
         navigationItem.title = movieName
-        
+    
+        configureScrollView()
+        configurePosterImageView()
+        configureDescStackView()
+        configureActivityIndicatorView()
+    }
+    
+    private func configureScrollView() {
         view.addSubview(scrollView)
-        scrollView.addSubview(posterImageView)
-        scrollView.addSubview(descStackView)
         
         NSLayoutConstraint.activate([
             scrollView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
@@ -99,19 +104,29 @@ extension MovieDetailViewController {
             scrollView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor),
             scrollView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor),
             scrollView.contentLayoutGuide.widthAnchor.constraint(equalTo: view.widthAnchor),
-            
+        ])
+    }
+    
+    private func configurePosterImageView() {
+        scrollView.addSubview(posterImageView)
+        
+        NSLayoutConstraint.activate([
             posterImageView.topAnchor.constraint(equalTo: scrollView.topAnchor),
             posterImageView.leadingAnchor.constraint(equalTo: scrollView.leadingAnchor, constant: 10),
             posterImageView.trailingAnchor.constraint(equalTo: scrollView.trailingAnchor, constant: -10),
             posterImageView.heightAnchor.constraint(equalTo: view.heightAnchor, multiplier: 0.7),
-            
+        ])
+    }
+    
+    private func configureDescStackView() {
+        scrollView.addSubview(descStackView)
+        
+        NSLayoutConstraint.activate([
             descStackView.topAnchor.constraint(equalTo: posterImageView.bottomAnchor),
             descStackView.leadingAnchor.constraint(equalTo: scrollView.leadingAnchor, constant: 5),
             descStackView.trailingAnchor.constraint(equalTo: scrollView.trailingAnchor, constant: -5),
             descStackView.bottomAnchor.constraint(equalTo: scrollView.bottomAnchor),
         ])
-        
-        configureActivityIndicatorView()
     }
     
     private func configureActivityIndicatorView() {
