@@ -25,16 +25,25 @@ enum APIType: Hashable {
         
         switch self {
         case .movie(let code):
-            let movieUrl = URL(string: "http://kobis.or.kr/kobisopenapi/webservice/rest/movie/searchMovieInfo.json?key=\(key)&movieCd=\(code)")
-            return movieUrl
+            var components = URLComponents(string: "http://kobis.or.kr/kobisopenapi/webservice/rest/movie/searchMovieInfo.json")
+            let keyQuery = URLQueryItem(name: "key", value: key)
+            let codeQuery = URLQueryItem(name: "movieCd", value: code)
+            components?.queryItems = [keyQuery, codeQuery]
             
+            return components?.url
         case .boxoffice(let date):
-            let boxofficeUrl = URL(string: "http://kobis.or.kr/kobisopenapi/webservice/rest/boxoffice/searchDailyBoxOfficeList.json?key=\(key)&targetDt=\(date)")
-            return boxofficeUrl
-        
+            var components = URLComponents(string: "http://kobis.or.kr/kobisopenapi/webservice/rest/boxoffice/searchDailyBoxOfficeList.json")
+            let keyQuery = URLQueryItem(name: "key", value: key)
+            let dateQuery = URLQueryItem(name: "targetDt", value: date)
+            components?.queryItems = [keyQuery, dateQuery]
+            
+            return components?.url
         case .movieImage(let movieName):
-            let imageUrl = URL(string: "https://dapi.kakao.com/v2/search/image?query=\(movieName)포스터")
-            return imageUrl
+            var components  = URLComponents(string: "https://dapi.kakao.com/v2/search/image")
+            let query = URLQueryItem(name: "query", value: "\(movieName)포스터")
+            components?.queryItems?.append(query)
+            
+            return components?.url
         }
     }
 }
