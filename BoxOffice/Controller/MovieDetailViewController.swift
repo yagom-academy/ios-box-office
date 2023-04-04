@@ -89,8 +89,6 @@ class MovieDetailViewController: UIViewController {
         var imageSearchEndpoint = ImageSearchEndpoint()
         imageSearchEndpoint.insertImageQueryValue(imageName: movieName)
         
-        imageSearchEndpoint.header = ["Authorization" : "KakaoAK d74b0fb8fab7919ee21f04ca3f12ef75"]
-        
         provider.loadBoxOfficeAPI(endpoint: imageSearchEndpoint, parser: Parser<ImageSearch>()) {
             parsedData in
             

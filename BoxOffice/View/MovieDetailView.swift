@@ -42,13 +42,6 @@ class MovieDetailView: UIView {
     lazy var nationsStackView = makeHorizontalStackView()
     lazy var genreStackView = makeHorizontalStackView()
     lazy var actorStackView = makeHorizontalStackView()
-    
-    private func makeHorizontalStackView() -> UIStackView {
-        let stackView = UIStackView()
-        stackView.translatesAutoresizingMaskIntoConstraints = false
-        stackView.axis = .horizontal
-        return stackView
-    }
 
     lazy var directorTitleLabel = makeTitleLabel()
     let directorDataLabel = UILabel()
@@ -77,13 +70,6 @@ class MovieDetailView: UIView {
         label.numberOfLines = 0
         return label
     }()
-    
-    private func makeTitleLabel() -> UILabel {
-        let label = UILabel()
-        label.textAlignment = .center
-        label.font = UIFont.boldSystemFont(ofSize: 16)
-        return label
-    }
    
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -95,7 +81,21 @@ class MovieDetailView: UIView {
         fatalError("init(coder:) has not been implemented")
     }
     
-    func configureUI() {
+    private func makeHorizontalStackView() -> UIStackView {
+        let stackView = UIStackView()
+        stackView.translatesAutoresizingMaskIntoConstraints = false
+        stackView.axis = .horizontal
+        return stackView
+    }
+    
+    private func makeTitleLabel() -> UILabel {
+        let label = UILabel()
+        label.textAlignment = .center
+        label.font = UIFont.boldSystemFont(ofSize: 16)
+        return label
+    }
+    
+    private func configureUI() {
         let safeArea = safeAreaLayoutGuide
         self.addSubview(movieDetailScrollView)
         
