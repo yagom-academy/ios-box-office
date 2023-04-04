@@ -25,10 +25,13 @@ final class BoxOfficeListViewController: UIViewController {
         return collectionView
     }()
     
-    
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        configureUIView()
+    }
+    
+    private func configureUIView() {
         configureMainView()
         configureCollectionView()
         configureRefreshControl()
@@ -174,5 +177,7 @@ extension BoxOfficeListViewController: UICollectionViewDelegateFlowLayout {
 extension BoxOfficeListViewController: CalendarViewControllerDelegate {
     func deliverData(_ data: String) {
         self.currentDate = data
+        
+        configureUIView()
     }
 }

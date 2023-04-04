@@ -102,6 +102,7 @@ extension CalendarViewController: UICalendarSelectionSingleDateDelegate {
         guard let date = dateComponents?.date else { return }
         let selectedDate = date.convertString(isFormatted: false)
         self.date = selectedDate
+        self.dismiss(animated: true)
     }
 }
 
