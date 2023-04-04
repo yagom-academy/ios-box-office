@@ -30,6 +30,8 @@ final class BoxOfficeViewController: UIViewController {
         return yesterdayDate
     }
     
+    private var selectedDate: Date?
+    
     private let activityIndicator: UIActivityIndicatorView = {
         let activityIndicator = UIActivityIndicatorView()
         activityIndicator.style = UIActivityIndicatorView.Style.large
@@ -40,6 +42,7 @@ final class BoxOfficeViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        selectedDate = yesterday
         self.configureHierarchy()
         self.configureDataSource()
         self.setupUI()
@@ -47,11 +50,11 @@ final class BoxOfficeViewController: UIViewController {
     }
     
     private func setupUI() {
-        guard let yesterday = yesterday?.formatToDate(with: "yyyy-MM-dd") else {
+        guard let formattedSelectedDate = self.selectedDate?.formatToDate(with: "yyyy-MM-dd") else {
             return
         }
         
-        self.navigationItem.title = yesterday
+        self.navigationItem.title = formattedSelectedDate
         self.navigationItem.rightBarButtonItem = UIBarButtonItem(title: "날짜선택",
                                                                  style: .plain,
                                                                  target: self,
@@ -70,12 +73,12 @@ final class BoxOfficeViewController: UIViewController {
     }
     
     private func fetchDailyBoxOffice() {
-        guard let yesterday = yesterday?.formatToDate(with: "yyyyMMdd") else {
+        guard let formattedSelectedDate = self.selectedDate?.formatToDate(with: "yyyyMMdd") else {
             return
         }
         
         let boxOfficeProvider = BoxOfficeProvider<BoxOfficeAPI>()
-        boxOfficeProvider.fetchData(.dailyBoxOffice(date: yesterday),
+        boxOfficeProvider.fetchData(.dailyBoxOffice(date: formattedSelectedDate),
                                     type: BoxOfficeDTO.self) { [weak self] result in
             switch result {
             case .success(let data):
@@ -95,17 +98,20 @@ final class BoxOfficeViewController: UIViewController {
     }
     
     @objc private func dateSelectionTapped() {
-        let calendarViewController = CalendarViewController()
+        guard let selectedDate = self.selectedDate else {
+            return
+        }
+        let calendarViewController = CalendarViewController(selectedDate: selectedDate)
         self.present(calendarViewController, animated: true)
     }
     
     @objc private func refresh() {
-        guard let yesterday = yesterday?.formatToDate(with: "yyyyMMdd") else {
+        guard let formattedSelectedDate = self.selectedDate?.formatToDate(with: "yyyyMMdd") else {
             return
         }
         
         let boxOfficeProvider = BoxOfficeProvider<BoxOfficeAPI>()
-        boxOfficeProvider.fetchData(.dailyBoxOffice(date: yesterday),
+        boxOfficeProvider.fetchData(.dailyBoxOffice(date: formattedSelectedDate),
                                     type: BoxOfficeDTO.self) { [weak self] result in
             switch result {
             case .success(let data):

@@ -12,18 +12,29 @@ final class CalendarViewController: UIViewController {
     private let calendarView: UICalendarView = {
         let calendarView = UICalendarView()
         calendarView.fontDesign = .default
-        calendarView.visibleDateComponents = DateComponents(
-            calendar: Calendar(identifier: .gregorian),
-            year: Calendar.current.component(.year, from: Date()),
-            month: Calendar.current.component(.month, from: Date()),
-            day: Calendar.current.component(.day, from: Date())
-        )
+        
+        var calendar = Calendar(identifier: .gregorian)
+        calendar.locale = Locale(identifier: "ko_KR")
+    
+        calendarView.calendar = calendar
         let fromDate = Calendar.current.date(from: DateComponents(year: 2004, month: 1, day: 1)) ?? Date()
+        let endDate = Calendar.current.date(from: DateComponents(year: 2023, month: 4, day: 4)) ?? Date()
         calendarView.availableDateRange = DateInterval(start: fromDate,
-                                                       end: Date())
+                                                       end: endDate)
         
         return calendarView
     }()
+    
+    private let selectedDate: Date
+    
+    init(selectedDate: Date) {
+        self.selectedDate = selectedDate
+        super.init(nibName: nil, bundle: nil)
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
     
     override func viewDidLoad() {
         setupCalendarView()
@@ -34,6 +45,12 @@ final class CalendarViewController: UIViewController {
         self.calendarView.delegate = self
         let singleDateSelection = UICalendarSelectionSingleDate(delegate: self)
         self.calendarView.selectionBehavior = singleDateSelection
+        
+        calendarView.visibleDateComponents = DateComponents(
+            calendar: Calendar(identifier: .gregorian),
+            year: Calendar.current.component(.year, from: self.selectedDate),
+            month: Calendar.current.component(.month, from: self.selectedDate)
+        )
     }
     
     private func configureUI() {
