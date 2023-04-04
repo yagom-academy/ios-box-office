@@ -98,6 +98,7 @@ final class BoxOfficeViewController: UIViewController {
             return
         }
         let calendarViewController = CalendarViewController(selectedDate: selectedDate)
+        calendarViewController.delegate = self
         self.present(calendarViewController, animated: true)
     }
     
@@ -200,5 +201,13 @@ extension BoxOfficeViewController: UICollectionViewDelegate {
         let movieDetailViewController = MovieDetailViewController(movieName: selectedTitle,
                                                                   movieCode: selectedCode)
         self.navigationController?.pushViewController(movieDetailViewController, animated: true)
+    }
+}
+
+@available(iOS 16.0, *)
+extension BoxOfficeViewController: DateChangeable {
+    func updateSelectedDate(selectedDate: Date?) {
+        updateNavigationTitle(form: "yyyy-MM-dd", date: selectedDate)
+        fetchDailyBoxOffice(from: selectedDate)
     }
 }

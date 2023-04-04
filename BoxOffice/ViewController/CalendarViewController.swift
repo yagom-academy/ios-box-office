@@ -7,6 +7,10 @@
 
 import UIKit
 
+protocol DateChangeable: AnyObject {
+    func updateSelectedDate(selectedDate: Date?)
+}
+
 @available(iOS 16.0, *)
 final class CalendarViewController: UIViewController {
     private let calendarView: UICalendarView = {
@@ -26,6 +30,8 @@ final class CalendarViewController: UIViewController {
     }()
     
     private let selectedDate: Date
+    
+    weak var delegate: DateChangeable?
     
     init(selectedDate: Date) {
         self.selectedDate = selectedDate
@@ -77,6 +83,8 @@ extension CalendarViewController: UICalendarViewDelegate {
 @available(iOS 16.0, *)
 extension CalendarViewController: UICalendarSelectionSingleDateDelegate {
     func dateSelection(_ selection: UICalendarSelectionSingleDate, didSelectDate dateComponents: DateComponents?) {
+        delegate?.updateSelectedDate(selectedDate: dateComponents?.date)
+        self.dismiss(animated: true)
     }
 }
 
