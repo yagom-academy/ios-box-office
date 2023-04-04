@@ -6,8 +6,8 @@
 //
 import UIKit
 
+@available(iOS 16.0, *)
 final class BoxOfficeViewController: UIViewController {
-    
     enum Section {
         case main
     }
@@ -64,8 +64,9 @@ final class BoxOfficeViewController: UIViewController {
         self.activityIndicator.center = self.view.center
         self.activityIndicator.frame = self.view.frame
         
-        self.collectionView.refreshControl = refreshControl
         self.refreshControl.addTarget(self, action: #selector(refresh), for: .valueChanged)
+        self.collectionView.refreshControl = refreshControl
+        
     }
     
     private func fetchDailyBoxOffice() {
@@ -94,7 +95,8 @@ final class BoxOfficeViewController: UIViewController {
     }
     
     @objc private func dateSelectionTapped() {
-        
+        let calendarViewController = CalendarViewController()
+        self.present(calendarViewController, animated: true)
     }
     
     @objc private func refresh() {
@@ -123,6 +125,7 @@ final class BoxOfficeViewController: UIViewController {
     }
 }
 
+@available(iOS 16.0, *)
 extension BoxOfficeViewController {
     private func createLayout() -> UICollectionViewLayout {
         let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0),
@@ -141,6 +144,7 @@ extension BoxOfficeViewController {
     }
 }
 
+@available(iOS 16.0, *)
 extension BoxOfficeViewController {
     private func configureHierarchy() {
         collectionView = UICollectionView(frame: view.bounds, collectionViewLayout: createLayout())
@@ -177,6 +181,7 @@ extension BoxOfficeViewController {
     }
 }
 
+@available(iOS 16.0, *)
 extension BoxOfficeViewController: UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         let selectedTitle = boxOfficeItems[indexPath.row].title
