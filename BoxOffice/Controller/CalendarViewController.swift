@@ -7,8 +7,14 @@
 
 import UIKit
 
+protocol CalendarViewControllerDelegate {
+    func deliverData(_ data: String)
+}
+
 final class CalendarViewController: UIViewController {
     private var date: String
+    var delegate: CalendarViewControllerDelegate?
+    
     private let calendarView: UICalendarView = {
         let calendarView = UICalendarView()
         let gregorianCalendar = Calendar(identifier: .gregorian)
@@ -31,9 +37,13 @@ final class CalendarViewController: UIViewController {
     }
     
     override func viewDidLoad() {
-        
+        super.viewDidLoad()
         
         configureMainView()
+    }
+    
+    override func viewDidDisappear(_ animated: Bool) {
+        delegate?.deliverData(date)
     }
     
     private func configureMainView() {
@@ -94,3 +104,5 @@ extension CalendarViewController: UICalendarSelectionSingleDateDelegate {
         self.date = selectedDate
     }
 }
+
+

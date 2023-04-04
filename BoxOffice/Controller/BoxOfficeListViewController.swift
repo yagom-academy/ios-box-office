@@ -77,7 +77,10 @@ final class BoxOfficeListViewController: UIViewController {
     }
     
     @objc private func presentSelectDateModal() {
-        self.present(CalendarViewController(currentDate), animated: true)
+        let modal = CalendarViewController(currentDate)
+        modal.delegate = self
+        
+        self.present(modal, animated: true)
     }
     
     private func fetchBoxOfficeData(completion: @escaping () -> Void) {
@@ -122,7 +125,6 @@ final class BoxOfficeListViewController: UIViewController {
             }
         }
     }
-    
 }
 
 extension BoxOfficeListViewController: UICollectionViewDataSource {
@@ -166,5 +168,11 @@ extension BoxOfficeListViewController: UICollectionViewDelegateFlowLayout {
         let detailMovieViewController = DetailMovieViewController(movieCode: movieCode)
         
         navigationController?.pushViewController(detailMovieViewController, animated: true)
+    }
+}
+
+extension BoxOfficeListViewController: CalendarViewControllerDelegate {
+    func deliverData(_ data: String) {
+        self.currentDate = data
     }
 }
