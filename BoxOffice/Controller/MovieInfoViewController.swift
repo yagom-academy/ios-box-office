@@ -8,18 +8,12 @@
 import UIKit
 
 final class MovieInfoViewController: UIViewController {
-    let movieCode: String
+    private let movieCode: String
     private var movie: Movie?
     private var moviePoster: MoviePoster?
     private let networkManager = NetworkManager()
-    
-    private let dateFormatter = {
-        let dateFormatter = DateFormatter()
-        
-        dateFormatter.dateFormat = "yyyy-MM-dd"
-        
-        return dateFormatter
-    }()
+    private let dateFormatter = DateFormatter()
+    private var movieInfo: [(title: String, value: String)] = []
     
     private let contentScrollView = {
         let scrollView = UIScrollView()
@@ -87,24 +81,30 @@ final class MovieInfoViewController: UIViewController {
         
         networkManager.fetchData(urlRequest: urlRequest, type: Movie.self) { [weak self] result in
             switch result {
-            case .success(let data):
-                self?.movie = data
+            case .success(let movieInfo):
+                self?.movie = movieInfo
                 
                 guard let movieInfo = self?.movie?.result.movieInfo else { return }
                 
                 DispatchQueue.main.async {
-                    self?.navigationItem.title = movieInfo.movieName
-                    self?.configureScrollView()
-                    self?.configureMovieInfoListStackView(data: movieInfo)
-                    self?.configureMovieInfoLayout()
-                    self?.fetchMoviePoster()
+                    self?.configureUI(of: movieInfo)
                 }
             case .failure(let error):
                 DispatchQueue.main.async {
-                    self?.displayAlert(from: error)
+                    self?.presentAlert(from: error)
                 }
             }
         }
+    }
+    
+    private func configureUI(of movieInfo: MovieInfo) {
+        navigationItem.title = movieInfo.movieName
+        
+        fetchMoviePoster()
+        configureScrollView()
+        configureMovieInfo(data: movieInfo)
+        configureMovieInfoListStackView()
+        configureMovieInfoLayout()
     }
     
     private func fetchMoviePoster() {
@@ -118,10 +118,10 @@ final class MovieInfoViewController: UIViewController {
         
         networkManager.fetchData(urlRequest: urlRequest, type: MoviePoster.self) { [weak self] result in
             switch result {
-            case .success(let data):
-                self?.moviePoster = data
+            case .success(let moviePosterInfo):
+                self?.moviePoster = moviePosterInfo
                 
-                guard let url = URL(string: data.documents.first?.imageURL ?? ""),
+                guard let url = URL(string: moviePosterInfo.documents.first?.imageURL ?? ""),
                       let data = try? Data(contentsOf: url) else { return }
                 
                 DispatchQueue.main.async {
@@ -130,13 +130,13 @@ final class MovieInfoViewController: UIViewController {
                 }
             case .failure(let error):
                 DispatchQueue.main.async {
-                    self?.displayAlert(from: error)
+                    self?.presentAlert(from: error)
                 }
             }
         }
     }
     
-    private func displayAlert(from error: Error) {
+    private func presentAlert(from error: Error) {
         guard let networkingError = error as? NetworkingError else { return }
         let alert = UIAlertController(title: networkingError.description, message: "모리스티에게 문의해 주세요.", preferredStyle: .alert)
         alert.addAction(UIAlertAction(title: "닫기", style: .cancel))
@@ -163,24 +163,33 @@ final class MovieInfoViewController: UIViewController {
         ])
     }
 
-    private func configureMovieInfoListStackView(data: MovieInfo) {
-        let directors = data.directors.map { $0.name }.joined(separator: ", ")
+    private func configureMovieInfo(data: MovieInfo) {
+        dateFormatter.dateFormat = "yyyyMMdd"
+        let directors = data.directors.map(\.name).joined(separator: ", ")
         let productionYear = data.productionYear
-        let openDate = data.openDate.toDate()
+        let openDate = data.openDate.toDate(formatter: dateFormatter)
         let showTime = data.showTime
-        let watchGradeName = data.audits.map { $0.watchGradeName }.joined(separator: ", ")
-        let nations = data.nations.map { $0.name }.joined(separator: ", ")
-        let genres = data.genres.map { $0.name }.joined(separator: ", ")
-        let actors = data.actors.map { $0.name }.joined(separator: ", ")
+        let watchGradeName = data.audits.map(\.watchGradeName).joined(separator: ", ")
+        let nations = data.nations.map(\.name).joined(separator: ", ")
+        let genres = data.genres.map(\.name).joined(separator: ", ")
+        let actors = data.actors.map(\.name).joined(separator: ", ")
         
-        movieInfoListStackView.addArrangedSubview(RowStackView(title: "감독", value: directors))
-        movieInfoListStackView.addArrangedSubview(RowStackView(title: "제작년도", value: productionYear))
-        movieInfoListStackView.addArrangedSubview(RowStackView(title: "개봉일", value: openDate?.showYesterdayDate(formatter: dateFormatter) ?? "개봉일 정보 없음"))
-        movieInfoListStackView.addArrangedSubview(RowStackView(title: "상영시간", value: showTime))
-        movieInfoListStackView.addArrangedSubview(RowStackView(title: "관람등급", value: watchGradeName))
-        movieInfoListStackView.addArrangedSubview(RowStackView(title: "제작국가", value: nations))
-        movieInfoListStackView.addArrangedSubview(RowStackView(title: "장르", value: genres))
-        movieInfoListStackView.addArrangedSubview(RowStackView(title: "배우", value: actors))
+        dateFormatter.dateFormat = "yyyy-MM-dd"
+        movieInfo = [(title: "감독", value: directors),
+                    (title: "제작년도", value: productionYear),
+                    (title: "개봉일", value: openDate?.showYesterdayDate(formatter: dateFormatter) ?? "개봉일 정보 없음"),
+                    (title: "상영시간", value: showTime),
+                    (title: "관람등급", value: watchGradeName),
+                    (title: "제작국가", value: nations),
+                    (title: "장르", value: genres),
+                    (title: "배우", value: actors)
+        ]
+    }
+    
+    private func configureMovieInfoListStackView() {
+        movieInfo.forEach { item in
+            movieInfoListStackView.addArrangedSubview(RowStackView(title: item.title, value: item.value))
+        }
     }
     
     private func configureMovieInfoLayout() {

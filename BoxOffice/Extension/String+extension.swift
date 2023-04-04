@@ -14,16 +14,11 @@ extension String {
         return value
     }
     
-    func toDate() -> Date? {
-        let dateFormatter = DateFormatter()
+    func toDate(formatter: DateFormatter) -> Date? {
+        formatter.locale = Locale(identifier: "ko-KR")
+
+        guard let date = formatter.date(from: self) else { return nil }
         
-        dateFormatter.locale = Locale(identifier: "ko-KR")
-        dateFormatter.dateFormat = "yyyyMMdd"
-        
-        if let date = dateFormatter.date(from: self) {
-            return date
-        } else {
-            return nil
-        }
+        return date
     }
 }

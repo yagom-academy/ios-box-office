@@ -7,15 +7,15 @@
 
 import Foundation
 
-struct MoviePoster: Codable {
+struct MoviePoster: Decodable, Equatable {
     let documents: [Document]
 }
 
 // MARK: - Document
-struct Document: Codable {
+struct Document: Decodable, Equatable {
     let imageURL: String
 
-    enum CodingKeys: String, CodingKey {
+    private enum CodingKeys: String, CodingKey {
         case imageURL = "image_url"
     }
 }

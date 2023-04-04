@@ -80,7 +80,7 @@ struct Company: Codable {
     let englishName: String
     let partName: String
 
-    enum CodingKeys: String, CodingKey {
+    private enum CodingKeys: String, CodingKey {
         case code = "companyCd"
         case name = "companyNm"
         case englishName = "companyNmEn"

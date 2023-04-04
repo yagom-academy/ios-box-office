@@ -50,8 +50,8 @@ final class BoxOfficeViewController: UIViewController {
 
         networkManager.fetchData(urlRequest: urlRequest, type: BoxOffice.self) { [weak self] result in
             switch result {
-            case .success(let data):
-                self?.boxOffice = data
+            case .success(let boxOfficeInfo):
+                self?.boxOffice = boxOfficeInfo
                 
                 DispatchQueue.main.async {
                     self?.collectionView.reloadData()
@@ -155,7 +155,7 @@ extension BoxOfficeViewController: UICollectionViewDelegateFlowLayout {
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        let movieInfoViewController = MovieInfoViewController(movieCode: boxOffice?.result.dailyBoxOfficeList[indexPath.item].movieCode ?? "")
+        let movieInfoViewController = MovieInfoViewController(movieCode: boxOffice?.result.dailyBoxOfficeList[safe: indexPath.item]?.movieCode ?? "")
         navigationController?.pushViewController(movieInfoViewController, animated: true)
     }
 }
