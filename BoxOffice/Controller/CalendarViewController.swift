@@ -10,6 +10,7 @@ import UIKit
 class CalendarViewController: UIViewController {
     let calendar = Calendar(identifier: .gregorian)
     let calendarView = UICalendarView()
+    var delegate: SendData?
     
     private var yesterday: Date {
         return Date(timeIntervalSinceNow: 3600 * -24)
@@ -65,12 +66,13 @@ class CalendarViewController: UIViewController {
 
 extension CalendarViewController: UICalendarSelectionSingleDateDelegate {
     func dateSelection(_ selection: UICalendarSelectionSingleDate, didSelectDate dateComponents: DateComponents?) {
-        guard let year = dateComponents?.year,
-              let month = dateComponents?.month,
-              let day = dateComponents?.day else { return }
-        
-        let selectedDate = String(year) + month.doubleDigit + day.doubleDigit
+        guard let date = dateComponents?.date else { return }
+        delegate?.sendData(data: date)
         
         self.dismiss(animated: true)
     }
+}
+
+protocol SendData {
+    func sendData(data: Date)
 }

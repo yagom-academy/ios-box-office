@@ -14,13 +14,14 @@ final class DailyBoxOfficeViewController: UIViewController {
     private var yesterday: Date {
         return Date(timeIntervalSinceNow: 3600 * -24)
     }
+    private var currentDate: Date?
     
     override func viewDidLoad() {
         super.viewDidLoad()
         LoadingIndicator.showLoading()
         configureRootView()
         configureNavigationBar()
-        loadDailyBoxOffice()
+        loadDailyBoxOffice(date: yesterday)
         configureCollectionView()
         configureRefreshControl()
     }
@@ -31,9 +32,10 @@ final class DailyBoxOfficeViewController: UIViewController {
     }
     
     private func configureNavigationBar() {
-        let titleText = DateFormatter.shared.string(from: yesterday, dateFormat: "yyyy-MM-dd")
+        let titleText = DateFormatter.shared.string(from: currentDate ?? yesterday,
+                                                    dateFormat: "yyyy-MM-dd")
         title = titleText
-    
+        
         let dateChangeButton = UIBarButtonItem(title: "날짜선택",
                                                style: .plain,
                                                target: self,
@@ -44,12 +46,13 @@ final class DailyBoxOfficeViewController: UIViewController {
     @objc func showCalendar() {
         let calendarViewController = CalendarViewController()
         navigationController?.present(calendarViewController, animated: true)
+        calendarViewController.delegate = self
     }
     
-    private func loadDailyBoxOffice() {
+    private func loadDailyBoxOffice(date: Date) {
         var api = KobisAPI(service: .dailyBoxOffice)
         let queryName = "targetDt"
-        let queryValue = DateFormatter.shared.string(from: yesterday, dateFormat: "yyyyMMdd")
+        let queryValue = DateFormatter.shared.string(from: date, dateFormat: "yyyyMMdd")
         api.addQuery(name: queryName, value: queryValue)
         
         var apiProvider = APIProvider()
@@ -96,7 +99,7 @@ final class DailyBoxOfficeViewController: UIViewController {
     }
     
     @objc func handlerRefreshControl() {
-        loadDailyBoxOffice()
+        loadDailyBoxOffice(date: currentDate ?? yesterday)
         
         DispatchQueue.main.async {
             self.configureNavigationBar()
@@ -148,5 +151,14 @@ extension DailyBoxOfficeViewController: UICollectionViewDelegateFlowLayout {
         navigationController?.pushViewController(movieDetailsViewController, animated: true)
         
         collectionView.deselectItem(at: indexPath, animated: true)
+    }
+}
+
+extension DailyBoxOfficeViewController: SendData {
+    func sendData(data: Date) {
+        currentDate = data
+        let titleText = DateFormatter.shared.string(from: data, dateFormat: "yyyy-MM-dd")
+        self.navigationItem.title = titleText
+        loadDailyBoxOffice(date: data)
     }
 }
