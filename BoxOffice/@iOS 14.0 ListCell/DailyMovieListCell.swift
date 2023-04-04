@@ -10,7 +10,8 @@ import UIKit
 @available(iOS 14.0, *)
 final class DailyMovieListCell: UICollectionViewListCell {
     static let reuseIdentifier = "DailyMovieListCell"
-    private var movie: DailyBoxOffice.BoxOfficeResult.Movie? = nil
+    
+    private var movie: DailyBoxOfficeItem? = nil
     
     private lazy var movieListContentView = UIListContentView(configuration: defaultListContentConfiguration())
     private lazy var movieRankContentView = UIListContentView(configuration: defaultListContentConfiguration())
@@ -24,7 +25,7 @@ final class DailyMovieListCell: UICollectionViewListCell {
         return state
     }
     
-    func updateWithItem(_ newItem: DailyBoxOffice.BoxOfficeResult.Movie) {
+    func updateWithItem(_ newItem: DailyBoxOfficeItem) {
         guard movie != newItem else { return }
         movie = newItem
         setNeedsUpdateConfiguration()
@@ -87,7 +88,7 @@ final class DailyMovieListCell: UICollectionViewListCell {
         // MARK: movieRankContent
         var movieRankContent = defaultListContentConfiguration().updated(for: state)
         
-        movieRankContent.text = movie.order
+        movieRankContent.text = movie.rank
         movieRankContent.textProperties.font = UIFont.preferredFont(forTextStyle: .largeTitle)
         movieRankContent.textProperties.alignment = .center
         
@@ -135,8 +136,8 @@ extension UIConfigurationStateCustomKey {
 
 @available(iOS 14.0, *)
 extension UICellConfigurationState {
-    var movie: DailyBoxOffice.BoxOfficeResult.Movie? {
-        get { return self[.movieKey] as? DailyBoxOffice.BoxOfficeResult.Movie }
+    var movie: DailyBoxOfficeItem? {
+        get { return self[.movieKey] as? DailyBoxOfficeItem }
         set { self[.movieKey] = newValue }
     }
 }

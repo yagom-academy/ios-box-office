@@ -8,13 +8,17 @@
 import Foundation
 
 enum BoxOfficeEndPoint {
-    case DailyBoxOffice(tagetDate: String, httpMethod: HttpMethod)
-    case MovieInformation(movieCode: String, httpMethod: HttpMethod)
+    case DailyBoxOffice(tagetDate: String)
+    case MovieInformation(movieCode: String)
+    case MoviePosterImage(query: String)
 }
 
 extension BoxOfficeEndPoint {
     var baseURL: String {
-        get {
+        switch self {
+        case .MoviePosterImage:
+            return "https://dapi.kakao.com"
+        case .DailyBoxOffice, .MovieInformation:
             return "http://www.kobis.or.kr"
         }
     }
@@ -25,6 +29,8 @@ extension BoxOfficeEndPoint {
             return "/kobisopenapi/webservice/rest/boxoffice/searchDailyBoxOfficeList.json"
         case .MovieInformation:
             return "/kobisopenapi/webservice/rest/movie/searchMovieInfo.json"
+        case .MoviePosterImage:
+            return "/v2/search/image"
         }
     }
     
@@ -36,25 +42,20 @@ extension BoxOfficeEndPoint {
     
     var queryItems: [URLQueryItem] {
         switch self {
-        case .DailyBoxOffice(let targetDate, _):
+        case .DailyBoxOffice(let targetDate):
             return [
                 URLQueryItem(name: "key", value: key),
                 URLQueryItem(name: "targetDt", value: targetDate)
             ]
-        case .MovieInformation(let movieCode, _):
+        case .MovieInformation(let movieCode):
             return [
                 URLQueryItem(name: "key", value: key),
                 URLQueryItem(name: "movieCd", value: movieCode)
             ]
-        }
-    }
-    
-    var httpMethod: String {
-        switch self {
-        case .DailyBoxOffice(_, let method):
-            return method.description
-        case .MovieInformation(_, let method):
-            return method.description
+        case .MoviePosterImage(let query):
+            return [
+                URLQueryItem(name: "query", value: query)
+            ]
         }
     }
     
@@ -70,8 +71,14 @@ extension BoxOfficeEndPoint {
     func createURLRequest() -> URLRequest? {
         guard let url = createURL() else { return nil }
         var urlRequest = URLRequest(url: url)
-        urlRequest.httpMethod = httpMethod
+        urlRequest.httpMethod = HttpMethod.get.description
         
-        return urlRequest
+        switch self {
+        case .MoviePosterImage:
+            urlRequest.setValue("KakaoAK d470dcea6bc2ede97003aac7b84e2533", forHTTPHeaderField: "Authorization")
+            return urlRequest
+        case .DailyBoxOffice, .MovieInformation:
+            return urlRequest
+        }
     }
 }

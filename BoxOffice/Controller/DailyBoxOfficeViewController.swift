@@ -8,18 +8,18 @@
 import UIKit
 
 final class DailyBoxOfficeViewController: UIViewController {
-    private typealias DataSource = UICollectionViewDiffableDataSource<Section, DailyBoxOffice.BoxOfficeResult.Movie>
+    private typealias DataSource = UICollectionViewDiffableDataSource<Section, DailyBoxOfficeItem>
     
     private let networkManager = NetworkManager()
     private var boxOfficeEndPoint: BoxOfficeEndPoint?
-    private var dailyBoxOffice: DailyBoxOffice?
     private var movieDataSource: DataSource?
+    private var dailyBoxOfficeItem: [DailyBoxOfficeItem] = []
     
-    private var dateFormatter = DateFormatter()
-    private var refreshControl = UIRefreshControl()
+    private let dateFormatter = DateFormatter()
+    private let refreshControl = UIRefreshControl()
     
     lazy private var collectionView = UICollectionView(frame: view.bounds, collectionViewLayout: createMovieListLayout())
-
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         view.addSubview(collectionView)
@@ -36,6 +36,7 @@ final class DailyBoxOfficeViewController: UIViewController {
     }
     
     private func configureCollectionView() {
+        collectionView.delegate = self
         collectionView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
         collectionView.register(DailyBoxOfficeCollectionViewCell.self, forCellWithReuseIdentifier: DailyBoxOfficeCollectionViewCell.reuseIdentifier)
         collectionView.refreshControl = refreshControl
@@ -52,7 +53,7 @@ final class DailyBoxOfficeViewController: UIViewController {
         dateFormatter.dateFormat = "yyyyMMdd"
         let currentDate = dateFormatter.string(from: Date(timeIntervalSinceNow: -86400))
         
-        boxOfficeEndPoint = BoxOfficeEndPoint.DailyBoxOffice(tagetDate: "\(currentDate)", httpMethod: .get)
+        boxOfficeEndPoint = BoxOfficeEndPoint.DailyBoxOffice(tagetDate: "\(currentDate)")
     }
     
     private func fetchDailyBoxOfficeData() {
@@ -63,7 +64,7 @@ final class DailyBoxOfficeViewController: UIViewController {
             case .failure(let error):
                 print(error)
             case .success(let result):
-                self?.dailyBoxOffice = result
+                self?.applyMoviesToDailyBoxOfficeItem(from: result.boxOfficeResult.boxOfficeList)
                 
                 DispatchQueue.main.async {
                     self?.setupDataSource()
@@ -73,10 +74,12 @@ final class DailyBoxOfficeViewController: UIViewController {
             }
         }
     }
-}
-
-fileprivate enum Section: Hashable {
-    case main
+    
+    private func applyMoviesToDailyBoxOfficeItem(from movies: [DailyBoxOffice.BoxOfficeResult.Movie]) {
+        dailyBoxOfficeItem = movies.map {
+            DailyBoxOfficeItem(from: $0)
+        }
+    }
 }
 
 extension DailyBoxOfficeViewController {
@@ -94,12 +97,11 @@ extension DailyBoxOfficeViewController {
     }
     
     private func applySnapshotToDataSource() {
-        typealias Snapshot = NSDiffableDataSourceSnapshot<Section, DailyBoxOffice.BoxOfficeResult.Movie>
+        typealias Snapshot = NSDiffableDataSourceSnapshot<Section, DailyBoxOfficeItem>
         var snapshot = Snapshot()
         snapshot.appendSections([.main])
-        if let dailyBoxOffice = self.dailyBoxOffice {
-            snapshot.appendItems(dailyBoxOffice.boxOfficeResult.boxOfficeList, toSection: .main)
-        }
+        snapshot.appendItems(dailyBoxOfficeItem, toSection: .main)
+        
         movieDataSource?.apply(snapshot, animatingDifferences: true)
     }
 }
@@ -120,5 +122,40 @@ extension DailyBoxOfficeViewController {
         let layout = UICollectionViewCompositionalLayout(section: section)
         
         return layout
+    }
+}
+
+extension DailyBoxOfficeViewController: UICollectionViewDelegate {
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        let movieName = dailyBoxOfficeItem[indexPath.item].name
+        let movieCode = dailyBoxOfficeItem[indexPath.item].code
+        
+        let nextViewcontroller = MovieInformationViewController(movieName: movieName, movieCode: movieCode)
+        navigationController?.pushViewController(nextViewcontroller, animated: true)
+    }
+}
+
+enum Section: Hashable {
+    case main
+}
+
+struct DailyBoxOfficeItem: Hashable {
+    let identifier = UUID()
+    let rank: String
+    let rankVariance: String
+    let rankOldAndNew: String
+    let code: String
+    let name: String
+    let audienceCount: String
+    let audienceAccumulation: String
+    
+    init(from movie: DailyBoxOffice.BoxOfficeResult.Movie) {
+        self.rank = movie.rank
+        self.rankVariance = movie.rankVariance
+        self.rankOldAndNew = movie.rankOldAndNew
+        self.code = movie.code
+        self.name = movie.name
+        self.audienceCount = movie.audienceCount
+        self.audienceAccumulation = movie.audienceAccumulation
     }
 }
