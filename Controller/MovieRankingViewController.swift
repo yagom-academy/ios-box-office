@@ -57,18 +57,10 @@ final class MovieRankingViewController: UIViewController {
                 }
             case .failure(let error):
                 DispatchQueue.main.async {
-                    self?.presentErrorAlert(error: error)
+                    self?.presentErrorAlert(error: error, title: "박스오피스")
                 }
             }
         }
-    }
-    
-    private func presentErrorAlert(error: Error) {
-        let alert = UIAlertController(title: error.localizedDescription,
-                                      message: nil,
-                                      preferredStyle: .alert)
-        alert.addAction(UIAlertAction(title: "확인", style: .default))
-        present(alert, animated: true, completion: nil)
     }
 
     private func startLoadingView() {

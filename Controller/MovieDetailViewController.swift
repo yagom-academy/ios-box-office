@@ -48,7 +48,9 @@ final class MovieDetailViewController: UIViewController {
                     self?.descStackView.updateTextLabel(infoUIModel)
                 }
             case .failure(let error):
-                print(error.localizedDescription)
+                DispatchQueue.main.async {
+                    self?.presentErrorAlert(error: error, title: "영화 상세 정보")
+                }
             }
         }
     }
@@ -62,7 +64,9 @@ final class MovieDetailViewController: UIViewController {
                     self?.posterImageView.sizeToFit()
                 }
             case .failure(let error):
-                print(error)
+                DispatchQueue.main.async {
+                    self?.presentErrorAlert(error: error, title: "영화 포스터 이미지")
+                }
             }
         }
     }

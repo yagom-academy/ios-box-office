@@ -43,6 +43,7 @@
 		71E6435329DAC677001F733E /* ContentLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71E6435229DAC677001F733E /* ContentLabel.swift */; };
 		71E6435529DAC832001F733E /* ContentStackView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71E6435429DAC832001F733E /* ContentStackView.swift */; };
 		71EDC4A029DBEE2900510E15 /* MovieInfoUIModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71EDC49F29DBEE2900510E15 /* MovieInfoUIModel.swift */; };
+		71EDC4A229DC0CE800510E15 /* ViewController+extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71EDC4A129DC0CE800510E15 /* ViewController+extension.swift */; };
 		71F1997929CD35D100CF8695 /* MockURLProtocolObject.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71F1997829CD35D100CF8695 /* MockURLProtocolObject.swift */; };
 /* End PBXBuildFile section */
 
@@ -104,6 +105,7 @@
 		71E6435229DAC677001F733E /* ContentLabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentLabel.swift; sourceTree = "<group>"; };
 		71E6435429DAC832001F733E /* ContentStackView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentStackView.swift; sourceTree = "<group>"; };
 		71EDC49F29DBEE2900510E15 /* MovieInfoUIModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MovieInfoUIModel.swift; sourceTree = "<group>"; };
+		71EDC4A129DC0CE800510E15 /* ViewController+extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ViewController+extension.swift"; sourceTree = "<group>"; };
 		71F1997829CD35D100CF8695 /* MockURLProtocolObject.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockURLProtocolObject.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -138,6 +140,7 @@
 				26B1733629C845CD0086B7CA /* String+extension.swift */,
 				7180BC3929C9547A00C9E70B /* Bundle+extension.swift */,
 				71D8B04929D56CC80005A625 /* Date+extension.swift */,
+				71EDC4A129DC0CE800510E15 /* ViewController+extension.swift */,
 			);
 			path = Extension;
 			sourceTree = "<group>";
@@ -451,6 +454,7 @@
 				269BFC9A29D6D0FF00263E4C /* RankingManager.swift in Sources */,
 				7113202929C8337200B5A9DB /* DailyBoxofficeObject.swift in Sources */,
 				71E6434F29DAA38C001F733E /* MovieImageObject.swift in Sources */,
+				71EDC4A229DC0CE800510E15 /* ViewController+extension.swift in Sources */,
 				71E6435529DAC832001F733E /* ContentStackView.swift in Sources */,
 				26B6853C29C987A6001580FF /* MovieInfoResultObject.swift in Sources */,
 				715553E129D30E8200B7FC3D /* BoxofficeInfo.swift in Sources */,

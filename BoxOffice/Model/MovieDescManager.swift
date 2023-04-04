@@ -27,7 +27,7 @@ final class MovieDescManager {
                 let urlText = data.documents[0].url
                 self?.fetchImage(imageUrlText: urlText, handler: handler)
             case .failure(let error):
-                print(error.localizedDescription)
+                handler(.failure(error))
             }
         }
     }
