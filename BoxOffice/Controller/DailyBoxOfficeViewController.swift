@@ -8,8 +8,8 @@
 import UIKit
 
 final class DailyBoxOfficeViewController: UIViewController {
-    private let collectionView = UICollectionView(frame: UIScreen.main.bounds,
-                                                  collectionViewLayout: UICollectionViewFlowLayout())
+    private lazy var collectionView = UICollectionView(frame: UIScreen.main.bounds,
+                                                       collectionViewLayout: compositionalLayout())
     private var dailyBoxOffice: DailyBoxOffice?
     private var yesterday: Date {
         return Date(timeIntervalSinceNow: 3600 * -24)
@@ -74,6 +74,13 @@ final class DailyBoxOfficeViewController: UIViewController {
             
             LoadingIndicator.hideLoading()
         }
+    }
+    
+    private func compositionalLayout() -> UICollectionViewCompositionalLayout {
+        let configuration = UICollectionLayoutListConfiguration(appearance: .plain)
+        let layout = UICollectionViewCompositionalLayout.list(using: configuration)
+        
+        return layout
     }
     
     private func configureCollectionView() {
