@@ -71,7 +71,6 @@ final class CalendarViewController: UIViewController {
 extension CalendarViewController: UICalendarViewDelegate {
     func calendarView(_ calendarView: UICalendarView, decorationFor dateComponents: DateComponents) -> UICalendarView.Decoration? {
         return .none
-        
     }
 }
 

@@ -42,19 +42,15 @@ final class BoxOfficeViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        selectedDate = yesterday
+        self.selectedDate = yesterday
         self.configureHierarchy()
         self.configureDataSource()
         self.setupUI()
-        self.fetchDailyBoxOffice()
+        self.fetchDailyBoxOffice(from: self.selectedDate)
     }
     
     private func setupUI() {
-        guard let formattedSelectedDate = self.selectedDate?.formatToDate(with: "yyyy-MM-dd") else {
-            return
-        }
-        
-        self.navigationItem.title = formattedSelectedDate
+        self.updateNavigationTitle(form: "yyyy-MM-dd", date: self.selectedDate)
         self.navigationItem.rightBarButtonItem = UIBarButtonItem(title: "날짜선택",
                                                                  style: .plain,
                                                                  target: self,
@@ -72,8 +68,8 @@ final class BoxOfficeViewController: UIViewController {
         
     }
     
-    private func fetchDailyBoxOffice() {
-        guard let formattedSelectedDate = self.selectedDate?.formatToDate(with: "yyyyMMdd") else {
+    private func fetchDailyBoxOffice(from date: Date?) {
+        guard let formattedSelectedDate = date?.formatToDate(with: "yyyyMMdd") else {
             return
         }
         
@@ -106,18 +102,19 @@ final class BoxOfficeViewController: UIViewController {
     }
     
     @objc private func refresh() {
-        guard let formattedSelectedDate = self.selectedDate?.formatToDate(with: "yyyyMMdd") else {
+        guard let date = self.yesterday?.formatToDate(with: "yyyyMMdd") else {
             return
         }
         
         let boxOfficeProvider = BoxOfficeProvider<BoxOfficeAPI>()
-        boxOfficeProvider.fetchData(.dailyBoxOffice(date: formattedSelectedDate),
+        boxOfficeProvider.fetchData(.dailyBoxOffice(date: date),
                                     type: BoxOfficeDTO.self) { [weak self] result in
             switch result {
             case .success(let data):
                 self?.boxOfficeItems = data.convertToBoxOfficeItems()
                 DispatchQueue.main.async {
                     self?.updateSnapshot()
+                    self?.updateNavigationTitle(form: "yyyy-MM-dd", date: self?.yesterday)
                     self?.refreshControl.endRefreshing()
                 }
             case .failure:
@@ -128,6 +125,14 @@ final class BoxOfficeViewController: UIViewController {
                 }
             }
         }
+    }
+    
+    private func updateNavigationTitle(form: String, date: Date?) {
+        guard let date = date, let formattedDate = date.formatToDate(with: form) else {
+            return
+        }
+        
+        self.navigationItem.title = formattedDate
     }
 }
 
