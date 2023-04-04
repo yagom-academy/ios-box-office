@@ -31,7 +31,7 @@ final class CalendarViewController: UIViewController {
     }
     
     override func viewDidLoad() {
-       
+        
         
         configureMainView()
     }
@@ -45,18 +45,26 @@ final class CalendarViewController: UIViewController {
     private func configureCalendarView() {
         view.addSubview(calendarView)
         
-        configureVisibleDate()
+        configureSelectedDate()
         configureCalendarRange()
         configureAutoLayout()
-        
     }
     
-    private func configureVisibleDate() {
+    private func configureSelectedDate() {
         let dateSelection = UICalendarSelectionSingleDate(delegate: self)
+        let dateComponents = date.formatDateString()?.components(separatedBy: "-")
+        
+        guard let year = dateComponents?[0],
+              let month = dateComponents?[1],
+              let day = dateComponents?[2] else { return }
+        
+        let selectedDate = DateComponents(calendar: Calendar(identifier: .gregorian),
+                                          year: Int(year),
+                                          month: Int(month),
+                                          day: Int(day))
         
         calendarView.selectionBehavior = dateSelection
-        calendarView.visibleDateComponents = DateComponents(calendar: Calendar(identifier: .gregorian), year: 2022, month: 6, day: 6)
-        dateSelection.selectedDate = DateComponents(calendar: Calendar(identifier: .gregorian), year:2022, month: 6, day: 6)
+        dateSelection.selectedDate = selectedDate
     }
     
     private func configureCalendarRange() {
@@ -82,7 +90,7 @@ final class CalendarViewController: UIViewController {
 extension CalendarViewController: UICalendarSelectionSingleDateDelegate {
     func dateSelection(_ selection: UICalendarSelectionSingleDate, didSelectDate dateComponents: DateComponents?) {
         guard let date = dateComponents?.date else { return }
-        let selectedDate = date.convertString()
-        print(selectedDate)
+        let selectedDate = date.convertString(isFormatted: false)
+        self.date = selectedDate
     }
 }

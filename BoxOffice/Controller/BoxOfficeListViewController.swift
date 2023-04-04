@@ -11,7 +11,7 @@ final class BoxOfficeListViewController: UIViewController {
     private let server = NetworkManager.shared
     private let urlMaker = URLRequestMaker()
     private var boxOffice: BoxOffice?
-    private var currentDate: String = Date.configureYesterday(isFormatted: false)
+    private var currentDate: String = Date.yesterday.convertString(isFormatted: false)
     
     private let collectionView: UICollectionView = {
         let layout = UICollectionViewFlowLayout()
