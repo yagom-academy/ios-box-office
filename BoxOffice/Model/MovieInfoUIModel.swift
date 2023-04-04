@@ -15,7 +15,7 @@ struct MovieInfoUIModel {
     }
     
     var directors: String {
-        var directorsName = data.directors.map { $0.name }
+        let directorsName = data.directors.map { $0.name }
         return directorsName.joined(separator: ", ")
     }
     
@@ -24,11 +24,10 @@ struct MovieInfoUIModel {
     }
     
     var openDate: String {
-        let dateFormatter = Date.dateFormatter
-        guard let openDate = dateFormatter.date(from: data.openDate) else {
+        guard let openDate = Date.apiDateFormatter.date(from: data.openDate) else {
             return ""
         }
-        return dateFormatter.string(from: openDate)
+        return Date.dateFormatter.string(from: openDate)
     }
     
     var showTime: String {
@@ -36,22 +35,22 @@ struct MovieInfoUIModel {
     }
     
     var audits: String {
-        var auditsGrade = data.audits.map { $0.watchGradeNm }
+        let auditsGrade = data.audits.map { $0.watchGradeNm }
         return auditsGrade.joined(separator: ", ")
     }
     
     var nations: String {
-        var productNation = data.nations.map { $0.name }
+        let productNation = data.nations.map { $0.name }
         return productNation.joined(separator: ", ")
     }
     
     var genre: String {
-        var movieGenre = data.genre.map { $0.name }
+        let movieGenre = data.genre.map { $0.name }
         return movieGenre.joined(separator: ", ")
     }
     
     var actors: String {
-        var actors = data.actors.map { $0.name }
+        let actors = data.actors.map { $0.name }
         return actors.joined(separator: ", ")
     }
     

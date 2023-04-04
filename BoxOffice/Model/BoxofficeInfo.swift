@@ -7,7 +7,7 @@
 
 import UIKit
 
-class BoxofficeInfo<T> {
+final class BoxofficeInfo<T> {
     private let apiType: APIType
     private let model: NetworkingProtocol
     private var task: URLSessionDataTask?
@@ -41,27 +41,6 @@ class BoxofficeInfo<T> {
     
     private func cancelTask() {
         task?.cancel()
-    }
-    
-    func fetchImage(imageUrlText: String, handler: @escaping (Result<UIImage, BoxofficeError>) -> Void) {
-        guard let url = URL(string: imageUrlText),
-              let request = makeRequest(url: url) else {
-            handler(.failure(.urlError))
-            return
-        }
-        
-        task = model.search(request: request) { result in
-            switch result {
-            case .success(let data):
-                guard let image = UIImage(data: data) else {
-                    handler(.failure(.decodingError))
-                    return
-                }
-                handler(.success(image))
-            case .failure(let error):
-                handler(.failure(error))
-            }
-        }
     }
     
     func fetchData(handler: @escaping (Result<T, BoxofficeError>) -> Void) where T: Decodable {

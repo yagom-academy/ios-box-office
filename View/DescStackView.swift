@@ -9,14 +9,14 @@ import UIKit
 
 final class DescStackView: UIStackView {
     
-    let directorStackView = ContentStackView(categoryText: "감독")
-    let productedYearStackView = ContentStackView(categoryText: "제작년도")
-    let openDateStackView = ContentStackView(categoryText: "개봉일")
-    let showTimeStackView = ContentStackView(categoryText: "상영시간")
-    let auditStackView = ContentStackView(categoryText: "관람등급")
-    let nationStackView = ContentStackView(categoryText: "제작국가")
-    let genreStackView = ContentStackView(categoryText: "장르")
-    let actorsStackView = ContentStackView(categoryText: "배우")
+    private let directorStackView = ContentStackView(categoryText: "감독")
+    private let productedYearStackView = ContentStackView(categoryText: "제작년도")
+    private let openDateStackView = ContentStackView(categoryText: "개봉일")
+    private let showTimeStackView = ContentStackView(categoryText: "상영시간")
+    private let auditStackView = ContentStackView(categoryText: "관람등급")
+    private let nationStackView = ContentStackView(categoryText: "제작국가")
+    private let genreStackView = ContentStackView(categoryText: "장르")
+    private let actorsStackView = ContentStackView(categoryText: "배우")
 
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -45,14 +45,14 @@ final class DescStackView: UIStackView {
         self.spacing = 3
     }
     
-    func updateTextLabel(_ data: MovieInfoDescObject) {
-        directorStackView.updateLabelText(data.directors[0].name)
+    func updateTextLabel(_ data: MovieInfoUIModel) {
+        directorStackView.updateLabelText(data.directors)
         productedYearStackView.updateLabelText(data.productedYear)
         openDateStackView.updateLabelText(data.openDate)
         showTimeStackView.updateLabelText(data.showTime)
-        auditStackView.updateLabelText(data.audits[0].watchGradeNm)
-        nationStackView.updateLabelText(data.nations[0].name)
-        genreStackView.updateLabelText(data.genre[0].name)
-        actorsStackView.updateLabelText(data.actors[0].name)
+        auditStackView.updateLabelText(data.audits)
+        nationStackView.updateLabelText(data.nations)
+        genreStackView.updateLabelText(data.genre)
+        actorsStackView.updateLabelText(data.actors)
     }
 }

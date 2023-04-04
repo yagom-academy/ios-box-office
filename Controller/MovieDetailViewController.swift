@@ -9,10 +9,12 @@ import UIKit
 
 final class MovieDetailViewController: UIViewController {
     
+    // MARK: - Properties
     var movieName: String = ""
     var movieCode: String = ""
     private lazy var dataManager = MovieDescManager(movieApiType: .movie(movieCode), movieImageApiType: .movieImage(movieName))
     
+    // MARK: - UI Properties
     private let scrollView = {
         let scrollView = UIScrollView()
         scrollView.translatesAutoresizingMaskIntoConstraints = false
@@ -28,21 +30,22 @@ final class MovieDetailViewController: UIViewController {
         return imageView
     }()
     
-    let descStackView = DescStackView()
+    private let descStackView = DescStackView()
 
     override func viewDidLoad() {
         super.viewDidLoad()
         configureUI()
-        fetchData()
         fetchImage()
+        fetchData()
     }
     
     private func fetchData() {
         dataManager.boxofficeInfo.fetchData { [weak self] result in
             switch result {
             case .success(let data):
+                let infoUIModel = MovieInfoUIModel(data: data.movieInfoResult.movieInfo)
                 DispatchQueue.main.async {
-                    self?.descStackView.updateTextLabel(data.movieInfoResult.movieInfo)
+                    self?.descStackView.updateTextLabel(infoUIModel)
                 }
             case .failure(let error):
                 print(error.localizedDescription)
@@ -51,10 +54,15 @@ final class MovieDetailViewController: UIViewController {
     }
     
     private func fetchImage() {
-        dataManager.fetchMoviePosterImage { [weak self] image in
-            DispatchQueue.main.async {
-                self?.posterImageView.image = image
-                self?.posterImageView.sizeToFit()
+        dataManager.fetchMoviePosterImage { [weak self] result in
+            switch result {
+            case .success(let image):
+                DispatchQueue.main.async {
+                    self?.posterImageView.image = image
+                    self?.posterImageView.sizeToFit()
+                }
+            case .failure(let error):
+                print(error)
             }
         }
     }

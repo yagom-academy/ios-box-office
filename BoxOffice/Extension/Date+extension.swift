@@ -23,9 +23,4 @@ extension Date {
         formatter.dateFormat = "yyyyMMdd"
         return formatter
     }()
-    
-    func formatAPIDate() -> String {
-        let formattedString = Date.apiDateFormatter.string(from: self)
-        return formattedString
-    }
 }

@@ -9,5 +9,4 @@ import Foundation
 
 struct MovieInfoResultObject: Decodable {
     let movieInfo: MovieInfoDescObject
-    let source: String
 }

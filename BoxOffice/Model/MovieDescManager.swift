@@ -7,7 +7,7 @@
 
 import UIKit
 
-class MovieDescManager {
+final class MovieDescManager {
     let movieApiType: APIType
     let movieImageApiType: APIType
     let boxofficeInfo: BoxofficeInfo<MovieInfoObject>
@@ -20,26 +20,34 @@ class MovieDescManager {
         self.movieImage = BoxofficeInfo<MovieImageObject>(apiType: movieImageApiType, model: NetworkModel(session: session))
     }
     
-    func fetchMoviePosterImage(handler: @escaping (UIImage?) -> Void) {
+    func fetchMoviePosterImage(handler: @escaping (Result<UIImage, BoxofficeError>) -> Void) {
         movieImage.fetchData { [weak self] result in
             switch result {
             case .success(let data):
                 let urlText = data.documents[0].url
-                self?.makeImage(to: urlText, handler: handler)
+                self?.fetchImage(imageUrlText: urlText, handler: handler)
             case .failure(let error):
                 print(error.localizedDescription)
             }
         }
     }
     
-    private func makeImage(to urlText: String, handler: @escaping (UIImage?) -> Void) {
-        movieImage.fetchImage(imageUrlText: urlText) { result in
-            switch result {
-            case .success(let image):
-                handler(image)
-            case .failure(_):
-                handler(nil)
+    private func fetchImage(imageUrlText: String, handler: @escaping (Result<UIImage, BoxofficeError>) -> Void) {
+        guard let url = URL(string: imageUrlText) else {
+            handler(.failure(.urlError))
+            return
+        }
+        
+        do {
+            let imageData = try Data(contentsOf: url)
+            guard let image = UIImage(data: imageData) else {
+                handler(.failure(.decodingError))
+                return
             }
+            
+            handler(.success(image))
+        } catch {
+            handler(.failure(.responseError))
         }
     }
 }

@@ -21,6 +21,7 @@ final class ContentLabel: UILabel {
     private func configure() {
         self.translatesAutoresizingMaskIntoConstraints = false
         self.font = .systemFont(ofSize: 12)
+        self.numberOfLines = 0
     }
     
 }
