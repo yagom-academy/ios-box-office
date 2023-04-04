@@ -20,6 +20,8 @@ final class CalendarViewController: UIViewController {
     }()
     
     override func viewDidLoad() {
+        calendarView.selectionBehavior = UICalendarSelectionSingleDate(delegate: self)
+        
         configureMainView()
     }
     
@@ -32,11 +34,23 @@ final class CalendarViewController: UIViewController {
     private func configureCalendarView() {
         view.addSubview(calendarView)
         
+        let fromDateComponents = DateComponents(calendar: Calendar(identifier: .gregorian), year: 2003, month: 11, day: 11)
+        guard let fromDate = fromDateComponents.date else { return }
+        
+        let calendarViewDateRange = DateInterval(start: fromDate, end: .now)
+        calendarView.availableDateRange = calendarViewDateRange
+        
         NSLayoutConstraint.activate([
             calendarView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
             calendarView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
             calendarView.topAnchor.constraint(equalTo: view.topAnchor),
             calendarView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
         ])
+    }
+}
+
+extension CalendarViewController: UICalendarSelectionSingleDateDelegate {
+    func dateSelection(_ selection: UICalendarSelectionSingleDate, didSelectDate dateComponents: DateComponents?) {
+        print(dateComponents)
     }
 }
