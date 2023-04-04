@@ -7,7 +7,7 @@
 
 import UIKit
 
-final class DailyBoxOfficeIconCollectionViewCell: UICollectionViewCell {
+final class DailyBoxOfficeIconCollectionViewCell: UICollectionViewCell, LabelSetter {
     static let reuseIdentifier = "DailyBoxOfficeIconCollectionViewCell"
 
     private let mainStackView = UIStackView()
@@ -61,7 +61,7 @@ final class DailyBoxOfficeIconCollectionViewCell: UICollectionViewCell {
         ])
     }
     
-    func setupLabel(_ rankLabel: UILabel, _ audienceVarianceLabel: UILabel, _ listLabel: UILabel, and audienceInformationLabel: UILabel) {
+    func configureLabels(_ rankLabel: UILabel, _ audienceVarianceLabel: UILabel, _ listLabel: UILabel, and audienceInformationLabel: UILabel) {
         mainStackView.addArrangedSubview(rankLabel)
         mainStackView.addArrangedSubview(listLabel)
         mainStackView.addArrangedSubview(audienceVarianceLabel)

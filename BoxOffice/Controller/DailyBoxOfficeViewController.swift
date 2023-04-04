@@ -26,7 +26,8 @@ final class DailyBoxOfficeViewController: UIViewController, DateUpdatable {
     
     private let dateFormatter = DateFormatter()
     private let refreshControl = UIRefreshControl()
-
+    private var screenMode = ScreenMode.list
+    
     lazy private var collectionView = UICollectionView(frame: view.bounds, collectionViewLayout: createMovieListLayout())
     
     override func viewDidLoad() {
@@ -49,7 +50,14 @@ final class DailyBoxOfficeViewController: UIViewController, DateUpdatable {
     private func configureCollectionView() {
         collectionView.delegate = self
         collectionView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
-        collectionView.register(DailyBoxOfficeListCollectionViewCell.self, forCellWithReuseIdentifier: DailyBoxOfficeListCollectionViewCell.reuseIdentifier)
+        
+        switch screenMode {
+        case .list:
+            collectionView.register(DailyBoxOfficeListCollectionViewCell.self, forCellWithReuseIdentifier: DailyBoxOfficeListCollectionViewCell.reuseIdentifier)
+        case .icon:
+            collectionView.register(DailyBoxOfficeIconCollectionViewCell.self, forCellWithReuseIdentifier: DailyBoxOfficeIconCollectionViewCell.reuseIdentifier)
+        }
+       
         collectionView.refreshControl = refreshControl
     }
     
@@ -85,7 +93,36 @@ final class DailyBoxOfficeViewController: UIViewController, DateUpdatable {
     }
     
     @objc private func changeScreenModeButtonTapped() {
-        print("화면 모드 변경")
+        let alert = UIAlertController(title: "화면모드변경", message: nil, preferredStyle: .actionSheet)
+        let title = screenMode.oppositeTitle
+        
+        let listMode = UIAlertAction(title: title, style: .default) { [self] _ in
+            screenMode.changeMode()
+            
+            switch screenMode {
+            case .list:
+                collectionView.register(DailyBoxOfficeListCollectionViewCell.self, forCellWithReuseIdentifier: DailyBoxOfficeListCollectionViewCell.reuseIdentifier)
+            case .icon:
+                collectionView.register(DailyBoxOfficeIconCollectionViewCell.self, forCellWithReuseIdentifier: DailyBoxOfficeIconCollectionViewCell.reuseIdentifier)
+            }
+
+            DispatchQueue.main.async { [self] in
+                setupDataSource()
+                applySnapshotToDataSource()
+                switch screenMode {
+                case .list:
+                    collectionView.collectionViewLayout = createMovieListLayout()
+                case .icon:
+                    collectionView.collectionViewLayout = createMovieIconLayout()
+                }
+            }
+        }
+        
+        let cancelAction = UIAlertAction(title: "취소", style: .cancel)
+        alert.addAction(listMode)
+        alert.addAction(cancelAction)
+        
+        present(alert, animated: true)
     }
     
     private func updateDateToViewTitle() {
@@ -132,17 +169,26 @@ final class DailyBoxOfficeViewController: UIViewController, DateUpdatable {
 extension DailyBoxOfficeViewController {
     private func setupDataSource() {
         movieDataSource = DataSource(collectionView: collectionView) { [weak self] collectionView, indexPath, itemIdentifier in
-            guard let cell = collectionView.dequeueReusableCell(
-                withReuseIdentifier: DailyBoxOfficeListCollectionViewCell.reuseIdentifier,
-                for: indexPath) as? DailyBoxOfficeListCollectionViewCell else {
+            var cellIdentifier: String
+           
+            switch self?.screenMode {
+            case .list:
+                cellIdentifier = DailyBoxOfficeListCollectionViewCell.reuseIdentifier
+            case .icon:
+                cellIdentifier = DailyBoxOfficeIconCollectionViewCell.reuseIdentifier
+            case .none:
                 return UICollectionViewCell()
             }
             
-            self?.setupLabels(with: itemIdentifier) { movieListLabel, audienceInformationLabel, movieRankLabel, audienceVarianceLabel in
-                cell.setupLabel(movieRankLabel, audienceVarianceLabel, movieListLabel, and: audienceInformationLabel)
-            }
+            guard let cell = collectionView.dequeueReusableCell(
+                withReuseIdentifier: cellIdentifier,
+                for: indexPath) as? LabelSetter else { return UICollectionViewCell() }
             
-            return cell
+            self?.setupLabels(with: itemIdentifier) { movieListLabel, audienceInformationLabel, movieRankLabel, audienceVarianceLabel in
+                cell.configureLabels(movieRankLabel, audienceVarianceLabel, movieListLabel, and: audienceInformationLabel)
+            }
+         
+            return cell as? UICollectionViewCell
         }
     }
     
@@ -286,5 +332,28 @@ fileprivate extension String {
               let stringNumber = numberFormatter.string(from: number) else { return nil }
         
         return stringNumber
+    }
+}
+
+enum ScreenMode {
+    case list
+    case icon
+
+    var oppositeTitle: String {
+        switch self {
+        case .list:
+            return "아이콘"
+        case .icon:
+            return "리스트"
+        }
+    }
+    
+    mutating func changeMode() {
+        switch self {
+        case .list:
+            self = .icon
+        case .icon:
+            self = .list
+        }
     }
 }

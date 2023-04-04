@@ -7,7 +7,7 @@
 
 import UIKit
 
-final class DailyBoxOfficeListCollectionViewCell: UICollectionViewCell {
+final class DailyBoxOfficeListCollectionViewCell: UICollectionViewCell, LabelSetter {
     static let reuseIdentifier = "DailyBoxOfficeListCollectionViewCell"
 
     private let accessoryImageView = UIImageView()
@@ -105,7 +105,7 @@ final class DailyBoxOfficeListCollectionViewCell: UICollectionViewCell {
         ])
     }
     
-    func setupLabel(_ rankLabel: UILabel, _ audienceVarianceLabel: UILabel, _ listLabel: UILabel, and audienceInformationLabel: UILabel) {
+    func configureLabels(_ rankLabel: UILabel, _ audienceVarianceLabel: UILabel, _ listLabel: UILabel, and audienceInformationLabel: UILabel) {
         movieRankStackView.addArrangedSubview(rankLabel)
         movieRankStackView.addArrangedSubview(audienceVarianceLabel)
         movieListStackView.addArrangedSubview(listLabel)
