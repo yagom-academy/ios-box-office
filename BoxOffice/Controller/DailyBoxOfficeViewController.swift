@@ -26,11 +26,8 @@ final class DailyBoxOfficeViewController: UIViewController, DateUpdatable {
     
     private let dateFormatter = DateFormatter()
     private let refreshControl = UIRefreshControl()
-    
-    private let selectDateButton = UIBarButtonItem()
-    
+
     lazy private var collectionView = UICollectionView(frame: view.bounds, collectionViewLayout: createMovieListLayout())
-    
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -38,6 +35,7 @@ final class DailyBoxOfficeViewController: UIViewController, DateUpdatable {
     
         configureCollectionView()
         configureSelectionDateButton()
+        configureToolBar()
         refreshData()
         refreshControl.addTarget(self, action: #selector(refreshData), for: .valueChanged)
     }
@@ -56,17 +54,38 @@ final class DailyBoxOfficeViewController: UIViewController, DateUpdatable {
     }
     
     private func configureSelectionDateButton() {
+        let selectDateButton = UIBarButtonItem(title: "날짜선택",
+                                               style: .plain,
+                                               target: self,
+                                               action: #selector(selectDateButtonTapped))
+        
         navigationItem.rightBarButtonItem = selectDateButton
-        selectDateButton.title = "날짜선택"
-        selectDateButton.style = .plain
-        selectDateButton.target = self
-        selectDateButton.action = #selector(selectDateButtonTapped)
     }
 
     @objc private func selectDateButtonTapped() {
         let nextViewController = SelectDateViewController()
         nextViewController.delegate = self
         navigationController?.present(nextViewController, animated: true)
+    }
+    
+    private func configureToolBar() {
+        self.navigationController?.isToolbarHidden = false
+        let changeScreenModeButton = UIBarButtonItem(title: "화면 모드 변경",
+                                                     style: .plain,
+                                                     target: self,
+                                                     action: #selector(changeScreenModeButtonTapped))
+        
+        let flexibleSpace = UIBarButtonItem(barButtonSystemItem: .flexibleSpace,
+                                            target: self,
+                                            action: nil)
+        var items = [UIBarButtonItem]()
+        [flexibleSpace, changeScreenModeButton, flexibleSpace].forEach { items.append($0) }
+
+        self.toolbarItems = items
+    }
+    
+    @objc private func changeScreenModeButtonTapped() {
+        print("화면 모드 변경")
     }
     
     private func updateDateToViewTitle() {
@@ -112,13 +131,17 @@ final class DailyBoxOfficeViewController: UIViewController, DateUpdatable {
 @available(iOS 16.0, *)
 extension DailyBoxOfficeViewController {
     private func setupDataSource() {
-        movieDataSource = DataSource(collectionView: collectionView) { collectionView, indexPath, itemIdentifier in
+        movieDataSource = DataSource(collectionView: collectionView) { [weak self] collectionView, indexPath, itemIdentifier in
             guard let cell = collectionView.dequeueReusableCell(
                 withReuseIdentifier: DailyBoxOfficeCollectionViewCell.reuseIdentifier,
                 for: indexPath) as? DailyBoxOfficeCollectionViewCell else {
                 return UICollectionViewCell()
             }
-            cell.configure(with: itemIdentifier)
+            
+            self?.setupLabels(with: itemIdentifier) { movieListLabel, audienceInformationLabel, movieRankLabel, audienceVarianceLabel in
+                cell.configureMovieListStackView(movieListLabel, and: audienceInformationLabel)
+                cell.configureMovieRankStackView(movieRankLabel, and: audienceVarianceLabel)
+            }
             
             return cell
         }
@@ -131,6 +154,54 @@ extension DailyBoxOfficeViewController {
         snapshot.appendItems(dailyBoxOfficeItem, toSection: .main)
         
         movieDataSource?.apply(snapshot, animatingDifferences: true)
+    }
+    
+    private func setupLabels(with movie: DailyBoxOfficeItem, completion: (UILabel, UILabel, UILabel, UILabel) -> Void) {
+        let movieListLabel = UILabel()
+        let audienceInformationLabel = UILabel()
+        let movieRankLabel = UILabel()
+        let audienceVarianceLabel = UILabel()
+        
+        guard let todayAudience = movie.audienceCount.convertToFormattedNumber(),
+              let totalAudience = movie.audienceAccumulation.convertToFormattedNumber() else { return }
+        
+        movieListLabel.text = movie.name
+        movieListLabel.font = UIFont.preferredFont(forTextStyle: .title3)
+        movieListLabel.numberOfLines = 0
+        
+        audienceInformationLabel.text = "오늘 \(todayAudience) / 총 \(totalAudience)"
+        audienceInformationLabel.font = UIFont.preferredFont(forTextStyle: .body)
+        
+        movieRankLabel.text = movie.rank
+        movieRankLabel.font = UIFont.preferredFont(forTextStyle: .largeTitle)
+        movieRankLabel.textAlignment = .center
+        
+        if movie.rankOldAndNew == "NEW" {
+            audienceVarianceLabel.text = "신작"
+            audienceVarianceLabel.textColor = .systemRed
+        } else {
+            guard let variance = Int(movie.rankVariance) else { return }
+            
+            switch variance {
+            case ..<0:
+                let text =  "▼\(variance * -1)"
+                let attributedString = NSMutableAttributedString(string: text)
+                attributedString.addAttribute(.foregroundColor, value: UIColor.blue, range: (text as NSString).range(of: "▼"))
+                audienceVarianceLabel.attributedText = attributedString
+            case 0:
+                audienceVarianceLabel.text = "-"
+            default:
+                let text = "▲\(variance)"
+                let attributedString = NSMutableAttributedString(string: text)
+                attributedString.addAttribute(.foregroundColor, value: UIColor.red, range: (text as NSString).range(of: "▲"))
+                audienceVarianceLabel.attributedText = attributedString
+            }
+        }
+        
+        audienceVarianceLabel.font = UIFont.preferredFont(forTextStyle: .body)
+        audienceVarianceLabel.textAlignment = .center
+       
+        completion(movieListLabel, audienceInformationLabel, movieRankLabel, audienceVarianceLabel)
     }
 }
 
@@ -187,5 +258,17 @@ struct DailyBoxOfficeItem: Hashable {
         self.name = movie.name
         self.audienceCount = movie.audienceCount
         self.audienceAccumulation = movie.audienceAccumulation
+    }
+}
+
+fileprivate extension String {
+    func convertToFormattedNumber() -> String? {
+        let numberFormatter = NumberFormatter()
+        numberFormatter.numberStyle = .decimal
+        
+        guard let number = numberFormatter.number(from: self),
+              let stringNumber = numberFormatter.string(from: number) else { return nil }
+        
+        return stringNumber
     }
 }
