@@ -22,5 +22,13 @@ extension Date {
                 
         return convertDate
     }
+    
+    func convertString() -> String {
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "yyyyMMdd"
+        let convertDate = dateFormatter.string(from: self)
+                
+        return convertDate
+    }
 }
 

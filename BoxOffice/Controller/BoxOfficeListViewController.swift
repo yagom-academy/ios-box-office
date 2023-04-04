@@ -11,6 +11,7 @@ final class BoxOfficeListViewController: UIViewController {
     private let server = NetworkManager.shared
     private let urlMaker = URLRequestMaker()
     private var boxOffice: BoxOffice?
+    private var currentDate: String = Date.configureYesterday(isFormatted: false)
     
     private let collectionView: UICollectionView = {
         let layout = UICollectionViewFlowLayout()
@@ -63,7 +64,7 @@ final class BoxOfficeListViewController: UIViewController {
     
     private func configureMainView() {
         view.backgroundColor = .white
-        title = Date.configureYesterday(isFormatted: true)
+        title = currentDate.formatDateString()
         
         let selectDateButton: UIBarButtonItem = {
             let button = UIBarButtonItem(title: "날짜 선택",
@@ -76,11 +77,11 @@ final class BoxOfficeListViewController: UIViewController {
     }
     
     @objc private func presentSelectDateModal() {
-        self.present(CalendarViewController(), animated: true)
+        self.present(CalendarViewController(currentDate), animated: true)
     }
     
     private func fetchBoxOfficeData(completion: @escaping () -> Void) {
-        guard let request = urlMaker.makeBoxOfficeURLRequest(date: Date.configureYesterday(isFormatted: false)) else { return }
+        guard let request = urlMaker.makeBoxOfficeURLRequest(date: currentDate) else { return }
         
         server.startLoad(request: request, mime: "json") { [weak self] result in
             let decoder = DecodeManager()
