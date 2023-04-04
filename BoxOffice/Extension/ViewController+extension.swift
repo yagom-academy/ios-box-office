@@ -8,6 +8,7 @@
 import UIKit
 
 extension UIViewController {
+    
     func presentErrorAlert(error: Error, title: String ) {
         let alert = UIAlertController(title: title,
                                       message: error.localizedDescription,
@@ -15,5 +16,4 @@ extension UIViewController {
         alert.addAction(UIAlertAction(title: "확인", style: .default))
         present(alert, animated: true)
     }
-
 }

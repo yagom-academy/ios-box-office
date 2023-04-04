@@ -31,10 +31,12 @@ final class MovieDetailViewController: UIViewController {
     }()
     
     private let descStackView = DescStackView()
+    private let loadingView = UIActivityIndicatorView()
 
     override func viewDidLoad() {
         super.viewDidLoad()
         configureUI()
+        startLoading()
         fetchImage()
         fetchData()
     }
@@ -46,6 +48,7 @@ final class MovieDetailViewController: UIViewController {
                 let infoUIModel = MovieInfoUIModel(data: data.movieInfoResult.movieInfo)
                 DispatchQueue.main.async {
                     self?.descStackView.updateTextLabel(infoUIModel)
+                    self?.stopLoading()
                 }
             case .failure(let error):
                 DispatchQueue.main.async {
@@ -61,7 +64,6 @@ final class MovieDetailViewController: UIViewController {
             case .success(let image):
                 DispatchQueue.main.async {
                     self?.posterImageView.image = image
-                    self?.posterImageView.sizeToFit()
                 }
             case .failure(let error):
                 DispatchQueue.main.async {
@@ -69,6 +71,14 @@ final class MovieDetailViewController: UIViewController {
                 }
             }
         }
+    }
+    
+    private func startLoading() {
+        loadingView.startAnimating()
+    }
+    
+    private func stopLoading() {
+        loadingView.stopAnimating()
     }
 }
 
@@ -100,5 +110,14 @@ extension MovieDetailViewController {
             descStackView.trailingAnchor.constraint(equalTo: scrollView.trailingAnchor, constant: -5),
             descStackView.bottomAnchor.constraint(equalTo: scrollView.bottomAnchor),
         ])
+        
+        configureActivityIndicatorView()
+    }
+    
+    private func configureActivityIndicatorView() {
+        loadingView.center = view.center
+        loadingView.style = .large
+        
+        view.addSubview(loadingView)
     }
 }

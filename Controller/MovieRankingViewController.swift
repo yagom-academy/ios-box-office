@@ -52,7 +52,7 @@ final class MovieRankingViewController: UIViewController {
                 self?.dataManager.movieItems = data.boxOfficeResult.movies
                 DispatchQueue.main.async {
                     self?.applySnapshot()
-                    self?.loadingView.stopAnimating()
+                    self?.stopLoadingView()
                     self?.collectionView.refreshControl?.endRefreshing()
                 }
             case .failure(let error):
@@ -65,6 +65,10 @@ final class MovieRankingViewController: UIViewController {
 
     private func startLoadingView() {
         self.loadingView.startAnimating()
+    }
+    
+    private func stopLoadingView() {
+        self.loadingView.stopAnimating()
     }
     
     private func configureRefreshController() {
