@@ -77,8 +77,8 @@ final class BoxOfficeViewController: UIViewController {
         boxOfficeProvider.fetchData(.dailyBoxOffice(date: formattedSelectedDate),
                                     type: BoxOfficeDTO.self) { [weak self] result in
             switch result {
-            case .success(let data):
-                self?.boxOfficeItems = data.convertToBoxOfficeItems()
+            case .success(let boxOfficeDTOData):
+                self?.boxOfficeItems = boxOfficeDTOData.convertToBoxOfficeItems()
                 DispatchQueue.main.async {
                     self?.activityIndicator.stopAnimating()
                     self?.updateSnapshot()
@@ -115,8 +115,8 @@ final class BoxOfficeViewController: UIViewController {
         boxOfficeProvider.fetchData(.dailyBoxOffice(date: formattedYesterdayDate),
                                     type: BoxOfficeDTO.self) { [weak self] result in
             switch result {
-            case .success(let data):
-                self?.boxOfficeItems = data.convertToBoxOfficeItems()
+            case .success(let boxOfficeDTOData):
+                self?.boxOfficeItems = boxOfficeDTOData.convertToBoxOfficeItems()
                 DispatchQueue.main.async {
                     self?.updateSnapshot()
                     self?.updateNavigationTitle(form: "yyyy-MM-dd", date: self?.yesterday)

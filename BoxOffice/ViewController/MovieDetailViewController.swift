@@ -110,9 +110,9 @@ final class MovieDetailViewController: UIViewController {
         boxOfficeProvider.fetchData(.detailMovieInformation(movieCode: self.movieCode),
                                     type: MovieInformationDTO.self) { [weak self] result in
             switch result {
-            case .success(let data):
+            case .success(let movieInformationDTOData):
                 DispatchQueue.main.async {
-                    self?.movieDetailInformation = data.convertToMovieDetailInformationItem()
+                    self?.movieDetailInformation = movieInformationDTOData.convertToMovieDetailInformationItem()
                 }
             case .failure:
                 let alertViewController = AlertManager.shared.showFailureAlert()
