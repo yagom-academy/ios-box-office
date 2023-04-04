@@ -15,14 +15,10 @@ enum DateFormat: String {
 extension DateFormatter {
     static let dateFormatter = DateFormatter()
     
-    static func yesterdayText(date: Date) -> String {
-        guard let yesterday = Calendar.current.date(byAdding: .day, value: -1, to: date) else {
-            return ""
-        }
-        
+    static func nonHyphenText(date: Date) -> String {
         dateFormatter.dateFormat = DateFormat.nonHyphen.rawValue
         
-        return dateFormatter.string(from: yesterday)
+        return dateFormatter.string(from: date)
     }
     
     static func hyphenText(text: String) -> String {

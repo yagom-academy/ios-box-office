@@ -13,7 +13,7 @@ final class BoxOfficeViewController: UIViewController {
     private let networkManager = NetworkManager()
     private let refreshControl = UIRefreshControl()
     private var boxOffice: BoxOffice?
-    private var selectedDate = Date() {
+    private var selectedDate = Date(timeIntervalSinceNow: -86400) {
         didSet {
             navigationItem.title = DateFormatter.hyphenText(date: selectedDate)
             loadData()
@@ -73,8 +73,8 @@ final class BoxOfficeViewController: UIViewController {
     }
     
     private func fetchDailyBoxOffice(completion: @escaping () -> Void) {
-        let yesterdayText = DateFormatter.yesterdayText(date: selectedDate)
-        let endPoint: BoxOfficeEndpoint = .fetchDailyBoxOffice(targetDate: yesterdayText)
+        let nonHyphenText = DateFormatter.nonHyphenText(date: selectedDate)
+        let endPoint: BoxOfficeEndpoint = .fetchDailyBoxOffice(targetDate: nonHyphenText)
         
         networkManager.fetchData(request: endPoint.createRequest(), type: BoxOffice.self) {
             result in

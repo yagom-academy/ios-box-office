@@ -17,7 +17,9 @@ final class CalendarViewController: UIViewController {
     
     private let calendarView: UICalendarView = {
         let calendarView = UICalendarView()
-        calendarView.availableDateRange = DateInterval(start: .distantPast, end: .now)
+        let yesterday = Date(timeIntervalSinceNow: -86400)
+        
+        calendarView.availableDateRange = DateInterval(start: .distantPast, end: yesterday)
         calendarView.locale = Locale(identifier: "ko_KR")
         calendarView.tintColor = .systemCyan
         
