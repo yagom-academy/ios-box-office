@@ -13,6 +13,11 @@ final class DailyBoxOfficeListCell: UICollectionViewListCell {
     let rankDifferenceLabel = UILabel()
     let dailyBoxOfficeListContentView = UIListContentView(configuration: UIListContentConfiguration.subtitleCell())
     
+    override func prepareForReuse() {
+        super.prepareForReuse()
+        rankDifferenceLabel.textColor = .black
+    }
+    
     override init(frame: CGRect) {
         super.init(frame: frame)
         configureLayoutConstraint()
@@ -45,9 +50,9 @@ final class DailyBoxOfficeListCell: UICollectionViewListCell {
         }
         
         NSLayoutConstraint.activate([
-            rankStackView.leadingAnchor.constraint(equalTo: self.contentView.leadingAnchor, constant: 20),
+            rankStackView.leadingAnchor.constraint(equalTo: self.contentView.leadingAnchor, constant: 10),
             rankStackView.centerYAnchor.constraint(equalTo: self.contentView.centerYAnchor),
-            rankStackView.widthAnchor.constraint(equalTo: self.contentView.widthAnchor, multiplier: 0.15),
+            rankStackView.widthAnchor.constraint(equalTo: self.contentView.widthAnchor, multiplier: 0.2),
             dailyBoxOfficeListContentView.topAnchor.constraint(equalTo: self.contentView.topAnchor, constant: 5),
             dailyBoxOfficeListContentView.bottomAnchor.constraint(equalTo: self.contentView.bottomAnchor, constant: -5),
             dailyBoxOfficeListContentView.leadingAnchor.constraint(equalTo: rankStackView.trailingAnchor),
@@ -82,6 +87,7 @@ final class DailyBoxOfficeListCell: UICollectionViewListCell {
         rankLabel.text = data.rank
         rankLabel.font = UIFont.preferredFont(forTextStyle: .largeTitle)
         rankLabel.adjustsFontForContentSizeCategory = true
+        rankLabel.numberOfLines = 0
     }
     
     private func configureRankDifferenceLabel(with data: DailyBoxOfficeMovie) {

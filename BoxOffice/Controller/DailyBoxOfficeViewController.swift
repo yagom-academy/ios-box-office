@@ -9,6 +9,7 @@ import UIKit
 
 final class DailyBoxOfficeViewController: UIViewController {
     private typealias DataSource = UICollectionViewDiffableDataSource<Section, DailyBoxOfficeMovie>
+    private typealias SnapShot = NSDiffableDataSourceSnapshot<Section, DailyBoxOfficeMovie>
     
     private lazy var collectionView = UICollectionView(frame: UIScreen.main.bounds,
                                                        collectionViewLayout: compositionalLayout())
@@ -27,6 +28,7 @@ final class DailyBoxOfficeViewController: UIViewController {
         loadDailyBoxOffice(date: yesterday)
         configureCollectionView()
         configureRefreshControl()
+        configureDataSource()
     }
     
     private func configureRootView() {
@@ -64,6 +66,7 @@ final class DailyBoxOfficeViewController: UIViewController {
             switch result {
             case .success(let dailyBoxOffice):
                 self.dailyBoxOffice = dailyBoxOffice
+                self.createSnapShot()
                 
                 DispatchQueue.main.async {
                     self.collectionView.reloadData()
@@ -98,8 +101,15 @@ final class DailyBoxOfficeViewController: UIViewController {
                                                                     item: itemIdentifier)
             return cell
         }
+    }
+    
+    private func createSnapShot() {
+        guard let dailyBoxOfficeList = self.dailyBoxOffice?.boxOfficeResult.dailyBoxOfficeList else { return }
+        var snapshot = SnapShot()
+        snapshot.appendSections([.main])
+        snapshot.appendItems(dailyBoxOfficeList)
         
-        
+        dataSource.apply(snapshot)
     }
     
     private func configureCollectionView() {
@@ -111,11 +121,6 @@ final class DailyBoxOfficeViewController: UIViewController {
             collectionView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor),
             collectionView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor)
         ])
-        
-        collectionView.dataSource = self
-        collectionView.delegate = self
-        collectionView.register(DailyBoxOfficeCell.self,
-                                forCellWithReuseIdentifier: DailyBoxOfficeCell.identifier)
     }
     
     private func configureRefreshControl() {
@@ -134,53 +139,6 @@ final class DailyBoxOfficeViewController: UIViewController {
     
     private enum Section {
         case main
-    }
-}
-
-extension DailyBoxOfficeViewController: UICollectionViewDataSource {
-    func collectionView(_ collectionView: UICollectionView,
-                        numberOfItemsInSection section: Int) -> Int {
-        guard let dailyBoxOffice = self.dailyBoxOffice else { return 0 }
-        
-        return dailyBoxOffice.boxOfficeResult.dailyBoxOfficeList.count
-    }
-    
-    func collectionView(_ collectionView: UICollectionView,
-                        cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: DailyBoxOfficeCell.identifier,
-                                                            for: indexPath) as? DailyBoxOfficeCell,
-              let movieData = dailyBoxOffice?.boxOfficeResult.dailyBoxOfficeList[indexPath.item] else {
-            return UICollectionViewCell()
-        }
-        
-        cell.configureLabels(with: movieData)
-        
-        return cell
-    }
-}
-
-extension DailyBoxOfficeViewController: UICollectionViewDelegateFlowLayout {
-    func collectionView(_ collectionView: UICollectionView,
-                        layout collectionViewLayout: UICollectionViewLayout,
-                        sizeForItemAt indexPath: IndexPath) -> CGSize {
-        return CGSize(width: view.bounds.width, height: view.bounds.height / 10)
-    }
-    
-    func collectionView(_ collectionView: UICollectionView,
-                        layout collectionViewLayout: UICollectionViewLayout,
-                        minimumLineSpacingForSectionAt section: Int) -> CGFloat {
-        return 0
-    }
-    
-    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        let navigationController = self.navigationController
-        guard let movieCode = dailyBoxOffice?.boxOfficeResult.dailyBoxOfficeList[indexPath.item].movieCode,
-              let movieName = dailyBoxOffice?.boxOfficeResult.dailyBoxOfficeList[indexPath.item].movieName else { return }
-        let movieDetailsViewController = MovieDetailsViewController(movieCode: movieCode, movieName: movieName)
-        
-        navigationController?.pushViewController(movieDetailsViewController, animated: true)
-        
-        collectionView.deselectItem(at: indexPath, animated: true)
     }
 }
 
