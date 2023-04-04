@@ -154,11 +154,11 @@ extension DailyBoxOfficeViewController: UICollectionViewDelegateFlowLayout {
     }
 }
 
-extension DailyBoxOfficeViewController: SendData {
-    func sendData(data: Date) {
-        currentDate = data
-        let titleText = DateFormatter.shared.string(from: data, dateFormat: "yyyy-MM-dd")
+extension DailyBoxOfficeViewController: CalendarViewControllerDelegate {
+    func changeTarget(date: Date) {
+        currentDate = date
+        let titleText = DateFormatter.shared.string(from: date, dateFormat: "yyyy-MM-dd")
         self.navigationItem.title = titleText
-        loadDailyBoxOffice(date: data)
+        loadDailyBoxOffice(date: date)
     }
 }
