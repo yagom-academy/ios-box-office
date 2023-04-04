@@ -61,27 +61,22 @@ class MovieDetailViewController: UIViewController {
     }
 
     private func reformString(labelText: String) -> String {
-        var result = ""
-        
+
         switch labelText {
         case "감독":
-            movieDetail?.movieInformationResult.movieInformation.directors.forEach{ result += $0.peopleName + ", " }
+            return movieDetail?.movieInformationResult.movieInformation.directors.map{$0.peopleName}.joined(separator: ", ") ?? ""
         case "관람등급":
-            movieDetail?.movieInformationResult.movieInformation.audits.forEach{ result += $0.watchGradeName + ", " }
+            return movieDetail?.movieInformationResult.movieInformation.audits.map{$0.watchGradeName}.joined(separator: ", ") ?? ""
         case "제작국가":
-            movieDetail?.movieInformationResult.movieInformation.nations.forEach{ result += $0.nationName + ", " }
+            return movieDetail?.movieInformationResult.movieInformation.nations.map{$0.nationName}.joined(separator: ", ") ?? ""
         case "장르":
-            movieDetail?.movieInformationResult.movieInformation.genres.forEach{ result += $0.genreName + ", " }
+            return movieDetail?.movieInformationResult.movieInformation.genres.map{$0.genreName}.joined(separator: ", ") ?? ""
         case "배우":
-            movieDetail?.movieInformationResult.movieInformation.actors.forEach{ result += $0.peopleName + ", "}
+            return movieDetail?.movieInformationResult.movieInformation.actors.map{$0.peopleName}.joined(separator: ", ") ?? ""
         default:
             return ""
         }
-    
-        result = result.trimmingCharacters(in: [","," "])
-        
-        return result
-    }
+    }g
     
     private func fetchImage() {
         guard let movieName = self.movieDetail?.movieInformationResult.movieInformation.movieName else { return }
