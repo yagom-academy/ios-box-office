@@ -148,6 +148,7 @@
 		26B6853F29C98B0E001580FF /* DTO */ = {
 			isa = PBXGroup;
 			children = (
+				26F9105929DC23CA0042B22C /* MovieImageDTO */,
 				26B6854129C98B34001580FF /* MovieDTO */,
 				26B6854029C98B26001580FF /* BoxofficeDTO */,
 			);
@@ -170,7 +171,6 @@
 				26B6853929C986C5001580FF /* MovieInfoObject.swift */,
 				26B6853B29C987A6001580FF /* MovieInfoResultObject.swift */,
 				26B6853D29C988C1001580FF /* MovieInfoDescObject.swift */,
-				71E6434E29DAA38C001F733E /* MovieImageObject.swift */,
 			);
 			path = MovieDTO;
 			sourceTree = "<group>";
@@ -183,6 +183,50 @@
 				262FA3CC29D2CA26008334B7 /* BoxofficeInfoTests.swift */,
 			);
 			path = BoxofficeInfoTests;
+			sourceTree = "<group>";
+		};
+		26F9105929DC23CA0042B22C /* MovieImageDTO */ = {
+			isa = PBXGroup;
+			children = (
+				71E6434E29DAA38C001F733E /* MovieImageObject.swift */,
+			);
+			path = MovieImageDTO;
+			sourceTree = "<group>";
+		};
+		26F9105A29DC23F60042B22C /* UIModel */ = {
+			isa = PBXGroup;
+			children = (
+				269BFC9729D6A9E800263E4C /* CellUIModel.swift */,
+				71EDC49F29DBEE2900510E15 /* MovieInfoUIModel.swift */,
+			);
+			path = UIModel;
+			sourceTree = "<group>";
+		};
+		26F9105B29DC23FD0042B22C /* Manager */ = {
+			isa = PBXGroup;
+			children = (
+				269BFC9929D6D0FF00263E4C /* RankingManager.swift */,
+				269309AE29DAAB8900F7B6B6 /* MovieDescManager.swift */,
+			);
+			path = Manager;
+			sourceTree = "<group>";
+		};
+		26F9105C29DC241F0042B22C /* UILabel */ = {
+			isa = PBXGroup;
+			children = (
+				71E6435029DAC3E6001F733E /* CategoryLabel.swift */,
+				71E6435229DAC677001F733E /* ContentLabel.swift */,
+			);
+			path = UILabel;
+			sourceTree = "<group>";
+		};
+		26F9105D29DC24290042B22C /* UIStackView */ = {
+			isa = PBXGroup;
+			children = (
+				71E6435429DAC832001F733E /* ContentStackView.swift */,
+				269309B029DACB1600F7B6B6 /* DescStackView.swift */,
+			);
+			path = UIStackView;
 			sourceTree = "<group>";
 		};
 		63DF20E22970E1A0005DF7D1 = {
@@ -234,15 +278,13 @@
 		7113202529C8331E00B5A9DB /* Model */ = {
 			isa = PBXGroup;
 			children = (
-				71A0A45829C98E64006D3932 /* APIType.swift */,
 				71A0A45A29C9931B006D3932 /* BoxofficeError.swift */,
-				26B6853F29C98B0E001580FF /* DTO */,
+				71A0A45829C98E64006D3932 /* APIType.swift */,
 				7122D85829CABAB50039DEFB /* NetworkModel.swift */,
 				715553E029D30E8200B7FC3D /* BoxofficeInfo.swift */,
-				269BFC9729D6A9E800263E4C /* CellUIModel.swift */,
-				71EDC49F29DBEE2900510E15 /* MovieInfoUIModel.swift */,
-				269BFC9929D6D0FF00263E4C /* RankingManager.swift */,
-				269309AE29DAAB8900F7B6B6 /* MovieDescManager.swift */,
+				26F9105B29DC23FD0042B22C /* Manager */,
+				26F9105A29DC23F60042B22C /* UIModel */,
+				26B6853F29C98B0E001580FF /* DTO */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -277,11 +319,9 @@
 		71C59E3529D41AFA0016E247 /* View */ = {
 			isa = PBXGroup;
 			children = (
+				26F9105D29DC24290042B22C /* UIStackView */,
+				26F9105C29DC241F0042B22C /* UILabel */,
 				71C59E3629D41B440016E247 /* MovieRankingCell.swift */,
-				71E6435029DAC3E6001F733E /* CategoryLabel.swift */,
-				71E6435229DAC677001F733E /* ContentLabel.swift */,
-				71E6435429DAC832001F733E /* ContentStackView.swift */,
-				269309B029DACB1600F7B6B6 /* DescStackView.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";

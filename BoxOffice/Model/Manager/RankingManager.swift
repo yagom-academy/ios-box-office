@@ -7,11 +7,11 @@
 
 import Foundation
 
-struct RankingManager {
+class RankingManager {
     private let date: Date
+    private let boxofficeInfo: BoxofficeInfo<DailyBoxofficeObject>
     let apiType: APIType
     var movieItems: [InfoObject] = []
-    let boxofficeInfo: BoxofficeInfo<DailyBoxofficeObject>
     
     init(date: Date) {
         let dataText = Date.apiDateFormatter.string(from: date)
@@ -22,5 +22,17 @@ struct RankingManager {
     
     var navigationTitleText: String {
         return Date.dateFormatter.string(from: date)
+    }
+    
+    func fetchRanking(handler: @escaping (Error?) -> Void) {
+        boxofficeInfo.fetchData { [weak self] result in
+            switch result {
+            case .success(let data):
+                self?.movieItems = data.boxOfficeResult.movies
+                handler(nil)
+            case .failure(let error):
+                handler(error)
+            }
+        }
     }
 }
