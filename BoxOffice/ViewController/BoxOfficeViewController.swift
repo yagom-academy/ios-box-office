@@ -211,6 +211,7 @@ extension BoxOfficeViewController: UICollectionViewDelegate {
 @available(iOS 16.0, *)
 extension BoxOfficeViewController: DateChangeable {
     func updateSelectedDate(selectedDate: Date?) {
+        self.activityIndicator.startAnimating()
         self.selectedDate = selectedDate
         updateNavigationTitle(form: "yyyy-MM-dd", date: selectedDate)
         fetchDailyBoxOffice(from: selectedDate)
