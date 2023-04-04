@@ -29,31 +29,35 @@ class MovieDetailViewController: UIViewController {
             self.fetchImage()
             
             DispatchQueue.main.async {
-                self.movieDetailView.directorTitleLabel.text = "감독"
-                self.movieDetailView.directorDataLabel.text = self.reformString(labelText: "감독")
-                self.movieDetailView.productYearTitleLabel.text = "제작년도"
-                self.movieDetailView.productYearDataLabel.text = self.movieDetail?.movieInformationResult.movieInformation.productYear
-               
-                self.movieDetailView.openDayTitleLabel.text = "개봉일"
-                self.movieDetailView.openDayDataLabel.text =
-                self.movieDetail?.movieInformationResult.movieInformation.openDate
-                
-                self.movieDetailView.showTimeTitleLabel.text = "상영시간"
-                self.movieDetailView.showTimeDataLabel.text = self.movieDetail?.movieInformationResult.movieInformation.showTime
-                
-                self.movieDetailView.auditsTitleLabel.text = "관람등급"
-                self.movieDetailView.auditsDataLabel.text = self.reformString(labelText: "관람등급")
-                
-                self.movieDetailView.nationTitleLabel.text = "제작국가"
-                self.movieDetailView.nationDataLabel.text = self.reformString(labelText: "제작국가")
-                
-                self.movieDetailView.genreTitleLabel.text = "장르"
-                self.movieDetailView.genreDataLabel.text = self.reformString(labelText: "장르")
-                
-                self.movieDetailView.actorTitleLabel.text = "배우"
-                self.movieDetailView.actorDataLabel.text = self.reformString(labelText: "배우")
+                self.setMovieDetailLabel()
             }
         }
+    }
+    
+    private func setMovieDetailLabel() {
+        self.movieDetailView.directorTitleLabel.text = "감독"
+        self.movieDetailView.directorDataLabel.text = self.reformString(labelText: "감독")
+        self.movieDetailView.productYearTitleLabel.text = "제작년도"
+        self.movieDetailView.productYearDataLabel.text = self.movieDetail?.movieInformationResult.movieInformation.productYear
+       
+        self.movieDetailView.openDayTitleLabel.text = "개봉일"
+        self.movieDetailView.openDayDataLabel.text =
+        self.movieDetail?.movieInformationResult.movieInformation.openDate
+        
+        self.movieDetailView.showTimeTitleLabel.text = "상영시간"
+        self.movieDetailView.showTimeDataLabel.text = self.movieDetail?.movieInformationResult.movieInformation.showTime
+        
+        self.movieDetailView.auditsTitleLabel.text = "관람등급"
+        self.movieDetailView.auditsDataLabel.text = self.reformString(labelText: "관람등급")
+        
+        self.movieDetailView.nationTitleLabel.text = "제작국가"
+        self.movieDetailView.nationDataLabel.text = self.reformString(labelText: "제작국가")
+        
+        self.movieDetailView.genreTitleLabel.text = "장르"
+        self.movieDetailView.genreDataLabel.text = self.reformString(labelText: "장르")
+        
+        self.movieDetailView.actorTitleLabel.text = "배우"
+        self.movieDetailView.actorDataLabel.text = self.reformString(labelText: "배우")
     }
 
     private func reformString(labelText: String) -> String {
