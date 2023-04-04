@@ -8,9 +8,9 @@
 import Foundation
 
 struct MovieDetailEndpoint: EndpointMakeable {
-    var baseURL: String = Endpoint.kobisURL
-    var path: String = Endpoint.movieDetailPath
+    var baseURL: String = "http://kobis.or.kr"
+    var path: String = "/kobisopenapi/webservice/rest/movie/searchMovieInfo.json"
     var method: String = HTTPMethod.get.rawValue
-    var queryItems: [URLQueryItem] = [URLQueryItem(name: QueryItem.queryItemKey, value: QueryItem.queryItemValue)]
+    var queryItems: [URLQueryItem] = [URLQueryItem(name: "key", value: "f5eef3421c602c6cb7ea224104795888")]
     var header: [String : String]?
 }

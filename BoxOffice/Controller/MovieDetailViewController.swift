@@ -21,7 +21,7 @@ class MovieDetailViewController: UIViewController {
     
     func fetchMoiveDetailAPI(movieCode: String) {
         var movieDetailEndpoint = MovieDetailEndpoint()
-        movieDetailEndpoint.queryItems.append(URLQueryItem(name: QueryItem.movieDetailKey, value: movieCode))
+        movieDetailEndpoint.queryItems.append(URLQueryItem(name: "movieCd", value: movieCode))
         
         provider.loadBoxOfficeAPI(endpoint: movieDetailEndpoint,
                                   parser: Parser<MovieDetail>()) { parsedData in
@@ -83,7 +83,7 @@ class MovieDetailViewController: UIViewController {
         guard let movieName = self.movieDetail?.movieInformationResult.movieInformation.movieName else { return }
 
         var imageSearchEndpoint = ImageSearchEndpoint()
-        imageSearchEndpoint.queryItems.append(URLQueryItem(name: QueryItem.searchImageKey, value: "\(movieName) 영화 포스터"))
+        imageSearchEndpoint.queryItems.append(URLQueryItem(name: "query", value: "\(movieName) 영화 포스터"))
         
         imageSearchEndpoint.header = ["Authorization" : "KakaoAK d74b0fb8fab7919ee21f04ca3f12ef75"]
         

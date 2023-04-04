@@ -22,7 +22,7 @@ final class BoxOfficeViewController: UIViewController {
     
     private func fetchDailyBoxOfficeAPI() {
         var dailyBoxOfficeEndpoint = DailyBoxOfficeEndpoint()
-        dailyBoxOfficeEndpoint.queryItems.append(URLQueryItem(name: QueryItem.dailyBoxOfficeKey, value: QueryItem.dailyBoxOfficeValue))
+        dailyBoxOfficeEndpoint.queryItems.append(URLQueryItem(name: "targetDt", value: "20230330"))
         
         provider.loadBoxOfficeAPI(endpoint: dailyBoxOfficeEndpoint,
                                   parser: Parser<DailyBoxOffice>()) { parsedData in
