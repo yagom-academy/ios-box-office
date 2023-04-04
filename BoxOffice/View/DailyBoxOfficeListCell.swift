@@ -28,7 +28,7 @@ final class DailyBoxOfficeListCell: UICollectionViewListCell {
         dailyBoxOfficeData = newDailyBoxOfficeData
     }
     
-    func configureLayoutConstraint() {
+    private func configureLayoutConstraint() {
         let rankStackView = {
             let stackView = UIStackView()
             stackView.axis = .vertical

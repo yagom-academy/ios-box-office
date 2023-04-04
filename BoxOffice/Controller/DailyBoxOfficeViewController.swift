@@ -8,8 +8,11 @@
 import UIKit
 
 final class DailyBoxOfficeViewController: UIViewController {
+    private typealias DataSource = UICollectionViewDiffableDataSource<Section, DailyBoxOfficeMovie>
+    
     private lazy var collectionView = UICollectionView(frame: UIScreen.main.bounds,
                                                        collectionViewLayout: compositionalLayout())
+    private var dataSource: DataSource!
     private var dailyBoxOffice: DailyBoxOffice?
     private var yesterday: Date {
         return Date(timeIntervalSinceNow: 3600 * -24)
@@ -83,6 +86,22 @@ final class DailyBoxOfficeViewController: UIViewController {
         return layout
     }
     
+    private func configureDataSource() {
+        let cellRegistration = UICollectionView.CellRegistration<DailyBoxOfficeListCell, DailyBoxOfficeMovie> { cell, indexPath, item in
+            cell.updateData(with: item)
+            cell.accessories = [.disclosureIndicator()]
+        }
+        
+        dataSource = DataSource(collectionView: collectionView) { collectionView, indexPath, itemIdentifier in
+            let cell = collectionView.dequeueConfiguredReusableCell(using: cellRegistration,
+                                                                    for: indexPath,
+                                                                    item: itemIdentifier)
+            return cell
+        }
+        
+        
+    }
+    
     private func configureCollectionView() {
         collectionView.translatesAutoresizingMaskIntoConstraints = false
         
@@ -111,6 +130,10 @@ final class DailyBoxOfficeViewController: UIViewController {
         DispatchQueue.main.async {
             self.configureNavigationBar()
         }
+    }
+    
+    private enum Section {
+        case main
     }
 }
 
