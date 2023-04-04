@@ -68,7 +68,8 @@ extension CalendarViewController: UICalendarSelectionSingleDateDelegate {
         guard let year = dateComponents?.year,
               let month = dateComponents?.month,
               let day = dateComponents?.day else { return }
-        print(year, month, day)
+        
+        let selectedDate = String(year) + month.doubleDigit + day.doubleDigit
         
         self.dismiss(animated: true)
     }
