@@ -29,12 +29,12 @@ final class CalendarViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        view.backgroundColor = .white
         setupView()
         configureCalendar()
     }
     
     private func setupView() {
+        view.backgroundColor = .white
         view.addSubview(calendarView)
         calendarView.translatesAutoresizingMaskIntoConstraints = false
         
