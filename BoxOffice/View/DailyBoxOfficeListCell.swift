@@ -12,19 +12,19 @@ final class DailyBoxOfficeListCell: UICollectionViewListCell {
     let rankLabel = UILabel()
     let rankDifferenceLabel = UILabel()
     let dailyBoxOfficeListContentView = UIListContentView(configuration: UIListContentConfiguration.subtitleCell())
-    
-    override func prepareForReuse() {
-        super.prepareForReuse()
-        rankDifferenceLabel.textColor = .black
-    }
-    
+
     override init(frame: CGRect) {
         super.init(frame: frame)
-        configureLayoutConstraint()
+        configureLayoutConstraints()
     }
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
+    }
+    
+    override func prepareForReuse() {
+        super.prepareForReuse()
+        rankDifferenceLabel.textColor = .black
     }
     
     func updateData(with newDailyBoxOfficeData: DailyBoxOfficeMovie) {
@@ -33,7 +33,7 @@ final class DailyBoxOfficeListCell: UICollectionViewListCell {
         dailyBoxOfficeData = newDailyBoxOfficeData
     }
     
-    private func configureLayoutConstraint() {
+    private func configureLayoutConstraints() {
         let rankStackView = {
             let stackView = UIStackView()
             stackView.axis = .vertical
