@@ -35,6 +35,7 @@ class CalendarViewController: UIViewController {
         calendarView.calendar = calendar
         calendarView.locale = Locale(identifier: "ko_KR")
         calendarView.fontDesign = .rounded
+        
         let fromDateComponent = DateComponents(calendar: calendar, year: 2003, month: 11, day: 11)
         let toDateComponent = DateComponents(calendar: calendar,
                                              year: dateComponents[0],
@@ -55,5 +56,20 @@ class CalendarViewController: UIViewController {
             calendarView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
             calendarView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor)
         ])
+        
+        let dateSelection = UICalendarSelectionSingleDate(delegate: self)
+        calendarView.selectionBehavior = dateSelection
+        dateSelection.selectedDate = toDateComponent
+    }
+}
+
+extension CalendarViewController: UICalendarSelectionSingleDateDelegate {
+    func dateSelection(_ selection: UICalendarSelectionSingleDate, didSelectDate dateComponents: DateComponents?) {
+        guard let year = dateComponents?.year,
+              let month = dateComponents?.month,
+              let day = dateComponents?.day else { return }
+        print(year, month, day)
+        
+        self.dismiss(animated: true)
     }
 }
