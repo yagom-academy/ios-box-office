@@ -7,9 +7,9 @@
 
 import UIKit
 
-class CalendarViewController: UIViewController {
-    let calendar = Calendar(identifier: .gregorian)
-    let calendarView = UICalendarView()
+final class CalendarViewController: UIViewController {
+    private let calendar = Calendar(identifier: .gregorian)
+    private let calendarView = UICalendarView()
     var delegate: CalendarViewControllerDelegate?
     
     private var yesterday: Date {
@@ -20,6 +20,7 @@ class CalendarViewController: UIViewController {
         super.viewDidLoad()
         configureRootView()
         configureCalendarView()
+        configureLayout()
     }
     
     private func configureRootView() {
@@ -27,7 +28,7 @@ class CalendarViewController: UIViewController {
         view.addSubview(calendarView)
     }
     
-    func configureCalendarView() {
+    private func configureCalendarView() {
         let dateComponents = DateFormatter.shared
             .string(from: yesterday, dateFormat: "yyyy-MM-dd")
             .components(separatedBy: "-")
@@ -49,6 +50,12 @@ class CalendarViewController: UIViewController {
         calendarView.visibleDateComponents = toDateComponent
         calendarView.availableDateRange = DateInterval(start: fromDate, end: toDate)
         
+        let dateSelection = UICalendarSelectionSingleDate(delegate: self)
+        calendarView.selectionBehavior = dateSelection
+        dateSelection.selectedDate = toDateComponent
+    }
+    
+    private func configureLayout() {
         calendarView.translatesAutoresizingMaskIntoConstraints = false
         
         NSLayoutConstraint.activate([
@@ -57,10 +64,6 @@ class CalendarViewController: UIViewController {
             calendarView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
             calendarView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor)
         ])
-        
-        let dateSelection = UICalendarSelectionSingleDate(delegate: self)
-        calendarView.selectionBehavior = dateSelection
-        dateSelection.selectedDate = toDateComponent
     }
 }
 
