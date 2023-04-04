@@ -10,11 +10,14 @@ import UIKit
 @available(iOS 16.0, *)
 final class CalendarViewController: UIViewController {
     private let calendarView: UICalendarView = {
-       
         let calendarView = UICalendarView()
         calendarView.fontDesign = .default
-        let date = Date()
-        calendarView.visibleDateComponents = DateComponents(calendar: Calendar(identifier: .gregorian), year: 2023, month: 4, day: 4)
+        calendarView.visibleDateComponents = DateComponents(
+            calendar: Calendar(identifier: .gregorian),
+            year: Calendar.current.component(.year, from: Date()),
+            month: Calendar.current.component(.month, from: Date()),
+            day: Calendar.current.component(.day, from: Date())
+        )
         
         return calendarView
     }()
