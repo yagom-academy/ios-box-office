@@ -49,7 +49,7 @@ final class DailyBoxOfficeViewController: UIViewController, DateUpdatable {
     private func configureCollectionView() {
         collectionView.delegate = self
         collectionView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
-        collectionView.register(DailyBoxOfficeCollectionViewCell.self, forCellWithReuseIdentifier: DailyBoxOfficeCollectionViewCell.reuseIdentifier)
+        collectionView.register(DailyBoxOfficeListCollectionViewCell.self, forCellWithReuseIdentifier: DailyBoxOfficeListCollectionViewCell.reuseIdentifier)
         collectionView.refreshControl = refreshControl
     }
     
@@ -133,14 +133,13 @@ extension DailyBoxOfficeViewController {
     private func setupDataSource() {
         movieDataSource = DataSource(collectionView: collectionView) { [weak self] collectionView, indexPath, itemIdentifier in
             guard let cell = collectionView.dequeueReusableCell(
-                withReuseIdentifier: DailyBoxOfficeCollectionViewCell.reuseIdentifier,
-                for: indexPath) as? DailyBoxOfficeCollectionViewCell else {
+                withReuseIdentifier: DailyBoxOfficeListCollectionViewCell.reuseIdentifier,
+                for: indexPath) as? DailyBoxOfficeListCollectionViewCell else {
                 return UICollectionViewCell()
             }
             
             self?.setupLabels(with: itemIdentifier) { movieListLabel, audienceInformationLabel, movieRankLabel, audienceVarianceLabel in
-                cell.configureMovieListStackView(movieListLabel, and: audienceInformationLabel)
-                cell.configureMovieRankStackView(movieRankLabel, and: audienceVarianceLabel)
+                cell.setupLabel(movieRankLabel, audienceVarianceLabel, movieListLabel, and: audienceInformationLabel)
             }
             
             return cell
@@ -207,14 +206,31 @@ extension DailyBoxOfficeViewController {
 
 @available(iOS 16.0, *)
 extension DailyBoxOfficeViewController {
+    private func createMovieIconLayout() -> UICollectionViewLayout {
+        let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(0.5),
+                                              heightDimension: .fractionalHeight(1.0))
+        let item = NSCollectionLayoutItem(layoutSize: itemSize)
+        item.contentInsets = NSDirectionalEdgeInsets(top: 7, leading: 7, bottom: 7, trailing: 7)
+
+        let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0),
+                                               heightDimension: .fractionalWidth(0.5))
+        let group = NSCollectionLayoutGroup.horizontal(layoutSize: groupSize, subitem: item, count: 2)
+
+        let section = NSCollectionLayoutSection(group: group)
+        section.contentInsets = NSDirectionalEdgeInsets(top: 7, leading: 7, bottom: 0, trailing: 7)
+
+        let layout = UICollectionViewCompositionalLayout(section: section)
+
+        return layout
+    }
+    
     private func createMovieListLayout() -> UICollectionViewLayout {
         let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0),
-                                              heightDimension: .estimated(44))
+                                              heightDimension: .fractionalHeight(1.0))
         let item = NSCollectionLayoutItem(layoutSize: itemSize)
-        item.contentInsets = NSDirectionalEdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 0)
         
         let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0),
-                                               heightDimension: .estimated(44))
+                                               heightDimension: .estimated(100))
         let group = NSCollectionLayoutGroup.vertical(layoutSize: groupSize, subitems: [item])
         
         let section = NSCollectionLayoutSection(group: group)

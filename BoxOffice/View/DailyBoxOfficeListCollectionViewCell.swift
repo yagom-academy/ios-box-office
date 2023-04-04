@@ -7,8 +7,8 @@
 
 import UIKit
 
-final class DailyBoxOfficeCollectionViewCell: UICollectionViewCell {
-    static let reuseIdentifier = "DailyBoxOfficeCollectionViewCell"
+final class DailyBoxOfficeListCollectionViewCell: UICollectionViewCell {
+    static let reuseIdentifier = "DailyBoxOfficeListCollectionViewCell"
 
     private let accessoryImageView = UIImageView()
     private let separatorView = UIView()
@@ -36,6 +36,8 @@ final class DailyBoxOfficeCollectionViewCell: UICollectionViewCell {
         configureSeparatorView()
         configureMainStackView()
         configureAccessoryImageView()
+        configureMovieRankStackView()
+        configureMovieListStackView()
     }
     
     private func configureContentView() {
@@ -76,12 +78,9 @@ final class DailyBoxOfficeCollectionViewCell: UICollectionViewCell {
         ])
     }
     
-    func configureMovieRankStackView(_ rankLabel: UILabel, and audienceVarianceLabel: UILabel) {
+    private func configureMovieRankStackView() {
         movieRankStackView.axis = .vertical
         movieRankStackView.distribution = .fill
-        
-        movieRankStackView.addArrangedSubview(rankLabel)
-        movieRankStackView.addArrangedSubview(audienceVarianceLabel)
         
         movieRankStackView.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([
@@ -89,13 +88,10 @@ final class DailyBoxOfficeCollectionViewCell: UICollectionViewCell {
         ])
     }
     
-    func configureMovieListStackView(_ listLabel: UILabel, and audienceInformationLabel: UILabel) {
+    private func configureMovieListStackView() {
         movieListStackView.axis = .vertical
         movieListStackView.distribution = .fillProportionally
         movieListStackView.spacing = 5
-        
-        movieListStackView.addArrangedSubview(listLabel)
-        movieListStackView.addArrangedSubview(audienceInformationLabel)
     }
     
     private func configureAccessoryImageView() {
@@ -108,5 +104,11 @@ final class DailyBoxOfficeCollectionViewCell: UICollectionViewCell {
             accessoryImageView.heightAnchor.constraint(equalTo: mainStackView.heightAnchor, multiplier: 0.2)
         ])
     }
+    
+    func setupLabel(_ rankLabel: UILabel, _ audienceVarianceLabel: UILabel, _ listLabel: UILabel, and audienceInformationLabel: UILabel) {
+        movieRankStackView.addArrangedSubview(rankLabel)
+        movieRankStackView.addArrangedSubview(audienceVarianceLabel)
+        movieListStackView.addArrangedSubview(listLabel)
+        movieListStackView.addArrangedSubview(audienceInformationLabel)
+    }
 }
-
