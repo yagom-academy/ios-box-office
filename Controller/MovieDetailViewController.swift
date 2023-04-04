@@ -23,6 +23,7 @@ final class MovieDetailViewController: UIViewController {
     private let posterImageView = {
         let imageView = UIImageView()
         imageView.translatesAutoresizingMaskIntoConstraints = false
+        imageView.contentMode = .scaleAspectFit
         
         return imageView
     }()
@@ -53,6 +54,7 @@ final class MovieDetailViewController: UIViewController {
         dataManager.fetchMoviePosterImage { [weak self] image in
             DispatchQueue.main.async {
                 self?.posterImageView.image = image
+                self?.posterImageView.sizeToFit()
             }
         }
     }

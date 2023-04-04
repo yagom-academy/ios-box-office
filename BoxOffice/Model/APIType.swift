@@ -16,7 +16,7 @@ enum APIType: Hashable {
         case .movie(_), .boxoffice(_):
             return ""
         case .movieImage(_):
-            return "KakaoAK \(Bundle.main.kakaoApiKey))"
+            return "KakaoAK \(Bundle.main.kakaoApiKey)"
         }
     }
     
@@ -41,7 +41,7 @@ enum APIType: Hashable {
         case .movieImage(let movieName):
             var components  = URLComponents(string: "https://dapi.kakao.com/v2/search/image")
             let query = URLQueryItem(name: "query", value: "\(movieName)포스터")
-            components?.queryItems?.append(query)
+            components?.queryItems = [query]
             
             return components?.url
         }
