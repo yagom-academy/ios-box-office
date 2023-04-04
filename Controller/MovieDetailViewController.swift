@@ -11,8 +11,7 @@ final class MovieDetailViewController: UIViewController {
     
     var movieName: String = ""
     var movieCode: String = ""
-    private lazy var dataManager = MovieDescManager(apiType: .movie(movieCode))
-    private lazy var imageManager = MovieDescManager(apiType: .movieImage(movieName))
+    private lazy var dataManager = MovieDescManager(movieApiType: .movie(movieCode), movieImageApiType: .movieImage(movieName))
     
     private let scrollView = {
         let scrollView = UIScrollView()
@@ -34,6 +33,7 @@ final class MovieDetailViewController: UIViewController {
         super.viewDidLoad()
         configureUI()
         fetchData()
+        fetchImage()
     }
     
     private func fetchData() {
@@ -45,6 +45,14 @@ final class MovieDetailViewController: UIViewController {
                 }
             case .failure(let error):
                 print(error.localizedDescription)
+            }
+        }
+    }
+    
+    private func fetchImage() {
+        dataManager.fetchMoviePosterImage { [weak self] image in
+            DispatchQueue.main.async {
+                self?.posterImageView.image = image
             }
         }
     }
