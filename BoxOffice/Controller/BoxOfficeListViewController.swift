@@ -29,12 +29,12 @@ final class BoxOfficeListViewController: UIViewController {
         super.viewDidLoad()
         
         configureUIView()
+        configureRefreshControl()
     }
     
     private func configureUIView() {
         configureMainView()
         configureCollectionView()
-        configureRefreshControl()
     }
     
     private func configureCollectionView() {
@@ -50,6 +50,7 @@ final class BoxOfficeListViewController: UIViewController {
             DispatchQueue.main.async {
                 LoadingIndicator.hideLoading()
                 self?.collectionView.reloadData()
+                self?.collectionView.refreshControl?.endRefreshing()
             }
         }
     }
@@ -121,12 +122,8 @@ final class BoxOfficeListViewController: UIViewController {
     }
     
     @objc private func handleRefreshControl() {
-        self.fetchBoxOfficeData {
-            DispatchQueue.main.async {
-                self.collectionView.reloadData()
-                self.collectionView.refreshControl?.endRefreshing()
-            }
-        }
+        self.currentDate = Date.yesterday.convertString(isFormatted: false)
+        configureUIView()
     }
 }
 
