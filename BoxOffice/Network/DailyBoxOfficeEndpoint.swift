@@ -13,5 +13,9 @@ struct DailyBoxOfficeEndpoint: EndpointMakeable {
     var method: String = HTTPMethod.get.rawValue
     var queryItems: [URLQueryItem] = [URLQueryItem(name: "key", value: "f5eef3421c602c6cb7ea224104795888")]
     var header: [String : String]?
+    
+    mutating func insertDateQueryValue(date: String) {
+        queryItems.append(URLQueryItem(name: "targetDt", value: date))
+    }
 }
 

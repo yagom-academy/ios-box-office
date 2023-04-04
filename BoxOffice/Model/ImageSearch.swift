@@ -8,10 +8,14 @@
 import UIKit
 
 struct ImageSearch: Decodable {
-    let documents: [Document]
+    let imageDatas: [ImageData]
+    
+    private enum CodingKeys: String, CodingKey {
+        case imageDatas = "documents"
+    }
 }
 
-struct Document: Decodable {
+struct ImageData: Decodable {
     let collection: String
     let dateTime: String
     let displaySiteName: String

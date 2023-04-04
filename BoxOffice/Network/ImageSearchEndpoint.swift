@@ -13,4 +13,8 @@ struct ImageSearchEndpoint: EndpointMakeable {
     var method: String = HTTPMethod.get.rawValue
     var queryItems: [URLQueryItem] = []
     var header: [String : String]?
+    
+    mutating func insertImageQueryValue(imageName: String) {
+        queryItems.append(URLQueryItem(name: "query", value: "\(imageName) 영화 포스터"))
+    }
 }

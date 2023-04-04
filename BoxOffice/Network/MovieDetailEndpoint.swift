@@ -13,4 +13,8 @@ struct MovieDetailEndpoint: EndpointMakeable {
     var method: String = HTTPMethod.get.rawValue
     var queryItems: [URLQueryItem] = [URLQueryItem(name: "key", value: "f5eef3421c602c6cb7ea224104795888")]
     var header: [String : String]?
+    
+    mutating func insertMovieCodeQueryValue(movieCode: String) {
+        queryItems.append(URLQueryItem(name: "movieCd", value: movieCode))
+    }
 }
