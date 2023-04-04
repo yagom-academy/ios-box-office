@@ -27,9 +27,7 @@ struct NetworkModel: NetworkingProtocol {
                 return
             }
             
-            guard let mimeType = httpResponse.mimeType,
-                  mimeType == "application/json",
-                  let data = data else {
+            guard let data = data else {
                 completion(.failure(.incorrectDataTypeError))
                 return
             }

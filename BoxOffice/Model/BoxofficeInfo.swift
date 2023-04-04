@@ -28,11 +28,7 @@ class BoxofficeInfo<T> {
         }
     }
     
-    private func makeRequest() -> URLRequest? {
-        guard let url = apiType.receiveUrl() else {
-            return nil
-        }
-        
+    private func makeRequest(url: URL) -> URLRequest? {
         if isRunningOnlyOneTask {
             cancelTask()
         }
@@ -47,8 +43,9 @@ class BoxofficeInfo<T> {
         task?.cancel()
     }
     
-    func fetchImage(handler: @escaping (Result<UIImage, BoxofficeError>) -> Void) {
-        guard let request = makeRequest() else {
+    func fetchImage(imageUrlText: String, handler: @escaping (Result<UIImage, BoxofficeError>) -> Void) {
+        guard let url = URL(string: imageUrlText),
+              let request = makeRequest(url: url) else {
             handler(.failure(.urlError))
             return
         }
@@ -68,7 +65,8 @@ class BoxofficeInfo<T> {
     }
     
     func fetchData(handler: @escaping (Result<T, BoxofficeError>) -> Void) where T: Decodable {
-        guard let request = makeRequest() else {
+        guard let url = apiType.receiveUrl(),
+              let request = makeRequest(url: url) else {
             handler(.failure(.urlError))
             return
         }
