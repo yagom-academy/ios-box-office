@@ -64,6 +64,19 @@ final class BoxOfficeListViewController: UIViewController {
     private func configureMainView() {
         view.backgroundColor = .white
         title = Date.configureYesterday(isFormatted: true)
+        
+        let selectDateButton: UIBarButtonItem = {
+            let button = UIBarButtonItem(title: "날짜 선택",
+                                         style: .plain,
+                                         target: self,
+                                         action: #selector(presentSelectDateModal))
+            return button
+        }()
+        self.navigationItem.rightBarButtonItem = selectDateButton
+    }
+    
+    @objc private func presentSelectDateModal() {
+        self.present(CalendarViewController(), animated: true)
     }
     
     private func fetchBoxOfficeData(completion: @escaping () -> Void) {
