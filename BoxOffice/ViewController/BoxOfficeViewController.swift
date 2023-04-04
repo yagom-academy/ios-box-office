@@ -52,6 +52,10 @@ final class BoxOfficeViewController: UIViewController {
         }
         
         self.navigationItem.title = yesterday
+        self.navigationItem.rightBarButtonItem = UIBarButtonItem(title: "날짜선택",
+                                                                 style: .plain,
+                                                                 target: self,
+                                                                 action: #selector(dateSelectionTapped))
         let appearance = UINavigationBarAppearance()
         self.navigationController?.navigationBar.standardAppearance = appearance
         self.navigationController?.navigationBar.scrollEdgeAppearance = appearance
@@ -87,6 +91,10 @@ final class BoxOfficeViewController: UIViewController {
                 }
             }
         }
+    }
+    
+    @objc private func dateSelectionTapped() {
+        
     }
     
     @objc private func refresh() {
