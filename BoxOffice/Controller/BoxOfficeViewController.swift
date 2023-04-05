@@ -10,7 +10,7 @@ import UIKit
 final class BoxOfficeViewController: UIViewController {
     @IBOutlet private weak var collectionView: UICollectionView!
     
-    private let networkManager = NetworkManager()
+    private let apiDataLoader = APIDataLoader()
     private let refreshControl = UIRefreshControl()
     private var boxOffice: BoxOffice?
     
@@ -30,20 +30,30 @@ final class BoxOfficeViewController: UIViewController {
     }
     
     @objc private func refreshData() {
-        fetchDailyBoxOffice { [weak self] in
-            guard let self = self else { return }
-            
-            self.refreshControl.endRefreshing()
+        loadData { [weak self] in
+            self?.refreshControl.endRefreshing()
         }
     }
     
     private func loadInitialData() {
         activityIndicator.startAnimating()
         
-        fetchDailyBoxOffice { [weak self] in
-            guard let self = self else { return }
+        loadData { [weak self] in
+            self?.activityIndicator.stopAnimating()
+        }
+    }
+    
+    private func loadData(completion: @escaping () -> ()) {
+        apiDataLoader.loadDailyBoxOffice { [weak self] (boxOffice, error) in
+            guard let error = error else {
+                self?.boxOffice = boxOffice
+                self?.collectionView.reloadData()
+                completion()
+                return
+            }
             
-            self.activityIndicator.stopAnimating()
+            self?.showFailAlert(error: error)
+            completion()
         }
     }
     
@@ -72,28 +82,6 @@ final class BoxOfficeViewController: UIViewController {
         self.view.addSubview(activityIndicator)
         refreshControl.addTarget(self, action: #selector(refreshData), for: .valueChanged)
         configureCollectionView()
-    }
-    
-    private func fetchDailyBoxOffice(completion: @escaping () -> Void) {
-        let yesterdayText = DateFormatter.yesterdayText(format: .nonHyphen)
-        let endPoint: BoxOfficeEndpoint = .fetchDailyBoxOffice(targetDate: yesterdayText)
-        
-        networkManager.fetchData(request: endPoint.createRequest(), type: BoxOffice.self) {
-            result in
-            DispatchQueue.main.async { [weak self] in
-                guard let self = self else { return }
-                
-                switch result {
-                case .success(let data):
-                    self.boxOffice = data
-                    self.collectionView.reloadData()
-                case .failure(let error):
-                    print(error.localizedDescription)
-                    self.showFailAlert(error: error)
-                }
-                completion()
-            }
-        }
     }
 }
 
