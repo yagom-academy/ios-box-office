@@ -21,8 +21,6 @@ final class MovieInfoViewController: UIViewController {
     
     private let movieCode: String?
     private let movieName: String?
-    private var movieInfo: Movie?
-    private var posterImage: UIImage?
     private let movieInfoDataLoader = MovieInfoDataLoader()
     private let moviePosterImageLoader = MoviePosterImageLoader()
     
@@ -65,7 +63,7 @@ final class MovieInfoViewController: UIViewController {
         movieInfoDataLoader.loadMovieInfo(movieCode: movieCode) {
             [weak self] movie, error in
             guard let error = error else {
-                self?.movieInfo = movie
+                self?.configureLabels(data: movie)
                 group.leave()
                 return
             }
@@ -77,7 +75,7 @@ final class MovieInfoViewController: UIViewController {
         moviePosterImageLoader.loadMoviePosterImage(movieName: movieName) {
             [weak self] image, error in
             guard let error = error else {
-                self?.posterImage = image
+                self?.posterImageView.image = image
                 group.leave()
                 return
             }
@@ -86,11 +84,13 @@ final class MovieInfoViewController: UIViewController {
         }
         
         group.notify(queue: .main) { [weak self] in
-            self?.applyData()
+            self?.showMovieInfo()
         }
     }
     
-    private func configureLabels(data: Movie) {
+    private func configureLabels(data: Movie?) {
+        guard let data = data else { return }
+        
         let info = data.movieInfoResult.info
         
         directorLabel.text = info.directors.map { $0.peopleName }.concatenate()
@@ -103,13 +103,9 @@ final class MovieInfoViewController: UIViewController {
         actorLabel.text = info.actors.map { $0.peopleName }.concatenate()
     }
     
-    private func applyData() {
-        guard let movieInfo = movieInfo else { return }
-        
+    private func showMovieInfo() {
         DispatchQueue.main.async { [weak self] in
             self?.activityIndicator.stopAnimating()
-            self?.posterImageView.image = self?.posterImage
-            self?.configureLabels(data: movieInfo)
             self?.contentStackView.isHidden = false
         }
     }

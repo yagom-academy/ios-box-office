@@ -54,7 +54,9 @@ final class MoviePosterImageLoader {
                 return
             }
             
-            completion(image)
+            DispatchQueue.main.async {
+                completion(image)
+            }
         }
     }
 }

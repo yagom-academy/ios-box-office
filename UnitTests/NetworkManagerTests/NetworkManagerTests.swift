@@ -19,7 +19,7 @@ final class NetworkManagerTests: XCTestCase {
     func test_getData_호출시_BoxOffice_sample_data_불러오기에_성공한다() {
         // given
         let expectedResult = try? JSONDecoder().decode(BoxOffice.self, from: SampleData.boxOfficeData!)
-        let request = BoxOfficeEndPoint.fetchDailyBoxOffice(targetDate: "20120101").createRequest()
+        let request = BoxOfficeEndpoint.fetchDailyBoxOffice(targetDate: "20120101").createRequest()
         
         // when, then
         sut.fetchData(request: request, type: BoxOffice.self) { result in
@@ -37,7 +37,7 @@ final class NetworkManagerTests: XCTestCase {
         let makeRequestFail = true
         sut = .init(session: MockURLSession(makeRequestFail: makeRequestFail))
         let expectedResult = "status: 410"
-        let request = BoxOfficeEndPoint.fetchDailyBoxOffice(targetDate: "20120101").createRequest()
+        let request = BoxOfficeEndpoint.fetchDailyBoxOffice(targetDate: "20120101").createRequest()
         
         // when, then
         sut.fetchData(request: request, type: BoxOffice.self) { result in
