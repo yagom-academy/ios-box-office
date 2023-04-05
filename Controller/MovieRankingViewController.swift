@@ -10,13 +10,14 @@ import UIKit
 final class MovieRankingViewController: UIViewController {
     
     // MARK: Propertie
-    private var dataManager = {
-        guard let yesterday = Date.yesterday else {
-            return RankingManager(date: Date())
+    private let boxofficeDate = {
+        guard let boxofficeDate = Date.yesterday else {
+            return Date()
         }
-        
-        return RankingManager(date: yesterday)
+        return boxofficeDate
     }()
+    
+    private var dataManager: RankingManager?
     
     // MARK: UI Properties
     private let loadingView = UIActivityIndicatorView()
@@ -32,12 +33,21 @@ final class MovieRankingViewController: UIViewController {
         return collectionView
     }()
     
+    private lazy var dateSelectionButton = UIBarButtonItem(title: "날짜 선택", style: .plain, target: self, action: #selector(didTapDateSelectionButton))
+    
+    @objc private func didTapDateSelectionButton() {
+        let vc = CalendarViewController()
+        vc.selectedDate = boxofficeDate
+        present(vc, animated: true)
+    }
+    
     // MARK: DataSource Properties
     private var dataSource: UICollectionViewDiffableDataSource<APIType, InfoObject>?
     private var snapshot = NSDiffableDataSourceSnapshot<APIType, InfoObject>()
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        makeDataManager()
         configureUI()
         startLoadingView()
         makeDataSource()
@@ -45,8 +55,12 @@ final class MovieRankingViewController: UIViewController {
         fetchBoxofficeData()
     }
     
+    private func makeDataManager() {
+        dataManager = RankingManager(date: boxofficeDate)
+    }
+    
     private func fetchBoxofficeData() {
-        dataManager.fetchRanking { [weak self] error in
+        dataManager?.fetchRanking { [weak self] error in
             guard let error = error else {
                 DispatchQueue.main.async {
                     self?.applySnapshot()
@@ -82,10 +96,13 @@ final class MovieRankingViewController: UIViewController {
 // MARK: Delegate
 extension MovieRankingViewController: UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        guard let movieItem = dataManager?.movieItems[indexPath.row] else {
+            return
+        }
         let nextViewController = MovieDetailViewController()
         
-        nextViewController.movieName = dataManager.movieItems[indexPath.row].name
-        nextViewController.movieCode = dataManager.movieItems[indexPath.row].code
+        nextViewController.movieName = movieItem.name
+        nextViewController.movieCode = movieItem.code
         
         navigationController?.pushViewController(nextViewController, animated: true)
     }
@@ -93,13 +110,26 @@ extension MovieRankingViewController: UICollectionViewDelegate {
 
 // MARK: UI
 extension MovieRankingViewController {
+    
+    private func configureNavigationTitle() {
+        guard let navigationTitleText = dataManager?.navigationTitleText else {
+            return
+        }
+        
+        navigationItem.title = navigationTitleText
+    }
+    
+    private func configureNavigationItems() {
+        configureNavigationTitle()
+        navigationItem.rightBarButtonItem = dateSelectionButton
+    }
+    
     private func configureUI() {
         view.backgroundColor = .systemBackground
         
         configureCollectionViewLayout()
         configureLoadingView()
-        
-        navigationItem.title = "\(dataManager.navigationTitleText)"
+        configureNavigationItems()
     }
     
     private func configureLoadingView() {
@@ -122,8 +152,12 @@ extension MovieRankingViewController {
     }
     
     private func applySnapshot() {
-        var snapshot = NSDiffableDataSourceSnapshot<APIType, InfoObject>()
+        guard let dataManager = dataManager else {
+            return
+        }
         
+        var snapshot = NSDiffableDataSourceSnapshot<APIType, InfoObject>()
+    
         snapshot.appendSections([dataManager.apiType])
         snapshot.appendItems(dataManager.movieItems)
         
