@@ -98,6 +98,8 @@ final class MovieDetailsViewController: UIViewController {
         LoadingIndicator.showLoading(in: posterView)
         
         apiProvider.startLoad(decodingType: DaumSearchResult.self) { result in
+            LoadingIndicator.hideLoading(in: self.posterView)
+            
             switch result {
             case .success(let searchedResult):
                 self.searchedResult = searchedResult
@@ -112,7 +114,6 @@ final class MovieDetailsViewController: UIViewController {
             case .failure(let error):
                 AlertController.showAlert(for: error, to: self)
             }
-            LoadingIndicator.hideLoading(in: self.posterView)
         }
     }
     
