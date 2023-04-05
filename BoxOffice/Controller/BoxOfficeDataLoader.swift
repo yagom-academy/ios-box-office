@@ -19,13 +19,11 @@ final class BoxOfficeDataLoader {
         
         networkManager.fetchData(request: endPoint.createRequest(), type: BoxOffice.self) {
             result in
-            DispatchQueue.main.async {
-                switch result {
-                case .success(let data):
-                    completion(data, nil)
-                case .failure(let error):
-                    completion(nil, error)
-                }
+            switch result {
+            case .success(let data):
+                completion(data, nil)
+            case .failure(let error):
+                completion(nil, error)
             }
         }
     }

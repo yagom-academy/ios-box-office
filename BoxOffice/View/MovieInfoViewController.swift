@@ -59,27 +59,29 @@ final class MovieInfoViewController: UIViewController {
         
         activityIndicator.startAnimating()
         group.enter()
-        movieInfoDataLoader.loadMovieInfo(movieCode: movieCode) {
-            [weak self] movie, error in
-            guard let error = error else {
-                self?.configureLabels(data: movie)
-                group.leave()
-                return
+        movieInfoDataLoader.loadMovieInfo(movieCode: movieCode) { movie, error in
+            DispatchQueue.main.async { [weak self] in
+                guard let error = error else {
+                    self?.configureLabels(data: movie)
+                    group.leave()
+                    return
+                }
+                
+                self?.showFailAlert(error: error)
             }
-            
-            self?.showFailAlert(error: error)
         }
         
         group.enter()
-        movieInfoDataLoader.loadMoviePosterImage(movieName: movieName) {
-            [weak self] image, error in
-            guard let error = error else {
-                self?.posterImageView.image = image
-                group.leave()
-                return
+        movieInfoDataLoader.loadMoviePosterImage(movieName: movieName) { image, error in
+            DispatchQueue.main.async { [weak self] in
+                guard let error = error else {
+                    self?.posterImageView.image = image
+                    group.leave()
+                    return
+                }
+                
+                self?.showFailAlert(error: error)
             }
-            
-            self?.showFailAlert(error: error)
         }
         
         group.notify(queue: .main) { [weak self] in

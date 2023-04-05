@@ -18,13 +18,11 @@ final class MovieInfoDataLoader {
         
         networkManager.fetchData(request: endPoint.createRequest(), type: Movie.self) {
             result in
-            DispatchQueue.main.async {
-                switch result {
-                case .success(let data):
-                    completion(data, nil)
-                case .failure(let error):
-                    completion(nil, error)
-                }
+            switch result {
+            case .success(let data):
+                completion(data, nil)
+            case .failure(let error):
+                completion(nil, error)
             }
         }
     }
@@ -37,16 +35,14 @@ final class MovieInfoDataLoader {
         
         networkManager.fetchData(request: endPoint.createRequest(), type: MoviePoster.self) {
             [weak self] result in
-            DispatchQueue.main.async {
-                switch result {
-                case .success(let data):
-                    let url = self?.searchPosterURL(data: data)
-                    self?.loadImage(url: url) { image in
-                        completion(image, nil)
-                    }
-                case .failure(let error):
-                    completion(nil, error)
+            switch result {
+            case .success(let data):
+                let url = self?.searchPosterURL(data: data)
+                self?.loadImage(url: url) { image in
+                    completion(image, nil)
                 }
+            case .failure(let error):
+                completion(nil, error)
             }
         }
     }
