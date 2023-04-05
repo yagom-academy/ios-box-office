@@ -10,11 +10,12 @@ import UIKit
 final class CalendarViewController: UIViewController {
     private let calendar = Calendar(identifier: .gregorian)
     private let calendarView = UICalendarView()
-    var delegate: CalendarViewControllerDelegate?
     private var currentDate: Date?
     private var yesterday: Date {
         return Date(timeIntervalSinceNow: 3600 * -24)
     }
+    
+    weak var delegate: CalendarViewControllerDelegate?
     
     init(currentDate: Date) {
         self.currentDate = currentDate
@@ -40,29 +41,14 @@ final class CalendarViewController: UIViewController {
     private func configureCalendarView() {
         guard let currentDate = self.currentDate else { return }
         
-        let dateComponents = DateFormatter.shared
-            .string(from: yesterday, dateFormat: "yyyy-MM-dd")
-            .components(separatedBy: "-")
-            .compactMap { Int($0) }
-        
-        let currentDateComponents = DateFormatter.shared
-            .string(from: currentDate, dateFormat: "yyyy-MM-dd")
-            .components(separatedBy: "-")
-            .compactMap { Int($0) }
-        
         calendarView.calendar = calendar
         calendarView.locale = Locale(identifier: "ko_KR")
         calendarView.fontDesign = .rounded
         
         let fromDateComponent = DateComponents(calendar: calendar, year: 2003, month: 11, day: 11)
-        let toDateComponent = DateComponents(calendar: calendar,
-                                             year: dateComponents[0],
-                                             month: dateComponents[1],
-                                             day: dateComponents[2])
-        let selectedDateComponent = DateComponents(calendar: calendar,
-                                               year: currentDateComponents[0],
-                                               month: currentDateComponents[1],
-                                               day: currentDateComponents[2])
+        let toDateComponent = createDateComponent(with: yesterday)
+        let selectedDateComponent = createDateComponent(with: currentDate)
+        
         guard let fromDate = fromDateComponent.date,
               let toDate = toDateComponent.date else { return }
         
@@ -70,8 +56,21 @@ final class CalendarViewController: UIViewController {
         calendarView.availableDateRange = DateInterval(start: fromDate, end: toDate)
         
         let dateSelection = UICalendarSelectionSingleDate(delegate: self)
-        calendarView.selectionBehavior = dateSelection
         dateSelection.selectedDate = selectedDateComponent
+        
+        calendarView.selectionBehavior = dateSelection
+    }
+    
+    private func createDateComponent(with date: Date) -> DateComponents {
+        let dateComponents = DateFormatter.shared
+            .string(from: date, dateFormat: "yyyy-MM-dd")
+            .components(separatedBy: "-")
+            .compactMap { Int($0) }
+        
+        return DateComponents(calendar: calendar,
+                              year: dateComponents[0],
+                              month: dateComponents[1],
+                              day: dateComponents[2])
     }
     
     private func configureLayout() {
@@ -95,6 +94,6 @@ extension CalendarViewController: UICalendarSelectionSingleDateDelegate {
     }
 }
 
-protocol CalendarViewControllerDelegate {
+protocol CalendarViewControllerDelegate: AnyObject {
     func changeTarget(date: Date)
 }
