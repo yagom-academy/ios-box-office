@@ -8,10 +8,11 @@
 import UIKit
 
 final class BoxOfficeViewController: UIViewController {
-    @IBOutlet weak var boxOfficeListCollectionView: UICollectionView!
-    lazy var activityIndicator = UIActivityIndicatorView()
     let boxOfficeService = BoxOfficeService()
     private var provider = Provider()
+    
+    @IBOutlet weak var boxOfficeListCollectionView: UICollectionView!
+    lazy var activityIndicator = UIActivityIndicatorView()
     
     override func viewDidLoad() {
         super.viewDidLoad()
