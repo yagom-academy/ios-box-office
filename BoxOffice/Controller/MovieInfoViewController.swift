@@ -21,9 +21,9 @@ final class MovieInfoViewController: UIViewController {
     
     private let movieCode: String?
     private let movieName: String?
-    private let networkManager = NetworkManager()
     private var movieInfo: Movie?
     private var posterImage: UIImage?
+    private let movieInfoDataLoader = MovieInfoDataLoader()
     
     private lazy var activityIndicator: UIActivityIndicatorView = {
         let activityIndicator = UIActivityIndicatorView()
@@ -58,23 +58,17 @@ final class MovieInfoViewController: UIViewController {
         fetchMoviePoster()
     }
     
-    private func fetchMovieInfo(completion: @escaping () -> ()) {
-        guard let movieCode = movieCode else { return }
+    private func loadData() {
+        activityIndicator.startAnimating()
         
-        let endPoint: BoxOfficeEndpoint = .fetchMovieInfo(movieCode: movieCode)
-        
-        networkManager.fetchData(request: endPoint.createRequest(), type: Movie.self) {
-            [weak self] result in
-            guard let self = self else { return }
-            
-            switch result {
-            case .success(let data):
-                self.movieInfo = data
-            case .failure(let error):
-                print(error.localizedDescription)
-                self.showFailAlert(error: error)
+        movieInfoDataLoader.loadMovieInfo(movieCode: movieCode) { [weak self] movie, error in
+            guard let error = error else {
+                self?.movieInfo = movie
+                self?.checkFetchComplete()
+                return
             }
-            completion()
+            
+            self?.showFailAlert(error: error)
         }
     }
     

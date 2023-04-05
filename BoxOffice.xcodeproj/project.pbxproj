@@ -19,12 +19,13 @@
 		1639532629D1739A00032636 /* Nation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1639532529D1739A00032636 /* Nation.swift */; };
 		1639532A29D179EF00032636 /* Array+Subscript.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1639532929D179EF00032636 /* Array+Subscript.swift */; };
 		1639532E29D1BE6800032636 /* String+DecimalFormatter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1639532D29D1BE6800032636 /* String+DecimalFormatter.swift */; };
-		1658230F29DD0ED4006A570A /* APIDataLoader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1658230E29DD0ED4006A570A /* APIDataLoader.swift */; };
+		1658230F29DD0ED4006A570A /* BoxOfficeDataLoader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1658230E29DD0ED4006A570A /* BoxOfficeDataLoader.swift */; };
 		16B6214F29CAE13C00D6BA27 /* BoxOfficeEndpoint.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16B6214E29CAE13C00D6BA27 /* BoxOfficeEndpoint.swift */; };
 		16B6215129CC21C900D6BA27 /* URLSessionProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16B6215029CC21C900D6BA27 /* URLSessionProtocol.swift */; };
 		16B6215929CC239300D6BA27 /* NetworkManagerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16B6215829CC239300D6BA27 /* NetworkManagerTests.swift */; };
 		16B6216329CC296A00D6BA27 /* SampleData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16B6216229CC296A00D6BA27 /* SampleData.swift */; };
 		16E737DB29CD8378009B5DE8 /* Identifying.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16E737DA29CD8378009B5DE8 /* Identifying.swift */; };
+		4A0300A229DD1CB200DE39C4 /* MovieInfoDataLoader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A0300A129DD1CB200DE39C4 /* MovieInfoDataLoader.swift */; };
 		4A03E49B29D16BD50066AF87 /* BoxOfficeResult.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A03E49A29D16BD50066AF87 /* BoxOfficeResult.swift */; };
 		4A03E49D29D16C060066AF87 /* DailyBoxOffice.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A03E49C29D16C060066AF87 /* DailyBoxOffice.swift */; };
 		4A03E49F29D16C2D0066AF87 /* RankOldAndNew.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A03E49E29D16C2D0066AF87 /* RankOldAndNew.swift */; };
@@ -86,13 +87,14 @@
 		1639532529D1739A00032636 /* Nation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Nation.swift; sourceTree = "<group>"; };
 		1639532929D179EF00032636 /* Array+Subscript.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Array+Subscript.swift"; sourceTree = "<group>"; };
 		1639532D29D1BE6800032636 /* String+DecimalFormatter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "String+DecimalFormatter.swift"; sourceTree = "<group>"; };
-		1658230E29DD0ED4006A570A /* APIDataLoader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIDataLoader.swift; sourceTree = "<group>"; };
+		1658230E29DD0ED4006A570A /* BoxOfficeDataLoader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BoxOfficeDataLoader.swift; sourceTree = "<group>"; };
 		16B6214E29CAE13C00D6BA27 /* BoxOfficeEndpoint.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BoxOfficeEndpoint.swift; sourceTree = "<group>"; };
 		16B6215029CC21C900D6BA27 /* URLSessionProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = URLSessionProtocol.swift; sourceTree = "<group>"; };
 		16B6215629CC239300D6BA27 /* NetworkManagerTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = NetworkManagerTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		16B6215829CC239300D6BA27 /* NetworkManagerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkManagerTests.swift; sourceTree = "<group>"; };
 		16B6216229CC296A00D6BA27 /* SampleData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SampleData.swift; sourceTree = "<group>"; };
 		16E737DA29CD8378009B5DE8 /* Identifying.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Identifying.swift; sourceTree = "<group>"; };
+		4A0300A129DD1CB200DE39C4 /* MovieInfoDataLoader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MovieInfoDataLoader.swift; sourceTree = "<group>"; };
 		4A03E49A29D16BD50066AF87 /* BoxOfficeResult.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BoxOfficeResult.swift; sourceTree = "<group>"; };
 		4A03E49C29D16C060066AF87 /* DailyBoxOffice.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DailyBoxOffice.swift; sourceTree = "<group>"; };
 		4A03E49E29D16C2D0066AF87 /* RankOldAndNew.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RankOldAndNew.swift; sourceTree = "<group>"; };
@@ -245,7 +247,8 @@
 			children = (
 				63DF20F22970E1A0005DF7D1 /* BoxOfficeViewController.swift */,
 				1631BC4729D3DC3800C2943D /* MovieInfoViewController.swift */,
-				1658230E29DD0ED4006A570A /* APIDataLoader.swift */,
+				1658230E29DD0ED4006A570A /* BoxOfficeDataLoader.swift */,
+				4A0300A129DD1CB200DE39C4 /* MovieInfoDataLoader.swift */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -533,6 +536,7 @@
 				4A7F488B29D3D79100D164BE /* MoviePoster.swift in Sources */,
 				63DF20F32970E1A0005DF7D1 /* BoxOfficeViewController.swift in Sources */,
 				63DF20EF2970E1A0005DF7D1 /* AppDelegate.swift in Sources */,
+				4A0300A229DD1CB200DE39C4 /* MovieInfoDataLoader.swift in Sources */,
 				1639532429D1738900032636 /* Genre.swift in Sources */,
 				63DF20F12970E1A0005DF7D1 /* SceneDelegate.swift in Sources */,
 				1639532629D1739A00032636 /* Nation.swift in Sources */,
@@ -540,7 +544,7 @@
 				4A51039629D7063900DB9887 /* UIViewController+showFailAlert.swift in Sources */,
 				1639532A29D179EF00032636 /* Array+Subscript.swift in Sources */,
 				1639532E29D1BE6800032636 /* String+DecimalFormatter.swift in Sources */,
-				1658230F29DD0ED4006A570A /* APIDataLoader.swift in Sources */,
+				1658230F29DD0ED4006A570A /* BoxOfficeDataLoader.swift in Sources */,
 				4A32B3AD29CC36A8005A8575 /* URLSessionDataTaskProtocol.swift in Sources */,
 				4A03E49F29D16C2D0066AF87 /* RankOldAndNew.swift in Sources */,
 				4A32B3A929CC2DB2005A8575 /* MockURLSessionDataTask.swift in Sources */,
