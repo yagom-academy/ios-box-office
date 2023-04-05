@@ -8,26 +8,20 @@
 import UIKit
 
 class MovieDetailViewController: UIViewController {
+    let boxOfficeService = BoxOfficeService()
     
     private var movieDetailView = MovieDetailView()
-    private var movieDetail: MovieDetail?
     private var searchedImage: ImageSearch?
     private var provider = Provider()
     
     override func viewDidLoad() {
         super.viewDidLoad()
         view = movieDetailView
+        fetchMoiveDetailAPI()
     }
     
-    func fetchMoiveDetailAPI(movieCode: String) {
-        var movieDetailEndpoint = MovieDetailEndpoint()
-        movieDetailEndpoint.insertMovieCodeQueryValue(movieCode: movieCode)
-        
-        provider.loadBoxOfficeAPI(endpoint: movieDetailEndpoint,
-                                  parser: Parser<MovieDetail>()) { parsedData in
-            self.movieDetail = parsedData
-            self.fetchImage()
-            
+    func fetchMoiveDetailAPI() {
+        boxOfficeService.fetchMovieDetailAPI {
             DispatchQueue.main.async {
                 self.setMovieDetailLabel()
             }
@@ -38,14 +32,14 @@ class MovieDetailViewController: UIViewController {
         self.movieDetailView.directorTitleLabel.text = "감독"
         self.movieDetailView.directorDataLabel.text = self.reformString(labelText: "감독")
         self.movieDetailView.productYearTitleLabel.text = "제작년도"
-        self.movieDetailView.productYearDataLabel.text = self.movieDetail?.movieInformationResult.movieInformation.productYear
+        self.movieDetailView.productYearDataLabel.text = boxOfficeService.movieDetail?.movieInformationResult.movieInformation.productYear
        
         self.movieDetailView.openDayTitleLabel.text = "개봉일"
         self.movieDetailView.openDayDataLabel.text =
-        self.movieDetail?.movieInformationResult.movieInformation.openDate
+        boxOfficeService.movieDetail?.movieInformationResult.movieInformation.openDate
         
         self.movieDetailView.showTimeTitleLabel.text = "상영시간"
-        self.movieDetailView.showTimeDataLabel.text = self.movieDetail?.movieInformationResult.movieInformation.showTime
+        self.movieDetailView.showTimeDataLabel.text = boxOfficeService.movieDetail?.movieInformationResult.movieInformation.showTime
         
         self.movieDetailView.auditsTitleLabel.text = "관람등급"
         self.movieDetailView.auditsDataLabel.text = self.reformString(labelText: "관람등급")
@@ -64,22 +58,22 @@ class MovieDetailViewController: UIViewController {
 
         switch labelText {
         case "감독":
-            return movieDetail?.movieInformationResult.movieInformation.directors.map{$0.peopleName}.joined(separator: ", ") ?? ""
+            return boxOfficeService.movieDetail?.movieInformationResult.movieInformation.directors.map{$0.peopleName}.joined(separator: ", ") ?? ""
         case "관람등급":
-            return movieDetail?.movieInformationResult.movieInformation.audits.map{$0.watchGradeName}.joined(separator: ", ") ?? ""
+            return boxOfficeService.movieDetail?.movieInformationResult.movieInformation.audits.map{$0.watchGradeName}.joined(separator: ", ") ?? ""
         case "제작국가":
-            return movieDetail?.movieInformationResult.movieInformation.nations.map{$0.nationName}.joined(separator: ", ") ?? ""
+            return boxOfficeService.movieDetail?.movieInformationResult.movieInformation.nations.map{$0.nationName}.joined(separator: ", ") ?? ""
         case "장르":
-            return movieDetail?.movieInformationResult.movieInformation.genres.map{$0.genreName}.joined(separator: ", ") ?? ""
+            return boxOfficeService.movieDetail?.movieInformationResult.movieInformation.genres.map{$0.genreName}.joined(separator: ", ") ?? ""
         case "배우":
-            return movieDetail?.movieInformationResult.movieInformation.actors.map{$0.peopleName}.joined(separator: ", ") ?? ""
+            return boxOfficeService.movieDetail?.movieInformationResult.movieInformation.actors.map{$0.peopleName}.joined(separator: ", ") ?? ""
         default:
             return ""
         }
-    }g
+    }
     
     private func fetchImage() {
-        guard let movieName = self.movieDetail?.movieInformationResult.movieInformation.movieName else { return }
+        guard let movieName = boxOfficeService.movieDetail?.movieInformationResult.movieInformation.movieName else { return }
 
         var imageSearchEndpoint = ImageSearchEndpoint()
         imageSearchEndpoint.insertImageQueryValue(imageName: movieName)
