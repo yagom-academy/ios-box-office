@@ -22,13 +22,13 @@ final class DailyBoxOfficeViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        LoadingIndicator.showLoading()
         configureRootView()
         configureNavigationBar()
         configureCollectionView()
         configureDataSource()
         loadDailyBoxOffice(date: yesterday)
         configureRefreshControl()
+        loadDailyBoxOffice()
     }
     
     private func configureRootView() {
@@ -89,6 +89,11 @@ final class DailyBoxOfficeViewController: UIViewController {
         
         var apiProvider = APIProvider()
         apiProvider.target(api: api)
+        
+        if collectionView.refreshControl?.isRefreshing == false {
+            LoadingIndicator.showLoading()
+        }
+        
         apiProvider.startLoad(decodingType: DailyBoxOffice.self) { result in
             switch result {
             case .success(let dailyBoxOffice):
