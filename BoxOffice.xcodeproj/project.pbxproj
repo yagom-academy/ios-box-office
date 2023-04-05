@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		4B15DD8D29DC16F3006AC55B /* DailyBoxOfficeListCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B15DD8C29DC16F3006AC55B /* DailyBoxOfficeListCell.swift */; };
+		4B15DD9229DD0AF9006AC55B /* extension+Collection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B15DD9129DD0AF9006AC55B /* extension+Collection.swift */; };
 		4B181D0729D287D900B3CD47 /* extension+String.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B181D0629D287D900B3CD47 /* extension+String.swift */; };
 		4B181D0929D2AD8D00B3CD47 /* LoadingIndicator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B181D0829D2AD8D00B3CD47 /* LoadingIndicator.swift */; };
 		4B4A799329D3FD5700514141 /* MovieDetailsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B4A799229D3FD5700514141 /* MovieDetailsViewController.swift */; };
@@ -168,6 +169,7 @@
 				AD3D401E29D28E5200A56210 /* extension+CALayer.swift */,
 				AD3D401C29D1CFC800A56210 /* extension+DateFormatter.swift */,
 				4B181D0629D287D900B3CD47 /* extension+String.swift */,
+				4B15DD9129DD0AF9006AC55B /* extension+Collection.swift */,
 			);
 			path = Extension;
 			sourceTree = "<group>";
@@ -430,6 +432,7 @@
 				4B7EF57829DAC94A00F73EB7 /* CalendarViewController.swift in Sources */,
 				4B181D0729D287D900B3CD47 /* extension+String.swift in Sources */,
 				AD3D401F29D28E5200A56210 /* extension+CALayer.swift in Sources */,
+				4B15DD9229DD0AF9006AC55B /* extension+Collection.swift in Sources */,
 				4B9E3A2729CADF9D00B60AD1 /* DataTaskMakeable.swift in Sources */,
 				4B4A799729D4317100514141 /* DaumSearchAPI.swift in Sources */,
 				4B9E3A5429CD838300B60AD1 /* KobisAPI.swift in Sources */,
