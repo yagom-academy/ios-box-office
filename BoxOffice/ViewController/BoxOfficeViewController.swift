@@ -180,33 +180,54 @@ final class BoxOfficeViewController: UIViewController {
 
 @available(iOS 16.0, *)
 extension BoxOfficeViewController {
-    private func createLayout() -> UICollectionViewLayout {
-        let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0),
-                                              heightDimension: .fractionalHeight(1.0))
-        let item = NSCollectionLayoutItem(layoutSize: itemSize)
+    private func createLayout(for layout: LayoutType = .list) -> UICollectionViewLayout {
+        switch layout {
+        case .list:
+            let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0),
+                                                  heightDimension: .fractionalHeight(1.0))
+            let item = NSCollectionLayoutItem(layoutSize: itemSize)
 
-        let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0),
-                                               heightDimension: .fractionalWidth(0.2))
-        let group = NSCollectionLayoutGroup.horizontal(layoutSize: groupSize,
-                                                         subitems: [item])
+            let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0),
+                                                   heightDimension: .fractionalWidth(0.2))
+            let group = NSCollectionLayoutGroup.horizontal(layoutSize: groupSize,
+                                                             subitems: [item])
 
-        let section = NSCollectionLayoutSection(group: group)
-        let layout = UICollectionViewCompositionalLayout(section: section)
+            let section = NSCollectionLayoutSection(group: group)
+            let layout = UICollectionViewCompositionalLayout(section: section)
+            
+            return layout
+        case .grid:
+            let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0),
+                                                 heightDimension: .fractionalHeight(1.0))
+            let item = NSCollectionLayoutItem(layoutSize: itemSize)
+
+            let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0),
+                                                   heightDimension: .fractionalWidth(0.5))
+            let group = NSCollectionLayoutGroup.horizontal(layoutSize: groupSize, subitem: item, count: 2)
+            let spacing = CGFloat(10)
+            group.interItemSpacing = .fixed(spacing)
+
+            let section = NSCollectionLayoutSection(group: group)
+            section.interGroupSpacing = spacing
+            section.contentInsets = NSDirectionalEdgeInsets(top: 0, leading: 10, bottom: 0, trailing: 10)
+
+            let layout = UICollectionViewCompositionalLayout(section: section)
+            return layout
+        }
         
-        return layout
     }
 }
 
 @available(iOS 16.0, *)
 extension BoxOfficeViewController {
-    private func configureHierarchy() {
+    private func configureHierarchy(for layout: LayoutType = .list) {
         collectionView = UICollectionView(frame: view.bounds, collectionViewLayout: createLayout())
         collectionView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
         collectionView.delegate = self
         view.addSubview(collectionView)
     }
     
-    private func configureDataSource() {
+    private func configureDataSource(for layout: LayoutType = .list) {
         let cellRegistration = UICollectionView.CellRegistration<BoxOfficeListCell, BoxOfficeItem> {
             (cell, indexPath, item) in
             cell.item = item
@@ -253,4 +274,9 @@ extension BoxOfficeViewController: DateChangeable {
         updateNavigationTitle(form: "yyyy-MM-dd", date: selectedDate)
         fetchDailyBoxOffice(from: selectedDate)
     }
+}
+
+fileprivate enum LayoutType {
+    case list
+    case grid
 }
