@@ -31,6 +31,7 @@ class CalendarViewController: UIViewController {
         view.backgroundColor = .systemBackground
         configureUI()
         restrictDateRange()
+        configureCalendarSelection()
     }
     
     private func restrictDateRange() {
@@ -49,6 +50,18 @@ class CalendarViewController: UIViewController {
         
         let calendarViewDateRange = DateInterval(start: fromDate, end: toDate)
         calendarView.availableDateRange = calendarViewDateRange
+    }
+    
+    private func configureCalendarSelection() {
+        let selection = UICalendarSelectionSingleDate(delegate: self)
+        let calendar = Calendar.current
+        let selectedComponents = calendar.dateComponents([.year, .month, .day], from: selectedDate)
+        let selectedYear = selectedComponents.year
+        let selectedMonth = selectedComponents.month
+        let selectedDay = selectedComponents.day
+        
+        calendarView.selectionBehavior = selection
+        selection.selectedDate = DateComponents(calendar: calendar, year: selectedYear, month: selectedMonth, day: selectedDay)
     }
     
     private func configureUI() {
