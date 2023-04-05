@@ -58,28 +58,35 @@ final class MovieInfoViewController: UIViewController {
     }
     
     private func loadData() {
-        activityIndicator.startAnimating()
+        let group = DispatchGroup()
         
+        activityIndicator.startAnimating()
+        group.enter()
         movieInfoDataLoader.loadMovieInfo(movieCode: movieCode) {
             [weak self] movie, error in
             guard let error = error else {
                 self?.movieInfo = movie
-                self?.checkFetchComplete()
+                group.leave()
                 return
             }
             
             self?.showFailAlert(error: error)
         }
         
+        group.enter()
         moviePosterImageLoader.loadMoviePosterImage(movieName: movieName) {
             [weak self] image, error in
             guard let error = error else {
                 self?.posterImage = image
-                self?.checkFetchComplete()
+                group.leave()
                 return
             }
             
             self?.showFailAlert(error: error)
+        }
+        
+        group.notify(queue: .main) { [weak self] in
+            self?.applyData()
         }
     }
     
@@ -96,17 +103,14 @@ final class MovieInfoViewController: UIViewController {
         actorLabel.text = info.actors.map { $0.peopleName }.concatenate()
     }
     
-    private func checkFetchComplete() {
-        guard posterImage != nil && movieInfo != nil,
-              let movieInfo = movieInfo else { return }
+    private func applyData() {
+        guard let movieInfo = movieInfo else { return }
         
         DispatchQueue.main.async { [weak self] in
-            guard let self = self else { return }
-            
-            self.activityIndicator.stopAnimating()
-            self.posterImageView.image = self.posterImage
-            self.configureLabels(data: movieInfo)
-            self.contentStackView.isHidden = false
+            self?.activityIndicator.stopAnimating()
+            self?.posterImageView.image = self?.posterImage
+            self?.configureLabels(data: movieInfo)
+            self?.contentStackView.isHidden = false
         }
     }
 }
