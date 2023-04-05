@@ -11,6 +11,14 @@ final class DailyBoxOfficeIconCollectionViewCell: UICollectionViewCell, LabelSet
     static let reuseIdentifier = "DailyBoxOfficeIconCollectionViewCell"
 
     private let mainStackView = UIStackView()
+    private let rankLabel = UILabel()
+    private let nameLabel = UILabel()
+    
+    private let movieRankVarianceStackView = UIStackView()
+    private let rankMarkLabel = UILabel()
+    private let audienceVarianceLabel = UILabel()
+
+    private let audienceInformationLabel = UILabel()
 
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -23,12 +31,13 @@ final class DailyBoxOfficeIconCollectionViewCell: UICollectionViewCell, LabelSet
     
     override func prepareForReuse() {
         super.prepareForReuse()
-        mainStackView.subviews.forEach { $0.removeFromSuperview() }
     }
     
     private func configureCell() {
         configureContentView()
         configureMainStackView()
+        configureLabels()
+        configureMovieRankVarianceStackView()
     }
     
     private func configureContentView() {
@@ -61,12 +70,47 @@ final class DailyBoxOfficeIconCollectionViewCell: UICollectionViewCell, LabelSet
         ])
     }
     
-    func configureLabels(_ rankLabel: UILabel, _ audienceVarianceLabel: UILabel, _ listLabel: UILabel, and audienceInformationLabel: UILabel) {
+    private func configureLabels() {
         mainStackView.addArrangedSubview(rankLabel)
-        mainStackView.addArrangedSubview(listLabel)
-        mainStackView.addArrangedSubview(audienceVarianceLabel)
+        mainStackView.addArrangedSubview(nameLabel)
+        mainStackView.addArrangedSubview(movieRankVarianceStackView)
         mainStackView.addArrangedSubview(audienceInformationLabel)
         
-        listLabel.textAlignment = .center
+        rankLabel.font = UIFont.preferredFont(forTextStyle: .largeTitle)
+        rankLabel.textAlignment = .center
+        
+        nameLabel.font = UIFont.preferredFont(forTextStyle: .title3)
+        nameLabel.textAlignment = .center
+        nameLabel.numberOfLines = 0
+        
+        audienceVarianceLabel.font = UIFont.preferredFont(forTextStyle: .body)
+        audienceVarianceLabel.textAlignment = .center
+        
+        audienceInformationLabel.font = UIFont.preferredFont(forTextStyle: .caption2)
+    }
+    
+    private func configureMovieRankVarianceStackView() {
+        movieRankVarianceStackView.axis = .horizontal
+        movieRankVarianceStackView.distribution = .fill
+        
+        movieRankVarianceStackView.addArrangedSubview(rankMarkLabel)
+        movieRankVarianceStackView.addArrangedSubview(audienceVarianceLabel)
+    }
+    
+    func setupLabels(name: String, audienceInformation: String, rank: String, rankMark: String, audienceVariance: String, rankMarkColor: MovieRankMarkColor) {
+        nameLabel.text = name
+        audienceInformationLabel.text = audienceInformation
+        rankLabel.text = rank
+        rankMarkLabel.text = rankMark
+        audienceVarianceLabel.text = audienceVariance
+        
+        switch rankMarkColor {
+        case .red:
+            rankMarkLabel.textColor = .systemRed
+        case .black:
+            rankMarkLabel.textColor = .black
+        case .blue:
+            rankMarkLabel.textColor = .systemBlue
+        }
     }
 }

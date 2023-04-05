@@ -13,7 +13,6 @@ protocol DateUpdatable {
     func refreshData()
 }
 
-@available(iOS 16.0, *)
 final class DailyBoxOfficeViewController: UIViewController, DateUpdatable {
     var selectedDate: Date = Date(timeIntervalSinceNow: -86400)
     
@@ -165,7 +164,6 @@ final class DailyBoxOfficeViewController: UIViewController, DateUpdatable {
     }
 }
 
-@available(iOS 16.0, *)
 extension DailyBoxOfficeViewController {
     private func setupDataSource() {
         movieDataSource = DataSource(collectionView: collectionView) { [weak self] collectionView, indexPath, itemIdentifier in
@@ -184,8 +182,13 @@ extension DailyBoxOfficeViewController {
                 withReuseIdentifier: cellIdentifier,
                 for: indexPath) as? LabelSetter else { return UICollectionViewCell() }
             
-            self?.setupLabels(with: itemIdentifier) { movieListLabel, audienceInformationLabel, movieRankLabel, audienceVarianceLabel in
-                cell.configureLabels(movieRankLabel, audienceVarianceLabel, movieListLabel, and: audienceInformationLabel)
+            self?.setupCellLabels(with: itemIdentifier) { name, audienceInformation, rank, rankMark, audienceVariance, rankMarkColor in
+                cell.setupLabels(name: name,
+                                 audienceInformation: audienceInformation,
+                                 rank: rank,
+                                 rankMark: rankMark,
+                                 audienceVariance: audienceVariance,
+                                 rankMarkColor: rankMarkColor)
             }
          
             return cell as? UICollectionViewCell
@@ -201,56 +204,48 @@ extension DailyBoxOfficeViewController {
         movieDataSource?.apply(snapshot, animatingDifferences: true)
     }
     
-    private func setupLabels(with movie: DailyBoxOfficeItem, completion: (UILabel, UILabel, UILabel, UILabel) -> Void) {
-        let movieListLabel = UILabel()
-        let audienceInformationLabel = UILabel()
-        let movieRankLabel = UILabel()
-        let audienceVarianceLabel = UILabel()
+    private func setupCellLabels(with movie: DailyBoxOfficeItem, completion: (String, String, String, String, String, MovieRankMarkColor) -> Void) {
+        var name: String
+        var audienceInformation: String
+        var rank: String
+        var rankMark: String
+        var audienceVariance: String
+        var rankMarkColor : MovieRankMarkColor
         
         guard let todayAudience = movie.audienceCount.convertToFormattedNumber(),
               let totalAudience = movie.audienceAccumulation.convertToFormattedNumber() else { return }
         
-        movieListLabel.text = movie.name
-        movieListLabel.font = UIFont.preferredFont(forTextStyle: .title3)
-        movieListLabel.numberOfLines = 0
-        
-        audienceInformationLabel.text = "오늘 \(todayAudience) / 총 \(totalAudience)"
-        audienceInformationLabel.font = UIFont.preferredFont(forTextStyle: .body)
-        
-        movieRankLabel.text = movie.rank
-        movieRankLabel.font = UIFont.preferredFont(forTextStyle: .largeTitle)
-        movieRankLabel.textAlignment = .center
+        name = movie.name
+        audienceInformation = "오늘 \(todayAudience) / 총 \(totalAudience)"
+        rank = movie.rank
         
         if movie.rankOldAndNew == "NEW" {
-            audienceVarianceLabel.text = "신작"
-            audienceVarianceLabel.textColor = .systemRed
+            rankMarkColor = .red
+            rankMark = "신작"
+            audienceVariance = ""
         } else {
             guard let variance = Int(movie.rankVariance) else { return }
-            
+
             switch variance {
             case ..<0:
-                let text =  "▼\(variance * -1)"
-                let attributedString = NSMutableAttributedString(string: text)
-                attributedString.addAttribute(.foregroundColor, value: UIColor.blue, range: (text as NSString).range(of: "▼"))
-                audienceVarianceLabel.attributedText = attributedString
+                rankMarkColor = .blue
+                rankMark = "▼"
+                audienceVariance =  "\(variance * -1)"
             case 0:
-                audienceVarianceLabel.text = "-"
+                rankMarkColor = .black
+                rankMark = ""
+                audienceVariance = "-"
             default:
-                let text = "▲\(variance)"
-                let attributedString = NSMutableAttributedString(string: text)
-                attributedString.addAttribute(.foregroundColor, value: UIColor.red, range: (text as NSString).range(of: "▲"))
-                audienceVarianceLabel.attributedText = attributedString
+                rankMarkColor = .red
+                rankMark = "▲"
+                audienceVariance = "\(variance)"
             }
         }
-        
-        audienceVarianceLabel.font = UIFont.preferredFont(forTextStyle: .body)
-        audienceVarianceLabel.textAlignment = .center
        
-        completion(movieListLabel, audienceInformationLabel, movieRankLabel, audienceVarianceLabel)
+        completion(name, audienceInformation, rank, rankMark, audienceVariance, rankMarkColor)
     }
 }
 
-@available(iOS 16.0, *)
 extension DailyBoxOfficeViewController {
     private func createMovieIconLayout() -> UICollectionViewLayout {
         let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(0.5),
@@ -260,7 +255,7 @@ extension DailyBoxOfficeViewController {
 
         let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0),
                                                heightDimension: .fractionalWidth(0.5))
-        let group = NSCollectionLayoutGroup.horizontal(layoutSize: groupSize, subitem: item, count: 2)
+        let group = NSCollectionLayoutGroup.horizontal(layoutSize: groupSize, repeatingSubitem: item, count: 2)
 
         let section = NSCollectionLayoutSection(group: group)
         section.contentInsets = NSDirectionalEdgeInsets(top: 7, leading: 7, bottom: 0, trailing: 7)
@@ -287,7 +282,6 @@ extension DailyBoxOfficeViewController {
     }
 }
 
-@available(iOS 16.0, *)
 extension DailyBoxOfficeViewController: UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         let movieName = dailyBoxOfficeItem[indexPath.item].name
@@ -295,31 +289,6 @@ extension DailyBoxOfficeViewController: UICollectionViewDelegate {
         
         let nextViewcontroller = MovieInformationViewController(movieName: movieName, movieCode: movieCode)
         navigationController?.pushViewController(nextViewcontroller, animated: true)
-    }
-}
-
-enum Section: Hashable {
-    case main
-}
-
-struct DailyBoxOfficeItem: Hashable {
-    let identifier = UUID()
-    let rank: String
-    let rankVariance: String
-    let rankOldAndNew: String
-    let code: String
-    let name: String
-    let audienceCount: String
-    let audienceAccumulation: String
-    
-    init(from movie: DailyBoxOffice.BoxOfficeResult.Movie) {
-        self.rank = movie.rank
-        self.rankVariance = movie.rankVariance
-        self.rankOldAndNew = movie.rankOldAndNew
-        self.code = movie.code
-        self.name = movie.name
-        self.audienceCount = movie.audienceCount
-        self.audienceAccumulation = movie.audienceAccumulation
     }
 }
 
@@ -332,28 +301,5 @@ fileprivate extension String {
               let stringNumber = numberFormatter.string(from: number) else { return nil }
         
         return stringNumber
-    }
-}
-
-enum ScreenMode {
-    case list
-    case icon
-
-    var oppositeTitle: String {
-        switch self {
-        case .list:
-            return "아이콘"
-        case .icon:
-            return "리스트"
-        }
-    }
-    
-    mutating func changeMode() {
-        switch self {
-        case .list:
-            self = .icon
-        case .icon:
-            self = .list
-        }
     }
 }

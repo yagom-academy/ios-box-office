@@ -7,7 +7,6 @@
 
 import UIKit
 
-@available(iOS 16.0, *)
 final class SelectDateViewController: UIViewController {
     private let calendarView = UICalendarView()
     var delegate: DateUpdatable?
@@ -44,7 +43,6 @@ final class SelectDateViewController: UIViewController {
     }
 }
 
-@available(iOS 16.0, *)
 extension SelectDateViewController: UICalendarSelectionSingleDateDelegate {
     func dateSelection(_ selection: UICalendarSelectionSingleDate, didSelectDate dateComponents: DateComponents?) {
         guard let selectedDate = dateComponents?.date else { return }

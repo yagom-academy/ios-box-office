@@ -13,8 +13,17 @@ final class DailyBoxOfficeListCollectionViewCell: UICollectionViewCell, LabelSet
     private let accessoryImageView = UIImageView()
     private let separatorView = UIView()
     private let mainStackView = UIStackView()
+    
     private let movieRankStackView = UIStackView()
+    private let rankLabel = UILabel()
+    
+    private let movieRankVarianceStackView = UIStackView()
+    private let rankMarkLabel = UILabel()
+    private let audienceVarianceLabel = UILabel()
+    
     private let movieListStackView = UIStackView()
+    private let nameLabel = UILabel()
+    private let audienceInformationLabel = UILabel()
 
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -27,8 +36,6 @@ final class DailyBoxOfficeListCollectionViewCell: UICollectionViewCell, LabelSet
     
     override func prepareForReuse() {
         super.prepareForReuse()
-        movieListStackView.subviews.forEach { $0.removeFromSuperview() }
-        movieRankStackView.subviews.forEach { $0.removeFromSuperview() }
     }
     
     private func configureCell() {
@@ -37,7 +44,9 @@ final class DailyBoxOfficeListCollectionViewCell: UICollectionViewCell, LabelSet
         configureMainStackView()
         configureAccessoryImageView()
         configureMovieRankStackView()
+        configureMovieRankVarianceStackView()
         configureMovieListStackView()
+        configureLabels()
     }
     
     private func configureContentView() {
@@ -81,6 +90,10 @@ final class DailyBoxOfficeListCollectionViewCell: UICollectionViewCell, LabelSet
     private func configureMovieRankStackView() {
         movieRankStackView.axis = .vertical
         movieRankStackView.distribution = .fill
+        movieRankStackView.alignment = .center
+        
+        movieRankStackView.addArrangedSubview(rankLabel)
+        movieRankStackView.addArrangedSubview(movieRankVarianceStackView)
         
         movieRankStackView.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([
@@ -88,10 +101,21 @@ final class DailyBoxOfficeListCollectionViewCell: UICollectionViewCell, LabelSet
         ])
     }
     
+    private func configureMovieRankVarianceStackView() {
+        movieRankVarianceStackView.axis = .horizontal
+        movieRankVarianceStackView.distribution = .fill
+        
+        movieRankVarianceStackView.addArrangedSubview(rankMarkLabel)
+        movieRankVarianceStackView.addArrangedSubview(audienceVarianceLabel)
+    }
+    
     private func configureMovieListStackView() {
         movieListStackView.axis = .vertical
         movieListStackView.distribution = .fillProportionally
         movieListStackView.spacing = 5
+        
+        movieListStackView.addArrangedSubview(nameLabel)
+        movieListStackView.addArrangedSubview(audienceInformationLabel)
     }
     
     private func configureAccessoryImageView() {
@@ -105,10 +129,33 @@ final class DailyBoxOfficeListCollectionViewCell: UICollectionViewCell, LabelSet
         ])
     }
     
-    func configureLabels(_ rankLabel: UILabel, _ audienceVarianceLabel: UILabel, _ listLabel: UILabel, and audienceInformationLabel: UILabel) {
-        movieRankStackView.addArrangedSubview(rankLabel)
-        movieRankStackView.addArrangedSubview(audienceVarianceLabel)
-        movieListStackView.addArrangedSubview(listLabel)
-        movieListStackView.addArrangedSubview(audienceInformationLabel)
+    private func configureLabels() {
+        nameLabel.font = UIFont.preferredFont(forTextStyle: .title3)
+        nameLabel.numberOfLines = 0
+        
+        audienceInformationLabel.font = UIFont.preferredFont(forTextStyle: .body)
+        
+        rankLabel.font = UIFont.preferredFont(forTextStyle: .largeTitle)
+        rankLabel.textAlignment = .center
+        
+        audienceVarianceLabel.font = UIFont.preferredFont(forTextStyle: .body)
+        audienceVarianceLabel.textAlignment = .center
+    }
+    
+    func setupLabels(name: String, audienceInformation: String, rank: String, rankMark: String, audienceVariance: String, rankMarkColor: MovieRankMarkColor) {
+        nameLabel.text = name
+        audienceInformationLabel.text = audienceInformation
+        rankLabel.text = rank
+        rankMarkLabel.text = rankMark
+        audienceVarianceLabel.text = audienceVariance
+        
+        switch rankMarkColor {
+        case .red:
+            rankMarkLabel.textColor = .systemRed
+        case .black:
+            rankMarkLabel.textColor = .black
+        case .blue:
+            rankMarkLabel.textColor = .systemBlue
+        }
     }
 }

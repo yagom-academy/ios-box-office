@@ -8,5 +8,5 @@
 import UIKit
 
 protocol LabelSetter {
-    func configureLabels(_ movieRankLabel: UILabel, _ audienceVarianceLabel: UILabel, _ movieListLabel: UILabel, and audienceInformationLabel: UILabel)
+    func setupLabels(name: String, audienceInformation: String, rank: String, rankMark: String, audienceVariance: String, rankMarkColor: MovieRankMarkColor)
 }
