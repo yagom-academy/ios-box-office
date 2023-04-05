@@ -45,7 +45,6 @@ final class MovieRankingViewController: UIViewController {
         configureNavigationTitle()
         startLoadingView()
         makeDataSource()
-        configureRefreshController()
         fetchBoxofficeData()
     }
     
@@ -85,12 +84,12 @@ final class MovieRankingViewController: UIViewController {
     @objc private func refreshCollectionView() {
         self.fetchBoxofficeData()
     }
-    
+
     @objc private func didTapDateSelectionButton() {
-        let vc = CalendarViewController()
-        vc.delegate = self
-        vc.selectedDate = boxofficeDate
-        present(vc, animated: true)
+        let calendarVC = CalendarViewController()
+        calendarVC.delegate = self
+        calendarVC.selectedDate = boxofficeDate
+        present(calendarVC, animated: true)
     }
 }
 
@@ -101,8 +100,6 @@ extension MovieRankingViewController: CalendarDelegate {
         makeDataManager()
         configureNavigationTitle()
         startLoadingView()
-        makeDataSource()
-        configureRefreshController()
         fetchBoxofficeData()
     }
 }
@@ -144,6 +141,7 @@ extension MovieRankingViewController {
         configureCollectionViewLayout()
         configureLoadingView()
         configureNavigationItems()
+        configureRefreshController()
     }
     
     private func configureLoadingView() {

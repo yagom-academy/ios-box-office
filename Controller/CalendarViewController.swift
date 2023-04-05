@@ -15,12 +15,6 @@ class CalendarViewController: UIViewController {
     
     var delegate: CalendarDelegate?
     var selectedDate = Date()
-    let yesterday = {
-        guard let yesterday = Date.yesterday else {
-            return Date()
-        }
-        return yesterday
-    }()
     
     private let calendarView = {
         let calendarView = UICalendarView()
@@ -33,13 +27,13 @@ class CalendarViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        view.backgroundColor = .systemBackground
         configureUI()
         restrictDateRange()
         configureCalendarSelection()
     }
     
     private func restrictDateRange() {
+        let yesterday = Date.yesterday ?? Date()
         let calendar = Calendar.current
         let yesterdayComponents = calendar.dateComponents([.year, .month, .day], from: yesterday)
         let year = yesterdayComponents.year
@@ -70,6 +64,7 @@ class CalendarViewController: UIViewController {
     }
     
     private func configureUI() {
+        view.backgroundColor = .systemBackground
         view.addSubview(calendarView)
         
         NSLayoutConstraint.activate([
