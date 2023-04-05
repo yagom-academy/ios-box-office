@@ -16,7 +16,7 @@ struct MovieInfoUIModel {
     
     var directors: String {
         let directorsName = data.directors.map { $0.name }
-        return directorsName.joined(separator: ", ")
+        return directorsName.isEmpty ? "감독 정보 없음" : directorsName.joined(separator: ", ")
     }
     
     var productedYear: String {
@@ -51,7 +51,7 @@ struct MovieInfoUIModel {
     
     var actors: String {
         let actors = data.actors.map { $0.name }
-        return actors.joined(separator: ", ")
+        return actors.isEmpty ? "배우 정보 없음" : actors.joined(separator: ", ")
     }
     
 

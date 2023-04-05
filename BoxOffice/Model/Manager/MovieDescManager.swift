@@ -24,9 +24,11 @@ final class MovieDescManager {
         movieImage.fetchData { [weak self] result in
             switch result {
             case .success(let data):
-                let urlText = data.documents[0].url
+                guard let urlText = data.documents.first else {
+                    return handler(.failure(.imageVaildError))
+                }
                 
-                self?.fetchImage(imageUrlText: urlText, width: data.documents[0].width, height: data.documents[0].height, handler: handler)
+                self?.fetchImage(imageUrlText: urlText.url, width: urlText.width, height: urlText.height, handler: handler)
             case .failure(let error):
                 handler(.failure(error))
             }
