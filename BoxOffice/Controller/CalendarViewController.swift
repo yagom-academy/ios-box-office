@@ -31,7 +31,7 @@ final class CalendarViewController: UIViewController {
         
         guard let startDate = gregorianCalendar.date(from: startDateComponent) else { return }
         
-        let calendarViewDateRange = DateInterval(start: startDate, end: Date())
+        let calendarViewDateRange = DateInterval(start: startDate, end: Date().yesterday)
         
         calendarView.calendar = gregorianCalendar
         calendarView.locale = Locale(identifier: "ko-KR")

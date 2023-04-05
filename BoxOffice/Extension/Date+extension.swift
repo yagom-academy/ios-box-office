@@ -8,10 +8,30 @@
 import Foundation
 
 extension Date {
-    func showYesterdayDate(formatter: DateFormatter) -> String {
-        let yesterday = Date().addingTimeInterval(3600 * -24)
+    var year: Int {
+        return Calendar.current.component(.year, from: self)
+    }
+    
+    var month: Int {
+        return Calendar.current.component(.month, from: self)
+    }
+    
+    var day: Int {
+        return Calendar.current.component(.day, from: self)
+    }
+    
+    var yesterday: Date {
+        return self.addingTimeInterval(3600 * -24)
+    }
         
+    func showYesterdayDate(formatter: DateFormatter) -> String {
         guard let value = formatter.string(for: yesterday) else { return "" }
+        
+        return value
+    }
+    
+    func showSelectedDate(formatter: DateFormatter) -> String {
+        guard let value = formatter.string(for: self) else { return "" }
         
         return value
     }
