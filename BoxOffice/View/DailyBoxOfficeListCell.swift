@@ -79,6 +79,9 @@ final class DailyBoxOfficeListCell: UICollectionViewListCell {
         let textformat = "오늘 %@ / 총 %@"
         content.secondaryText = String(format: textformat, todayAudience, accumulatedAudience)
         content.secondaryTextProperties.font = UIFont.preferredFont(forTextStyle: .body)
+        content.secondaryTextProperties.adjustsFontSizeToFitWidth = true
+        content.secondaryTextProperties.minimumScaleFactor = 0.2
+        content.secondaryTextProperties.numberOfLines = 1
         
         dailyBoxOfficeListContentView.configuration = content
     }
@@ -116,7 +119,9 @@ final class DailyBoxOfficeListCell: UICollectionViewListCell {
         
         rankDifferenceLabel.font = UIFont.preferredFont(forTextStyle: .body)
         rankDifferenceLabel.adjustsFontForContentSizeCategory = true
-        rankDifferenceLabel.numberOfLines = 0
+        rankDifferenceLabel.adjustsFontSizeToFitWidth = true
+        rankDifferenceLabel.minimumScaleFactor = 0.2
+        rankDifferenceLabel.numberOfLines = 1
     }
     
     private enum Sign {
