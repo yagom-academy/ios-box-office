@@ -22,7 +22,6 @@ final class MovieInfoViewController: UIViewController {
     private let movieCode: String?
     private let movieName: String?
     private let movieInfoDataLoader = MovieInfoDataLoader()
-    private let moviePosterImageLoader = MoviePosterImageLoader()
     
     private lazy var activityIndicator: UIActivityIndicatorView = {
         let activityIndicator = UIActivityIndicatorView()
@@ -72,7 +71,7 @@ final class MovieInfoViewController: UIViewController {
         }
         
         group.enter()
-        moviePosterImageLoader.loadMoviePosterImage(movieName: movieName) {
+        movieInfoDataLoader.loadMoviePosterImage(movieName: movieName) {
             [weak self] image, error in
             guard let error = error else {
                 self?.posterImageView.image = image
