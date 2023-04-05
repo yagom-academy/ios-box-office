@@ -221,29 +221,53 @@ extension BoxOfficeViewController {
 @available(iOS 16.0, *)
 extension BoxOfficeViewController {
     private func configureHierarchy(for layout: LayoutType = .list) {
-        collectionView = UICollectionView(frame: view.bounds, collectionViewLayout: createLayout())
+        collectionView = UICollectionView(
+            frame: view.bounds,
+            collectionViewLayout: createLayout(for: layout)
+        )
         collectionView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
         collectionView.delegate = self
         view.addSubview(collectionView)
     }
     
     private func configureDataSource(for layout: LayoutType = .list) {
-        let cellRegistration = UICollectionView.CellRegistration<BoxOfficeListCell, BoxOfficeItem> {
-            (cell, indexPath, item) in
-            cell.item = item
+        switch layout {
+        case .list:
+            let cellRegistration = UICollectionView.CellRegistration<BoxOfficeListCell, BoxOfficeItem> {
+                (cell, indexPath, item) in
+                cell.item = item
+            }
+            
+            dataSource = UICollectionViewDiffableDataSource<Section, BoxOfficeItem.ID>(collectionView: collectionView) {
+                (collectionView: UICollectionView, indexPath: IndexPath, identifier: BoxOfficeItem.ID) -> UICollectionViewCell? in
+                
+                let boxOfficeItem = self.boxOfficeItems.filter { $0.id == identifier }.first
+                
+                let cell = collectionView.dequeueConfiguredReusableCell(using: cellRegistration,
+                                                                        for: indexPath,
+                                                                        item: boxOfficeItem)
+                
+                return cell
+            }
+        case .grid:
+            let cellRegistration = UICollectionView.CellRegistration<BoxOfficeListCell, BoxOfficeItem> {
+                (cell, indexPath, item) in
+                cell.item = item
+            }
+            
+            dataSource = UICollectionViewDiffableDataSource<Section, BoxOfficeItem.ID>(collectionView: collectionView) {
+                (collectionView: UICollectionView, indexPath: IndexPath, identifier: BoxOfficeItem.ID) -> UICollectionViewCell? in
+                
+                let boxOfficeItem = self.boxOfficeItems.filter { $0.id == identifier }.first
+                
+                let cell = collectionView.dequeueConfiguredReusableCell(using: cellRegistration,
+                                                                        for: indexPath,
+                                                                        item: boxOfficeItem)
+                
+                return cell
+            }
         }
         
-        dataSource = UICollectionViewDiffableDataSource<Section, BoxOfficeItem.ID>(collectionView: collectionView) {
-            (collectionView: UICollectionView, indexPath: IndexPath, identifier: BoxOfficeItem.ID) -> UICollectionViewCell? in
-            
-            let boxOfficeItem = self.boxOfficeItems.filter { $0.id == identifier }.first
-            
-            let cell = collectionView.dequeueConfiguredReusableCell(using: cellRegistration,
-                                                                    for: indexPath,
-                                                                    item: boxOfficeItem)
-            
-            return cell
-        }
     }
     
     private func updateSnapshot() {
