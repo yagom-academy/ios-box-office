@@ -130,7 +130,7 @@ final class DetailMovieInfoViewController: UIViewController {
         let labels = [
             MovieInfoView(title: MovieInfoTitle.director, content: item.directors.map { $0.peopleName }.joinedString),
             MovieInfoView(title: MovieInfoTitle.productionYear, content: item.productionYear),
-            MovieInfoView(title: MovieInfoTitle.openDate, content: formatDate(item.openDate)),
+            MovieInfoView(title: MovieInfoTitle.openDate, content: DateManager.formattedDateString(of: item.openDate) ?? ""),
             MovieInfoView(title: MovieInfoTitle.showTime, content: item.showTime),
             MovieInfoView(title: MovieInfoTitle.watchGradeName, content: item.audits.map { $0.watchGradeName }.joinedString),
             MovieInfoView(title: MovieInfoTitle.nationName, content: item.nations.map { $0.nationName}.joinedString),

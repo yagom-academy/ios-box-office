@@ -14,52 +14,106 @@ final class ViewController: UIViewController {
     
     private let provider = APIProvider.shared
     
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        configureViewController()
-        configureHierarchy()
-        configureDataSource()
-        fetchBoxOfficeData()
-        configureRefreshControl()
-    }
-    
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-
-        if let indexPath = self.collectionView.indexPathsForSelectedItems?.first {
-            if let coordinator = self.transitionCoordinator {
-                coordinator.animate(alongsideTransition: { context in
-                    self.collectionView.deselectItem(at: indexPath, animated: true)
-                }) { (context) in
-                    if context.isCancelled {
-                        self.collectionView.selectItem(at: indexPath, animated: false, scrollPosition: [])
-                    }
-                }
-            } else {
-                self.collectionView.deselectItem(at: indexPath, animated: animated)
-            }
+    private lazy var currentDate: Date = DateManager.createYesterdayDate() {
+        didSet {
+            setTitle(date: currentDate)
         }
     }
     
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        configureNavigationBar()
+        configureCollectionView()
+        configureDataSource()
+        configureRefreshControl()
+        fetchBoxOfficeData()
+    }
+    
+    private func configureNavigationBar() {
+        setTitle(date: currentDate)
+        navigationController?.navigationBar.titleTextAttributes = [.font: UIFont.systemFont(ofSize: 18, weight: .bold)]
+        
+        navigationItem.rightBarButtonItem = UIBarButtonItem(
+            title: "날짜선택",
+            style: .plain,
+            target: self,
+            action: #selector(moveToCalendarView)
+        )
+    }
+    
+    private func setTitle(date: Date) {
+        DateManager.formattedDateString(of: date, option: .calendar)
+            .map { title = $0 }
+    }
+    
+    private func configureCollectionView() {
+        let layout = createLayout()
+        collectionView = UICollectionView(frame: view.bounds, collectionViewLayout: layout)
+        
+        collectionView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
+        view.addSubview(collectionView)
+        collectionView.delegate = self
+    }
+    
+    private func createLayout() -> UICollectionViewLayout {
+        let config = UICollectionLayoutListConfiguration(appearance: .plain)
+        return UICollectionViewCompositionalLayout.list(using: config)
+    }
+    
+    private func configureDataSource() {
+        let cellRegistration = UICollectionView.CellRegistration<MovieListCell, ListItem> { cell, indexPath, movie in
+            
+            cell.updateCell(with: movie)
+            cell.accessories = [.disclosureIndicator()]
+        }
+        
+        dataSource = UICollectionViewDiffableDataSource<ListSection, ListItem>(collectionView: collectionView) { collectionView, indexPath, movie -> UICollectionViewCell? in
+            let cell = collectionView.dequeueConfiguredReusableCell(using: cellRegistration, for: indexPath, item: movie)
+            return cell
+        }
+    }
+    
+    private func configureRefreshControl() {
+        let refreshControl = UIRefreshControl()
+        
+        refreshControl.addTarget(
+            self,
+            action: #selector(handleRefreshControl),
+            for: .valueChanged
+        )
+        refreshControl.attributedTitle = NSAttributedString(string: "Fetching Movie Data...")
+        collectionView.refreshControl = refreshControl
+    }
+    
+    @objc private func handleRefreshControl() {
+        fetchBoxOfficeData()
+    }
+   
     private func fetchBoxOfficeData() {
-        guard let yesterday = createFormattedDate(dateFormat: "yyyyMMdd") else { return }
-        provider.performRequest(api: .boxOffice(date: yesterday)) { requestResult in
+        guard let dateString = DateManager.formattedDateString(of: currentDate, option: .numerical) else { return }
+        
+        provider.performRequest(api: .boxOffice(date: dateString)) { [weak self] requestResult in
+            guard let self else { return }
+            
             switch requestResult {
             case .success(let data):
                 do {
                     let boxOfficeItem: BoxOfficeItem = try JSONConverter.shared.decodeData(data, T: BoxOfficeItem.self)
                     let dailyBoxOffices = boxOfficeItem.boxOfficeResult.dailyBoxOfficeList
-                    var movieRanking: [ListItem] = []
+                    var movieRanking = [ListItem]()
                     for dailyBoxOffice in dailyBoxOffices {
-                        let movieItem = ListItem(rank: dailyBoxOffice.rank,
-                                                 rankInten: dailyBoxOffice.rankInten,
-                                                 rankOldandNew: dailyBoxOffice.rankOldAndNew.rawValue,
-                                                 movieName: dailyBoxOffice.movieName,
-                                                 audienceCount: dailyBoxOffice.audienceCount,
-                                                 audienceAcc: dailyBoxOffice.audienceAcc,
-                                                 movieCode: dailyBoxOffice.movieCode)
+                        let movieItem = ListItem(
+                            rank: dailyBoxOffice.rank,
+                            rankInten: dailyBoxOffice.rankInten,
+                            rankOldandNew: dailyBoxOffice.rankOldAndNew.rawValue,
+                            movieName: dailyBoxOffice.movieName,
+                            audienceCount: dailyBoxOffice.audienceCount,
+                            audienceAcc: dailyBoxOffice.audienceAcc,
+                            movieCode: dailyBoxOffice.movieCode
+                        )
                         movieRanking.append(movieItem)
                     }
+                    
                     DispatchQueue.main.async {
                         _ = self.makeSnapshot(with: movieRanking)
                     }
@@ -78,66 +132,6 @@ final class ViewController: UIViewController {
         }
     }
     
-    private func createFormattedDate(dateFormat: String) -> String? {
-        let dateFormatter = DateFormatter()
-        let today = Date()
-        dateFormatter.dateFormat = dateFormat
-        guard let yesterday = Calendar.current.date(byAdding: .day, value: -1, to: today) else {
-            return nil
-        }
-        return dateFormatter.string(from: yesterday)
-    }
-    
-    // MARK: - CollectionView
-    private func createLayout() -> UICollectionViewLayout {
-        let config = UICollectionLayoutListConfiguration(appearance: .plain)
-        return UICollectionViewCompositionalLayout.list(using: config)
-    }
-    
-    private func configureHierarchy() {
-        let layout = createLayout()
-        collectionView = UICollectionView(frame: view.bounds, collectionViewLayout: layout)
-        
-        collectionView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
-        view.addSubview(collectionView)
-        collectionView.delegate = self
-    }
-    
-    private func configureViewController() {
-        guard let yesterday = createFormattedDate(dateFormat: "yyyy-MM-dd") else {
-            return
-        }
-        navigationController?.navigationBar.topItem?.title = yesterday
-        navigationController?.navigationBar.titleTextAttributes = [.font: UIFont.systemFont(ofSize: 18, weight: .bold)]
-    }
-    
-    private func configureRefreshControl() {
-        let refreshControl = UIRefreshControl()
-        
-        refreshControl.addTarget(self, action: #selector(handleRefreshControl), for: .valueChanged)
-        refreshControl.attributedTitle = NSAttributedString(string: "Fetching Movie Data...")
-        collectionView.refreshControl = refreshControl
-    }
-    
-    @objc private func handleRefreshControl() {
-        fetchBoxOfficeData()
-    }
-    
-    // MARK: - DataSource
-    private func configureDataSource() {
-        let cellRegistration = UICollectionView.CellRegistration<MovieListCell, ListItem> { (cell, indexPath, movie) in
-            
-            cell.updateCell(with: movie)
-            cell.accessories = [.disclosureIndicator()]
-        }
-        
-        dataSource = UICollectionViewDiffableDataSource<ListSection, ListItem>(collectionView: collectionView) { (collectionView, indexPath, movie) -> UICollectionViewCell? in
-            let cell = collectionView.dequeueConfiguredReusableCell(using: cellRegistration, for: indexPath, item: movie)
-            return cell
-        }
-        
-    }
-    
     private func makeSnapshot(with movies: [ListItem]) -> NSDiffableDataSourceSnapshot<ListSection, ListItem> {
         var snapshot = NSDiffableDataSourceSnapshot<ListSection, ListItem>()
         snapshot.appendSections([.main])
@@ -146,20 +140,36 @@ final class ViewController: UIViewController {
         return snapshot
     }
     
+    @objc private func moveToCalendarView() {
+        let calendarViewController = CalendarViewController(selectedDate: currentDate)
+        calendarViewController.selectionDelegate = self
+        present(calendarViewController, animated: true)
+    }
+    
 }
 
-// MARK: - UICollectionViewDelegate
+extension ViewController: DateSelectionDelegate {
+    
+    func dateSelection(_ date: Date) {
+        currentDate = date
+        fetchBoxOfficeData()
+    }
+    
+}
+
 extension ViewController: UICollectionViewDelegate {
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         
-        guard let movieCode = self.dataSource.itemIdentifier(for: indexPath)?.movieCode,
-              let movieName = self.dataSource.itemIdentifier(for: indexPath)?.movieName else {
+        guard let movieCode = dataSource.itemIdentifier(for: indexPath)?.movieCode,
+              let movieName = dataSource.itemIdentifier(for: indexPath)?.movieName else {
             collectionView.deselectItem(at: indexPath, animated: true)
             return
         }
         let viewController = DetailMovieInfoViewController(movieCode: movieCode, movieName: movieName)
         navigationController?.pushViewController(viewController, animated: true)
+        
+        collectionView.deselectItem(at: indexPath, animated: true)
     }
     
 }
