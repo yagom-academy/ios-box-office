@@ -8,16 +8,25 @@
 import UIKit
 
 final class BoxOfficeViewController: UIViewController {
+    let boxOfficeService = BoxOfficeService()
+    private var provider = Provider()
+    
     @IBOutlet weak var boxOfficeListCollectionView: UICollectionView!
     lazy var activityIndicator = UIActivityIndicatorView()
     
-    private var dailyBoxOffice: DailyBoxOffice?
-    private var provider = Provider()
-    
     override func viewDidLoad() {
         super.viewDidLoad()
-        fetchDailyBoxOfficeAPI()
+        fetchDailyBoxOffice()
         setUpView()
+    }
+    
+    private func fetchDailyBoxOffice() {
+        boxOfficeService.fetchDailyBoxOfficeAPI() {
+            DispatchQueue.main.async {
+                self.boxOfficeListCollectionView.reloadData()
+                self.activityIndicator.stopAnimating()
+            }
+        }
     }
     
     private func setUpView() {
@@ -29,22 +38,7 @@ final class BoxOfficeViewController: UIViewController {
     }
     
     private func setTitle() {
-        self.title = queryItem.DailyBoxOffcieValue
-    }
-    
-    private func fetchDailyBoxOfficeAPI() {
-        var dailyBoxOfficeEndpoint = DailyBoxOfficeEndpoint()
-        dailyBoxOfficeEndpoint.queryItems.append(URLQueryItem(name: queryItem.DailyBoxOffcieKey, value: queryItem.DailyBoxOffcieValue))
-        
-        provider.loadBoxOfficeAPI(endpoint: dailyBoxOfficeEndpoint,
-                                  parser: Parser<DailyBoxOffice>()) { parsedData in
-            self.dailyBoxOffice = parsedData
-            
-            DispatchQueue.main.async {
-                self.boxOfficeListCollectionView.reloadData()
-                self.activityIndicator.stopAnimating()
-            }
-        }
+        self.title = "2302323"
     }
     
     private func setActivityIndicator() {
@@ -56,6 +50,7 @@ final class BoxOfficeViewController: UIViewController {
     
     private func setBoxOfficeListCollectionView() {
         boxOfficeListCollectionView.dataSource = self
+        boxOfficeListCollectionView.delegate = self
         self.boxOfficeListCollectionView.collectionViewLayout = self.setUpCompositionalLayout()
     }
     
@@ -90,27 +85,27 @@ final class BoxOfficeViewController: UIViewController {
 
 extension BoxOfficeViewController: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return dailyBoxOffice?.boxOfficeResult.dailyBoxOfficeList.count ?? 0
+        return boxOfficeService.dailyBoxOffice?.boxOfficeResult.dailyBoxOfficeList.count ?? 0
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cellId = String(describing: BoxOfficeListCell.self)
         let cell = boxOfficeListCollectionView.dequeueReusableCell(withReuseIdentifier: cellId, for: indexPath) as! BoxOfficeListCell
         
-        guard let validDailyBoxOffice = dailyBoxOffice else {
+        guard let validDailyBoxOffice = boxOfficeService.dailyBoxOffice else {
             return cell
         }
         
         cell.setUpBoxOffcieCellUI()
         cell.setUpLabel(by: validDailyBoxOffice, indexPath: indexPath)
-        cell.accessories = [.disclosureIndicator() ]
+        cell.accessories = [.disclosureIndicator()]
     
         return cell
     }
     
     private func convertRankGapPresentation(indexPath: IndexPath) -> NSMutableAttributedString {
-         guard let rankGap = dailyBoxOffice?.boxOfficeResult.dailyBoxOfficeList[indexPath.row].rankGap,
-               let rankOldAndNew = dailyBoxOffice?.boxOfficeResult.dailyBoxOfficeList[indexPath.row].rankOldAndNew,
+        guard let rankGap = boxOfficeService.dailyBoxOffice?.boxOfficeResult.dailyBoxOfficeList[indexPath.row].rankGap,
+              let rankOldAndNew = boxOfficeService.dailyBoxOffice?.boxOfficeResult.dailyBoxOfficeList[indexPath.row].rankOldAndNew,
                let intRankGap = Int(rankGap) else { return NSMutableAttributedString().makeColorToText(string: "", color: .red) }
          
          if rankOldAndNew == "NEW" {
@@ -130,10 +125,18 @@ extension BoxOfficeViewController: UICollectionViewDataSource {
      }
 }
 
+extension BoxOfficeViewController: UICollectionViewDelegate {
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        let movieDetailVC = MovieDetailViewController()
+        guard let movieCode = boxOfficeService.dailyBoxOffice?.boxOfficeResult.dailyBoxOfficeList[indexPath.row].movieCode else { return }
+        movieDetailVC.boxOfficeService.receiveMovieCode(movieCode: movieCode)
+       
+        self.navigationController?.pushViewController(movieDetailVC, animated: true)
+    }
+}
+
 extension BoxOfficeViewController {
-    
     private func setUpCompositionalLayout() -> UICollectionViewLayout {
-        
         let layout = UICollectionViewCompositionalLayout {
             (sectionIndex: Int, layoutEnvironment: NSCollectionLayoutEnvironment) -> NSCollectionLayoutSection? in
             

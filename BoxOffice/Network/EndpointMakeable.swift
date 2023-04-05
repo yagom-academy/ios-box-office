@@ -12,6 +12,7 @@ protocol EndpointMakeable {
     var path: String { get }
     var method: String { get }
     var queryItems: [URLQueryItem] { get }
+    var header: [String: String]? { get }
     
     func makeURL() -> URL?
     func makeURLRequest() -> URLRequest?
@@ -33,6 +34,8 @@ extension EndpointMakeable {
         guard let url = makeURL() else { return nil }
         var urlRequest = URLRequest(url: url)
         urlRequest.httpMethod = method
+        
+        header?.forEach { urlRequest.setValue($1, forHTTPHeaderField: $0) }
         
         return urlRequest
     }
