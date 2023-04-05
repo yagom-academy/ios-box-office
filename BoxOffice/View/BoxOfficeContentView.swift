@@ -68,6 +68,8 @@ final class BoxOfficeContentView: UIView, UIContentView {
         let label = UILabel()
         label.adjustsFontForContentSizeCategory = true
         label.font = .preferredFont(forTextStyle: .body)
+        label.adjustsFontSizeToFitWidth = true
+        label.minimumScaleFactor = CGFloat(0.5)
         
         return label
     }()
