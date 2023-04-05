@@ -48,7 +48,6 @@ final class MovieDetailViewController: UIViewController {
                 let infoUIModel = MovieInfoUIModel(data: data.movieInfoResult.movieInfo)
                 DispatchQueue.main.async {
                     self?.descStackView.updateTextLabel(infoUIModel)
-                    self?.stopLoading()
                 }
             case .failure(let error):
                 DispatchQueue.main.async {
@@ -65,10 +64,12 @@ final class MovieDetailViewController: UIViewController {
                 DispatchQueue.main.async {
                     self?.posterImageView.image = image
                     self?.configureImageWidthConstraint(width: width, height: height)
+                    self?.stopLoading()
                 }
             case .failure(let error):
                 DispatchQueue.main.async {
                     self?.presentErrorAlert(error: error, title: "영화 포스터 이미지")
+                    self?.stopLoading()
                 }
             }
         }
@@ -80,10 +81,12 @@ final class MovieDetailViewController: UIViewController {
     
     private func startLoading() {
         loadingView.startAnimating()
+        descStackView.isHidden = true
     }
     
     private func stopLoading() {
         loadingView.stopAnimating()
+        descStackView.isHidden = false
     }
 }
 
