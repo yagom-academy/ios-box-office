@@ -15,7 +15,7 @@ final class BoxOfficeViewController: UIViewController, CalendarDateDelegate {
     let boxOfficeService = BoxOfficeService()
     private var provider = Provider()
     let calendarViewController = CalendarViewController()
-    var choosenDate: String = ""{
+    var choosenDate: String = "" {
         didSet {
             fetchDailyBoxOffice()
             setNavigationBarTitle()            
@@ -33,6 +33,9 @@ final class BoxOfficeViewController: UIViewController, CalendarDateDelegate {
     }
     
     private func fetchDailyBoxOffice() {
+        if choosenDate == "" {
+            choosenDate = self.createYesterDate()
+        }
         boxOfficeService.fetchDailyBoxOfficeAPI(date: choosenDate) {
             DispatchQueue.main.async {
                 self.boxOfficeListCollectionView.reloadData()
@@ -110,6 +113,15 @@ final class BoxOfficeViewController: UIViewController, CalendarDateDelegate {
     
     private func setNavigationBarTitle() {
         self.title = choosenDate
+    }
+    
+    private func createYesterDate() -> String {
+        let formatter = DateFormatter()
+        formatter.dateStyle = .long
+        formatter.timeStyle = .medium
+        formatter.dateFormat = "yyyyMMdd"
+        let yesterDate = formatter.string(from: Date(timeIntervalSinceNow: -86400))
+        return yesterDate
     }
 }
 
