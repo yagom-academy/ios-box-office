@@ -9,10 +9,25 @@ import UIKit
 
 final class BoxOfficeViewController: UIViewController {
     private var boxOffice: BoxOffice?
+    private let networkManager = NetworkManager()
     private lazy var collectionView = UICollectionView(frame: .zero,
                                                        collectionViewLayout: UICollectionViewFlowLayout())
-    private let networkManager = NetworkManager()
-    private let dateFormatter = DateFormatter()
+    
+    private let dateFormatterWithHyphen = {
+        let formatter = DateFormatter()
+        
+        formatter.dateFormat = "yyyy-MM-dd"
+        
+        return formatter
+    }()
+    
+    private let dateFormatterWithoutHyphen = {
+        let formatter = DateFormatter()
+        
+        formatter.dateFormat = "yyyyMMdd"
+        
+        return formatter
+    }()
     
     private let loadingView: LoadingView = {
         let view = LoadingView()
@@ -26,7 +41,7 @@ final class BoxOfficeViewController: UIViewController {
         super.viewDidLoad()
         
         configureUIOption()
-        fetchBoxOffice()
+        fetchBoxOffice(targetDate: Date().showYesterdayDate(formatter: dateFormatterWithoutHyphen))
         configureCollectionView()
         configureRefreshControl()
     }
@@ -34,20 +49,12 @@ final class BoxOfficeViewController: UIViewController {
     private func configureUIOption() {
         loadingView.isLoading = true
         view.backgroundColor = .systemBackground
-        dateFormatter.dateFormat = "yyyy-MM-dd"
-        navigationItem.title = Date().showYesterdayDate(formatter: dateFormatter)
+        navigationItem.title = Date().showYesterdayDate(formatter: dateFormatterWithHyphen)
     }
     
-    private func fetchBoxOffice() {
-        var api = BoxOfficeURLRequest(service: .dailyBoxOffice)
-        let queryName = "targetDt"
-        dateFormatter.dateFormat = "yyyyMMdd"
-        let queryValue = Date().showYesterdayDate(formatter: dateFormatter)
+    private func fetchBoxOffice(targetDate: String) {
+        let urlRequest = EndPoint.dailyBoxOffice(date: targetDate).asURLRequest()
         
-        api.addQuery(name: queryName, value: queryValue)
-        
-        let urlRequest = api.request()
-
         networkManager.fetchData(urlRequest: urlRequest, type: BoxOffice.self) { [weak self] result in
             switch result {
             case .success(let boxOfficeInfo):
@@ -112,13 +119,11 @@ extension BoxOfficeViewController {
     }
     
     @objc private func handleRefreshControl() {
-        fetchBoxOffice()
+        guard let date = navigationItem.title?.removeHyphen() else { return }
+        
+        fetchBoxOffice(targetDate: date)
         
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.7) { [weak self] in
-            guard let dateFormatter = self?.dateFormatter else { return }
-            
-            dateFormatter.dateFormat = "yyyy-MM-dd"
-            self?.navigationItem.title = Date().showYesterdayDate(formatter: dateFormatter)
             self?.collectionView.refreshControl?.endRefreshing()
         }
     }

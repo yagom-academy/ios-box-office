@@ -72,12 +72,7 @@ final class MovieInfoViewController: UIViewController {
     }
     
     private func fetchMovieInfo() {
-        var api = BoxOfficeURLRequest(service: .movieInfo)
-        let queryName = "movieCd"
-        
-        api.addQuery(name: queryName, value: movieCode)
-        
-        let urlRequest = api.request()
+        let urlRequest = EndPoint.movieInfo(movieCode: movieCode).asURLRequest()
         
         networkManager.fetchData(urlRequest: urlRequest, type: Movie.self) { [weak self] result in
             switch result {
@@ -108,13 +103,8 @@ final class MovieInfoViewController: UIViewController {
     }
     
     private func fetchMoviePoster() {
-        var api = BoxOfficeURLRequest(service: .moviePoster)
-        let queryName = "query"
         let movieName = movie?.result.movieInfo.movieName ?? ""
-        
-        api.addQuery(name: queryName, value: (movieName + " 영화 포스터"))
-        
-        let urlRequest = api.request()
+        let urlRequest = EndPoint.moviePoster(searchFor: movieName + " 영화 포스터").asURLRequest()
         
         networkManager.fetchData(urlRequest: urlRequest, type: MoviePoster.self) { [weak self] result in
             switch result {

@@ -21,4 +21,10 @@ extension String {
         
         return date
     }
+    
+    func removeHyphen() -> String {
+        let value = self.replacingOccurrences(of: "-", with: "")
+        
+        return value
+    }
 }
