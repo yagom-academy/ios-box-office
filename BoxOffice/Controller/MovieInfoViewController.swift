@@ -23,7 +23,8 @@ final class MovieInfoViewController: UIViewController {
     private let movieName: String?
     private var movieInfo: Movie?
     private var posterImage: UIImage?
-    private let movieInfoDataLoader = MovieInfoDataLoader()
+    private let dataLoader = DataLoader()
+    private let imageLoader = ImageLoader()
     
     private lazy var activityIndicator: UIActivityIndicatorView = {
         let activityIndicator = UIActivityIndicatorView()
@@ -37,6 +38,7 @@ final class MovieInfoViewController: UIViewController {
         super.viewDidLoad()
         
         configureInitialView()
+        loadData()
     }
     
     init?(movieCode: String?, movieName: String?, coder: NSCoder) {
@@ -53,15 +55,12 @@ final class MovieInfoViewController: UIViewController {
         navigationItem.title = movieName
         contentStackView.isHidden = true
         self.view.addSubview(activityIndicator)
-        activityIndicator.startAnimating()
-        fetchMovieInfo(completion: checkFetchComplete)
-        fetchMoviePoster()
     }
     
     private func loadData() {
         activityIndicator.startAnimating()
         
-        movieInfoDataLoader.loadMovieInfo(movieCode: movieCode) { [weak self] movie, error in
+        dataLoader.loadMovieInfo(movieCode: movieCode) { [weak self] movie, error in
             guard let error = error else {
                 self?.movieInfo = movie
                 self?.checkFetchComplete()
@@ -70,50 +69,17 @@ final class MovieInfoViewController: UIViewController {
             
             self?.showFailAlert(error: error)
         }
-    }
-    
-    private func fetchMoviePoster() {
-        guard let movieName = movieName else { return }
         
-        let endPoint: BoxOfficeEndpoint = .fetchMoviePoster(movieName: movieName)
-        
-        networkManager.fetchData(request: endPoint.createRequest(), type: MoviePoster.self) {
-            [weak self] result in
-            guard let self = self else { return }
-            
-            switch result {
-            case .success(let data):
-                let url = self.searchPosterURL(data: data)
-                self.loadPosterImage(url: url, completion: self.checkFetchComplete)
-            case .failure(let error):
-                print(error.localizedDescription)
-                self.showFailAlert(error: error)
+        dataLoader.loadMoviePosterURL(movieName: movieName) { [weak self] url, error in
+            guard let error = error else {
+                self?.imageLoader.loadPosterImage(url: url, completion: { [weak self] image in
+                    self?.posterImage = image
+                    self?.checkFetchComplete()
+                })
+                return
             }
-        }
-    }
-    
-    private func searchPosterURL(data: MoviePoster) -> URL? {
-        guard let firstItem = data.items.first else { return nil }
-        
-        let urlText = firstItem.imageURLText
-        
-        return URL(string: urlText)
-    }
-    
-    private func loadPosterImage(url: URL?, completion: @escaping () -> ()) {
-        guard let url = url else { return }
-        
-        DispatchQueue.global().async {
-            guard let data = try? Data(contentsOf: url) else { return }
             
-            guard let image = UIImage(data: data) else { return }
-            
-            DispatchQueue.main.async { [weak self] in
-                guard let self = self else { return }
-                
-                self.posterImage = image
-                completion()
-            }
+            self?.showFailAlert(error: error)
         }
     }
     

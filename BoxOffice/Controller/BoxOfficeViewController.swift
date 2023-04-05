@@ -10,7 +10,7 @@ import UIKit
 final class BoxOfficeViewController: UIViewController {
     @IBOutlet private weak var collectionView: UICollectionView!
     
-    private let boxOfficeDataLoader = BoxOfficeDataLoader()
+    private let dataLoader = DataLoader()
     private let refreshControl = UIRefreshControl()
     private var boxOffice: BoxOffice?
     
@@ -44,7 +44,7 @@ final class BoxOfficeViewController: UIViewController {
     }
     
     private func loadData(completion: @escaping () -> ()) {
-        boxOfficeDataLoader.loadDailyBoxOffice { [weak self] boxOffice, error in
+        dataLoader.loadDailyBoxOffice { [weak self] boxOffice, error in
             guard let error = error else {
                 self?.boxOffice = boxOffice
                 self?.collectionView.reloadData()
