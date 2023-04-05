@@ -44,7 +44,6 @@ final class MovieRankingViewController: UIViewController {
         configureUI()
         configureNavigationTitle()
         startLoadingView()
-        makeDataSource()
         fetchBoxofficeData()
     }
     
@@ -142,6 +141,7 @@ extension MovieRankingViewController {
         configureLoadingView()
         configureNavigationItems()
         configureRefreshController()
+        makeDataSource()
     }
     
     private func configureLoadingView() {
