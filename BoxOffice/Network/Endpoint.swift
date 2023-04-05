@@ -12,7 +12,7 @@ struct Endpoint: URLRequestGenerator {
         var urlComponents = URLComponents(string: api.baseURL + api.path)
         urlComponents?.queryItems = []
         
-        for (key, value) in api.queries {
+        api.queries.forEach { (key, value) in
             let queryItem = URLQueryItem(name: key , value: value)
             
             urlComponents?.queryItems?.append(queryItem)
@@ -22,7 +22,7 @@ struct Endpoint: URLRequestGenerator {
         
         var urlRequest = URLRequest(url: url)
         
-        for (key, value) in api.headers {
+        api.headers.forEach { (key, value) in
             urlRequest.setValue(value, forHTTPHeaderField: key)
         }
         
