@@ -11,9 +11,18 @@ final class CalendarViewController: UIViewController {
     private let calendar = Calendar(identifier: .gregorian)
     private let calendarView = UICalendarView()
     var delegate: CalendarViewControllerDelegate?
-    
+    private var currentDate: Date?
     private var yesterday: Date {
         return Date(timeIntervalSinceNow: 3600 * -24)
+    }
+    
+    init(currentDate: Date) {
+        self.currentDate = currentDate
+        super.init(nibName: nil, bundle: nil)
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
     }
     
     override func viewDidLoad() {
@@ -29,8 +38,15 @@ final class CalendarViewController: UIViewController {
     }
     
     private func configureCalendarView() {
+        guard let currentDate = self.currentDate else { return }
+        
         let dateComponents = DateFormatter.shared
             .string(from: yesterday, dateFormat: "yyyy-MM-dd")
+            .components(separatedBy: "-")
+            .compactMap { Int($0) }
+        
+        let currentDateComponents = DateFormatter.shared
+            .string(from: currentDate, dateFormat: "yyyy-MM-dd")
             .components(separatedBy: "-")
             .compactMap { Int($0) }
         
@@ -43,7 +59,10 @@ final class CalendarViewController: UIViewController {
                                              year: dateComponents[0],
                                              month: dateComponents[1],
                                              day: dateComponents[2])
-        
+        let selectedDateComponent = DateComponents(calendar: calendar,
+                                               year: currentDateComponents[0],
+                                               month: currentDateComponents[1],
+                                               day: currentDateComponents[2])
         guard let fromDate = fromDateComponent.date,
               let toDate = toDateComponent.date else { return }
         
@@ -52,7 +71,7 @@ final class CalendarViewController: UIViewController {
         
         let dateSelection = UICalendarSelectionSingleDate(delegate: self)
         calendarView.selectionBehavior = dateSelection
-        dateSelection.selectedDate = toDateComponent
+        dateSelection.selectedDate = selectedDateComponent
     }
     
     private func configureLayout() {

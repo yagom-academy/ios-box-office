@@ -49,7 +49,7 @@ final class DailyBoxOfficeViewController: UIViewController {
     }
     
     @objc func showCalendar() {
-        let calendarViewController = CalendarViewController()
+        let calendarViewController = CalendarViewController(currentDate: currentDate ?? yesterday)
         navigationController?.present(calendarViewController, animated: true)
         calendarViewController.delegate = self
     }
