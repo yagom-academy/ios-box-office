@@ -43,6 +43,10 @@ struct DailyBoxOfficeCellViewModel {
         }
     }
     
+    var rankOldAndNew: RankOldAndNew {
+        return data.rankOldAndNew
+    }
+    
     private enum Sign {
         static let newMovie = "신작"
         static let minus = "-"
