@@ -140,10 +140,6 @@ final class DailyBoxOfficeCell: UICollectionViewCell {
         rankLabel.font = UIFont.preferredFont(forTextStyle: .largeTitle)
     }
     
-    func setupViewModel(with data: DailyBoxOfficeMovie) {
-        self.viewModel = DailyBoxOfficeCellViewModel(data: data)
-    }
-    
     private func configureRankDifferenceLabel() {
         guard let viewModel = self.viewModel else { return }
         
