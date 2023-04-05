@@ -8,7 +8,7 @@
 import UIKit
 
 class MovieDetailViewController: UIViewController {
-    private let boxOfficeService = BoxOfficeService()
+    let boxOfficeService = BoxOfficeService()
     private let imageSearchService = ImageSearchService()
     private let movieDetailView = MovieDetailView()
     private let provider = Provider()
