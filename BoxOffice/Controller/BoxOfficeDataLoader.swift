@@ -11,7 +11,10 @@ final class BoxOfficeDataLoader {
     private let networkManager = NetworkManager()
     
     func loadDailyBoxOffice(completion: @escaping (BoxOffice?, Error?) -> ()) {
-        let yesterdayText = DateFormatter.yesterdayText(format: .nonHyphen)
+        guard let yesterdayText = DateFormatter.yesterdayText(format: .nonHyphen) else {
+            return
+        }
+        
         let endPoint: BoxOfficeEndpoint = .fetchDailyBoxOffice(targetDate: yesterdayText)
         
         networkManager.fetchData(request: endPoint.createRequest(), type: BoxOffice.self) {
