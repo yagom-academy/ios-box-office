@@ -14,7 +14,7 @@ enum LoadingIndicator {
             
             let loadingIndicatorView: UIActivityIndicatorView
             
-            if let existedView = window.subviews.first(where: { $0 is UIActivityIndicatorView })as? UIActivityIndicatorView {
+            if let existedView = window.subviews.first(where: { $0 is UIActivityIndicatorView }) as? UIActivityIndicatorView {
                 loadingIndicatorView = existedView
             } else {
                 loadingIndicatorView = UIActivityIndicatorView()
@@ -31,8 +31,37 @@ enum LoadingIndicator {
     static func hideLoading() {
         DispatchQueue.main.async {
             guard let window = UIApplication.shared.windows.last else { return }
+            window.subviews.filter({ $0 is UIActivityIndicatorView })
+                           .forEach { $0.removeFromSuperview() }
+        }
+    }
+    
+    static func showLoading(in view: UIView) {
+        DispatchQueue.main.async {
+            let loadingIndicatorView: UIActivityIndicatorView
             
-            window.subviews.filter({ $0 is UIActivityIndicatorView }).forEach { $0.removeFromSuperview() }
+            if let existedView = view.subviews.first(where: { $0 is UIActivityIndicatorView }) as? UIActivityIndicatorView {
+                loadingIndicatorView = existedView
+            } else {
+                loadingIndicatorView = UIActivityIndicatorView()
+                loadingIndicatorView.frame = view.frame
+                loadingIndicatorView.style = .large
+                view.addSubview(loadingIndicatorView)
+                
+                loadingIndicatorView.translatesAutoresizingMaskIntoConstraints = false
+                loadingIndicatorView.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
+                loadingIndicatorView.centerYAnchor.constraint(equalTo: view.centerYAnchor).isActive = true
+            }
+            
+            loadingIndicatorView.startAnimating()
+        }
+        
+    }
+    
+    static func hideLoading(in view: UIView) {
+        DispatchQueue.main.async {
+            view.subviews.filter({ $0 is UIActivityIndicatorView })
+                         .forEach { $0.removeFromSuperview() }
         }
     }
 }

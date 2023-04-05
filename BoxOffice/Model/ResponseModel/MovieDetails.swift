@@ -16,7 +16,7 @@ struct MovieInfoResult: Decodable {
 
 struct MovieInfo: Decodable {
     let movieCode, movieName, movieEnglishName, movieOriginalName: String
-    let showTime, productionYear, openDate, productionStateName: String
+    let runningTime, productionYear, openDate, productionStateName: String
     let typeName: String
     let nations: [Nation]
     let genres: [Genre]
@@ -33,7 +33,7 @@ struct MovieInfo: Decodable {
         case movieName = "movieNm"
         case movieEnglishName = "movieNmEn"
         case movieOriginalName = "movieNmOg"
-        case showTime = "showTm"
+        case runningTime = "showTm"
         case productionYear = "prdtYear"
         case openDate = "openDt"
         case productionStateName = "prdtStatNm"

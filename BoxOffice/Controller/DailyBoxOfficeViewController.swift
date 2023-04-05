@@ -8,7 +8,7 @@
 import UIKit
 
 final class DailyBoxOfficeViewController: UIViewController {
-    private var collectionView = UICollectionView(frame: UIScreen.main.bounds,
+    private let collectionView = UICollectionView(frame: UIScreen.main.bounds,
                                                   collectionViewLayout: UICollectionViewFlowLayout())
     private var dailyBoxOffice: DailyBoxOffice?
     private var yesterday: Date {
@@ -17,27 +17,37 @@ final class DailyBoxOfficeViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        LoadingIndicator.showLoading()
-        setNavigationTitle()
-        loadDailyBoxOffice()
+        configureRootView()
+        configureNavigationBar()
         configureCollectionView()
         configureRefreshControl()
+        loadDailyBoxOffice()
     }
     
-    private func setNavigationTitle() {
-        let title = DateFormatter(dateFormat: "yyyy-MM-dd").string(from: yesterday)
-        self.title = title
-        self.view.backgroundColor = .white
+    private func configureRootView() {
+        view.addSubview(collectionView)
+        view.backgroundColor = .white
+    }
+    
+    private func configureNavigationBar() {
+        let titleText = DateFormatter.shared.string(from: yesterday, dateFormat: "yyyy-MM-dd")
+
+        title = titleText
     }
     
     private func loadDailyBoxOffice() {
         var api = KobisAPI(service: .dailyBoxOffice)
-        let queryName = "targetDtㄹㄷ"
-        let queryValue = DateFormatter(dateFormat: "yyyyMMdd").string(from: yesterday)
+        let queryName = "targetDt"
+        let queryValue = DateFormatter.shared.string(from: yesterday, dateFormat: "yyyyMMdd")
         api.addQuery(name: queryName, value: queryValue)
         
         var apiProvider = APIProvider()
         apiProvider.target(api: api)
+        
+        if collectionView.refreshControl?.isRefreshing == false {
+            LoadingIndicator.showLoading()
+        }
+        
         apiProvider.startLoad(decodingType: DailyBoxOffice.self) { result in
             switch result {
             case .success(let dailyBoxOffice):
@@ -45,10 +55,11 @@ final class DailyBoxOfficeViewController: UIViewController {
                 
                 DispatchQueue.main.async {
                     self.collectionView.reloadData()
+                    self.collectionView.refreshControl?.endRefreshing()
                 }
             case .failure(let error):
                 DispatchQueue.main.async {
-                    self.makeAlert(for: error)
+                    AlertController.showAlert(for: error, to: self)
                 }
             }
             
@@ -56,14 +67,7 @@ final class DailyBoxOfficeViewController: UIViewController {
         }
     }
     
-    private func makeAlert(for error: Error) {
-        let alert = UIAlertController(title: NetworkError.title, message: error.localizedDescription, preferredStyle: .alert)
-        alert.addAction(UIAlertAction(title: "닫기", style: .default))
-        self.present(alert, animated: true)
-    }
-    
     private func configureCollectionView() {
-        view.addSubview(collectionView)
         collectionView.translatesAutoresizingMaskIntoConstraints = false
         
         NSLayoutConstraint.activate([
@@ -89,8 +93,7 @@ final class DailyBoxOfficeViewController: UIViewController {
         loadDailyBoxOffice()
         
         DispatchQueue.main.async {
-            self.setNavigationTitle()
-            self.collectionView.refreshControl?.endRefreshing()
+            self.configureNavigationBar()
         }
     }
 }
@@ -107,11 +110,12 @@ extension DailyBoxOfficeViewController: UICollectionViewDataSource {
                         cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: DailyBoxOfficeCell.identifier,
                                                             for: indexPath) as? DailyBoxOfficeCell,
-              let movieData = dailyBoxOffice?.boxOfficeResult.dailyBoxOfficeList[indexPath.item] else {
+              let movieData = dailyBoxOffice?.boxOfficeResult.dailyBoxOfficeList[safe: indexPath.item]
+        else {
             return UICollectionViewCell()
         }
         
-        cell.configureLabels(with: movieData)
+        cell.setupViewModel(with: movieData)
         
         return cell
     }
@@ -128,5 +132,22 @@ extension DailyBoxOfficeViewController: UICollectionViewDelegateFlowLayout {
                         layout collectionViewLayout: UICollectionViewLayout,
                         minimumLineSpacingForSectionAt section: Int) -> CGFloat {
         return 0
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        let navigationController = self.navigationController
+        guard let dailyBoxOfficeMovie = dailyBoxOffice?.boxOfficeResult.dailyBoxOfficeList[safe: indexPath.item]
+        else {
+            return
+        }
+        
+        let movieCode = dailyBoxOfficeMovie.movieCode
+        let movieName = dailyBoxOfficeMovie.movieName
+        let movieDetailsViewController = MovieDetailsViewController(movieCode: movieCode,
+                                                                    movieName: movieName)
+        
+        navigationController?.pushViewController(movieDetailsViewController, animated: true)
+        
+        collectionView.deselectItem(at: indexPath, animated: true)
     }
 }

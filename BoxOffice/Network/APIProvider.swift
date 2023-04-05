@@ -8,21 +8,21 @@
 import UIKit
 
 struct APIProvider {
-    private let endPoint: URLRequestGenerator
+    private let endpoint: URLRequestGenerator
     private let urlSession: DataTaskMakeable
     private var api: API?
     
-    init(endPoint: URLRequestGenerator = EndPoint(),
+    init(endpoint: URLRequestGenerator = Endpoint(),
          urlSession: DataTaskMakeable = URLSession(configuration: .default),
          api: API? = nil) {
-        self.endPoint = endPoint
+        self.endpoint = endpoint
         self.urlSession = urlSession
         self.api = api
     }
     
     func startLoad<T: Decodable>(decodingType: T.Type, completion: @escaping (Result<T, Error>) -> Void) {
         guard let api = self.api,
-              let request = endPoint.request(for: api) else { return }
+              let request = endpoint.request(for: api) else { return }
         
         let task = urlSession.dataTask(with: request) { data, response, error in
             if let error = error {

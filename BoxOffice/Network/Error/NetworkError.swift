@@ -7,13 +7,13 @@
 
 import Foundation
 
-enum NetworkError: LocalizedError {
+enum NetworkError {
     case decoding
     case request
     case server
 }
 
-extension NetworkError {
+extension NetworkError: LocalizedError {
     static let title = NSLocalizedString("오류 발생", comment: "Error")
     
     var errorDescription: String? {

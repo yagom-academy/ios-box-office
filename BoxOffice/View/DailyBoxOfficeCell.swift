@@ -10,6 +10,12 @@ import UIKit
 final class DailyBoxOfficeCell: UICollectionViewCell {
     static let identifier = "DailyBoxOfficeCell"
     
+    private var viewModel: DailyBoxOfficeCellViewModel? {
+        didSet {
+            configureLabels()
+        }
+    }
+    
     private let rankLabel = UILabel()
     private let rankDifferenceLabel = UILabel()
     private let movieTitleLabel = UILabel()
@@ -69,16 +75,20 @@ final class DailyBoxOfficeCell: UICollectionViewCell {
         rankDifferenceLabel.textColor = .black
     }
     
+    func setupViewModel(with data: DailyBoxOfficeMovie) {
+        self.viewModel = DailyBoxOfficeCellViewModel(data: data)
+    }
+    
     private func setBorder() {
         layer.addBorder(color: .systemGray5, width: 1)
     }
     
     private func configureSubviews() {
-        setViewHierarchy()
-        setSubviewConstraints()
+        configureViewHierarchy()
+        configureSubviewConstraints()
     }
     
-    private func setViewHierarchy() {
+    private func configureViewHierarchy() {
         rankStackView.addArrangedSubview(rankLabel)
         rankStackView.addArrangedSubview(rankDifferenceLabel)
         
@@ -90,7 +100,7 @@ final class DailyBoxOfficeCell: UICollectionViewCell {
         contentView.addSubview(accessoryView)
     }
     
-    private func setSubviewConstraints() {
+    private func configureSubviewConstraints() {
         NSLayoutConstraint.activate([
             rankStackView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 10),
             rankStackView.centerYAnchor.constraint(equalTo: contentView.centerYAnchor),
@@ -107,67 +117,62 @@ final class DailyBoxOfficeCell: UICollectionViewCell {
         ])
     }
     
-    func configureLabels(with data: DailyBoxOfficeMovie) {
-        configureRankLabel(with: data)
-        configureRankDifferenceLabel(with: data)
-        configureMovieTitleLabel(with: data)
-        configureAudienceCountLabel(with: data)
+    private func configureLabels() {
+        configureRankLabel()
+        configureRankDifferenceLabel()
+        configureMovieTitleLabel()
+        configureAudienceCountLabel()
     }
     
-    private func configureMovieTitleLabel(with data: DailyBoxOfficeMovie) {
-        movieTitleLabel.text = data.movieName
+    private func configureMovieTitleLabel() {
+        movieTitleLabel.text = viewModel?.movieTitle
         movieTitleLabel.font = UIFont.preferredFont(forTextStyle: .title3)
         movieTitleLabel.numberOfLines = 0
     }
     
-    private func configureAudienceCountLabel(with data: DailyBoxOfficeMovie) {
-        let todayAudience = data.audienceCountOfDate.decimal() ?? Sign.zero
-        let accumulatedAudience = data.accumulatedAudienceCount.decimal() ?? Sign.zero
-        let textformat = "오늘 %@ / 총 %@"
-        audienceCountLabel.text = String(format: textformat, todayAudience, accumulatedAudience)
+    private func configureAudienceCountLabel() {
+        audienceCountLabel.text = viewModel?.audienceCount
         audienceCountLabel.font = UIFont.preferredFont(forTextStyle: .body)
     }
     
-    private func configureRankLabel(with data: DailyBoxOfficeMovie) {
-        rankLabel.text = data.rank
+    private func configureRankLabel() {
+        rankLabel.text = viewModel?.rank
         rankLabel.font = UIFont.preferredFont(forTextStyle: .largeTitle)
     }
     
-    private func configureRankDifferenceLabel(with data: DailyBoxOfficeMovie) {
-        switch data.rankOldAndNew {
+    private func configureRankDifferenceLabel() {
+        guard let viewModel = self.viewModel else { return }
+        
+        let text = viewModel.rankDifference
+        
+        switch viewModel.rankOldAndNew {
         case .new:
-            rankDifferenceLabel.text = Sign.newMovie
+            rankDifferenceLabel.text = text
             rankDifferenceLabel.textColor = .systemRed
         case .old:
-            if data.rankDifference.contains(Sign.minus) {
-                let difference = data.rankDifference.trimmingCharacters(in: ["-"])
-                let text = Sign.down + difference
+            if text.contains(Sign.down) {
                 let attributedString = NSMutableAttributedString(string: text)
                 let range = NSString(string: text).range(of: Sign.down)
                 attributedString.addAttribute(.foregroundColor, value: UIColor.systemBlue, range: range)
                 rankDifferenceLabel.attributedText = attributedString
-            } else if data.rankDifference == Sign.zero {
-                rankDifferenceLabel.text = Sign.minus
-            } else {
-                let text = Sign.up + data.rankDifference
+            } else if text.contains(Sign.up) {
                 let attributedString = NSMutableAttributedString(string: text)
                 let range = NSString(string: text).range(of: Sign.up)
                 attributedString.addAttribute(.foregroundColor, value: UIColor.systemRed, range: range)
                 rankDifferenceLabel.attributedText = attributedString
+            } else {
+                rankDifferenceLabel.text = text
             }
+            
+            rankDifferenceLabel.font = UIFont.preferredFont(forTextStyle: .body)
         }
-        
-        rankDifferenceLabel.font = UIFont.preferredFont(forTextStyle: .body)
     }
     
     private enum Sign {
-        static let new = "NEW"
-        static let old = "OLD"
         static let newMovie = "신작"
         static let minus = "-"
         static let zero = "0"
         static let down = "⏷"
         static let up = "⏶"
-        static let empty = ""
     }
 }
