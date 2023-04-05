@@ -22,7 +22,7 @@ struct BoxOfficeDTO: Decodable {
 }
 
 extension BoxOfficeDTO {
-    func toDomain() -> [BoxOfficeItem] {
+    func convertToBoxOfficeItems() -> [BoxOfficeItem] {
         return boxOfficeResult.dailyBoxOfficeList.map { movie in
             return BoxOfficeItem(code: movie.movieCode,
                                  rank: movie.rank,

@@ -15,11 +15,11 @@ final class MovieInformationStackView: UIStackView {
     private let watchGradeStackView = CategoryStackView(category: Category.watchGrade)
     private let nationStackView = CategoryStackView(category: Category.nation)
     private let genreStackView = CategoryStackView(category: Category.genre)
-    private let actorStackView = CategoryStackView(category: Category.actor)
+    private let actorStackView = CategoryStackView(category: Category.movieActor)
     
     override init(frame: CGRect) {
         super.init(frame: frame)
-        setupUI()
+        setupLayout()
     }
     
     required init(coder: NSCoder) {
@@ -47,7 +47,7 @@ final class MovieInformationStackView: UIStackView {
         )
     }
     
-    private func setupUI() {
+    private func setupLayout() {
         self.translatesAutoresizingMaskIntoConstraints = false
         self.axis = .vertical
         self.spacing = 8
@@ -81,5 +81,5 @@ fileprivate enum Category {
     static let watchGrade = "관람등급"
     static let nation = "제작국가"
     static let genre = "장르"
-    static let actor = "배우"
+    static let movieActor = "배우"
 }

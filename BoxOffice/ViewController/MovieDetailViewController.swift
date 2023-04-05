@@ -112,7 +112,7 @@ final class MovieDetailViewController: UIViewController {
             switch result {
             case .success(let data):
                 DispatchQueue.main.async {
-                    self?.movieDetailInformation = data.toDomain()
+                    self?.movieDetailInformation = data.convertToMovieDetailInformationItem()
                 }
             case .failure:
                 let alertViewController = AlertManager.shared.showFailureAlert()

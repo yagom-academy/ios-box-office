@@ -74,7 +74,7 @@ final class BoxOfficeViewController: UIViewController {
                                     type: BoxOfficeDTO.self) { [weak self] result in
             switch result {
             case .success(let data):
-                self?.boxOfficeItems = data.toDomain()
+                self?.boxOfficeItems = data.convertToBoxOfficeItems()
                 DispatchQueue.main.async {
                     self?.activityIndicator.stopAnimating()
                     self?.updateSnapshot()
@@ -99,7 +99,7 @@ final class BoxOfficeViewController: UIViewController {
                                     type: BoxOfficeDTO.self) { [weak self] result in
             switch result {
             case .success(let data):
-                self?.boxOfficeItems = data.toDomain()
+                self?.boxOfficeItems = data.convertToBoxOfficeItems()
                 DispatchQueue.main.async {
                     self?.updateSnapshot()
                     self?.refreshControl.endRefreshing()

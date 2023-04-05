@@ -9,25 +9,25 @@ struct MovieInformationDTO: Decodable {
     private let movieInfoResult: MovieInformationResult
     
     private struct MovieInformationResult: Decodable {
-        let movieInformation: MovieDetailInformation
+        let movieDetailInformation: MovieDetailInformation
         let source: String
         
         private enum CodingKeys: String, CodingKey {
-            case movieInformation = "movieInfo"
+            case movieDetailInformation = "movieInfo"
             case source
         }
     }
 }
 
 extension MovieInformationDTO {
-    func toDomain() -> MovieDetailInformationItem {
-        return MovieDetailInformationItem(productYear: movieInfoResult.movieInformation.productYear,
-                                          directors: movieInfoResult.movieInformation.directors,
-                                          openDate: movieInfoResult.movieInformation.openDate,
-                                          showingTime: movieInfoResult.movieInformation.showingTime,
-                                          audits: movieInfoResult.movieInformation.audits,
-                                          nations: movieInfoResult.movieInformation.nations,
-                                          genres: movieInfoResult.movieInformation.genres,
-                                          actors: movieInfoResult.movieInformation.actors)
+    func convertToMovieDetailInformationItem() -> MovieDetailInformationItem {
+        return MovieDetailInformationItem(productYear: movieInfoResult.movieDetailInformation.productYear,
+                                          directors: movieInfoResult.movieDetailInformation.directors,
+                                          openDate: movieInfoResult.movieDetailInformation.openDate,
+                                          showingTime: movieInfoResult.movieDetailInformation.showingTime,
+                                          audits: movieInfoResult.movieDetailInformation.audits,
+                                          nations: movieInfoResult.movieDetailInformation.nations,
+                                          genres: movieInfoResult.movieDetailInformation.genres,
+                                          actors: movieInfoResult.movieDetailInformation.actors)
     }
 }
