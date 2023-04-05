@@ -106,7 +106,8 @@ extension DailyBoxOfficeViewController: UICollectionViewDataSource {
                         cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: DailyBoxOfficeCell.identifier,
                                                             for: indexPath) as? DailyBoxOfficeCell,
-              let movieData = dailyBoxOffice?.boxOfficeResult.dailyBoxOfficeList[indexPath.item] else {
+              let movieData = dailyBoxOffice?.boxOfficeResult.dailyBoxOfficeList[indexPath.item]
+        else {
             return UICollectionViewCell()
         }
         
@@ -131,9 +132,15 @@ extension DailyBoxOfficeViewController: UICollectionViewDelegateFlowLayout {
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         let navigationController = self.navigationController
-        guard let movieCode = dailyBoxOffice?.boxOfficeResult.dailyBoxOfficeList[indexPath.item].movieCode,
-              let movieName = dailyBoxOffice?.boxOfficeResult.dailyBoxOfficeList[indexPath.item].movieName else { return }
-        let movieDetailsViewController = MovieDetailsViewController(movieCode: movieCode, movieName: movieName)
+        guard let dailyBoxOfficeMovie = dailyBoxOffice?.boxOfficeResult.dailyBoxOfficeList[indexPath.item]
+        else {
+            return
+        }
+        
+        let movieCode = dailyBoxOfficeMovie.movieCode
+        let movieName = dailyBoxOfficeMovie.movieName
+        let movieDetailsViewController = MovieDetailsViewController(movieCode: movieCode,
+                                                                    movieName: movieName)
         
         navigationController?.pushViewController(movieDetailsViewController, animated: true)
         
