@@ -7,9 +7,20 @@
 
 import UIKit
 
-final class BoxOfficeViewController: UIViewController {
+protocol CalendarDateDelegate: AnyObject {
+    func receiveDate(date: String)
+}
+
+final class BoxOfficeViewController: UIViewController, CalendarDateDelegate {
     let boxOfficeService = BoxOfficeService()
     private var provider = Provider()
+    let calendarViewController = CalendarViewController()
+    var choosenDate: String = ""{
+        didSet {
+            fetchDailyBoxOffice()
+            setNavigationBarTitle()            
+        }
+    }
     
     @IBOutlet weak var boxOfficeListCollectionView: UICollectionView!
     lazy var activityIndicator = UIActivityIndicatorView()
@@ -18,10 +29,11 @@ final class BoxOfficeViewController: UIViewController {
         super.viewDidLoad()
         fetchDailyBoxOffice()
         setUpView()
+        setCalendarViewDelegate()
     }
     
     private func fetchDailyBoxOffice() {
-        boxOfficeService.fetchDailyBoxOfficeAPI() {
+        boxOfficeService.fetchDailyBoxOfficeAPI(date: choosenDate) {
             DispatchQueue.main.async {
                 self.boxOfficeListCollectionView.reloadData()
                 self.activityIndicator.stopAnimating()
@@ -30,15 +42,20 @@ final class BoxOfficeViewController: UIViewController {
     }
     
     private func setUpView() {
-        setTitle()
+        setNavigationBar()
         setActivityIndicator()
         setBoxOfficeListCollectionView()
         configureRefreshControl()
         configureUI()
     }
     
-    private func setTitle() {
-        self.title = "2302323"
+    private func setNavigationBar() {
+        self.navigationItem.rightBarButtonItem = UIBarButtonItem(title: "날짜선택", style: .plain, target: self, action: #selector(tabRightBarButton))
+    }
+    
+    @objc
+    func tabRightBarButton() {
+        self.present(calendarViewController, animated: true, completion: nil)
     }
     
     private func setActivityIndicator() {
@@ -80,6 +97,19 @@ final class BoxOfficeViewController: UIViewController {
             boxOfficeListCollectionView.trailingAnchor.constraint(equalTo: safeArea.trailingAnchor),
             boxOfficeListCollectionView.bottomAnchor.constraint(equalTo: safeArea.bottomAnchor)
         ])
+    }
+    
+    private func setCalendarViewDelegate() {
+        calendarViewController.delegate = self
+    }
+    
+    func receiveDate(date: String) {
+        choosenDate = date
+        print(choosenDate)
+    }
+    
+    private func setNavigationBarTitle() {
+        self.title = choosenDate
     }
 }
 

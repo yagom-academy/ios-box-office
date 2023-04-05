@@ -13,9 +13,9 @@ class BoxOfficeService {
     var movieDetail: MovieDetail?
     var movieCode = ""
     
-    func fetchDailyBoxOfficeAPI(completion: @escaping () -> Void) {
+    func fetchDailyBoxOfficeAPI(date: String,completion: @escaping () -> Void) {
         var dailyBoxOfficeEndpoint = DailyBoxOfficeEndpoint()
-        dailyBoxOfficeEndpoint.insertDateQueryValue(date: "20230327")
+        dailyBoxOfficeEndpoint.insertDateQueryValue(date: date)
         
         provider.loadBoxOfficeAPI(endpoint: dailyBoxOfficeEndpoint,
                                   parser: Parser<DailyBoxOffice>()) { parsedData in
