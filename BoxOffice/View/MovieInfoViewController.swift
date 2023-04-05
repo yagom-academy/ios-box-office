@@ -23,8 +23,8 @@ final class MovieInfoViewController: UIViewController {
     private let movieName: String?
     private var movieInfo: Movie?
     private var posterImage: UIImage?
-    private let dataLoader = DataLoader()
-    private let imageLoader = ImageLoader()
+    private let movieInfoDataLoader = MovieInfoDataLoader()
+    private let moviePosterImageLoader = MoviePosterImageLoader()
     
     private lazy var activityIndicator: UIActivityIndicatorView = {
         let activityIndicator = UIActivityIndicatorView()
@@ -60,7 +60,8 @@ final class MovieInfoViewController: UIViewController {
     private func loadData() {
         activityIndicator.startAnimating()
         
-        dataLoader.loadMovieInfo(movieCode: movieCode) { [weak self] movie, error in
+        movieInfoDataLoader.loadMovieInfo(movieCode: movieCode) {
+            [weak self] movie, error in
             guard let error = error else {
                 self?.movieInfo = movie
                 self?.checkFetchComplete()
@@ -70,12 +71,11 @@ final class MovieInfoViewController: UIViewController {
             self?.showFailAlert(error: error)
         }
         
-        dataLoader.loadMoviePosterURL(movieName: movieName) { [weak self] url, error in
+        moviePosterImageLoader.loadMoviePosterImage(movieName: movieName) {
+            [weak self] image, error in
             guard let error = error else {
-                self?.imageLoader.loadPosterImage(url: url, completion: { [weak self] image in
-                    self?.posterImage = image
-                    self?.checkFetchComplete()
-                })
+                self?.posterImage = image
+                self?.checkFetchComplete()
                 return
             }
             
