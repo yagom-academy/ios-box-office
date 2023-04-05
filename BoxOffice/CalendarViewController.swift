@@ -60,10 +60,14 @@ final class CalendarViewController: UIViewController {
 // MARK: - UICalendarSelectionSingleDateDelegate
 extension CalendarViewController: UICalendarSelectionSingleDateDelegate {
     
-    func dateSelection(_ selection: UICalendarSelectionSingleDate, didSelectDate dateComponents: DateComponents?) {
-        guard let date = dateComponents?.date else { return }
-        selectionDelegate?.dateSelection(date)
-        dismiss(animated: true)
+    func dateSelection(_ selection: UICalendarSelectionSingleDate,
+                       didSelectDate dateComponents: DateComponents?) {
+        if let dateComponents = dateComponents,
+           let date = dateComponents.date,
+           let delegate = selectionDelegate {
+            delegate.dateSelection(date)
+            dismiss(animated: true)
+        }
     }
     
 }
