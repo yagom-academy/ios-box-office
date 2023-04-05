@@ -38,6 +38,8 @@ final class BoxOfficeViewController: UIViewController {
     }
     
     private func loadInitialData() {
+        activityIndicator.startAnimating()
+        
         fetchDailyBoxOffice { [weak self] in
             guard let self = self else { return }
             
@@ -66,7 +68,6 @@ final class BoxOfficeViewController: UIViewController {
     }
     
     private func configureInitialView() {
-        activityIndicator.startAnimating()
         navigationItem.title = DateFormatter.yesterdayText(format: .hyphen)
         self.view.addSubview(activityIndicator)
         refreshControl.addTarget(self, action: #selector(refreshData), for: .valueChanged)
