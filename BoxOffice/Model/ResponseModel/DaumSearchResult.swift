@@ -16,7 +16,7 @@ struct DaumSearchResult: Decodable {
 }
 
 struct Document: Decodable {
-    let collection: Collection
+    let source: Source
     let date: String
     let displaySiteName: String
     let documentURL: String
@@ -26,7 +26,7 @@ struct Document: Decodable {
     let width: Int
 
     enum CodingKeys: String, CodingKey {
-        case collection
+        case source = "collection"
         case date = "datetime"
         case displaySiteName = "display_sitename"
         case documentURL = "doc_url"
@@ -37,7 +37,7 @@ struct Document: Decodable {
     }
 }
 
-enum Collection: String, Decodable {
+enum Source: String, Decodable {
     case blog = "blog"
     case cafe = "cafe"
     case etc = "etc"
