@@ -9,7 +9,6 @@ import Foundation
 
 struct MovieImageObject: Decodable {
     let documents: [Document]
-
 }
 
 struct Document: Decodable {

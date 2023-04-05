@@ -111,7 +111,7 @@ extension MovieDetailViewController {
             scrollView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor),
             scrollView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor),
             scrollView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor),
-            scrollView.contentLayoutGuide.widthAnchor.constraint(equalTo: view.widthAnchor),
+            scrollView.contentLayoutGuide.widthAnchor.constraint(equalTo: view.widthAnchor)
         ])
     }
     
@@ -121,8 +121,7 @@ extension MovieDetailViewController {
         NSLayoutConstraint.activate([
             posterImageView.topAnchor.constraint(equalTo: scrollView.topAnchor),
             posterImageView.leadingAnchor.constraint(equalTo: scrollView.leadingAnchor, constant: 5),
-            posterImageView.trailingAnchor.constraint(equalTo: scrollView.trailingAnchor, constant: -5),
-//            posterImageView.heightAnchor.constraint(equalTo: view.heightAnchor, multiplier: 0.7),
+            posterImageView.trailingAnchor.constraint(equalTo: scrollView.trailingAnchor, constant: -5)
         ])
     }
     
@@ -133,7 +132,7 @@ extension MovieDetailViewController {
             descStackView.topAnchor.constraint(equalTo: posterImageView.bottomAnchor),
             descStackView.leadingAnchor.constraint(equalTo: scrollView.leadingAnchor, constant: 5),
             descStackView.trailingAnchor.constraint(equalTo: scrollView.trailingAnchor, constant: -5),
-            descStackView.bottomAnchor.constraint(equalTo: scrollView.bottomAnchor),
+            descStackView.bottomAnchor.constraint(equalTo: scrollView.bottomAnchor)
         ])
     }
     
