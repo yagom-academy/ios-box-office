@@ -84,7 +84,7 @@ final class BoxOfficeViewController: UIViewController {
         
         toolBar.items = [
             UIBarButtonItem.flexibleSpace(),
-            UIBarButtonItem(title: "화면 모드 변경", style: .plain, target: self, action: #selector(changeScreenMode)),
+            UIBarButtonItem(title: "화면 모드 변경", style: .plain, target: self, action: #selector(presentScreenMode)),
             UIBarButtonItem.flexibleSpace()
         ]
     }
@@ -100,8 +100,8 @@ final class BoxOfficeViewController: UIViewController {
         self.collectionView.refreshControl = refreshControl
     }
     
-    @objc private func changeScreenMode() {
-        print("change")
+    @objc private func presentScreenMode() {
+        self.present(AlertManager.shared.showScreenMode(), animated: true)
     }
     
     private func fetchDailyBoxOffice(from date: Date?) {
