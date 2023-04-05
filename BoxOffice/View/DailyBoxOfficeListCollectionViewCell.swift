@@ -132,14 +132,22 @@ final class DailyBoxOfficeListCollectionViewCell: UICollectionViewCell, LabelSet
     private func configureLabels() {
         nameLabel.font = UIFont.preferredFont(forTextStyle: .title3)
         nameLabel.numberOfLines = 0
+        nameLabel.adjustsFontForContentSizeCategory = true
         
         audienceInformationLabel.font = UIFont.preferredFont(forTextStyle: .body)
+        audienceInformationLabel.numberOfLines = 0
+        audienceInformationLabel.adjustsFontForContentSizeCategory = true
         
         rankLabel.font = UIFont.preferredFont(forTextStyle: .largeTitle)
-        rankLabel.textAlignment = .center
+        rankLabel.adjustsFontForContentSizeCategory = true
+        
+        rankMarkLabel.font = UIFont.preferredFont(forTextStyle: .body)
+        rankMarkLabel.adjustsFontForContentSizeCategory = true
         
         audienceVarianceLabel.font = UIFont.preferredFont(forTextStyle: .body)
         audienceVarianceLabel.textAlignment = .center
+        audienceVarianceLabel.numberOfLines = 0
+        audienceVarianceLabel.adjustsFontForContentSizeCategory = true
     }
     
     func setupLabels(name: String, audienceInformation: String, rank: String, rankMark: String, audienceVariance: String, rankMarkColor: MovieRankMarkColor) {
