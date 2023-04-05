@@ -27,6 +27,7 @@ final class BoxOfficeGridCell: UICollectionViewCell {
     private let titleLabel: UILabel = {
         let label = UILabel()
         label.adjustsFontForContentSizeCategory = true
+        label.translatesAutoresizingMaskIntoConstraints = false
         label.numberOfLines = 0
         label.font = .preferredFont(forTextStyle: .title3)
         
@@ -35,8 +36,12 @@ final class BoxOfficeGridCell: UICollectionViewCell {
     
     private let audienceCountLabel: UILabel = {
         let label = UILabel()
+        label.adjustsFontSizeToFitWidth = true
+        label.minimumScaleFactor = CGFloat(0.4)
         label.adjustsFontForContentSizeCategory = true
         label.font = .preferredFont(forTextStyle: .body)
+        label.lineBreakMode = .byWordWrapping
+//        label.numberOfLines = 0
         
         return label
     }()
@@ -46,6 +51,7 @@ final class BoxOfficeGridCell: UICollectionViewCell {
         stackView.axis = .vertical
         stackView.distribution = .fill
         stackView.alignment = .center
+        stackView.spacing = 10
         stackView.translatesAutoresizingMaskIntoConstraints = false
         
         return stackView
@@ -61,17 +67,42 @@ final class BoxOfficeGridCell: UICollectionViewCell {
     }
     
     private func configureUI() {
+        self.contentView.layer.borderWidth = 2
+        self.contentView.layer.borderColor = UIColor.systemGray.cgColor
+        
         self.contentView.addSubview(self.movieStackView)
         self.movieStackView.addArrangedSubview(self.rankLabel)
         self.movieStackView.addArrangedSubview(self.titleLabel)
         self.movieStackView.addArrangedSubview(self.rankIncrementLabel)
         self.movieStackView.addArrangedSubview(self.audienceCountLabel)
+        
+        
+        self.rankLabel.setContentHuggingPriority(.defaultHigh, for: .vertical)
+        self.rankIncrementLabel.setContentHuggingPriority(.defaultHigh, for: .vertical)
+        self.titleLabel.setContentHuggingPriority(.defaultLow, for: .vertical)
+        self.audienceCountLabel.setContentHuggingPriority(.defaultHigh, for: .vertical)
+        
+        self.rankLabel.setContentCompressionResistancePriority(.defaultLow, for: .vertical)
+        self.rankIncrementLabel.setContentCompressionResistancePriority(.defaultLow, for: .vertical)
+        self.titleLabel.setContentCompressionResistancePriority(.defaultLow, for: .vertical)
+        self.audienceCountLabel.setContentCompressionResistancePriority(.defaultHigh, for: .vertical)
+        
+        NSLayoutConstraint.activate([
+            self.movieStackView.leadingAnchor.constraint(equalTo: self.contentView.leadingAnchor, constant: 10),
+            self.movieStackView.trailingAnchor.constraint(equalTo: self.contentView.trailingAnchor, constant: -10),
+            self.movieStackView.topAnchor.constraint(equalTo: self.contentView.topAnchor, constant: 10),
+            self.movieStackView.bottomAnchor.constraint(equalTo: self.contentView.bottomAnchor, constant: -10),
+            
+        ])
     }
     
     func configure(boxOfficeItem: BoxOfficeItem) {
         configureRankInformation(rank: boxOfficeItem.rank,
                                  rankIncrement: boxOfficeItem.rankIncrement,
                                  rankOldAndNew: boxOfficeItem.rankOldAndNew)
+        configureMovieInformation(title: boxOfficeItem.title,
+                                  audienceCount: boxOfficeItem.audienceCount,
+                                  audienceAccumulationCount: boxOfficeItem.audienceAccumulationCount)
     }
     
     private func configureRankInformation(rank: String,
