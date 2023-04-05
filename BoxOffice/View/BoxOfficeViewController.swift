@@ -10,7 +10,7 @@ import UIKit
 final class BoxOfficeViewController: UIViewController {
     @IBOutlet private weak var collectionView: UICollectionView!
     
-    private let networkManager = NetworkManager()
+    private let boxOfficeDataLoader = BoxOfficeDataLoader()
     private let refreshControl = UIRefreshControl()
     private var boxOffice: BoxOffice?
     
@@ -25,24 +25,37 @@ final class BoxOfficeViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        configure()
-        activityIndicator.startAnimating()
+        configureInitialView()
         loadInitialData()
     }
     
     @objc private func refreshData() {
-        fetchDailyBoxOffice { [weak self] in
-            guard let self = self else { return }
-            
-            self.refreshControl.endRefreshing()
+        loadData { [weak self] in
+            self?.refreshControl.endRefreshing()
         }
     }
     
     private func loadInitialData() {
-        fetchDailyBoxOffice { [weak self] in
-            guard let self = self else { return }
-            
-            self.activityIndicator.stopAnimating()
+        activityIndicator.startAnimating()
+        
+        loadData { [weak self] in
+            self?.activityIndicator.stopAnimating()
+        }
+    }
+    
+    private func loadData(completion: @escaping () -> ()) {
+        boxOfficeDataLoader.loadDailyBoxOffice { boxOffice, error in
+            DispatchQueue.main.async { [weak self] in
+                guard let error = error else {
+                    self?.boxOffice = boxOffice
+                    self?.collectionView.reloadData()
+                    completion()
+                    return
+                }
+                
+                self?.showFailAlert(error: error)
+                completion()
+            }
         }
     }
     
@@ -61,36 +74,16 @@ final class BoxOfficeViewController: UIViewController {
     private func configureCollectionView() {
         collectionView.refreshControl = refreshControl
         collectionView.dataSource = self
+        collectionView.delegate = self
         collectionView.collectionViewLayout = createListLayout()
         registerXib()
     }
     
-    private func configure() {
-        navigationItem.title = YesterdayDateFormatter.text(format: .nonHyphen)
+    private func configureInitialView() {
+        navigationItem.title = DateFormatter.yesterdayText(format: .hyphen)
         self.view.addSubview(activityIndicator)
         refreshControl.addTarget(self, action: #selector(refreshData), for: .valueChanged)
         configureCollectionView()
-    }
-    
-    private func fetchDailyBoxOffice(completion: @escaping () -> Void) {
-        let yesterdayText = YesterdayDateFormatter.text(format: .nonHyphen)
-        let endPoint: BoxOfficeEndPoint = .fetchDailyBoxOffice(targetDate: yesterdayText)
-        
-        networkManager.fetchData(url: endPoint.createURL(), type: BoxOffice.self) {
-            [weak self] result in
-            guard let self = self else { return }
-            
-            DispatchQueue.main.async {
-                switch result {
-                case .success(let data):
-                    self.boxOffice = data
-                    self.collectionView.reloadData()
-                case .failure(let error):
-                    print(error.localizedDescription)
-                }
-                completion()
-            }
-        }
     }
 }
 
@@ -112,5 +105,19 @@ extension BoxOfficeViewController: UICollectionViewDataSource {
         cell.configure(item: item)
         
         return cell
+    }
+}
+
+extension BoxOfficeViewController: UICollectionViewDelegate {
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        if let movieInfoVC = storyboard?.instantiateViewController(identifier: MovieInfoViewController.identifier, creator: { creator in
+            let movieCode = self.boxOffice?.boxOfficeResult.dailyBoxOfficeList[safe: indexPath.item]?.movieCodeText
+            let movieName = self.boxOffice?.boxOfficeResult.dailyBoxOfficeList[safe: indexPath.item]?.movieKoreanName
+            let viewController = MovieInfoViewController(movieCode: movieCode, movieName: movieName, coder: creator)
+            
+            return viewController
+        }) {
+            self.navigationController?.pushViewController(movieInfoVC, animated: true)
+        }
     }
 }

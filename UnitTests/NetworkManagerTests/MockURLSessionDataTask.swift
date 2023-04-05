@@ -9,8 +9,10 @@ import Foundation
 
 class MockURLSessionDataTask: URLSessionDataTaskProtocol {
     var resumeDidCall: (() -> ())?
+    var resumeCallCount = 0
     
     func resume() {
+        self.resumeCallCount += 1
         resumeDidCall?()
     }
 }
