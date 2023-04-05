@@ -7,7 +7,7 @@
 
 import UIKit
 
-final class DailyBoxOfficeIconCollectionViewCell: UICollectionViewCell, LabelSetter {
+final class DailyBoxOfficeIconCollectionViewCell: UICollectionViewCell {
     static let reuseIdentifier = "DailyBoxOfficeIconCollectionViewCell"
 
     private let mainStackView = UIStackView()
@@ -78,23 +78,18 @@ final class DailyBoxOfficeIconCollectionViewCell: UICollectionViewCell, LabelSet
         
         rankLabel.font = UIFont.preferredFont(forTextStyle: .largeTitle)
         rankLabel.textAlignment = .center
-        rankLabel.adjustsFontForContentSizeCategory = true
         
         nameLabel.font = UIFont.preferredFont(forTextStyle: .title3)
         nameLabel.textAlignment = .center
         nameLabel.numberOfLines = 0
-        nameLabel.adjustsFontForContentSizeCategory = true
         
         rankMarkLabel.font = UIFont.preferredFont(forTextStyle: .body)
-        rankMarkLabel.adjustsFontForContentSizeCategory = true
         
         audienceVarianceLabel.font = UIFont.preferredFont(forTextStyle: .body)
         audienceVarianceLabel.textAlignment = .center
-        audienceVarianceLabel.adjustsFontForContentSizeCategory = true
         
         audienceInformationLabel.font = UIFont.preferredFont(forTextStyle: .caption2)
         audienceInformationLabel.numberOfLines = 0
-        audienceInformationLabel.adjustsFontForContentSizeCategory = true
     }
     
     private func configureMovieRankVarianceStackView() {

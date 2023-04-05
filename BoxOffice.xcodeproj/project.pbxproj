@@ -35,7 +35,6 @@
 		FB5B0F0E29CC3DA40089F0D9 /* MockURLProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB5B0F0D29CC3DA40089F0D9 /* MockURLProtocol.swift */; };
 		FBCA718B29D578210018A0A6 /* MoviePosterImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = FBCA718A29D578210018A0A6 /* MoviePosterImage.swift */; };
 		FBDBA52C29DA99E9006552B5 /* SelectDateViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FBDBA52B29DA99E9006552B5 /* SelectDateViewController.swift */; };
-		FBDBA53029DC243F006552B5 /* LabelSetter.swift in Sources */ = {isa = PBXBuildFile; fileRef = FBDBA52F29DC243F006552B5 /* LabelSetter.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -88,7 +87,6 @@
 		FB5B0F0D29CC3DA40089F0D9 /* MockURLProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockURLProtocol.swift; sourceTree = "<group>"; };
 		FBCA718A29D578210018A0A6 /* MoviePosterImage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MoviePosterImage.swift; sourceTree = "<group>"; };
 		FBDBA52B29DA99E9006552B5 /* SelectDateViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectDateViewController.swift; sourceTree = "<group>"; };
-		FBDBA52F29DC243F006552B5 /* LabelSetter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LabelSetter.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -224,7 +222,6 @@
 				FB02539729D1D1BF004338B4 /* DailyBoxOfficeListCollectionViewCell.swift */,
 				AA5E96BD29DC0DD2007C0EEF /* DailyBoxOfficeIconCollectionViewCell.swift */,
 				FB19940429D3FAE100F1BC2C /* MovieInformationScrollView.swift */,
-				FBDBA52F29DC243F006552B5 /* LabelSetter.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -397,7 +394,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				FBDBA53029DC243F006552B5 /* LabelSetter.swift in Sources */,
 				AA4CF75A29DD4D2200800ED5 /* ScreenMode.swift in Sources */,
 				AA4CF75C29DD4D8D00800ED5 /* DailyBoxOfficeItem.swift in Sources */,
 				FB19940329D3F2B400F1BC2C /* MovieInformationViewController.swift in Sources */,

@@ -107,7 +107,7 @@ final class DailyBoxOfficeViewController: UIViewController, DateUpdatable {
 
             DispatchQueue.main.async { [self] in
                 setupDataSource()
-                applySnapshotToDataSource()
+                updateDataSource()
                 switch screenMode {
                 case .list:
                     collectionView.collectionViewLayout = createMovieListLayout()
@@ -150,7 +150,7 @@ final class DailyBoxOfficeViewController: UIViewController, DateUpdatable {
                 
                 DispatchQueue.main.async {
                     self?.setupDataSource()
-                    self?.applySnapshotToDataSource()
+                    self?.updateDataSource()
                     self?.refreshControl.endRefreshing()
                 }
             }
@@ -167,35 +167,45 @@ final class DailyBoxOfficeViewController: UIViewController, DateUpdatable {
 extension DailyBoxOfficeViewController {
     private func setupDataSource() {
         movieDataSource = DataSource(collectionView: collectionView) { [weak self] collectionView, indexPath, itemIdentifier in
-            var cellIdentifier: String
            
             switch self?.screenMode {
             case .list:
-                cellIdentifier = DailyBoxOfficeListCollectionViewCell.reuseIdentifier
+                guard let cell = collectionView.dequeueReusableCell(
+                    withReuseIdentifier: DailyBoxOfficeListCollectionViewCell.reuseIdentifier,
+                    for: indexPath) as? DailyBoxOfficeListCollectionViewCell else { return UICollectionViewCell() }
+                
+                guard let movieInformation = self?.setupCellLabels(with: itemIdentifier) else { return UICollectionViewCell() }
+                
+                cell.setupLabels(name: movieInformation.name,
+                                 audienceInformation: movieInformation.audienceInformation,
+                                 rank: movieInformation.rank,
+                                 rankMark: movieInformation.rankMark,
+                                 audienceVariance: movieInformation.audienceVariance,
+                                 rankMarkColor: movieInformation.rankMarkColor)
+                
+                return cell
             case .icon:
-                cellIdentifier = DailyBoxOfficeIconCollectionViewCell.reuseIdentifier
+                guard let cell = collectionView.dequeueReusableCell(
+                    withReuseIdentifier: DailyBoxOfficeIconCollectionViewCell.reuseIdentifier,
+                    for: indexPath) as? DailyBoxOfficeIconCollectionViewCell else { return UICollectionViewCell() }
+                
+                guard let movieInformation = self?.setupCellLabels(with: itemIdentifier) else { return UICollectionViewCell() }
+                
+                cell.setupLabels(name: movieInformation.name,
+                                 audienceInformation: movieInformation.audienceInformation,
+                                 rank: movieInformation.rank,
+                                 rankMark: movieInformation.rankMark,
+                                 audienceVariance: movieInformation.audienceVariance,
+                                 rankMarkColor: movieInformation.rankMarkColor)
+                
+                return cell
             case .none:
                 return UICollectionViewCell()
             }
-            
-            guard let cell = collectionView.dequeueReusableCell(
-                withReuseIdentifier: cellIdentifier,
-                for: indexPath) as? LabelSetter else { return UICollectionViewCell() }
-            
-            self?.setupCellLabels(with: itemIdentifier) { name, audienceInformation, rank, rankMark, audienceVariance, rankMarkColor in
-                cell.setupLabels(name: name,
-                                 audienceInformation: audienceInformation,
-                                 rank: rank,
-                                 rankMark: rankMark,
-                                 audienceVariance: audienceVariance,
-                                 rankMarkColor: rankMarkColor)
-            }
-         
-            return cell as? UICollectionViewCell
         }
     }
     
-    private func applySnapshotToDataSource() {
+    private func updateDataSource() {
         typealias Snapshot = NSDiffableDataSourceSnapshot<Section, DailyBoxOfficeItem>
         var snapshot = Snapshot()
         snapshot.appendSections([.main])
@@ -203,8 +213,7 @@ extension DailyBoxOfficeViewController {
         
         movieDataSource?.apply(snapshot, animatingDifferences: true)
     }
-    
-    private func setupCellLabels(with movie: DailyBoxOfficeItem, completion: (String, String, String, String, String, MovieRankMarkColor) -> Void) {
+    private func setupCellLabels(with movie: DailyBoxOfficeItem) -> (name: String, audienceInformation: String, rank: String, rankMark: String, audienceVariance: String, rankMarkColor: MovieRankMarkColor)? {
         var name: String
         var audienceInformation: String
         var rank: String
@@ -213,7 +222,7 @@ extension DailyBoxOfficeViewController {
         var rankMarkColor : MovieRankMarkColor
         
         guard let todayAudience = movie.audienceCount.convertToFormattedNumber(),
-              let totalAudience = movie.audienceAccumulation.convertToFormattedNumber() else { return }
+              let totalAudience = movie.audienceAccumulation.convertToFormattedNumber() else { return nil }
         
         name = movie.name
         audienceInformation = "오늘 \(todayAudience) / 총 \(totalAudience)"
@@ -224,7 +233,7 @@ extension DailyBoxOfficeViewController {
             rankMark = "신작"
             audienceVariance = ""
         } else {
-            guard let variance = Int(movie.rankVariance) else { return }
+            guard let variance = Int(movie.rankVariance) else { return nil }
 
             switch variance {
             case ..<0:
@@ -241,8 +250,8 @@ extension DailyBoxOfficeViewController {
                 audienceVariance = "\(variance)"
             }
         }
-       
-        completion(name, audienceInformation, rank, rankMark, audienceVariance, rankMarkColor)
+        
+        return (name: name, audienceInformation: audienceInformation, rank: rank, rankMark: rankMark, audienceVariance: audienceVariance, rankMarkColor: rankMarkColor)
     }
 }
 

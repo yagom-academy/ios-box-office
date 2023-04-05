@@ -7,7 +7,7 @@
 
 import UIKit
 
-final class DailyBoxOfficeListCollectionViewCell: UICollectionViewCell, LabelSetter {
+final class DailyBoxOfficeListCollectionViewCell: UICollectionViewCell {
     static let reuseIdentifier = "DailyBoxOfficeListCollectionViewCell"
 
     private let accessoryImageView = UIImageView()
