@@ -106,7 +106,7 @@ extension DailyBoxOfficeViewController: UICollectionViewDataSource {
                         cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: DailyBoxOfficeCell.identifier,
                                                             for: indexPath) as? DailyBoxOfficeCell,
-              let movieData = dailyBoxOffice?.boxOfficeResult.dailyBoxOfficeList[indexPath.item]
+              let movieData = dailyBoxOffice?.boxOfficeResult.dailyBoxOfficeList[safe: indexPath.item]
         else {
             return UICollectionViewCell()
         }

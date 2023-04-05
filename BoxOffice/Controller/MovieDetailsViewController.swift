@@ -87,7 +87,6 @@ final class MovieDetailsViewController: UIViewController {
     }
     
     private func loadPosterImage() {
-        LoadingIndicator.showLoading(in: posterView)
         var api = DaumSearchAPI()
         let queryName = "query"
         let queryValue = movieName + " 영화 포스터"
@@ -95,6 +94,9 @@ final class MovieDetailsViewController: UIViewController {
         
         var apiProvider = APIProvider()
         apiProvider.target(api: api)
+        
+        LoadingIndicator.showLoading(in: posterView)
+        
         apiProvider.startLoad(decodingType: DaumSearchResult.self) { result in
             switch result {
             case .success(let searchedResult):
