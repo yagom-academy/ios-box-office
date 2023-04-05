@@ -132,9 +132,9 @@ private extension BoxOfficeContentView {
         NSLayoutConstraint.activate([
             rankStackView.widthAnchor.constraint(equalTo: self.widthAnchor, multiplier: 0.2),
             movieStackView.leadingAnchor.constraint(equalTo: self.leadingAnchor),
-            movieStackView.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: -10),
-            movieStackView.topAnchor.constraint(equalTo: self.topAnchor),
-            movieStackView.bottomAnchor.constraint(equalTo: self.bottomAnchor),
+            movieStackView.trailingAnchor.constraint(equalTo: accessoryImageView.leadingAnchor, constant: 0),
+            movieStackView.topAnchor.constraint(equalTo: self.topAnchor, constant: 10),
+            movieStackView.bottomAnchor.constraint(equalTo: self.bottomAnchor, constant: -10),
             
             accessoryImageView.centerYAnchor.constraint(equalTo: self.centerYAnchor),
             accessoryImageView.widthAnchor.constraint(equalToConstant: 13),

@@ -49,8 +49,8 @@ final class BoxOfficeViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         self.selectedDate = yesterday
-        self.configureHierarchy()
-        self.configureDataSource()
+        self.configureHierarchy(for: .list)
+        self.configureDataSource(for: .list)
         self.setupUI()
         self.fetchDailyBoxOffice(from: self.selectedDate)
     }
@@ -184,11 +184,11 @@ extension BoxOfficeViewController {
         switch layout {
         case .list:
             let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0),
-                                                  heightDimension: .fractionalHeight(1.0))
+                                                  heightDimension: .estimated(100))
             let item = NSCollectionLayoutItem(layoutSize: itemSize)
 
             let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0),
-                                                   heightDimension: .fractionalWidth(0.2))
+                                                   heightDimension: .estimated(100))
             let group = NSCollectionLayoutGroup.horizontal(layoutSize: groupSize,
                                                              subitems: [item])
 
@@ -250,9 +250,9 @@ extension BoxOfficeViewController {
                 return cell
             }
         case .grid:
-            let cellRegistration = UICollectionView.CellRegistration<BoxOfficeListCell, BoxOfficeItem> {
+            let cellRegistration = UICollectionView.CellRegistration<BoxOfficeGridCell, BoxOfficeItem> {
                 (cell, indexPath, item) in
-                cell.item = item
+                cell.configure(boxOfficeItem: item)
             }
             
             dataSource = UICollectionViewDiffableDataSource<Section, BoxOfficeItem.ID>(collectionView: collectionView) {
