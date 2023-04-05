@@ -7,7 +7,7 @@
 
 import UIKit
 
-protocol DateUpdatable {
+protocol DateUpdatable: AnyObject {
     var selectedDate: Date { get set }
     
     func refreshData()
@@ -15,8 +15,6 @@ protocol DateUpdatable {
 
 @available(iOS 16.0, *)
 final class DailyBoxOfficeViewController: UIViewController, DateUpdatable {
-    var selectedDate: Date = Date(timeIntervalSinceNow: -86400)
-    
     private typealias DataSource = UICollectionViewDiffableDataSource<Section, DailyBoxOfficeItem>
     
     private let networkManager = NetworkManager()
@@ -24,13 +22,13 @@ final class DailyBoxOfficeViewController: UIViewController, DateUpdatable {
     private var movieDataSource: DataSource?
     private var dailyBoxOfficeItem: [DailyBoxOfficeItem] = []
     
-    private let dateFormatter = DateFormatter()
     private let refreshControl = UIRefreshControl()
+    private let dateFormatter = DateFormatter()
+    var selectedDate: Date = Date(timeIntervalSinceNow: -86400)
     
     private let selectDateButton = UIBarButtonItem()
     
     lazy private var collectionView = UICollectionView(frame: view.bounds, collectionViewLayout: createMovieListLayout())
-    
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -39,7 +37,6 @@ final class DailyBoxOfficeViewController: UIViewController, DateUpdatable {
         configureCollectionView()
         configureSelectionDateButton()
         refreshData()
-        refreshControl.addTarget(self, action: #selector(refreshData), for: .valueChanged)
     }
     
     @objc func refreshData() {
@@ -52,6 +49,7 @@ final class DailyBoxOfficeViewController: UIViewController, DateUpdatable {
         collectionView.delegate = self
         collectionView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
         collectionView.register(DailyBoxOfficeCollectionViewCell.self, forCellWithReuseIdentifier: DailyBoxOfficeCollectionViewCell.reuseIdentifier)
+        refreshControl.addTarget(self, action: #selector(refreshData), for: .valueChanged)
         collectionView.refreshControl = refreshControl
     }
     
@@ -64,9 +62,9 @@ final class DailyBoxOfficeViewController: UIViewController, DateUpdatable {
     }
 
     @objc private func selectDateButtonTapped() {
-        let nextViewController = SelectDateViewController()
-        nextViewController.delegate = self
-        navigationController?.present(nextViewController, animated: true)
+        let selectDateViewController = SelectDateViewController()
+        selectDateViewController.delegate = self
+        navigationController?.present(selectDateViewController, animated: true)
     }
     
     private func updateDateToViewTitle() {
@@ -160,8 +158,8 @@ extension DailyBoxOfficeViewController: UICollectionViewDelegate {
         let movieName = dailyBoxOfficeItem[indexPath.item].name
         let movieCode = dailyBoxOfficeItem[indexPath.item].code
         
-        let nextViewcontroller = MovieInformationViewController(movieName: movieName, movieCode: movieCode)
-        navigationController?.pushViewController(nextViewcontroller, animated: true)
+        let movieInformationViewController = MovieInformationViewController(movieName: movieName, movieCode: movieCode)
+        navigationController?.pushViewController(movieInformationViewController, animated: true)
     }
 }
 
