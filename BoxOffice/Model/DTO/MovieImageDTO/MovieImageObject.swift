@@ -14,9 +14,12 @@ struct MovieImageObject: Decodable {
 
 struct Document: Decodable {
     let url: String
+    let width: Int
+    let height: Int
     
     enum CodingKeys: String, CodingKey {
         case url = "image_url"
+        case width, height
     }
 }
 

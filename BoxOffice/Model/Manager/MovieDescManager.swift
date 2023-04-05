@@ -20,19 +20,20 @@ final class MovieDescManager {
         self.movieImage = BoxofficeInfo<MovieImageObject>(apiType: movieImageApiType, model: NetworkModel(session: session))
     }
     
-    func fetchMoviePosterImage(handler: @escaping (Result<UIImage, BoxofficeError>) -> Void) {
+    func fetchMoviePosterImage(handler: @escaping (Result<(UIImage, Int, Int), BoxofficeError>) -> Void) {
         movieImage.fetchData { [weak self] result in
             switch result {
             case .success(let data):
                 let urlText = data.documents[0].url
-                self?.fetchImage(imageUrlText: urlText, handler: handler)
+                
+                self?.fetchImage(imageUrlText: urlText, width: data.documents[0].width, height: data.documents[0].height, handler: handler)
             case .failure(let error):
                 handler(.failure(error))
             }
         }
     }
     
-    private func fetchImage(imageUrlText: String, handler: @escaping (Result<UIImage, BoxofficeError>) -> Void) {
+    private func fetchImage(imageUrlText: String, width: Int, height: Int, handler: @escaping (Result<(UIImage, Int, Int), BoxofficeError>) -> Void) {
         guard let url = URL(string: imageUrlText) else {
             handler(.failure(.urlError))
             return
@@ -45,7 +46,7 @@ final class MovieDescManager {
                 return
             }
             
-            handler(.success(image))
+            handler(.success((image, width, height)))
         } catch {
             handler(.failure(.responseError))
         }

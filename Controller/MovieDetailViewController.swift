@@ -25,7 +25,7 @@ final class MovieDetailViewController: UIViewController {
     private let posterImageView = {
         let imageView = UIImageView()
         imageView.translatesAutoresizingMaskIntoConstraints = false
-        imageView.contentMode = .scaleToFill
+        imageView.contentMode = .scaleAspectFit
         
         return imageView
     }()
@@ -61,9 +61,10 @@ final class MovieDetailViewController: UIViewController {
     private func fetchImage() {
         dataManager.fetchMoviePosterImage { [weak self] result in
             switch result {
-            case .success(let image):
+            case .success((let image, let width, let height)):
                 DispatchQueue.main.async {
                     self?.posterImageView.image = image
+                    self?.configureImageWidthConstraint(width: width, height: height)
                 }
             case .failure(let error):
                 DispatchQueue.main.async {
@@ -71,6 +72,10 @@ final class MovieDetailViewController: UIViewController {
                 }
             }
         }
+    }
+    
+    private func configureImageWidthConstraint(width: Int, height: Int) {
+        posterImageView.heightAnchor.constraint(equalTo: posterImageView.widthAnchor, multiplier: CGFloat(height) / CGFloat(width)).isActive = true
     }
     
     private func startLoading() {
@@ -112,9 +117,9 @@ extension MovieDetailViewController {
         
         NSLayoutConstraint.activate([
             posterImageView.topAnchor.constraint(equalTo: scrollView.topAnchor),
-            posterImageView.leadingAnchor.constraint(equalTo: scrollView.leadingAnchor, constant: 10),
-            posterImageView.trailingAnchor.constraint(equalTo: scrollView.trailingAnchor, constant: -10),
-            posterImageView.heightAnchor.constraint(equalTo: view.heightAnchor, multiplier: 0.7),
+            posterImageView.leadingAnchor.constraint(equalTo: scrollView.leadingAnchor, constant: 5),
+            posterImageView.trailingAnchor.constraint(equalTo: scrollView.trailingAnchor, constant: -5),
+//            posterImageView.heightAnchor.constraint(equalTo: view.heightAnchor, multiplier: 0.7),
         ])
     }
     
