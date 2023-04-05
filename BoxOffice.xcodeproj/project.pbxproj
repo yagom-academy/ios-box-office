@@ -35,6 +35,7 @@
 		AD3D401D29D1CFC800A56210 /* extension+DateFormatter.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD3D401C29D1CFC800A56210 /* extension+DateFormatter.swift */; };
 		AD3D401F29D28E5200A56210 /* extension+CALayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD3D401E29D28E5200A56210 /* extension+CALayer.swift */; };
 		AD3D402129D2C98B00A56210 /* URLRequestGenerator.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD3D402029D2C98B00A56210 /* URLRequestGenerator.swift */; };
+		AD44108E29DD1064002E4989 /* DailyBoxOfficeCellViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD44108D29DD1064002E4989 /* DailyBoxOfficeCellViewModel.swift */; };
 		AD69655D29DA9929004A7502 /* CategoryStackView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD69655C29DA9929004A7502 /* CategoryStackView.swift */; };
 		AD69655F29DA993D004A7502 /* AlertController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD69655E29DA993D004A7502 /* AlertController.swift */; };
 		ADE1B1BD29D4356B00632173 /* DaumSearchResult.swift in Sources */ = {isa = PBXBuildFile; fileRef = ADE1B1BC29D4356B00632173 /* DaumSearchResult.swift */; };
@@ -87,6 +88,7 @@
 		AD3D401C29D1CFC800A56210 /* extension+DateFormatter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "extension+DateFormatter.swift"; sourceTree = "<group>"; };
 		AD3D401E29D28E5200A56210 /* extension+CALayer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "extension+CALayer.swift"; sourceTree = "<group>"; };
 		AD3D402029D2C98B00A56210 /* URLRequestGenerator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = URLRequestGenerator.swift; sourceTree = "<group>"; };
+		AD44108D29DD1064002E4989 /* DailyBoxOfficeCellViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DailyBoxOfficeCellViewModel.swift; sourceTree = "<group>"; };
 		AD69655C29DA9929004A7502 /* CategoryStackView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CategoryStackView.swift; sourceTree = "<group>"; };
 		AD69655E29DA993D004A7502 /* AlertController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AlertController.swift; sourceTree = "<group>"; };
 		ADE1B1BC29D4356B00632173 /* DaumSearchResult.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DaumSearchResult.swift; sourceTree = "<group>"; };
@@ -273,6 +275,7 @@
 			isa = PBXGroup;
 			children = (
 				AD0A48F329C97B730030CBC1 /* ResponseModel */,
+				AD44108D29DD1064002E4989 /* DailyBoxOfficeCellViewModel.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -434,6 +437,7 @@
 				AD3D401F29D28E5200A56210 /* extension+CALayer.swift in Sources */,
 				4B15DD9229DD0AF9006AC55B /* extension+Collection.swift in Sources */,
 				4B9E3A2729CADF9D00B60AD1 /* DataTaskMakeable.swift in Sources */,
+				AD44108E29DD1064002E4989 /* DailyBoxOfficeCellViewModel.swift in Sources */,
 				4B4A799729D4317100514141 /* DaumSearchAPI.swift in Sources */,
 				4B9E3A5429CD838300B60AD1 /* KobisAPI.swift in Sources */,
 				AD1E9C1D29CDD2920023A817 /* Endpoint.swift in Sources */,

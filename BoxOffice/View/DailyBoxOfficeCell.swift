@@ -10,6 +10,8 @@ import UIKit
 final class DailyBoxOfficeCell: UICollectionViewCell {
     static let identifier = "DailyBoxOfficeCell"
     
+    private let viewModel: DailyBoxOfficeCellViewModel?
+    
     private let rankLabel = UILabel()
     private let rankDifferenceLabel = UILabel()
     private let movieTitleLabel = UILabel()
@@ -158,16 +160,5 @@ final class DailyBoxOfficeCell: UICollectionViewCell {
         }
         
         rankDifferenceLabel.font = UIFont.preferredFont(forTextStyle: .body)
-    }
-    
-    private enum Sign {
-        static let new = "NEW"
-        static let old = "OLD"
-        static let newMovie = "신작"
-        static let minus = "-"
-        static let zero = "0"
-        static let down = "⏷"
-        static let up = "⏶"
-        static let empty = ""
     }
 }
