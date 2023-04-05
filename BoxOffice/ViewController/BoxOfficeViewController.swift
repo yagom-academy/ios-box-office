@@ -40,6 +40,12 @@ final class BoxOfficeViewController: UIViewController {
         return activityIndicator
     }()
     
+    private let toolBar: UIToolbar = {
+        let bar = UIToolbar(frame: CGRect(origin: .zero, size: CGSize(width: 100, height: 44)))
+        bar.translatesAutoresizingMaskIntoConstraints = false
+        return bar
+    }()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         self.selectedDate = yesterday
@@ -50,6 +56,13 @@ final class BoxOfficeViewController: UIViewController {
     }
     
     private func setupUI() {
+        setupNavigation()
+        setupToolBar()
+        setupActivityIndicator()
+        setupRefreshControl()
+    }
+    
+    private func setupNavigation() {
         self.updateNavigationTitle(form: "yyyy-MM-dd", date: self.selectedDate)
         self.navigationItem.rightBarButtonItem = UIBarButtonItem(title: "날짜선택",
                                                                  style: .plain,
@@ -58,14 +71,37 @@ final class BoxOfficeViewController: UIViewController {
         let appearance = UINavigationBarAppearance()
         self.navigationController?.navigationBar.standardAppearance = appearance
         self.navigationController?.navigationBar.scrollEdgeAppearance = appearance
+    }
+    
+    private func setupToolBar() {
+        self.view.addSubview(toolBar)
         
+        NSLayoutConstraint.activate([
+            toolBar.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            toolBar.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+            toolBar.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor),
+        ])
+        
+        toolBar.items = [
+            UIBarButtonItem.flexibleSpace(),
+            UIBarButtonItem(title: "화면 모드 변경", style: .plain, target: self, action: #selector(changeScreenMode)),
+            UIBarButtonItem.flexibleSpace()
+        ]
+    }
+    
+    private func setupActivityIndicator() {
         self.view.addSubview(activityIndicator)
         self.activityIndicator.center = self.view.center
         self.activityIndicator.frame = self.view.frame
-        
+    }
+    
+    private func setupRefreshControl() {
         self.refreshControl.addTarget(self, action: #selector(refresh), for: .valueChanged)
         self.collectionView.refreshControl = refreshControl
-        
+    }
+    
+    @objc private func changeScreenMode() {
+        print("change")
     }
     
     private func fetchDailyBoxOffice(from date: Date?) {
