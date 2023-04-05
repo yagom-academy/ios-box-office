@@ -75,6 +75,10 @@ final class DailyBoxOfficeCell: UICollectionViewCell {
         rankDifferenceLabel.textColor = .black
     }
     
+    func setupViewModel(with data: DailyBoxOfficeMovie) {
+        self.viewModel = DailyBoxOfficeCellViewModel(data: data)
+    }
+    
     private func setBorder() {
         layer.addBorder(color: .systemGray5, width: 1)
     }
