@@ -8,22 +8,23 @@
 import UIKit
 
 class MovieDetailViewController: UIViewController {
-    let boxOfficeService = BoxOfficeService()
-    
-    private var movieDetailView = MovieDetailView()
-    private var searchedImage: ImageSearch?
-    private var provider = Provider()
+    private let boxOfficeService = BoxOfficeService()
+    private let imageSearchService = ImageSearchService()
+    private let movieDetailView = MovieDetailView()
+    private let provider = Provider()
     
     override func viewDidLoad() {
         super.viewDidLoad()
         view = movieDetailView
-        fetchMoiveDetailAPI()
+        fetchMoiveDetail()
     }
     
-    func fetchMoiveDetailAPI() {
+    func fetchMoiveDetail() {
         boxOfficeService.fetchMovieDetailAPI {
             DispatchQueue.main.async {
+                
                 self.setMovieDetailLabel()
+                self.fetchImage()
             }
         }
     }
@@ -73,21 +74,10 @@ class MovieDetailViewController: UIViewController {
     }
     
     private func fetchImage() {
-        guard let movieName = boxOfficeService.movieDetail?.movieInformationResult.movieInformation.movieName else { return }
-
-        var imageSearchEndpoint = ImageSearchEndpoint()
-        imageSearchEndpoint.insertImageQueryValue(imageName: movieName)
-        
-        provider.loadBoxOfficeAPI(endpoint: imageSearchEndpoint, parser: Parser<ImageSearch>()) {
-            parsedData in
-            
-            guard let url = URL(string: parsedData.imageDatas[0].imageURL) else { return }
-            guard let data = try? Data(contentsOf: url) else { return }
-
+        imageSearchService.fetchSearchedImage(boxOfficeService: boxOfficeService) { data in
             DispatchQueue.main.async {
                 self.movieDetailView.imageView.image = UIImage(data: data)
             }
         }
-       
     }
 }

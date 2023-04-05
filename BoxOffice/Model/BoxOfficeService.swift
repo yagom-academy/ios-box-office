@@ -2,7 +2,7 @@
 //  BoxOfficeService.swift
 //  BoxOffice
 //
-//  Created by kimseongjun on 2023/04/05.
+//  Created by goat, songjun on 2023/04/05.
 //
 
 import Foundation
