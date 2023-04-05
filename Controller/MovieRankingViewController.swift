@@ -10,18 +10,18 @@ import UIKit
 final class MovieRankingViewController: UIViewController {
     
     // MARK: Propertie
-    private let boxofficeDate = {
+    private var dataManager: RankingManager?
+    private var boxofficeDate = {
         guard let boxofficeDate = Date.yesterday else {
             return Date()
         }
         return boxofficeDate
     }()
     
-    private var dataManager: RankingManager?
-    
     // MARK: UI Properties
     private let loadingView = UIActivityIndicatorView()
     private let refreshController = UIRefreshControl()
+    private lazy var dateSelectionButton = UIBarButtonItem(title: "날짜 선택", style: .plain, target: self, action: #selector(didTapDateSelectionButton))
     private lazy var collectionView = {
         let configuration = UICollectionLayoutListConfiguration(appearance: .plain)
         let layout = UICollectionViewCompositionalLayout.list(using: configuration)
@@ -33,22 +33,16 @@ final class MovieRankingViewController: UIViewController {
         return collectionView
     }()
     
-    private lazy var dateSelectionButton = UIBarButtonItem(title: "날짜 선택", style: .plain, target: self, action: #selector(didTapDateSelectionButton))
-    
-    @objc private func didTapDateSelectionButton() {
-        let vc = CalendarViewController()
-        vc.selectedDate = boxofficeDate
-        present(vc, animated: true)
-    }
-    
     // MARK: DataSource Properties
     private var dataSource: UICollectionViewDiffableDataSource<APIType, InfoObject>?
     private var snapshot = NSDiffableDataSourceSnapshot<APIType, InfoObject>()
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
         makeDataManager()
         configureUI()
+        configureNavigationTitle()
         startLoadingView()
         makeDataSource()
         configureRefreshController()
@@ -90,6 +84,26 @@ final class MovieRankingViewController: UIViewController {
     
     @objc private func refreshCollectionView() {
         self.fetchBoxofficeData()
+    }
+    
+    @objc private func didTapDateSelectionButton() {
+        let vc = CalendarViewController()
+        vc.delegate = self
+        vc.selectedDate = boxofficeDate
+        present(vc, animated: true)
+    }
+}
+
+// MARK: CalendarDelegate
+extension MovieRankingViewController: CalendarDelegate {
+    func changeDate(_ date: Date) {
+        boxofficeDate = date
+        makeDataManager()
+        configureNavigationTitle()
+        startLoadingView()
+        makeDataSource()
+        configureRefreshController()
+        fetchBoxofficeData()
     }
 }
 

@@ -7,8 +7,13 @@
 
 import UIKit
 
+protocol CalendarDelegate {
+    func changeDate(_ date: Date)
+}
+
 class CalendarViewController: UIViewController {
     
+    var delegate: CalendarDelegate?
     var selectedDate = Date()
     let yesterday = {
         guard let yesterday = Date.yesterday else {
@@ -78,7 +83,12 @@ class CalendarViewController: UIViewController {
 
 extension CalendarViewController: UICalendarSelectionSingleDateDelegate {
     func dateSelection(_ selection: UICalendarSelectionSingleDate, didSelectDate dateComponents: DateComponents?) {
+        guard let selectedDate = dateComponents?.date else {
+            return
+        }
         
+        delegate?.changeDate(selectedDate)
+        
+        dismiss(animated: true)
     }
-
 }
