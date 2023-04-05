@@ -100,7 +100,7 @@ final class ViewController: UIViewController {
                 do {
                     let boxOfficeItem: BoxOfficeItem = try JSONConverter.shared.decodeData(data, T: BoxOfficeItem.self)
                     let dailyBoxOffices = boxOfficeItem.boxOfficeResult.dailyBoxOfficeList
-                    var movieRanking: [ListItem] = []
+                    var movieRanking = [ListItem]()
                     for dailyBoxOffice in dailyBoxOffices {
                         let movieItem = ListItem(
                             rank: dailyBoxOffice.rank,
