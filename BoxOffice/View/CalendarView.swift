@@ -13,6 +13,7 @@ class CalendarView: UICalendarView {
         super.init(frame: frame)
 
         self.backgroundColor = .white
+        self.availableDateRange = DateInterval(start: Date(timeIntervalSinceReferenceDate: 0), end: Date(timeIntervalSinceNow: -86400))
     }
     
     required init?(coder: NSCoder) {
