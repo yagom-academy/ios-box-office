@@ -60,10 +60,10 @@ final class MovieDetailViewController: UIViewController {
     private func fetchImage() {
         dataManager.fetchMoviePosterImage { [weak self] result in
             switch result {
-            case .success((let image, let width, let height)):
+            case .success((let image, let imageSize)):
                 DispatchQueue.main.async {
                     self?.posterImageView.image = image
-                    self?.configureImageWidthConstraint(width: width, height: height)
+                    self?.configureImageWidthConstraint(size: imageSize)
                     self?.stopLoading()
                 }
             case .failure(let error):
@@ -75,7 +75,10 @@ final class MovieDetailViewController: UIViewController {
         }
     }
     
-    private func configureImageWidthConstraint(width: Int, height: Int) {
+    private func configureImageWidthConstraint(size: CGSize) {
+        let width = Int(size.width)
+        let height = Int(size.height)
+        
         posterImageView.heightAnchor.constraint(equalTo: posterImageView.widthAnchor, multiplier: CGFloat(height) / CGFloat(width)).isActive = true
     }
     

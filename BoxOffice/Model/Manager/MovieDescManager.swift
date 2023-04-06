@@ -20,7 +20,7 @@ final class MovieDescManager {
         self.movieImage = BoxofficeInfo<MovieImageObject>(apiType: movieImageApiType, model: NetworkModel(session: session))
     }
     
-    func fetchMoviePosterImage(handler: @escaping (Result<(UIImage, Int, Int), BoxofficeError>) -> Void) {
+    func fetchMoviePosterImage(handler: @escaping (Result<(UIImage, CGSize), BoxofficeError>) -> Void) {
         let dispatchGroup = DispatchGroup()
     
         dispatchGroup.enter()
@@ -39,14 +39,16 @@ final class MovieDescManager {
         }
     
         dispatchGroup.notify(queue: .global()) {
-            guard let imageDocument = self.imageDocument else {
+            guard let document = self.imageDocument else {
                 return
             }
-            self.fetchImage(imageUrlText: imageDocument.url, width: imageDocument.width, height: imageDocument.height, handler: handler)
+            let imageSize = CGSize(width: document.width, height: document.height)
+            
+            self.fetchImage(imageUrlText: document.url, imageSize: imageSize, handler: handler)
         }
     }
     
-    private func fetchImage(imageUrlText: String, width: Int, height: Int, handler: @escaping (Result<(UIImage, Int, Int), BoxofficeError>) -> Void) {
+    private func fetchImage(imageUrlText: String, imageSize: CGSize, handler: @escaping (Result<(UIImage, CGSize), BoxofficeError>) -> Void) {
         guard let url = URL(string: imageUrlText) else {
             handler(.failure(.urlError))
             return
@@ -59,7 +61,7 @@ final class MovieDescManager {
                 return
             }
             
-            handler(.success((image, width, height)))
+            handler(.success((image, imageSize)))
         } catch {
             handler(.failure(.responseError))
         }
