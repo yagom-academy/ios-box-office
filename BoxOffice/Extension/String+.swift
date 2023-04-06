@@ -19,12 +19,12 @@ extension String {
         return formattedNumber
     }
     
-    func formatDateString() -> String? {
+    func formatDateString(format: String) -> String? {
         let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = "yyyyMMdd"
         
         guard let date = dateFormatter.date(from: self) else { return nil }
-        dateFormatter.dateFormat = "yyyy-MM-dd"
+        dateFormatter.dateFormat = format
         
         return dateFormatter.string(from: date)
     }

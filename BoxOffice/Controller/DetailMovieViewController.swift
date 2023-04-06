@@ -133,21 +133,18 @@ final class DetailMovieViewController: UIViewController {
         }
     }
     
-    private func fetchMoviePosterData(movieName: String, completionHandler: @escaping () -> Void) {
+    private func fetchMoviePosterData(movieName: String, completion: @escaping () -> Void) {
         guard let posterRequest = urlMaker.makeMoviePosterURLRequest(movieName: movieName) else { return }
         
         server.startLoad(request: posterRequest, mime: "json") { [weak self] result in
             let decoder = DecodeManager()
-            do {
-                guard let verifiedFetchingResult = try self?.verifyResult(result: result) else { return }
-                let decodedFile = decoder.decodeJSON(data: verifiedFetchingResult, type: MoviePoster.self)
-                let verifiedDecodingResult = try self?.verifyResult(result: decodedFile)
-                
-                self?.moviePoster = verifiedDecodingResult
-                completionHandler()
-            } catch {
-                print(error.localizedDescription)
-            }
+            
+            guard let verifiedFetchingResult = try? self?.verifyResult(result: result) else { return }
+            let decodedFile = decoder.decodeJSON(data: verifiedFetchingResult, type: MoviePoster.self)
+            let verifiedDecodingResult = try? self?.verifyResult(result: decodedFile)
+            
+            self?.moviePoster = verifiedDecodingResult
+            completion()
         }
     }
     
@@ -213,7 +210,7 @@ final class DetailMovieViewController: UIViewController {
         let genre = movieInformation?.genres.map { $0.genreName }.joined(separator: ", ").formatEmptyString()
         let actor = movieInformation?.actors.map { $0.peopleName }.joined(separator: ", ").formatEmptyString()
         let productYear = movieInformation?.productYear
-        let openDate = movieInformation?.openDate.formatDateString()
+        let openDate = movieInformation?.openDate.formatDateString(format: DateFormat.yearMonthDay)
         let showTime = movieInformation?.showTime
         
         let stackViews = contentStackView.arrangedSubviews.compactMap{ $0 as? UIStackView }
