@@ -16,7 +16,7 @@ final class BoxOfficeViewController: UIViewController {
     private var selectedDate = Date(timeIntervalSinceNow: -86400) {
         didSet {
             navigationItem.title = DateFormatter.hyphenText(date: selectedDate)
-            loadData()
+            loadInitialData()
         }
     }
     
@@ -32,25 +32,9 @@ final class BoxOfficeViewController: UIViewController {
         super.viewDidLoad()
         
         configureInitialView()
-        loadData()
+        loadInitialData()
     }
     
-<<<<<<< HEAD:BoxOffice/Controller/BoxOfficeViewController.swift
-    private func configureInitialView() {
-        navigationItem.title = DateFormatter.hyphenText(date: selectedDate)
-        self.view.addSubview(activityIndicator)
-        refreshControl.addTarget(self, action: #selector(refreshData), for: .valueChanged)
-        configureCollectionView()
-    }
-    
-    private func loadData() {
-        activityIndicator.startAnimating()
-        
-        fetchDailyBoxOffice { [weak self] in
-            guard let self = self else { return }
-            
-            self.activityIndicator.stopAnimating()
-=======
     @objc private func refreshData() {
         loadData { [weak self] in
             self?.refreshControl.endRefreshing()
@@ -66,7 +50,7 @@ final class BoxOfficeViewController: UIViewController {
     }
     
     private func loadData(completion: @escaping () -> ()) {
-        boxOfficeDataLoader.loadDailyBoxOffice { boxOffice, error in
+        boxOfficeDataLoader.loadDailyBoxOffice(date: selectedDate) { boxOffice, error in
             DispatchQueue.main.async { [weak self] in
                 guard let error = error else {
                     self?.boxOffice = boxOffice
@@ -78,7 +62,6 @@ final class BoxOfficeViewController: UIViewController {
                 self?.showFailAlert(error: error)
                 completion()
             }
->>>>>>> step4:BoxOffice/View/BoxOfficeViewController.swift
         }
     }
     
@@ -93,7 +76,7 @@ final class BoxOfficeViewController: UIViewController {
         
         return UICollectionViewCompositionalLayout.list(using: config)
     }
-
+    
     private func configureCollectionView() {
         collectionView.refreshControl = refreshControl
         collectionView.dataSource = self
@@ -102,35 +85,11 @@ final class BoxOfficeViewController: UIViewController {
         registerXib()
     }
     
-<<<<<<< HEAD:BoxOffice/Controller/BoxOfficeViewController.swift
-    private func fetchDailyBoxOffice(completion: @escaping () -> Void) {
-        let nonHyphenText = DateFormatter.nonHyphenText(date: selectedDate)
-        let endPoint: BoxOfficeEndpoint = .fetchDailyBoxOffice(targetDate: nonHyphenText)
-        
-        networkManager.fetchData(request: endPoint.createRequest(), type: BoxOffice.self) {
-            result in
-            DispatchQueue.main.async { [weak self] in
-                guard let self = self else { return }
-                
-                switch result {
-                case .success(let data):
-                    self.boxOffice = data
-                    self.collectionView.reloadData()
-                case .failure(let error):
-                    print(error.localizedDescription)
-                    self.showFailAlert(error: error)
-                }
-                completion()
-            }
-        }
-    }
-    
-    @objc private func refreshData() {
-        fetchDailyBoxOffice { [weak self] in
-            guard let self = self else { return }
-            
-            self.refreshControl.endRefreshing()
-        }
+    private func configureInitialView() {
+        navigationItem.title = DateFormatter.hyphenText(date: selectedDate)
+        self.view.addSubview(activityIndicator)
+        refreshControl.addTarget(self, action: #selector(refreshData), for: .valueChanged)
+        configureCollectionView()
     }
     
     @IBAction private func chooseDateButtonTapped(_ sender: UIBarButtonItem) {
@@ -144,13 +103,6 @@ final class BoxOfficeViewController: UIViewController {
         }) {
             self.present(calendarVC, animated: true)
         }
-=======
-    private func configureInitialView() {
-        navigationItem.title = DateFormatter.yesterdayText(format: .hyphen)
-        self.view.addSubview(activityIndicator)
-        refreshControl.addTarget(self, action: #selector(refreshData), for: .valueChanged)
-        configureCollectionView()
->>>>>>> step4:BoxOffice/View/BoxOfficeViewController.swift
     }
 }
 
@@ -165,7 +117,7 @@ extension BoxOfficeViewController: UICollectionViewDataSource {
         guard let cell = collectionView.dequeueReusableCell(
             withReuseIdentifier: BoxOfficeCollectionViewListCell.identifier,
             for: indexPath) as? BoxOfficeCollectionViewListCell,
-                let item = boxOffice?.boxOfficeResult.dailyBoxOfficeList[safe: indexPath.item] else {
+              let item = boxOffice?.boxOfficeResult.dailyBoxOfficeList[safe: indexPath.item] else {
             return UICollectionViewCell()
         }
         

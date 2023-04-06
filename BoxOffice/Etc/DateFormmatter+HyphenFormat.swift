@@ -25,7 +25,7 @@ extension DateFormatter {
     static let dateFormatter = DateFormatter()
     
     static func nonHyphenText(date: Date) -> String {
-        dateFormatter.dateFormat = DateFormat.nonHyphen.rawValue
+        dateFormatter.dateFormat = DateFormat.nonHyphen.expression
         
         return dateFormatter.string(from: date)
     }
@@ -41,7 +41,7 @@ extension DateFormatter {
     }
     
     static func hyphenText(date: Date) -> String {
-        dateFormatter.dateFormat = DateFormat.hyphen.rawValue
+        dateFormatter.dateFormat = DateFormat.hyphen.expression
 
         return dateFormatter.string(from: date)
     }

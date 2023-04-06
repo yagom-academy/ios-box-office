@@ -10,12 +10,9 @@ import UIKit
 final class BoxOfficeDataLoader {
     private let networkManager = NetworkManager()
     
-    func loadDailyBoxOffice(completion: @escaping (BoxOffice?, Error?) -> ()) {
-        guard let yesterdayText = DateFormatter.yesterdayText(format: .nonHyphen) else {
-            return
-        }
-        
-        let endPoint: BoxOfficeEndpoint = .fetchDailyBoxOffice(targetDate: yesterdayText)
+    func loadDailyBoxOffice(date: Date, completion: @escaping (BoxOffice?, Error?) -> ()) {
+        let dateText = DateFormatter.nonHyphenText(date: date)
+        let endPoint: BoxOfficeEndpoint = .fetchDailyBoxOffice(targetDate: dateText)
         
         networkManager.fetchData(request: endPoint.createRequest(), type: BoxOffice.self) {
             result in
