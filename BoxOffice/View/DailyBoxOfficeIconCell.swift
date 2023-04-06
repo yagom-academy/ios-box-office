@@ -23,6 +23,17 @@ final class DailyBoxOfficeIconCell: UICollectionViewCell {
         fatalError("init(coder:) has not been implemented")
     }
     
+    override func prepareForReuse() {
+        super.prepareForReuse()
+        rankDifferenceLabel.textColor = .black
+    }
+    
+    func updateData(with newDailyBoxOfficeData: DailyBoxOfficeMovie) {
+        guard dailyBoxOfficeData != newDailyBoxOfficeData else { return }
+        
+        dailyBoxOfficeData = newDailyBoxOfficeData
+    }
+    
     private func configureLayoutConstraints() {
         let dailyBoxOfficeStackView = {
             let stackView = UIStackView()

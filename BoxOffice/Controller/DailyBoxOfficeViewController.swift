@@ -19,6 +19,7 @@ final class DailyBoxOfficeViewController: UIViewController {
         return Date(timeIntervalSinceNow: 3600 * -24)
     }
     private var targetDate: Date?
+    private var collectionViewMode = CollectionViewMode.icon
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -52,7 +53,7 @@ final class DailyBoxOfficeViewController: UIViewController {
         navigationController?.present(calendarViewController, animated: true)
         calendarViewController.delegate = self
     }
-
+    
     private func configureCollectionView() {
         collectionView.translatesAutoresizingMaskIntoConstraints = false
         
@@ -65,7 +66,7 @@ final class DailyBoxOfficeViewController: UIViewController {
         
         collectionView.delegate = self
     }
-
+    
     private func configureDataSource() {
         let cellRegistration = UICollectionView.CellRegistration<DailyBoxOfficeListCell, DailyBoxOfficeMovie> { cell, indexPath, item in
             cell.updateData(with: item)
@@ -138,14 +139,42 @@ final class DailyBoxOfficeViewController: UIViewController {
     }
     
     private func collectionViewLayout() -> UICollectionViewCompositionalLayout {
-        let configuration = UICollectionLayoutListConfiguration(appearance: .plain)
-        let layout = UICollectionViewCompositionalLayout.list(using: configuration)
+        switch collectionViewMode {
+        case .list:
+            let configuration = UICollectionLayoutListConfiguration(appearance: .plain)
+            let layout = UICollectionViewCompositionalLayout.list(using: configuration)
+            
+            return layout
+        case .icon:
+            return createIconLayout()
+        }
+    }
+    
+    private func createIconLayout() -> UICollectionViewCompositionalLayout {
+        let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(0.5),
+                                              heightDimension: .fractionalHeight(0.2))
+        let item = NSCollectionLayoutItem(layoutSize: itemSize)
+        item.contentInsets = NSDirectionalEdgeInsets(top: 8, leading: 8, bottom: 8, trailing: 8)
+        
+        let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0),
+                                               heightDimension: .fractionalHeight(0.2))
+        let group = NSCollectionLayoutGroup.horizontal(layoutSize: groupSize,
+                                                         subitems: [item])
+        
+        let section = NSCollectionLayoutSection(group: group)
+        
+        let layout = UICollectionViewCompositionalLayout(section: section)
         
         return layout
     }
     
     private enum Section {
         case main
+    }
+    
+    private enum CollectionViewMode {
+        case list
+        case icon
     }
 }
 
@@ -176,3 +205,4 @@ extension DailyBoxOfficeViewController: CalendarViewControllerDelegate {
         loadDailyBoxOffice(date: date)
     }
 }
+
