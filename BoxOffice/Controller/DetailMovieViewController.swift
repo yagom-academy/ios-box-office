@@ -46,44 +46,6 @@ final class DetailMovieViewController: UIViewController {
         return imageView
     }()
     
-    private let infoStackView: (String, Int) -> UIStackView = { title, tag in
-        let titleLabel: UILabel = {
-            let label = UILabel()
-            label.text = title
-            label.font = .boldSystemFont(ofSize: 17)
-            label.textAlignment = .center
-            
-            return label
-        }()
-        
-        let contextLabel: UILabel = {
-            let label = UILabel()
-            label.font = .systemFont(ofSize: 17)
-            label.textAlignment = .left
-            label.numberOfLines = 0
-            label.tag = LabelTag.contextLabel
-            
-            return label
-        }()
-        
-        let stackView: UIStackView = {
-            let stackView = UIStackView(arrangedSubviews: [titleLabel, contextLabel])
-            stackView.axis = .horizontal
-            stackView.alignment = .fill
-            stackView.distribution = .fill
-            stackView.spacing = 10
-            stackView.tag = tag
-            
-            return stackView
-        }()
-        
-        NSLayoutConstraint.activate([
-            titleLabel.widthAnchor.constraint(equalTo: stackView.widthAnchor, multiplier: 0.17),
-        ])
-        
-        return stackView
-    }
-    
     // MARK: - Method
     init(movieCode: String) {
         self.movieCode = movieCode
@@ -96,7 +58,7 @@ final class DetailMovieViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+        let viewa = CustomStackView(title: "ddd")
         configureViewController()
     }
     
@@ -167,7 +129,6 @@ final class DetailMovieViewController: UIViewController {
     private func configureMainView() {
         title = movieInformation?.movieName
         configureUI()
-        //configureContentStackView()
         configureLayout()
     }
     
@@ -204,11 +165,11 @@ final class DetailMovieViewController: UIViewController {
     }
     
     private func configureContentStackView() {
-        let director = movieInformation?.directors.map { $0.peopleName }.joined(separator: ", ").formatEmptyString()
-        let watchGrade = movieInformation?.audits.map { $0.watchGradeName }.joined(separator: ", ").formatEmptyString()
-        let nation = movieInformation?.nations.map { $0.nationName }.joined(separator: ", ").formatEmptyString()
-        let genre = movieInformation?.genres.map { $0.genreName }.joined(separator: ", ").formatEmptyString()
-        let actor = movieInformation?.actors.map { $0.peopleName }.joined(separator: ", ").formatEmptyString()
+        let director = movieInformation?.directors.map(\.peopleName).joined(separator: ", ").formatEmptyString()
+        let watchGrade = movieInformation?.audits.map(\.watchGradeName).joined(separator: ", ").formatEmptyString()
+        let nation = movieInformation?.nations.map(\.nationName).joined(separator: ", ").formatEmptyString()
+        let genre = movieInformation?.genres.map(\.genreName).joined(separator: ", ").formatEmptyString()
+        let actor = movieInformation?.actors.map(\.peopleName).joined(separator: ", ").formatEmptyString()
         let productYear = movieInformation?.productYear
         let openDate = movieInformation?.openDate.formatDateString(format: DateFormat.yearMonthDay)
         let showTime = movieInformation?.showTime
