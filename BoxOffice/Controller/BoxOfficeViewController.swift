@@ -9,40 +9,60 @@ import UIKit
 
 final class BoxOfficeViewController: UIViewController {
     private var boxOffice: BoxOffice?
-    private lazy var collectionView = UICollectionView(frame: view.bounds,
-                                                       collectionViewLayout: UICollectionViewFlowLayout())
     private let networkManager = NetworkManager()
-    private let dateFormatter = DateFormatter()
+    private lazy var collectionView = UICollectionView(frame: .zero,
+                                                       collectionViewLayout: UICollectionViewFlowLayout())
+    
+    private let dateFormatterWithHyphen = {
+        let formatter = DateFormatter()
+        
+        formatter.dateFormat = "yyyy-MM-dd"
+        
+        return formatter
+    }()
+    
+    private let dateFormatterWithoutHyphen = {
+        let formatter = DateFormatter()
+        
+        formatter.dateFormat = "yyyyMMdd"
+        
+        return formatter
+    }()
+    
+    private let loadingView: LoadingView = {
+        let view = LoadingView()
+        
+        view.translatesAutoresizingMaskIntoConstraints = false
+        
+        return view
+      }()
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        view.backgroundColor = .systemBackground
-        navigationItem.title = Date().showYesterdayDate(formatter: dateFormatter, in: .existHyphen)
         
-        collectionView.dataSource = self
-        collectionView.delegate = self
-        
-        fetchBoxOffice()
+        configureUIOption()
+        fetchBoxOffice(targetDate: Date().showYesterdayDate(formatter: dateFormatterWithoutHyphen))
         configureCollectionView()
         configureRefreshControl()
     }
     
-    private func fetchBoxOffice() {
-        var api = BoxOfficeURLRequest(service: .dailyBoxOffice)
-        let queryName = "targetDt"
-        let queryValue = Date().showYesterdayDate(formatter: dateFormatter, in: .notHyphen)
-        
-        api.addQuery(name: queryName, value: queryValue)
-        
-        let urlRequest = api.request()
+    private func configureUIOption() {
+        loadingView.isLoading = true
+        view.backgroundColor = .systemBackground
+        navigationItem.title = Date().showYesterdayDate(formatter: dateFormatterWithHyphen)
+    }
+    
+    private func fetchBoxOffice(targetDate: String) {
+        let urlRequest = EndPoint.dailyBoxOffice(date: targetDate).asURLRequest()
         
         networkManager.fetchData(urlRequest: urlRequest, type: BoxOffice.self) { [weak self] result in
             switch result {
-            case .success(let data):
-                self?.boxOffice = data
+            case .success(let boxOfficeInfo):
+                self?.boxOffice = boxOfficeInfo
                 
                 DispatchQueue.main.async {
                     self?.collectionView.reloadData()
+                    self?.loadingView.isLoading = false
                 }
             case .failure(let error):
                 DispatchQueue.main.async {
@@ -64,7 +84,12 @@ final class BoxOfficeViewController: UIViewController {
 
 extension BoxOfficeViewController {
     private func configureCollectionView() {
+        collectionView.dataSource = self
+        collectionView.delegate = self
+        
         view.addSubview(collectionView)
+        view.addSubview(loadingView)
+        
         collectionView.translatesAutoresizingMaskIntoConstraints = false
         
         NSLayoutConstraint.activate([
@@ -72,6 +97,11 @@ extension BoxOfficeViewController {
             collectionView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
             collectionView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
             collectionView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+            
+            loadingView.leftAnchor.constraint(equalTo: self.collectionView.leftAnchor),
+            loadingView.rightAnchor.constraint(equalTo: self.collectionView.rightAnchor),
+            loadingView.bottomAnchor.constraint(equalTo: self.collectionView.bottomAnchor),
+            loadingView.topAnchor.constraint(equalTo: self.collectionView.topAnchor),
         ])
         
         collectionView.register(BoxOfficeCell.self, forCellWithReuseIdentifier: BoxOfficeCell.identifier)
@@ -89,12 +119,11 @@ extension BoxOfficeViewController {
     }
     
     @objc private func handleRefreshControl() {
-        fetchBoxOffice()
+        guard let date = navigationItem.title?.removeHyphen() else { return }
+        
+        fetchBoxOffice(targetDate: date)
         
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.7) { [weak self] in
-            guard let dateFormatter = self?.dateFormatter else { return }
-            
-            self?.navigationItem.title = Date().showYesterdayDate(formatter: dateFormatter, in: .existHyphen)
             self?.collectionView.refreshControl?.endRefreshing()
         }
     }
@@ -111,11 +140,9 @@ extension BoxOfficeViewController: UICollectionViewDataSource {
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: BoxOfficeCell.identifier, for: indexPath) as? BoxOfficeCell,
-              let boxOfficeItem = boxOffice?.result.dailyBoxOfficeList[indexPath.item] else { return UICollectionViewCell() }
-        
-        cell.configureBoxOfficeStackView()
-        cell.configureLabels(data: boxOfficeItem)
-        cell.drawCellBorder()
+              let boxOfficeItem = boxOffice?.result.dailyBoxOfficeList[safe: indexPath.item] else { return UICollectionViewCell() }
+
+        cell.configure(with: boxOfficeItem)
         
         return cell
     }
@@ -130,5 +157,10 @@ extension BoxOfficeViewController: UICollectionViewDelegateFlowLayout {
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
         return 0
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        let movieInfoViewController = MovieInfoViewController(movieCode: boxOffice?.result.dailyBoxOfficeList[safe: indexPath.item]?.movieCode ?? "")
+        navigationController?.pushViewController(movieInfoViewController, animated: true)
     }
 }

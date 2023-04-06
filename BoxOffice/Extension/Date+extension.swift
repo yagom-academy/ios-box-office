@@ -8,24 +8,8 @@
 import Foundation
 
 extension Date {
-    enum HyphenStatus {
-        case existHyphen
-        case notHyphen
-        
-        var format: String {
-            switch self {
-            case .existHyphen:
-                return "yyyy-MM-dd"
-            case .notHyphen:
-                return "yyyyMMdd"
-            }
-        }
-    }
-    
-    func showYesterdayDate(formatter: DateFormatter, in status: HyphenStatus) -> String {
+    func showYesterdayDate(formatter: DateFormatter) -> String {
         let yesterday = Date().addingTimeInterval(3600 * -24)
-        
-        formatter.dateFormat = status.format
         
         guard let value = formatter.string(for: yesterday) else { return "" }
         
