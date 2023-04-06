@@ -8,14 +8,13 @@
 import UIKit
 
 final class MovieDescManager {
-    let movieApiType: APIType
-    let movieImageApiType: APIType
     let boxofficeInfo: BoxofficeInfo<MovieInfoObject>
     let movieImage: BoxofficeInfo<MovieImageObject>
     
     init(movieCode: String, movieName: String, session: URLSession = URLSession.shared) {
-        self.movieApiType = .movie(movieCode)
-        self.movieImageApiType = .movieImage(movieName)
+        let movieApiType = APIType.movie(movieCode)
+        let movieImageApiType = APIType.movieImage(movieName)
+        
         self.boxofficeInfo = BoxofficeInfo<MovieInfoObject>(apiType: movieApiType, model: NetworkModel(session: session))
         self.movieImage = BoxofficeInfo<MovieImageObject>(apiType: movieImageApiType, model: NetworkModel(session: session))
     }
