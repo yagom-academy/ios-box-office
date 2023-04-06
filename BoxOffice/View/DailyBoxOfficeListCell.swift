@@ -65,13 +65,13 @@ final class DailyBoxOfficeListCell: UICollectionViewListCell {
         guard let dailyBoxOfficeData = self.dailyBoxOfficeData else { return }
         let textMaker = TextMaker(data: dailyBoxOfficeData)
         
-        configureContentView(with: textMaker, state: state)
+        configureContentView(with: textMaker)
         configureRankLabel(with: textMaker)
         configureRankDifferenceLabel(with: textMaker)
     }
     
-    private func configureContentView(with textMaker: TextMaker, state: UICellConfigurationState) {
-        var content = defaultContentConfiguration().updated(for: state)
+    private func configureContentView(with textMaker: TextMaker) {
+        var content = defaultContentConfiguration()
         content.text = textMaker.movieTitle
         content.textProperties.font = UIFont.preferredFont(forTextStyle: .title3)
         
