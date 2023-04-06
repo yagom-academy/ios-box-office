@@ -13,12 +13,13 @@ final class MovieDetailViewController: UIViewController {
     var movieName: String = ""
     var movieCode: String = ""
     private lazy var dataManager = MovieDescManager(movieCode: movieCode, movieName: movieName)
+    private let dispatchGroup = DispatchGroup()
     
     // MARK: - UI Properties
     private let scrollView = {
         let scrollView = UIScrollView()
         scrollView.translatesAutoresizingMaskIntoConstraints = false
-    
+        
         return scrollView
     }()
     
@@ -32,16 +33,19 @@ final class MovieDetailViewController: UIViewController {
     
     private let descStackView = DescStackView()
     private let loadingView = UIActivityIndicatorView()
-
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         configureUI()
         startLoading()
         fetchImage()
         fetchData()
+        stopLoading()
     }
     
     private func fetchData() {
+        dispatchGroup.enter()
+        
         dataManager.boxofficeInfo.fetchData { [weak self] result in
             switch result {
             case .success(let data):
@@ -54,10 +58,13 @@ final class MovieDetailViewController: UIViewController {
                     self?.presentErrorAlert(error: error, title: "영화 상세 정보")
                 }
             }
+            self?.dispatchGroup.leave()
         }
     }
     
     private func fetchImage() {
+        dispatchGroup.enter()
+        
         dataManager.fetchMoviePosterImage { [weak self] result in
             DispatchQueue.main.async {
                 switch result {
@@ -67,7 +74,7 @@ final class MovieDetailViewController: UIViewController {
                 case .failure(let error):
                     self?.presentErrorAlert(error: error, title: "영화 포스터 이미지")
                 }
-                self?.stopLoading()
+                self?.dispatchGroup.leave()
             }
         }
     }
@@ -81,12 +88,17 @@ final class MovieDetailViewController: UIViewController {
     
     private func startLoading() {
         loadingView.startAnimating()
+        posterImageView.isHidden = true
         descStackView.isHidden = true
     }
     
+    
     private func stopLoading() {
-        loadingView.stopAnimating()
-        descStackView.isHidden = false
+        dispatchGroup.notify(queue: .main) {
+            self.loadingView.stopAnimating()
+            self.posterImageView.isHidden = false
+            self.descStackView.isHidden = false
+        }
     }
 }
 
@@ -96,7 +108,7 @@ extension MovieDetailViewController {
     private func configureUI() {
         view.backgroundColor = .systemBackground
         navigationItem.title = movieName
-    
+        
         configureScrollView()
         configurePosterImageView()
         configureDescStackView()
