@@ -42,10 +42,14 @@ final class MovieInfoView: UIView {
         
         titleLabel.translatesAutoresizingMaskIntoConstraints = false
         titleLabel.textAlignment = .center
-        titleLabel.font = .systemFont(ofSize: 16, weight: .bold)
+        titleLabel.font = UIFont.preferredFont(forTextStyle: .headline)
+        titleLabel.numberOfLines = 0
+        titleLabel.adjustsFontForContentSizeCategory = true
         
         contentLabel.translatesAutoresizingMaskIntoConstraints = false
         contentLabel.font = .systemFont(ofSize: 16)
+        contentLabel.font = UIFont.preferredFont(forTextStyle: .body)
+        contentLabel.adjustsFontForContentSizeCategory = true
     }
     
 }
