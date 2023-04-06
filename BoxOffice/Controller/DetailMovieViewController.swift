@@ -31,8 +31,6 @@ final class DetailMovieViewController: UIViewController {
     private let contentStackView: UIStackView = {
         let stackView = UIStackView()
         stackView.axis = .vertical
-        stackView.alignment = .fill
-        stackView.distribution = .fill
         stackView.spacing = 15
         stackView.translatesAutoresizingMaskIntoConstraints = false
         
@@ -179,15 +177,9 @@ final class DetailMovieViewController: UIViewController {
         let genresStackView = makeInfoStackView(title: "장르", context: genre)
         let actorsStackView = makeInfoStackView(title: "배우", context: actor)
         
-        contentStackView.addArrangedSubview(imageView)
-        contentStackView.addArrangedSubview(directorStackView)
-        contentStackView.addArrangedSubview(productYearStackView)
-        contentStackView.addArrangedSubview(openDateStackView)
-        contentStackView.addArrangedSubview(showTimeStackView)
-        contentStackView.addArrangedSubview(watchGradeStackView)
-        contentStackView.addArrangedSubview(nationStackView)
-        contentStackView.addArrangedSubview(genresStackView)
-        contentStackView.addArrangedSubview(actorsStackView)
+        [imageView, directorStackView, productYearStackView, openDateStackView, showTimeStackView, watchGradeStackView, nationStackView, genresStackView, actorsStackView].forEach { view in
+            contentStackView.addArrangedSubview(view)
+        }
     }
     
     private func makeInfoStackView(title: String, context: String?) -> UIStackView  {
