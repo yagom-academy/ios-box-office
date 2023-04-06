@@ -21,16 +21,7 @@ final class MovieRankingViewController: UIViewController {
     // MARK: UI Properties
     private let loadingView = UIActivityIndicatorView()
     private let refreshController = UIRefreshControl()
-    private lazy var collectionView = {
-        let configuration = UICollectionLayoutListConfiguration(appearance: .plain)
-        let layout = UICollectionViewCompositionalLayout.list(using: configuration)
-        let collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
-        
-        collectionView.delegate = self
-        collectionView.register(MovieRankingCell.self, forCellWithReuseIdentifier: MovieRankingCell.identifier)
-        
-        return collectionView
-    }()
+    private var collectionView: UICollectionView?
     
     // MARK: DataSource Properties
     private var dataSource: UICollectionViewDiffableDataSource<APIType, InfoObject>?
@@ -52,7 +43,7 @@ final class MovieRankingViewController: UIViewController {
                 DispatchQueue.main.async {
                     self.applySnapshot()
                     self.stopLoadingView()
-                    self.collectionView.refreshControl?.endRefreshing()
+                    self.collectionView?.refreshControl?.endRefreshing()
                 }
             case .failure(let error):
                 DispatchQueue.main.async {
@@ -72,7 +63,7 @@ final class MovieRankingViewController: UIViewController {
     
     private func configureRefreshController() {
         refreshController.addTarget(self, action: #selector(refreshCollectionView), for: .valueChanged)
-        collectionView.refreshControl = refreshController
+        collectionView?.refreshControl = refreshController
     }
     
     @objc private func refreshCollectionView() {
@@ -97,6 +88,9 @@ extension MovieRankingViewController {
     private func configureUI() {
         view.backgroundColor = .systemBackground
         
+        let layout = makeCollectionViewListLayout()
+        
+        collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
         configureCollectionViewLayout()
         configureLoadingView()
         
@@ -110,7 +104,16 @@ extension MovieRankingViewController {
         view.addSubview(loadingView)
     }
     
+    func makeCollectionViewListLayout() -> UICollectionViewCompositionalLayout {
+        let configuration = UICollectionLayoutListConfiguration(appearance: .plain)
+        let layout = UICollectionViewCompositionalLayout.list(using: configuration)
+        
+        return layout
+    }
+    
     private func makeDataSource() {
+        guard let collectionView = collectionView else { return }
+        
         dataSource = UICollectionViewDiffableDataSource<APIType, InfoObject>(collectionView: collectionView, cellProvider: { collectionView, indexPath, itemIdentifier in
             guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: MovieRankingCell.identifier, for: indexPath) as? MovieRankingCell else { return UICollectionViewListCell() }
             
@@ -132,9 +135,13 @@ extension MovieRankingViewController {
     }
 
     private func configureCollectionViewLayout() {
+        guard let collectionView = collectionView else { return }
+        
         view.addSubview(collectionView)
         
         collectionView.translatesAutoresizingMaskIntoConstraints = false
+        collectionView.delegate = self
+        collectionView.register(MovieRankingCell.self, forCellWithReuseIdentifier: MovieRankingCell.identifier)
         
         NSLayoutConstraint.activate([
             collectionView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),

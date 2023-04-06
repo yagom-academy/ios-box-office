@@ -39,8 +39,6 @@
 		71C59E3729D41B440016E247 /* MovieRankingCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71C59E3629D41B440016E247 /* MovieRankingCell.swift */; };
 		71D8B04A29D56CC80005A625 /* Date+extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71D8B04929D56CC80005A625 /* Date+extension.swift */; };
 		71E6434F29DAA38C001F733E /* MovieImageObject.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71E6434E29DAA38C001F733E /* MovieImageObject.swift */; };
-		71E6435129DAC3E6001F733E /* CategoryLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71E6435029DAC3E6001F733E /* CategoryLabel.swift */; };
-		71E6435329DAC677001F733E /* ContentLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71E6435229DAC677001F733E /* ContentLabel.swift */; };
 		71E6435529DAC832001F733E /* ContentStackView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71E6435429DAC832001F733E /* ContentStackView.swift */; };
 		71EDC4A029DBEE2900510E15 /* MovieInfoUIModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71EDC49F29DBEE2900510E15 /* MovieInfoUIModel.swift */; };
 		71EDC4A229DC0CE800510E15 /* ViewController+extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71EDC4A129DC0CE800510E15 /* ViewController+extension.swift */; };
@@ -101,8 +99,6 @@
 		71C59E3629D41B440016E247 /* MovieRankingCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MovieRankingCell.swift; sourceTree = "<group>"; };
 		71D8B04929D56CC80005A625 /* Date+extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Date+extension.swift"; sourceTree = "<group>"; };
 		71E6434E29DAA38C001F733E /* MovieImageObject.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MovieImageObject.swift; sourceTree = "<group>"; };
-		71E6435029DAC3E6001F733E /* CategoryLabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryLabel.swift; sourceTree = "<group>"; };
-		71E6435229DAC677001F733E /* ContentLabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentLabel.swift; sourceTree = "<group>"; };
 		71E6435429DAC832001F733E /* ContentStackView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentStackView.swift; sourceTree = "<group>"; };
 		71EDC49F29DBEE2900510E15 /* MovieInfoUIModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MovieInfoUIModel.swift; sourceTree = "<group>"; };
 		71EDC4A129DC0CE800510E15 /* ViewController+extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ViewController+extension.swift"; sourceTree = "<group>"; };
@@ -211,15 +207,6 @@
 			path = Manager;
 			sourceTree = "<group>";
 		};
-		26F9105C29DC241F0042B22C /* UILabel */ = {
-			isa = PBXGroup;
-			children = (
-				71E6435029DAC3E6001F733E /* CategoryLabel.swift */,
-				71E6435229DAC677001F733E /* ContentLabel.swift */,
-			);
-			path = UILabel;
-			sourceTree = "<group>";
-		};
 		26F9105D29DC24290042B22C /* UIStackView */ = {
 			isa = PBXGroup;
 			children = (
@@ -320,7 +307,6 @@
 			isa = PBXGroup;
 			children = (
 				26F9105D29DC24290042B22C /* UIStackView */,
-				26F9105C29DC241F0042B22C /* UILabel */,
 				71C59E3629D41B440016E247 /* MovieRankingCell.swift */,
 			);
 			path = View;
@@ -480,11 +466,9 @@
 				71D8B04A29D56CC80005A625 /* Date+extension.swift in Sources */,
 				7113202729C8333900B5A9DB /* BoxofficeResultObject.swift in Sources */,
 				63DF20EF2970E1A0005DF7D1 /* AppDelegate.swift in Sources */,
-				71E6435329DAC677001F733E /* ContentLabel.swift in Sources */,
 				26B6853A29C986C5001580FF /* MovieInfoObject.swift in Sources */,
 				71A0A45B29C9931B006D3932 /* BoxofficeError.swift in Sources */,
 				7180BC3A29C9547A00C9E70B /* Bundle+extension.swift in Sources */,
-				71E6435129DAC3E6001F733E /* CategoryLabel.swift in Sources */,
 				7139126629C821BF00E54F5E /* InfoObject.swift in Sources */,
 				71C59E3729D41B440016E247 /* MovieRankingCell.swift in Sources */,
 				63DF20F12970E1A0005DF7D1 /* SceneDelegate.swift in Sources */,
