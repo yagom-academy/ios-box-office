@@ -94,6 +94,3 @@ extension CalendarViewController: UICalendarSelectionSingleDateDelegate {
     }
 }
 
-protocol CalendarViewControllerDelegate: AnyObject {
-    func changeTarget(date: Date)
-}
