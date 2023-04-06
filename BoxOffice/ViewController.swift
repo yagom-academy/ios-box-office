@@ -98,15 +98,23 @@ final class ViewController: UIViewController {
     }
     
     private func configureDataSource() {
-        let cellRegistration = UICollectionView.CellRegistration<MovieListCell, ListItem> { cell, indexPath, movie in
-            
+        let listCellRegistration = UICollectionView.CellRegistration<MovieListCell, ListItem> { cell, indexPath, movie in
             cell.updateCell(with: movie)
             cell.accessories = [.disclosureIndicator()]
         }
         
+        let iconCellRegistration = UICollectionView.CellRegistration<MovieIconCell, ListItem> { cell, indexPath, movie in
+            cell.updateCell(with: movie)
+        }
+        
         dataSource = UICollectionViewDiffableDataSource<ListSection, ListItem>(collectionView: collectionView) { collectionView, indexPath, movie -> UICollectionViewCell? in
-            let cell = collectionView.dequeueConfiguredReusableCell(using: cellRegistration, for: indexPath, item: movie)
-            return cell
+            if self.currentViewOption == .list {
+                let cell = collectionView.dequeueConfiguredReusableCell(using: listCellRegistration, for: indexPath, item: movie)
+                return cell
+            } else {
+                let cell = collectionView.dequeueConfiguredReusableCell(using: iconCellRegistration, for: indexPath, item: movie)
+                return cell
+            }
         }
     }
     
