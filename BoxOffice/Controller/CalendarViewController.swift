@@ -15,6 +15,10 @@ class CalendarViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         view = calendarView
+        setCalendarViewSelectionBehavior()
+    }
+    
+    private func setCalendarViewSelectionBehavior() {
         let selection = UICalendarSelectionSingleDate(delegate: self)
         calendarView.selectionBehavior = selection
     }
