@@ -10,6 +10,7 @@ import UIKit
 final class MovieDescManager {
     let boxofficeInfo: BoxofficeInfo<MovieInfoObject>
     let movieImage: BoxofficeInfo<MovieImageObject>
+    var imageDocument: Document?
     
     init(movieCode: String, movieName: String, session: URLSession = URLSession.shared) {
         let movieApiType = APIType.movie(movieCode)
@@ -20,17 +21,28 @@ final class MovieDescManager {
     }
     
     func fetchMoviePosterImage(handler: @escaping (Result<(UIImage, Int, Int), BoxofficeError>) -> Void) {
+        let dispatchGroup = DispatchGroup()
+    
+        dispatchGroup.enter()
+
         movieImage.fetchData { [weak self] result in
             switch result {
             case .success(let data):
-                guard let urlText = data.documents.first else {
+                guard let document = data.documents.first else {
                     return handler(.failure(.imageVaildError))
                 }
-                
-                self?.fetchImage(imageUrlText: urlText.url, width: urlText.width, height: urlText.height, handler: handler)
+                self?.imageDocument = document
+                dispatchGroup.leave()
             case .failure(let error):
                 handler(.failure(error))
             }
+        }
+    
+        dispatchGroup.notify(queue: .global()) {
+            guard let imageDocument = self.imageDocument else {
+                return
+            }
+            self.fetchImage(imageUrlText: imageDocument.url, width: imageDocument.width, height: imageDocument.height, handler: handler)
         }
     }
     
