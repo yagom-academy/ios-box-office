@@ -13,6 +13,7 @@ final class BoxOfficeViewController: UIViewController {
     }
     
     var dataSource: UICollectionViewDiffableDataSource<Section, BoxOfficeItem.ID>! = nil
+    
     var collectionView: UICollectionView! = nil
     var boxOfficeItems: [BoxOfficeItem] = []
     private var snapshot = NSDiffableDataSourceSnapshot<Section, BoxOfficeItem.ID>()
@@ -101,7 +102,10 @@ final class BoxOfficeViewController: UIViewController {
     }
     
     @objc private func presentScreenMode() {
-        self.present(AlertManager.shared.showScreenMode(), animated: true)
+        self.configureDataSource(for: .grid)
+        self.collectionView.setCollectionViewLayout(createLayout(for: .grid), animated: false)
+        
+        dataSource.apply(snapshot, animatingDifferences: true)
     }
     
     private func fetchDailyBoxOffice(from date: Date?) {
@@ -231,43 +235,33 @@ extension BoxOfficeViewController {
     }
     
     private func configureDataSource(for layout: LayoutType = .list) {
-        switch layout {
-        case .list:
-            let cellRegistration = UICollectionView.CellRegistration<BoxOfficeListCell, BoxOfficeItem> {
-                (cell, indexPath, item) in
-                cell.item = item
-            }
+        let listCellRegistration = UICollectionView.CellRegistration<BoxOfficeListCell, BoxOfficeItem> {
+            (cell, indexPath, item) in
+            cell.item = item
+        }
+        
+        let gridRegistration = UICollectionView.CellRegistration<BoxOfficeGridCell, BoxOfficeItem> {
+            (cell, indexPath, item) in
+            cell.configure(boxOfficeItem: item)
+        }
+        
+        dataSource = UICollectionViewDiffableDataSource<Section, BoxOfficeItem.ID>(collectionView: collectionView) {
+            (collectionView: UICollectionView, indexPath: IndexPath, identifier: BoxOfficeItem.ID) -> UICollectionViewCell? in
             
-            dataSource = UICollectionViewDiffableDataSource<Section, BoxOfficeItem.ID>(collectionView: collectionView) {
-                (collectionView: UICollectionView, indexPath: IndexPath, identifier: BoxOfficeItem.ID) -> UICollectionViewCell? in
-                
-                let boxOfficeItem = self.boxOfficeItems.filter { $0.id == identifier }.first
-                
-                let cell = collectionView.dequeueConfiguredReusableCell(using: cellRegistration,
+            let boxOfficeItem = self.boxOfficeItems.filter { $0.id == identifier }.first
+            switch layout {
+            case .list:
+                let cell = collectionView.dequeueConfiguredReusableCell(using: listCellRegistration,
                                                                         for: indexPath,
                                                                         item: boxOfficeItem)
-                
                 return cell
-            }
-        case .grid:
-            let cellRegistration = UICollectionView.CellRegistration<BoxOfficeGridCell, BoxOfficeItem> {
-                (cell, indexPath, item) in
-                cell.configure(boxOfficeItem: item)
-            }
-            
-            dataSource = UICollectionViewDiffableDataSource<Section, BoxOfficeItem.ID>(collectionView: collectionView) {
-                (collectionView: UICollectionView, indexPath: IndexPath, identifier: BoxOfficeItem.ID) -> UICollectionViewCell? in
-                
-                let boxOfficeItem = self.boxOfficeItems.filter { $0.id == identifier }.first
-                
-                let cell = collectionView.dequeueConfiguredReusableCell(using: cellRegistration,
+            case .grid:
+                let cell = collectionView.dequeueConfiguredReusableCell(using: gridRegistration,
                                                                         for: indexPath,
                                                                         item: boxOfficeItem)
-                
                 return cell
             }
         }
-        
     }
     
     private func updateSnapshot() {
@@ -275,7 +269,7 @@ extension BoxOfficeViewController {
         snapshot.appendSections([.main])
         snapshot.appendItems(boxOfficeItems.map { $0.id })
         
-        dataSource.apply(snapshot, animatingDifferences: false)
+        dataSource.apply(snapshot, animatingDifferences: true)
     }
 }
 
