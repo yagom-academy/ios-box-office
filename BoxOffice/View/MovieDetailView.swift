@@ -168,9 +168,6 @@ class MovieDetailView: UIView {
             nationTitleLabel.widthAnchor.constraint(equalToConstant: 70),
             genreTitleLabel.widthAnchor.constraint(equalToConstant: 70),
             actorTitleLabel.widthAnchor.constraint(equalToConstant: 70)
-            
         ])
     }
 }
-
-

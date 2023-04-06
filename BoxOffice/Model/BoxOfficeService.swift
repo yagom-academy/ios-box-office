@@ -31,7 +31,6 @@ class BoxOfficeService {
         provider.loadBoxOfficeAPI(endpoint: movieDetailEndpoint,
                                   parser: Parser<MovieDetail>()) { parsedData in
             self.movieDetail = parsedData
-//            self.fetchImage()
             completion()
         }
     }
@@ -40,21 +39,3 @@ class BoxOfficeService {
         self.movieCode = movieCode
     }
 }
-
-
-//DispatchQueue.main.async {
-//    self.boxOfficeListCollectionView.reloadData()
-//    self.activityIndicator.stopAnimating()
-//}
-
-//boxOfficeService.fetchMovieDetailAPI {
-//                DispatchQueue.main.async {
-//                    self.setMovieDetailLabel()
-//                }
-//}
-
-//boxOfficeService.fetchMovieDetailAPI {
-//    DispatchQueue.main.async {
-//        self.setMovieDetailLabel()
-//    }
-//}
