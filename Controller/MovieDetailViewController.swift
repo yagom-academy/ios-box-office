@@ -76,10 +76,10 @@ final class MovieDetailViewController: UIViewController {
     }
     
     private func configureImageWidthConstraint(size: CGSize) {
-        let width = Int(size.width)
-        let height = Int(size.height)
+        let width = CGFloat(size.width)
+        let height = CGFloat(size.height)
         
-        posterImageView.heightAnchor.constraint(equalTo: posterImageView.widthAnchor, multiplier: CGFloat(height) / CGFloat(width)).isActive = true
+        posterImageView.heightAnchor.constraint(equalTo: posterImageView.widthAnchor, multiplier: height / width).isActive = true
     }
     
     private func startLoading() {
