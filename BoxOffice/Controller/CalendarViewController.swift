@@ -68,9 +68,9 @@ final class CalendarViewController: UIViewController {
             .compactMap { Int($0) }
         
         return DateComponents(calendar: calendar,
-                              year: dateComponents[0],
-                              month: dateComponents[1],
-                              day: dateComponents[2])
+                              year: dateComponents[safe: 0],
+                              month: dateComponents[safe: 1],
+                              day: dateComponents[safe: 2])
     }
     
     private func configureLayout() {
