@@ -45,4 +45,72 @@ final class DailyBoxOfficeIconCell: UICollectionViewCell {
             dailyBoxOfficeStackView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor)
         ])
     }
+    
+    override func updateConfiguration(using state: UICellConfigurationState) {
+        guard let dailyBoxOfficeData = self.dailyBoxOfficeData else { return }
+        let textMaker = TextMaker(data: dailyBoxOfficeData)
+        
+        configureRankLabel(with: textMaker)
+        configureMovieTitleLabel(with: textMaker)
+        configureRankDifferenceLabel(with: textMaker)
+        configureAudienceLabel(with: textMaker)
+    }
+    
+    private func configureRankLabel(with textMaker: TextMaker) {
+        rankLabel.text = textMaker.rank
+        rankLabel.font = UIFont.preferredFont(forTextStyle: .largeTitle)
+        rankLabel.adjustsFontForContentSizeCategory = true
+    }
+    
+    private func configureMovieTitleLabel(with textMaker: TextMaker) {
+        movieTitleLabel.text = textMaker.movieTitle
+        movieTitleLabel.font = UIFont.preferredFont(forTextStyle: .title3)
+        movieTitleLabel.adjustsFontForContentSizeCategory = true
+    }
+    
+    private func configureRankDifferenceLabel(with textMaker: TextMaker) {
+        let text = textMaker.rankDifference
+        switch textMaker.rankOldAndNew {
+        case .new:
+            rankDifferenceLabel.text = text
+            rankDifferenceLabel.textColor = .systemRed
+        case .old:
+            if text.contains(Sign.down) {
+                let attributedString = NSMutableAttributedString(string: text)
+                let range = NSString(string: text).range(of: Sign.down)
+                attributedString.addAttribute(.foregroundColor, value: UIColor.systemBlue, range: range)
+                rankDifferenceLabel.attributedText = attributedString
+            } else if text.contains(Sign.up) {
+                let attributedString = NSMutableAttributedString(string: text)
+                let range = NSString(string: text).range(of: Sign.up)
+                attributedString.addAttribute(.foregroundColor, value: UIColor.systemRed, range: range)
+                rankDifferenceLabel.attributedText = attributedString
+            } else {
+                rankDifferenceLabel.text = text
+            }
+        }
+        
+        rankDifferenceLabel.font = UIFont.preferredFont(forTextStyle: .body)
+        rankDifferenceLabel.adjustsFontForContentSizeCategory = true
+        rankDifferenceLabel.adjustsFontSizeToFitWidth = true
+        rankDifferenceLabel.minimumScaleFactor = 0.2
+        rankDifferenceLabel.numberOfLines = 1
+    }
+    
+    private func configureAudienceLabel(with textMaker: TextMaker) {
+        audienceLabel.text = textMaker.audienceCount
+        audienceLabel.font = UIFont.preferredFont(forTextStyle: .body)
+        audienceLabel.adjustsFontForContentSizeCategory = true
+        audienceLabel.adjustsFontSizeToFitWidth = true
+        audienceLabel.minimumScaleFactor = 0.2
+        audienceLabel.numberOfLines = 1
+    }
+    
+    private enum Sign {
+        static let newMovie = "신작"
+        static let minus = "-"
+        static let zero = "0"
+        static let down = "⏷"
+        static let up = "⏶"
+    }
 }
