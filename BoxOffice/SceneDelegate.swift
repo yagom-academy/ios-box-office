@@ -5,7 +5,6 @@
 //  Created by Rhode, Rilla on 2023/03/20.
 //
 
-
 import UIKit
 
 class SceneDelegate: UIResponder, UIWindowSceneDelegate {
@@ -21,4 +20,3 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         window?.makeKeyAndVisible()
     }
 }
-

@@ -5,12 +5,11 @@
 //  Created by Rhode, Rilla on 2023/03/20.
 //
 
-
 import UIKit
 
 final class BoxOfficeListViewController: UIViewController {
-    private let server = NetworkManager()
-    private let urlMaker = URLMaker()
+    private let server = NetworkManager.shared
+    private let urlMaker = URLRequestMaker()
     private var boxOffice: BoxOffice?
     
     private let collectionView: UICollectionView = {
@@ -43,10 +42,10 @@ final class BoxOfficeListViewController: UIViewController {
         view.addSubview(collectionView)
         setCollectionViewAutoLayout()
         
-        fetchBoxOfficeData {
+        fetchBoxOfficeData { [weak self] in
             DispatchQueue.main.async {
                 LoadingIndicator.hideLoading()
-                self.collectionView.reloadData()
+                self?.collectionView.reloadData()
             }
         }
     }
@@ -68,16 +67,16 @@ final class BoxOfficeListViewController: UIViewController {
     }
     
     private func fetchBoxOfficeData(completion: @escaping () -> Void) {
-        guard let url = urlMaker.makeBoxOfficeURL(date: Date.configureYesterday(isFormatted: false)) else { return }
+        guard let request = urlMaker.makeBoxOfficeURLRequest(date: Date.configureYesterday(isFormatted: false)) else { return }
         
-        server.startLoad(url: url) { result in
+        server.startLoad(request: request, mime: "json") { [weak self] result in
             let decoder = DecodeManager()
             do {
-                guard let verifiedFetchingResult = try self.verifyResult(result: result) else { return }
+                guard let verifiedFetchingResult = try self?.verifyResult(result: result) else { return }
                 let decodedFile = decoder.decodeJSON(data: verifiedFetchingResult, type: BoxOffice.self)
-                let verifiedDecodingResult = try self.verifyResult(result: decodedFile)
+                let verifiedDecodingResult = try self?.verifyResult(result: decodedFile)
                 
-                self.boxOffice = verifiedDecodingResult
+                self?.boxOffice = verifiedDecodingResult
                 completion()
             } catch {
                 print(error.localizedDescription)
@@ -120,7 +119,7 @@ extension BoxOfficeListViewController: UICollectionViewDataSource {
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let dailyBoxOffice = self.boxOffice?.boxOfficeResult.dailyBoxOfficeList[indexPath.item]
+        let dailyBoxOffice = self.boxOffice?.boxOfficeResult.dailyBoxOfficeList[index: indexPath.item]
         
         guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: CustomCollectionViewCell.identifier, for: indexPath) as? CustomCollectionViewCell else { return CustomCollectionViewCell() }
         
@@ -146,5 +145,12 @@ extension BoxOfficeListViewController: UICollectionViewDelegateFlowLayout {
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         collectionView.deselectItem(at: indexPath, animated: true)
+        
+        guard let movieCode = self.boxOffice?.boxOfficeResult.dailyBoxOfficeList[index: indexPath.item]?.movieCode else {
+            return
+        }
+        let detailMovieViewController = DetailMovieViewController(movieCode: movieCode)
+        
+        navigationController?.pushViewController(detailMovieViewController, animated: true)
     }
 }

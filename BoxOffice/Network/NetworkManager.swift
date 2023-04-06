@@ -8,16 +8,14 @@
 import Foundation
 
 final class NetworkManager {
-    private let session: any URLSessionProtocol
+    static let shared = NetworkManager()
+    private let session: URLSession
     
-    init(session: any URLSessionProtocol = URLSession.shared) {
+    init(session: URLSession = URLSession.shared) {
         self.session = session
     }
     
-    func startLoad(url: URL, complete: @escaping (Result<Data, NetworkError>) -> Void) {
-        var request = URLRequest(url: url)
-        request.httpMethod = "GET"
-        
+    func startLoad(request: URLRequest, mime: String, complete: @escaping (Result<Data, NetworkError>) -> Void) {
         session.dataTask(with: request) { data, response, error in
             guard error == nil else {
                 complete(.failure(.responseError(error: error)))
@@ -36,7 +34,7 @@ final class NetworkManager {
             
             let mimeType = response?.mimeType
             
-            guard ((mimeType?.lowercased().contains("text")) != nil) else {
+            guard ((mimeType?.lowercased().contains(mime)) != nil) else {
                 complete(.failure(.invalidMimeType))
                 return
             }

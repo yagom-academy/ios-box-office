@@ -7,7 +7,7 @@
 
 import Foundation
 
-enum NetworkError: LocalizedError {
+enum NetworkError: LocalizedError, Equatable {
     case responseCodeError
     case invalidResponse
     case invalidMimeType
@@ -26,6 +26,21 @@ enum NetworkError: LocalizedError {
             return "Data가 존재하지 않습니다."
         case .responseError(error: let error):
             return error?.localizedDescription
+        }
+    }
+    
+    static func == (lhs: NetworkError, rhs: NetworkError) -> Bool {
+        switch (lhs, rhs) {
+        case (NetworkError.invalidResponse, NetworkError.invalidResponse):
+            return true
+        case (NetworkError.invalidMimeType, NetworkError.invalidMimeType):
+            return true
+        case (NetworkError.noData, NetworkError.noData):
+            return true
+        case (NetworkError.responseCodeError, NetworkError.responseCodeError):
+            return true
+        default:
+            return false
         }
     }
 }

@@ -18,4 +18,22 @@ extension String {
         
         return formattedNumber
     }
+    
+    func formatDateString(format: String) -> String? {
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "yyyyMMdd"
+        
+        guard let date = dateFormatter.date(from: self) else { return nil }
+        dateFormatter.dateFormat = format
+        
+        return dateFormatter.string(from: date)
+    }
+    
+    func formatEmptyString() -> String {
+        if self.isEmpty {
+            return "-"
+        } else {
+            return self
+        }
+    }
 }
