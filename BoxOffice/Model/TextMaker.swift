@@ -1,5 +1,5 @@
 //
-//  DailyBoxOfficeCellViewModel.swift
+//  TextMaker.swift
 //  BoxOffice
 //
 //  Created by Muri, Rowan on 2023/04/05.
@@ -7,7 +7,7 @@
 
 import UIKit
 
-struct DailyBoxOfficeCellViewModel {
+struct TextMaker {
     let data: DailyBoxOfficeMovie
     
     var movieTitle: String {

@@ -63,21 +63,19 @@ final class DailyBoxOfficeListCell: UICollectionViewListCell {
     
     override func updateConfiguration(using state: UICellConfigurationState) {
         guard let dailyBoxOfficeData = self.dailyBoxOfficeData else { return }
+        let textMaker = TextMaker(data: dailyBoxOfficeData)
         
-        configureContentView(with: dailyBoxOfficeData, state: state)
-        configureRankLabel(with: dailyBoxOfficeData)
-        configureRankDifferenceLabel(with: dailyBoxOfficeData)
+        configureContentView(with: textMaker, state: state)
+        configureRankLabel(with: textMaker)
+        configureRankDifferenceLabel(with: textMaker)
     }
     
-    private func configureContentView(with data: DailyBoxOfficeMovie, state: UICellConfigurationState) {
+    private func configureContentView(with textMaker: TextMaker, state: UICellConfigurationState) {
         var content = defaultContentConfiguration().updated(for: state)
-        content.text = data.movieName
+        content.text = textMaker.movieTitle
         content.textProperties.font = UIFont.preferredFont(forTextStyle: .title3)
         
-        let todayAudience = data.audienceCountOfDate.decimal() ?? Sign.empty
-        let accumulatedAudience = data.accumulatedAudienceCount.decimal() ?? Sign.empty
-        let textformat = "오늘 %@ / 총 %@"
-        content.secondaryText = String(format: textformat, todayAudience, accumulatedAudience)
+        content.secondaryText = textMaker.audienceCount
         content.secondaryTextProperties.font = UIFont.preferredFont(forTextStyle: .body)
         content.secondaryTextProperties.adjustsFontSizeToFitWidth = true
         content.secondaryTextProperties.minimumScaleFactor = 0.2
@@ -86,34 +84,32 @@ final class DailyBoxOfficeListCell: UICollectionViewListCell {
         dailyBoxOfficeListContentView.configuration = content
     }
 
-    private func configureRankLabel(with data: DailyBoxOfficeMovie) {
-        rankLabel.text = data.rank
+    private func configureRankLabel(with textMaker: TextMaker) {
+        rankLabel.text = textMaker.rank
         rankLabel.font = UIFont.preferredFont(forTextStyle: .largeTitle)
         rankLabel.adjustsFontForContentSizeCategory = true
         rankLabel.numberOfLines = 0
     }
     
-    private func configureRankDifferenceLabel(with data: DailyBoxOfficeMovie) {
-        switch data.rankOldAndNew {
+    private func configureRankDifferenceLabel(with textMaker: TextMaker) {
+        let text = textMaker.rankDifference
+        switch textMaker.rankOldAndNew {
         case .new:
-            rankDifferenceLabel.text = Sign.newMovie
+            rankDifferenceLabel.text = text
             rankDifferenceLabel.textColor = .systemRed
         case .old:
-            if data.rankDifference.contains(Sign.minus) {
-                let difference = data.rankDifference.trimmingCharacters(in: ["-"])
-                let text = Sign.down + difference
+            if text.contains(Sign.down) {
                 let attributedString = NSMutableAttributedString(string: text)
                 let range = NSString(string: text).range(of: Sign.down)
                 attributedString.addAttribute(.foregroundColor, value: UIColor.systemBlue, range: range)
                 rankDifferenceLabel.attributedText = attributedString
-            } else if data.rankDifference == Sign.zero {
-                rankDifferenceLabel.text = Sign.minus
-            } else {
-                let text = Sign.up + data.rankDifference
+            } else if text.contains(Sign.up) {
                 let attributedString = NSMutableAttributedString(string: text)
                 let range = NSString(string: text).range(of: Sign.up)
                 attributedString.addAttribute(.foregroundColor, value: UIColor.systemRed, range: range)
                 rankDifferenceLabel.attributedText = attributedString
+            } else {
+                rankDifferenceLabel.text = text
             }
         }
         
@@ -125,14 +121,11 @@ final class DailyBoxOfficeListCell: UICollectionViewListCell {
     }
     
     private enum Sign {
-        static let new = "NEW"
-        static let old = "OLD"
         static let newMovie = "신작"
         static let minus = "-"
         static let zero = "0"
         static let down = "⏷"
         static let up = "⏶"
-        static let empty = ""
     }
 }
 
