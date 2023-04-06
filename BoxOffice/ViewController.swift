@@ -11,7 +11,7 @@ final class ViewController: UIViewController {
     
     private var collectionView: UICollectionView!
     private var dataSource: UICollectionViewDiffableDataSource<ListSection, ListItem>!
-    
+    private var currentViewOption: ViewOption = .list
     private let provider = APIProvider.shared
     
     private lazy var currentDate: Date = DateManager.createYesterdayDate() {
@@ -23,6 +23,7 @@ final class ViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         configureNavigationBar()
+        configureNavigationToolbar()
         configureCollectionView()
         configureDataSource()
         configureRefreshControl()
@@ -39,6 +40,24 @@ final class ViewController: UIViewController {
             target: self,
             action: #selector(moveToCalendarView)
         )
+    }
+    
+    private func configureNavigationToolbar() {
+        navigationController?.isToolbarHidden = false
+        
+        let item = UIBarButtonItem(
+            barButtonSystemItem: .flexibleSpace,
+            target: self,
+            action: nil
+        )
+        let UIBarButton = UIBarButtonItem(
+            title: "화면 모드 변경",
+            style: .plain,
+            target: self,
+            action: #selector(changeViewMode)
+        )
+        
+        setToolbarItems([item, UIBarButton, item], animated: true)
     }
     
     private func setTitle(date: Date) {
@@ -145,6 +164,25 @@ final class ViewController: UIViewController {
         calendarViewController.selectionDelegate = self
         present(calendarViewController, animated: true)
     }
+    
+    @objc private func changeViewMode() {
+        let alert = UIAlertController(title: "화면모드변경",
+                                      message: nil,
+                                      preferredStyle: .actionSheet)
+        
+        let actionTitle: String = currentViewOption == .list ? ViewOption.icon.rawValue : ViewOption.list.rawValue
+        let viewModeAction = UIAlertAction(title: actionTitle, style: .default) { [weak self] _ in
+            guard let self else { return }
+            self.changeView()
+        }
+        let cancelAction = UIAlertAction(title: "취소", style: .cancel)
+        
+        alert.addAction(viewModeAction)
+        alert.addAction(cancelAction)
+        self.present(alert, animated: true, completion: nil)
+    }
+    
+    private func changeView() {}
     
 }
 

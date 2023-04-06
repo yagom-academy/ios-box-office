@@ -18,6 +18,7 @@
 		368A11D829DAAC95007C8877 /* CalendarViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 368A11D729DAAC95007C8877 /* CalendarViewController.swift */; };
 		368A11DA29DB2AF2007C8877 /* DateFormatOption.swift in Sources */ = {isa = PBXBuildFile; fileRef = 368A11D929DB2AF2007C8877 /* DateFormatOption.swift */; };
 		368A11DC29DB320C007C8877 /* DateManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 368A11DB29DB320C007C8877 /* DateManager.swift */; };
+		36B479B329DED90C005EC147 /* ViewOption.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36B479B229DED90C005EC147 /* ViewOption.swift */; };
 		36B59D5B29C83D3B00A4FC11 /* BoxOfficeItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36B59D5A29C83D3B00A4FC11 /* BoxOfficeItem.swift */; };
 		36B59E2329CAF99300A4FC11 /* APIProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36B59E2229CAF99300A4FC11 /* APIProvider.swift */; };
 		36B59E2529CAFA2A00A4FC11 /* NetworkError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36B59E2429CAFA2A00A4FC11 /* NetworkError.swift */; };
@@ -64,6 +65,7 @@
 		368A11D729DAAC95007C8877 /* CalendarViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarViewController.swift; sourceTree = "<group>"; };
 		368A11D929DB2AF2007C8877 /* DateFormatOption.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateFormatOption.swift; sourceTree = "<group>"; };
 		368A11DB29DB320C007C8877 /* DateManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateManager.swift; sourceTree = "<group>"; };
+		36B479B229DED90C005EC147 /* ViewOption.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewOption.swift; sourceTree = "<group>"; };
 		36B59D5A29C83D3B00A4FC11 /* BoxOfficeItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BoxOfficeItem.swift; sourceTree = "<group>"; };
 		36B59D6029C8469100A4FC11 /* BoxOfficeTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = BoxOfficeTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		36B59E2229CAF99300A4FC11 /* APIProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIProvider.swift; sourceTree = "<group>"; };
@@ -140,6 +142,7 @@
 				368A11CB29D6AB52007C8877 /* ImageSearchResult.swift */,
 				368A11D529D9D373007C8877 /* SecretKey.swift */,
 				368A11D929DB2AF2007C8877 /* DateFormatOption.swift */,
+				36B479B229DED90C005EC147 /* ViewOption.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -360,6 +363,7 @@
 				368A11D829DAAC95007C8877 /* CalendarViewController.swift in Sources */,
 				36CF325029D28E9900E3DEE6 /* MovieRankingItem.swift in Sources */,
 				36CF325229D2911500E3DEE6 /* MovieListCell.swift in Sources */,
+				36B479B329DED90C005EC147 /* ViewOption.swift in Sources */,
 				368A11D629D9D373007C8877 /* SecretKey.swift in Sources */,
 				36B59E2729CAFCE900A4FC11 /* JSONConverter .swift in Sources */,
 				36B59E2529CAFA2A00A4FC11 /* NetworkError.swift in Sources */,
