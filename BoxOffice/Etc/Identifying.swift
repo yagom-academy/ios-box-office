@@ -17,6 +17,6 @@ extension Identifying {
     }
 }
 
-extension UICollectionViewListCell: Identifying { }
+extension UICollectionViewCell: Identifying { }
 
 extension UIViewController: Identifying { }

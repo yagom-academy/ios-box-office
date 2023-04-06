@@ -66,22 +66,18 @@ final class BoxOfficeViewController: UIViewController {
     }
     
     private func registerXib() {
-        let nibName = UINib(nibName: BoxOfficeCollectionViewListCell.identifier, bundle: nil)
-        collectionView.register(nibName, forCellWithReuseIdentifier: BoxOfficeCollectionViewListCell.identifier)
-    }
-    
-    private func createListLayout() -> UICollectionViewCompositionalLayout {
-        var config = UICollectionLayoutListConfiguration(appearance: .plain)
-        config.separatorConfiguration.bottomSeparatorInsets = .init(top: 0, leading: 0, bottom: 0, trailing: 0)
+        let listCellNib = UINib(nibName: BoxOfficeCollectionViewListCell.identifier, bundle: nil)
+                collectionView.register(listCellNib, forCellWithReuseIdentifier: BoxOfficeCollectionViewListCell.identifier)
         
-        return UICollectionViewCompositionalLayout.list(using: config)
+        let iconCellNib = UINib(nibName: BoxOfficeCollectionViewCell.identifier, bundle: nil)
+                collectionView.register(iconCellNib, forCellWithReuseIdentifier: BoxOfficeCollectionViewCell.identifier)
     }
     
     private func configureCollectionView() {
         collectionView.refreshControl = refreshControl
         collectionView.dataSource = self
         collectionView.delegate = self
-        collectionView.collectionViewLayout = createListLayout()
+        collectionView.collectionViewLayout = createIconLayout()
         registerXib()
     }
     
@@ -115,8 +111,8 @@ extension BoxOfficeViewController: UICollectionViewDataSource {
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         guard let cell = collectionView.dequeueReusableCell(
-            withReuseIdentifier: BoxOfficeCollectionViewListCell.identifier,
-            for: indexPath) as? BoxOfficeCollectionViewListCell,
+            withReuseIdentifier: BoxOfficeCollectionViewCell.identifier,
+            for: indexPath) as? BoxOfficeCollectionViewCell,
               let item = boxOffice?.boxOfficeResult.dailyBoxOfficeList[safe: indexPath.item] else {
             return UICollectionViewCell()
         }
@@ -144,5 +140,30 @@ extension BoxOfficeViewController: UICollectionViewDelegate {
 extension BoxOfficeViewController: UpdateDateDelegate {
     func sendDate(date: Date) {
         self.selectedDate = date
+    }
+}
+
+extension BoxOfficeViewController {
+    private func createListLayout() -> UICollectionViewCompositionalLayout {
+        var config = UICollectionLayoutListConfiguration(appearance: .plain)
+        config.separatorConfiguration.bottomSeparatorInsets = .init(top: 0, leading: 0, bottom: 0, trailing: 0)
+        
+        return UICollectionViewCompositionalLayout.list(using: config)
+    }
+    
+    private func createIconLayout() -> UICollectionViewCompositionalLayout {
+        let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(0.5), heightDimension: .fractionalWidth(0.5))
+        let item = NSCollectionLayoutItem(layoutSize: itemSize)
+        
+        let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0), heightDimension: .fractionalWidth(0.5))
+        let group = NSCollectionLayoutGroup.horizontal(layoutSize: groupSize, repeatingSubitem: item, count: 2)
+        group.interItemSpacing = .fixed(20)
+        
+        let section = NSCollectionLayoutSection(group: group)
+        section.contentInsets = NSDirectionalEdgeInsets(top: 0, leading: 15, bottom: 0, trailing: 15)
+        
+        let layout = UICollectionViewCompositionalLayout(section: section)
+        
+        return layout
     }
 }
