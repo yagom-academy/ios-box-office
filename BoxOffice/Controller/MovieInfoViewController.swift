@@ -12,8 +12,23 @@ final class MovieInfoViewController: UIViewController {
     private var movie: Movie?
     private var moviePoster: MoviePoster?
     private let networkManager = NetworkManager()
-    private let dateFormatter = DateFormatter()
     private var movieInfo: [(title: String, value: String)] = []
+    
+    private let dateFormatterWithHyphen = {
+        let formatter = DateFormatter()
+        
+        formatter.dateFormat = "yyyy-MM-dd"
+        
+        return formatter
+    }()
+    
+    private let dateFormatterWithoutHyphen = {
+        let formatter = DateFormatter()
+        
+        formatter.dateFormat = "yyyyMMdd"
+        
+        return formatter
+    }()
     
     private let contentScrollView = {
         let scrollView = UIScrollView()
@@ -103,7 +118,7 @@ final class MovieInfoViewController: UIViewController {
     }
     
     private func fetchMoviePoster() {
-        let movieName = movie?.result.movieInfo.movieName ?? ""
+        let movieName = movie?.result.movieInfo.movieName ?? "untitled"
         let urlRequest = EndPoint.moviePoster(searchFor: movieName + " 영화 포스터").asURLRequest()
         
         networkManager.fetchData(urlRequest: urlRequest, type: MoviePoster.self) { [weak self] result in
@@ -128,7 +143,9 @@ final class MovieInfoViewController: UIViewController {
     
     private func presentAlert(from error: Error) {
         guard let networkingError = error as? NetworkingError else { return }
+        
         let alert = UIAlertController(title: networkingError.description, message: "모리스티에게 문의해 주세요.", preferredStyle: .alert)
+        
         alert.addAction(UIAlertAction(title: "닫기", style: .cancel))
         present(alert, animated: true)
     }
@@ -154,20 +171,18 @@ final class MovieInfoViewController: UIViewController {
     }
 
     private func configureMovieInfo(data: MovieInfo) {
-        dateFormatter.dateFormat = "yyyyMMdd"
         let directors = data.directors.map(\.name).joined(separator: ", ")
         let productionYear = data.productionYear
-        let openDate = data.openDate.toDate(formatter: dateFormatter)
+        let openDate = data.openDate.toDate(formatter: dateFormatterWithoutHyphen)
         let showTime = data.showTime
         let watchGradeName = data.audits.map(\.watchGradeName).joined(separator: ", ")
         let nations = data.nations.map(\.name).joined(separator: ", ")
         let genres = data.genres.map(\.name).joined(separator: ", ")
         let actors = data.actors.map(\.name).joined(separator: ", ")
         
-        dateFormatter.dateFormat = "yyyy-MM-dd"
         movieInfo = [(title: "감독", value: directors),
                     (title: "제작년도", value: productionYear),
-                    (title: "개봉일", value: openDate?.showYesterdayDate(formatter: dateFormatter) ?? "개봉일 정보 없음"),
+                    (title: "개봉일", value: openDate?.showYesterdayDate(formatter: dateFormatterWithHyphen) ?? "개봉일 정보 없음"),
                     (title: "상영시간", value: showTime),
                     (title: "관람등급", value: watchGradeName),
                     (title: "제작국가", value: nations),

@@ -59,10 +59,12 @@ final class BoxOfficeViewController: UIViewController {
         let calendarViewController = CalendarViewController()
         
         calendarViewController.delegate = self
-        calendarViewController.selectedDate = DateComponents(calendar: Calendar(identifier: .gregorian),
-                                                             year: navigationItem.title?.toDate(formatter: dateFormatterWithHyphen)?.year,
-                                                             month: navigationItem.title?.toDate(formatter: dateFormatterWithHyphen)?.month,
-                                                             day: navigationItem.title?.toDate(formatter: dateFormatterWithHyphen)?.day)
+        calendarViewController.selectedDate = DateComponents(
+            calendar: Calendar(identifier: .gregorian),
+            year: navigationItem.title?.toDate(formatter: dateFormatterWithHyphen)?.year,
+            month: navigationItem.title?.toDate(formatter: dateFormatterWithHyphen)?.month,
+            day: navigationItem.title?.toDate(formatter: dateFormatterWithHyphen)?.day
+        )
         
         self.present(calendarViewController, animated: true)
     }
@@ -94,7 +96,11 @@ final class BoxOfficeViewController: UIViewController {
     
     private func displayAlert(from error: Error) {
         guard let networkingError = error as? NetworkingError else { return }
-        let alert = UIAlertController(title: networkingError.description, message: "모리스티에게 문의해 주세요.", preferredStyle: .alert)
+        
+        let alert = UIAlertController(title: networkingError.description,
+                                      message: "모리스티에게 문의해 주세요.",
+                                      preferredStyle: .alert)
+        
         alert.addAction(UIAlertAction(title: "닫기", style: .cancel))
         present(alert, animated: true)
     }
@@ -182,6 +188,7 @@ extension BoxOfficeViewController: UICollectionViewDelegateFlowLayout {
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         let movieInfoViewController = MovieInfoViewController(movieCode: boxOffice?.result.dailyBoxOfficeList[safe: indexPath.item]?.movieCode ?? "")
+        
         navigationController?.pushViewController(movieInfoViewController, animated: true)
     }
 }

@@ -10,20 +10,23 @@ import UIKit
 final class CalendarViewController: UIViewController {
     private let calendarView = UICalendarView()
     private let gregorianCalendar = Calendar(identifier: .gregorian)
-    
     weak var delegate: DateUpdatableDelegate?
     var selectedDate: DateComponents?
 
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        view.backgroundColor = .systemBackground
-        configureOption()
+        configureUIOption()
         configureLayout()
         configureDateSelection()
     }
     
-    private func configureOption() {
+    private func configureUIOption() {
+        view.backgroundColor = .systemBackground
+        configureCalendarOption()
+    }
+    
+    private func configureCalendarOption() {
         let startDateComponent = DateComponents(calendar: Calendar(identifier: .gregorian),
                                                 year: 2003,
                                                 month: 11,
@@ -61,7 +64,9 @@ extension CalendarViewController: UICalendarSelectionSingleDateDelegate {
     }
     
     func dateSelection(_ selection: UICalendarSelectionSingleDate, didSelectDate dateComponents: DateComponents?) {
-        guard let selectedDate = dateComponents, let targetDate = gregorianCalendar.date(from: selectedDate) else { return }
+        guard let selectedDate = dateComponents,
+              let targetDate = gregorianCalendar.date(from: selectedDate) else { return }
+        
         delegate?.updateDate(targetDate)
         self.dismiss(animated: true)
     }
