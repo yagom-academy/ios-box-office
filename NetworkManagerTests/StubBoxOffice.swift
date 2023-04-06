@@ -2,10 +2,9 @@
 //  StubBoxOffice.swift
 //  NetworkManagerTests
 //
-//  Created by 김성준 on 2023/03/30.
+//  Created by Rhode, Rilla on 2023/03/30.
 //
 
-//import Foundation
 import UIKit
 
 struct StubBoxOffice {
