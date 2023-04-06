@@ -39,10 +39,12 @@ final class DailyBoxOfficeIconCell: UICollectionViewCell {
             let stackView = UIStackView()
             stackView.axis = .vertical
             stackView.alignment = .center
+            stackView.distribution = .fillProportionally
             stackView.addArrangedSubview(rankLabel)
             stackView.addArrangedSubview(movieTitleLabel)
             stackView.addArrangedSubview(rankDifferenceLabel)
             stackView.addArrangedSubview(audienceLabel)
+            stackView.translatesAutoresizingMaskIntoConstraints = false
             
             return stackView
         }()

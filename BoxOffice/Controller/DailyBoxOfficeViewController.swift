@@ -72,9 +72,13 @@ final class DailyBoxOfficeViewController: UIViewController {
             cell.updateData(with: item)
             cell.accessories = [.disclosureIndicator()]
         }
+        
+        let cellRegistration2 = UICollectionView.CellRegistration<DailyBoxOfficeIconCell, DailyBoxOfficeMovie> { cell, indexPath, item in
+            cell.updateData(with: item)
+        }
 
         dataSource = DataSource(collectionView: collectionView) { collectionView, indexPath, itemIdentifier in
-            let cell = collectionView.dequeueConfiguredReusableCell(using: cellRegistration,
+            let cell = collectionView.dequeueConfiguredReusableCell(using: cellRegistration2,
                                                                     for: indexPath,
                                                                     item: itemIdentifier)
             return cell
@@ -152,12 +156,12 @@ final class DailyBoxOfficeViewController: UIViewController {
     
     private func createIconLayout() -> UICollectionViewCompositionalLayout {
         let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(0.5),
-                                              heightDimension: .fractionalHeight(0.2))
+                                              heightDimension: .fractionalWidth(0.5))
         let item = NSCollectionLayoutItem(layoutSize: itemSize)
         item.contentInsets = NSDirectionalEdgeInsets(top: 8, leading: 8, bottom: 8, trailing: 8)
         
         let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0),
-                                               heightDimension: .fractionalHeight(0.2))
+                                               heightDimension: .fractionalHeight(0.25))
         let group = NSCollectionLayoutGroup.horizontal(layoutSize: groupSize,
                                                          subitems: [item])
         
