@@ -39,7 +39,12 @@ final class DetailMovieViewController: UIViewController {
         return stackView
     }()
     
-    private let imageView = UIImageView()
+    private let imageView: UIImageView = {
+        let imageView = UIImageView()
+        imageView.contentMode = .scaleAspectFit
+        
+        return imageView
+    }()
 
     // MARK: - Method
     init(movieCode: String) {
@@ -119,6 +124,8 @@ final class DetailMovieViewController: UIViewController {
         }
     }
     
+
+    
     private func configureViewController() {
         view.backgroundColor = .white
         LoadingIndicator.showLoading()
@@ -127,30 +134,29 @@ final class DetailMovieViewController: UIViewController {
     
     private func configureMainView() {
         title = movieInformation?.movieName
-        
-        configureScrollView()
-        configureStackView()
+        configureUI()
         configureContentStackView()
-        configureImageView()
+        configureLayout()
     }
     
-    private func configureImageView() {
-        imageView.contentMode = .scaleAspectFit
-        
-        NSLayoutConstraint.activate([
-            imageView.heightAnchor.constraint(equalTo: view.safeAreaLayoutGuide.heightAnchor, multiplier: 0.6)
-        ])
-        
+    private func configureUI() {
+        view.addSubview(scrollView)
+        scrollView.addSubview(contentStackView)
     }
 
-    private func configureScrollView() {
-        view.addSubview(scrollView)
-        
+    private func configureLayout() {
         NSLayoutConstraint.activate([
             scrollView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 20),
             scrollView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -20),
             scrollView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
             scrollView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor),
+            
+            contentStackView.topAnchor.constraint(equalTo: scrollView.contentLayoutGuide.topAnchor),
+            contentStackView.bottomAnchor.constraint(equalTo: scrollView.contentLayoutGuide.bottomAnchor),
+            contentStackView.leadingAnchor.constraint(equalTo: scrollView.frameLayoutGuide.leadingAnchor),
+            contentStackView.trailingAnchor.constraint(equalTo: scrollView.frameLayoutGuide.trailingAnchor),
+            
+            imageView.heightAnchor.constraint(equalTo: view.safeAreaLayoutGuide.heightAnchor, multiplier: 0.6)
         ])
     }
     
@@ -182,19 +188,6 @@ final class DetailMovieViewController: UIViewController {
         contentStackView.addArrangedSubview(nationStackView)
         contentStackView.addArrangedSubview(genresStackView)
         contentStackView.addArrangedSubview(actorsStackView)
-    }
-    
-    private func configureStackView() {
-        scrollView.addSubview(contentStackView)
-        
-        NSLayoutConstraint.activate([
-            contentStackView.leadingAnchor.constraint(equalTo: scrollView.contentLayoutGuide.leadingAnchor),
-            contentStackView.trailingAnchor.constraint(equalTo: scrollView.contentLayoutGuide.trailingAnchor),
-            contentStackView.topAnchor.constraint(equalTo: scrollView.contentLayoutGuide.topAnchor),
-            contentStackView.bottomAnchor.constraint(equalTo: scrollView.contentLayoutGuide.bottomAnchor),
-            contentStackView.leadingAnchor.constraint(equalTo: scrollView.frameLayoutGuide.leadingAnchor),
-            contentStackView.trailingAnchor.constraint(equalTo: scrollView.frameLayoutGuide.trailingAnchor),
-        ])
     }
     
     private func makeInfoStackView(title: String, context: String?) -> UIStackView  {
