@@ -18,7 +18,7 @@ final class DailyBoxOfficeViewController: UIViewController {
     private var yesterday: Date {
         return Date(timeIntervalSinceNow: 3600 * -24)
     }
-    private var currentDate: Date?
+    private var targetDate: Date?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -36,7 +36,7 @@ final class DailyBoxOfficeViewController: UIViewController {
     }
     
     private func configureNavigationBar() {
-        let titleText = DateFormatter.shared.string(from: currentDate ?? yesterday,
+        let titleText = DateFormatter.shared.string(from: targetDate ?? yesterday,
                                                     dateFormat: "yyyy-MM-dd")
         title = titleText
         
@@ -48,7 +48,7 @@ final class DailyBoxOfficeViewController: UIViewController {
     }
     
     @objc func showCalendar() {
-        let calendarViewController = CalendarViewController(currentDate: currentDate ?? yesterday)
+        let calendarViewController = CalendarViewController(targetDate: targetDate ?? yesterday)
         navigationController?.present(calendarViewController, animated: true)
         calendarViewController.delegate = self
     }
@@ -130,7 +130,7 @@ final class DailyBoxOfficeViewController: UIViewController {
     }
     
     @objc func handlerRefreshControl() {
-        loadDailyBoxOffice(date: currentDate ?? yesterday)
+        loadDailyBoxOffice(date: targetDate ?? yesterday)
         
         DispatchQueue.main.async {
             self.configureNavigationBar()
@@ -170,7 +170,7 @@ extension DailyBoxOfficeViewController: UICollectionViewDelegate {
 
 extension DailyBoxOfficeViewController: CalendarViewControllerDelegate {
     func changeTarget(date: Date) {
-        currentDate = date
+        targetDate = date
         let titleText = DateFormatter.shared.string(from: date, dateFormat: "yyyy-MM-dd")
         navigationItem.title = titleText
         loadDailyBoxOffice(date: date)

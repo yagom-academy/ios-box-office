@@ -10,15 +10,15 @@ import UIKit
 final class CalendarViewController: UIViewController {
     private let calendar = Calendar(identifier: .gregorian)
     private let calendarView = UICalendarView()
-    private var currentDate: Date?
+    private var targetDate: Date?
     private var yesterday: Date {
         return Date(timeIntervalSinceNow: 3600 * -24)
     }
     
     weak var delegate: CalendarViewControllerDelegate?
     
-    init(currentDate: Date) {
-        self.currentDate = currentDate
+    init(targetDate: Date) {
+        self.targetDate = targetDate
         super.init(nibName: nil, bundle: nil)
     }
     
@@ -39,7 +39,7 @@ final class CalendarViewController: UIViewController {
     }
     
     private func configureCalendarView() {
-        guard let currentDate = self.currentDate else { return }
+        guard let targetDate = self.targetDate else { return }
         
         calendarView.calendar = calendar
         calendarView.locale = Locale(identifier: "ko_KR")
@@ -47,7 +47,7 @@ final class CalendarViewController: UIViewController {
         
         let fromDateComponent = DateComponents(calendar: calendar, year: 2003, month: 11, day: 11)
         let toDateComponent = createDateComponent(with: yesterday)
-        let selectedDateComponent = createDateComponent(with: currentDate)
+        let selectedDateComponent = createDateComponent(with: targetDate)
         
         guard let fromDate = fromDateComponent.date,
               let toDate = toDateComponent.date else { return }
