@@ -68,6 +68,7 @@ final class DailyBoxOfficeViewController: UIViewController {
     }
     
     private func configureDataSource() {
+        
         let cellRegistration = UICollectionView.CellRegistration<DailyBoxOfficeListCell, DailyBoxOfficeMovie> { cell, indexPath, item in
             cell.updateData(with: item)
             cell.accessories = [.disclosureIndicator()]
@@ -75,6 +76,13 @@ final class DailyBoxOfficeViewController: UIViewController {
         
         let cellRegistration2 = UICollectionView.CellRegistration<DailyBoxOfficeIconCell, DailyBoxOfficeMovie> { cell, indexPath, item in
             cell.updateData(with: item)
+            
+            var backgroundConfiguration = UIBackgroundConfiguration.listPlainCell()
+            backgroundConfiguration.strokeWidth = 2.0
+            backgroundConfiguration.strokeOutset = 5
+            backgroundConfiguration.strokeColor = .systemGray2
+            
+            cell.backgroundConfiguration = backgroundConfiguration
         }
 
         dataSource = DataSource(collectionView: collectionView) { collectionView, indexPath, itemIdentifier in
@@ -166,6 +174,7 @@ final class DailyBoxOfficeViewController: UIViewController {
                                                          subitems: [item])
         
         let section = NSCollectionLayoutSection(group: group)
+        section.interGroupSpacing = 15
         
         let layout = UICollectionViewCompositionalLayout(section: section)
         
