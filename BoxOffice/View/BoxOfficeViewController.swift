@@ -97,7 +97,7 @@ final class BoxOfficeViewController: UIViewController {
             [weak self] creator in
             guard let self = self else { return UIViewController() }
             let viewController = CalendarViewController(date: self.selectedDate, coder: creator)
-            viewController?.dateDelegate = self
+            viewController?.delegate = self
             
             return viewController
         }) {
@@ -141,7 +141,7 @@ extension BoxOfficeViewController: UICollectionViewDelegate {
     }
 }
 
-extension BoxOfficeViewController: DateDelegate {
+extension BoxOfficeViewController: UpdateDateDelegate {
     func sendDate(date: Date) {
         self.selectedDate = date
     }
