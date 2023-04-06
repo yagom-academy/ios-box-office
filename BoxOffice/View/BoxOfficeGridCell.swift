@@ -66,34 +66,9 @@ final class BoxOfficeGridCell: UICollectionViewCell {
         fatalError("init(coder:) has not been implemented")
     }
     
-    private func configureUI() {
-        self.contentView.layer.borderWidth = 2
-        self.contentView.layer.borderColor = UIColor.systemGray.cgColor
-        
-        self.contentView.addSubview(self.movieStackView)
-        self.movieStackView.addArrangedSubview(self.rankLabel)
-        self.movieStackView.addArrangedSubview(self.titleLabel)
-        self.movieStackView.addArrangedSubview(self.rankIncrementLabel)
-        self.movieStackView.addArrangedSubview(self.audienceCountLabel)
-        
-        
-        self.rankLabel.setContentHuggingPriority(.defaultHigh, for: .vertical)
-        self.rankIncrementLabel.setContentHuggingPriority(.defaultHigh, for: .vertical)
-        self.titleLabel.setContentHuggingPriority(.defaultLow, for: .vertical)
-        self.audienceCountLabel.setContentHuggingPriority(.defaultHigh, for: .vertical)
-        
-        self.rankLabel.setContentCompressionResistancePriority(.defaultLow, for: .vertical)
-        self.rankIncrementLabel.setContentCompressionResistancePriority(.defaultLow, for: .vertical)
-        self.titleLabel.setContentCompressionResistancePriority(.defaultLow, for: .vertical)
-        self.audienceCountLabel.setContentCompressionResistancePriority(.defaultHigh, for: .vertical)
-        
-        NSLayoutConstraint.activate([
-            self.movieStackView.leadingAnchor.constraint(equalTo: self.contentView.leadingAnchor, constant: 10),
-            self.movieStackView.trailingAnchor.constraint(equalTo: self.contentView.trailingAnchor, constant: -10),
-            self.movieStackView.topAnchor.constraint(equalTo: self.contentView.topAnchor, constant: 10),
-            self.movieStackView.bottomAnchor.constraint(equalTo: self.contentView.bottomAnchor, constant: -10),
-            
-        ])
+    override func prepareForReuse() {
+        self.rankIncrementLabel.text = nil
+        self.rankIncrementLabel.textColor = .black
     }
     
     func configure(boxOfficeItem: BoxOfficeItem) {
@@ -144,5 +119,35 @@ final class BoxOfficeGridCell: UICollectionViewCell {
     
         let audienceString = "오늘 \(todayAudienceCount) / 총: \(accumulatedAudienceCount)"
         audienceCountLabel.text = audienceString
+    }
+    
+    private func configureUI() {
+        self.contentView.layer.borderWidth = 2
+        self.contentView.layer.borderColor = UIColor.systemGray.cgColor
+        
+        self.contentView.addSubview(self.movieStackView)
+        self.movieStackView.addArrangedSubview(self.rankLabel)
+        self.movieStackView.addArrangedSubview(self.titleLabel)
+        self.movieStackView.addArrangedSubview(self.rankIncrementLabel)
+        self.movieStackView.addArrangedSubview(self.audienceCountLabel)
+        
+        
+        self.rankLabel.setContentHuggingPriority(.defaultHigh, for: .vertical)
+        self.rankIncrementLabel.setContentHuggingPriority(.defaultHigh, for: .vertical)
+        self.titleLabel.setContentHuggingPriority(.defaultLow, for: .vertical)
+        self.audienceCountLabel.setContentHuggingPriority(.defaultHigh, for: .vertical)
+        
+        self.rankLabel.setContentCompressionResistancePriority(.defaultLow, for: .vertical)
+        self.rankIncrementLabel.setContentCompressionResistancePriority(.defaultLow, for: .vertical)
+        self.titleLabel.setContentCompressionResistancePriority(.defaultLow, for: .vertical)
+        self.audienceCountLabel.setContentCompressionResistancePriority(.defaultHigh, for: .vertical)
+        
+        NSLayoutConstraint.activate([
+            self.movieStackView.leadingAnchor.constraint(equalTo: self.contentView.leadingAnchor, constant: 10),
+            self.movieStackView.trailingAnchor.constraint(equalTo: self.contentView.trailingAnchor, constant: -10),
+            self.movieStackView.topAnchor.constraint(equalTo: self.contentView.topAnchor, constant: 10),
+            self.movieStackView.bottomAnchor.constraint(equalTo: self.contentView.bottomAnchor, constant: -10),
+            
+        ])
     }
 }
