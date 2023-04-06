@@ -16,6 +16,7 @@ final class BoxOfficeViewController: UIViewController {
     
     var collectionView: UICollectionView! = nil
     var boxOfficeItems: [BoxOfficeItem] = []
+    private var layoutType: LayoutType = .list
     private var snapshot = NSDiffableDataSourceSnapshot<Section, BoxOfficeItem.ID>()
     
     private var refreshControl = UIRefreshControl()
@@ -102,10 +103,18 @@ final class BoxOfficeViewController: UIViewController {
     }
     
     @objc private func presentScreenMode() {
-        self.configureDataSource(for: .grid)
-        self.collectionView.setCollectionViewLayout(createLayout(for: .grid), animated: false)
-        
-        dataSource.apply(snapshot, animatingDifferences: true)
+        let alert = AlertManager.shared.showScreenMode(layout: layoutType.rawValue) { [weak self] in
+            self?.updateLayout()
+        }
+        present(alert, animated: true)
+    }
+    
+    private func updateLayout() {
+        self.layoutType = self.layoutType == .list ? .grid : .list
+        self.configureDataSource(for: self.layoutType)
+        self.collectionView.setCollectionViewLayout(self.createLayout(for: self.layoutType),
+                                                    animated: false)
+        self.dataSource.apply(self.snapshot, animatingDifferences: true)
     }
     
     private func fetchDailyBoxOffice(from date: Date?) {
@@ -294,7 +303,7 @@ extension BoxOfficeViewController: DateChangeable {
     }
 }
 
-fileprivate enum LayoutType {
-    case list
-    case grid
+fileprivate enum LayoutType: String {
+    case list = "리스트"
+    case grid = "아이콘"
 }
