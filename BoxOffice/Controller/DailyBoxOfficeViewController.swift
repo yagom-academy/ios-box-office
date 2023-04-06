@@ -94,24 +94,31 @@ final class DailyBoxOfficeViewController: UIViewController, DateUpdatable {
         let alert = UIAlertController(title: "화면모드변경", message: nil, preferredStyle: .actionSheet)
         let title = screenMode.oppositeTitle
         
-        let listMode = UIAlertAction(title: title, style: .default) { [self] _ in
-            screenMode.changeMode()
+        let listMode = UIAlertAction(title: title, style: .default) { [weak self] _ in
+            self?.screenMode.changeMode()
             
-            switch screenMode {
+            switch self?.screenMode {
             case .list:
-                collectionView.register(DailyBoxOfficeListCollectionViewCell.self, forCellWithReuseIdentifier: DailyBoxOfficeListCollectionViewCell.reuseIdentifier)
+                self?.collectionView.register(DailyBoxOfficeListCollectionViewCell.self, forCellWithReuseIdentifier: DailyBoxOfficeListCollectionViewCell.reuseIdentifier)
             case .icon:
-                collectionView.register(DailyBoxOfficeIconCollectionViewCell.self, forCellWithReuseIdentifier: DailyBoxOfficeIconCollectionViewCell.reuseIdentifier)
+                self?.collectionView.register(DailyBoxOfficeIconCollectionViewCell.self, forCellWithReuseIdentifier: DailyBoxOfficeIconCollectionViewCell.reuseIdentifier)
+            case .none:
+                return
             }
 
-            DispatchQueue.main.async { [self] in
-                setupDataSource()
-                updateDataSource()
-                switch screenMode {
+            DispatchQueue.main.async {
+                self?.setupDataSource()
+                self?.updateDataSource()
+                
+                switch self?.screenMode {
                 case .list:
-                    collectionView.collectionViewLayout = createMovieListLayout()
+                    guard let movieListLayout = self?.createMovieListLayout() else { return }
+                    self?.collectionView.collectionViewLayout = movieListLayout
                 case .icon:
-                    collectionView.collectionViewLayout = createMovieIconLayout()
+                    guard let movieIconLayout = self?.createMovieIconLayout() else { return }
+                    self?.collectionView.collectionViewLayout = movieIconLayout
+                case .none:
+                    return
                 }
             }
         }
