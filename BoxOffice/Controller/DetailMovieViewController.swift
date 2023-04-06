@@ -40,6 +40,7 @@ final class DetailMovieViewController: UIViewController {
     private let imageView: UIImageView = {
         let imageView = UIImageView()
         imageView.contentMode = .scaleAspectFit
+        imageView.translatesAutoresizingMaskIntoConstraints = false
         
         return imageView
     }()
@@ -159,11 +160,11 @@ final class DetailMovieViewController: UIViewController {
     }
     
     private func configureContentStackView() {
-        let director = convertString(items: movieInformation?.directors ?? [])
-        let watchGrade = convertString(items: movieInformation?.audits ?? [])
-        let nation = convertString(items: movieInformation?.nations ?? [])
-        let genre = convertString(items: movieInformation?.genres ?? [])
-        let actor = convertString(items: movieInformation?.actors ?? [])
+        let director = movieInformation?.directors.map { $0.peopleName }.joined(separator: ", ").formatEmptyString()
+        let watchGrade = movieInformation?.audits.map { $0.watchGradeName }.joined(separator: ", ").formatEmptyString()
+        let nation = movieInformation?.nations.map { $0.nationName }.joined(separator: ", ").formatEmptyString()
+        let genre = movieInformation?.genres.map { $0.genreName }.joined(separator: ", ").formatEmptyString()
+        let actor = movieInformation?.actors.map { $0.peopleName }.joined(separator: ", ").formatEmptyString()
         let productYear = movieInformation?.productYear
         let openDate = movieInformation?.openDate.formatDateString()
         let showTime = movieInformation?.showTime

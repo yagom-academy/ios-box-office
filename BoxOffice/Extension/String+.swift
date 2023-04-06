@@ -28,6 +28,12 @@ extension String {
         
         return dateFormatter.string(from: date)
     }
+    
+    func formatEmptyString() -> String {
+        if self.isEmpty {
+            return "-"
+        } else {
+            return self
+        }
+    }
 }
-
-extension String: StringConvertible { }
