@@ -66,7 +66,7 @@ final class ViewController: UIViewController {
     }
     
     private func configureCollectionView() {
-        let layout = createLayout()
+        let layout = createListLayout()
         collectionView = UICollectionView(frame: view.bounds, collectionViewLayout: layout)
         
         collectionView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
@@ -74,9 +74,27 @@ final class ViewController: UIViewController {
         collectionView.delegate = self
     }
     
-    private func createLayout() -> UICollectionViewLayout {
+    private func createListLayout() -> UICollectionViewLayout {
         let config = UICollectionLayoutListConfiguration(appearance: .plain)
         return UICollectionViewCompositionalLayout.list(using: config)
+    }
+    
+    private func createIconLayout() -> UICollectionViewLayout {
+        let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(0.5),
+                                              heightDimension: .absolute(180))
+        let item = NSCollectionLayoutItem(layoutSize: itemSize)
+        item.contentInsets = NSDirectionalEdgeInsets(top: 0, leading: 10, bottom: 0, trailing: 5)
+        
+        let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0),
+                                               heightDimension: .estimated(180))
+        let group = NSCollectionLayoutGroup.horizontal(layoutSize: groupSize, subitems: [item])
+        
+        let section = NSCollectionLayoutSection(group: group)
+        section.contentInsets = NSDirectionalEdgeInsets(top: 0, leading: 10, bottom: 0, trailing: 10)
+        section.interGroupSpacing = 10
+        
+        let layout = UICollectionViewCompositionalLayout(section: section)
+        return layout
     }
     
     private func configureDataSource() {
@@ -182,7 +200,20 @@ final class ViewController: UIViewController {
         self.present(alert, animated: true, completion: nil)
     }
     
-    private func changeView() {}
+    private func changeView() {
+        if case .list = currentViewOption {
+            collectionView.setCollectionViewLayout(createIconLayout(),
+                                                   animated: true)
+            collectionView.scrollToItem(at: IndexPath(item: 0, section: 0),
+                                        at: .top, animated: false)
+            currentViewOption = .icon
+        } else if case .icon = currentViewOption {
+            collectionView.setCollectionViewLayout(createListLayout(),
+                                                   animated: true)
+            currentViewOption = .list
+        }
+        collectionView.reloadData()
+    }
     
 }
 
