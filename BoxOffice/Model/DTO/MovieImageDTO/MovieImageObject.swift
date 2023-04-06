@@ -16,7 +16,7 @@ struct Document: Decodable {
     let width: Int
     let height: Int
     
-    enum CodingKeys: String, CodingKey {
+    private enum CodingKeys: String, CodingKey {
         case url = "image_url"
         case width, height
     }

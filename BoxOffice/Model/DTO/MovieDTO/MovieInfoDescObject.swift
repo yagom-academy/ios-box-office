@@ -18,7 +18,7 @@ struct MovieInfoDescObject: Decodable {
     let genre: [GenreObject]
     let actors: [ActorObject]
     
-    enum CodingKeys: String, CodingKey {
+    private enum CodingKeys: String, CodingKey {
         case name = "movieNm"
         case showTime = "showTm"
         case productedYear = "prdtYear"
@@ -32,7 +32,7 @@ struct MovieInfoDescObject: Decodable {
 struct ActorObject: Decodable {
     let name: String
     
-    enum CodingKeys: String, CodingKey {
+    private enum CodingKeys: String, CodingKey {
         case name = "peopleNm"
     }
 }
@@ -40,7 +40,7 @@ struct ActorObject: Decodable {
 struct GenreObject: Decodable {
     let name: String
     
-    enum CodingKeys: String, CodingKey {
+    private enum CodingKeys: String, CodingKey {
         case name = "genreNm"
     }
 }
@@ -48,7 +48,7 @@ struct GenreObject: Decodable {
 struct NationObject: Decodable {
     let name: String
     
-    enum CodingKeys: String, CodingKey {
+    private enum CodingKeys: String, CodingKey {
         case name = "nationNm"
     }
 }
@@ -56,7 +56,7 @@ struct NationObject: Decodable {
 struct DirectorObject: Decodable {
     let name: String
     
-    enum CodingKeys: String, CodingKey {
+    private enum CodingKeys: String, CodingKey {
         case name = "peopleNm"
     }
 }

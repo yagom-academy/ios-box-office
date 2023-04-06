@@ -12,7 +12,7 @@ final class MovieDetailViewController: UIViewController {
     // MARK: - Properties
     var movieName: String = ""
     var movieCode: String = ""
-    private lazy var dataManager = MovieDescManager(movieApiType: .movie(movieCode), movieImageApiType: .movieImage(movieName))
+    private lazy var dataManager = MovieDescManager(movieCode: movieCode, movieName: movieName)
     
     // MARK: - UI Properties
     private let scrollView = {

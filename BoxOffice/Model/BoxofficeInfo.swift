@@ -5,7 +5,7 @@
 //  Created by Andrew, 레옹아범 on 2023/03/28.
 //
 
-import UIKit
+import Foundation
 
 final class BoxofficeInfo<T> {
     private let apiType: APIType

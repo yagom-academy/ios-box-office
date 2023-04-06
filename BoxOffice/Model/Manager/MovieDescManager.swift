@@ -13,9 +13,9 @@ final class MovieDescManager {
     let boxofficeInfo: BoxofficeInfo<MovieInfoObject>
     let movieImage: BoxofficeInfo<MovieImageObject>
     
-    init(movieApiType: APIType, movieImageApiType: APIType, session: URLSession = URLSession.shared) {
-        self.movieApiType = movieApiType
-        self.movieImageApiType = movieImageApiType
+    init(movieCode: String, movieName: String, session: URLSession = URLSession.shared) {
+        self.movieApiType = .movie(movieCode)
+        self.movieImageApiType = .movieImage(movieName)
         self.boxofficeInfo = BoxofficeInfo<MovieInfoObject>(apiType: movieApiType, model: NetworkModel(session: session))
         self.movieImage = BoxofficeInfo<MovieImageObject>(apiType: movieImageApiType, model: NetworkModel(session: session))
     }

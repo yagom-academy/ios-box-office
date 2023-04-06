@@ -23,7 +23,7 @@ struct InfoObject: Decodable, Hashable {
         case new = "NEW"
     }
     
-    enum CodingKeys: String, CodingKey {
+    private enum CodingKeys: String, CodingKey {
         case rnum, rank
         case changedRank = "rankInten"
         case rankStatus = "rankOldAndNew"
