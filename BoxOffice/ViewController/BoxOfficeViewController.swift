@@ -120,6 +120,7 @@ final class BoxOfficeViewController: UIViewController {
                 DispatchQueue.main.async {
                     self?.updateSnapshot()
                     self?.updateNavigationTitle(form: "yyyy-MM-dd", date: self?.yesterday)
+                    self?.selectedDate = self?.yesterday
                     self?.refreshControl.endRefreshing()
                 }
             case .failure:

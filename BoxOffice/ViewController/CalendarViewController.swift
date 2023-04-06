@@ -49,6 +49,9 @@ final class CalendarViewController: UIViewController {
         let singleDateSelection = UICalendarSelectionSingleDate(delegate: self)
         self.calendarView.selectionBehavior = singleDateSelection
         
+        let dateComponent = calendarView.calendar.dateComponents([.year, .month, .day], from: self.selectedDate)
+        singleDateSelection.setSelected(dateComponent, animated: true)
+        
         calendarView.visibleDateComponents = DateComponents(
             calendar: Calendar(identifier: .gregorian),
             year: Calendar.current.component(.year, from: self.selectedDate),
