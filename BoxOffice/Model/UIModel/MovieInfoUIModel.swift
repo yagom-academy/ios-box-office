@@ -25,7 +25,7 @@ struct MovieInfoUIModel {
     
     var openDate: String {
         guard let openDate = Date.apiDateFormatter.date(from: data.openDate) else {
-            return ""
+            return "개봉일 정보 없음"
         }
         return Date.dateFormatter.string(from: openDate)
     }

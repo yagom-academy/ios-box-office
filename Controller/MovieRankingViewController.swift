@@ -46,17 +46,18 @@ final class MovieRankingViewController: UIViewController {
     }
     
     private func fetchBoxofficeData() {
-        dataManager.fetchRanking { [weak self] error in
-            guard let error = error else {
+        dataManager.fetchRanking { result in
+            switch result {
+            case .success(_):
                 DispatchQueue.main.async {
-                    self?.applySnapshot()
-                    self?.stopLoadingView()
-                    self?.collectionView.refreshControl?.endRefreshing()
+                    self.applySnapshot()
+                    self.stopLoadingView()
+                    self.collectionView.refreshControl?.endRefreshing()
                 }
-                return
-            }
-            DispatchQueue.main.async {
-                self?.presentErrorAlert(error: error, title: "박스오피스")
+            case .failure(let error):
+                DispatchQueue.main.async {
+                    self.presentErrorAlert(error: error, title: "박스오피스")
+                }
             }
         }
     }

@@ -59,18 +59,15 @@ final class MovieDetailViewController: UIViewController {
     
     private func fetchImage() {
         dataManager.fetchMoviePosterImage { [weak self] result in
-            switch result {
-            case .success((let image, let imageSize)):
-                DispatchQueue.main.async {
+            DispatchQueue.main.async {
+                switch result {
+                case .success((let image, let imageSize)):
                     self?.posterImageView.image = image
                     self?.configureImageWidthConstraint(size: imageSize)
-                    self?.stopLoading()
-                }
-            case .failure(let error):
-                DispatchQueue.main.async {
+                case .failure(let error):
                     self?.presentErrorAlert(error: error, title: "영화 포스터 이미지")
-                    self?.stopLoading()
                 }
+                self?.stopLoading()
             }
         }
     }
