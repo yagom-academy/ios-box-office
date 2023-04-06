@@ -15,12 +15,13 @@ final class DetailMovieViewController: UIViewController {
     private var movieInformation: MovieInformation? {
         didSet {
             DispatchQueue.main.async {
-                self.configureMainView()
+                self.configureContentStackView()
             }
         }
     }
     private var moviePoster: MoviePoster?
     
+    //MARK: - UIProperty
     private let scrollView: UIScrollView = {
         let scrollview = UIScrollView()
         scrollview.translatesAutoresizingMaskIntoConstraints = false
@@ -44,7 +45,45 @@ final class DetailMovieViewController: UIViewController {
         
         return imageView
     }()
-
+    
+    private let infoStackView: (String, Int) -> UIStackView = { title, tag in
+        let titleLabel: UILabel = {
+            let label = UILabel()
+            label.text = title
+            label.font = .boldSystemFont(ofSize: 17)
+            label.textAlignment = .center
+            
+            return label
+        }()
+        
+        let contextLabel: UILabel = {
+            let label = UILabel()
+            label.font = .systemFont(ofSize: 17)
+            label.textAlignment = .left
+            label.numberOfLines = 0
+            label.tag = LabelTag.contextLabel
+            
+            return label
+        }()
+        
+        let stackView: UIStackView = {
+            let stackView = UIStackView(arrangedSubviews: [titleLabel, contextLabel])
+            stackView.axis = .horizontal
+            stackView.alignment = .fill
+            stackView.distribution = .fill
+            stackView.spacing = 10
+            stackView.tag = tag
+            
+            return stackView
+        }()
+        
+        NSLayoutConstraint.activate([
+            titleLabel.widthAnchor.constraint(equalTo: stackView.widthAnchor, multiplier: 0.17),
+        ])
+        
+        return stackView
+    }
+    
     // MARK: - Method
     init(movieCode: String) {
         self.movieCode = movieCode
@@ -72,6 +111,7 @@ final class DetailMovieViewController: UIViewController {
                     DispatchQueue.main.async {
                         LoadingIndicator.hideLoading()
                         self?.imageView.image = try? self?.verifyResult(result: result)
+                        self?.configureContentStackView()
                     }
                 }
             }
@@ -90,7 +130,6 @@ final class DetailMovieViewController: UIViewController {
             
             self?.movieInformation = verifiedDecodingResult?.movieInformationResult.movieInformation
             completion()
-            
         }
     }
     
@@ -121,24 +160,34 @@ final class DetailMovieViewController: UIViewController {
         }
     }
     
-
-    
     private func configureViewController() {
         view.backgroundColor = .white
         LoadingIndicator.showLoading()
         fetchData()
+        configureMainView()
     }
     
     private func configureMainView() {
         title = movieInformation?.movieName
         configureUI()
-        configureContentStackView()
+        //configureContentStackView()
         configureLayout()
     }
     
     private func configureUI() {
         view.addSubview(scrollView)
         scrollView.addSubview(contentStackView)
+        
+        contentStackView.addArrangedSubview(imageView)
+        contentStackView.addArrangedSubview(infoStackView("감독", StackViewTag.director))
+        contentStackView.addArrangedSubview(infoStackView("제작년도", StackViewTag.productYear))
+        contentStackView.addArrangedSubview(infoStackView("개봉일", StackViewTag.openDate))
+        contentStackView.addArrangedSubview(infoStackView("상영시간", StackViewTag.showTime))
+        contentStackView.addArrangedSubview(infoStackView("관람등급", StackViewTag.watchGrade))
+        contentStackView.addArrangedSubview(infoStackView("제작국가", StackViewTag.nation))
+        contentStackView.addArrangedSubview(infoStackView("장르", StackViewTag.genres))
+        contentStackView.addArrangedSubview(infoStackView("배우", StackViewTag.actors))
+        
     }
 
     private func configureLayout() {
@@ -167,68 +216,51 @@ final class DetailMovieViewController: UIViewController {
         let openDate = movieInformation?.openDate.formatDateString()
         let showTime = movieInformation?.showTime
         
-        let directorStackView = makeInfoStackView(title: "감독", context: director)
-        let productYearStackView = makeInfoStackView(title: "제작년도", context: productYear)
-        let openDateStackView = makeInfoStackView(title: "개봉일", context: openDate)
-        let showTimeStackView = makeInfoStackView(title: "상영시간", context: showTime)
-        let watchGradeStackView = makeInfoStackView(title: "관람등급", context: watchGrade)
-        let nationStackView = makeInfoStackView(title: "제작국가", context: nation)
-        let genresStackView = makeInfoStackView(title: "장르", context: genre)
-        let actorsStackView = makeInfoStackView(title: "배우", context: actor)
-        
-        [imageView, directorStackView, productYearStackView, openDateStackView, showTimeStackView, watchGradeStackView, nationStackView, genresStackView, actorsStackView].forEach { view in
-            contentStackView.addArrangedSubview(view)
-        }
-    }
-    
-    private func makeInfoStackView(title: String, context: String?) -> UIStackView  {
-        let titleLabel: UILabel = {
-            let label = UILabel()
-            label.text = title
-            label.font = .boldSystemFont(ofSize: 17)
-            label.textAlignment = .center
-            
-            return label
-        }()
-        
-        let contextLabel: UILabel = {
-            let label = UILabel()
-            label.text = context
-            label.font = .systemFont(ofSize: 17)
-            label.textAlignment = .left
-            label.numberOfLines = 0
-            
-            return label
-        }()
-        
-        let stackView: UIStackView = {
-            let stackView = UIStackView(arrangedSubviews: [titleLabel, contextLabel])
-            stackView.axis = .horizontal
-            stackView.alignment = .fill
-            stackView.distribution = .fill
-            stackView.spacing = 10
-            
-            return stackView
-        }()
-        
-        NSLayoutConstraint.activate([
-            titleLabel.widthAnchor.constraint(equalTo: stackView.widthAnchor, multiplier: 0.17),
-        ])
-        
-        return stackView
-    }
-    
-    private func convertString(items: [StringConvertible]) -> String {
-        guard items.isEmpty == false else { return "-"}
-        
-        var resultString = ""
-        items.forEach { item in
-            if resultString.isEmpty {
-                resultString = item.description
-            } else {
-                resultString +=  ", \(item.description)"
+        let stackViews = contentStackView.arrangedSubviews.compactMap{ $0 as? UIStackView }
+       
+        stackViews.forEach { view in
+            switch view.tag {
+            case StackViewTag.director:
+                configureContextLabel(stackView: view, context: director)
+            case StackViewTag.productYear:
+                configureContextLabel(stackView: view, context: productYear)
+            case StackViewTag.openDate:
+                configureContextLabel(stackView: view, context: openDate)
+            case StackViewTag.showTime:
+                configureContextLabel(stackView: view, context: showTime)
+            case StackViewTag.watchGrade:
+                configureContextLabel(stackView: view, context: watchGrade)
+            case StackViewTag.nation:
+                configureContextLabel(stackView: view, context: nation)
+            case StackViewTag.genres:
+                configureContextLabel(stackView: view, context: genre)
+            case StackViewTag.actors:
+                configureContextLabel(stackView: view, context: actor)
+            default:
+                return
             }
         }
-        return resultString
     }
+    
+    private func configureContextLabel(stackView: UIStackView, context: String?) {
+        let contextLabel = stackView.arrangedSubviews.filter{ $0.tag == LabelTag.contextLabel }
+        let label = contextLabel.first as? UILabel
+        label?.text = context
+    }
+}
+
+enum LabelTag {
+    static let titleLabel = 0
+    static let contextLabel = 1
+}
+
+enum StackViewTag {
+    static let director = 0
+    static let productYear = 1
+    static let openDate = 2
+    static let showTime = 3
+    static let watchGrade = 4
+    static let nation = 5
+    static let genres = 6
+    static let actors = 7
 }
