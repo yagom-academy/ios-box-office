@@ -9,11 +9,13 @@ import Foundation
 
 final class Endpoint {
     let url: String
-    let method: BoxOfficeHttpMethod
+    let method: HttpMethod
+    let headers: [String: String]?
     
-    init(url: String, method: BoxOfficeHttpMethod) {
+    init(url: String, method: HttpMethod, headers: [String: String]?) {
         self.url = url
         self.method = method
+        self.headers = headers
     }
 }
 
@@ -25,6 +27,10 @@ extension Endpoint {
         
         var request = URLRequest(url: requestURL)
         request.httpMethod = method.rawValue
+        
+        headers?.forEach { header in
+            request.setValue(header.value, forHTTPHeaderField: header.key)
+        }
         
         return request
     }

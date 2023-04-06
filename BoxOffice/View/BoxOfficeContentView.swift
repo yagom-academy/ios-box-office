@@ -8,7 +8,6 @@
 import UIKit
 
 final class BoxOfficeContentView: UIView, UIContentView {
-    private var currentConfiguration: BoxOfficeContentConfiguration!
     var configuration: UIContentConfiguration {
         get {
             return currentConfiguration
@@ -22,10 +21,13 @@ final class BoxOfficeContentView: UIView, UIContentView {
         }
     }
     
+    private var currentConfiguration: BoxOfficeContentConfiguration!
+    
     private let rankLabel: UILabel = {
         let label = UILabel()
         label.adjustsFontForContentSizeCategory = true
         label.font = UIFont.preferredFont(forTextStyle: .largeTitle)
+        
         return label
     }()
 
@@ -33,6 +35,7 @@ final class BoxOfficeContentView: UIView, UIContentView {
         let label = UILabel()
         label.adjustsFontForContentSizeCategory = true
         label.font = UIFont.preferredFont(forTextStyle: .caption1)
+         
         return label
     }()
     
@@ -41,12 +44,14 @@ final class BoxOfficeContentView: UIView, UIContentView {
         stackView.translatesAutoresizingMaskIntoConstraints = false
         stackView.axis = .vertical
         stackView.alignment = .center
+        
         return stackView
     }()
     
     private let movieInformationStackView = {
         let stackView = UIStackView()
         stackView.axis = .vertical
+        
         return stackView
     }()
     
@@ -55,6 +60,7 @@ final class BoxOfficeContentView: UIView, UIContentView {
         label.adjustsFontForContentSizeCategory = true
         label.numberOfLines = 0
         label.font = .preferredFont(forTextStyle: .title3)
+        
         return label
     }()
     
@@ -62,6 +68,7 @@ final class BoxOfficeContentView: UIView, UIContentView {
         let label = UILabel()
         label.adjustsFontForContentSizeCategory = true
         label.font = .preferredFont(forTextStyle: .body)
+        
         return label
     }()
     
@@ -71,6 +78,7 @@ final class BoxOfficeContentView: UIView, UIContentView {
         stackView.distribution = .fill
         stackView.alignment = .center
         stackView.translatesAutoresizingMaskIntoConstraints = false
+        
         return stackView
     }()
     
@@ -79,6 +87,7 @@ final class BoxOfficeContentView: UIView, UIContentView {
         imageView.image = UIImage(systemName: "chevron.right")
         imageView.translatesAutoresizingMaskIntoConstraints = false
         imageView.tintColor = UIColor.lightGray.withAlphaComponent(0.7)
+        
         return imageView
     }()
     
@@ -86,6 +95,7 @@ final class BoxOfficeContentView: UIView, UIContentView {
         let view = UIView()
         view.translatesAutoresizingMaskIntoConstraints = false
         view.backgroundColor = .lightGray
+        
         return view
     }()
     
@@ -142,7 +152,8 @@ private extension BoxOfficeContentView {
         }
         
         currentConfiguration = configuration
-        resetReusingView()
+        rankIncrementLabel.textColor = configuration.audienceAccumulationCountColor
+//        resetReusingView()
         configureRankInformation(configuration: configuration)
         configureMovieInformation(configuration: configuration)
     }

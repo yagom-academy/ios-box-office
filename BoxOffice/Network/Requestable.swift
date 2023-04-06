@@ -11,5 +11,6 @@ protocol Requestable {
     var urlComponents: URLComponents? { get }
     var baseURL: String { get }
     var path: String { get }
-    var method: BoxOfficeHttpMethod { get }
+    var method: HttpMethod { get }
+    var headers: [String: String]? { get }
 }

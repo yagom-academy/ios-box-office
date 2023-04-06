@@ -25,7 +25,7 @@ final class BoxOfficeProviderTests: XCTestCase {
     func test_fetchData호출시_Data가_있고_statusCode가_200일때_정상적으로_디코딩한다() {
         //given
         let prototypeJson = JsonLoader.loadJsonAsset(name: "box_office_sample")!
-        let expectation = try? JSONDecoder().decode(BoxOfficeItem.self, from: prototypeJson)
+        let expectation = try? JSONDecoder().decode(BoxOfficeDTO.self, from: prototypeJson)
         let mockURLSession = MockURLSession.make(url: url,
                                                  data: data,
                                                  statusCode: 200)
@@ -33,9 +33,9 @@ final class BoxOfficeProviderTests: XCTestCase {
         let sut = BoxOfficeProvider<BoxOfficeAPI>(session: mockURLSession)
         
         //when
-        var result: BoxOfficeItem?
+        var result: BoxOfficeDTO?
         sut.fetchData(.dailyBoxOffice(date: "20230323"),
-                      type: BoxOfficeItem.self) { response in
+                      type: BoxOfficeDTO.self) { response in
             if case let .success(boxOffice) = response {
                 result = boxOffice
             }
@@ -65,7 +65,7 @@ final class BoxOfficeProviderTests: XCTestCase {
         //when
         var result: Error?
         sut.fetchData(.dailyBoxOffice(date: "20230323"),
-                      type: BoxOfficeItem.self) { response in
+                      type: BoxOfficeDTO.self) { response in
             if case let .failure(error) = response {
                 result = error
             }
@@ -87,7 +87,7 @@ final class BoxOfficeProviderTests: XCTestCase {
         //when
         var result: Error?
         sut.fetchData(.dailyBoxOffice(date: "20230323"),
-                      type: BoxOfficeItem.self) { response in
+                      type: BoxOfficeDTO.self) { response in
             if case let .failure(error) = response {
                 result = error
             }
@@ -111,6 +111,7 @@ final class BoxOfficeProviderTests: XCTestCase {
         sut.fetchData(.dailyBoxOffice(date: "20230323"),
                       type: MovieInformation.self) { response in
             if case let .failure(error) = response {
+                
                 result = error
             }
         }

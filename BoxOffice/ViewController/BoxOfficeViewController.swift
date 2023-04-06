@@ -40,7 +40,6 @@ final class BoxOfficeViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
         self.configureHierarchy()
         self.configureDataSource()
         self.setupUI()
@@ -75,14 +74,7 @@ final class BoxOfficeViewController: UIViewController {
                                     type: BoxOfficeDTO.self) { [weak self] result in
             switch result {
             case .success(let data):
-                self?.boxOfficeItems = data.boxOfficeResult.dailyBoxOfficeList.map { movie in
-                    return BoxOfficeItem(rank: movie.rank,
-                                         rankIncrement: movie.rankIncrement,
-                                         rankOldAndNew: movie.rankOldAndNew,
-                                         title: movie.movieName,
-                                         audienceCount: movie.audienceCount,
-                                         audienceAccumulationCount: movie.audienceAccumulation)
-                }
+                self?.boxOfficeItems = data.convertToBoxOfficeItems()
                 DispatchQueue.main.async {
                     self?.activityIndicator.stopAnimating()
                     self?.updateSnapshot()
@@ -90,23 +82,11 @@ final class BoxOfficeViewController: UIViewController {
             case .failure:
                 DispatchQueue.main.async {
                     self?.activityIndicator.stopAnimating()
-                    self?.showAlert()
+                    let alertController = AlertManager.shared.showFailureAlert()
+                    self?.present(alertController, animated: true)
                 }
             }
         }
-    }
-    
-    private func showAlert() {
-        let alert = UIAlertController(
-            title: "에러",
-            message: "데이터를 불러올 수 없습니다",
-            preferredStyle: .alert
-        )
-        let okAction = UIAlertAction(title: "확인", style: .default)
-        
-        alert.addAction(okAction)
-        
-        present(alert, animated: true)
     }
     
     @objc private func refresh() {
@@ -119,21 +99,15 @@ final class BoxOfficeViewController: UIViewController {
                                     type: BoxOfficeDTO.self) { [weak self] result in
             switch result {
             case .success(let data):
-                self?.boxOfficeItems = data.boxOfficeResult.dailyBoxOfficeList.map { movie in
-                    return BoxOfficeItem(rank: movie.rank,
-                                         rankIncrement: movie.rankIncrement,
-                                         rankOldAndNew: movie.rankOldAndNew,
-                                         title: movie.movieName,
-                                         audienceCount: movie.audienceCount,
-                                         audienceAccumulationCount: movie.audienceAccumulation)
-                }
+                self?.boxOfficeItems = data.convertToBoxOfficeItems()
                 DispatchQueue.main.async {
                     self?.updateSnapshot()
                     self?.refreshControl.endRefreshing()
                 }
             case .failure:
                 DispatchQueue.main.async {
-                    self?.showAlert()
+                    let alertController = AlertManager.shared.showFailureAlert()
+                    self?.present(alertController, animated: true)
                     self?.refreshControl.endRefreshing()
                 }
             }
@@ -163,6 +137,7 @@ extension BoxOfficeViewController {
     private func configureHierarchy() {
         collectionView = UICollectionView(frame: view.bounds, collectionViewLayout: createLayout())
         collectionView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
+        collectionView.delegate = self
         view.addSubview(collectionView)
     }
     
@@ -191,5 +166,15 @@ extension BoxOfficeViewController {
         snapshot.appendItems(boxOfficeItems.map { $0.id })
         
         dataSource.apply(snapshot, animatingDifferences: false)
+    }
+}
+
+extension BoxOfficeViewController: UICollectionViewDelegate {
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        let selectedTitle = boxOfficeItems[indexPath.row].title
+        let selectedCode = boxOfficeItems[indexPath.row].code
+        let movieDetailViewController = MovieDetailViewController(movieName: selectedTitle,
+                                                                  movieCode: selectedCode)
+        self.navigationController?.pushViewController(movieDetailViewController, animated: true)
     }
 }

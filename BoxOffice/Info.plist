@@ -2,6 +2,8 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
+	<key>DAUM_API_KEY</key>
+	<string>295ff73189add6aed3bc3bcf567d7000</string>
 	<key>API_KEY</key>
 	<string>67e99e70400656a77208ca1775261071</string>
 	<key>CFBundleIdentifier</key>
@@ -21,7 +23,7 @@
 			</dict>
 		</dict>
 		<key>NSAllowsArbitraryLoads</key>
-		<false/>
+		<true/>
 	</dict>
 	<key>UIApplicationSceneManifest</key>
 	<dict>

@@ -38,9 +38,10 @@ final class BoxOfficeProvider<Target: Requestable>: Provider {
                     let decodedData = try JSONDecoder().decode(type, from: data)
                     completion(.success(decodedData))
                 } catch {
-                    completion(.failure(error))
+                    completion(.failure(NetworkError.failToParse))
                 }
             case .failure(let error):
+                
                 completion(.failure(error))
             }
         }
@@ -87,6 +88,6 @@ extension BoxOfficeProvider {
             return nil
         }
         
-        return Endpoint(url: url.absoluteString, method: .get)
+        return Endpoint(url: url.absoluteString, method: .get, headers: target.headers)
     }
 }
