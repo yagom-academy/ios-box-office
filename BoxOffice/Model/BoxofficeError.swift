@@ -13,6 +13,7 @@ enum BoxofficeError: LocalizedError {
     case responseError
     case incorrectDataTypeError
     case decodingError
+    case imageVaildError
     
     var errorDescription: String? {
         switch self {
@@ -26,6 +27,8 @@ enum BoxofficeError: LocalizedError {
             return "올바르지 않는 데이터 포맷입니다"
         case .decodingError:
             return "데이터를 변환하지 못하였습니다"
+        case .imageVaildError:
+            return "이미지를 받아오지 못하였습니다"
         }
     }
 }

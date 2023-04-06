@@ -21,15 +21,7 @@ final class MovieRankingViewController: UIViewController {
     // MARK: UI Properties
     private let loadingView = UIActivityIndicatorView()
     private let refreshController = UIRefreshControl()
-    private let collectionView = {
-        let configuration = UICollectionLayoutListConfiguration(appearance: .plain)
-        let layout = UICollectionViewCompositionalLayout.list(using: configuration)
-        let collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
-        
-        collectionView.register(MovieRankingCell.self, forCellWithReuseIdentifier: MovieRankingCell.identifier)
-        
-        return collectionView
-    }()
+    private var collectionView: UICollectionView?
     
     // MARK: DataSource Properties
     private var dataSource: UICollectionViewDiffableDataSource<APIType, InfoObject>?
@@ -45,42 +37,49 @@ final class MovieRankingViewController: UIViewController {
     }
     
     private func fetchBoxofficeData() {
-        dataManager.boxofficeInfo.fetchData { [weak self] result in
+        dataManager.fetchRanking { [weak self] result in
             switch result {
-            case .success(let data):
-                self?.dataManager.movieItems = data.boxOfficeResult.movies
+            case .success(_):
                 DispatchQueue.main.async {
                     self?.applySnapshot()
-                    self?.loadingView.stopAnimating()
-                    self?.collectionView.refreshControl?.endRefreshing()
+                    self?.stopLoadingView()
+                    self?.collectionView?.refreshControl?.endRefreshing()
                 }
             case .failure(let error):
                 DispatchQueue.main.async {
-                    self?.presentErrorAlert(error: error)
+                    self?.presentErrorAlert(error: error, title: "박스오피스")
                 }
             }
         }
-    }
-    
-    private func presentErrorAlert(error: Error) {
-        let alert = UIAlertController(title: error.localizedDescription,
-                                      message: nil,
-                                      preferredStyle: .alert)
-        alert.addAction(UIAlertAction(title: "확인", style: .default))
-        present(alert, animated: true, completion: nil)
     }
 
     private func startLoadingView() {
         self.loadingView.startAnimating()
     }
     
+    private func stopLoadingView() {
+        self.loadingView.stopAnimating()
+    }
+    
     private func configureRefreshController() {
         refreshController.addTarget(self, action: #selector(refreshCollectionView), for: .valueChanged)
-        collectionView.refreshControl = refreshController
+        collectionView?.refreshControl = refreshController
     }
     
     @objc private func refreshCollectionView() {
         self.fetchBoxofficeData()
+    }
+}
+
+// MARK: Delegate
+extension MovieRankingViewController: UICollectionViewDelegate {
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        let nextViewController = MovieDetailViewController()
+        
+        nextViewController.movieName = dataManager.movieItems[indexPath.row].name
+        nextViewController.movieCode = dataManager.movieItems[indexPath.row].code
+        
+        navigationController?.pushViewController(nextViewController, animated: true)
     }
 }
 
@@ -89,6 +88,9 @@ extension MovieRankingViewController {
     private func configureUI() {
         view.backgroundColor = .systemBackground
         
+        let layout = makeCollectionViewListLayout()
+        
+        collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
         configureCollectionViewLayout()
         configureLoadingView()
         
@@ -102,13 +104,22 @@ extension MovieRankingViewController {
         view.addSubview(loadingView)
     }
     
+    func makeCollectionViewListLayout() -> UICollectionViewCompositionalLayout {
+        let configuration = UICollectionLayoutListConfiguration(appearance: .plain)
+        let layout = UICollectionViewCompositionalLayout.list(using: configuration)
+        
+        return layout
+    }
+    
     private func makeDataSource() {
+        guard let collectionView = collectionView else { return }
+        
         dataSource = UICollectionViewDiffableDataSource<APIType, InfoObject>(collectionView: collectionView, cellProvider: { collectionView, indexPath, itemIdentifier in
             guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: MovieRankingCell.identifier, for: indexPath) as? MovieRankingCell else { return UICollectionViewListCell() }
             
-            let infoManager = InfoManager(data: itemIdentifier)
+            let uiModel = CellUIModel(data: itemIdentifier)
             
-            cell.updateLabelText(for: infoManager)
+            cell.updateLabelText(for: uiModel)
             
             return cell
         })
@@ -124,9 +135,13 @@ extension MovieRankingViewController {
     }
 
     private func configureCollectionViewLayout() {
+        guard let collectionView = collectionView else { return }
+        
         view.addSubview(collectionView)
         
         collectionView.translatesAutoresizingMaskIntoConstraints = false
+        collectionView.delegate = self
+        collectionView.register(MovieRankingCell.self, forCellWithReuseIdentifier: MovieRankingCell.identifier)
         
         NSLayoutConstraint.activate([
             collectionView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
@@ -136,4 +151,3 @@ extension MovieRankingViewController {
         ])
     }
 }
-

@@ -10,5 +10,5 @@ import Foundation
 protocol NetworkingProtocol {
     init(session: URLSession)
     
-    func search(url: URL, completion: @escaping (Result<Data, BoxofficeError>) -> Void) -> URLSessionDataTask
+    func search(request: URLRequest, completion: @escaping (Result<Data, BoxofficeError>) -> Void) -> URLSessionDataTask
 }

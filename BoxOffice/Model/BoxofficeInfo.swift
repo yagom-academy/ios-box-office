@@ -7,7 +7,7 @@
 
 import Foundation
 
-class BoxofficeInfo<T: Decodable> {
+final class BoxofficeInfo<T> {
     private let apiType: APIType
     private let model: NetworkingProtocol
     private var task: URLSessionDataTask?
@@ -19,7 +19,7 @@ class BoxofficeInfo<T: Decodable> {
         self.isRunningOnlyOneTask = isRunningOnlyOneTask
     }
     
-    private func decodeData(_ data: Data) -> T? {
+    private func decodeData(_ data: Data) -> T? where T: Decodable {
         do {
             let decodingData = try JSONDecoder().decode(T.self, from: data)
             return decodingData
@@ -28,17 +28,34 @@ class BoxofficeInfo<T: Decodable> {
         }
     }
     
-    func fetchData(handler: @escaping (Result<T, BoxofficeError>) -> Void) {
-        guard let url = apiType.receiveUrl() else {
-            handler(.failure(.urlError))
-            return
-        }
-        
+    private func makeRequest(url: URL) -> URLRequest? {
         if isRunningOnlyOneTask {
             cancelTask()
         }
         
-        task = model.search(url: url) { [weak self] result in
+        var urlRequest = URLRequest(url: url)
+        
+        guard let header = apiType.header else {
+            return urlRequest
+        }
+        
+        urlRequest.addValue(header, forHTTPHeaderField: "Authorization")
+        
+        return urlRequest
+    }
+    
+    private func cancelTask() {
+        task?.cancel()
+    }
+    
+    func fetchData(handler: @escaping (Result<T, BoxofficeError>) -> Void) where T: Decodable {
+        guard let url = apiType.receiveUrl(),
+              let request = makeRequest(url: url) else {
+            handler(.failure(.urlError))
+            return
+        }
+        
+        task = model.search(request: request) { [weak self] result in
             switch result {
             case .success(let data):
                 guard let decodingData = self?.decodeData(data) else {
@@ -50,9 +67,5 @@ class BoxofficeInfo<T: Decodable> {
                 handler(.failure(error))
             }
         }
-    }
-    
-    func cancelTask() {
-        task?.cancel()
     }
 }
