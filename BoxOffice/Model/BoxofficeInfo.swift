@@ -34,7 +34,12 @@ final class BoxofficeInfo<T> {
         }
         
         var urlRequest = URLRequest(url: url)
-        urlRequest.addValue(apiType.header, forHTTPHeaderField: "Authorization")
+        
+        guard let header = apiType.header else {
+            return urlRequest
+        }
+        
+        urlRequest.addValue(header, forHTTPHeaderField: "Authorization")
         
         return urlRequest
     }

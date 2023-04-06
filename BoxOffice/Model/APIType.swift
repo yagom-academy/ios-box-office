@@ -11,39 +11,65 @@ enum APIType: Hashable {
     case boxoffice(String)
     case movieImage(String)
     
-    var header: String {
+    var header: String? {
         switch self {
-        case .movie(_), .boxoffice(_):
-            return ""
         case .movieImage(_):
             return "KakaoAK \(Bundle.main.kakaoApiKey)"
+        default:
+            return nil
+        }
+    }
+    
+    private var scheme: String {
+        switch self {
+        case .movie(_), .boxoffice(_):
+            return "http"
+        case .movieImage(_):
+            return "https"
+        }
+    }
+    
+    private var host: String {
+        switch self {
+        case .movie(_), .boxoffice(_):
+            return "kobis.or.kr"
+        case .movieImage(_):
+            return "dapi.kakao.com"
         }
     }
     
     func receiveUrl() -> URL? {
         let key = Bundle.main.koficApiKey
+        var urlComponents = URLComponents()
+        urlComponents.scheme = scheme
+        urlComponents.host = host
         
         switch self {
         case .movie(let code):
-            var components = URLComponents(string: "http://kobis.or.kr/kobisopenapi/webservice/rest/movie/searchMovieInfo.json")
+            urlComponents.path = "/kobisopenapi/webservice/rest/movie/searchMovieInfo.json"
+            
             let keyQuery = URLQueryItem(name: "key", value: key)
             let codeQuery = URLQueryItem(name: "movieCd", value: code)
-            components?.queryItems = [keyQuery, codeQuery]
             
-            return components?.url
+            urlComponents.queryItems = [keyQuery, codeQuery]
+            
+            return urlComponents.url
         case .boxoffice(let date):
-            var components = URLComponents(string: "http://kobis.or.kr/kobisopenapi/webservice/rest/boxoffice/searchDailyBoxOfficeList.json")
+            urlComponents.path = "/kobisopenapi/webservice/rest/boxoffice/searchDailyBoxOfficeList.json"
+    
             let keyQuery = URLQueryItem(name: "key", value: key)
             let dateQuery = URLQueryItem(name: "targetDt", value: date)
-            components?.queryItems = [keyQuery, dateQuery]
+    
+            urlComponents.queryItems = [keyQuery, dateQuery]
             
-            return components?.url
+            return urlComponents.url
         case .movieImage(let movieName):
-            var components  = URLComponents(string: "https://dapi.kakao.com/v2/search/image")
-            let query = URLQueryItem(name: "query", value: "\(movieName)포스터")
-            components?.queryItems = [query]
+            urlComponents.path = "/v2/search/image"
             
-            return components?.url
+            let query = URLQueryItem(name: "query", value: "\(movieName)포스터")
+            urlComponents.queryItems = [query]
+            
+            return urlComponents.url
         }
     }
 }
