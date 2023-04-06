@@ -74,7 +74,7 @@ final class MovieInformationViewController: UIViewController {
                 let movieInformationItem = MovieInformationItem(from: result.movieInformationResult.movie)
                 
                 DispatchQueue.main.async {
-                    self?.movieInformationScrollView.configure(by: movieInformationItem)
+                    self?.movieInformationScrollView.setupDescriptionLabels(director: movieInformationItem.directors, productionYear: movieInformationItem.productionYear, openDate: movieInformationItem.openDate, showTime: movieInformationItem.showTime, watchGrade: movieInformationItem.audits, nation: movieInformationItem.nations, genre: movieInformationItem.genres, actor: movieInformationItem.actors)
                 }
             }
         }
@@ -195,3 +195,4 @@ struct MovieInformationItem: Hashable {
         self.showTime = movie.showTime
     }
 }
+
