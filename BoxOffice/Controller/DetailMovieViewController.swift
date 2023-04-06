@@ -46,6 +46,15 @@ final class DetailMovieViewController: UIViewController {
         return imageView
     }()
     
+    private let directorStackView = CustomStackView(title: "감독")
+    private let productYearStackView = CustomStackView(title: "제작년도")
+    private let openDateStackView = CustomStackView(title: "개봉일")
+    private let showTimeStackView = CustomStackView(title: "상영시간")
+    private let watchGradeStackView = CustomStackView(title: "관람등급")
+    private let nationStackView = CustomStackView(title: "제작국가")
+    private let genresStackView = CustomStackView(title: "장르")
+    private let actorsStackView = CustomStackView(title: "배우")
+    
     // MARK: - Method
     init(movieCode: String) {
         self.movieCode = movieCode
@@ -58,7 +67,7 @@ final class DetailMovieViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        let viewa = CustomStackView(title: "ddd")
+ 
         configureViewController()
     }
     
@@ -136,16 +145,11 @@ final class DetailMovieViewController: UIViewController {
         view.addSubview(scrollView)
         scrollView.addSubview(contentStackView)
         
-        contentStackView.addArrangedSubview(imageView)
-        contentStackView.addArrangedSubview(infoStackView("감독", StackViewTag.director))
-        contentStackView.addArrangedSubview(infoStackView("제작년도", StackViewTag.productYear))
-        contentStackView.addArrangedSubview(infoStackView("개봉일", StackViewTag.openDate))
-        contentStackView.addArrangedSubview(infoStackView("상영시간", StackViewTag.showTime))
-        contentStackView.addArrangedSubview(infoStackView("관람등급", StackViewTag.watchGrade))
-        contentStackView.addArrangedSubview(infoStackView("제작국가", StackViewTag.nation))
-        contentStackView.addArrangedSubview(infoStackView("장르", StackViewTag.genres))
-        contentStackView.addArrangedSubview(infoStackView("배우", StackViewTag.actors))
-        
+        [imageView, directorStackView, productYearStackView,
+         openDateStackView, showTimeStackView, watchGradeStackView,
+         nationStackView, genresStackView, actorsStackView].forEach { view in
+            contentStackView.addArrangedSubview(view)
+        }
     }
 
     private func configureLayout() {
@@ -174,51 +178,13 @@ final class DetailMovieViewController: UIViewController {
         let openDate = movieInformation?.openDate.formatDateString(format: DateFormat.yearMonthDay)
         let showTime = movieInformation?.showTime
         
-        let stackViews = contentStackView.arrangedSubviews.compactMap{ $0 as? UIStackView }
-       
-        stackViews.forEach { view in
-            switch view.tag {
-            case StackViewTag.director:
-                configureContextLabel(stackView: view, context: director)
-            case StackViewTag.productYear:
-                configureContextLabel(stackView: view, context: productYear)
-            case StackViewTag.openDate:
-                configureContextLabel(stackView: view, context: openDate)
-            case StackViewTag.showTime:
-                configureContextLabel(stackView: view, context: showTime)
-            case StackViewTag.watchGrade:
-                configureContextLabel(stackView: view, context: watchGrade)
-            case StackViewTag.nation:
-                configureContextLabel(stackView: view, context: nation)
-            case StackViewTag.genres:
-                configureContextLabel(stackView: view, context: genre)
-            case StackViewTag.actors:
-                configureContextLabel(stackView: view, context: actor)
-            default:
-                return
-            }
-        }
+        directorStackView.configureContext(context: director)
+        productYearStackView.configureContext(context: productYear)
+        openDateStackView.configureContext(context: openDate)
+        showTimeStackView.configureContext(context: showTime)
+        watchGradeStackView.configureContext(context: watchGrade)
+        nationStackView.configureContext(context: nation)
+        genresStackView.configureContext(context: genre)
+        actorsStackView.configureContext(context: actor)
     }
-    
-    private func configureContextLabel(stackView: UIStackView, context: String?) {
-        let contextLabel = stackView.arrangedSubviews.filter{ $0.tag == LabelTag.contextLabel }
-        let label = contextLabel.first as? UILabel
-        label?.text = context
-    }
-}
-
-enum LabelTag {
-    static let titleLabel = 0
-    static let contextLabel = 1
-}
-
-enum StackViewTag {
-    static let director = 0
-    static let productYear = 1
-    static let openDate = 2
-    static let showTime = 3
-    static let watchGrade = 4
-    static let nation = 5
-    static let genres = 6
-    static let actors = 7
 }
