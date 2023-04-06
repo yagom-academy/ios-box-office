@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		4B15DD9229DD0AF9006AC55B /* extension+Collection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B15DD9129DD0AF9006AC55B /* extension+Collection.swift */; };
 		4B15DD8D29DC16F3006AC55B /* DailyBoxOfficeListCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B15DD8C29DC16F3006AC55B /* DailyBoxOfficeListCell.swift */; };
 		4B15DD9229DD0AF9006AC55B /* (null) in Sources */ = {isa = PBXBuildFile; };
 		4B181D0729D287D900B3CD47 /* extension+String.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B181D0629D287D900B3CD47 /* extension+String.swift */; };
