@@ -81,8 +81,8 @@ final class MovieRankingViewController: UIViewController {
     }
 }
 
-// MARK: CalendarDelegate
-extension MovieRankingViewController: CalendarDelegate {
+// MARK: Changeable
+extension MovieRankingViewController: Changeable {
     func changeDate(_ date: Date) {
         startLoadingView()
         boxofficeDate = date

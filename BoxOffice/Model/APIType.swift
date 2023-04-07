@@ -41,6 +41,7 @@ enum APIType: Hashable {
     func receiveUrl() -> URL? {
         let key = Bundle.main.koficApiKey
         var urlComponents = URLComponents()
+        
         urlComponents.scheme = scheme
         urlComponents.host = host
         

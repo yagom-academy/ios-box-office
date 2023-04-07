@@ -9,7 +9,7 @@ import UIKit
 
 final class CalendarViewController: UIViewController {
     
-    var delegate: CalendarDelegate?
+    var delegate: Changeable?
     var selectedDate = Date()
     
     private let calendarView = {
@@ -29,12 +29,12 @@ final class CalendarViewController: UIViewController {
     }
     
     private func restrictDateRange() {
-        let yesterday = Date.yesterday ?? Date()
-        let calendar = Calendar.current
-        let yesterdayComponents = calendar.dateComponents([.year, .month, .day], from: yesterday)
-        let year = yesterdayComponents.year
-        let month = yesterdayComponents.month
-        let day = yesterdayComponents.day
+        let restrictedDate = Date.yesterday ?? Date()
+        let calendar = calendarView.calendar
+        let restrictedDateComponents = calendar.dateComponents([.year, .month, .day], from: restrictedDate)
+        let year = restrictedDateComponents.year
+        let month = restrictedDateComponents.month
+        let day = restrictedDateComponents.day
         
         let fromDateComponents = DateComponents(calendar: Calendar(identifier: .gregorian), year: 2012, month: 1, day: 1)
         let toDateComponents = DateComponents(calendar: Calendar(identifier: .gregorian), year: year, month: month, day: day)
