@@ -46,7 +46,7 @@ struct CollectionViewModeManager {
         let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(0.5),
                                               heightDimension: .fractionalWidth(0.5))
         let item = NSCollectionLayoutItem(layoutSize: itemSize)
-        item.contentInsets = NSDirectionalEdgeInsets(top: 8, leading: 8, bottom: 8, trailing: 8)
+        item.contentInsets = NSDirectionalEdgeInsets(top: 10, leading: 10, bottom: 10, trailing: 10)
         
         let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0),
                                                heightDimension: .fractionalHeight(0.25))
@@ -54,7 +54,7 @@ struct CollectionViewModeManager {
                                                          subitems: [item])
         
         let section = NSCollectionLayoutSection(group: group)
-        section.interGroupSpacing = 15
+        section.interGroupSpacing = 20
         
         let layout = UICollectionViewCompositionalLayout(section: section)
         

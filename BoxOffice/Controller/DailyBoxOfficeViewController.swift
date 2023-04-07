@@ -78,14 +78,14 @@ final class DailyBoxOfficeViewController: UIViewController {
         switch collectionViewMode {
         case .icon:
             collectionViewMode = .list
-            collectionView.register(DailyBoxOfficeListCell.self,
-                                    forCellWithReuseIdentifier: DailyBoxOfficeListCell.identifier)
+            dataSource.snapshot().reloadItems(<#T##identifiers: [DailyBoxOfficeMovie]##[DailyBoxOfficeMovie]#>)
         case .list:
             collectionViewMode = .icon
-            collectionView.register(DailyBoxOfficeIconCell.self,
-                                    forCellWithReuseIdentifier: DailyBoxOfficeIconCell.identifier)
+            dataSource.snapshot().reloadItems([DailyBoxOfficeIconCell.identifier])
         }
+        
         collectionView.setCollectionViewLayout(collectionViewLayout(), animated: true)
+        collectionView.reloadData()
     }
     
     private func configureCollectionView() {
@@ -102,27 +102,25 @@ final class DailyBoxOfficeViewController: UIViewController {
     }
     
     private func configureDataSource() {
-//        guard let cellRegistration = collectionViewModeManager.cellRegistration(mode: collectionViewMode)
-//                as? UICollectionView.CellRegistration<DailyBoxOfficeListCell, DailyBoxOfficeMovie>
-//        else {
-//            return
-//        }
-//
-//        dataSource = DataSource(collectionView: collectionView) { collectionView, indexPath, itemIdentifier in
-//            let cell = collectionView.dequeueConfiguredReusableCell(using: cellRegistration,
-//                                                                    for: indexPath,
-//                                                                    item: itemIdentifier)
-//            return cell
-//        }
+        let listCellRegistration = UICollectionView.CellRegistration<DailyBoxOfficeListCell, DailyBoxOfficeMovie> { cell, indexPath, item in
+            cell.updateData(with: item)
+        }
         
-         collectionView.register(DailyBoxOfficeListCell.self,
-                                 forCellWithReuseIdentifier: DailyBoxOfficeListCell.identifier)
+        let iconCellRegistration = UICollectionView.CellRegistration<DailyBoxOfficeIconCell, DailyBoxOfficeMovie> { cell, indexPath, item in
+            cell.updateData(with: item)
+        }
+        
          dataSource = DataSource(collectionView: collectionView) { collectionView, indexPath, itemIdentifier in
-             guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: DailyBoxOfficeListCell.identifier, for: indexPath) as? DailyBoxOfficeListCell else { return }
-             guard let dailyBoxOfficeMovie = dailyBoxOffice?.boxOfficeResult.dailyBoxOfficeList[safe: indexPath.item] else { return }
-             cell.updateData(with: dailyBoxOfficeMovie)
-             
-             return cell
+             switch self.collectionViewMode {
+             case .icon:
+                 let cell = collectionView.dequeueConfiguredReusableCell(using: iconCellRegistration, for: indexPath, item: itemIdentifier)
+                 
+                 return cell
+             case .list:
+                 let cell = collectionView.dequeueConfiguredReusableCell(using: listCellRegistration, for: indexPath, item: itemIdentifier)
+                 
+                 return cell
+             }
          }
     }
     
