@@ -7,9 +7,9 @@
 
 import UIKit
 
-final class MovieRankingCell: UICollectionViewListCell {
+final class MovieRankingListCell: UICollectionViewListCell {
         
-    static let identifier = "MovieRankingCell"
+    static let identifier = "MovieRankingListCell"
     
     // MARK: UI Properties
     private let rankStatusLabel = UILabel()
@@ -54,7 +54,7 @@ final class MovieRankingCell: UICollectionViewListCell {
 }
 
 // MARK: UI
-extension MovieRankingCell {
+extension MovieRankingListCell {
     private func configureUI() {
         self.accessories = [.disclosureIndicator()]
         

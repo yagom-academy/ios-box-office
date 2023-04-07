@@ -80,8 +80,13 @@ final class MovieRankingViewController: UIViewController {
         present(calendarVC, animated: true)
     }
     
-    @objc private func didTapPresentButton() {
-        
+    @objc private func didTapChangedScreenButton() {
+        let alert = UIAlertController(title: "화면모드변경",
+                                      message: nil,
+                                      preferredStyle: .actionSheet)
+        alert.addAction(UIAlertAction(title: "아이콘", style: .default))
+        alert.addAction(UIAlertAction(title: "취소", style: .cancel))
+        present(alert, animated: true)
     }
 }
 
@@ -152,7 +157,7 @@ extension MovieRankingViewController {
         navigationController?.setToolbarHidden(false, animated: true)
         
         let flexibleItem = UIBarButtonItem(systemItem: .flexibleSpace)
-        let barButtonItem = UIBarButtonItem(title: "화면 전환", style: .plain, target: self, action: #selector(didTapPresentButton))
+        let barButtonItem = UIBarButtonItem(title: "화면 전환", style: .plain, target: self, action: #selector(didTapChangedScreenButton))
         
         setToolbarItems([flexibleItem, barButtonItem, flexibleItem], animated: true)
     }
@@ -168,7 +173,7 @@ extension MovieRankingViewController {
         guard let collectionView = collectionView else { return }
         
         dataSource = UICollectionViewDiffableDataSource<APIType, InfoObject>(collectionView: collectionView, cellProvider: { collectionView, indexPath, itemIdentifier in
-            guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: MovieRankingCell.identifier, for: indexPath) as? MovieRankingCell else { return UICollectionViewListCell() }
+            guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: MovieRankingListCell.identifier, for: indexPath) as? MovieRankingListCell else { return UICollectionViewListCell() }
             
             let uiModel = CellUIModel(data: itemIdentifier)
             
@@ -196,7 +201,7 @@ extension MovieRankingViewController {
         
         collectionView.translatesAutoresizingMaskIntoConstraints = false
         collectionView.delegate = self
-        collectionView.register(MovieRankingCell.self, forCellWithReuseIdentifier: MovieRankingCell.identifier)
+        collectionView.register(MovieRankingListCell.self, forCellWithReuseIdentifier: MovieRankingListCell.identifier)
         
         NSLayoutConstraint.activate([
             collectionView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
