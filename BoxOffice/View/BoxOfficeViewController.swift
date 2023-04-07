@@ -13,12 +13,7 @@ final class BoxOfficeViewController: UIViewController {
     private let boxOfficeDataLoader = BoxOfficeDataLoader()
     private let refreshControl = UIRefreshControl()
     private var boxOffice: BoxOffice?
-    private var selectedDate = Date(timeIntervalSinceNow: -86400) {
-        didSet {
-            navigationItem.title = DateFormatter.hyphenText(date: selectedDate)
-            loadInitialData()
-        }
-    }
+    private var selectedDate = Date().previousDate()
     
     private lazy var activityIndicator: UIActivityIndicatorView = {
         let activityIndicator = UIActivityIndicatorView()
@@ -143,6 +138,8 @@ extension BoxOfficeViewController: UICollectionViewDelegate {
 
 extension BoxOfficeViewController: UpdateDateDelegate {
     func sendDate(date: Date) {
-        self.selectedDate = date
+        selectedDate = date
+        navigationItem.title = DateFormatter.hyphenText(date: selectedDate)
+        loadInitialData()
     }
 }

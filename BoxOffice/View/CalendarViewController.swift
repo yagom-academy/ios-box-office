@@ -17,7 +17,7 @@ final class CalendarViewController: UIViewController {
     
     private let calendarView: UICalendarView = {
         let calendarView = UICalendarView()
-        let yesterday = Date(timeIntervalSinceNow: -86400)
+        let yesterday = Date().previousDate()
         
         calendarView.availableDateRange = DateInterval(start: .distantPast, end: yesterday)
         calendarView.locale = Locale(identifier: "ko_KR")
