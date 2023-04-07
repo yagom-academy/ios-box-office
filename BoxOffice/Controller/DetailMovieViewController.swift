@@ -14,8 +14,9 @@ final class DetailMovieViewController: UIViewController {
     private var movieCode: String
     private var movieInformation: MovieInformation? {
         didSet {
-            DispatchQueue.main.async {
-                self.configureContentStackView()
+            DispatchQueue.main.async { [weak self] in
+                self?.title = self?.movieInformation?.movieName
+                self?.configureContentStackView()
             }
         }
     }
@@ -145,7 +146,6 @@ final class DetailMovieViewController: UIViewController {
     }
     
     private func configureMainView() {
-        title = movieInformation?.movieName
         configureUI()
         configureLayout()
     }

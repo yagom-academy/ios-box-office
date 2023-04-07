@@ -78,6 +78,7 @@ final class CustomCollectionViewCell: UICollectionViewListCell {
             let label = UILabel()
             label.text = dailyBoxOffice?.rank
             label.font = .preferredFont(forTextStyle: .largeTitle)
+            label.adjustsFontForContentSizeCategory = true
             
             return label
         }()
@@ -86,6 +87,7 @@ final class CustomCollectionViewCell: UICollectionViewListCell {
             let label = UILabel()
             label.attributedText = configureRankIntensityText(dailyBoxOffice: dailyBoxOffice)
             label.font = .preferredFont(forTextStyle: .body)
+            label.adjustsFontForContentSizeCategory = true
             
             return label
         }()
@@ -149,6 +151,7 @@ final class CustomCollectionViewCell: UICollectionViewListCell {
             label.text = dailyBoxOffice?.movieName
             label.textAlignment = .left
             label.font = .preferredFont(forTextStyle: .body)
+            label.adjustsFontForContentSizeCategory = true
             
             return label
         }()
@@ -160,6 +163,7 @@ final class CustomCollectionViewCell: UICollectionViewListCell {
                  label.text = "오늘 \(count) / 총 \(accumulation)"
                  label.textAlignment = .left
                  label.font = .preferredFont(forTextStyle: .caption1)
+                 label.adjustsFontForContentSizeCategory = true
                  
                  return label
              }
