@@ -95,10 +95,9 @@
 
 |모드 변경|날짜 변경|
 |:---:|:---:|
-|<img src="https://i.imgur.com/GCVuLJh.gif" width="300">|<img src="https://i.imgur.com/TYxlMyi.gif" width="300">|
+|<img src="https://i.imgur.com/flx2O9i.gif" width="300">|<img src="https://i.imgur.com/TYxlMyi.gif" width="300">|
 
 <br/>
-
 
 # 🚀 트러블 슈팅
 ## 1️⃣ 날짜 변경 후 달력에서 선택된 날짜 변경하기
