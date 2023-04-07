@@ -92,6 +92,19 @@ final class BoxOfficeListViewController: UIViewController {
             return button
         }()
         self.navigationItem.rightBarButtonItem = selectDateButton
+        
+        self.navigationController?.isToolbarHidden = false
+        
+        let selectModeButton: UIBarButtonItem = {
+            let button = UIBarButtonItem(title: "화면 모드 변경",
+                                         style: .plain,
+                                         target: self,
+                                         action: #selector(presentCellChangeActionSheet))
+            return button
+        }()
+        
+        let flexibleSpace = UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: self, action: nil)
+        self.toolbarItems = [flexibleSpace, selectModeButton, flexibleSpace]
     }
     
     @objc private func presentSelectDateModal() {
@@ -99,6 +112,16 @@ final class BoxOfficeListViewController: UIViewController {
         modal.delegate = self
         
         self.present(modal, animated: true)
+    }
+    
+    @objc private func presentCellChangeActionSheet() {
+        let actionSheet = UIAlertController(title: "화면모드변경", message: nil, preferredStyle: .actionSheet)
+        let actionDefault = UIAlertAction(title: "아이콘", style: .default)
+        let actionCancel = UIAlertAction(title: "취소", style: .cancel)
+        actionSheet.addAction(actionDefault)
+        actionSheet.addAction(actionCancel)
+        
+        self.present(actionSheet, animated: true)
     }
     
     private func fetchBoxOfficeData(completion: @escaping () -> Void) {
