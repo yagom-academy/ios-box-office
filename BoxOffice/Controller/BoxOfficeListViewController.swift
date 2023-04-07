@@ -30,6 +30,8 @@ final class BoxOfficeListViewController: UIViewController {
         let collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
         collectionView.register(CustomCollectionViewListCell.self,
                                 forCellWithReuseIdentifier: CustomCollectionViewListCell.identifier)
+        collectionView.register(CustomCollectionViewIconCell.self,
+                                forCellWithReuseIdentifier: CustomCollectionViewIconCell.identifier)
         collectionView.translatesAutoresizingMaskIntoConstraints = false
         
         return collectionView
@@ -150,9 +152,9 @@ extension BoxOfficeListViewController: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let dailyBoxOffice = self.boxOffice?.boxOfficeResult.dailyBoxOfficeList[index: indexPath.item]
         
-        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: CustomCollectionViewListCell.identifier, for: indexPath) as? CustomCollectionViewListCell else { return CustomCollectionViewListCell() }
+        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: CustomCollectionViewIconCell.identifier, for: indexPath) as? CustomCollectionViewIconCell else { return CustomCollectionViewIconCell() }
         
-        cell.configureDailyBoxOffice(dailyBoxOffice: dailyBoxOffice)
+        cell.configureCell(dailyBoxOffice: dailyBoxOffice)
 
         return cell
     }
@@ -160,16 +162,21 @@ extension BoxOfficeListViewController: UICollectionViewDataSource {
 
 extension BoxOfficeListViewController: UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        let width = collectionView.frame.width
-        let height = collectionView.frame.height
+//        let width = collectionView.frame.width
+//        let height = collectionView.frame.height
+        //
+        //        let itemsPerRow: CGFloat = 2.5
+        //        let itemsPerColumn: CGFloat = 3
+        //
+        //        let cellWidth = width / 2 - 20
+        //        let cellHeight = cellWidth
+        //
+        guard let flowLayout = collectionViewLayout as? UICollectionViewFlowLayout else { return CGSize() }
+        let numberOfCells: CGFloat = 2.2
+        let width = collectionView.frame.size.width - (flowLayout.minimumInteritemSpacing * (numberOfCells-1))
+        return CGSize(width: width/(numberOfCells), height: width/(numberOfCells))
         
-        let itemsPerRow: CGFloat = 1
-        let itemsPerColumn: CGFloat = 8.5
-       
-        let cellWidth = width / itemsPerRow
-        let cellHeight = height / itemsPerColumn
-        
-        return CGSize(width: cellWidth, height: cellHeight)
+        // return CGSize(width: width/(numberOfCells), height: width/(numberOfCells))
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
@@ -181,6 +188,16 @@ extension BoxOfficeListViewController: UICollectionViewDelegateFlowLayout {
         let detailMovieViewController = DetailMovieViewController(movieCode: movieCode)
         
         navigationController?.pushViewController(detailMovieViewController, animated: true)
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {
+        return UIEdgeInsets(top: 10, left: 10, bottom: 10, right: 10)
+    }
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
+        return 10.0
+    }
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumInteritemSpacingForSectionAt section: Int) -> CGFloat {
+        return 10.0
     }
 }
 

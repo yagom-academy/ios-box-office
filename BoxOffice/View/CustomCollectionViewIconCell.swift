@@ -14,7 +14,7 @@ final class CustomCollectionViewIconCell: UICollectionViewCell {
     private let mainStackView: UIStackView = {
         let stackView = UIStackView()
         stackView.axis = .vertical
-        stackView.distribution = .fill
+        stackView.distribution = .equalCentering
         stackView.alignment = .center
         stackView.translatesAutoresizingMaskIntoConstraints = false
         
@@ -31,8 +31,9 @@ final class CustomCollectionViewIconCell: UICollectionViewCell {
     
     let movieNameLabel: UILabel = {
         let label = UILabel()
-        label.textAlignment = .left
+        label.textAlignment = .center
         label.font = .preferredFont(forTextStyle: .body)
+        label.numberOfLines = 2
         label.adjustsFontForContentSizeCategory = true
         
         return label
@@ -40,7 +41,7 @@ final class CustomCollectionViewIconCell: UICollectionViewCell {
     
     let rankIntensityLabel: UILabel = {
         let label = UILabel()
-        label.font = .preferredFont(forTextStyle: .body)
+        label.font = .preferredFont(forTextStyle: .caption1)
         label.adjustsFontForContentSizeCategory = true
         
         return label
@@ -56,6 +57,7 @@ final class CustomCollectionViewIconCell: UICollectionViewCell {
     }()
     
     func configureCell(dailyBoxOffice: DailyBoxOffice?) {
+        self.layer.addBorder([.top, .bottom, .left, .right], color: .black, width: 0.8)
         configureUI()
         configureLayout()
         configureContext(dailyBoxOffice: dailyBoxOffice)
@@ -83,9 +85,11 @@ final class CustomCollectionViewIconCell: UICollectionViewCell {
         NSLayoutConstraint.activate([
             mainStackView.leadingAnchor.constraint(equalTo: self.leadingAnchor),
             mainStackView.trailingAnchor.constraint(equalTo: self.trailingAnchor),
-            mainStackView.topAnchor.constraint(equalTo: self.topAnchor),
-            mainStackView.bottomAnchor.constraint(equalTo: self.bottomAnchor),
+            mainStackView.topAnchor.constraint(equalTo: self.safeAreaLayoutGuide.topAnchor, constant: 15),
+            mainStackView.bottomAnchor.constraint(equalTo: self.safeAreaLayoutGuide.bottomAnchor, constant: -15),
         ])
+        
+        
     }
     private func configureRankIntensityText(dailyBoxOffice: DailyBoxOffice?) -> NSMutableAttributedString? {
         var attributedString: NSMutableAttributedString
