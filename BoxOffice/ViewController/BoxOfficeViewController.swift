@@ -52,7 +52,7 @@ final class BoxOfficeViewController: UIViewController {
         super.viewDidLoad()
         self.selectedDate = yesterday
         self.configureHierarchy(for: .list)
-        self.configureDataSource(for: .list)
+        self.configureDataSource()
         self.setupUI()
         self.fetchDailyBoxOffice(from: self.selectedDate)
     }
@@ -86,7 +86,10 @@ final class BoxOfficeViewController: UIViewController {
         
         toolBar.items = [
             UIBarButtonItem.flexibleSpace(),
-            UIBarButtonItem(title: "화면 모드 변경", style: .plain, target: self, action: #selector(presentScreenMode)),
+            UIBarButtonItem(title: "화면 모드 변경",
+                            style: .plain,
+                            target: self,
+                            action: #selector(presentScreenMode)),
             UIBarButtonItem.flexibleSpace()
         ]
     }
@@ -111,10 +114,9 @@ final class BoxOfficeViewController: UIViewController {
     
     private func updateLayout() {
         self.layoutType = self.layoutType == .list ? .grid : .list
-        self.configureDataSource(for: self.layoutType)
+        self.collectionView.reloadData()
         self.collectionView.setCollectionViewLayout(self.createLayout(for: self.layoutType),
-                                                    animated: false)
-        self.dataSource.apply(self.snapshot, animatingDifferences: true)
+                                                    animated: true)
     }
     
     private func fetchDailyBoxOffice(from date: Date?) {
@@ -216,13 +218,18 @@ extension BoxOfficeViewController {
 
             let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0),
                                                    heightDimension: .fractionalWidth(0.5))
-            let group = NSCollectionLayoutGroup.horizontal(layoutSize: groupSize, subitem: item, count: 2)
+            let group = NSCollectionLayoutGroup.horizontal(layoutSize: groupSize,
+                                                           subitem: item,
+                                                           count: 2)
             let spacing = CGFloat(10)
             group.interItemSpacing = .fixed(spacing)
 
             let section = NSCollectionLayoutSection(group: group)
             section.interGroupSpacing = spacing
-            section.contentInsets = NSDirectionalEdgeInsets(top: 0, leading: 10, bottom: 0, trailing: 10)
+            section.contentInsets = NSDirectionalEdgeInsets(top: 0,
+                                                            leading: 10,
+                                                            bottom: 0,
+                                                            trailing: 10)
 
             let layout = UICollectionViewCompositionalLayout(section: section)
             return layout
@@ -243,7 +250,7 @@ extension BoxOfficeViewController {
         view.addSubview(collectionView)
     }
     
-    private func configureDataSource(for layout: LayoutType = .list) {
+    private func configureDataSource() {
         let listCellRegistration = UICollectionView.CellRegistration<BoxOfficeListCell, BoxOfficeItem> {
             (cell, indexPath, item) in
             cell.item = item
@@ -258,16 +265,20 @@ extension BoxOfficeViewController {
             (collectionView: UICollectionView, indexPath: IndexPath, identifier: BoxOfficeItem.ID) -> UICollectionViewCell? in
             
             let boxOfficeItem = self.boxOfficeItems.filter { $0.id == identifier }.first
-            switch layout {
+            switch self.layoutType {
             case .list:
                 let cell = collectionView.dequeueConfiguredReusableCell(using: listCellRegistration,
                                                                         for: indexPath,
                                                                         item: boxOfficeItem)
+                cell.snapshotView(afterScreenUpdates: true)
+                
                 return cell
             case .grid:
                 let cell = collectionView.dequeueConfiguredReusableCell(using: gridRegistration,
                                                                         for: indexPath,
                                                                         item: boxOfficeItem)
+                cell.snapshotView(afterScreenUpdates: true)
+                
                 return cell
             }
         }
