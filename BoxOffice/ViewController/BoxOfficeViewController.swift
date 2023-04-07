@@ -70,9 +70,6 @@ final class BoxOfficeViewController: UIViewController {
                                                                  style: .plain,
                                                                  target: self,
                                                                  action: #selector(dateSelectionTapped))
-        let appearance = UINavigationBarAppearance()
-        self.navigationController?.navigationBar.standardAppearance = appearance
-        self.navigationController?.navigationBar.scrollEdgeAppearance = appearance
     }
     
     private func setupToolBar() {
@@ -208,6 +205,11 @@ extension BoxOfficeViewController {
                                                              subitems: [item])
 
             let section = NSCollectionLayoutSection(group: group)
+            section.contentInsets = NSDirectionalEdgeInsets(top: 0,
+                                                            leading: 10,
+                                                            bottom: 50,
+                                                            trailing: 10)
+            
             let layout = UICollectionViewCompositionalLayout(section: section)
             
             return layout
@@ -228,7 +230,7 @@ extension BoxOfficeViewController {
             section.interGroupSpacing = spacing
             section.contentInsets = NSDirectionalEdgeInsets(top: 0,
                                                             leading: 10,
-                                                            bottom: 0,
+                                                            bottom: 50,
                                                             trailing: 10)
 
             let layout = UICollectionViewCompositionalLayout(section: section)
