@@ -3,7 +3,7 @@
 ## 프로젝트 소개
 > 서버와 통신하여 영화정보를 화면에 출력하는 앱
 > 
-> 프로젝트 기간: 2023.03.20 - 2023.03.31
+> 프로젝트 기간: 2023.03.20 - 2023.04.14
 
 ## 목차 :book:
 
@@ -53,19 +53,21 @@ BoxOffice
 │   │   └── DecodeError.swift
 │   ├── Extension
 │   │   ├── Date+.swift
-│   │   ├── URLSession+.swift
-│   │   ├── URLSessionDataTask+.swift
+│   │   ├── Array+.swift
 │   │   ├── String+.swift
 │   │   └── CALayer+.swift
 │   ├── Extra
 │   │   ├── DecodeManager.swift
-│   │   └── LoadingIndicator.swift
+│   │   └── DateFormat.swift
 │   ├── Network
 │   │   ├── NetworkManager.swift
-│   │   ├── URLMaker.swift
-│   │   ├── URLSessionProtocol.swift
-│   │   └── URLSessionDataTaskProtocol.swift
+│   │   ├── URLRequestMaker.swift
+│   │   └── ImageLoader.swift
 │   ├── Model
+│   │   ├── MoviePoster
+│   │   │   ├── MoviePoster.swift
+│   │   │   ├── Document.swift
+│   │   │   └── Meta.swift
 │   │   ├── DailyBoxOffice
 │   │   │   ├── BoxOffice.swift
 │   │   │   ├── BoxOfficeResult.swift
@@ -84,9 +86,11 @@ BoxOffice
 │   │       └── Staff.swift
 │   ├── View
 │   │   ├── LaunchScreen
+│   │   ├── CustomStackView
 │   │   └── CustomCollectionViewCell.swift
 │   └── Controller
-│       └── BoxOfficeListViewController.swift
+│       ├── BoxOfficeListViewController.swift
+│       └── DetailMovieViewController.swift
 └── BoxOfficeTests
     └── BoxOfficeTests
 ```
@@ -96,18 +100,24 @@ BoxOffice
 
 ## 타임라인 ⏰
 
-| <center>STEP</center> | <center>날짜</center> | <center>타임라인</center> |
-| --- | --- | --- |
-|**STEP1**| **2023.03.20** | - JSON 디코딩 위한 모델 구현 </br>- Decoder 객체 구현  |
-|**STEP2**| **2023.03.21** | - 추가적으로 필요한 모델 구현 </br> - 서버 통신을 위한 NetworkManger 구현 |
-|**STEP2**| **2023.03.22** | - 기능 분리 리팩토링 </br> - 기존 로직 최적화 리팩토링 |
-|**STEP2**| **2023.03.23** | - 서버 통신에 대한 유닛 테스트 진행 |
-|**STEP2**| **2023.03.24** | - 서버 통신에 대한 유닛 테스트 진행  |
-|**STEP2**| **2023.03.27** | - CustomCell 구현 </br> - UICollecionView 구현을 위한 extension 내부 구현 |
-|**STEP3**| **2023.03.28** | - 잡아당길 시 새로고침되는 기능을 위한 configureRefreshControll, handleRefreshControll 메서드 구현 |
-|**STEP3**| **2023.03.29** | - CustomCell을 UICollectionViewListCell로 변경하는 리팩토링 </br> - LoadingIndicator 구현  |
-|**STEP3**| **2023.03.30** |  - 추상화 레벨 맞추는 리팩토링 </br> - 프로퍼티를 줄이고 매개변수로 전달하는 리팩토링 |
-|**STEP3**| **2023.03.31** |  - 공통된 로직 제네릭으로 병합하는 리팩토링 </br> - 오토레이아웃 사용하는 곳에서 정의하는 리팩토링  |
+| <center>날짜</center> | <center>타임라인</center> |
+| --- | --- |
+| **2023.03.20** | - JSON 디코딩 위한 모델 구현 </br>- Decoder 객체 구현  |
+| **2023.03.21** | - 추가적으로 필요한 모델 구현 </br> - 서버 통신을 위한 NetworkManger 구현 |
+| **2023.03.22** | - 기능 분리 리팩토링 </br> - 기존 로직 최적화 리팩토링 |
+| **2023.03.23** | - 서버 통신에 대한 유닛 테스트 진행 |
+| **2023.03.24** | - 서버 통신에 대한 유닛 테스트 진행  |
+| **2023.03.27** | - CustomCell 구현 </br> - UICollecionView 구현을 위한 extension 내부 구현 |
+| **2023.03.28** | - 잡아당길 시 새로고침되는 기능을 위한 configureRefreshControll, handleRefreshControll 메서드 구현 |
+| **2023.03.29** | - CustomCell을 UICollectionViewListCell로 변경하는 리팩토링 </br> - LoadingIndicator 구현  |
+| **2023.03.30** |  - 추상화 레벨 맞추는 리팩토링 </br> - 프로퍼티를 줄이고 매개변수로 전달하는 리팩토링 |
+| **2023.03.31** |  - 공통된 로직 제네릭으로 병합하는 리팩토링 </br> - 오토레이아웃 사용하는 곳에서 정의하는 리팩토링  |
+| **2023.04.03** | - UI 리팩토링 </br>- 메모리를 고려하여 싱글톤, weak self를 사용한 리팩토링  |
+| **2023.04.04** | - 피드백 사항에 맞춰 로직 최적화 |
+| **2023.04.05** | - 휴식 |
+| **2023.04.06** | - 프로토콜및 하드코딩을 이용한 방식을 고차함수를 사용한 방식으로 리팩토링 |
+| **2023.04.07** | - LoadingIndicator 경제적인 방법으로 리팩토링  |
+
 
 
 </br>
@@ -120,8 +130,9 @@ BoxOffice
 | <img src="https://i.imgur.com/LASoeY8.gif" width =400> | <img src="https://i.imgur.com/j2ZXMe0.gif" width =400> | <img src="https://i.imgur.com/MdMpHpH.gif" width =400> |
 
 
-
-
+| <center> 날짜 선택뷰로 이동</center> | <center>특정 날짜 선택시 업데이트</center>  | <center>새로고침시 최근날짜로 업데이트</center> |
+| --- | --- | --- |
+| <img src="https://i.imgur.com/XYhmxpx.gif" width =400> | <img src="https://i.imgur.com/B8OcCZV.gif" width =400> | <img src="https://i.imgur.com/5K65eev.gif" width =400> |
 
 
 </br>
@@ -256,6 +267,113 @@ fetchBoxOfficeData {
 
 <br/>
 
+### 5️⃣ LoadingIndicator가 직관적이지 않고 메모리 낭비가 심했던 문제
+
+원래는 다음과 같은 코드를 가지고 있었습니다:
+```swift
+import Foundation
+import UIKit
+
+final class LoadingIndicator {
+    static func showLoading() {
+        DispatchQueue.main.async {
+
+            guard let window = UIApplication.shared.windows.last else { return }
+
+            let loadingIndicatorView: UIActivityIndicatorView
+            
+            if let existedView = window.subviews.first(where: { $0 is UIActivityIndicatorView } ) as? UIActivityIndicatorView {
+                loadingIndicatorView = existedView
+            } else {
+                loadingIndicatorView = UIActivityIndicatorView(style: .large)
+                loadingIndicatorView.frame = window.frame
+                loadingIndicatorView.color = .systemGray3
+                window.addSubview(loadingIndicatorView)
+            }
+
+            loadingIndicatorView.startAnimating()
+        }
+    }
+
+    static func hideLoading() {
+        DispatchQueue.main.async {
+            guard let window = UIApplication.shared.windows.last else { return }
+            window.subviews.filter({ $0 is UIActivityIndicatorView }).forEach { $0.removeFromSuperview() }
+        }
+    }
+}
+```
+
+그런데, 멘토링을 하던 중 이 코드가 직관적이지 못하며 이미 존재하는 `window`를 하나씩 훑어보게 되어 메모리 낭비가 심할 것 같다는 말씀을 들었습니다. 그래서 코드에 대한 수정을 하게 되었습니다. 
+
+현재는 VC 내에서 직접 loadingIndicator 프로퍼티를 만들어주고 있습니다:
+```swift
+private let loadingIndicatorView: UIActivityIndicatorView = {
+    let loadingIndicatorView = UIActivityIndicatorView(style: .large)
+    loadingIndicatorView.color = .systemGray3
+    loadingIndicatorView.translatesAutoresizingMaskIntoConstraints = false
+    loadingIndicatorView.hidesWhenStopped = true
+    
+    return loadingIndicatorView
+}()
+```
+
+그리고 `startAnimating()`과 `stopAnimating()`으로 관리를 해주고 있습니다:
+```swift
+private func configureCollectionView() {
+    collectionView.dataSource = self
+    collectionView.delegate = self
+    
+    loadingIndicatorView.startAnimating()
+    
+    fetchBoxOfficeData { [weak self] in
+        DispatchQueue.main.async {
+            self?.loadingIndicatorView.stopAnimating()
+            self?.collectionView.reloadData()
+            self?.collectionView.refreshControl?.endRefreshing()
+        }
+    }
+}
+```
+
+이를 통해서 조금 더 직관적이고 간결한 코드가 된 것 같습니다. 
+
+### 6️⃣ 클래스만 사용 가능한 프로토콜
+화면간 데이터 전달을 하기위해 저희는 Delegate 패턴을 이용하기로 했습니다.
+
+```swift
+protocol CalendarViewControllerDelegate {
+    func deliverData(_ data: String)
+}
+
+final class CalendarViewController: UIViewController {
+    weak var delegate: CalendarViewControllerDelegate?
+    //...
+}
+```
+
+이제 delegate 를 사용할 때 강한순환 참조에 조심을 해야합니다.
+`CalendarViewController` 가 `deinit` 되는 시점에 delegate도 같이 사라져야하지만, 만약 해당 delegate 를 사용하는 곳이 있다면 `retaing Cycle` 의 문제가 생길 수 있어 weak 키워드를 붙여 약한 참조를 하도록 해야합니다.
+
+```bash
+'weak' must not be applied to non-class-bound 'any CalendarViewControllerDelegate'; consider adding a protocol conformance that has a class bound
+```
+
+그래서 delegate를 weak 하게 선언했지만 위와 같은 오류가 발생했습니다. 
+
+찾아보니 weak 이 발생하려면 reference 타입이어야 하고 protocol의 경우 value 타입에도 적용이 가능하기에 weak 타입을 쓰기위해선 protocol 이 class 에서만 사용할 수 있다는 것을 명시해줘야 했습니다.
+
+
+```swift
+protocol CalendarViewControllerDelegate: AnyObject {
+    func deliverData(_ data: String)
+}
+```
+
+
+
 ## Reference 📑
 - [Fetching Website Data into Memory - Apple Document](https://developer.apple.com/documentation/foundation/url_loading_system/fetching_website_data_into_memory)
 - [URLSession - Apple Document](https://developer.apple.com/documentation/foundation/urlsession#declaration)
+- [UICalendarView - Apple Document](https://developer.apple.com/documentation/uikit/uicalendarview)
+- [UIActivityIndicatorView - Apple Document](https://developer.apple.com/documentation/uikit/uiactivityindicatorview)
