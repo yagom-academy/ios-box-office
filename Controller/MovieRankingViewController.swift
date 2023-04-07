@@ -169,6 +169,20 @@ extension MovieRankingViewController {
         return layout
     }
     
+    private func makeCollectionViewIconLayout() -> UICollectionViewCompositionalLayout {
+        let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(0.5), heightDimension: .fractionalHeight(1.0))
+        let item = NSCollectionLayoutItem(layoutSize: itemSize)
+        
+        let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0), heightDimension: .fractionalHeight(0.25))
+        let group = NSCollectionLayoutGroup.horizontal(layoutSize: groupSize, subitems: [item])
+        
+        let section = NSCollectionLayoutSection(group: group)
+        
+        let layout = UICollectionViewCompositionalLayout(section: section)
+        
+        return layout
+    }
+    
     private func makeDataSource() {
         guard let collectionView = collectionView else { return }
         
@@ -202,6 +216,7 @@ extension MovieRankingViewController {
         collectionView.translatesAutoresizingMaskIntoConstraints = false
         collectionView.delegate = self
         collectionView.register(MovieRankingListCell.self, forCellWithReuseIdentifier: MovieRankingListCell.identifier)
+        collectionView.register(MovieRankingIconCell.self, forCellWithReuseIdentifier: MovieRankingIconCell.identifier)
         
         NSLayoutConstraint.activate([
             collectionView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
