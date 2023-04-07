@@ -205,7 +205,7 @@ final class ViewController: UIViewController {
         
         alert.addAction(viewModeAction)
         alert.addAction(cancelAction)
-        self.present(alert, animated: true, completion: nil)
+        present(alert, animated: true, completion: nil)
     }
     
     private func changeView() {
