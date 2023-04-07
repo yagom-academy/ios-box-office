@@ -79,19 +79,34 @@ final class ViewController: UIViewController {
         return UICollectionViewCompositionalLayout.list(using: config)
     }
     
-    private func createIconLayout() -> UICollectionViewLayout {
-        let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(0.5),
-                                              heightDimension: .absolute(180))
-        let item = NSCollectionLayoutItem(layoutSize: itemSize)
-        item.contentInsets = NSDirectionalEdgeInsets(top: 0, leading: 10, bottom: 0, trailing: 5)
+    private enum iConLayoutConstant {
         
-        let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0),
-                                               heightDimension: .estimated(180))
-        let group = NSCollectionLayoutGroup.horizontal(layoutSize: groupSize, subitems: [item])
+        static let itemFractionWidth: CGFloat = 0.5
+        static let itemabsoluteHeight: CGFloat = 180
+        static let groupFractionWidth: CGFloat = 1.0
+        static let groupAbsoluteHeight: CGFloat = 180
+        static let sectionSpacing: CGFloat = 10
+    
+    }
+    
+    private func createIconLayout() -> UICollectionViewLayout {
+        let itemSize = NSCollectionLayoutSize(
+            widthDimension: .fractionalWidth(iConLayoutConstant.itemFractionWidth),
+            heightDimension: .absolute(iConLayoutConstant.itemabsoluteHeight))
+        let item = NSCollectionLayoutItem(layoutSize: itemSize)
+        item.contentInsets = NSDirectionalEdgeInsets(
+            top: 0, leading: 10, bottom: 0, trailing: 5)
+        
+        let groupSize = NSCollectionLayoutSize(
+            widthDimension: .fractionalWidth(iConLayoutConstant.groupFractionWidth),
+            heightDimension: .estimated(iConLayoutConstant.groupAbsoluteHeight))
+        let group = NSCollectionLayoutGroup.horizontal(layoutSize: groupSize,
+                                                       subitems: [item])
         
         let section = NSCollectionLayoutSection(group: group)
-        section.contentInsets = NSDirectionalEdgeInsets(top: 0, leading: 10, bottom: 0, trailing: 10)
-        section.interGroupSpacing = 10
+        section.contentInsets = NSDirectionalEdgeInsets(
+            top: 0, leading: 10, bottom: 0, trailing: 10)
+        section.interGroupSpacing = iConLayoutConstant.sectionSpacing
         
         let layout = UICollectionViewCompositionalLayout(section: section)
         return layout
@@ -149,7 +164,7 @@ final class ViewController: UIViewController {
                     for dailyBoxOffice in dailyBoxOffices {
                         let movieItem = ListItem(
                             rank: dailyBoxOffice.rank,
-                            rankInten: dailyBoxOffice.rankInten,
+                            rankIntensity: dailyBoxOffice.rankIntensity,
                             rankOldandNew: dailyBoxOffice.rankOldAndNew.rawValue,
                             movieName: dailyBoxOffice.movieName,
                             audienceCount: dailyBoxOffice.audienceCount,

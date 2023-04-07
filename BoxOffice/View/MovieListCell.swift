@@ -75,24 +75,24 @@ final class MovieListCell: UICollectionViewListCell {
     
     func updateCell(with item: ListItem) {
         rankingLabel.text = "\(item.rank)"
-        stateLabel.attributedText = createStateLabel(rankOldandNew: item.rankOldandNew, rankInten: Int(item.rankInten)!)
+        stateLabel.attributedText = createStateLabel(rankOldandNew: item.rankOldandNew, rankIntensity: Int(item.rankIntensity)!)
         titleLabel.text = "\(item.movieName)"
         subtitleLabel.text = "오늘 \(Int(item.audienceCount)?.decimalString ?? "0") / 총 \(Int(item.audienceAcc)?.decimalString ?? "0")"
     }
     
-    private func createStateLabel(rankOldandNew: String, rankInten: Int) -> NSMutableAttributedString {
+    private func createStateLabel(rankOldandNew: String, rankIntensity: Int) -> NSMutableAttributedString {
         let attributedString = NSMutableAttributedString()
         
         if rankOldandNew == "OLD" {
-            switch rankInten {
+            switch rankIntensity {
             case 0 :
                 attributedString.add(string: "-")
-            case let rankInten where rankInten > 0 :
+            case let rankIntensity where rankIntensity > 0 :
                 attributedString.add(string: "▲", color: .systemRed)
-                attributedString.add(string: "\(rankInten)")
-            case let rankInten where rankInten < 0 :
+                attributedString.add(string: "\(rankIntensity)")
+            case let rankIntensity where rankIntensity < 0 :
                 attributedString.add(string: "▼", color: .systemBlue)
-                attributedString.add(string: "\(-rankInten)")
+                attributedString.add(string: "\(-rankIntensity)")
             default:
                 break
             }
