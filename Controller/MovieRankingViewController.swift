@@ -79,6 +79,10 @@ final class MovieRankingViewController: UIViewController {
         calendarVC.selectedDate = boxofficeDate
         present(calendarVC, animated: true)
     }
+    
+    @objc private func didTapPresentButton() {
+        
+    }
 }
 
 // MARK: Changeable
@@ -133,6 +137,7 @@ extension MovieRankingViewController {
         configureLoadingView()
         configureNavigationItems()
         configureRefreshController()
+        makeToolbar()
         makeDataSource()
     }
     
@@ -141,6 +146,15 @@ extension MovieRankingViewController {
         loadingView.style = .large
         
         view.addSubview(loadingView)
+    }
+    
+    private func makeToolbar() {
+        navigationController?.setToolbarHidden(false, animated: true)
+        
+        let flexibleItem = UIBarButtonItem(systemItem: .flexibleSpace)
+        let barButtonItem = UIBarButtonItem(title: "화면 전환", style: .plain, target: self, action: #selector(didTapPresentButton))
+        
+        setToolbarItems([flexibleItem, barButtonItem, flexibleItem], animated: true)
     }
     
     private func makeCollectionViewListLayout() -> UICollectionViewCompositionalLayout {
