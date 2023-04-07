@@ -79,30 +79,33 @@ final class ViewController: UIViewController {
         return UICollectionViewCompositionalLayout.list(using: config)
     }
     
+    private enum iconLayoutConstant {
+        static let itemFractionWidth: CGFloat = 0.5
+        static let itemabsoluteHeight: CGFloat = 180
+        static let groupFractionWidth: CGFloat = 1.0
+        static let groupAbsoluteHeight: CGFloat = 180
+        static let sectionSpacing: CGFloat = 10
+    }
+    
     private func createIconLayout() -> UICollectionViewLayout {
-        let itemFractionWidth: CGFloat = 0.5
-        let itemabsoluteHeight: CGFloat = 180
-        let groupFractionWidth: CGFloat = 1.0
-        let groupAbsoluteHeight: CGFloat = 180
-        let sectionSpacing: CGFloat = 10
         
         let itemSize = NSCollectionLayoutSize(
-            widthDimension: .fractionalWidth(itemFractionWidth),
-            heightDimension: .absolute(itemabsoluteHeight))
+            widthDimension: .fractionalWidth(iconLayoutConstant.itemFractionWidth),
+            heightDimension: .absolute(iconLayoutConstant.itemabsoluteHeight))
         let item = NSCollectionLayoutItem(layoutSize: itemSize)
         item.contentInsets = NSDirectionalEdgeInsets(
             top: 0, leading: 10, bottom: 0, trailing: 5)
         
         let groupSize = NSCollectionLayoutSize(
-            widthDimension: .fractionalWidth(groupFractionWidth),
-            heightDimension: .estimated(groupAbsoluteHeight))
+            widthDimension: .fractionalWidth(iconLayoutConstant.groupFractionWidth),
+            heightDimension: .estimated(iconLayoutConstant.groupAbsoluteHeight))
         let group = NSCollectionLayoutGroup.horizontal(layoutSize: groupSize,
                                                        subitems: [item])
         
         let section = NSCollectionLayoutSection(group: group)
         section.contentInsets = NSDirectionalEdgeInsets(
             top: 0, leading: 10, bottom: 0, trailing: 10)
-        section.interGroupSpacing = sectionSpacing
+        section.interGroupSpacing = iconLayoutConstant.sectionSpacing
         
         let layout = UICollectionViewCompositionalLayout(section: section)
         return layout
@@ -144,7 +147,7 @@ final class ViewController: UIViewController {
     @objc private func handleRefreshControl() {
         fetchBoxOfficeData()
     }
-   
+    
     private func fetchBoxOfficeData() {
         guard let dateString = DateManager.formattedDateString(of: currentDate, option: .numerical) else { return }
         
