@@ -86,8 +86,12 @@ final class DailyBoxOfficeIconCell: UICollectionViewCell {
     private func configureMovieTitleLabel(with textMaker: DailyBoxOfficeCellTextMaker) {
         movieTitleLabel.text = textMaker.movieTitle
         movieTitleLabel.font = UIFont.preferredFont(forTextStyle: .title3)
+        movieTitleLabel.textAlignment = .center
         movieTitleLabel.adjustsFontForContentSizeCategory = true
         movieTitleLabel.numberOfLines = 0
+        movieTitleLabel.adjustsFontSizeToFitWidth = true
+        movieTitleLabel.minimumScaleFactor = 0.2
+        movieTitleLabel.setContentCompressionResistancePriority(.defaultLow, for: .vertical)
     }
     
     private func configureRankDifferenceLabel(with textMaker: DailyBoxOfficeCellTextMaker) {
