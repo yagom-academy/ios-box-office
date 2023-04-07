@@ -7,6 +7,6 @@
 
 import Foundation
 
-protocol Changeable {
+protocol ChangedDateDelegate {
     func changeDate(_ date: Date)
 }
