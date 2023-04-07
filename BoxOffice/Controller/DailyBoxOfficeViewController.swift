@@ -324,7 +324,7 @@ fileprivate enum Section: Hashable {
     case main
 }
 
-struct DailyBoxOfficeItem: Hashable {
+fileprivate struct DailyBoxOfficeItem: Hashable {
     let identifier = UUID()
     let rank: String
     let rankVariance: String
