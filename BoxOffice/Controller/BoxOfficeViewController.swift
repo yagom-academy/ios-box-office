@@ -11,7 +11,7 @@ protocol CalendarDateDelegate: AnyObject {
     func receiveDate(date: String)
 }
 
-final class BoxOfficeViewController: UIViewController, CalendarDateDelegate {
+final class BoxOfficeViewController: UIViewController {
     let boxOfficeService = BoxOfficeService()
     private var provider = Provider()
     let calendarViewController = CalendarViewController()
@@ -34,7 +34,7 @@ final class BoxOfficeViewController: UIViewController, CalendarDateDelegate {
     
     private func fetchDailyBoxOffice() {
         if choosenDate == "" {
-            choosenDate = self.createYesterDate()
+            choosenDate = self.getYesterDate()
         }
         let dateValue = choosenDate.removeDashFromDate()
         boxOfficeService.fetchDailyBoxOfficeAPI(date: dateValue) {
@@ -58,7 +58,7 @@ final class BoxOfficeViewController: UIViewController, CalendarDateDelegate {
     }
     
     @objc
-    func tabRightBarButton() {
+    private func tabRightBarButton() {
         self.present(calendarViewController, animated: true, completion: nil)
     }
     
@@ -83,7 +83,7 @@ final class BoxOfficeViewController: UIViewController, CalendarDateDelegate {
     }
     
     @objc
-    func handleRefreshControl() {
+    private func handleRefreshControl() {
         DispatchQueue.main.async {
             self.boxOfficeListCollectionView.reloadData()
             self.boxOfficeListCollectionView.refreshControl?.endRefreshing()
@@ -107,16 +107,11 @@ final class BoxOfficeViewController: UIViewController, CalendarDateDelegate {
         calendarViewController.delegate = self
     }
     
-    func receiveDate(date: String) {
-        choosenDate = date.insertDashFromDate()
-        print(choosenDate)
-    }
-    
     private func setNavigationBarTitle() {
         self.title = choosenDate
     }
     
-    private func createYesterDate() -> String {
+    private func getYesterDate() -> String {
         let formatter = DateFormatter()
         formatter.dateFormat = "yyyy-MM-dd"
         let yesterDate = formatter.string(from: Date(timeIntervalSinceNow: -86400))
@@ -194,5 +189,12 @@ extension BoxOfficeViewController {
             return section
         }
         return layout
+    }
+}
+
+extension BoxOfficeViewController:  CalendarDateDelegate {
+    func receiveDate(date: String) {
+        choosenDate = date.insertDashFromDate()
+        print(choosenDate)
     }
 }
