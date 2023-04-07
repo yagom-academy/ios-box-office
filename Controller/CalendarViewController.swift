@@ -9,7 +9,7 @@ import UIKit
 
 final class CalendarViewController: UIViewController {
     
-    var delegate: Changeable?
+    var delegate: ChangedDateDelegate?
     var selectedDate = Date()
     
     private let calendarView = {
@@ -75,9 +75,7 @@ final class CalendarViewController: UIViewController {
 //MARK: - UICalendarSelectionSingleDateDelegate
 extension CalendarViewController: UICalendarSelectionSingleDateDelegate {
     func dateSelection(_ selection: UICalendarSelectionSingleDate, didSelectDate dateComponents: DateComponents?) {
-        guard let selectedDate = dateComponents?.date else {
-            return
-        }
+        guard let selectedDate = dateComponents?.date else { return }
         
         delegate?.changeDate(selectedDate)
         
