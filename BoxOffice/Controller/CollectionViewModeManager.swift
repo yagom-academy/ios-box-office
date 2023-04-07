@@ -23,6 +23,30 @@ struct CollectionViewModeManager {
         createListCellRegistration()
     }
     
+    func layout(mode: CollectionViewMode) -> UICollectionViewCompositionalLayout {
+        guard let layout = collectionViewLayoutList[mode] else {
+            let configuration = UICollectionLayoutListConfiguration(appearance: .plain)
+            
+            return UICollectionViewCompositionalLayout.list(using: configuration)
+        }
+        
+        switch mode {
+        case .icon:
+            return layout
+        case .list:
+            return layout
+        }
+    }
+    
+    func cellRegistration(mode: CollectionViewMode) -> Any? {
+        switch mode {
+        case .icon:
+            return cellRegistrationList[.icon]
+        case .list:
+            return cellRegistrationList[.list]
+        }
+    }
+    
     private mutating func createListCellRegistration() {
         let cellRegistration = UICollectionView.CellRegistration<DailyBoxOfficeListCell, DailyBoxOfficeMovie> { cell, indexPath, item in
             cell.updateData(with: item)

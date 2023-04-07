@@ -20,6 +20,7 @@ final class DailyBoxOfficeViewController: UIViewController {
     }
     private var targetDate: Date?
     private var collectionViewMode = CollectionViewMode.list
+    private var collectionViewModeManager = CollectionViewModeManager()
         
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -68,11 +69,14 @@ final class DailyBoxOfficeViewController: UIViewController {
     }
     
     private func configureDataSource() {
-        // cell registration
-        
+        guard let cellRegistration = collectionViewModeManager.cellRegistration(mode: collectionViewMode)
+                as? UICollectionView.CellRegistration<DailyBoxOfficeListCell, DailyBoxOfficeMovie>
+        else {
+            return
+        }
 
         dataSource = DataSource(collectionView: collectionView) { collectionView, indexPath, itemIdentifier in
-            let cell = collectionView.dequeueConfiguredReusableCell(using: cellRegistration2,
+            let cell = collectionView.dequeueConfiguredReusableCell(using: cellRegistration,
                                                                     for: indexPath,
                                                                     item: itemIdentifier)
             return cell
@@ -137,16 +141,9 @@ final class DailyBoxOfficeViewController: UIViewController {
     }
     
     private func collectionViewLayout() -> UICollectionViewCompositionalLayout {
-        if let listLayout = self.collectionViewLayoutList[collectionViewMode] {
-            return listLayout
-        }
+        let layout = collectionViewModeManager.layout(mode: collectionViewMode)
         
-        switch collectionViewMode {
-        case .list:
-            return createListLayout()
-        case .icon:
-            return createIconLayout()
-        }
+        return layout
     }
     
     private enum Section {
