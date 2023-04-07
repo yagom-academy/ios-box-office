@@ -11,8 +11,20 @@ final class CalendarViewController: UIViewController {
     private let calendarView = UICalendarView()
     private let gregorianCalendar = Calendar(identifier: .gregorian)
     weak var delegate: DateUpdatableDelegate?
+    let currentDate: String?
     var selectedDate: DateComponents?
+    let dateFormatter: DateFormatter
+    
+    init(currentDate: String? = nil, dateFormatter: DateFormatter) {
+        self.currentDate = currentDate
+        self.dateFormatter = dateFormatter
+        super.init(nibName: nil, bundle: nil)
+    }
 
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -23,6 +35,12 @@ final class CalendarViewController: UIViewController {
     
     private func configureUIOption() {
         view.backgroundColor = .systemBackground
+        self.selectedDate = DateComponents(
+            calendar: Calendar(identifier: .gregorian),
+            year: currentDate?.toDate(formatter: dateFormatter)?.year,
+            month: currentDate?.toDate(formatter: dateFormatter)?.month,
+            day: currentDate?.toDate(formatter: dateFormatter)?.day
+        )
         configureCalendarOption()
     }
     
@@ -67,7 +85,7 @@ extension CalendarViewController: UICalendarSelectionSingleDateDelegate {
         guard let selectedDate = dateComponents,
               let targetDate = gregorianCalendar.date(from: selectedDate) else { return }
         
-        delegate?.updateDate(targetDate)
+        delegate?.update(date: targetDate)
         self.dismiss(animated: true)
     }
 }

@@ -10,7 +10,7 @@ import UIKit
 final class BoxOfficeViewController: UIViewController {
     private var boxOffice: BoxOffice?
     private let networkManager = NetworkManager()
-    private var isRun = false
+    private var isDataFetching = false
     private lazy var collectionView = UICollectionView(frame: .zero,
                                                        collectionViewLayout: UICollectionViewFlowLayout())
     
@@ -47,9 +47,25 @@ final class BoxOfficeViewController: UIViewController {
         configureRefreshControl()
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        
+        for cell in collectionView.visibleCells {
+            cell.isSelected = false
+        }
+        
+        collectionView.reloadData()
+    }
+    
     private func configureUIOption() {
-        let navigationRightButton = UIBarButtonItem(title: "날짜선택", style: .plain, target: self, action: #selector(selectSearchDate))
-        let backBarButtonItem = UIBarButtonItem(title: Date().showYesterdayDate(formatter: dateFormatterWithHyphen), style: .plain, target: self, action: nil)
+        let navigationRightButton = UIBarButtonItem(title: "날짜선택",
+                                                    style: .plain,
+                                                    target: self,
+                                                    action: #selector(selectSearchDate))
+        let backBarButtonItem = UIBarButtonItem(title: "",
+                                                style: .plain,
+                                                target: self,
+                                                action: nil)
 
         view.backgroundColor = .systemBackground
         navigationItem.title = Date().showYesterdayDate(formatter: dateFormatterWithHyphen)
@@ -58,15 +74,10 @@ final class BoxOfficeViewController: UIViewController {
     }
     
     @objc private func selectSearchDate() {
-        let calendarViewController = CalendarViewController()
+        let calendarViewController = CalendarViewController(currentDate: navigationItem.title,
+                                                            dateFormatter: dateFormatterWithHyphen)
         
         calendarViewController.delegate = self
-        calendarViewController.selectedDate = DateComponents(
-            calendar: Calendar(identifier: .gregorian),
-            year: navigationItem.title?.toDate(formatter: dateFormatterWithHyphen)?.year,
-            month: navigationItem.title?.toDate(formatter: dateFormatterWithHyphen)?.month,
-            day: navigationItem.title?.toDate(formatter: dateFormatterWithHyphen)?.day
-        )
         
         self.present(calendarViewController, animated: true)
     }
@@ -74,7 +85,7 @@ final class BoxOfficeViewController: UIViewController {
     private func fetchBoxOffice(targetDate: String) {
         let urlRequest = EndPoint.dailyBoxOffice(date: targetDate).asURLRequest()
         
-        if isRun == false {
+        if isDataFetching == false {
             loadingView.isLoading = true
         }
         
@@ -86,7 +97,7 @@ final class BoxOfficeViewController: UIViewController {
                 DispatchQueue.main.async {
                     self?.collectionView.reloadData()
                     self?.loadingView.isLoading = false
-                    self?.isRun = true
+                    self?.isDataFetching = true
                 }
             case .failure(let error):
                 DispatchQueue.main.async {
@@ -198,7 +209,7 @@ extension BoxOfficeViewController: UICollectionViewDelegateFlowLayout {
 // MARK: - DateUpdatableDelegate
 
 extension BoxOfficeViewController: DateUpdatableDelegate {
-    func updateDate(_ date: Date) {
+    func update(date: Date) {
         navigationItem.title = date.showSelectedDate(formatter: dateFormatterWithHyphen)
         
         guard let targetDate = navigationItem.title?.removeHyphen() else { return }

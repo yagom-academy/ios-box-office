@@ -8,5 +8,5 @@
 import Foundation
 
 protocol DateUpdatableDelegate: AnyObject {
-    func updateDate(_ date: Date)
+    func update(date: Date)
 }
