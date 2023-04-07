@@ -49,10 +49,12 @@ final class BoxOfficeViewController: UIViewController {
     
     private func configureUIOption() {
         let navigationRightButton = UIBarButtonItem(title: "날짜선택", style: .plain, target: self, action: #selector(selectSearchDate))
-        
+        let backBarButtonItem = UIBarButtonItem(title: Date().showYesterdayDate(formatter: dateFormatterWithHyphen), style: .plain, target: self, action: nil)
+
         view.backgroundColor = .systemBackground
         navigationItem.title = Date().showYesterdayDate(formatter: dateFormatterWithHyphen)
         navigationItem.rightBarButtonItem = navigationRightButton
+        navigationItem.backBarButtonItem = backBarButtonItem
     }
     
     @objc private func selectSearchDate() {
