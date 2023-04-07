@@ -54,6 +54,8 @@ class BoxOfficeListCell: UICollectionViewListCell  {
         titleAndAudienceStackView.addArrangedSubview(audienceCountLabel)
         
         NSLayoutConstraint.activate([
+            rankGapLabel.widthAnchor.constraint(equalToConstant: 30),
+            
             rankStackView.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: 20),
             rankStackView.centerYAnchor.constraint(equalTo: self.centerYAnchor),
             
@@ -64,10 +66,13 @@ class BoxOfficeListCell: UICollectionViewListCell  {
     }
     
     private func setUpLabelStyle() {
-        rankNumberLabel.font = UIFont.preferredFont(forTextStyle: .title1)
+        rankNumberLabel.font = UIFont.preferredFont(forTextStyle: .largeTitle)
         rankGapLabel.font = UIFont.preferredFont(forTextStyle: .subheadline)
         movieTitleLabel.font = UIFont.preferredFont(forTextStyle: .title3)
         audienceCountLabel.font = UIFont.preferredFont(forTextStyle: .subheadline)
+        
+        rankGapLabel.textAlignment = .center
+        
     }
     
     func setUpLabel(by dailyBoxOffice: DailyBoxOffice, indexPath: IndexPath) {
