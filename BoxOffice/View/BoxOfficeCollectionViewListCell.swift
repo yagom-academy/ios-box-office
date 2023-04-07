@@ -16,7 +16,6 @@ final class BoxOfficeCollectionViewListCell: UICollectionViewListCell, Configura
     override func awakeFromNib() {
         super.awakeFromNib()
         
-        configureLabels()
         self.accessories = [
             .disclosureIndicator()
         ]
@@ -33,13 +32,6 @@ final class BoxOfficeCollectionViewListCell: UICollectionViewListCell, Configura
         configureRankInfoLabel(item: item)
         titleLabel.text = item.movieKoreanName
         audienceInfoLabel.text = "오늘 \(item.audienceCountText.convertToDecimalText()) / 총 \(item.audienceAccumulationText.convertToDecimalText())"
-    }
-    
-    private func configureLabels() {
-        rankLabel.font = .preferredFont(forTextStyle: .largeTitle)
-        rankInfoLabel.font = .preferredFont(forTextStyle: .subheadline)
-        titleLabel.font = .preferredFont(forTextStyle: .title3)
-        audienceInfoLabel.font = .preferredFont(forTextStyle: .body)
     }
     
     private func configureRankInfoLabel(item: DailyBoxOffice) {

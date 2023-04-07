@@ -18,7 +18,7 @@ final class BoxOfficeViewController: UIViewController {
     private let boxOfficeDataLoader = BoxOfficeDataLoader()
     private let refreshControl = UIRefreshControl()
     private var boxOffice: BoxOffice?
-    private var layoutMode: LayoutMode = .icon
+    private var layoutMode: LayoutMode = .list
 
     private var selectedDate = Date(timeIntervalSinceNow: -86400) {
         didSet {

@@ -16,7 +16,6 @@ class BoxOfficeCollectionViewCell: UICollectionViewCell, Configurable {
     override func awakeFromNib() {
         super.awakeFromNib()
         
-        configureLabels()
         self.layer.borderWidth = 2
         self.layer.borderColor = UIColor.systemGray.cgColor
     }
@@ -32,13 +31,6 @@ class BoxOfficeCollectionViewCell: UICollectionViewCell, Configurable {
         configureRankInfoLabel(item: item)
         titleLabel.text = item.movieKoreanName
         audienceInfoLabel.text = "오늘 \(item.audienceCountText.convertToDecimalText()) / 총 \(item.audienceAccumulationText.convertToDecimalText())"
-    }
-    
-    private func configureLabels() {
-        rankLabel.font = .preferredFont(forTextStyle: .largeTitle)
-        rankInfoLabel.font = .preferredFont(forTextStyle: .body)
-        titleLabel.font = .preferredFont(forTextStyle: .title3)
-        audienceInfoLabel.font = .preferredFont(forTextStyle: .body)
     }
     
     private func configureRankInfoLabel(item: DailyBoxOffice) {

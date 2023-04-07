@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="21507" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="8GE-t8-rBe">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="21701" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="8GE-t8-rBe">
     <device id="retina6_12" orientation="portrait" appearance="light"/>
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="21505"/>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="21678"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="System colors in document resources" minToolsVersion="11.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
@@ -33,7 +34,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="keA-fW-q26">
-                                <rect key="frame" x="0.0" y="103" width="393" height="715"/>
+                                <rect key="frame" x="0.0" y="103" width="393" height="666"/>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                 <collectionViewFlowLayout key="collectionViewLayout" automaticEstimatedItemSize="YES" minimumLineSpacing="10" minimumInteritemSpacing="10" id="adV-Mf-25A">
                                     <size key="itemSize" width="128" height="128"/>
@@ -60,7 +61,7 @@
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <constraints>
                             <constraint firstItem="keA-fW-q26" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" id="25y-xA-Oq9"/>
-                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="bottom" secondItem="keA-fW-q26" secondAttribute="bottom" id="4PH-TM-CIy"/>
+                            <constraint firstItem="gJW-bb-9Bx" firstAttribute="top" secondItem="keA-fW-q26" secondAttribute="bottom" id="4PH-TM-CIy"/>
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="keA-fW-q26" secondAttribute="trailing" id="6D1-0u-vzb"/>
                             <constraint firstItem="gJW-bb-9Bx" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" id="6Vm-cA-PeT"/>
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="bottom" secondItem="gJW-bb-9Bx" secondAttribute="bottom" id="P3D-tn-b4W"/>
