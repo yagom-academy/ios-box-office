@@ -37,7 +37,8 @@ class MovieDetailViewController: UIViewController {
     
     func fetchMoiveDetail() {
         boxOfficeService.fetchMovieDetailAPI {
-            DispatchQueue.main.async {
+            DispatchQueue.main.async { [weak self] in
+                guard let self = self else { return }
                 self.setMovieDetailLabel()
                 self.fetchImage()
                 self.activityIndicator.stopAnimating()
