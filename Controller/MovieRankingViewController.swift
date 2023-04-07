@@ -84,7 +84,12 @@ final class MovieRankingViewController: UIViewController {
         let alert = UIAlertController(title: "화면모드변경",
                                       message: nil,
                                       preferredStyle: .actionSheet)
-        alert.addAction(UIAlertAction(title: "아이콘", style: .default))
+        alert.addAction(UIAlertAction(title: "아이콘", style: .default, handler: { [weak self] _ in
+            guard let iconLayout = self?.makeCollectionViewIconLayout() else { return }
+            self?.makeIconDataSource()
+            self?.changeCollectionViewLayout(layout: iconLayout)
+            self?.fetchBoxofficeData()
+        }))
         alert.addAction(UIAlertAction(title: "취소", style: .cancel))
         present(alert, animated: true)
     }
@@ -136,14 +141,18 @@ extension MovieRankingViewController {
         view.backgroundColor = .systemBackground
         
         let layout = makeCollectionViewListLayout()
-        
         collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
+        
         configureCollectionViewLayout()
         configureLoadingView()
         configureNavigationItems()
         configureRefreshController()
         makeToolbar()
-        makeDataSource()
+        makeListDataSource()
+    }
+    
+    private func changeCollectionViewLayout(layout: UICollectionViewCompositionalLayout) {
+        collectionView?.setCollectionViewLayout(layout, animated: true)
     }
     
     private func configureLoadingView() {
@@ -172,8 +181,9 @@ extension MovieRankingViewController {
     private func makeCollectionViewIconLayout() -> UICollectionViewCompositionalLayout {
         let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(0.5), heightDimension: .fractionalHeight(1.0))
         let item = NSCollectionLayoutItem(layoutSize: itemSize)
+        item.contentInsets = NSDirectionalEdgeInsets(top: 10, leading: 10, bottom: 10, trailing: 10)
         
-        let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0), heightDimension: .fractionalHeight(0.25))
+        let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0), heightDimension: .fractionalHeight(0.35))
         let group = NSCollectionLayoutGroup.horizontal(layoutSize: groupSize, subitems: [item])
         
         let section = NSCollectionLayoutSection(group: group)
@@ -183,7 +193,7 @@ extension MovieRankingViewController {
         return layout
     }
     
-    private func makeDataSource() {
+    private func makeListDataSource() {
         guard let collectionView = collectionView else { return }
         
         dataSource = UICollectionViewDiffableDataSource<APIType, InfoObject>(collectionView: collectionView, cellProvider: { collectionView, indexPath, itemIdentifier in
@@ -193,6 +203,20 @@ extension MovieRankingViewController {
             
             cell.updateLabelText(for: uiModel)
             
+            return cell
+        })
+    }
+    
+    private func makeIconDataSource() {
+        guard let collectionView = collectionView else { return }
+
+        dataSource = UICollectionViewDiffableDataSource<APIType, InfoObject>(collectionView: collectionView, cellProvider: { collectionView, indexPath, itemIdentifier in
+            guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: MovieRankingIconCell.identifier, for: indexPath) as? MovieRankingIconCell else { return UICollectionViewCell() }
+
+            let uiModel = CellUIModel(data: itemIdentifier)
+
+            cell.updateLabelText(for: uiModel)
+
             return cell
         })
     }

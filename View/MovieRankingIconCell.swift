@@ -53,7 +53,10 @@ class MovieRankingIconCell: UICollectionViewCell {
 extension MovieRankingIconCell {
     
     private func configureUI() {
+        self.layer.borderWidth = 0.5
+        
         let mainStackView = UIStackView(arrangedSubviews: [rankLabel, movieNameLabel, rankStatusLabel, audienceLabel])
+        
         mainStackView.translatesAutoresizingMaskIntoConstraints = false
         mainStackView.axis = .vertical
         mainStackView.spacing = 8
@@ -65,7 +68,7 @@ extension MovieRankingIconCell {
             mainStackView.topAnchor.constraint(equalTo: contentView.topAnchor),
             mainStackView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
             mainStackView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
-            mainStackView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor)
+            mainStackView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -10),
         ])
     }
 }
