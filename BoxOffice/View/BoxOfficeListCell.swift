@@ -77,7 +77,7 @@ class BoxOfficeListCell: UICollectionViewListCell  {
         self.rankNumberLabel.text = dailyBoxOffice.boxOfficeResult.dailyBoxOfficeList[indexPath.row].rank
         self.rankGapLabel.attributedText = convertRankGapPresentation(dailyBoxOffice: dailyBoxOffice, indexPath: indexPath)
         self.movieTitleLabel.text = dailyBoxOffice.boxOfficeResult.dailyBoxOfficeList[indexPath.row].movieName
-        self.audienceCountLabel.text = "오늘 " + audienceCount + " / 총 " + audienceAccumulation
+        self.audienceCountLabel.text = "오늘 " + audienceCount.insertComma() + " / 총 " + audienceAccumulation.insertComma()
     }
     
     private func convertRankGapPresentation(dailyBoxOffice: DailyBoxOffice, indexPath: IndexPath) -> NSMutableAttributedString {

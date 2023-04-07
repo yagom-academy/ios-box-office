@@ -108,7 +108,7 @@ final class BoxOfficeViewController: UIViewController {
     }
     
     private func setNavigationBarTitle() {
-        self.title = choosenDate.insertDashFormatter()
+        self.title = choosenDate.insertDash()
     }
     
     private func getYesterdayDescription() -> String {

@@ -8,7 +8,7 @@
 import Foundation
 
 extension String {
-    func insertDashFormatter() -> String {
+    func insertDash() -> String {
         let previousDateFormatter = DateFormatter()
         previousDateFormatter.dateFormat = "yyyyMMdd"
         
@@ -20,5 +20,14 @@ extension String {
         let convertString = currentDateFormatter.string(from: convertDate)
         
         return convertString
+    }
+    
+    func insertComma() -> String {
+        let numberFormatter = NumberFormatter()
+        numberFormatter.numberStyle = .decimal
+        
+        guard let value = Double(self), let result = numberFormatter.string(from: NSNumber(value: value)) else { return "" }
+        
+        return result
     }
 }
