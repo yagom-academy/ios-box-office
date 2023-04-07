@@ -5,9 +5,7 @@
 //  Created by Muri, Rowan on 2023/04/05.
 //
 
-import UIKit
-
-struct TextMaker {
+struct DailyBoxOfficeCellTextMaker {
     let data: DailyBoxOfficeMovie
     
     var movieTitle: String {

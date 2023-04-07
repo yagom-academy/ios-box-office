@@ -61,28 +61,35 @@ final class DailyBoxOfficeIconCell: UICollectionViewCell {
     
     override func updateConfiguration(using state: UICellConfigurationState) {
         guard let dailyBoxOfficeData = self.dailyBoxOfficeData else { return }
-        let textMaker = TextMaker(data: dailyBoxOfficeData)
+        let textMaker = DailyBoxOfficeCellTextMaker(data: dailyBoxOfficeData)
         
         configureRankLabel(with: textMaker)
         configureMovieTitleLabel(with: textMaker)
         configureRankDifferenceLabel(with: textMaker)
         configureAudienceLabel(with: textMaker)
+        
+        var backgroundConfiguration = UIBackgroundConfiguration.listPlainCell()
+        backgroundConfiguration.strokeWidth = 2.0
+        backgroundConfiguration.strokeOutset = 5
+        backgroundConfiguration.strokeColor = .systemGray2
+        
+        self.backgroundConfiguration = backgroundConfiguration
     }
     
-    private func configureRankLabel(with textMaker: TextMaker) {
+    private func configureRankLabel(with textMaker: DailyBoxOfficeCellTextMaker) {
         rankLabel.text = textMaker.rank
         rankLabel.font = UIFont.preferredFont(forTextStyle: .largeTitle)
         rankLabel.adjustsFontForContentSizeCategory = true
     }
     
-    private func configureMovieTitleLabel(with textMaker: TextMaker) {
+    private func configureMovieTitleLabel(with textMaker: DailyBoxOfficeCellTextMaker) {
         movieTitleLabel.text = textMaker.movieTitle
         movieTitleLabel.font = UIFont.preferredFont(forTextStyle: .title3)
         movieTitleLabel.adjustsFontForContentSizeCategory = true
         movieTitleLabel.numberOfLines = 0
     }
     
-    private func configureRankDifferenceLabel(with textMaker: TextMaker) {
+    private func configureRankDifferenceLabel(with textMaker: DailyBoxOfficeCellTextMaker) {
         let text = textMaker.rankDifference
         switch textMaker.rankOldAndNew {
         case .new:
@@ -111,7 +118,7 @@ final class DailyBoxOfficeIconCell: UICollectionViewCell {
         rankDifferenceLabel.numberOfLines = 1
     }
     
-    private func configureAudienceLabel(with textMaker: TextMaker) {
+    private func configureAudienceLabel(with textMaker: DailyBoxOfficeCellTextMaker) {
         audienceLabel.text = textMaker.audienceCount
         audienceLabel.font = UIFont.preferredFont(forTextStyle: .body)
         audienceLabel.adjustsFontForContentSizeCategory = true

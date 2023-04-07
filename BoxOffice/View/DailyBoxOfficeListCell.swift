@@ -63,14 +63,16 @@ final class DailyBoxOfficeListCell: UICollectionViewListCell {
     
     override func updateConfiguration(using state: UICellConfigurationState) {
         guard let dailyBoxOfficeData = self.dailyBoxOfficeData else { return }
-        let textMaker = TextMaker(data: dailyBoxOfficeData)
+        let textMaker = DailyBoxOfficeCellTextMaker(data: dailyBoxOfficeData)
         
         configureContentView(with: textMaker)
         configureRankLabel(with: textMaker)
         configureRankDifferenceLabel(with: textMaker)
+        
+        self.accessories = [.disclosureIndicator()]
     }
     
-    private func configureContentView(with textMaker: TextMaker) {
+    private func configureContentView(with textMaker: DailyBoxOfficeCellTextMaker) {
         var content = defaultContentConfiguration()
         content.text = textMaker.movieTitle
         content.textProperties.font = UIFont.preferredFont(forTextStyle: .title3)
@@ -84,14 +86,14 @@ final class DailyBoxOfficeListCell: UICollectionViewListCell {
         dailyBoxOfficeListContentView.configuration = content
     }
 
-    private func configureRankLabel(with textMaker: TextMaker) {
+    private func configureRankLabel(with textMaker: DailyBoxOfficeCellTextMaker) {
         rankLabel.text = textMaker.rank
         rankLabel.font = UIFont.preferredFont(forTextStyle: .largeTitle)
         rankLabel.adjustsFontForContentSizeCategory = true
         rankLabel.numberOfLines = 0
     }
     
-    private func configureRankDifferenceLabel(with textMaker: TextMaker) {
+    private func configureRankDifferenceLabel(with textMaker: DailyBoxOfficeCellTextMaker) {
         let text = textMaker.rankDifference
         switch textMaker.rankOldAndNew {
         case .new:

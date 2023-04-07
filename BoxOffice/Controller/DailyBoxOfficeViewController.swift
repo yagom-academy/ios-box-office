@@ -19,8 +19,8 @@ final class DailyBoxOfficeViewController: UIViewController {
         return Date(timeIntervalSinceNow: 3600 * -24)
     }
     private var targetDate: Date?
-    private var collectionViewMode = CollectionViewMode.icon
-    
+    private var collectionViewMode = CollectionViewMode.list
+        
     override func viewDidLoad() {
         super.viewDidLoad()
         configureRootView()
@@ -68,22 +68,8 @@ final class DailyBoxOfficeViewController: UIViewController {
     }
     
     private func configureDataSource() {
+        // cell registration
         
-        let cellRegistration = UICollectionView.CellRegistration<DailyBoxOfficeListCell, DailyBoxOfficeMovie> { cell, indexPath, item in
-            cell.updateData(with: item)
-            cell.accessories = [.disclosureIndicator()]
-        }
-        
-        let cellRegistration2 = UICollectionView.CellRegistration<DailyBoxOfficeIconCell, DailyBoxOfficeMovie> { cell, indexPath, item in
-            cell.updateData(with: item)
-            
-            var backgroundConfiguration = UIBackgroundConfiguration.listPlainCell()
-            backgroundConfiguration.strokeWidth = 2.0
-            backgroundConfiguration.strokeOutset = 5
-            backgroundConfiguration.strokeColor = .systemGray2
-            
-            cell.backgroundConfiguration = backgroundConfiguration
-        }
 
         dataSource = DataSource(collectionView: collectionView) { collectionView, indexPath, itemIdentifier in
             let cell = collectionView.dequeueConfiguredReusableCell(using: cellRegistration2,
@@ -151,43 +137,20 @@ final class DailyBoxOfficeViewController: UIViewController {
     }
     
     private func collectionViewLayout() -> UICollectionViewCompositionalLayout {
+        if let listLayout = self.collectionViewLayoutList[collectionViewMode] {
+            return listLayout
+        }
+        
         switch collectionViewMode {
         case .list:
-            let configuration = UICollectionLayoutListConfiguration(appearance: .plain)
-            let layout = UICollectionViewCompositionalLayout.list(using: configuration)
-            
-            return layout
+            return createListLayout()
         case .icon:
             return createIconLayout()
         }
     }
     
-    private func createIconLayout() -> UICollectionViewCompositionalLayout {
-        let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(0.5),
-                                              heightDimension: .fractionalWidth(0.5))
-        let item = NSCollectionLayoutItem(layoutSize: itemSize)
-        item.contentInsets = NSDirectionalEdgeInsets(top: 8, leading: 8, bottom: 8, trailing: 8)
-        
-        let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0),
-                                               heightDimension: .fractionalHeight(0.25))
-        let group = NSCollectionLayoutGroup.horizontal(layoutSize: groupSize,
-                                                         subitems: [item])
-        
-        let section = NSCollectionLayoutSection(group: group)
-        section.interGroupSpacing = 15
-        
-        let layout = UICollectionViewCompositionalLayout(section: section)
-        
-        return layout
-    }
-    
     private enum Section {
         case main
-    }
-    
-    private enum CollectionViewMode {
-        case list
-        case icon
     }
 }
 
