@@ -78,14 +78,13 @@ final class DailyBoxOfficeViewController: UIViewController {
         switch collectionViewMode {
         case .icon:
             collectionViewMode = .list
-            dataSource.snapshot().reloadItems(<#T##identifiers: [DailyBoxOfficeMovie]##[DailyBoxOfficeMovie]#>)
         case .list:
             collectionViewMode = .icon
-            dataSource.snapshot().reloadItems([DailyBoxOfficeIconCell.identifier])
         }
-        
-        collectionView.setCollectionViewLayout(collectionViewLayout(), animated: true)
+      
+        collectionView.setCollectionViewLayout(collectionViewLayout(), animated: false)
         collectionView.reloadData()
+        collectionView.layoutIfNeeded()
     }
     
     private func configureCollectionView() {

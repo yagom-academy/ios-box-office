@@ -40,7 +40,7 @@ final class DailyBoxOfficeIconCell: UICollectionViewCell {
             let stackView = UIStackView()
             stackView.axis = .vertical
             stackView.alignment = .center
-            stackView.distribution = .fillProportionally
+            stackView.distribution = .equalCentering
             stackView.addArrangedSubview(rankLabel)
             stackView.addArrangedSubview(movieTitleLabel)
             stackView.addArrangedSubview(rankDifferenceLabel)
@@ -70,8 +70,8 @@ final class DailyBoxOfficeIconCell: UICollectionViewCell {
         configureAudienceLabel(with: textMaker)
         
         var backgroundConfiguration = UIBackgroundConfiguration.listPlainCell()
-        backgroundConfiguration.strokeWidth = 2.0
-        backgroundConfiguration.strokeOutset = 5
+        backgroundConfiguration.strokeWidth = 3.0
+        backgroundConfiguration.strokeOutset = 10
         backgroundConfiguration.strokeColor = .systemGray2
         
         self.backgroundConfiguration = backgroundConfiguration
