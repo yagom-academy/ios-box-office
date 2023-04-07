@@ -7,13 +7,13 @@
 
 import UIKit
 
-protocol CalendarViewControllerDelegate {
+protocol CalendarViewControllerDelegate: AnyObject {
     func deliverData(_ data: String)
 }
 
 final class CalendarViewController: UIViewController {
     private var date: String
-    var delegate: CalendarViewControllerDelegate?
+    weak var delegate: CalendarViewControllerDelegate?
     
     private let calendarView: UICalendarView = {
         let calendarView = UICalendarView()
