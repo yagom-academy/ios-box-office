@@ -50,17 +50,17 @@ final class BoxOfficeViewController: UIViewController {
     }
     
     private func loadData(completion: @escaping () -> ()) {
-        boxOfficeDataLoader.loadDailyBoxOffice(date: selectedDate) { boxOffice, error in
+        boxOfficeDataLoader.loadDailyBoxOffice(date: selectedDate) { result in
             DispatchQueue.main.async { [weak self] in
-                guard let error = error else {
-                    self?.boxOffice = boxOffice
+                switch result {
+                case .success(let data):
+                    self?.boxOffice = data
                     self?.collectionView.reloadData()
                     completion()
-                    return
+                case .failure(let error):
+                    self?.showFailAlert(error: error)
+                    completion()
                 }
-                
-                self?.showFailAlert(error: error)
-                completion()
             }
         }
     }
