@@ -9,6 +9,7 @@ import UIKit
 
 final class DailyBoxOfficeListCell: UICollectionViewListCell {
     var dailyBoxOfficeData: DailyBoxOfficeMovie?
+    static let identifier = "listCell"
     let rankLabel = UILabel()
     let rankDifferenceLabel = UILabel()
     let dailyBoxOfficeListContentView = UIListContentView(configuration: UIListContentConfiguration.subtitleCell())

@@ -9,6 +9,7 @@ import UIKit
 
 final class DailyBoxOfficeIconCell: UICollectionViewCell {
     var dailyBoxOfficeData: DailyBoxOfficeMovie?
+    static let identifier = "iconCell"
     let rankLabel = UILabel()
     let rankDifferenceLabel = UILabel()
     let movieTitleLabel = UILabel()

@@ -21,7 +21,7 @@ final class DailyBoxOfficeViewController: UIViewController {
     private var targetDate: Date?
     private var collectionViewMode = CollectionViewMode.list
     private var collectionViewModeManager = CollectionViewModeManager()
-        
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         configureRootView()
@@ -71,7 +71,21 @@ final class DailyBoxOfficeViewController: UIViewController {
     }
     
     @objc private func showActionSheet() {
-        
+        AlertController.showActionSheet(mode: collectionViewMode, to: self)
+    }
+    
+    func changeCollectionViewMode() {
+        switch collectionViewMode {
+        case .icon:
+            collectionViewMode = .list
+            collectionView.register(DailyBoxOfficeListCell.self,
+                                    forCellWithReuseIdentifier: DailyBoxOfficeListCell.identifier)
+        case .list:
+            collectionViewMode = .icon
+            collectionView.register(DailyBoxOfficeIconCell.self,
+                                    forCellWithReuseIdentifier: DailyBoxOfficeIconCell.identifier)
+        }
+        collectionView.setCollectionViewLayout(collectionViewLayout(), animated: true)
     }
     
     private func configureCollectionView() {
@@ -88,18 +102,28 @@ final class DailyBoxOfficeViewController: UIViewController {
     }
     
     private func configureDataSource() {
-        guard let cellRegistration = collectionViewModeManager.cellRegistration(mode: collectionViewMode)
-                as? UICollectionView.CellRegistration<DailyBoxOfficeListCell, DailyBoxOfficeMovie>
-        else {
-            return
-        }
-
-        dataSource = DataSource(collectionView: collectionView) { collectionView, indexPath, itemIdentifier in
-            let cell = collectionView.dequeueConfiguredReusableCell(using: cellRegistration,
-                                                                    for: indexPath,
-                                                                    item: itemIdentifier)
-            return cell
-        }
+//        guard let cellRegistration = collectionViewModeManager.cellRegistration(mode: collectionViewMode)
+//                as? UICollectionView.CellRegistration<DailyBoxOfficeListCell, DailyBoxOfficeMovie>
+//        else {
+//            return
+//        }
+//
+//        dataSource = DataSource(collectionView: collectionView) { collectionView, indexPath, itemIdentifier in
+//            let cell = collectionView.dequeueConfiguredReusableCell(using: cellRegistration,
+//                                                                    for: indexPath,
+//                                                                    item: itemIdentifier)
+//            return cell
+//        }
+        
+         collectionView.register(DailyBoxOfficeListCell.self,
+                                 forCellWithReuseIdentifier: DailyBoxOfficeListCell.identifier)
+         dataSource = DataSource(collectionView: collectionView) { collectionView, indexPath, itemIdentifier in
+             guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: DailyBoxOfficeListCell.identifier, for: indexPath) as? DailyBoxOfficeListCell else { return }
+             guard let dailyBoxOfficeMovie = dailyBoxOffice?.boxOfficeResult.dailyBoxOfficeList[safe: indexPath.item] else { return }
+             cell.updateData(with: dailyBoxOfficeMovie)
+             
+             return cell
+         }
     }
     
     private func loadDailyBoxOffice(date: Date) {

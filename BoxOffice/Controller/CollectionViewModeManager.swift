@@ -14,13 +14,10 @@ enum CollectionViewMode {
 
 struct CollectionViewModeManager {
     private var collectionViewLayoutList = [CollectionViewMode: UICollectionViewCompositionalLayout]()
-    private var cellRegistrationList = [CollectionViewMode: Any]()
     
     init() {
         createIconLayout()
         createListLayout()
-        createIconCellRegistration()
-        createListCellRegistration()
     }
     
     func layout(mode: CollectionViewMode) -> UICollectionViewCompositionalLayout {
@@ -36,31 +33,6 @@ struct CollectionViewModeManager {
         case .list:
             return layout
         }
-    }
-    
-    func cellRegistration(mode: CollectionViewMode) -> Any? {
-        switch mode {
-        case .icon:
-            return cellRegistrationList[.icon]
-        case .list:
-            return cellRegistrationList[.list]
-        }
-    }
-    
-    private mutating func createListCellRegistration() {
-        let cellRegistration = UICollectionView.CellRegistration<DailyBoxOfficeListCell, DailyBoxOfficeMovie> { cell, indexPath, item in
-            cell.updateData(with: item)
-        }
-        
-        cellRegistrationList[.list] = cellRegistration
-    }
-    
-    private mutating func createIconCellRegistration() {
-        let cellRegistration = UICollectionView.CellRegistration<DailyBoxOfficeIconCell, DailyBoxOfficeMovie> { cell, indexPath, item in
-            cell.updateData(with: item)
-        }
-        
-        cellRegistrationList[.icon] = cellRegistration
     }
     
     private mutating func createListLayout() {
