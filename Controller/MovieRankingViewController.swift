@@ -42,19 +42,18 @@ final class MovieRankingViewController: UIViewController {
     }
     
     private func fetchBoxofficeData() {
-        dataManager?.fetchRanking { [weak self] error in
-            guard let error = error else {
+        dataManager?.fetchRanking(handler: { [weak self] result in
+            switch result {
+            case .success(_):
                 DispatchQueue.main.async {
-                    self?.applySnapshot()
                     self?.stopLoadingView()
-                    self?.collectionView.refreshControl?.endRefreshing()
+                    self?.collectionView?.refreshControl?.endRefreshing()
+                    self?.applySnapshot()
                 }
-                return
-            }
-            DispatchQueue.main.async {
+            case .failure(let error):
                 self?.presentErrorAlert(error: error, title: "박스오피스")
             }
-        }
+        })
     }
 
     private func startLoadingView() {
@@ -121,7 +120,7 @@ extension MovieRankingViewController {
     
     private func configureNavigationItems() {
         configureNavigationTitle()
-        navigationItem.rightBarButtonItem = dateSelectionButton
+        navigationItem.rightBarButtonItem = UIBarButtonItem(title: "날짜 선택", style: .plain, target: self, action: #selector(didTapDateSelectionButton))
     }
     
     private func configureUI() {
