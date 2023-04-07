@@ -12,7 +12,7 @@ protocol UpdateDateDelegate: AnyObject {
 }
 
 final class CalendarViewController: UIViewController {
-    let selectedDate: Date
+    private let selectedDate: Date
     weak var delegate: UpdateDateDelegate?
     
     private let calendarView: UICalendarView = {
