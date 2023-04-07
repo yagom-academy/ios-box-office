@@ -113,3 +113,7 @@ extension DailyMovieViewController: UICollectionViewDelegate {
         collectionView.deselectItem(at: indexPath, animated: true)
     }
 }
+
+fileprivate enum Section: Hashable {
+    case main
+}

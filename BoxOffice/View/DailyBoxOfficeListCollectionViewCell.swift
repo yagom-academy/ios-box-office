@@ -8,7 +8,7 @@
 import UIKit
 
 final class DailyBoxOfficeListCollectionViewCell: UICollectionViewCell {
-    static let reuseIdentifier = "DailyBoxOfficeListCollectionViewCell"
+    static let reuseIdentifier = String(describing: DailyBoxOfficeListCollectionViewCell.self)
 
     private let accessoryImageView = UIImageView()
     private let separatorView = UIView()
@@ -155,15 +155,7 @@ final class DailyBoxOfficeListCollectionViewCell: UICollectionViewCell {
         audienceInformationLabel.text = audienceInformation
         rankLabel.text = rank
         rankMarkLabel.text = rankMark
+        rankMarkLabel.textColor = rankMarkColor.color
         audienceVarianceLabel.text = audienceVariance
-        
-        switch rankMarkColor {
-        case .red:
-            rankMarkLabel.textColor = .systemRed
-        case .black:
-            rankMarkLabel.textColor = .black
-        case .blue:
-            rankMarkLabel.textColor = .systemBlue
-        }
     }
 }

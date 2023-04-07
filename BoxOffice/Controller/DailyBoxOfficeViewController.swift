@@ -15,6 +15,7 @@ protocol DateUpdatable: AnyObject {
 
 final class DailyBoxOfficeViewController: UIViewController, DateUpdatable {
     private typealias DataSource = UICollectionViewDiffableDataSource<Section, DailyBoxOfficeItem>
+    private typealias Snapshot = NSDiffableDataSourceSnapshot<Section, DailyBoxOfficeItem>
     
     private let networkManager = NetworkManager()
     private var boxOfficeEndPoint: BoxOfficeEndPoint?
@@ -47,14 +48,10 @@ final class DailyBoxOfficeViewController: UIViewController, DateUpdatable {
     private func configureCollectionView() {
         collectionView.delegate = self
         collectionView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
-
-        switch screenMode {
-        case .list:
-            collectionView.register(DailyBoxOfficeListCollectionViewCell.self, forCellWithReuseIdentifier: DailyBoxOfficeListCollectionViewCell.reuseIdentifier)
-        case .icon:
-            collectionView.register(DailyBoxOfficeIconCollectionViewCell.self, forCellWithReuseIdentifier: DailyBoxOfficeIconCollectionViewCell.reuseIdentifier)
-        }
-       
+        
+        collectionView.register(DailyBoxOfficeListCollectionViewCell.self, forCellWithReuseIdentifier: DailyBoxOfficeListCollectionViewCell.reuseIdentifier)
+        collectionView.register(DailyBoxOfficeIconCollectionViewCell.self, forCellWithReuseIdentifier: DailyBoxOfficeIconCollectionViewCell.reuseIdentifier)
+        
         refreshControl.addTarget(self, action: #selector(refreshData), for: .valueChanged)
         collectionView.refreshControl = refreshControl
     }
@@ -96,31 +93,7 @@ final class DailyBoxOfficeViewController: UIViewController, DateUpdatable {
         
         let listMode = UIAlertAction(title: title, style: .default) { [weak self] _ in
             self?.screenMode.changeMode()
-            
-            switch self?.screenMode {
-            case .list:
-                self?.collectionView.register(DailyBoxOfficeListCollectionViewCell.self, forCellWithReuseIdentifier: DailyBoxOfficeListCollectionViewCell.reuseIdentifier)
-            case .icon:
-                self?.collectionView.register(DailyBoxOfficeIconCollectionViewCell.self, forCellWithReuseIdentifier: DailyBoxOfficeIconCollectionViewCell.reuseIdentifier)
-            case .none:
-                return
-            }
-
-            DispatchQueue.main.async {
-                self?.setupDataSource()
-                self?.updateDataSource()
-                
-                switch self?.screenMode {
-                case .list:
-                    guard let movieListLayout = self?.createMovieListLayout() else { return }
-                    self?.collectionView.collectionViewLayout = movieListLayout
-                case .icon:
-                    guard let movieIconLayout = self?.createMovieIconLayout() else { return }
-                    self?.collectionView.collectionViewLayout = movieIconLayout
-                case .none:
-                    return
-                }
-            }
+            self?.updateCell()
         }
         
         let cancelAction = UIAlertAction(title: "취소", style: .cancel)
@@ -128,6 +101,24 @@ final class DailyBoxOfficeViewController: UIViewController, DateUpdatable {
         alert.addAction(cancelAction)
         
         present(alert, animated: true)
+    }
+    
+    private func updateCell() {
+        DispatchQueue.main.async { [weak self] in
+            self?.setupDataSource()
+            self?.updateDataSource()
+            
+            switch self?.screenMode {
+            case .list:
+                guard let movieListLayout = self?.createMovieListLayout() else { return }
+                self?.collectionView.collectionViewLayout = movieListLayout
+            case .icon:
+                guard let movieIconLayout = self?.createMovieIconLayout() else { return }
+                self?.collectionView.collectionViewLayout = movieIconLayout
+            case .none:
+                return
+            }
+        }
     }
     
     private func updateDateToViewTitle() {
@@ -212,7 +203,6 @@ extension DailyBoxOfficeViewController {
     }
     
     private func updateDataSource() {
-        typealias Snapshot = NSDiffableDataSourceSnapshot<Section, DailyBoxOfficeItem>
         var snapshot = Snapshot()
         snapshot.appendSections([.main])
         snapshot.appendItems(dailyBoxOfficeItem, toSection: .main)
@@ -227,8 +217,8 @@ extension DailyBoxOfficeViewController {
         var audienceVariance: String
         var rankMarkColor : MovieRankMarkColor
         
-        guard let todayAudience = movie.audienceCount.convertToFormattedNumber(),
-              let totalAudience = movie.audienceAccumulation.convertToFormattedNumber() else { return nil }
+        guard let todayAudience = NumberFormatterManager.shared.convertToFormattedNumber(from: movie.audienceCount),
+              let totalAudience = NumberFormatterManager.shared.convertToFormattedNumber(from: movie.audienceAccumulation) else { return nil }
         
         name = movie.name
         audienceInformation = "오늘 \(todayAudience) / 총 \(totalAudience)"
@@ -307,14 +297,50 @@ extension DailyBoxOfficeViewController: UICollectionViewDelegate {
     }
 }
 
-fileprivate extension String {
-    func convertToFormattedNumber() -> String? {
-        let numberFormatter = NumberFormatter()
-        numberFormatter.numberStyle = .decimal
-        
-        guard let number = numberFormatter.number(from: self),
-              let stringNumber = numberFormatter.string(from: number) else { return nil }
-        
-        return stringNumber
+fileprivate enum ScreenMode {
+    case list
+    case icon
+
+    var oppositeTitle: String {
+        switch self {
+        case .list:
+            return "아이콘"
+        case .icon:
+            return "리스트"
+        }
+    }
+    
+    mutating func changeMode() {
+        switch self {
+        case .list:
+            self = .icon
+        case .icon:
+            self = .list
+        }
+    }
+}
+
+fileprivate enum Section: Hashable {
+    case main
+}
+
+struct DailyBoxOfficeItem: Hashable {
+    let identifier = UUID()
+    let rank: String
+    let rankVariance: String
+    let rankOldAndNew: String
+    let code: String
+    let name: String
+    let audienceCount: String
+    let audienceAccumulation: String
+    
+    init(from movie: DailyBoxOffice.BoxOfficeResult.Movie) {
+        self.rank = movie.rank
+        self.rankVariance = movie.rankVariance
+        self.rankOldAndNew = movie.rankOldAndNew
+        self.code = movie.code
+        self.name = movie.name
+        self.audienceCount = movie.audienceCount
+        self.audienceAccumulation = movie.audienceAccumulation
     }
 }

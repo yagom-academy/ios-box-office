@@ -8,7 +8,7 @@
 import UIKit
 
 final class DailyBoxOfficeIconCollectionViewCell: UICollectionViewCell {
-    static let reuseIdentifier = "DailyBoxOfficeIconCollectionViewCell"
+    static let reuseIdentifier = String(describing: DailyBoxOfficeIconCollectionViewCell.self)
 
     private let mainStackView = UIStackView()
     private let rankLabel = UILabel()
