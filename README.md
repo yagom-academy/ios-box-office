@@ -101,7 +101,7 @@
 
 |데이터 로딩 시 로딩화면 표시|어제의 박스오피스 화면|영화상세정보 화면|
 |:--:|:--:|:--:|
-|<img src="https://github.com/Andrew-0411/ios-box-office/blob/step3/images/startLoading.gif?raw=true">|<img src="https://github.com/Andrew-0411/ios-box-office/blob/step3/images/mainVC1.gif?raw=true">|<img src="https://github.com/Andrew-0411/ios-box-office/blob/step4/images/descInfo.gif?raw=true">|
+|<img src="https://github.com/Andrew-0411/ios-box-office/blob/step3/images/startLoading.gif?raw=true" width="270" height ="500">|<img src="https://github.com/Andrew-0411/ios-box-office/blob/step3/images/mainVC1.gif?raw=true" width="270" height ="500">|<img src="https://github.com/Andrew-0411/ios-box-office/blob/step4/images/descInfo.gif?raw=true" width="270" height ="500">|
 
 ## 5. 트러블 슈팅
 
