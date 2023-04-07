@@ -8,15 +8,17 @@
 import Foundation
 
 extension String {
-    func removeDashFromDate() -> String {
-        let result = self.components(separatedBy: "-").joined()
-        return result
-    }
-
-    func insertDashFromDate() -> String {
-        var result = self
-        result.insert("-", at: result.index(result.startIndex, offsetBy: 4))
-        result.insert("-", at: result.index(result.endIndex, offsetBy: -2))
-        return result
+    func insertDashFormatter() -> String {
+        let previousDateFormatter = DateFormatter()
+        previousDateFormatter.dateFormat = "yyyyMMdd"
+        
+        guard let convertDate = previousDateFormatter.date(from: self) else { return ""}
+        
+        let currentDateFormatter = DateFormatter()
+        currentDateFormatter.dateFormat = "yyyy-MM-dd"
+        
+        let convertString = currentDateFormatter.string(from: convertDate)
+        
+        return convertString
     }
 }

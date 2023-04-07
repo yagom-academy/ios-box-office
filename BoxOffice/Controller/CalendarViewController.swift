@@ -26,13 +26,13 @@ class CalendarViewController: UIViewController {
 
 extension CalendarViewController: UICalendarSelectionSingleDateDelegate {
     func dateSelection(_ selection: UICalendarSelectionSingleDate, didSelectDate dateComponents: DateComponents?) {
-        guard let year = dateComponents?.year?.convertIntToString() else { return }
-        guard let month = dateComponents?.month?.convertIntToString() else { return }
-        guard let day = dateComponents?.day?.convertIntToString() else { return }
+        guard let year = dateComponents?.year?.addZeroAndConvertToString() else { return }
+        guard let month = dateComponents?.month?.addZeroAndConvertToString() else { return }
+        guard let day = dateComponents?.day?.addZeroAndConvertToString() else { return }
         choosenDate += year + month + day
         delegate?.receiveDate(date: choosenDate)
         choosenDate = ""
         self.dismiss(animated: true)
-        return
     }
 }
+

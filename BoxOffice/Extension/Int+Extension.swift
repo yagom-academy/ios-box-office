@@ -8,7 +8,7 @@
 import Foundation
 
 extension Int {
-    func convertIntToString() -> String {
+    func addZeroAndConvertToString() -> String {
         var result = ""
         
         if self < 10 {

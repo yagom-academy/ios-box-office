@@ -36,8 +36,8 @@ final class BoxOfficeViewController: UIViewController {
         if choosenDate == "" {
             choosenDate = self.getYesterDate()
         }
-        let dateValue = choosenDate.removeDashFromDate()
-        boxOfficeService.fetchDailyBoxOfficeAPI(date: dateValue) {
+        
+        boxOfficeService.fetchDailyBoxOfficeAPI(date: choosenDate) {
             DispatchQueue.main.async {
                 self.boxOfficeListCollectionView.reloadData()
                 self.activityIndicator.stopAnimating()
@@ -108,12 +108,12 @@ final class BoxOfficeViewController: UIViewController {
     }
     
     private func setNavigationBarTitle() {
-        self.title = choosenDate
+        self.title = choosenDate.insertDashFormatter()
     }
     
     private func getYesterDate() -> String {
         let formatter = DateFormatter()
-        formatter.dateFormat = "yyyy-MM-dd"
+        formatter.dateFormat = "yyyyMMdd"
         let yesterDate = formatter.string(from: Date(timeIntervalSinceNow: -86400))
         return yesterDate
     }
@@ -192,9 +192,9 @@ extension BoxOfficeViewController {
     }
 }
 
-extension BoxOfficeViewController:  CalendarDateDelegate {
+extension BoxOfficeViewController: CalendarDateDelegate {
     func receiveDate(date: String) {
-        choosenDate = date.insertDashFromDate()
+        choosenDate = date
         print(choosenDate)
     }
 }

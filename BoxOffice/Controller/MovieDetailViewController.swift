@@ -53,7 +53,7 @@ class MovieDetailViewController: UIViewController {
        
         self.movieDetailView.openDayTitleLabel.text = "개봉일"
         self.movieDetailView.openDayDataLabel.text =
-        boxOfficeService.movieDetail?.movieInformationResult.movieInformation.openDate
+        boxOfficeService.movieDetail?.movieInformationResult.movieInformation.openDate.insertDashFormatter()
         
         self.movieDetailView.showTimeTitleLabel.text = "상영시간"
         self.movieDetailView.showTimeDataLabel.text = boxOfficeService.movieDetail?.movieInformationResult.movieInformation.showTime
