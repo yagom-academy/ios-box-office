@@ -29,8 +29,8 @@ final class DailyBoxOfficeViewController: UIViewController {
         configureToolBar()
         configureCollectionView()
         configureDataSource()
-        loadDailyBoxOffice(date: yesterday)
         configureRefreshControl()
+        loadDailyBoxOffice(date: yesterday)
     }
     
     private func configureRootView() {
