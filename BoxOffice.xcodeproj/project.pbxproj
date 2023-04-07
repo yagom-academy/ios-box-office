@@ -164,9 +164,10 @@
 		4BDF6F6E29D812360058FCC0 /* Utility */ = {
 			isa = PBXGroup;
 			children = (
-				4BDF6F6F29D8124C0058FCC0 /* Extension */,
-				4B181D0829D2AD8D00B3CD47 /* LoadingIndicator.swift */,
 				AD69655E29DA993D004A7502 /* AlertController.swift */,
+				ADACF12C29DF35A9009C0A03 /* CollectionViewModeManager.swift */,
+				4B181D0829D2AD8D00B3CD47 /* LoadingIndicator.swift */,
+				4BDF6F6F29D8124C0058FCC0 /* Extension */,
 			);
 			path = Utility;
 			sourceTree = "<group>";
@@ -272,7 +273,6 @@
 				4B4A799229D3FD5700514141 /* MovieDetailsViewController.swift */,
 				4B7EF57729DAC94A00F73EB7 /* CalendarViewController.swift */,
 				4BE7DB9729DEA858008674AB /* Protocol */,
-				ADACF12C29DF35A9009C0A03 /* CollectionViewModeManager.swift */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -369,7 +369,7 @@
 			attributes = {
 				BuildIndependentTargetsInParallel = 1;
 				LastSwiftUpdateCheck = 1420;
-				LastUpgradeCheck = 1420;
+				LastUpgradeCheck = 1430;
 				TargetAttributes = {
 					4B9E3A1729CAD72E00B60AD1 = {
 						CreatedOnToolsVersion = 14.2;
@@ -526,6 +526,7 @@
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
+				DEAD_CODE_STRIPPING = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 16.2;
 				MACOSX_DEPLOYMENT_TARGET = 13.1;
@@ -547,6 +548,7 @@
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
+				DEAD_CODE_STRIPPING = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 16.2;
 				MACOSX_DEPLOYMENT_TARGET = 13.1;
@@ -738,6 +740,7 @@
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
+				DEAD_CODE_STRIPPING = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 16.2;
 				MACOSX_DEPLOYMENT_TARGET = 13.1;
@@ -759,6 +762,7 @@
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
+				DEAD_CODE_STRIPPING = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 16.2;
 				MACOSX_DEPLOYMENT_TARGET = 13.1;
