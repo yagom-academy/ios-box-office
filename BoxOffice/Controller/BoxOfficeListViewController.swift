@@ -68,7 +68,7 @@ final class BoxOfficeListViewController: UIViewController {
     
     private func configureMainView() {
         view.backgroundColor = .white
-        title = currentDate.formatDateString()
+        title = currentDate.formatDateString(format: DateFormat.yearMonthDay)
         
         let selectDateButton: UIBarButtonItem = {
             let button = UIBarButtonItem(title: "날짜 선택",

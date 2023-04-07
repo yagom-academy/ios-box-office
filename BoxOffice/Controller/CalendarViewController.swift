@@ -62,11 +62,11 @@ final class CalendarViewController: UIViewController {
     
     private func configureSelectedDate() {
         let dateSelection = UICalendarSelectionSingleDate(delegate: self)
-        let dateComponents = date.formatDateString()?.components(separatedBy: "-")
+        let dateComponents = date.formatDateString(format: DateFormat.yearMonthDay)?.components(separatedBy: "-")
         
-        guard let year = dateComponents?[0],
-              let month = dateComponents?[1],
-              let day = dateComponents?[2] else { return }
+        guard let year = dateComponents?[index: 0],
+              let month = dateComponents?[index: 1],
+              let day = dateComponents?[index: 2] else { return }
         
         let selectedDate = DateComponents(calendar: Calendar(identifier: .gregorian),
                                           year: Int(year),
