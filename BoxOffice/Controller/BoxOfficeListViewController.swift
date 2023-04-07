@@ -28,8 +28,8 @@ final class BoxOfficeListViewController: UIViewController {
         layout.minimumLineSpacing = 0
         
         let collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
-        collectionView.register(CustomCollectionViewCell.self,
-                                forCellWithReuseIdentifier: CustomCollectionViewCell.identifier)
+        collectionView.register(CustomCollectionViewListCell.self,
+                                forCellWithReuseIdentifier: CustomCollectionViewListCell.identifier)
         collectionView.translatesAutoresizingMaskIntoConstraints = false
         
         return collectionView
@@ -150,7 +150,7 @@ extension BoxOfficeListViewController: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let dailyBoxOffice = self.boxOffice?.boxOfficeResult.dailyBoxOfficeList[index: indexPath.item]
         
-        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: CustomCollectionViewCell.identifier, for: indexPath) as? CustomCollectionViewCell else { return CustomCollectionViewCell() }
+        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: CustomCollectionViewListCell.identifier, for: indexPath) as? CustomCollectionViewListCell else { return CustomCollectionViewListCell() }
         
         cell.configureDailyBoxOffice(dailyBoxOffice: dailyBoxOffice)
 

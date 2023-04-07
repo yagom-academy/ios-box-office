@@ -1,5 +1,5 @@
 //
-//  CustomCollectionViewCell.swift
+//  CustomCollectionViewListCell.swift
 //  BoxOffice
 //
 //  Created by Rhode, Rilla on 2023/03/27.
@@ -7,8 +7,8 @@
 
 import UIKit
 
-final class CustomCollectionViewCell: UICollectionViewListCell {
-    static let identifier = "CustomCollectionViewCell"
+final class CustomCollectionViewListCell: UICollectionViewListCell {
+    static let identifier = "CustomCollectionViewListCell"
     
     private let mainStackView: UIStackView = {
         let stackView = UIStackView()
