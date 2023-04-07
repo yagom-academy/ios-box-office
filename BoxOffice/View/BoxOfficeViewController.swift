@@ -18,7 +18,8 @@ final class BoxOfficeViewController: UIViewController {
     private let boxOfficeDataLoader = BoxOfficeDataLoader()
     private let refreshControl = UIRefreshControl()
     private var boxOffice: BoxOffice?
-    private var layoutMode: LayoutMode = .list
+    private var layoutMode: LayoutMode = .icon
+
     private var selectedDate = Date(timeIntervalSinceNow: -86400) {
         didSet {
             navigationItem.title = DateFormatter.hyphenText(date: selectedDate)
@@ -101,6 +102,7 @@ final class BoxOfficeViewController: UIViewController {
         case .icon:
             collectionView.setCollectionViewLayout(createIconLayout(), animated: true)
         }
+        collectionView.reloadData()
     }
     
     @IBAction private func chooseDateButtonTapped(_ sender: UIBarButtonItem) {
@@ -114,6 +116,35 @@ final class BoxOfficeViewController: UIViewController {
         }) {
             self.present(calendarVC, animated: true)
         }
+    }
+    
+    @IBAction private func switchLayoutModeTapped() {
+        let actionSheet = UIAlertController(title: "화면모드변경",
+                                      message: nil,
+                                      preferredStyle: .actionSheet)
+
+        let listActionHandler: (UIAlertAction) -> () = { _ in
+            self.layoutMode = .icon
+            self.collectionView.reloadData()
+            self.configureCollectionViewLayout()
+        }
+
+        let iconActionHandler: (UIAlertAction) -> () = { _ in
+            self.layoutMode = .list
+            self.collectionView.reloadData()
+            self.configureCollectionViewLayout()
+        }
+
+        switch layoutMode {
+        case .list:
+            actionSheet.addAction(UIAlertAction(title: "아이콘", style: .default, handler: listActionHandler))
+        case .icon:
+            actionSheet.addAction(UIAlertAction(title: "리스트", style: .default, handler: iconActionHandler))
+        }
+
+        actionSheet.addAction(UIAlertAction(title: "취소", style: .cancel))
+
+        present(actionSheet, animated: true)
     }
 }
 
@@ -141,6 +172,7 @@ extension BoxOfficeViewController: UICollectionViewDataSource {
             return UICollectionViewCell()
         }
         cell.configure(item: item)
+        cell.snapshotView(afterScreenUpdates: true)
         
         return cell
     }

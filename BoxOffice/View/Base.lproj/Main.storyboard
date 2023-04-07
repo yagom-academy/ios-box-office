@@ -47,7 +47,11 @@
                                 <rect key="frame" x="0.0" y="769" width="393" height="49"/>
                                 <items>
                                     <barButtonItem style="plain" systemItem="flexibleSpace" id="1qf-eZ-TkW"/>
-                                    <barButtonItem title="화면 모드 변경" id="DWH-8V-0LZ"/>
+                                    <barButtonItem title="화면 모드 변경" id="DWH-8V-0LZ">
+                                        <connections>
+                                            <action selector="switchLayoutModeTapped" destination="BYZ-38-t0r" id="Fl3-B6-t4j"/>
+                                        </connections>
+                                    </barButtonItem>
                                     <barButtonItem style="plain" systemItem="flexibleSpace" id="Gne-QM-snr"/>
                                 </items>
                             </toolbar>
