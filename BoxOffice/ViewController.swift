@@ -79,34 +79,30 @@ final class ViewController: UIViewController {
         return UICollectionViewCompositionalLayout.list(using: config)
     }
     
-    private enum iConLayoutConstant {
-        
-        static let itemFractionWidth: CGFloat = 0.5
-        static let itemabsoluteHeight: CGFloat = 180
-        static let groupFractionWidth: CGFloat = 1.0
-        static let groupAbsoluteHeight: CGFloat = 180
-        static let sectionSpacing: CGFloat = 10
-    
-    }
-    
     private func createIconLayout() -> UICollectionViewLayout {
+        let itemFractionWidth: CGFloat = 0.5
+        let itemabsoluteHeight: CGFloat = 180
+        let groupFractionWidth: CGFloat = 1.0
+        let groupAbsoluteHeight: CGFloat = 180
+        let sectionSpacing: CGFloat = 10
+        
         let itemSize = NSCollectionLayoutSize(
-            widthDimension: .fractionalWidth(iConLayoutConstant.itemFractionWidth),
-            heightDimension: .absolute(iConLayoutConstant.itemabsoluteHeight))
+            widthDimension: .fractionalWidth(itemFractionWidth),
+            heightDimension: .absolute(itemabsoluteHeight))
         let item = NSCollectionLayoutItem(layoutSize: itemSize)
         item.contentInsets = NSDirectionalEdgeInsets(
             top: 0, leading: 10, bottom: 0, trailing: 5)
         
         let groupSize = NSCollectionLayoutSize(
-            widthDimension: .fractionalWidth(iConLayoutConstant.groupFractionWidth),
-            heightDimension: .estimated(iConLayoutConstant.groupAbsoluteHeight))
+            widthDimension: .fractionalWidth(groupFractionWidth),
+            heightDimension: .estimated(groupAbsoluteHeight))
         let group = NSCollectionLayoutGroup.horizontal(layoutSize: groupSize,
                                                        subitems: [item])
         
         let section = NSCollectionLayoutSection(group: group)
         section.contentInsets = NSDirectionalEdgeInsets(
             top: 0, leading: 10, bottom: 0, trailing: 10)
-        section.interGroupSpacing = iConLayoutConstant.sectionSpacing
+        section.interGroupSpacing = sectionSpacing
         
         let layout = UICollectionViewCompositionalLayout(section: section)
         return layout
