@@ -2,7 +2,6 @@
 <document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="21507" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="8GE-t8-rBe">
     <device id="retina6_12" orientation="portrait" appearance="light"/>
     <dependencies>
-        <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="21505"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="System colors in document resources" minToolsVersion="11.0"/>
@@ -44,6 +43,14 @@
                                 </collectionViewFlowLayout>
                                 <cells/>
                             </collectionView>
+                            <toolbar opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="gJW-bb-9Bx">
+                                <rect key="frame" x="0.0" y="769" width="393" height="49"/>
+                                <items>
+                                    <barButtonItem style="plain" systemItem="flexibleSpace" id="1qf-eZ-TkW"/>
+                                    <barButtonItem title="화면 모드 변경" id="DWH-8V-0LZ"/>
+                                    <barButtonItem style="plain" systemItem="flexibleSpace" id="Gne-QM-snr"/>
+                                </items>
+                            </toolbar>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
@@ -51,7 +58,10 @@
                             <constraint firstItem="keA-fW-q26" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" id="25y-xA-Oq9"/>
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="bottom" secondItem="keA-fW-q26" secondAttribute="bottom" id="4PH-TM-CIy"/>
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="keA-fW-q26" secondAttribute="trailing" id="6D1-0u-vzb"/>
+                            <constraint firstItem="gJW-bb-9Bx" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" id="6Vm-cA-PeT"/>
+                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="bottom" secondItem="gJW-bb-9Bx" secondAttribute="bottom" id="P3D-tn-b4W"/>
                             <constraint firstItem="keA-fW-q26" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" id="QXH-kg-9Ig"/>
+                            <constraint firstItem="gJW-bb-9Bx" firstAttribute="trailing" secondItem="6Tk-OE-BBY" secondAttribute="trailing" id="zGW-cB-IwD"/>
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" id="Kvq-SV-C7B">
