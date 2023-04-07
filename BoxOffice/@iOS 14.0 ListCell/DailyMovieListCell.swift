@@ -7,7 +7,6 @@
 
 import UIKit
 
-@available(iOS 14.0, *)
 final class DailyMovieListCell: UICollectionViewListCell {
     static let reuseIdentifier = "DailyMovieListCell"
     
@@ -129,12 +128,10 @@ final class DailyMovieListCell: UICollectionViewListCell {
     }
 }
 
-@available(iOS 14.0, *)
 extension UIConfigurationStateCustomKey {
     static let movieKey = UIConfigurationStateCustomKey("movie")
 }
 
-@available(iOS 14.0, *)
 extension UICellConfigurationState {
     var movie: DailyBoxOfficeItem? {
         get { return self[.movieKey] as? DailyBoxOfficeItem }

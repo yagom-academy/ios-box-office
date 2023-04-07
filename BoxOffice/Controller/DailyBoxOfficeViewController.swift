@@ -13,21 +13,20 @@ protocol DateUpdatable: AnyObject {
     func refreshData()
 }
 
-@available(iOS 16.0, *)
 final class DailyBoxOfficeViewController: UIViewController, DateUpdatable {
     private typealias DataSource = UICollectionViewDiffableDataSource<Section, DailyBoxOfficeItem>
+    private typealias Snapshot = NSDiffableDataSourceSnapshot<Section, DailyBoxOfficeItem>
     
     private let networkManager = NetworkManager()
     private var boxOfficeEndPoint: BoxOfficeEndPoint?
     private var movieDataSource: DataSource?
     private var dailyBoxOfficeItem: [DailyBoxOfficeItem] = []
+    private var screenMode = ScreenMode.list
     
     private let refreshControl = UIRefreshControl()
     private let dateFormatter = DateFormatter()
     var selectedDate: Date = Date(timeIntervalSinceNow: -86400)
-    
-    private let selectDateButton = UIBarButtonItem()
-    
+
     lazy private var collectionView = UICollectionView(frame: view.bounds, collectionViewLayout: createMovieListLayout())
     
     override func viewDidLoad() {
@@ -36,6 +35,7 @@ final class DailyBoxOfficeViewController: UIViewController, DateUpdatable {
     
         configureCollectionView()
         configureSelectionDateButton()
+        configureToolBar()
         refreshData()
     }
     
@@ -48,23 +48,77 @@ final class DailyBoxOfficeViewController: UIViewController, DateUpdatable {
     private func configureCollectionView() {
         collectionView.delegate = self
         collectionView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
-        collectionView.register(DailyBoxOfficeCollectionViewCell.self, forCellWithReuseIdentifier: DailyBoxOfficeCollectionViewCell.reuseIdentifier)
+        
+        collectionView.register(DailyBoxOfficeListCollectionViewCell.self, forCellWithReuseIdentifier: DailyBoxOfficeListCollectionViewCell.reuseIdentifier)
+        collectionView.register(DailyBoxOfficeIconCollectionViewCell.self, forCellWithReuseIdentifier: DailyBoxOfficeIconCollectionViewCell.reuseIdentifier)
+        
         refreshControl.addTarget(self, action: #selector(refreshData), for: .valueChanged)
         collectionView.refreshControl = refreshControl
     }
     
     private func configureSelectionDateButton() {
+        let selectDateButton = UIBarButtonItem(title: "날짜선택",
+                                               style: .plain,
+                                               target: self,
+                                               action: #selector(selectDateButtonTapped))
+        
         navigationItem.rightBarButtonItem = selectDateButton
-        selectDateButton.title = "날짜선택"
-        selectDateButton.style = .plain
-        selectDateButton.target = self
-        selectDateButton.action = #selector(selectDateButtonTapped)
     }
 
     @objc private func selectDateButtonTapped() {
         let selectDateViewController = SelectDateViewController()
         selectDateViewController.delegate = self
         navigationController?.present(selectDateViewController, animated: true)
+    }
+    
+    private func configureToolBar() {
+        self.navigationController?.isToolbarHidden = false
+        let changeScreenModeButton = UIBarButtonItem(title: "화면 모드 변경",
+                                                     style: .plain,
+                                                     target: self,
+                                                     action: #selector(changeScreenModeButtonTapped))
+        
+        let flexibleSpace = UIBarButtonItem(barButtonSystemItem: .flexibleSpace,
+                                            target: self,
+                                            action: nil)
+        var items = [UIBarButtonItem]()
+        [flexibleSpace, changeScreenModeButton, flexibleSpace].forEach { items.append($0) }
+
+        self.toolbarItems = items
+    }
+    
+    @objc private func changeScreenModeButtonTapped() {
+        let alert = UIAlertController(title: "화면모드변경", message: nil, preferredStyle: .actionSheet)
+        let title = screenMode.oppositeTitle
+        
+        let listMode = UIAlertAction(title: title, style: .default) { [weak self] _ in
+            self?.screenMode.changeMode()
+            self?.updateCell()
+        }
+        
+        let cancelAction = UIAlertAction(title: "취소", style: .cancel)
+        alert.addAction(listMode)
+        alert.addAction(cancelAction)
+        
+        present(alert, animated: true)
+    }
+    
+    private func updateCell() {
+        DispatchQueue.main.async { [weak self] in
+            self?.setupDataSource()
+            self?.updateDataSource()
+            
+            switch self?.screenMode {
+            case .list:
+                guard let movieListLayout = self?.createMovieListLayout() else { return }
+                self?.collectionView.collectionViewLayout = movieListLayout
+            case .icon:
+                guard let movieIconLayout = self?.createMovieIconLayout() else { return }
+                self?.collectionView.collectionViewLayout = movieIconLayout
+            case .none:
+                return
+            }
+        }
     }
     
     private func updateDateToViewTitle() {
@@ -93,7 +147,7 @@ final class DailyBoxOfficeViewController: UIViewController, DateUpdatable {
                 
                 DispatchQueue.main.async {
                     self?.setupDataSource()
-                    self?.applySnapshotToDataSource()
+                    self?.updateDataSource()
                     self?.refreshControl.endRefreshing()
                 }
             }
@@ -107,41 +161,122 @@ final class DailyBoxOfficeViewController: UIViewController, DateUpdatable {
     }
 }
 
-@available(iOS 16.0, *)
 extension DailyBoxOfficeViewController {
     private func setupDataSource() {
-        movieDataSource = DataSource(collectionView: collectionView) { collectionView, indexPath, itemIdentifier in
-            guard let cell = collectionView.dequeueReusableCell(
-                withReuseIdentifier: DailyBoxOfficeCollectionViewCell.reuseIdentifier,
-                for: indexPath) as? DailyBoxOfficeCollectionViewCell else {
+        movieDataSource = DataSource(collectionView: collectionView) { [weak self] collectionView, indexPath, itemIdentifier in
+           
+            switch self?.screenMode {
+            case .list:
+                guard let cell = collectionView.dequeueReusableCell(
+                    withReuseIdentifier: DailyBoxOfficeListCollectionViewCell.reuseIdentifier,
+                    for: indexPath) as? DailyBoxOfficeListCollectionViewCell else { return UICollectionViewCell() }
+                
+                guard let movieInformation = self?.setupCellLabels(with: itemIdentifier) else { return UICollectionViewCell() }
+                
+                cell.setupLabels(name: movieInformation.name,
+                                 audienceInformation: movieInformation.audienceInformation,
+                                 rank: movieInformation.rank,
+                                 rankMark: movieInformation.rankMark,
+                                 audienceVariance: movieInformation.audienceVariance,
+                                 rankMarkColor: movieInformation.rankMarkColor)
+                
+                return cell
+            case .icon:
+                guard let cell = collectionView.dequeueReusableCell(
+                    withReuseIdentifier: DailyBoxOfficeIconCollectionViewCell.reuseIdentifier,
+                    for: indexPath) as? DailyBoxOfficeIconCollectionViewCell else { return UICollectionViewCell() }
+                
+                guard let movieInformation = self?.setupCellLabels(with: itemIdentifier) else { return UICollectionViewCell() }
+                
+                cell.setupLabels(name: movieInformation.name,
+                                 audienceInformation: movieInformation.audienceInformation,
+                                 rank: movieInformation.rank,
+                                 rankMark: movieInformation.rankMark,
+                                 audienceVariance: movieInformation.audienceVariance,
+                                 rankMarkColor: movieInformation.rankMarkColor)
+                
+                return cell
+            case .none:
                 return UICollectionViewCell()
             }
-            cell.configure(with: itemIdentifier)
-            
-            return cell
         }
     }
     
-    private func applySnapshotToDataSource() {
-        typealias Snapshot = NSDiffableDataSourceSnapshot<Section, DailyBoxOfficeItem>
+    private func updateDataSource() {
         var snapshot = Snapshot()
         snapshot.appendSections([.main])
         snapshot.appendItems(dailyBoxOfficeItem, toSection: .main)
         
         movieDataSource?.apply(snapshot, animatingDifferences: true)
     }
+    private func setupCellLabels(with movie: DailyBoxOfficeItem) -> (name: String, audienceInformation: String, rank: String, rankMark: String, audienceVariance: String, rankMarkColor: MovieRankMarkColor)? {
+        var name: String
+        var audienceInformation: String
+        var rank: String
+        var rankMark: String
+        var audienceVariance: String
+        var rankMarkColor : MovieRankMarkColor
+        
+        guard let todayAudience = NumberFormatterManager.shared.convertToFormattedNumber(from: movie.audienceCount),
+              let totalAudience = NumberFormatterManager.shared.convertToFormattedNumber(from: movie.audienceAccumulation) else { return nil }
+        
+        name = movie.name
+        audienceInformation = "오늘 \(todayAudience) / 총 \(totalAudience)"
+        rank = movie.rank
+        
+        if movie.rankOldAndNew == "NEW" {
+            rankMarkColor = .red
+            rankMark = "신작"
+            audienceVariance = ""
+        } else {
+            guard let variance = Int(movie.rankVariance) else { return nil }
+
+            switch variance {
+            case ..<0:
+                rankMarkColor = .blue
+                rankMark = "▼"
+                audienceVariance =  "\(variance * -1)"
+            case 0:
+                rankMarkColor = .black
+                rankMark = ""
+                audienceVariance = "-"
+            default:
+                rankMarkColor = .red
+                rankMark = "▲"
+                audienceVariance = "\(variance)"
+            }
+        }
+        
+        return (name: name, audienceInformation: audienceInformation, rank: rank, rankMark: rankMark, audienceVariance: audienceVariance, rankMarkColor: rankMarkColor)
+    }
 }
 
-@available(iOS 16.0, *)
 extension DailyBoxOfficeViewController {
+    private func createMovieIconLayout() -> UICollectionViewLayout {
+        let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(0.5),
+                                              heightDimension: .fractionalHeight(1.0))
+        let item = NSCollectionLayoutItem(layoutSize: itemSize)
+        item.contentInsets = NSDirectionalEdgeInsets(top: 7, leading: 7, bottom: 7, trailing: 7)
+
+        let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0),
+                                               heightDimension: .fractionalWidth(0.5))
+        let group = NSCollectionLayoutGroup.horizontal(layoutSize: groupSize, repeatingSubitem: item, count: 2)
+
+        let section = NSCollectionLayoutSection(group: group)
+        section.contentInsets = NSDirectionalEdgeInsets(top: 7, leading: 7, bottom: 0, trailing: 7)
+
+        let layout = UICollectionViewCompositionalLayout(section: section)
+
+        return layout
+    }
+    
     private func createMovieListLayout() -> UICollectionViewLayout {
         let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0),
-                                              heightDimension: .estimated(44))
+                                              heightDimension: .estimated(1))
         let item = NSCollectionLayoutItem(layoutSize: itemSize)
-        item.contentInsets = NSDirectionalEdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 0)
         
         let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0),
-                                               heightDimension: .estimated(44))
+                                               heightDimension: .estimated(1))
         let group = NSCollectionLayoutGroup.vertical(layoutSize: groupSize, subitems: [item])
         
         let section = NSCollectionLayoutSection(group: group)
@@ -152,7 +287,6 @@ extension DailyBoxOfficeViewController {
     }
 }
 
-@available(iOS 16.0, *)
 extension DailyBoxOfficeViewController: UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         let movieName = dailyBoxOfficeItem[indexPath.item].name
@@ -163,7 +297,30 @@ extension DailyBoxOfficeViewController: UICollectionViewDelegate {
     }
 }
 
-enum Section: Hashable {
+fileprivate enum ScreenMode {
+    case list
+    case icon
+
+    var oppositeTitle: String {
+        switch self {
+        case .list:
+            return "아이콘"
+        case .icon:
+            return "리스트"
+        }
+    }
+    
+    mutating func changeMode() {
+        switch self {
+        case .list:
+            self = .icon
+        case .icon:
+            self = .list
+        }
+    }
+}
+
+fileprivate enum Section: Hashable {
     case main
 }
 

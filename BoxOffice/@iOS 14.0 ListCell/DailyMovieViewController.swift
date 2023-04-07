@@ -7,7 +7,6 @@
 
 import UIKit
 
-@available(iOS 14.0, *)
 final class DailyMovieViewController: UIViewController {
     private typealias DataSource = UICollectionViewDiffableDataSource<Section, DailyBoxOfficeItem>
     
@@ -80,7 +79,6 @@ final class DailyMovieViewController: UIViewController {
     }
 }
 
-@available(iOS 14.0, *)
 extension DailyMovieViewController {
     private func setupDataSource() {
         let cellRegistration = UICollectionView.CellRegistration<DailyMovieListCell, DailyBoxOfficeItem> { (cell, indexPath, item) in
@@ -103,7 +101,6 @@ extension DailyMovieViewController {
     }
 }
 
-@available(iOS 14.0, *)
 extension DailyMovieViewController {
     private func createLayout() -> UICollectionViewLayout {
         let config = UICollectionLayoutListConfiguration(appearance: .plain)
@@ -111,9 +108,12 @@ extension DailyMovieViewController {
     }
 }
 
-@available(iOS 14.0, *)
 extension DailyMovieViewController: UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         collectionView.deselectItem(at: indexPath, animated: true)
     }
+}
+
+fileprivate enum Section: Hashable {
+    case main
 }

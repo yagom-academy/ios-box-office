@@ -7,24 +7,25 @@
 
 import UIKit
 
-final class DailyBoxOfficeCollectionViewCell: UICollectionViewCell {
-    static let reuseIdentifier = "DailyBoxOfficeCollectionViewCell"
+final class DailyBoxOfficeListCollectionViewCell: UICollectionViewCell {
+    static let reuseIdentifier = String(describing: DailyBoxOfficeListCollectionViewCell.self)
 
     private let accessoryImageView = UIImageView()
     private let separatorView = UIView()
-    
     private let mainStackView = UIStackView()
     
     private let movieRankStackView = UIStackView()
-    private let movieRankLabel = UILabel()
+    private let rankLabel = UILabel()
+    
+    private let movieRankVarianceStackView = UIStackView()
+    private let rankMarkLabel = UILabel()
     private let audienceVarianceLabel = UILabel()
     
     private let movieListStackView = UIStackView()
-    private let movieListLabel = UILabel()
+    private let nameLabel = UILabel()
     private let audienceInformationLabel = UILabel()
-    
+
     override init(frame: CGRect) {
-        
         super.init(frame: frame)
         configureCell()
     }
@@ -35,17 +36,17 @@ final class DailyBoxOfficeCollectionViewCell: UICollectionViewCell {
     
     override func prepareForReuse() {
         super.prepareForReuse()
-        
-        audienceVarianceLabel.textColor = .black
     }
-        
+    
     private func configureCell() {
         configureContentView()
         configureSeparatorView()
         configureMainStackView()
-        configureMovieRankStackView()
-        configureMovieListStackView()
         configureAccessoryImageView()
+        configureMovieRankStackView()
+        configureMovieRankVarianceStackView()
+        configureMovieListStackView()
+        configureLabels()
     }
     
     private func configureContentView() {
@@ -89,9 +90,10 @@ final class DailyBoxOfficeCollectionViewCell: UICollectionViewCell {
     private func configureMovieRankStackView() {
         movieRankStackView.axis = .vertical
         movieRankStackView.distribution = .fill
+        movieRankStackView.alignment = .center
         
-        movieRankStackView.addArrangedSubview(movieRankLabel)
-        movieRankStackView.addArrangedSubview(audienceVarianceLabel)
+        movieRankStackView.addArrangedSubview(rankLabel)
+        movieRankStackView.addArrangedSubview(movieRankVarianceStackView)
         
         movieRankStackView.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([
@@ -99,12 +101,20 @@ final class DailyBoxOfficeCollectionViewCell: UICollectionViewCell {
         ])
     }
     
+    private func configureMovieRankVarianceStackView() {
+        movieRankVarianceStackView.axis = .horizontal
+        movieRankVarianceStackView.distribution = .fill
+        
+        movieRankVarianceStackView.addArrangedSubview(rankMarkLabel)
+        movieRankVarianceStackView.addArrangedSubview(audienceVarianceLabel)
+    }
+    
     private func configureMovieListStackView() {
         movieListStackView.axis = .vertical
         movieListStackView.distribution = .fillProportionally
         movieListStackView.spacing = 5
         
-        movieListStackView.addArrangedSubview(movieListLabel)
+        movieListStackView.addArrangedSubview(nameLabel)
         movieListStackView.addArrangedSubview(audienceInformationLabel)
     }
     
@@ -119,63 +129,33 @@ final class DailyBoxOfficeCollectionViewCell: UICollectionViewCell {
         ])
     }
     
-    func configure(with movie: DailyBoxOfficeItem) {
-        setupMovieListLabels(with: movie)
-        setupMovieRankLabels(with: movie)
-    }
-    
-    private func setupMovieListLabels(with movie: DailyBoxOfficeItem) {
-        guard let todayAudience = movie.audienceCount.convertToFormattedNumber(),
-              let totalAudience = movie.audienceAccumulation.convertToFormattedNumber() else { return }
+    private func configureLabels() {
+        nameLabel.font = UIFont.preferredFont(forTextStyle: .title3)
+        nameLabel.numberOfLines = 0
+        nameLabel.adjustsFontForContentSizeCategory = true
         
-        movieListLabel.text = movie.name
-        movieListLabel.font = UIFont.preferredFont(forTextStyle: .title3)
-        movieListLabel.numberOfLines = 0
-        
-        audienceInformationLabel.text = "오늘 \(todayAudience) / 총 \(totalAudience)"
         audienceInformationLabel.font = UIFont.preferredFont(forTextStyle: .body)
-    }
-    
-    private func setupMovieRankLabels(with movie: DailyBoxOfficeItem) {
-        movieRankLabel.text = movie.rank
-        movieRankLabel.font = UIFont.preferredFont(forTextStyle: .largeTitle)
-        movieRankLabel.textAlignment = .center
+        audienceInformationLabel.numberOfLines = 0
+        audienceInformationLabel.adjustsFontForContentSizeCategory = true
         
-        if movie.rankOldAndNew == "NEW" {
-            audienceVarianceLabel.text = "신작"
-            audienceVarianceLabel.textColor = .systemRed
-        } else {
-            guard let variance = Int(movie.rankVariance) else { return }
-            
-            switch variance {
-            case ..<0:
-                let text =  "▼\(variance * -1)"
-                let attributedString = NSMutableAttributedString(string: text)
-                attributedString.addAttribute(.foregroundColor, value: UIColor.blue, range: (text as NSString).range(of: "▼"))
-                audienceVarianceLabel.attributedText = attributedString
-            case 0:
-                audienceVarianceLabel.text = "-"
-            default:
-                let text = "▲\(variance)"
-                let attributedString = NSMutableAttributedString(string: text)
-                attributedString.addAttribute(.foregroundColor, value: UIColor.red, range: (text as NSString).range(of: "▲"))
-                audienceVarianceLabel.attributedText = attributedString
-            }
-        }
+        rankLabel.font = UIFont.preferredFont(forTextStyle: .largeTitle)
+        rankLabel.adjustsFontForContentSizeCategory = true
+        
+        rankMarkLabel.font = UIFont.preferredFont(forTextStyle: .body)
+        rankMarkLabel.adjustsFontForContentSizeCategory = true
         
         audienceVarianceLabel.font = UIFont.preferredFont(forTextStyle: .body)
         audienceVarianceLabel.textAlignment = .center
+        audienceVarianceLabel.numberOfLines = 0
+        audienceVarianceLabel.adjustsFontForContentSizeCategory = true
     }
-}
-
-fileprivate extension String {
-    func convertToFormattedNumber() -> String? {
-        let numberFormatter = NumberFormatter()
-        numberFormatter.numberStyle = .decimal
-        
-        guard let number = numberFormatter.number(from: self),
-              let stringNumber = numberFormatter.string(from: number) else { return nil }
-        
-        return stringNumber
+    
+    func setupLabels(name: String, audienceInformation: String, rank: String, rankMark: String, audienceVariance: String, rankMarkColor: MovieRankMarkColor) {
+        nameLabel.text = name
+        audienceInformationLabel.text = audienceInformation
+        rankLabel.text = rank
+        rankMarkLabel.text = rankMark
+        rankMarkLabel.textColor = rankMarkColor.color
+        audienceVarianceLabel.text = audienceVariance
     }
 }

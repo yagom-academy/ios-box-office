@@ -7,7 +7,6 @@
 
 import UIKit
 
-@available(iOS 16.0, *)
 final class SelectDateViewController: UIViewController {
     private let calendarView = UICalendarView()
     weak var delegate: DateUpdatable?
@@ -47,19 +46,7 @@ final class SelectDateViewController: UIViewController {
     }
 }
 
-@available(iOS 16.0, *)
 extension SelectDateViewController: UICalendarSelectionSingleDateDelegate {
-    enum AlertMessage {
-        case updating
-        
-        var description: String {
-            switch self {
-            case .updating:
-                return "오늘 날짜는 집계중입니다.\n다시 선택해주세요."
-            }
-        }
-    }
-    
     func dateSelection(_ selection: UICalendarSelectionSingleDate, didSelectDate dateComponents: DateComponents?) {
         guard let selectedDate = dateComponents?.date else { return }
         
@@ -78,5 +65,16 @@ extension SelectDateViewController: UICalendarSelectionSingleDateDelegate {
         delegate?.refreshData()
         
         dismiss(animated: true)
+    }
+}
+
+fileprivate enum AlertMessage {
+    case updating
+    
+    var description: String {
+        switch self {
+        case .updating:
+            return "오늘 날짜는 집계중입니다.\n다시 선택해주세요."
+        }
     }
 }
