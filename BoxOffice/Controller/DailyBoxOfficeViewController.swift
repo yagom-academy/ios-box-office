@@ -26,13 +26,13 @@ final class DailyBoxOfficeViewController: UIViewController, DateUpdatable {
     private let refreshControl = UIRefreshControl()
     private let dateFormatter = DateFormatter()
     var selectedDate: Date = Date(timeIntervalSinceNow: -86400)
-
+    
     lazy private var collectionView = UICollectionView(frame: view.bounds, collectionViewLayout: createMovieListLayout())
     
     override func viewDidLoad() {
         super.viewDidLoad()
         view.addSubview(collectionView)
-    
+        
         configureCollectionView()
         configureSelectionDateButton()
         configureToolBar()
@@ -64,7 +64,7 @@ final class DailyBoxOfficeViewController: UIViewController, DateUpdatable {
         
         navigationItem.rightBarButtonItem = selectDateButton
     }
-
+    
     @objc private func selectDateButtonTapped() {
         let selectDateViewController = SelectDateViewController()
         selectDateViewController.delegate = self
@@ -83,7 +83,7 @@ final class DailyBoxOfficeViewController: UIViewController, DateUpdatable {
                                             action: nil)
         var items = [UIBarButtonItem]()
         [flexibleSpace, changeScreenModeButton, flexibleSpace].forEach { items.append($0) }
-
+        
         self.toolbarItems = items
     }
     
@@ -138,23 +138,31 @@ final class DailyBoxOfficeViewController: UIViewController, DateUpdatable {
     private func fetchDailyBoxOfficeData() {
         guard let endPoint = boxOfficeEndPoint else { return }
         
+//        if CoreDataManager.shared.fetchData().isEmpty {
         networkManager.request(endPoint: endPoint, returnType: DailyBoxOffice.self) { [weak self] in
-            switch $0 {
-            case .failure(let error):
-                print(error)
-            case .success(let result):
-                self?.applyMoviesToDailyBoxOfficeItem(from: result.boxOfficeResult.boxOfficeList)
+                switch $0 {
+                case .failure(let error):
+                    print(error)
+                case .success(let result):
+                    result.boxOfficeResult.boxOfficeList.forEach {
+                        CoreDataManager.shared.saveData(with: $0)
+                    }
                 
-                DispatchQueue.main.async {
-                    self?.setupDataSource()
-                    self?.updateDataSource()
-                    self?.refreshControl.endRefreshing()
+//                    let data = CoreDataManager.shared.fetchData()
+//                    self?.applyMoviesToDailyBoxOfficeItem(from: data)
+                    DispatchQueue.main.async { [weak self] in
+                        self?.setupDataSource()
+                        self?.updateDataSource()
+                        self?.refreshControl.endRefreshing()
+                    }
                 }
             }
-        }
+//        }
+        
+        
     }
     
-    private func applyMoviesToDailyBoxOfficeItem(from movies: [DailyBoxOffice.BoxOfficeResult.Movie]) {
+    private func applyMoviesToDailyBoxOfficeItem(from movies: [DailyBoxOfficeData]) {
         dailyBoxOfficeItem = movies.map {
             DailyBoxOfficeItem(from: $0)
         }
@@ -164,7 +172,7 @@ final class DailyBoxOfficeViewController: UIViewController, DateUpdatable {
 extension DailyBoxOfficeViewController {
     private func setupDataSource() {
         movieDataSource = DataSource(collectionView: collectionView) { [weak self] collectionView, indexPath, itemIdentifier in
-           
+            
             switch self?.screenMode {
             case .list:
                 guard let cell = collectionView.dequeueReusableCell(
@@ -230,7 +238,7 @@ extension DailyBoxOfficeViewController {
             audienceVariance = ""
         } else {
             guard let variance = Int(movie.rankVariance) else { return nil }
-
+            
             switch variance {
             case ..<0:
                 rankMarkColor = .blue
@@ -257,16 +265,16 @@ extension DailyBoxOfficeViewController {
                                               heightDimension: .fractionalHeight(1.0))
         let item = NSCollectionLayoutItem(layoutSize: itemSize)
         item.contentInsets = NSDirectionalEdgeInsets(top: 7, leading: 7, bottom: 7, trailing: 7)
-
+        
         let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0),
                                                heightDimension: .fractionalWidth(0.5))
         let group = NSCollectionLayoutGroup.horizontal(layoutSize: groupSize, repeatingSubitem: item, count: 2)
-
+        
         let section = NSCollectionLayoutSection(group: group)
         section.contentInsets = NSDirectionalEdgeInsets(top: 7, leading: 7, bottom: 0, trailing: 7)
-
+        
         let layout = UICollectionViewCompositionalLayout(section: section)
-
+        
         return layout
     }
     
@@ -300,7 +308,7 @@ extension DailyBoxOfficeViewController: UICollectionViewDelegate {
 fileprivate enum ScreenMode {
     case list
     case icon
-
+    
     var oppositeTitle: String {
         switch self {
         case .list:
@@ -324,8 +332,8 @@ fileprivate enum Section: Hashable {
     case main
 }
 
-fileprivate struct DailyBoxOfficeItem: Hashable {
-    let identifier = UUID()
+struct DailyBoxOfficeItem: Hashable {
+    let identifier: UUID
     let rank: String
     let rankVariance: String
     let rankOldAndNew: String
@@ -334,13 +342,14 @@ fileprivate struct DailyBoxOfficeItem: Hashable {
     let audienceCount: String
     let audienceAccumulation: String
     
-    init(from movie: DailyBoxOffice.BoxOfficeResult.Movie) {
-        self.rank = movie.rank
-        self.rankVariance = movie.rankVariance
-        self.rankOldAndNew = movie.rankOldAndNew
-        self.code = movie.code
-        self.name = movie.name
-        self.audienceCount = movie.audienceCount
-        self.audienceAccumulation = movie.audienceAccumulation
+    init(from movie: DailyBoxOfficeData) {
+        self.identifier = UUID()
+        self.rank = movie.rank ?? ""
+        self.rankVariance = movie.rankVariance ?? ""
+        self.rankOldAndNew = movie.rankOldAndNew ?? ""
+        self.code = movie.code ?? ""
+        self.name = movie.name ?? ""
+        self.audienceCount = movie.audienceCount ?? ""
+        self.audienceAccumulation = movie.audienceAccumulation ?? ""
     }
 }

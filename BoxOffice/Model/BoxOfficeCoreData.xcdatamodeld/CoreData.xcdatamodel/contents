@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="21754" systemVersion="22C65" minimumToolsVersion="Automatic" sourceLanguage="Swift" userDefinedModelVersionIdentifier="">
+    <entity name="DailyBoxOfficeData" representedClassName="DailyBoxOfficeData" syncable="YES">
+        <attribute name="audienceAccumulation" optional="YES" attributeType="String"/>
+        <attribute name="audienceChange" optional="YES" attributeType="String"/>
+        <attribute name="audienceCount" optional="YES" attributeType="String"/>
+        <attribute name="audienceVariance" optional="YES" attributeType="String"/>
+        <attribute name="code" optional="YES" attributeType="String"/>
+        <attribute name="name" optional="YES" attributeType="String"/>
+        <attribute name="openDate" optional="YES" attributeType="String"/>
+        <attribute name="order" optional="YES" attributeType="String"/>
+        <attribute name="rank" optional="YES" attributeType="String"/>
+        <attribute name="rankOldAndNew" optional="YES" attributeType="String"/>
+        <attribute name="rankVariance" optional="YES" attributeType="String"/>
+        <attribute name="salesAccumulation" optional="YES" attributeType="String"/>
+        <attribute name="salesAmount" optional="YES" attributeType="String"/>
+        <attribute name="salesChange" optional="YES" attributeType="String"/>
+        <attribute name="salesShare" optional="YES" attributeType="String"/>
+        <attribute name="salesVariance" optional="YES" attributeType="String"/>
+        <attribute name="screenCount" optional="YES" attributeType="String"/>
+        <attribute name="showCount" optional="YES" attributeType="String"/>
+    </entity>
+</model>
