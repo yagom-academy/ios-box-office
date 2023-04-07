@@ -11,13 +11,6 @@ final class MovieRankingCell: UICollectionViewListCell {
         
     static let identifier = "MovieRankingCell"
     
-    func updateLabelText(for manager: CellUIModel) {
-        self.rankLabel.text = manager.rank
-        self.rankStatusLabel.attributedText = manager.rankStatusAttributedText
-        self.movieNameLabel.text = manager.name
-        self.audienceLabel.text = manager.audienceInfoText
-    }
-    
     // MARK: UI Properties
     private let rankLabel = {
         let label = UILabel()
@@ -76,6 +69,13 @@ final class MovieRankingCell: UICollectionViewListCell {
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
+    }
+    
+    func updateLabelText(for manager: CellUIModel) {
+        self.rankLabel.text = manager.rank
+        self.rankStatusLabel.attributedText = manager.rankStatusAttributedText
+        self.movieNameLabel.text = manager.name
+        self.audienceLabel.text = manager.audienceInfoText
     }
 }
 

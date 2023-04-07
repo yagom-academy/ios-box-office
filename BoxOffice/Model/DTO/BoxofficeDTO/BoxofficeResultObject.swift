@@ -8,7 +8,7 @@
 struct BoxofficeResultObject: Decodable {
     let movies: [InfoObject]
     
-    enum CodingKeys: String, CodingKey {
+    private enum CodingKeys: String, CodingKey {
         case movies = "dailyBoxOfficeList"
     }
 }

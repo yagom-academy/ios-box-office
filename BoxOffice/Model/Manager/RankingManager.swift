@@ -13,6 +13,10 @@ class RankingManager {
     let apiType: APIType
     var movieItems: [InfoObject] = []
     
+    var navigationTitleText: String {
+        return Date.dateFormatter.string(from: date)
+    }
+    
     init(date: Date) {
         let dataText = Date.apiDateFormatter.string(from: date)
         self.date = date
@@ -20,18 +24,14 @@ class RankingManager {
         self.boxofficeInfo = BoxofficeInfo<DailyBoxofficeObject>(apiType: self.apiType, model: NetworkModel(session: .shared))
     }
     
-    var navigationTitleText: String {
-        return Date.dateFormatter.string(from: date)
-    }
-    
-    func fetchRanking(handler: @escaping (Error?) -> Void) {
+    func fetchRanking(handler: @escaping (Result<[InfoObject], Error>) -> Void) {
         boxofficeInfo.fetchData { [weak self] result in
             switch result {
             case .success(let data):
+                handler(.success(data.boxOfficeResult.movies))
                 self?.movieItems = data.boxOfficeResult.movies
-                handler(nil)
             case .failure(let error):
-                handler(error)
+                handler(.failure(error))
             }
         }
     }

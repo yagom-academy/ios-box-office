@@ -12,13 +12,14 @@ final class MovieDetailViewController: UIViewController {
     // MARK: - Properties
     var movieName: String = ""
     var movieCode: String = ""
-    private lazy var dataManager = MovieDescManager(movieApiType: .movie(movieCode), movieImageApiType: .movieImage(movieName))
+    private lazy var dataManager = MovieDescManager(movieCode: movieCode, movieName: movieName)
+    private let dispatchGroup = DispatchGroup()
     
     // MARK: - UI Properties
     private let scrollView = {
         let scrollView = UIScrollView()
         scrollView.translatesAutoresizingMaskIntoConstraints = false
-    
+        
         return scrollView
     }()
     
@@ -32,16 +33,19 @@ final class MovieDetailViewController: UIViewController {
     
     private let descStackView = DescStackView()
     private let loadingView = UIActivityIndicatorView()
-
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         configureUI()
         startLoading()
         fetchImage()
         fetchData()
+        stopLoading()
     }
     
     private func fetchData() {
+        dispatchGroup.enter()
+        
         dataManager.boxofficeInfo.fetchData { [weak self] result in
             switch result {
             case .success(let data):
@@ -54,39 +58,47 @@ final class MovieDetailViewController: UIViewController {
                     self?.presentErrorAlert(error: error, title: "영화 상세 정보")
                 }
             }
+            self?.dispatchGroup.leave()
         }
     }
     
     private func fetchImage() {
+        dispatchGroup.enter()
+        
         dataManager.fetchMoviePosterImage { [weak self] result in
-            switch result {
-            case .success((let image, let width, let height)):
-                DispatchQueue.main.async {
+            DispatchQueue.main.async {
+                switch result {
+                case .success((let image, let imageSize)):
                     self?.posterImageView.image = image
-                    self?.configureImageWidthConstraint(width: width, height: height)
-                    self?.stopLoading()
-                }
-            case .failure(let error):
-                DispatchQueue.main.async {
+                    self?.configureImageWidthConstraint(size: imageSize)
+                case .failure(let error):
                     self?.presentErrorAlert(error: error, title: "영화 포스터 이미지")
-                    self?.stopLoading()
                 }
+                self?.dispatchGroup.leave()
             }
         }
     }
     
-    private func configureImageWidthConstraint(width: Int, height: Int) {
-        posterImageView.heightAnchor.constraint(equalTo: posterImageView.widthAnchor, multiplier: CGFloat(height) / CGFloat(width)).isActive = true
+    private func configureImageWidthConstraint(size: CGSize) {
+        let width = CGFloat(size.width)
+        let height = CGFloat(size.height)
+        
+        posterImageView.heightAnchor.constraint(equalTo: posterImageView.widthAnchor, multiplier: height / width).isActive = true
     }
     
     private func startLoading() {
         loadingView.startAnimating()
+        posterImageView.isHidden = true
         descStackView.isHidden = true
     }
     
+    
     private func stopLoading() {
-        loadingView.stopAnimating()
-        descStackView.isHidden = false
+        dispatchGroup.notify(queue: .main) {
+            self.loadingView.stopAnimating()
+            self.posterImageView.isHidden = false
+            self.descStackView.isHidden = false
+        }
     }
 }
 
@@ -96,7 +108,7 @@ extension MovieDetailViewController {
     private func configureUI() {
         view.backgroundColor = .systemBackground
         navigationItem.title = movieName
-    
+        
         configureScrollView()
         configurePosterImageView()
         configureDescStackView()

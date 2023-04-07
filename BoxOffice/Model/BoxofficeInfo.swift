@@ -5,7 +5,7 @@
 //  Created by Andrew, 레옹아범 on 2023/03/28.
 //
 
-import UIKit
+import Foundation
 
 final class BoxofficeInfo<T> {
     private let apiType: APIType
@@ -34,7 +34,12 @@ final class BoxofficeInfo<T> {
         }
         
         var urlRequest = URLRequest(url: url)
-        urlRequest.addValue(apiType.header, forHTTPHeaderField: "Authorization")
+        
+        guard let header = apiType.header else {
+            return urlRequest
+        }
+        
+        urlRequest.addValue(header, forHTTPHeaderField: "Authorization")
         
         return urlRequest
     }

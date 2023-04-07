@@ -9,8 +9,26 @@ import UIKit
 
 final class ContentStackView: UIStackView {
 
-    private let categoryLabel = CategoryLabel()
-    private let contentLabel = ContentLabel()
+    private let categoryLabel = {
+        let label = UILabel()
+        
+        label.translatesAutoresizingMaskIntoConstraints = false
+        label.textAlignment = .center
+        label.numberOfLines = 1
+        label.font = .systemFont(ofSize: 12, weight: .bold)
+        
+        return label
+    }()
+    
+    private let contentLabel = {
+        let label = UILabel()
+        
+        label.translatesAutoresizingMaskIntoConstraints = false
+        label.numberOfLines = 0
+        label.font = .systemFont(ofSize: 12)
+        
+        return label
+    }()
     
     override init(frame: CGRect) {
         super.init(frame: frame)
