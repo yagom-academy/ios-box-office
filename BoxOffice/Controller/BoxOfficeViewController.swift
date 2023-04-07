@@ -34,7 +34,7 @@ final class BoxOfficeViewController: UIViewController {
     
     private func fetchDailyBoxOffice() {
         if choosenDate == "" {
-            choosenDate = self.getYesterDate()
+            choosenDate = self.getYesterdayDescription()
         }
         
         boxOfficeService.fetchDailyBoxOfficeAPI(date: choosenDate) {
@@ -111,7 +111,7 @@ final class BoxOfficeViewController: UIViewController {
         self.title = choosenDate.insertDashFormatter()
     }
     
-    private func getYesterDate() -> String {
+    private func getYesterdayDescription() -> String {
         let formatter = DateFormatter()
         formatter.dateFormat = "yyyyMMdd"
         let yesterDate = formatter.string(from: Date(timeIntervalSinceNow: -86400))
