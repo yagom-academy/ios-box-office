@@ -17,6 +17,7 @@ final class BoxOfficeListViewController: UIViewController {
         let loadingIndicatorView = UIActivityIndicatorView(style: .large)
         loadingIndicatorView.color = .systemGray3
         loadingIndicatorView.translatesAutoresizingMaskIntoConstraints = false
+        loadingIndicatorView.hidesWhenStopped = true
         
         return loadingIndicatorView
     }()
@@ -45,8 +46,8 @@ final class BoxOfficeListViewController: UIViewController {
     }
 
     private func configureUI() {
-        view.addSubview(loadingIndicatorView)
         view.addSubview(collectionView)
+        view.addSubview(loadingIndicatorView)
     }
     
     private func configureLayout() {
@@ -67,11 +68,11 @@ final class BoxOfficeListViewController: UIViewController {
         collectionView.dataSource = self
         collectionView.delegate = self
         
-        LoadingIndicator.showLoading()
-
+        loadingIndicatorView.startAnimating()
+        
         fetchBoxOfficeData { [weak self] in
             DispatchQueue.main.async {
-                LoadingIndicator.hideLoading()
+                self?.loadingIndicatorView.stopAnimating()
                 self?.collectionView.reloadData()
                 self?.collectionView.refreshControl?.endRefreshing()
             }
