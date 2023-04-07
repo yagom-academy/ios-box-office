@@ -13,4 +13,8 @@ enum AlertController {
         alert.addAction(UIAlertAction(title: "닫기", style: .default))
         viewController.present(alert, animated: true)
     }
+    
+    static func showActionSheet() {
+        
+    }
 }

@@ -26,6 +26,7 @@ final class DailyBoxOfficeViewController: UIViewController {
         super.viewDidLoad()
         configureRootView()
         configureNavigationBar()
+        configureToolBar()
         configureCollectionView()
         configureDataSource()
         loadDailyBoxOffice(date: yesterday)
@@ -40,7 +41,7 @@ final class DailyBoxOfficeViewController: UIViewController {
     private func configureNavigationBar() {
         let titleText = DateFormatter.shared.string(from: targetDate ?? yesterday,
                                                     dateFormat: "yyyy-MM-dd")
-        title = titleText
+        self.navigationItem.title = titleText
         
         let dateChangeButton = UIBarButtonItem(title: "날짜선택",
                                                style: .plain,
@@ -49,10 +50,28 @@ final class DailyBoxOfficeViewController: UIViewController {
         navigationItem.rightBarButtonItem = dateChangeButton
     }
     
-    @objc func showCalendar() {
+    @objc private func showCalendar() {
         let calendarViewController = CalendarViewController(targetDate: targetDate ?? yesterday)
         navigationController?.present(calendarViewController, animated: true)
         calendarViewController.delegate = self
+    }
+    
+    private func configureToolBar() {
+        let titleText = "화면 모드 변경"
+        let modeChangeButton = UIBarButtonItem(title: titleText,
+                                               style: .plain,
+                                               target: self,
+                                               action: #selector(showActionSheet))
+        let flexibleSpace = UIBarButtonItem(barButtonSystemItem: .flexibleSpace,
+                                            target: self,
+                                            action: nil)
+        
+        self.navigationController?.isToolbarHidden = false
+        self.toolbarItems = [flexibleSpace, modeChangeButton, flexibleSpace]
+    }
+    
+    @objc private func showActionSheet() {
+        
     }
     
     private func configureCollectionView() {
@@ -163,7 +182,6 @@ extension DailyBoxOfficeViewController: UICollectionViewDelegate {
         let movieName = dailyBoxOfficeMovie.movieName
         let movieDetailsViewController = MovieDetailsViewController(movieCode: movieCode,
                                                                     movieName: movieName)
-        
         navigationController?.pushViewController(movieDetailsViewController, animated: true)
         
         collectionView.deselectItem(at: indexPath, animated: true)
