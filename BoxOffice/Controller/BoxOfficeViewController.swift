@@ -7,9 +7,20 @@
 
 import UIKit
 
+protocol CalendarDateDelegate: AnyObject {
+    func receiveDate(date: String)
+}
+
 final class BoxOfficeViewController: UIViewController {
     let boxOfficeService = BoxOfficeService()
     private var provider = Provider()
+    let calendarViewController = CalendarViewController()
+    var choosenDate: String = "" {
+        didSet {
+            fetchDailyBoxOffice()
+            setNavigationBarTitle()            
+        }
+    }
     
     @IBOutlet weak var boxOfficeListCollectionView: UICollectionView!
     lazy var activityIndicator = UIActivityIndicatorView()
@@ -18,10 +29,15 @@ final class BoxOfficeViewController: UIViewController {
         super.viewDidLoad()
         fetchDailyBoxOffice()
         setUpView()
+        setCalendarViewDelegate()
     }
     
     private func fetchDailyBoxOffice() {
-        boxOfficeService.fetchDailyBoxOfficeAPI() {
+        if choosenDate == "" {
+            choosenDate = self.getYesterdayDescription()
+        }
+        
+        boxOfficeService.fetchDailyBoxOfficeAPI(date: choosenDate) {
             DispatchQueue.main.async {
                 self.boxOfficeListCollectionView.reloadData()
                 self.activityIndicator.stopAnimating()
@@ -30,15 +46,20 @@ final class BoxOfficeViewController: UIViewController {
     }
     
     private func setUpView() {
-        setTitle()
+        setNavigationBar()
         setActivityIndicator()
         setBoxOfficeListCollectionView()
         configureRefreshControl()
         configureUI()
     }
     
-    private func setTitle() {
-        self.title = "2302323"
+    private func setNavigationBar() {
+        self.navigationItem.rightBarButtonItem = UIBarButtonItem(title: "날짜선택", style: .plain, target: self, action: #selector(tabRightBarButton))
+    }
+    
+    @objc
+    private func tabRightBarButton() {
+        self.present(calendarViewController, animated: true, completion: nil)
     }
     
     private func setActivityIndicator() {
@@ -62,7 +83,7 @@ final class BoxOfficeViewController: UIViewController {
     }
     
     @objc
-    func handleRefreshControl() {
+    private func handleRefreshControl() {
         DispatchQueue.main.async {
             self.boxOfficeListCollectionView.reloadData()
             self.boxOfficeListCollectionView.refreshControl?.endRefreshing()
@@ -80,6 +101,21 @@ final class BoxOfficeViewController: UIViewController {
             boxOfficeListCollectionView.trailingAnchor.constraint(equalTo: safeArea.trailingAnchor),
             boxOfficeListCollectionView.bottomAnchor.constraint(equalTo: safeArea.bottomAnchor)
         ])
+    }
+    
+    private func setCalendarViewDelegate() {
+        calendarViewController.delegate = self
+    }
+    
+    private func setNavigationBarTitle() {
+        self.title = choosenDate.insertDash()
+    }
+    
+    private func getYesterdayDescription() -> String {
+        let formatter = DateFormatter()
+        formatter.dateFormat = "yyyyMMdd"
+        let yesterDate = formatter.string(from: Date(timeIntervalSinceNow: -86400))
+        return yesterDate
     }
 }
 
@@ -153,5 +189,12 @@ extension BoxOfficeViewController {
             return section
         }
         return layout
+    }
+}
+
+extension BoxOfficeViewController: CalendarDateDelegate {
+    func receiveDate(date: String) {
+        choosenDate = date
+        print(choosenDate)
     }
 }

@@ -23,6 +23,7 @@ class MovieDetailView: UIView {
     
     let imageView: UIImageView = {
         let imageView = UIImageView()
+        imageView.contentMode = .scaleAspectFit
         imageView.translatesAutoresizingMaskIntoConstraints = false
         return imageView
     }()
@@ -152,6 +153,8 @@ class MovieDetailView: UIView {
             imageView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor,constant: 14),
             imageView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor,constant: -14),
             
+            imageView.heightAnchor.constraint(equalToConstant: 400),
+            
             verticalStackView.topAnchor.constraint(equalTo: imageView.bottomAnchor),
             verticalStackView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
             verticalStackView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
@@ -165,9 +168,6 @@ class MovieDetailView: UIView {
             nationTitleLabel.widthAnchor.constraint(equalToConstant: 70),
             genreTitleLabel.widthAnchor.constraint(equalToConstant: 70),
             actorTitleLabel.widthAnchor.constraint(equalToConstant: 70)
-            
         ])
     }
 }
-
-

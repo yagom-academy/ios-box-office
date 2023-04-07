@@ -12,19 +12,36 @@ class MovieDetailViewController: UIViewController {
     private let imageSearchService = ImageSearchService()
     private let movieDetailView = MovieDetailView()
     private let provider = Provider()
+    private let activityIndicator: UIActivityIndicatorView = {
+        let activityIndicator = UIActivityIndicatorView()
+        activityIndicator.style = UIActivityIndicatorView.Style.large
+        activityIndicator.translatesAutoresizingMaskIntoConstraints = false
+        return activityIndicator
+    }()
     
     override func viewDidLoad() {
         super.viewDidLoad()
         view = movieDetailView
+        setActivityIndicator()
         fetchMoiveDetail()
+        }
+    
+    private func setActivityIndicator() {
+        view.addSubview(activityIndicator)
+        activityIndicator.startAnimating()
+        NSLayoutConstraint.activate([
+            activityIndicator.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            activityIndicator.centerYAnchor.constraint(equalTo: view.centerYAnchor)
+        ])
     }
     
     func fetchMoiveDetail() {
         boxOfficeService.fetchMovieDetailAPI {
-            DispatchQueue.main.async {
-                
+            DispatchQueue.main.async { [weak self] in
+                guard let self = self else { return }
                 self.setMovieDetailLabel()
                 self.fetchImage()
+                self.activityIndicator.stopAnimating()
             }
         }
     }
@@ -37,7 +54,7 @@ class MovieDetailViewController: UIViewController {
        
         self.movieDetailView.openDayTitleLabel.text = "개봉일"
         self.movieDetailView.openDayDataLabel.text =
-        boxOfficeService.movieDetail?.movieInformationResult.movieInformation.openDate
+        boxOfficeService.movieDetail?.movieInformationResult.movieInformation.openDate.insertDash()
         
         self.movieDetailView.showTimeTitleLabel.text = "상영시간"
         self.movieDetailView.showTimeDataLabel.text = boxOfficeService.movieDetail?.movieInformationResult.movieInformation.showTime
