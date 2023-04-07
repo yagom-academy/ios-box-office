@@ -13,6 +13,14 @@ final class BoxOfficeListViewController: UIViewController {
     private var boxOffice: BoxOffice?
     private var currentDate: String = Date.yesterday.convertString(isFormatted: false)
     
+    private let loadingIndicatorView: UIActivityIndicatorView = {
+        let loadingIndicatorView = UIActivityIndicatorView(style: .large)
+        loadingIndicatorView.color = .systemGray3
+        loadingIndicatorView.translatesAutoresizingMaskIntoConstraints = false
+        
+        return loadingIndicatorView
+    }()
+    
     private let collectionView: UICollectionView = {
         let layout = UICollectionViewFlowLayout()
         layout.scrollDirection = .vertical
@@ -21,6 +29,7 @@ final class BoxOfficeListViewController: UIViewController {
         let collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
         collectionView.register(CustomCollectionViewCell.self,
                                 forCellWithReuseIdentifier: CustomCollectionViewCell.identifier)
+        collectionView.translatesAutoresizingMaskIntoConstraints = false
         
         return collectionView
     }()
@@ -28,13 +37,30 @@ final class BoxOfficeListViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        configureUIView()
+        configureUI()
+        configureLayout()
+        configureViewController()
+        configureCollectionView()
         configureRefreshControl()
     }
+
+    private func configureUI() {
+        view.addSubview(loadingIndicatorView)
+        view.addSubview(collectionView)
+    }
     
-    private func configureUIView() {
-        configureMainView()
-        configureCollectionView()
+    private func configureLayout() {
+        NSLayoutConstraint.activate([
+            loadingIndicatorView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor),
+            loadingIndicatorView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor),
+            loadingIndicatorView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
+            loadingIndicatorView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor),
+            
+            collectionView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor),
+            collectionView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor),
+            collectionView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
+            collectionView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor),
+        ])
     }
     
     private func configureCollectionView() {
@@ -42,10 +68,7 @@ final class BoxOfficeListViewController: UIViewController {
         collectionView.delegate = self
         
         LoadingIndicator.showLoading()
-        
-        view.addSubview(collectionView)
-        setCollectionViewAutoLayout()
-        
+
         fetchBoxOfficeData { [weak self] in
             DispatchQueue.main.async {
                 LoadingIndicator.hideLoading()
@@ -55,18 +78,7 @@ final class BoxOfficeListViewController: UIViewController {
         }
     }
     
-    private func setCollectionViewAutoLayout() {
-        collectionView.translatesAutoresizingMaskIntoConstraints = false
-        
-        NSLayoutConstraint.activate([
-            collectionView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor),
-            collectionView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor),
-            collectionView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
-            collectionView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor),
-        ])
-    }
-    
-    private func configureMainView() {
+    private func configureViewController() {
         view.backgroundColor = .white
         title = currentDate.formatDateString(format: DateFormat.yearMonthDay)
         
@@ -123,7 +135,8 @@ final class BoxOfficeListViewController: UIViewController {
     
     @objc private func handleRefreshControl() {
         self.currentDate = Date.yesterday.convertString(isFormatted: false)
-        configureUIView()
+        configureViewController()
+        configureCollectionView()
     }
 }
 
@@ -175,6 +188,7 @@ extension BoxOfficeListViewController: CalendarViewControllerDelegate {
     func deliverData(_ data: String) {
         self.currentDate = data
         
-        configureUIView()
+        configureViewController()
+        configureCollectionView()
     }
 }
