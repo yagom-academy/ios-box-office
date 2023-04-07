@@ -88,7 +88,6 @@ final class ViewController: UIViewController {
     }
     
     private func createIconLayout() -> UICollectionViewLayout {
-        
         let itemSize = NSCollectionLayoutSize(
             widthDimension: .fractionalWidth(iconLayoutConstant.itemFractionWidth),
             heightDimension: .absolute(iconLayoutConstant.itemabsoluteHeight))
@@ -223,13 +222,13 @@ final class ViewController: UIViewController {
     }
     
     private func changeView() {
-        if case .list = currentViewOption {
+        if currentViewOption == .list {
             collectionView.setCollectionViewLayout(createIconLayout(),
                                                    animated: true)
             collectionView.scrollToItem(at: IndexPath(item: 0, section: 0),
                                         at: .top, animated: false)
             currentViewOption = .icon
-        } else if case .icon = currentViewOption {
+        } else if currentViewOption == .icon {
             collectionView.setCollectionViewLayout(createListLayout(),
                                                    animated: true)
             currentViewOption = .list
