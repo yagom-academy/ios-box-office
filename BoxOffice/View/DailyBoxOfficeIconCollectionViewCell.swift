@@ -105,15 +105,7 @@ final class DailyBoxOfficeIconCollectionViewCell: UICollectionViewCell {
         audienceInformationLabel.text = audienceInformation
         rankLabel.text = rank
         rankMarkLabel.text = rankMark
+        rankMarkLabel.textColor = rankMarkColor.color
         audienceVarianceLabel.text = audienceVariance
-        
-        switch rankMarkColor {
-        case .red:
-            rankMarkLabel.textColor = .systemRed
-        case .black:
-            rankMarkLabel.textColor = .black
-        case .blue:
-            rankMarkLabel.textColor = .systemBlue
-        }
     }
 }
