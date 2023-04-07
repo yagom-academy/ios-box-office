@@ -24,23 +24,33 @@
 <br>
 
 ## 2. 타임라인
+
+<details>
+    <summary><big>타임라인</big></big></summary>
+
 ### 프로젝트 진행 기간
-**23.03.20 (월) ~ 23.03.31 (금)** 
+**23.03.20 (월) ~ 23.04.14 (금)** 
 
 | 날짜 | 타임라인 |
 | --- | --- |
-|23.03.20 (월)| BoxOffice, DailyBoxOffice모델 구현, BoxOfficeJsonDecoder 구현 및 테스트케이스 작성 |
-|23.03.21 (화)| NetworkManager, BoxOfficeAPI, MovieInformation, MovieDetail Infomation모델 구현 및 Mock객체를 이용한 테스트 케이스 작성 |
+|23.03.20 (월)| BoxOffice<br>DailyBoxOffice모델 구현<br>BoxOfficeJsonDecoder 구현 및 테스트케이스 작성 |
+|23.03.21 (화)| NetworkManager<br>BoxOfficeAPI, MovieInformation<br> MovieDetail Infomation모델 구현 및 Mock객체를 이용한 테스트 케이스 작성 |
 |23.03.22 (수)| Modern Collection View 학습 |
 |23.03.23 (목)| Modern Cell API(ContentConfiguration) 학습|
 |23.03.24 (금)| URL 만드는 기능에 Http method 추가|
-|23.03.25 (토)| BoxOffirceProvide, Endpoint 정의 |
+|23.03.25 (토)| BoxOffirceProvide<br> Endpoint 정의 |
 |23.03.27 (월)| activityIndicator 구현<br>BoxOfficeItem구조체 구현<br>setupAllViews 메서드 구현<br> BoxOfficeListCell 구현<br> BoxOfficeContentView내 apply구현 |
 |23.03.28 (화)| DiffableDataSource, CompositionalLayout 구현<br> BoxOfficeContentView autolayout 구현<br> refreshControl 구현<br> Numberformat 구현|
 |23.03.29 (수)| indentifiable 적용, 다이나믹 타입 적용 |
 |23.03.30 (목)| DaumAPI 구현<br> Requsetable headers 추가<br> SearchedMovieImageDTO 구현 및 테스트 구현 |
 |23.03.31 (금)| MovieDetailViewController 구현<br> MovieDetailInformation 구현<br> CategoryStackView 구현<br> fetchMoviePoster 메서드 구현 |
+|23.04.03 (월)| MovieDetailViewController image 로딩 구현<br>AlertManager 싱글톤 구현 |
+|23.04.04 (화)| CalendarViewController 구현<br>날짜 선택 navigation item button 구현<br> DataChangeable delegate 구현 |
+|23.04.05 (수)| ToolBar 버튼 구현<br>화면 모드변경 클릭 시 actionsheet생성<br>BoxOfficeGridCell 구현<br>|
+|23.04.06 (목)| 화면 모드 변경 기능 구현<br> 메인화면 DynamicType 적용 |
+|23.04.07 (금)| 영화 상세정보 화면 DynamicType 적용|
 
+</details>
 <br>
 
 ## 3. 프로젝트 구조
@@ -73,6 +83,7 @@ BoxOffic
 │   │   ├── DailyBoxOffice.swift
 │   │   ├── MovieDetailInformation.swift
 │   │   └── MovieDetailInformationItem.swift
+│   │   └── Alertmangaer.swift
 │   ├── Network
 │   │   ├── BoxOfficeAPI.swift
 │   │   ├── BoxOfficeProvider.swift
@@ -90,9 +101,12 @@ BoxOffic
 │   ├── View
 │   │   ├── BoxOfficeContentView.swift
 │   │   ├── BoxOfficeListCell.swift
-│   │   └── CategoryStackView.swift
+│   │   ├── BoxOfficeGridCell.swift
+│   │   ├── CategoryStackView.swift
+│   │   └── MovieInformationStackView.swift
 │   └── ViewController
 │       ├── BoxOfficeViewController.swift
+│       ├── CalendarViewController.swift
 │       └── MovieDetailViewController.swift
 ├── BoxOfficeJsonDecoderTests
 │   └── BoxOfficeJsonDecoderTests.swift
@@ -113,10 +127,10 @@ BoxOffic
     <summary><big>UML</big></big></summary>
     
 ### 일일 박스오피스화면, 영화상세정보 화면
-![](https://i.imgur.com/LMOlUfI.png)
+![](https://i.imgur.com/TWLVwgt.png)
 
 ### Network Layer
-![](https://i.imgur.com/q5hUvNT.png)
+![](https://i.imgur.com/OF0Hs5Z.png)
 
 </details>
 
@@ -130,10 +144,9 @@ BoxOffic
 | ![](https://i.imgur.com/r9jLxBF.gif) | ![](https://i.imgur.com/sTsfKnC.gif)| ![](https://i.imgur.com/Q1nICDr.gif) |
 
 
-| 목록 클릭시 화면 이동 |
-| :--------: |
-| ![](https://i.imgur.com/1wQ5Z8R.gif) |
-
+| 목록 클릭시 화면 이동 | 날짜 선택 및 선택한 날짜 표시| 날짜 선택 스크롤시 새로고침 |
+| :--------: |:---:| :---: |
+| ![](https://i.imgur.com/1wQ5Z8R.gif) | ![](https://i.imgur.com/OiNHjKa.gif) | ![](https://i.imgur.com/bF8khC8.gif) |
 
 </br>
 
@@ -164,7 +177,9 @@ json의 담긴 데이터를 가져오기 위해 jsonDecoder를 사용하여 데�
 ```
 
 ### 2️⃣ URL Endpoint관리
-api를 호출할 때 하드코딩 된 url을 통째로 넣어서 요청했습니다. 
+> URL을 생성해주는 객체뿐만 아니라 URLRequest를 만들어내는 객체를 정의했습니다.
+### ⚒️ 특정 API에 사용되는 URL을 만드는 객체 생성
+초기에는 api를 호출할 때 하드코딩 된 url을 통째로 넣어서 요청했습니다. 
 하지만 이는 url에 쿼리 파라미터를 추가하는 경우에 보일러 플레이트 코드가 발생하기에 URL을 만들어주는 객체가 있으면 좋겠다는 생각이 들었습니다.
 
 * ### BoxOfficeAPI의 사용
@@ -187,8 +202,11 @@ enum BoxOfficeAPI {
 case별로 분류하고 쿼리파라미터에 해당하는 값을 받아 `도메인+경로+api키+엔드포인트`에 해당하는 URL을 반환하는 객체를 만들었습니다. 
 
 하지만 이 경우 현재 요청하는 URL의 HttpMethod는 명시되어있지 않기 때문에 이와 같은 헤더부분 또한 넣어줘서 URLReqeust를 만들어 반환해주는 객체를 만들어야겠다고 생각했습니다.
+<br/>
+<br/>
 
-### 3️⃣ URL Endpoint관리2
+
+### ⚒️ URLRequest를 만드는 EndPoint객체 생성
 위 관리방법은 Get요청에 대해서만 URL을 만들어주는 방식이었습니다.
 Get중에서도 header나 body가 필요한 요청이 존재하고, 추후 Post요청까지 할 것을 대비해 Moya 라이브러리를 살펴보면서 확장성을 개선했습니다. 
 
@@ -316,7 +334,7 @@ boxOfficeProvider.fetchData(.searchImage(movieName: "메이플스토리"), type:
 }
 ```
 
-### 4️⃣ Cell 재사용 문제
+### 3️⃣ Cell 재사용 문제
 tableView와 마찬가지로 collectionView에서도 cell을 재사용하여 UI를 그려주게 됩니다. 따라서 스크롤을 움직여서 몇몇의 cell이 안보이게 한 후 다시 그려주는 작업을 수행하게 하면 cell의 속성 값이 그대로 남아 적용되는 것을 확인하였습니다.
 
 처음에는 prepareForReuse메서드를 사용하려 했지만 저희의 코드 상 cell이 UI적 요소들을 가지고 있는게 아닌 item이라는 프로퍼티를 가지고 있었기에 prepareForReuse를 사용하기가 어려웠습니다.
@@ -336,7 +354,7 @@ rankIncrementLabel.textColor = .black
 ```
 
 
-### 5️⃣ UICollectionViewListCell, ContentConfiguration의 사용
+### 4️⃣ UICollectionViewListCell, ContentConfiguration의 사용
 요구사항의 뷰를 보고 테이블 뷰로 구현할 지, 컬렉션 뷰로 구현할 지, CollectionListCell을 이용해서 구현할 지 고민했습니다.
 
 테이블 뷰와 컬렉션 뷰로 충분히 구현이 가능해보였지만 ContentConfiguration의 이점으로 상태에 따른 셀의 외형, 외형, 데이터 주입을 분리할 수 있다는 점에서 CollectionViewListCell을 이용했습니다.
@@ -433,7 +451,26 @@ struct BoxOfficeContentConfiguration: UIContentConfiguration, Hashable {
 
 BoxOfficeListCell에서는 데이터를 주입하고, BoxOfficeContentConfiguration에서는 현재 상태에 맞는 구성을 제공해줍니다. 그리고 BoxOfficeContentView에서는 화면에 보여지는 셀의 요소들을 보여주는 역할을 합니다.
 
-이와 같이 역할을 분리함으로써 상태에 따른 모든 코드를 같은 객체에 정의하는 것을 피했습니다
+이와 같이 역할을 분리함으로써 상태에 따른 모든 코드를 같은 객체에 정의하는 것을 피했습니다.
+
+<br>
+
+### 5️⃣ ClipsToBound사용을 통한 이미지 뷰 짤리는 현상 해결
+이미지 뷰를 오토레이아웃해서 `width`의 값을 루트 view의 0.9배율로 설정해주었는데 정해준 width를 넘어가는 일이 발생했었습니다.
+처음에는 이미지의 contentMode 중 하나인 `scaleToFill`을 사용하면 이미지의 크기가 이미지 뷰를 넘어가지 않고 나머지 모드에서는 넘어갔기 때문에 이것이 문제의 원인이라고 생각했습니다.
+
+하지만 `scaleAspectFit`, `scaleAspectFill`, `scaleToFill`은 이미지 뷰 비율을 유지하면서 이미지를 늘리거나 이미지를 꽉 채우는 등의 행동을 할 뿐이고 정해진 이미지 뷰가 `contentMode`에 따라 커질 수 있다는 내용은 찾아볼 수 없었습니다. 
+그리고 viewHierachy에서도 imageView자체는 0.9배율로 잘 설정된 것을 볼 수 있었습니다.
+
+그러던 중 `clipsToBound`라는 속성을 찾아보게 되었습니다. 
+
+#### clipsTobound
+> subview들이 view의 bound에 제한이 될지 말지를 결정하는 Bool 값.
+
+이 값이 true라면 서브뷰들이 뷰의 bound 내로 잘리게 됩니다. 그렇지 않으면 서브뷰들의 프레임이 뷰의 bound를 넘어도 잘리지 않게 됩니다. 
+이는 기본값이 false이기 때문에 따로 설정해주지않으면 이미지가 뷰의 bound를 넘어간다면 설정한 뷰의 제약사항보다 더 큰 subView인 이미지가 화면에 보여지게 됩니다.
+
+따라서 이미지 뷰의 이 속성을 true로 설정함으로써 이미지가 뷰의 bound내로 설정되어 이미지 뷰 만큼 이미지가 보여지게 할 수 있었습니다.
 
 <br>
 
@@ -450,4 +487,6 @@ BoxOfficeListCell에서는 데이터를 주입하고, BoxOfficeContentConfigurat
 - [WWDC - Modern cell configuration](https://developer.apple.com/videos/play/wwdc2020/10027/)
 - [UICollectionView List with Custom Cell and Custom Configuration](https://swiftsenpai.com/development/uicollectionview-list-custom-cell/)
 - [Moya github](https://github.com/Moya/Moya)
+- [Apple Docs - ClipsToBound](https://developer.apple.com/documentation/uikit/uiview/1622415-clipstobounds)
+- [Apple Docs - ImageView ContentMode](https://developer.apple.com/documentation/uikit/uiview/contentmode)
 ---
