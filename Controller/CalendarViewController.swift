@@ -7,7 +7,7 @@
 
 import UIKit
 
-class CalendarViewController: UIViewController {
+final class CalendarViewController: UIViewController {
     
     var delegate: CalendarDelegate?
     var selectedDate = Date()

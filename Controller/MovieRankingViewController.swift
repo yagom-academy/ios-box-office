@@ -84,10 +84,10 @@ final class MovieRankingViewController: UIViewController {
 // MARK: CalendarDelegate
 extension MovieRankingViewController: CalendarDelegate {
     func changeDate(_ date: Date) {
+        startLoadingView()
         boxofficeDate = date
         makeDataManager()
         configureNavigationTitle()
-        startLoadingView()
         fetchBoxofficeData()
     }
 }
@@ -143,7 +143,7 @@ extension MovieRankingViewController {
         view.addSubview(loadingView)
     }
     
-    func makeCollectionViewListLayout() -> UICollectionViewCompositionalLayout {
+    private func makeCollectionViewListLayout() -> UICollectionViewCompositionalLayout {
         let configuration = UICollectionLayoutListConfiguration(appearance: .plain)
         let layout = UICollectionViewCompositionalLayout.list(using: configuration)
         
@@ -165,9 +165,7 @@ extension MovieRankingViewController {
     }
     
     private func applySnapshot() {
-        guard let dataManager = dataManager else {
-            return
-        }
+        guard let dataManager = dataManager else { return }
         
         var snapshot = NSDiffableDataSourceSnapshot<APIType, InfoObject>()
     

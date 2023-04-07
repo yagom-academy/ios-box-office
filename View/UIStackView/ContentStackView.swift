@@ -29,16 +29,16 @@ final class ContentStackView: UIStackView {
         
         return label
     }()
-    
-    override init(frame: CGRect) {
-        super.init(frame: frame)
-    }
-    
+
     convenience init(categoryText: String) {
         self.init(frame: CGRect.zero)
         configure()
         
         self.categoryLabel.text = categoryText
+    }
+    
+    override init(frame: CGRect) {
+        super.init(frame: frame)
     }
     
     required init(coder: NSCoder) {
