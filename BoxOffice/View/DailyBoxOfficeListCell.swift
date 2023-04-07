@@ -59,7 +59,6 @@ final class DailyBoxOfficeListCell: UICollectionViewListCell {
             dailyBoxOfficeListContentView.leadingAnchor.constraint(equalTo: rankStackView.trailingAnchor),
             dailyBoxOfficeListContentView.trailingAnchor.constraint(equalTo: self.contentView.trailingAnchor)
         ])
-        
     }
     
     override func updateConfiguration(using state: UICellConfigurationState) {
