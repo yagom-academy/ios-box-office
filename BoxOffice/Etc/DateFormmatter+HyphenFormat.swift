@@ -7,7 +7,7 @@
 
 import Foundation
 
-enum DateFormat {
+fileprivate enum DateFormat {
     case hyphen
     case nonHyphen
     

@@ -7,12 +7,18 @@
 
 import UIKit
 
+fileprivate enum LayoutMode {
+    case list
+    case icon
+}
+
 final class BoxOfficeViewController: UIViewController {
     @IBOutlet private weak var collectionView: UICollectionView!
     
     private let boxOfficeDataLoader = BoxOfficeDataLoader()
     private let refreshControl = UIRefreshControl()
     private var boxOffice: BoxOffice?
+    private var layoutMode: LayoutMode = .list
     private var selectedDate = Date(timeIntervalSinceNow: -86400) {
         didSet {
             navigationItem.title = DateFormatter.hyphenText(date: selectedDate)
@@ -77,7 +83,7 @@ final class BoxOfficeViewController: UIViewController {
         collectionView.refreshControl = refreshControl
         collectionView.dataSource = self
         collectionView.delegate = self
-        collectionView.collectionViewLayout = createIconLayout()
+        configureCollectionViewLayout()
         registerXib()
     }
     
@@ -86,6 +92,15 @@ final class BoxOfficeViewController: UIViewController {
         self.view.addSubview(activityIndicator)
         refreshControl.addTarget(self, action: #selector(refreshData), for: .valueChanged)
         configureCollectionView()
+    }
+    
+    private func configureCollectionViewLayout() {
+        switch layoutMode {
+        case .list:
+            collectionView.setCollectionViewLayout(createListLayout(), animated: true)
+        case .icon:
+            collectionView.setCollectionViewLayout(createIconLayout(), animated: true)
+        }
     }
     
     @IBAction private func chooseDateButtonTapped(_ sender: UIBarButtonItem) {
@@ -111,8 +126,8 @@ extension BoxOfficeViewController: UICollectionViewDataSource {
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         guard let cell = collectionView.dequeueReusableCell(
-            withReuseIdentifier: BoxOfficeCollectionViewCell.identifier,
-            for: indexPath) as? BoxOfficeCollectionViewCell,
+            withReuseIdentifier: BoxOfficeCollectionViewListCell.identifier,
+            for: indexPath) as? BoxOfficeCollectionViewListCell,
               let item = boxOffice?.boxOfficeResult.dailyBoxOfficeList[safe: indexPath.item] else {
             return UICollectionViewCell()
         }
