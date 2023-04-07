@@ -127,26 +127,22 @@ extension BoxOfficeViewController: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         switch layoutMode {
         case .list:
-            guard let cell = collectionView.dequeueReusableCell(
-                withReuseIdentifier: BoxOfficeCollectionViewListCell.identifier,
-                for: indexPath) as? BoxOfficeCollectionViewListCell,
-                  let item = boxOffice?.boxOfficeResult.dailyBoxOfficeList[safe: indexPath.item] else {
-                return UICollectionViewCell()
-            }
-            cell.configure(item: item)
-            
-            return cell
+            return configureCell(type: BoxOfficeCollectionViewListCell.self, indexPath: indexPath)
         case .icon:
-            guard let cell = collectionView.dequeueReusableCell(
-                withReuseIdentifier: BoxOfficeCollectionViewCell.identifier,
-                for: indexPath) as? BoxOfficeCollectionViewCell,
-                  let item = boxOffice?.boxOfficeResult.dailyBoxOfficeList[safe: indexPath.item] else {
-                return UICollectionViewCell()
-            }
-            cell.configure(item: item)
-            
-            return cell
+            return configureCell(type: BoxOfficeCollectionViewCell.self, indexPath: indexPath)
         }
+    }
+    
+    private func configureCell<T: Configurable>(type: T.Type, indexPath: IndexPath) -> UICollectionViewCell {
+        guard let cell = collectionView.dequeueReusableCell(
+            withReuseIdentifier: T.identifier,
+            for: indexPath) as? T,
+              let item = boxOffice?.boxOfficeResult.dailyBoxOfficeList[safe: indexPath.item] as? T.Item else {
+            return UICollectionViewCell()
+        }
+        cell.configure(item: item)
+        
+        return cell
     }
 }
 
