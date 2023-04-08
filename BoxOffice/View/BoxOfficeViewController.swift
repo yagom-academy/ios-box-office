@@ -90,8 +90,9 @@ final class BoxOfficeViewController: UIViewController {
     @IBAction private func chooseDateButtonTapped(_ sender: UIBarButtonItem) {
         if let calendarVC = storyboard?.instantiateViewController(identifier: CalendarViewController.identifier, creator: {
             [weak self] creator in
-            guard let self = self else { return UIViewController() }
-            let viewController = CalendarViewController(date: self.selectedDate, coder: creator)
+            guard let selectedDate = self?.selectedDate else { return UIViewController() }
+            
+            let viewController = CalendarViewController(date: selectedDate, coder: creator)
             viewController?.delegate = self
             
             return viewController
