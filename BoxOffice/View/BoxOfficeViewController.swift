@@ -63,6 +63,7 @@ final class BoxOfficeViewController: UIViewController {
                 guard let error = error else {
                     self?.boxOffice = boxOffice
                     self?.listCollectionView.reloadData()
+                    self?.iconCollectionView.reloadData()
                     completion()
                     return
                 }
@@ -160,14 +161,14 @@ extension BoxOfficeViewController: UICollectionViewDataSource {
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         if collectionView == self.listCollectionView {
-            return configureCell(type: BoxOfficeCollectionViewListCell.self, indexPath: indexPath)
+            return configureCell(listCollectionView, type: BoxOfficeCollectionViewListCell.self, indexPath: indexPath)
         } else {
-            return configureCell(type: BoxOfficeCollectionViewCell.self, indexPath: indexPath)
+            return configureCell(iconCollectionView, type: BoxOfficeCollectionViewCell.self, indexPath: indexPath)
         }
     }
     
-    private func configureCell<T: Configurable>(type: T.Type, indexPath: IndexPath) -> UICollectionViewCell {
-        guard let cell = listCollectionView.dequeueReusableCell(
+    private func configureCell<T: Configurable>(_ collectionView: UICollectionView, type: T.Type, indexPath: IndexPath) -> UICollectionViewCell {
+        guard let cell = collectionView.dequeueReusableCell(
             withReuseIdentifier: T.identifier,
             for: indexPath) as? T,
               let item = boxOffice?.boxOfficeResult.dailyBoxOfficeList[safe: indexPath.item] as? T.Item else {
