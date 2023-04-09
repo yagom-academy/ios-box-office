@@ -28,30 +28,39 @@ final class MovieListCell: UICollectionViewListCell {
         return stackview
     }()
     
-    private let rankingLabel: UILabel = {
+    let rankingLabel: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
-        label.font = UIFont.systemFont(ofSize: 28)
+        label.adjustsFontForContentSizeCategory = true
+        label.font = UIFont.preferredFont(forTextStyle: .title1)
+        label.numberOfLines = 0
         return label
     }()
     
-    private let titleLabel: UILabel = {
+    let titleLabel: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
-        label.font = UIFont.systemFont(ofSize: 20)
+        label.adjustsFontForContentSizeCategory = true
+        label.font = UIFont.preferredFont(forTextStyle: .title2)
+        label.numberOfLines = 0
         return label
     }()
     
-    private let subtitleLabel: UILabel = {
+    let subtitleLabel: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
-        label.font = UIFont.systemFont(ofSize: 15)
+        label.adjustsFontForContentSizeCategory = true
+        label.font = UIFont.preferredFont(forTextStyle: .body)
+        label.numberOfLines = 0
         return label
     }()
     
-    private let stateLabel: UILabel = {
+    let stateLabel: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
+        label.adjustsFontForContentSizeCategory = true
+        label.font = UIFont.preferredFont(forTextStyle: .body)
+        label.numberOfLines = 0
         return label
     }()
     
@@ -66,24 +75,26 @@ final class MovieListCell: UICollectionViewListCell {
     
     func updateCell(with item: ListItem) {
         rankingLabel.text = "\(item.rank)"
-        stateLabel.attributedText = createStateLabel(rankOldandNew: item.rankOldandNew, rankInten: Int(item.rankInten)!)
+        if let rankIntensity = Int(item.rankIntensity) {
+            stateLabel.attributedText = createStateLabel(rankOldandNew: item.rankOldandNew, rankIntensity: rankIntensity)
+        }
         titleLabel.text = "\(item.movieName)"
         subtitleLabel.text = "오늘 \(Int(item.audienceCount)?.decimalString ?? "0") / 총 \(Int(item.audienceAcc)?.decimalString ?? "0")"
     }
     
-    private func createStateLabel(rankOldandNew: String, rankInten: Int) -> NSMutableAttributedString {
+    private func createStateLabel(rankOldandNew: String, rankIntensity: Int) -> NSMutableAttributedString {
         let attributedString = NSMutableAttributedString()
         
         if rankOldandNew == "OLD" {
-            switch rankInten {
+            switch rankIntensity {
             case 0 :
                 attributedString.add(string: "-")
-            case let rankInten where rankInten > 0 :
+            case let rankIntensity where rankIntensity > 0 :
                 attributedString.add(string: "▲", color: .systemRed)
-                attributedString.add(string: "\(rankInten)")
-            case let rankInten where rankInten < 0 :
+                attributedString.add(string: "\(rankIntensity)")
+            case let rankIntensity where rankIntensity < 0 :
                 attributedString.add(string: "▼", color: .systemBlue)
-                attributedString.add(string: "\(-rankInten)")
+                attributedString.add(string: "\(-rankIntensity)")
             default:
                 break
             }
@@ -110,6 +121,7 @@ final class MovieListCell: UICollectionViewListCell {
         titleStackview.addArrangedSubview(titleLabel)
         titleStackview.addArrangedSubview(subtitleLabel)
         NSLayoutConstraint.activate([
+            titleStackview.topAnchor.constraint(equalTo: rankingStackview.topAnchor),
             titleStackview.leadingAnchor.constraint(equalTo: rankingStackview.trailingAnchor, constant: 10),
             titleStackview.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -10),
             titleStackview.centerYAnchor.constraint(equalTo: rankingStackview.centerYAnchor),

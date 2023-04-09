@@ -9,8 +9,24 @@ import UIKit
 
 final class MovieInfoView: UIView {
     
-    var titleLabel = UILabel()
-    var contentLabel = UILabel()
+    var titleLabel: UILabel = {
+        let label = UILabel()
+        label.translatesAutoresizingMaskIntoConstraints = false
+        label.textAlignment = .center
+        label.font = UIFont.preferredFont(forTextStyle: .headline)
+        label.numberOfLines = 0
+        label.adjustsFontForContentSizeCategory = true
+        return label
+    }()
+    
+    var contentLabel: UILabel = {
+        let label = UILabel()
+        label.translatesAutoresizingMaskIntoConstraints = false
+        label.font = .systemFont(ofSize: 16)
+        label.font = UIFont.preferredFont(forTextStyle: .body)
+        label.adjustsFontForContentSizeCategory = true
+        return label
+    }()
     
     init(frame: CGRect = .zero, title: String, content: String) {
         super.init(frame: frame)
@@ -39,13 +55,6 @@ final class MovieInfoView: UIView {
             contentLabel.bottomAnchor.constraint(equalTo: bottomAnchor),
             contentLabel.trailingAnchor.constraint(equalTo: trailingAnchor),
         ])
-        
-        titleLabel.translatesAutoresizingMaskIntoConstraints = false
-        titleLabel.textAlignment = .center
-        titleLabel.font = .systemFont(ofSize: 16, weight: .bold)
-        
-        contentLabel.translatesAutoresizingMaskIntoConstraints = false
-        contentLabel.font = .systemFont(ofSize: 16)
     }
     
 }

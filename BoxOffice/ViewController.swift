@@ -11,7 +11,7 @@ final class ViewController: UIViewController {
     
     private var collectionView: UICollectionView!
     private var dataSource: UICollectionViewDiffableDataSource<ListSection, ListItem>!
-    
+    private var currentViewOption: ViewOption = .list
     private let provider = APIProvider.shared
     
     private lazy var currentDate: Date = DateManager.createYesterdayDate() {
@@ -23,6 +23,7 @@ final class ViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         configureNavigationBar()
+        configureNavigationToolbar()
         configureCollectionView()
         configureDataSource()
         configureRefreshControl()
@@ -41,13 +42,31 @@ final class ViewController: UIViewController {
         )
     }
     
+    private func configureNavigationToolbar() {
+        navigationController?.isToolbarHidden = false
+        
+        let item = UIBarButtonItem(
+            barButtonSystemItem: .flexibleSpace,
+            target: self,
+            action: nil
+        )
+        let UIBarButton = UIBarButtonItem(
+            title: "화면 모드 변경",
+            style: .plain,
+            target: self,
+            action: #selector(changeViewMode)
+        )
+        
+        setToolbarItems([item, UIBarButton, item], animated: true)
+    }
+    
     private func setTitle(date: Date) {
         DateManager.formattedDateString(of: date, option: .calendar)
             .map { title = $0 }
     }
     
     private func configureCollectionView() {
-        let layout = createLayout()
+        let layout = createListLayout()
         collectionView = UICollectionView(frame: view.bounds, collectionViewLayout: layout)
         
         collectionView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
@@ -55,21 +74,74 @@ final class ViewController: UIViewController {
         collectionView.delegate = self
     }
     
-    private func createLayout() -> UICollectionViewLayout {
+    private func createListLayout() -> UICollectionViewLayout {
         let config = UICollectionLayoutListConfiguration(appearance: .plain)
         return UICollectionViewCompositionalLayout.list(using: config)
     }
     
+    private enum iconLayoutConstant {
+        static let itemFractionWidth: CGFloat = 0.5
+        static let itemabsoluteHeight: CGFloat = 180
+        static let itemTop: CGFloat = 0
+        static let itemLeading: CGFloat = 10
+        static let itemBottom: CGFloat = 0
+        static let itemtrailing: CGFloat = 5
+        static let groupFractionWidth: CGFloat = 1.0
+        static let groupAbsoluteHeight: CGFloat = 180
+        static let sectionTop: CGFloat = 0
+        static let sectionLeading: CGFloat = 10
+        static let sectionBottom: CGFloat = 0
+        static let sectiontrailing: CGFloat = 10
+        static let sectionSpacing: CGFloat = 10
+    }
+    
+    private func createIconLayout() -> UICollectionViewLayout {
+        let itemSize = NSCollectionLayoutSize(
+            widthDimension: .fractionalWidth(iconLayoutConstant.itemFractionWidth),
+            heightDimension: .absolute(iconLayoutConstant.itemabsoluteHeight))
+        let item = NSCollectionLayoutItem(layoutSize: itemSize)
+        item.contentInsets = NSDirectionalEdgeInsets(
+            top: iconLayoutConstant.itemTop,
+            leading: iconLayoutConstant.itemLeading,
+            bottom: iconLayoutConstant.itemBottom,
+            trailing: iconLayoutConstant.itemtrailing)
+        
+        let groupSize = NSCollectionLayoutSize(
+            widthDimension: .fractionalWidth(iconLayoutConstant.groupFractionWidth),
+            heightDimension: .estimated(iconLayoutConstant.groupAbsoluteHeight))
+        let group = NSCollectionLayoutGroup.horizontal(layoutSize: groupSize,
+                                                       subitems: [item])
+        
+        let section = NSCollectionLayoutSection(group: group)
+        section.contentInsets = NSDirectionalEdgeInsets(
+            top: iconLayoutConstant.sectionTop,
+            leading: iconLayoutConstant.sectionLeading,
+            bottom: iconLayoutConstant.sectionBottom,
+            trailing: iconLayoutConstant.sectiontrailing)
+        section.interGroupSpacing = iconLayoutConstant.sectionSpacing
+        
+        let layout = UICollectionViewCompositionalLayout(section: section)
+        return layout
+    }
+    
     private func configureDataSource() {
-        let cellRegistration = UICollectionView.CellRegistration<MovieListCell, ListItem> { cell, indexPath, movie in
-            
+        let listCellRegistration = UICollectionView.CellRegistration<MovieListCell, ListItem> { cell, indexPath, movie in
             cell.updateCell(with: movie)
             cell.accessories = [.disclosureIndicator()]
         }
         
+        let iconCellRegistration = UICollectionView.CellRegistration<MovieIconCell, ListItem> { cell, indexPath, movie in
+            cell.updateCell(with: movie)
+        }
+        
         dataSource = UICollectionViewDiffableDataSource<ListSection, ListItem>(collectionView: collectionView) { collectionView, indexPath, movie -> UICollectionViewCell? in
-            let cell = collectionView.dequeueConfiguredReusableCell(using: cellRegistration, for: indexPath, item: movie)
-            return cell
+            if self.currentViewOption == .list {
+                let cell = collectionView.dequeueConfiguredReusableCell(using: listCellRegistration, for: indexPath, item: movie)
+                return cell
+            } else {
+                let cell = collectionView.dequeueConfiguredReusableCell(using: iconCellRegistration, for: indexPath, item: movie)
+                return cell
+            }
         }
     }
     
@@ -88,7 +160,7 @@ final class ViewController: UIViewController {
     @objc private func handleRefreshControl() {
         fetchBoxOfficeData()
     }
-   
+    
     private func fetchBoxOfficeData() {
         guard let dateString = DateManager.formattedDateString(of: currentDate, option: .numerical) else { return }
         
@@ -104,7 +176,7 @@ final class ViewController: UIViewController {
                     for dailyBoxOffice in dailyBoxOffices {
                         let movieItem = ListItem(
                             rank: dailyBoxOffice.rank,
-                            rankInten: dailyBoxOffice.rankInten,
+                            rankIntensity: dailyBoxOffice.rankIntensity,
                             rankOldandNew: dailyBoxOffice.rankOldAndNew.rawValue,
                             movieName: dailyBoxOffice.movieName,
                             audienceCount: dailyBoxOffice.audienceCount,
@@ -144,6 +216,38 @@ final class ViewController: UIViewController {
         let calendarViewController = CalendarViewController(selectedDate: currentDate)
         calendarViewController.selectionDelegate = self
         present(calendarViewController, animated: true)
+    }
+    
+    @objc private func changeViewMode() {
+        let alert = UIAlertController(title: "화면모드변경",
+                                      message: nil,
+                                      preferredStyle: .actionSheet)
+        
+        let actionTitle: String = currentViewOption == .list ? ViewOption.icon.rawValue : ViewOption.list.rawValue
+        let viewModeAction = UIAlertAction(title: actionTitle, style: .default) { [weak self] _ in
+            guard let self else { return }
+            self.changeView()
+        }
+        let cancelAction = UIAlertAction(title: "취소", style: .cancel)
+        
+        alert.addAction(viewModeAction)
+        alert.addAction(cancelAction)
+        present(alert, animated: true, completion: nil)
+    }
+    
+    private func changeView() {
+        if currentViewOption == .list {
+            collectionView.setCollectionViewLayout(createIconLayout(),
+                                                   animated: false)
+            collectionView.scrollToItem(at: IndexPath(item: 0, section: 0),
+                                        at: .top, animated: false)
+            currentViewOption = .icon
+        } else if currentViewOption == .icon {
+            collectionView.setCollectionViewLayout(createListLayout(),
+                                                   animated: false)
+            currentViewOption = .list
+        }
+        collectionView.reloadData()
     }
     
 }

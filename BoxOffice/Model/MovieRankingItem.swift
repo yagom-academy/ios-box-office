@@ -13,7 +13,7 @@ enum ListSection {
 
 struct ListItem: Hashable {
     let rank: String
-    let rankInten: String
+    let rankIntensity: String
     let rankOldandNew: String
     let movieName: String
     let audienceCount: String

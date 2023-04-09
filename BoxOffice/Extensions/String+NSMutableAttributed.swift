@@ -12,11 +12,9 @@ extension NSMutableAttributedString {
     @discardableResult
     func add(
         string: String,
-        font: UIFont = .systemFont(ofSize: 12),
         color: UIColor = .label
     ) -> NSMutableAttributedString {
         let attributes: [NSAttributedString.Key: Any] = [
-            .font: font,
             .foregroundColor: color
         ]
         
