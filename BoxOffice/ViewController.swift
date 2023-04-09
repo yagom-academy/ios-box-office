@@ -82,8 +82,16 @@ final class ViewController: UIViewController {
     private enum iconLayoutConstant {
         static let itemFractionWidth: CGFloat = 0.5
         static let itemabsoluteHeight: CGFloat = 180
+        static let itemTop: CGFloat = 0
+        static let itemLeading: CGFloat = 10
+        static let itemBottom: CGFloat = 0
+        static let itemtrailing: CGFloat = 5
         static let groupFractionWidth: CGFloat = 1.0
         static let groupAbsoluteHeight: CGFloat = 180
+        static let sectionTop: CGFloat = 0
+        static let sectionLeading: CGFloat = 10
+        static let sectionBottom: CGFloat = 0
+        static let sectiontrailing: CGFloat = 10
         static let sectionSpacing: CGFloat = 10
     }
     
@@ -93,7 +101,10 @@ final class ViewController: UIViewController {
             heightDimension: .absolute(iconLayoutConstant.itemabsoluteHeight))
         let item = NSCollectionLayoutItem(layoutSize: itemSize)
         item.contentInsets = NSDirectionalEdgeInsets(
-            top: 0, leading: 10, bottom: 0, trailing: 5)
+            top: iconLayoutConstant.itemTop,
+            leading: iconLayoutConstant.itemLeading,
+            bottom: iconLayoutConstant.itemBottom,
+            trailing: iconLayoutConstant.itemtrailing)
         
         let groupSize = NSCollectionLayoutSize(
             widthDimension: .fractionalWidth(iconLayoutConstant.groupFractionWidth),
@@ -103,7 +114,10 @@ final class ViewController: UIViewController {
         
         let section = NSCollectionLayoutSection(group: group)
         section.contentInsets = NSDirectionalEdgeInsets(
-            top: 0, leading: 10, bottom: 0, trailing: 10)
+            top: iconLayoutConstant.sectionTop,
+            leading: iconLayoutConstant.sectionLeading,
+            bottom: iconLayoutConstant.sectionBottom,
+            trailing: iconLayoutConstant.sectiontrailing)
         section.interGroupSpacing = iconLayoutConstant.sectionSpacing
         
         let layout = UICollectionViewCompositionalLayout(section: section)
