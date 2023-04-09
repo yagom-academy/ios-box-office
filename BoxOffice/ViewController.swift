@@ -247,7 +247,8 @@ final class ViewController: UIViewController {
                                                    animated: false)
             currentViewOption = .list
         }
-        collectionView.reloadData()
+        
+        dataSource.applySnapshotUsingReloadData(dataSource.snapshot())
     }
     
 }
