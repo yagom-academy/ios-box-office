@@ -224,13 +224,13 @@ final class ViewController: UIViewController {
     private func changeView() {
         if currentViewOption == .list {
             collectionView.setCollectionViewLayout(createIconLayout(),
-                                                   animated: true)
+                                                   animated: false)
             collectionView.scrollToItem(at: IndexPath(item: 0, section: 0),
                                         at: .top, animated: false)
             currentViewOption = .icon
         } else if currentViewOption == .icon {
             collectionView.setCollectionViewLayout(createListLayout(),
-                                                   animated: true)
+                                                   animated: false)
             currentViewOption = .list
         }
         collectionView.reloadData()
