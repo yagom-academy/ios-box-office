@@ -11,7 +11,7 @@ final class MovieInfoDataLoader {
     private let networkManager = NetworkManager()
     
     func loadMovieInfo(movieCode: String?,
-                       completion: @escaping (Movie?, Error?) -> ()) {
+                       completion: @escaping (Result<Movie, Error>) -> ()) {
         guard let movieCode = movieCode else { return }
         
         let endPoint: BoxOfficeEndpoint = .fetchMovieInfo(movieCode: movieCode)
@@ -20,15 +20,15 @@ final class MovieInfoDataLoader {
             result in
             switch result {
             case .success(let data):
-                completion(data, nil)
+                completion(.success(data))
             case .failure(let error):
-                completion(nil, error)
+                completion(.failure(error))
             }
         }
     }
     
     func loadMoviePosterImage(movieName: String?,
-                            completion: @escaping (UIImage?, Error?) -> ()) {
+                            completion: @escaping (Result<UIImage?, Error>) -> ()) {
         guard let movieName = movieName else { return }
         
         let endPoint: BoxOfficeEndpoint = .fetchMoviePoster(movieName: movieName)
@@ -39,10 +39,10 @@ final class MovieInfoDataLoader {
             case .success(let data):
                 let url = self?.searchPosterURL(data: data)
                 self?.loadImage(url: url) { image in
-                    completion(image, nil)
+                    completion(.success(image))
                 }
             case .failure(let error):
-                completion(nil, error)
+                completion(.failure(error))
             }
         }
     }

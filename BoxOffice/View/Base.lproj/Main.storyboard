@@ -54,7 +54,13 @@
                             <constraint firstItem="keA-fW-q26" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" id="QXH-kg-9Ig"/>
                         </constraints>
                     </view>
-                    <navigationItem key="navigationItem" id="Kvq-SV-C7B"/>
+                    <navigationItem key="navigationItem" id="Kvq-SV-C7B">
+                        <barButtonItem key="rightBarButtonItem" title="날짜선택" id="96h-by-zZl">
+                            <connections>
+                                <action selector="chooseDateButtonTapped:" destination="BYZ-38-t0r" id="mIn-sN-hNl"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
                     <connections>
                         <outlet property="collectionView" destination="keA-fW-q26" id="NTA-NG-bTB"/>
                     </connections>
@@ -286,6 +292,21 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Tvs-RO-FMU" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="933.58778625954199" y="-35.211267605633807"/>
+        </scene>
+        <!--Calendar View Controller-->
+        <scene sceneID="nTg-PX-LgW">
+            <objects>
+                <viewController storyboardIdentifier="CalendarViewController" id="Vpo-DF-f2J" customClass="CalendarViewController" customModule="BoxOffice" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="rgA-ZS-q4e">
+                        <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <viewLayoutGuide key="safeArea" id="CdY-lL-Abj"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                    </view>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="eiJ-z8-2A6" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1753" y="-35"/>
         </scene>
     </scenes>
     <resources>

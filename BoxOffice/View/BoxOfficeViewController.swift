@@ -13,6 +13,7 @@ final class BoxOfficeViewController: UIViewController {
     private let boxOfficeDataLoader = BoxOfficeDataLoader()
     private let refreshControl = UIRefreshControl()
     private var boxOffice: BoxOffice?
+    private var selectedDate = Date().previousDate()
     
     private lazy var activityIndicator: UIActivityIndicatorView = {
         let activityIndicator = UIActivityIndicatorView()
@@ -44,17 +45,17 @@ final class BoxOfficeViewController: UIViewController {
     }
     
     private func loadData(completion: @escaping () -> ()) {
-        boxOfficeDataLoader.loadDailyBoxOffice { boxOffice, error in
+        boxOfficeDataLoader.loadDailyBoxOffice(date: selectedDate) { result in
             DispatchQueue.main.async { [weak self] in
-                guard let error = error else {
-                    self?.boxOffice = boxOffice
+                switch result {
+                case .success(let data):
+                    self?.boxOffice = data
                     self?.collectionView.reloadData()
                     completion()
-                    return
+                case .failure(let error):
+                    self?.showFailAlert(error: error)
+                    completion()
                 }
-                
-                self?.showFailAlert(error: error)
-                completion()
             }
         }
     }
@@ -70,7 +71,7 @@ final class BoxOfficeViewController: UIViewController {
         
         return UICollectionViewCompositionalLayout.list(using: config)
     }
-
+    
     private func configureCollectionView() {
         collectionView.refreshControl = refreshControl
         collectionView.dataSource = self
@@ -80,10 +81,24 @@ final class BoxOfficeViewController: UIViewController {
     }
     
     private func configureInitialView() {
-        navigationItem.title = DateFormatter.yesterdayText(format: .hyphen)
+        navigationItem.title = DateFormatter.hyphenText(date: selectedDate)
         self.view.addSubview(activityIndicator)
         refreshControl.addTarget(self, action: #selector(refreshData), for: .valueChanged)
         configureCollectionView()
+    }
+    
+    @IBAction private func chooseDateButtonTapped(_ sender: UIBarButtonItem) {
+        if let calendarVC = storyboard?.instantiateViewController(identifier: CalendarViewController.identifier, creator: {
+            [weak self] creator in
+            guard let selectedDate = self?.selectedDate else { return UIViewController() }
+            
+            let viewController = CalendarViewController(date: selectedDate, coder: creator)
+            viewController?.delegate = self
+            
+            return viewController
+        }) {
+            self.present(calendarVC, animated: true)
+        }
     }
 }
 
@@ -98,7 +113,7 @@ extension BoxOfficeViewController: UICollectionViewDataSource {
         guard let cell = collectionView.dequeueReusableCell(
             withReuseIdentifier: BoxOfficeCollectionViewListCell.identifier,
             for: indexPath) as? BoxOfficeCollectionViewListCell,
-                let item = boxOffice?.boxOfficeResult.dailyBoxOfficeList[safe: indexPath.item] else {
+              let item = boxOffice?.boxOfficeResult.dailyBoxOfficeList[safe: indexPath.item] else {
             return UICollectionViewCell()
         }
         
@@ -119,5 +134,13 @@ extension BoxOfficeViewController: UICollectionViewDelegate {
         }) {
             self.navigationController?.pushViewController(movieInfoVC, animated: true)
         }
+    }
+}
+
+extension BoxOfficeViewController: UpdateDateDelegate {
+    func sendDate(date: Date) {
+        selectedDate = date
+        navigationItem.title = DateFormatter.hyphenText(date: selectedDate)
+        loadInitialData()
     }
 }
