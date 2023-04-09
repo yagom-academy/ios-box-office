@@ -13,7 +13,8 @@ fileprivate enum LayoutMode {
 }
 
 final class BoxOfficeViewController: UIViewController {
-    @IBOutlet private weak var collectionView: UICollectionView!
+    @IBOutlet private weak var listCollectionView: UICollectionView!
+    @IBOutlet private weak var iconCollectionView: UICollectionView!
     
     private let boxOfficeDataLoader = BoxOfficeDataLoader()
     private let refreshControl = UIRefreshControl()
@@ -61,7 +62,7 @@ final class BoxOfficeViewController: UIViewController {
             DispatchQueue.main.async { [weak self] in
                 guard let error = error else {
                     self?.boxOffice = boxOffice
-                    self?.collectionView.reloadData()
+                    self?.listCollectionView.reloadData()
                     completion()
                     return
                 }
@@ -74,16 +75,21 @@ final class BoxOfficeViewController: UIViewController {
     
     private func registerXib() {
         let listCellNib = UINib(nibName: BoxOfficeCollectionViewListCell.identifier, bundle: nil)
-                collectionView.register(listCellNib, forCellWithReuseIdentifier: BoxOfficeCollectionViewListCell.identifier)
+                listCollectionView.register(listCellNib, forCellWithReuseIdentifier: BoxOfficeCollectionViewListCell.identifier)
         
         let iconCellNib = UINib(nibName: BoxOfficeCollectionViewCell.identifier, bundle: nil)
-                collectionView.register(iconCellNib, forCellWithReuseIdentifier: BoxOfficeCollectionViewCell.identifier)
+                iconCollectionView.register(iconCellNib, forCellWithReuseIdentifier: BoxOfficeCollectionViewCell.identifier)
     }
     
     private func configureCollectionView() {
-        collectionView.refreshControl = refreshControl
-        collectionView.dataSource = self
-        collectionView.delegate = self
+        listCollectionView.refreshControl = refreshControl
+        listCollectionView.dataSource = self
+        listCollectionView.delegate = self
+        iconCollectionView.refreshControl = refreshControl
+        iconCollectionView.dataSource = self
+        iconCollectionView.delegate = self
+        iconCollectionView.isHidden = true
+        
         configureCollectionViewLayout()
         registerXib()
     }
@@ -96,13 +102,8 @@ final class BoxOfficeViewController: UIViewController {
     }
     
     private func configureCollectionViewLayout() {
-        switch layoutMode {
-        case .list:
-            collectionView.setCollectionViewLayout(createListLayout(), animated: true)
-        case .icon:
-            collectionView.setCollectionViewLayout(createIconLayout(), animated: true)
-        }
-        collectionView.reloadData()
+        listCollectionView.collectionViewLayout = createListLayout()
+        iconCollectionView.collectionViewLayout = createIconLayout()
     }
     
     @IBAction private func chooseDateButtonTapped(_ sender: UIBarButtonItem) {
@@ -125,14 +126,16 @@ final class BoxOfficeViewController: UIViewController {
 
         let listActionHandler: (UIAlertAction) -> () = { _ in
             self.layoutMode = .icon
-            self.collectionView.reloadData()
-            self.configureCollectionViewLayout()
+            self.listCollectionView.isHidden = true
+            self.iconCollectionView.isHidden = false
+            self.iconCollectionView.reloadData()
         }
 
         let iconActionHandler: (UIAlertAction) -> () = { _ in
             self.layoutMode = .list
-            self.collectionView.reloadData()
-            self.configureCollectionViewLayout()
+            self.iconCollectionView.isHidden = true
+            self.listCollectionView.isHidden = false
+            self.listCollectionView.reloadData()
         }
 
         switch layoutMode {
@@ -156,16 +159,15 @@ extension BoxOfficeViewController: UICollectionViewDataSource {
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        switch layoutMode {
-        case .list:
+        if collectionView == self.listCollectionView {
             return configureCell(type: BoxOfficeCollectionViewListCell.self, indexPath: indexPath)
-        case .icon:
+        } else {
             return configureCell(type: BoxOfficeCollectionViewCell.self, indexPath: indexPath)
         }
     }
     
     private func configureCell<T: Configurable>(type: T.Type, indexPath: IndexPath) -> UICollectionViewCell {
-        guard let cell = collectionView.dequeueReusableCell(
+        guard let cell = listCollectionView.dequeueReusableCell(
             withReuseIdentifier: T.identifier,
             for: indexPath) as? T,
               let item = boxOffice?.boxOfficeResult.dailyBoxOfficeList[safe: indexPath.item] as? T.Item else {
