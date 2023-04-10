@@ -47,12 +47,12 @@ final class DailyBoxOfficeViewController: UIViewController {
         navigationItem.rightBarButtonItem = dateChangeButton
     }
     
-    @objc func showCalendar() {
-        let calendarViewController = CalendarViewController(targetDate: targetDate ?? yesterday)
+    @objc
+    private func showCalendar() {
+        let calendarViewController = CalendarViewController(targetDate: targetDate ?? yesterday, delegate: self)
         navigationController?.present(calendarViewController, animated: true)
-        calendarViewController.delegate = self
     }
-
+    
     private func configureCollectionView() {
         collectionView.translatesAutoresizingMaskIntoConstraints = false
         
@@ -65,13 +65,13 @@ final class DailyBoxOfficeViewController: UIViewController {
         
         collectionView.delegate = self
     }
-
+    
     private func configureDataSource() {
         let cellRegistration = UICollectionView.CellRegistration<DailyBoxOfficeListCell, DailyBoxOfficeMovie> { cell, indexPath, item in
             cell.updateData(with: item)
             cell.accessories = [.disclosureIndicator()]
         }
-
+        
         dataSource = DataSource(collectionView: collectionView) { collectionView, indexPath, itemIdentifier in
             let cell = collectionView.dequeueConfiguredReusableCell(using: cellRegistration,
                                                                     for: indexPath,

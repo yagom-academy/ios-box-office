@@ -15,12 +15,15 @@ final class CalendarViewController: UIViewController {
         return Date(timeIntervalSinceNow: 3600 * -24)
     }
     
-    weak var delegate: CalendarViewControllerDelegate?
+    private weak var delegate: CalendarViewControllerDelegate?
     
     init(targetDate: Date,
-         calendar: Calendar = Calendar(identifier: .gregorian)) {
+         calendar: Calendar = Calendar(identifier: .gregorian),
+         delegate: CalendarViewControllerDelegate?) {
         self.targetDate = targetDate
         self.calendar = calendar
+        self.delegate = delegate
+        
         super.init(nibName: nil, bundle: nil)
     }
     
