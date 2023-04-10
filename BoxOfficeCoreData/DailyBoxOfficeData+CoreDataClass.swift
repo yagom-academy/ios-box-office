@@ -2,14 +2,14 @@
 //  DailyBoxOfficeData+CoreDataClass.swift
 //  BoxOffice
 //
-//  Created by 리지, kokkilE on 2023/04/07.
+//  Created by 리지, kokkilE on 2023/04/10.
 //
 //
 
 import Foundation
 import CoreData
 
-@objc(DailyBoxOfficeData)
+@objc(TotalData)
 public class DailyBoxOfficeData: NSManagedObject {
 
 }

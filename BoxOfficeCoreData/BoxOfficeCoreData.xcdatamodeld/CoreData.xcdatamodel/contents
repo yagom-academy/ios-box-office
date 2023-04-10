@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="21754" systemVersion="22C65" minimumToolsVersion="Automatic" sourceLanguage="Swift" userDefinedModelVersionIdentifier="">
-    <entity name="DailyBoxOfficeData" representedClassName="DailyBoxOfficeData" syncable="YES">
+    <entity name="BoxOfficeData" representedClassName="BoxOfficeData" syncable="YES">
         <attribute name="audienceAccumulation" optional="YES" attributeType="String"/>
         <attribute name="audienceChange" optional="YES" attributeType="String"/>
         <attribute name="audienceCount" optional="YES" attributeType="String"/>
@@ -19,5 +19,9 @@
         <attribute name="salesVariance" optional="YES" attributeType="String"/>
         <attribute name="screenCount" optional="YES" attributeType="String"/>
         <attribute name="showCount" optional="YES" attributeType="String"/>
+    </entity>
+    <entity name="BoxOfficeData" representedClassName="BoxOfficeData" syncable="YES">
+        <attribute name="movie" optional="YES" attributeType="Transformable" valueTransformerName="MovieAttributeTransformer" customClassName="[DailyBoxOfficeData]"/>
+        <attribute name="selectedDate" optional="YES" attributeType="String"/>
     </entity>
 </model>
