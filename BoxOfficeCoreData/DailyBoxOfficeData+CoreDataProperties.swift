@@ -10,14 +10,12 @@ import Foundation
 import CoreData
 
 extension DailyBoxOfficeData {
-
     @nonobjc public class func fetchRequest() -> NSFetchRequest<DailyBoxOfficeData> {
         return NSFetchRequest<DailyBoxOfficeData>(entityName: "DailyBoxOfficeData")
     }
 
     @NSManaged public var selectedDate: String?
-    @NSManaged public var movie: [BoxOfficeData]
-
+    @NSManaged public var movie: BoxOfficeDatas?
 }
 
 extension DailyBoxOfficeData : Identifiable {

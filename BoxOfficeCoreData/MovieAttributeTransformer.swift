@@ -9,7 +9,7 @@ import Foundation
 
 final class MovieAttributeTransformer: NSSecureUnarchiveFromDataTransformer {
     override class var allowedTopLevelClasses: [AnyClass] {
-        [BoxOfficeData.self]
+        [BoxOfficeDatas.self]
     }
     
     static func register() {

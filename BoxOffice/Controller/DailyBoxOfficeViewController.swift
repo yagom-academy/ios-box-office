@@ -21,7 +21,6 @@ final class DailyBoxOfficeViewController: UIViewController, DateUpdatable {
     private var boxOfficeEndPoint: BoxOfficeEndPoint?
     private var movieDataSource: DataSource?
     private var dailyBoxOfficeItem: [DailyBoxOfficeItem] = []
-    private var totalDailyBoxOfficeItem: [TotalDailyBoxOfficeItem] = []
     private var screenMode = ScreenMode.list
     
     private let refreshControl = UIRefreshControl()
@@ -145,18 +144,18 @@ final class DailyBoxOfficeViewController: UIViewController, DateUpdatable {
                 print(error)
             case .success(let result):
                 
-//                guard let date = self?.selectedDate.description else { return }
-//                TotalCoreDataManager.shared.saveData(date: date, with: result.boxOfficeResult.boxOfficeList)
+                self?.dateFormatter.dateFormat = "yyyyMMdd"
+                guard let seletedDate = self?.selectedDate,
+                      let date = self?.dateFormatter.string(from: seletedDate) else { return }
+                
                 result.boxOfficeResult.boxOfficeList.forEach {
-                    guard let date = self?.selectedDate.description else { return }
                     BoxOfficeCoreDataManager.shared.saveData(date: date, with: $0)
                 }
-               
+                
                 let selectedDate = BoxOfficeCoreDataManager.shared.fetchData()
                 guard let movie = selectedDate.first?.movie else { return }
-                self?.applyMoviesToDailyBoxOfficeItem(from: movie)
+                self?.applyMoviesToDailyBoxOfficeItem(from: movie.boxOfficeDatas)
                 
-            
                 DispatchQueue.main.async {
                     self?.setupDataSource()
                     self?.updateDataSource()
@@ -165,18 +164,6 @@ final class DailyBoxOfficeViewController: UIViewController, DateUpdatable {
             }
         }
     }
-
-//    private func applyMoviesToTotalItem(from movies: [DailyBoxOfficeData]) {
-//        totalDailyBoxOfficeItem = movies.map {
-//            TotalDailyBoxOfficeItem(from: $0)
-//        }
-//    }
-    
-//    private func select(from movies: TotalDailyBoxOfficeItem) {
-//        if selectedDate.description == movies.date {
-//            applyMoviesToDailyBoxOfficeItem(from: movies.movie)
-//        }
-//    }
     
     private func applyMoviesToDailyBoxOfficeItem(from movies: [BoxOfficeData]) {
         dailyBoxOfficeItem = movies.map {
@@ -368,17 +355,5 @@ struct DailyBoxOfficeItem: Hashable {
         self.name = movie.name ?? ""
         self.audienceCount = movie.audienceCount ?? ""
         self.audienceAccumulation = movie.audienceAccumulation ?? ""
-    }
-}
-
-struct TotalDailyBoxOfficeItem: Hashable {
-    let identifier: UUID
-    let date: String
-    let movie: [BoxOfficeData]
-    
-    init(from data: DailyBoxOfficeData) {
-        self.identifier = UUID()
-        self.date = data.selectedDate ?? ""
-        self.movie = data.movie ?? [BoxOfficeData]()
     }
 }

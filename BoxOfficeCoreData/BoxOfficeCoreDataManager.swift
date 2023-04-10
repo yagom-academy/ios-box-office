@@ -24,49 +24,47 @@ class BoxOfficeCoreDataManager {
     }()
     
     func saveData(date: String, with movie: DailyBoxOffice.BoxOfficeResult.Movie) {
-        let viewContext = persistentContainer.viewContext
+        let viewContext = persistentContainer.newBackgroundContext()
         let dailyBoxOfficeEntity = NSEntityDescription.entity(forEntityName: "DailyBoxOfficeData", in: viewContext)
-        let boxOfficeEntity = NSEntityDescription.entity(forEntityName: "BoxOfficeData", in: viewContext)
-        let filter = filteredDataRequest(date: date)
         
-        guard let entity = dailyBoxOfficeEntity,
-              let movieInfoEntity = boxOfficeEntity else { return }
+        guard let dailyBoxOfficeEntity = dailyBoxOfficeEntity else { return }
     
         do {
+            let filter = filteredDataRequest(date: date)
             let data = try viewContext.fetch(filter) as! [NSManagedObject]
-            
-            var movieInfo: BoxOfficeData! = nil
-            var value: DailyBoxOfficeData! = nil
+            var dailyBoxOfficeData: DailyBoxOfficeData! = nil
             
             if data.count == 0 {
-                movieInfo = NSManagedObject(entity: movieInfoEntity, insertInto: viewContext) as? BoxOfficeData
-                value = NSManagedObject(entity: entity, insertInto: viewContext) as? DailyBoxOfficeData
+                dailyBoxOfficeData = NSManagedObject(entity: dailyBoxOfficeEntity, insertInto: viewContext) as? DailyBoxOfficeData
             } else {
-                value = data.first as? DailyBoxOfficeData
-                movieInfo = value.movie.first
+                dailyBoxOfficeData = data.first as? DailyBoxOfficeData
             }
-            movieInfo.setValue(movie.audienceAccumulation , forKey: "audienceAccumulation")
-            movieInfo.setValue(movie.screenCount , forKey: "screenCount")
-            movieInfo.setValue(movie.showCount , forKey: "showCount")
-            movieInfo.setValue(movie.rank , forKey: "rank")
-            movieInfo.setValue(movie.rankVariance , forKey: "rankVariance")
-            movieInfo.setValue(movie.rankOldAndNew , forKey: "rankOldAndNew")
-            movieInfo.setValue(movie.code , forKey: "code")
-            movieInfo.setValue(movie.name , forKey: "name")
-            movieInfo.setValue(movie.openDate , forKey: "openDate")
-            movieInfo.setValue(movie.salesAmount , forKey: "salesAmount")
-            movieInfo.setValue(movie.salesShare , forKey: "salesShare")
-            movieInfo.setValue(movie.salesVariance , forKey: "salesVariance")
-            movieInfo.setValue(movie.salesChange , forKey: "salesChange")
-            movieInfo.setValue(movie.salesAccumulation , forKey: "salesAccumulation")
-            movieInfo.setValue(movie.audienceCount , forKey: "audienceCount")
-            movieInfo.setValue(movie.audienceVariance , forKey: "audienceVariance")
-            movieInfo.setValue(movie.audienceChange , forKey: "audienceChange")
-            movieInfo.setValue(movie.order , forKey: "order")
             
-            value.setValue(date, forKey: "selectedDate")
-            value.setValue(movieInfo, forKey: "movie")
-            print("")
+            let boxOfficeData = BoxOfficeData()
+            
+            boxOfficeData.audienceAccumulation = movie.audienceAccumulation
+            boxOfficeData.screenCount = movie.screenCount
+            boxOfficeData.showCount = movie.showCount
+            boxOfficeData.rank = movie.rank
+            boxOfficeData.rankVariance = movie.rankVariance
+            boxOfficeData.rankOldAndNew = movie.rankOldAndNew
+            boxOfficeData.code = movie.code
+            boxOfficeData.name = movie.name
+            boxOfficeData.openDate = movie.openDate
+            boxOfficeData.salesAmount = movie.salesAmount
+            boxOfficeData.salesShare = movie.salesShare
+            boxOfficeData.salesVariance = movie.salesVariance
+            boxOfficeData.salesChange = movie.salesChange
+            boxOfficeData.salesAccumulation = movie.salesAccumulation
+            boxOfficeData.audienceCount = movie.audienceCount
+            boxOfficeData.audienceVariance = movie.audienceVariance
+            boxOfficeData.audienceChange = movie.audienceChange
+            boxOfficeData.order = movie.order
+            
+            let boxOfficeDatas = BoxOfficeDatas(boxOfficeDatas: [boxOfficeData])
+            
+            dailyBoxOfficeData.setValue(date, forKey: "selectedDate")
+            dailyBoxOfficeData.setValue(boxOfficeDatas, forKey: "movie")
         } catch {
             print(error.localizedDescription)
         }
@@ -81,14 +79,15 @@ class BoxOfficeCoreDataManager {
     func filteredDataRequest(date: String) -> NSFetchRequest<NSFetchRequestResult> {
         let fetchRequest: NSFetchRequest<NSFetchRequestResult> = NSFetchRequest<NSFetchRequestResult>(entityName: "DailyBoxOfficeData")
         fetchRequest.predicate = NSPredicate(format: "selectedDate == %@", date)
-               return fetchRequest
+        return fetchRequest
     }
     
     func fetchData() -> [DailyBoxOfficeData] {
         let context = self.persistentContainer.viewContext
+        let request = DailyBoxOfficeData.fetchRequest()
         
         do {
-            let data = try context.fetch(DailyBoxOfficeData.fetchRequest())
+            let data = try context.fetch(request)
             return data
         } catch {
             print(error.localizedDescription)

@@ -9,7 +9,7 @@
 import Foundation
 import CoreData
 
-@objc(TotalData)
+@objc(DailyBoxOfficeData)
 public class DailyBoxOfficeData: NSManagedObject {
 
 }
