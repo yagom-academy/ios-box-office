@@ -44,7 +44,7 @@ final class CalendarViewController: UIViewController {
     }
     
     private func configureCalendarView() {
-        guard let targetDate = self.targetDate else { return }
+        guard let targetDate else { return }
         
         calendarView.calendar = calendar
         calendarView.locale = Locale(identifier: "ko_KR")
