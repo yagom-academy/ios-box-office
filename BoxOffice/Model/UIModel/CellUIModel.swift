@@ -10,10 +10,6 @@ import UIKit
 struct CellUIModel {
     private let data: InfoObject
     
-    init(data: InfoObject) {
-        self.data = data
-    }
-    
     var rank: String {
         return data.rank
     }
@@ -83,5 +79,9 @@ struct CellUIModel {
         case .new:
             return .red
         }
+    }
+    
+    init(data: InfoObject) {
+        self.data = data
     }
 }

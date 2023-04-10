@@ -9,7 +9,7 @@ import UIKit
 
 final class CalendarViewController: UIViewController {
     
-    var delegate: ChangedDateDelegate?
+    weak var delegate: ChangedDateDelegate?
     var selectedDate = Date()
     
     private let calendarView = {
@@ -39,9 +39,7 @@ final class CalendarViewController: UIViewController {
         let fromDateComponents = DateComponents(calendar: Calendar(identifier: .gregorian), year: 2012, month: 1, day: 1)
         let toDateComponents = DateComponents(calendar: Calendar(identifier: .gregorian), year: year, month: month, day: day)
         
-        guard let fromDate = fromDateComponents.date, let toDate = toDateComponents.date else {
-            return
-        }
+        guard let fromDate = fromDateComponents.date, let toDate = toDateComponents.date else { return }
         
         let calendarViewDateRange = DateInterval(start: fromDate, end: toDate)
         calendarView.availableDateRange = calendarViewDateRange

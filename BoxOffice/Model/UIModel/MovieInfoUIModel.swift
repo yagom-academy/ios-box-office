@@ -10,10 +10,6 @@ import Foundation
 struct MovieInfoUIModel {
     private let data: MovieInfoDescObject
     
-    init(data: MovieInfoDescObject) {
-        self.data = data
-    }
-    
     var directors: String {
         let directorsName = data.directors.map { $0.name }
         return directorsName.isEmpty ? "감독 정보 없음" : directorsName.joined(separator: ", ")
@@ -54,5 +50,7 @@ struct MovieInfoUIModel {
         return actors.isEmpty ? "배우 정보 없음" : actors.joined(separator: ", ")
     }
     
-
+    init(data: MovieInfoDescObject) {
+        self.data = data
+    }
 }
