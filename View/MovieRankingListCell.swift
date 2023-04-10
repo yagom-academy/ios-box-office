@@ -12,14 +12,35 @@ final class MovieRankingListCell: UICollectionViewListCell {
     static let identifier = "MovieRankingListCell"
     
     // MARK: UI Properties
-    private let rankStatusLabel = UILabel()
-    private let audienceLabel = UILabel()
     private let rankStackView = UIStackView()
     private let movieInfoStackView = UIStackView()
+    
+    private let rankStatusLabel = {
+        let label = UILabel()
+        
+        label.translatesAutoresizingMaskIntoConstraints = false
+        label.adjustsFontForContentSizeCategory = true
+        label.font = .preferredFont(forTextStyle: .body)
+        
+        return label
+    }()
+    
+    private let audienceLabel = {
+        let label = UILabel()
+        
+        label.translatesAutoresizingMaskIntoConstraints = false
+        label.adjustsFontForContentSizeCategory = true
+        label.font = .preferredFont(forTextStyle: .body)
+        label.adjustsFontSizeToFitWidth = true
+        
+        return label
+    }()
     
     private let rankLabel = {
         let label = UILabel()
         
+        label.translatesAutoresizingMaskIntoConstraints = false
+        label.adjustsFontForContentSizeCategory = true
         label.font = .preferredFont(forTextStyle: .largeTitle)
         
         return label
@@ -28,8 +49,11 @@ final class MovieRankingListCell: UICollectionViewListCell {
     private let movieNameLabel = {
         let label = UILabel()
         
+        label.translatesAutoresizingMaskIntoConstraints = false
+        label.adjustsFontForContentSizeCategory = true
         label.numberOfLines = 0
         label.font = .preferredFont(forTextStyle: .title3)
+        label.adjustsFontSizeToFitWidth = true
         
         return label
     }()
@@ -69,7 +93,9 @@ extension MovieRankingListCell {
             
             movieInfoStackView.centerYAnchor.constraint(equalTo: centerYAnchor),
             movieInfoStackView.leadingAnchor.constraint(equalTo: rankStackView.trailingAnchor),
-            movieInfoStackView.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -30)
+            movieInfoStackView.trailingAnchor.constraint(equalTo: safeAreaLayoutGuide.trailingAnchor, constant: -30),
+            movieInfoStackView.topAnchor.constraint(equalTo: topAnchor, constant: 15),
+            movieInfoStackView.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -15)
         ])
     }
     
