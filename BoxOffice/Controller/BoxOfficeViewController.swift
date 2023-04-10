@@ -14,6 +14,7 @@ protocol CalendarDateDelegate: AnyObject {
 final class BoxOfficeViewController: UIViewController {
     let boxOfficeService = BoxOfficeService()
     private var provider = Provider()
+    private var isCurrentListLayout: Bool = true
     let calendarViewController = CalendarViewController()
     var choosenDate: String = "" {
         didSet {
@@ -51,6 +52,7 @@ final class BoxOfficeViewController: UIViewController {
         setBoxOfficeListCollectionView()
         configureRefreshControl()
         configureUI()
+        setNavigationToolBar()
     }
     
     private func setNavigationBar() {
@@ -72,7 +74,7 @@ final class BoxOfficeViewController: UIViewController {
     private func setBoxOfficeListCollectionView() {
         boxOfficeListCollectionView.dataSource = self
         boxOfficeListCollectionView.delegate = self
-        self.boxOfficeListCollectionView.collectionViewLayout = self.setUpCompositionalLayout()
+        self.boxOfficeListCollectionView.collectionViewLayout = self.setUpCompositionalListLayout()
     }
     
     private func configureRefreshControl() {
@@ -117,6 +119,51 @@ final class BoxOfficeViewController: UIViewController {
         let yesterDate = formatter.string(from: Date(timeIntervalSinceNow: -86400))
         return yesterDate
     }
+    
+    private func setNavigationToolBar() {
+        let flexibleSpace: UIBarButtonItem
+        let changeModeButton: UIBarButtonItem
+        
+        changeModeButton = UIBarButtonItem(title: "화면 모드 변경", style: .plain, target: self, action: #selector(convertAlertMode))
+        flexibleSpace = UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: self, action: nil)
+        
+        toolbarItems = [flexibleSpace, changeModeButton, flexibleSpace]
+        self.navigationController?.isToolbarHidden = false
+    }
+    
+    @objc func convertAlertMode() {
+        switch self.isCurrentListLayout {
+        case true:
+            return changeToIconAlert()
+        case false:
+            return changeToListAlert()
+        }
+    }
+    
+    private func changeToIconAlert() {
+        let alertToIconLayout = UIAlertController(title: "화면 모드 변경", message: "", preferredStyle: .actionSheet)
+        
+        alertToIconLayout.addAction(UIAlertAction(title: "아이콘", style: .default, handler: { _ in
+            self.boxOfficeListCollectionView.collectionViewLayout = self.setUpCompositionalIconLayout()
+            self.boxOfficeListCollectionView.reloadData()
+            self.isCurrentListLayout = false
+        }))
+        alertToIconLayout.addAction(UIAlertAction(title: "취소", style: .cancel, handler: { _ in print("알럿 취소") }))
+        present(alertToIconLayout, animated: true)
+    }
+    
+    private func changeToListAlert() {
+        let alertToListLayout = UIAlertController(title: "화면 모드 변경", message: "", preferredStyle: .actionSheet)
+        alertToListLayout.addAction(UIAlertAction(title: "리스트", style: .default, handler: { _ in
+            self.boxOfficeListCollectionView.collectionViewLayout = self.setUpCompositionalListLayout()
+            self.boxOfficeListCollectionView.reloadData()
+            self.isCurrentListLayout = true
+        }))
+        alertToListLayout.addAction(UIAlertAction(title: "취소", style: .cancel, handler: { _ in print("알럿 취소") }))
+        present(alertToListLayout, animated: true)
+    }
+    
+    
 }
 
 extension BoxOfficeViewController: UICollectionViewDataSource {
@@ -172,7 +219,7 @@ extension BoxOfficeViewController: UICollectionViewDelegate {
 }
 
 extension BoxOfficeViewController {
-    private func setUpCompositionalLayout() -> UICollectionViewLayout {
+    private func setUpCompositionalListLayout() -> UICollectionViewLayout {
         let layout = UICollectionViewCompositionalLayout {
             (sectionIndex: Int, layoutEnvironment: NSCollectionLayoutEnvironment) -> NSCollectionLayoutSection? in
             
@@ -184,6 +231,25 @@ extension BoxOfficeViewController {
             let groupHeight =  NSCollectionLayoutDimension.fractionalWidth(1/4)
             let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0), heightDimension: groupHeight)
             let group = NSCollectionLayoutGroup.horizontal(layoutSize: groupSize, subitem: item, count: 1)
+            let section = NSCollectionLayoutSection(group: group)
+            
+            return section
+        }
+        return layout
+    }
+    
+    private func setUpCompositionalIconLayout() -> UICollectionViewLayout {
+        let layout = UICollectionViewCompositionalLayout {
+            (sectionIndex: Int, layoutEnvironment: NSCollectionLayoutEnvironment) -> NSCollectionLayoutSection? in
+            
+            let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0), heightDimension: .fractionalHeight(1.0))
+            let item = NSCollectionLayoutItem(layoutSize: itemSize)
+            
+            item.contentInsets = NSDirectionalEdgeInsets(top: 5, leading: 5, bottom: 5, trailing: 5)
+            
+            let groupHeight =  NSCollectionLayoutDimension.fractionalWidth(1/2.3)
+            let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0), heightDimension: groupHeight)
+            let group = NSCollectionLayoutGroup.horizontal(layoutSize: groupSize, subitem: item, count: 2)
             let section = NSCollectionLayoutSection(group: group)
             
             return section
