@@ -33,12 +33,20 @@ class BoxOfficeListCell: UICollectionViewListCell  {
         return stackView
     }()
     
-    func setUpBoxOffcieCellUI() {
-        configureUI()
-        setUpLabelStyle()
-    }
+    private let iconTypeStackView: UIStackView = {
+        let stackView = UIStackView()
+        stackView.translatesAutoresizingMaskIntoConstraints = false
+        stackView.axis = .vertical
+        stackView.alignment = .center
+        stackView.spacing = 10
+        return stackView
+    }()
     
-    private func configureUI() {
+    func configureListCellUI() {
+        setUpLabelStyle()
+        self.layer.borderWidth = 0.2
+        self.layer.borderColor = UIColor.lightGray.cgColor
+        
         rankNumberLabel.translatesAutoresizingMaskIntoConstraints = false
         rankGapLabel.translatesAutoresizingMaskIntoConstraints = false
         movieTitleLabel.translatesAutoresizingMaskIntoConstraints = false
@@ -54,14 +62,32 @@ class BoxOfficeListCell: UICollectionViewListCell  {
         titleAndAudienceStackView.addArrangedSubview(audienceCountLabel)
         
         NSLayoutConstraint.activate([
-            rankGapLabel.widthAnchor.constraint(equalToConstant: 30),
-            
             rankStackView.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: 20),
             rankStackView.centerYAnchor.constraint(equalTo: self.centerYAnchor),
             
             titleAndAudienceStackView.leadingAnchor.constraint(equalTo: rankStackView.trailingAnchor,constant: 20),
             titleAndAudienceStackView.centerYAnchor.constraint(equalTo: self.centerYAnchor),
             titleAndAudienceStackView.trailingAnchor.constraint(lessThanOrEqualTo: self.trailingAnchor, constant: -20)
+        ])
+    }
+    
+    func configureIconCellUI() {
+        setUpLabelStyle()
+        self.layer.borderWidth = 1
+        self.layer.borderColor = UIColor.black.cgColor
+        self.addSubview(iconTypeStackView)
+        
+        iconTypeStackView.addArrangedSubview(rankNumberLabel)
+        iconTypeStackView.addArrangedSubview(movieTitleLabel)
+        iconTypeStackView.addArrangedSubview(rankGapLabel)
+        iconTypeStackView.addArrangedSubview(audienceCountLabel)
+        
+        NSLayoutConstraint.activate([
+            iconTypeStackView.topAnchor.constraint(equalTo: self.topAnchor),
+            iconTypeStackView.leadingAnchor.constraint(equalTo: self.leadingAnchor),
+            iconTypeStackView.trailingAnchor.constraint(equalTo: self.trailingAnchor),
+            iconTypeStackView.bottomAnchor.constraint(equalTo: self.bottomAnchor,constant: -10)
+            
         ])
     }
     
