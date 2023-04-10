@@ -124,10 +124,12 @@ final class BoxOfficeListViewController: UIViewController {
         case .List:
             actionDefault = UIAlertAction(title: cellMode.alertText, style: .default) { [weak self] _ in
                 self?.cellMode = .Icon
+                self?.collectionView.reloadData()
             }
         case .Icon:
             actionDefault = UIAlertAction(title: cellMode.alertText, style: .default) { [weak self] _ in
                 self?.cellMode = .List
+                self?.collectionView.reloadData()
             }
         }
         
@@ -208,13 +210,14 @@ extension BoxOfficeListViewController: UICollectionViewDelegateFlowLayout {
         
         switch cellMode {
         case .List:
-            return collectionViewWithList(collectionViewLayout: collectionViewLayout)
+            return collectionViewWithList()
         case .Icon:
-            return collectionViewWithItem()
+            return  collectionViewWithIcon(collectionViewLayout: collectionViewLayout)
         }
+
     }
     
-    private func collectionViewWithList(collectionViewLayout: UICollectionViewLayout) -> CGSize {
+    private func collectionViewWithIcon(collectionViewLayout: UICollectionViewLayout) -> CGSize {
         guard let flowLayout = collectionViewLayout as? UICollectionViewFlowLayout else { return CGSize() }
         
         let numberOfCells: CGFloat = 2.2
@@ -223,15 +226,15 @@ extension BoxOfficeListViewController: UICollectionViewDelegateFlowLayout {
         return CGSize(width: width/(numberOfCells), height: width/(numberOfCells))
     }
     
-    private func collectionViewWithItem() -> CGSize {
+    private func collectionViewWithList() -> CGSize {
         let width = collectionView.frame.width
         let height = collectionView.frame.height
         
         let itemsPerRow: CGFloat = 8
         let itemsPerColumn: CGFloat = 1
         
-        let cellWidth = width / itemsPerRow
-        let cellHeight = height / itemsPerColumn
+        let cellWidth = width / itemsPerColumn
+        let cellHeight = height / itemsPerRow
         
         return CGSize(width: cellWidth, height: cellHeight)
     }
@@ -248,12 +251,18 @@ extension BoxOfficeListViewController: UICollectionViewDelegateFlowLayout {
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {
+        guard cellMode == .Icon else { return UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)}
+        
         return UIEdgeInsets(top: 10, left: 15, bottom: 10, right: 15)
     }
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
+        guard cellMode == .Icon else { return 0 }
+        
         return 15.0
     }
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumInteritemSpacingForSectionAt section: Int) -> CGFloat {
+        guard cellMode == .Icon else { return 0 }
+        
         return 10.0
     }
 }
