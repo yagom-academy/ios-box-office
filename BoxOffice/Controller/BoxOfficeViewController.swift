@@ -10,7 +10,7 @@ import UIKit
 final class BoxOfficeViewController: UIViewController {
     private var boxOffice: BoxOffice?
     private let networkManager = NetworkManager()
-    private var isDataFetching = false
+    private var isReceivingBoxOffice = false
     private lazy var collectionView = UICollectionView(frame: .zero,
                                                        collectionViewLayout: UICollectionViewFlowLayout())
     
@@ -47,16 +47,6 @@ final class BoxOfficeViewController: UIViewController {
         configureRefreshControl()
     }
     
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-        
-        for cell in collectionView.visibleCells {
-            cell.isSelected = false
-        }
-        
-        collectionView.reloadData()
-    }
-    
     private func configureUIOption() {
         let navigationRightButton = UIBarButtonItem(title: "날짜선택",
                                                     style: .plain,
@@ -85,7 +75,7 @@ final class BoxOfficeViewController: UIViewController {
     private func fetchBoxOffice(targetDate: String) {
         let urlRequest = EndPoint.dailyBoxOffice(date: targetDate).asURLRequest()
         
-        if isDataFetching == false {
+        if isReceivingBoxOffice == false {
             loadingView.isLoading = true
         }
         
@@ -97,7 +87,7 @@ final class BoxOfficeViewController: UIViewController {
                 DispatchQueue.main.async {
                     self?.collectionView.reloadData()
                     self?.loadingView.isLoading = false
-                    self?.isDataFetching = true
+                    self?.isReceivingBoxOffice = true
                 }
             case .failure(let error):
                 DispatchQueue.main.async {
@@ -202,6 +192,7 @@ extension BoxOfficeViewController: UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         let movieInfoViewController = MovieInfoViewController(movieCode: boxOffice?.result.dailyBoxOfficeList[safe: indexPath.item]?.movieCode ?? "")
         
+        collectionView.deselectItem(at: indexPath, animated: true)
         navigationController?.pushViewController(movieInfoViewController, animated: true)
     }
 }
