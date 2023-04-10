@@ -188,31 +188,52 @@ extension BoxOfficeListViewController: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let dailyBoxOffice = self.boxOffice?.boxOfficeResult.dailyBoxOfficeList[index: indexPath.item]
         
-        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: CustomCollectionViewIconCell.identifier, for: indexPath) as? CustomCollectionViewIconCell else { return CustomCollectionViewIconCell() }
-        
-        cell.configureCell(dailyBoxOffice: dailyBoxOffice)
+        switch cellMode {
+        case .List:
+            guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: CustomCollectionViewListCell.identifier, for: indexPath) as? CustomCollectionViewListCell else { return CustomCollectionViewListCell() }
+            cell.configureCell(dailyBoxOffice: dailyBoxOffice)
 
-        return cell
+            return cell
+        case .Icon:
+            guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: CustomCollectionViewIconCell.identifier, for: indexPath) as? CustomCollectionViewIconCell else { return CustomCollectionViewIconCell() }
+            cell.configureCell(dailyBoxOffice: dailyBoxOffice)
+
+            return cell
+        }
     }
 }
 
 extension BoxOfficeListViewController: UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-//        let width = collectionView.frame.width
-//        let height = collectionView.frame.height
-        //
-        //        let itemsPerRow: CGFloat = 2.5
-        //        let itemsPerColumn: CGFloat = 3
-        //
-        //        let cellWidth = width / 2 - 20
-        //        let cellHeight = cellWidth
-        //
+        
+        switch cellMode {
+        case .List:
+            return collectionViewWithList(collectionViewLayout: collectionViewLayout)
+        case .Icon:
+            return collectionViewWithItem()
+        }
+    }
+    
+    private func collectionViewWithList(collectionViewLayout: UICollectionViewLayout) -> CGSize {
         guard let flowLayout = collectionViewLayout as? UICollectionViewFlowLayout else { return CGSize() }
+        
         let numberOfCells: CGFloat = 2.2
         let width = collectionView.frame.size.width - (flowLayout.minimumInteritemSpacing * (numberOfCells-1))
-        return CGSize(width: width/(numberOfCells), height: width/(numberOfCells))
         
-        // return CGSize(width: width/(numberOfCells), height: width/(numberOfCells))
+        return CGSize(width: width/(numberOfCells), height: width/(numberOfCells))
+    }
+    
+    private func collectionViewWithItem() -> CGSize {
+        let width = collectionView.frame.width
+        let height = collectionView.frame.height
+        
+        let itemsPerRow: CGFloat = 8
+        let itemsPerColumn: CGFloat = 1
+        
+        let cellWidth = width / itemsPerRow
+        let cellHeight = height / itemsPerColumn
+        
+        return CGSize(width: cellWidth, height: cellHeight)
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
@@ -227,10 +248,10 @@ extension BoxOfficeListViewController: UICollectionViewDelegateFlowLayout {
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {
-        return UIEdgeInsets(top: 10, left: 10, bottom: 10, right: 10)
+        return UIEdgeInsets(top: 10, left: 15, bottom: 10, right: 15)
     }
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
-        return 10.0
+        return 15.0
     }
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumInteritemSpacingForSectionAt section: Int) -> CGFloat {
         return 10.0

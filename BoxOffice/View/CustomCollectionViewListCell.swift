@@ -38,13 +38,14 @@ final class CustomCollectionViewListCell: UICollectionViewListCell {
         }
     }
     
+    func configureCell(dailyBoxOffice: DailyBoxOffice?) {
+        configureMainStackView(dailyBoxOffice: dailyBoxOffice)
+        configureCellStyle()
+    }
+    
     func configureCellStyle() {
         self.accessories = [.disclosureIndicator()]
         self.layer.addBorder([.bottom], color: .systemGray3, width: 0.8)
-    }
-    
-    func configureDailyBoxOffice(dailyBoxOffice: DailyBoxOffice?) {
-        configureMainStackView(dailyBoxOffice: dailyBoxOffice)
     }
     
     private func configureMainStackView(dailyBoxOffice: DailyBoxOffice?) {
