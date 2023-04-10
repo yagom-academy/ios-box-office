@@ -33,6 +33,11 @@ final class DailyBoxOfficeViewController: UIViewController {
         loadDailyBoxOffice(date: yesterday)
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(true)
+        self.navigationController?.isToolbarHidden = false
+    }
+    
     private func configureRootView() {
         view.addSubview(collectionView)
         view.backgroundColor = .white
@@ -124,6 +129,7 @@ final class DailyBoxOfficeViewController: UIViewController {
                                                                          for: indexPath,
                                                                          item: itemIdentifier)
                  cell.snapshotView(afterScreenUpdates: true)
+                 
                  return cell
              }
          }

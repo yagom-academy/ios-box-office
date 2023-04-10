@@ -56,6 +56,11 @@ final class MovieDetailsViewController: UIViewController {
         configureScrollView()
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(true)
+        self.navigationController?.isToolbarHidden = true
+    }
+    
     private func configureRootView() {
         view.backgroundColor = .white
         view.addSubview(scrollView)
