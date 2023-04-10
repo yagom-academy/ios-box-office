@@ -13,7 +13,7 @@ final class ContentStackView: UIStackView {
         let font = UIFont.systemFont(ofSize: 12, weight: .bold)
         let fontMatrics = UIFontMetrics(forTextStyle: .headline).scaledFont(for: font)
         
-        let label = UILabel(fontStyle: .preferredFont(forTextStyle: .title3))
+        let label = UILabel(fontStyle: fontMatrics)
         
         return label
     }()
@@ -22,7 +22,7 @@ final class ContentStackView: UIStackView {
         let font = UIFont.systemFont(ofSize: 12)
         let fontMatrics = UIFontMetrics(forTextStyle: .headline).scaledFont(for: font)
         
-        let label = UILabel(fontStyle: .preferredFont(forTextStyle: .title3))
+        let label = UILabel(fontStyle: fontMatrics)
         
         return label
     }()
