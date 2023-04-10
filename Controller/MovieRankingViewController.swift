@@ -111,11 +111,7 @@ extension MovieRankingViewController: UICollectionViewDelegate {
 extension MovieRankingViewController {
     
     private func configureNavigationTitle() {
-        guard let navigationTitleText = dataManager?.navigationTitleText else {
-            return
-        }
-        
-        navigationItem.title = navigationTitleText
+        navigationItem.title = dataManager?.navigationTitleText
     }
     
     private func configureNavigationItems() {
