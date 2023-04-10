@@ -17,10 +17,17 @@ final class BoxOfficeViewController: UIViewController {
     @IBOutlet private weak var iconCollectionView: UICollectionView!
     
     private let boxOfficeDataLoader = BoxOfficeDataLoader()
-    private let refreshControl = UIRefreshControl()
     private var boxOffice: BoxOffice?
     private var selectedDate = Date().previousDate()
     private var layoutMode: LayoutMode = .list
+    private var currenCollectionView: UICollectionView {
+        switch layoutMode {
+        case .list:
+            return listCollectionView
+        case .icon:
+            return iconCollectionView
+        }
+    }
     
     private lazy var activityIndicator: UIActivityIndicatorView = {
         let activityIndicator = UIActivityIndicatorView()
@@ -39,8 +46,15 @@ final class BoxOfficeViewController: UIViewController {
     
     @objc private func refreshData() {
         loadData { [weak self] in
-            self?.refreshControl.endRefreshing()
+            self?.currenCollectionView.refreshControl?.endRefreshing()
         }
+    }
+    
+    private func configureRefreshControl() {
+        self.listCollectionView.refreshControl = UIRefreshControl()
+        self.listCollectionView.refreshControl?.addTarget(self, action: #selector(refreshData), for: .valueChanged)
+        self.iconCollectionView.refreshControl = UIRefreshControl()
+        self.iconCollectionView.refreshControl?.addTarget(self, action: #selector(refreshData), for: .valueChanged)
     }
     
     private func loadInitialData() {
@@ -57,8 +71,7 @@ final class BoxOfficeViewController: UIViewController {
                 switch result {
                 case .success(let data):
                     self?.boxOffice = data
-                    self?.listCollectionView.reloadData()
-                    self?.iconCollectionView.reloadData()
+                    self?.currenCollectionView.reloadData()
                     completion()
                 case .failure(let error):
                     self?.showFailAlert(error: error)
@@ -77,14 +90,13 @@ final class BoxOfficeViewController: UIViewController {
     }
     
     private func configureCollectionView() {
-        listCollectionView.refreshControl = refreshControl
         listCollectionView.dataSource = self
         listCollectionView.delegate = self
-        iconCollectionView.refreshControl = refreshControl
         iconCollectionView.dataSource = self
         iconCollectionView.delegate = self
         iconCollectionView.isHidden = true
         
+        configureRefreshControl()
         configureCollectionViewLayout()
         registerXib()
     }
@@ -92,7 +104,6 @@ final class BoxOfficeViewController: UIViewController {
     private func configureInitialView() {
         navigationItem.title = DateFormatter.hyphenText(date: selectedDate)
         self.view.addSubview(activityIndicator)
-        refreshControl.addTarget(self, action: #selector(refreshData), for: .valueChanged)
         configureCollectionView()
     }
     
@@ -170,7 +181,6 @@ extension BoxOfficeViewController: UICollectionViewDataSource {
             return UICollectionViewCell()
         }
         cell.configure(item: item)
-        cell.snapshotView(afterScreenUpdates: true)
         
         return cell
     }
