@@ -1,5 +1,5 @@
 //
-//  CollectionView+Animate.swift
+//  UICollectionView+Animate.swift
 //  BoxOffice
 //
 //  Created by kaki on 2023/04/10.

@@ -127,34 +127,22 @@ final class BoxOfficeViewController: UIViewController {
     }
     
     @IBAction private func switchLayoutModeTapped() {
-        let actionSheet = UIAlertController(title: "화면모드변경",
-                                      message: nil,
-                                      preferredStyle: .actionSheet)
-
-        let listActionHandler: (UIAlertAction) -> () = { _ in
-            self.layoutMode = .icon
-            self.listCollectionView.fadeOut()
-            self.iconCollectionView.fadeIn()
-            self.iconCollectionView.reloadData()
-        }
-
-        let iconActionHandler: (UIAlertAction) -> () = { _ in
-            self.layoutMode = .list
-            self.iconCollectionView.fadeOut()
-            self.listCollectionView.fadeIn()
-            self.listCollectionView.reloadData()
-        }
-
         switch layoutMode {
         case .list:
-            actionSheet.addAction(UIAlertAction(title: "아이콘", style: .default, handler: listActionHandler))
+            self.showIconModeSheet { [weak self] _ in
+                self?.layoutMode = .icon
+                self?.listCollectionView.fadeOut()
+                self?.iconCollectionView.fadeIn()
+                self?.iconCollectionView.reloadData()
+            }
         case .icon:
-            actionSheet.addAction(UIAlertAction(title: "리스트", style: .default, handler: iconActionHandler))
+            self.showListModeSheet { [weak self] _ in
+                self?.layoutMode = .list
+                self?.iconCollectionView.fadeOut()
+                self?.listCollectionView.fadeIn()
+                self?.listCollectionView.reloadData()
+            }
         }
-
-        actionSheet.addAction(UIAlertAction(title: "취소", style: .cancel))
-
-        present(actionSheet, animated: true)
     }
 }
 
