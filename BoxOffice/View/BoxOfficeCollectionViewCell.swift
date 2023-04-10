@@ -18,12 +18,29 @@ class BoxOfficeCollectionViewCell: UICollectionViewCell, Configurable {
         
         self.layer.borderWidth = 2
         self.layer.borderColor = UIColor.systemGray.cgColor
+        
+        NotificationCenter.default.addObserver(self,
+                                               selector: #selector(simplifyItems),
+                                               name: UIContentSizeCategory.didChangeNotification,
+                                               object: nil)
     }
     
     override func prepareForReuse() {
         super.prepareForReuse()
         
         rankInfoLabel.textColor = .label
+    }
+    
+    @objc func simplifyItems() {
+        if traitCollection.preferredContentSizeCategory >= UIContentSizeCategory.extraExtraLarge {
+            rankInfoLabel.isHidden = true
+            audienceInfoLabel.isHidden = true
+        } else {
+            rankInfoLabel.isHidden = false
+            audienceInfoLabel.isHidden = false
+        }
+        
+        layoutIfNeeded()
     }
     
     func configure(item: DailyBoxOffice) {
