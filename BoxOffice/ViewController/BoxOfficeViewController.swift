@@ -6,8 +6,8 @@
 //
 import UIKit
 
+@available(iOS 16.0, *)
 final class BoxOfficeViewController: UIViewController {
-    
     enum Section {
         case main
     }
@@ -30,6 +30,8 @@ final class BoxOfficeViewController: UIViewController {
         return yesterdayDate
     }
     
+    private var selectedDate: Date?
+    
     private let activityIndicator: UIActivityIndicatorView = {
         let activityIndicator = UIActivityIndicatorView()
         activityIndicator.style = UIActivityIndicatorView.Style.large
@@ -40,18 +42,19 @@ final class BoxOfficeViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        self.selectedDate = yesterday
         self.configureHierarchy()
         self.configureDataSource()
         self.setupUI()
-        self.fetchDailyBoxOffice()
+        self.fetchDailyBoxOffice(from: self.selectedDate)
     }
     
     private func setupUI() {
-        guard let yesterday = yesterday?.formatToDate(with: "yyyy-MM-dd") else {
-            return
-        }
-        
-        self.navigationItem.title = yesterday
+        self.updateNavigationTitle(form: "yyyy-MM-dd", date: self.selectedDate)
+        self.navigationItem.rightBarButtonItem = UIBarButtonItem(title: "날짜선택",
+                                                                 style: .plain,
+                                                                 target: self,
+                                                                 action: #selector(dateSelectionTapped))
         let appearance = UINavigationBarAppearance()
         self.navigationController?.navigationBar.standardAppearance = appearance
         self.navigationController?.navigationBar.scrollEdgeAppearance = appearance
@@ -60,17 +63,18 @@ final class BoxOfficeViewController: UIViewController {
         self.activityIndicator.center = self.view.center
         self.activityIndicator.frame = self.view.frame
         
-        self.collectionView.refreshControl = refreshControl
         self.refreshControl.addTarget(self, action: #selector(refresh), for: .valueChanged)
+        self.collectionView.refreshControl = refreshControl
+        
     }
     
-    private func fetchDailyBoxOffice() {
-        guard let yesterday = yesterday?.formatToDate(with: "yyyyMMdd") else {
+    private func fetchDailyBoxOffice(from date: Date?) {
+        guard let formattedSelectedDate = date?.formatToDate(with: "yyyyMMdd") else {
             return
         }
         
         let boxOfficeProvider = BoxOfficeProvider<BoxOfficeAPI>()
-        boxOfficeProvider.fetchData(.dailyBoxOffice(date: yesterday),
+        boxOfficeProvider.fetchData(.dailyBoxOffice(date: formattedSelectedDate),
                                     type: BoxOfficeDTO.self) { [weak self] result in
             switch result {
             case .success(let data):
@@ -87,21 +91,36 @@ final class BoxOfficeViewController: UIViewController {
                 }
             }
         }
+    }
+    
+    @objc private func dateSelectionTapped() {
+        guard let selectedDate = self.selectedDate,
+              let yesterdayDate = yesterday else {
+            return
+        }
+        
+        let calendarViewController = CalendarViewController(
+            selectedDate: selectedDate,
+            yesterday: yesterdayDate)
+        calendarViewController.delegate = self
+        self.present(calendarViewController, animated: true)
     }
     
     @objc private func refresh() {
-        guard let yesterday = yesterday?.formatToDate(with: "yyyyMMdd") else {
+        guard let formattedYesterdayDate = self.yesterday?.formatToDate(with: "yyyyMMdd") else {
             return
         }
         
         let boxOfficeProvider = BoxOfficeProvider<BoxOfficeAPI>()
-        boxOfficeProvider.fetchData(.dailyBoxOffice(date: yesterday),
+        boxOfficeProvider.fetchData(.dailyBoxOffice(date: formattedYesterdayDate),
                                     type: BoxOfficeDTO.self) { [weak self] result in
             switch result {
             case .success(let data):
                 self?.boxOfficeItems = data.convertToBoxOfficeItems()
                 DispatchQueue.main.async {
                     self?.updateSnapshot()
+                    self?.updateNavigationTitle(form: "yyyy-MM-dd", date: self?.yesterday)
+                    self?.selectedDate = self?.yesterday
                     self?.refreshControl.endRefreshing()
                 }
             case .failure:
@@ -113,8 +132,17 @@ final class BoxOfficeViewController: UIViewController {
             }
         }
     }
+    
+    private func updateNavigationTitle(form: String, date: Date?) {
+        guard let date = date, let formattedDate = date.formatToDate(with: form) else {
+            return
+        }
+        
+        self.navigationItem.title = formattedDate
+    }
 }
 
+@available(iOS 16.0, *)
 extension BoxOfficeViewController {
     private func createLayout() -> UICollectionViewLayout {
         let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0),
@@ -133,6 +161,7 @@ extension BoxOfficeViewController {
     }
 }
 
+@available(iOS 16.0, *)
 extension BoxOfficeViewController {
     private func configureHierarchy() {
         collectionView = UICollectionView(frame: view.bounds, collectionViewLayout: createLayout())
@@ -169,6 +198,7 @@ extension BoxOfficeViewController {
     }
 }
 
+@available(iOS 16.0, *)
 extension BoxOfficeViewController: UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         let selectedTitle = boxOfficeItems[indexPath.row].title
@@ -176,5 +206,15 @@ extension BoxOfficeViewController: UICollectionViewDelegate {
         let movieDetailViewController = MovieDetailViewController(movieName: selectedTitle,
                                                                   movieCode: selectedCode)
         self.navigationController?.pushViewController(movieDetailViewController, animated: true)
+    }
+}
+
+@available(iOS 16.0, *)
+extension BoxOfficeViewController: DateChangeable {
+    func updateSelectedDate(selectedDate: Date?) {
+        self.activityIndicator.startAnimating()
+        self.selectedDate = selectedDate
+        updateNavigationTitle(form: "yyyy-MM-dd", date: selectedDate)
+        fetchDailyBoxOffice(from: selectedDate)
     }
 }
