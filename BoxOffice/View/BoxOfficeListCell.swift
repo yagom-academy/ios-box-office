@@ -70,7 +70,6 @@ class BoxOfficeListCell: UICollectionViewListCell  {
             titleAndAudienceStackView.leadingAnchor.constraint(equalTo: rankStackView.trailingAnchor,constant: 20),
             titleAndAudienceStackView.centerYAnchor.constraint(equalTo: self.centerYAnchor),
             titleAndAudienceStackView.trailingAnchor.constraint(lessThanOrEqualTo: self.trailingAnchor, constant: -20)
-            
         ])
     }
     
@@ -86,19 +85,13 @@ class BoxOfficeListCell: UICollectionViewListCell  {
         iconTypeStackView.addArrangedSubview(audienceCountLabel)
         
         NSLayoutConstraint.activate([
-            iconTypeStackView.topAnchor.constraint(equalTo: self.topAnchor),
+            iconTypeStackView.topAnchor.constraint(equalTo: self.topAnchor, constant: 10),
             iconTypeStackView.leadingAnchor.constraint(equalTo: self.leadingAnchor),
             iconTypeStackView.trailingAnchor.constraint(equalTo: self.trailingAnchor),
             iconTypeStackView.bottomAnchor.constraint(equalTo: self.bottomAnchor,constant: -10)
         ])
     }
-    
-    func clearConstraint() {
-        NSLayoutConstraint.activate([
-           
-            ])
-    }
-    
+
     private func setUpLabelStyle() {
         rankNumberLabel.font = UIFont.preferredFont(forTextStyle: .largeTitle)
         rankGapLabel.font = UIFont.preferredFont(forTextStyle: .subheadline)
