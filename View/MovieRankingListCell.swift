@@ -15,10 +15,10 @@ final class MovieRankingListCell: UICollectionViewListCell {
     private let rankStackView = UIStackView()
     private let movieInfoStackView = UIStackView()
     
-    private let rankStatusLabel = UILabel(fontStyle: .body)
-    private let audienceLabel = UILabel(fontStyle: .body)
-    private let rankLabel = UILabel(fontStyle: .largeTitle)
-    private let movieNameLabel = UILabel(fontStyle: .title3, numberOfLine: 0)
+    private let rankStatusLabel = UILabel(fontStyle: .preferredFont(forTextStyle: .body))
+    private let audienceLabel = UILabel(fontStyle: .preferredFont(forTextStyle: .body))
+    private let rankLabel = UILabel(fontStyle: .preferredFont(forTextStyle: .largeTitle))
+    private let movieNameLabel = UILabel(fontStyle: .preferredFont(forTextStyle: .title3), numberOfLine: 0)
     
     override init(frame: CGRect) {
         super.init(frame: frame)

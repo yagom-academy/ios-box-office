@@ -10,22 +10,19 @@ import UIKit
 final class ContentStackView: UIStackView {
 
     private let categoryLabel = {
-        let label = UILabel()
+        let font = UIFont.systemFont(ofSize: 12, weight: .bold)
+        let fontMatrics = UIFontMetrics(forTextStyle: .headline).scaledFont(for: font)
         
-        label.translatesAutoresizingMaskIntoConstraints = false
-        label.textAlignment = .center
-        label.numberOfLines = 1
-        label.font = .systemFont(ofSize: 12, weight: .bold)
+        let label = UILabel(fontStyle: .preferredFont(forTextStyle: .title3))
         
         return label
     }()
     
     private let contentLabel = {
-        let label = UILabel()
+        let font = UIFont.systemFont(ofSize: 12)
+        let fontMatrics = UIFontMetrics(forTextStyle: .headline).scaledFont(for: font)
         
-        label.translatesAutoresizingMaskIntoConstraints = false
-        label.numberOfLines = 0
-        label.font = .systemFont(ofSize: 12)
+        let label = UILabel(fontStyle: .preferredFont(forTextStyle: .title3))
         
         return label
     }()
