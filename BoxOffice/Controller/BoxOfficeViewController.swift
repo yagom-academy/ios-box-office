@@ -174,13 +174,24 @@ extension BoxOfficeViewController: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cellId = String(describing: BoxOfficeListCell.self)
         let cell = boxOfficeListCollectionView.dequeueReusableCell(withReuseIdentifier: cellId, for: indexPath) as! BoxOfficeListCell
-        if isCurrentListLayout == true {
+//        if isCurrentListLayout == true {
+//            cell.configureListCellUI()
+//            cell.accessories = [.disclosureIndicator()]
+//            self.boxOfficeListCollectionView.reloadData()
+//        } else if isCurrentListLayout == false {
+//            cell.configureIconCellUI()
+//            cell.accessories = []
+//        }
+        
+        switch isCurrentListLayout {
+        case true:
             cell.configureListCellUI()
             cell.accessories = [.disclosureIndicator()]
-        } else {
+        case false:
             cell.configureIconCellUI()
             cell.accessories = []
         }
+        
         
         guard let validDailyBoxOffice = boxOfficeService.dailyBoxOffice else {
             return cell

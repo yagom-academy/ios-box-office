@@ -14,6 +14,7 @@ class BoxOfficeListCell: UICollectionViewListCell  {
     @IBOutlet weak var movieTitleLabel: UILabel!
     @IBOutlet weak var audienceCountLabel: UILabel!
     
+    
     private let rankStackView: UIStackView = {
         let stackView = UIStackView()
         stackView.translatesAutoresizingMaskIntoConstraints = false
@@ -29,7 +30,6 @@ class BoxOfficeListCell: UICollectionViewListCell  {
         stackView.translatesAutoresizingMaskIntoConstraints = false
         stackView.axis = .vertical
         stackView.distribution = .fillEqually
-        
         return stackView
     }()
     
@@ -63,12 +63,14 @@ class BoxOfficeListCell: UICollectionViewListCell  {
         titleAndAudienceStackView.addArrangedSubview(audienceCountLabel)
         
         NSLayoutConstraint.activate([
+            rankStackView.widthAnchor.constraint(greaterThanOrEqualToConstant: 50),
             rankStackView.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: 20),
             rankStackView.centerYAnchor.constraint(equalTo: self.centerYAnchor),
             
             titleAndAudienceStackView.leadingAnchor.constraint(equalTo: rankStackView.trailingAnchor,constant: 20),
             titleAndAudienceStackView.centerYAnchor.constraint(equalTo: self.centerYAnchor),
             titleAndAudienceStackView.trailingAnchor.constraint(lessThanOrEqualTo: self.trailingAnchor, constant: -20)
+            
         ])
     }
     
@@ -83,16 +85,18 @@ class BoxOfficeListCell: UICollectionViewListCell  {
         iconTypeStackView.addArrangedSubview(rankGapLabel)
         iconTypeStackView.addArrangedSubview(audienceCountLabel)
         
-        
-        
         NSLayoutConstraint.activate([
             iconTypeStackView.topAnchor.constraint(equalTo: self.topAnchor),
             iconTypeStackView.leadingAnchor.constraint(equalTo: self.leadingAnchor),
             iconTypeStackView.trailingAnchor.constraint(equalTo: self.trailingAnchor),
-            iconTypeStackView.bottomAnchor.constraint(equalTo: self.bottomAnchor,constant: -10),
-            
-            movieTitleLabel.centerXAnchor.constraint(equalTo: self.centerXAnchor)
+            iconTypeStackView.bottomAnchor.constraint(equalTo: self.bottomAnchor,constant: -10)
         ])
+    }
+    
+    func clearConstraint() {
+        NSLayoutConstraint.activate([
+           
+            ])
     }
     
     private func setUpLabelStyle() {
