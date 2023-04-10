@@ -8,7 +8,7 @@
 import UIKit
 
 final class CalendarViewController: UIViewController {
-    private let calendar = Calendar(identifier: .gregorian)
+    private let calendar: Calendar
     private let calendarView = UICalendarView()
     private var targetDate: Date?
     private var yesterday: Date {
@@ -17,8 +17,10 @@ final class CalendarViewController: UIViewController {
     
     weak var delegate: CalendarViewControllerDelegate?
     
-    init(targetDate: Date) {
+    init(targetDate: Date,
+         calendar: Calendar = Calendar(identifier: .gregorian)) {
         self.targetDate = targetDate
+        self.calendar = calendar
         super.init(nibName: nil, bundle: nil)
     }
     
