@@ -107,12 +107,12 @@ final class BoxOfficeViewController: UIViewController {
     }
     
     @objc private func refresh() {
-        guard let date = self.yesterday?.formatToDate(with: "yyyyMMdd") else {
+        guard let formattedYesterdayDate = self.yesterday?.formatToDate(with: "yyyyMMdd") else {
             return
         }
         
         let boxOfficeProvider = BoxOfficeProvider<BoxOfficeAPI>()
-        boxOfficeProvider.fetchData(.dailyBoxOffice(date: date),
+        boxOfficeProvider.fetchData(.dailyBoxOffice(date: formattedYesterdayDate),
                                     type: BoxOfficeDTO.self) { [weak self] result in
             switch result {
             case .success(let data):
