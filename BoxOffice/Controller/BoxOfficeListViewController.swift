@@ -40,6 +40,7 @@ final class BoxOfficeListViewController: UIViewController {
         
         configureUI()
         configureLayout()
+        loadingIndicatorView.startAnimating()
         configureViewController()
         configureCollectionView()
         configureRefreshControl()
@@ -67,8 +68,6 @@ final class BoxOfficeListViewController: UIViewController {
     private func configureCollectionView() {
         collectionView.dataSource = self
         collectionView.delegate = self
-        
-        loadingIndicatorView.startAnimating()
         
         fetchBoxOfficeData { [weak self] in
             DispatchQueue.main.async {
