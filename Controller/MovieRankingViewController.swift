@@ -10,6 +10,7 @@ import UIKit
 final class MovieRankingViewController: UIViewController {
     
     // MARK: Propertie
+    private var rankingViewType: RankingViewType = .list
     private var dataManager: RankingManager?
     private var boxofficeDate = {
         guard let boxofficeDate = Date.yesterday else {
@@ -84,13 +85,23 @@ final class MovieRankingViewController: UIViewController {
         let alert = UIAlertController(title: "화면모드변경",
                                       message: nil,
                                       preferredStyle: .actionSheet)
-        alert.addAction(UIAlertAction(title: "아이콘", style: .default, handler: { [weak self] _ in
-            guard let iconLayout = self?.makeCollectionViewIconLayout() else { return }
-            self?.makeIconDataSource()
-            self?.changeCollectionViewLayout(layout: iconLayout)
+        let alertAction = UIAlertAction(title: rankingViewType.anotherTitle, style: .default, handler: { [weak self] _ in
+            if self?.rankingViewType == .list {
+                guard let iconLayout = self?.makeCollectionViewIconLayout() else { return }
+                self?.makeIconDataSource()
+                self?.changeCollectionViewLayout(layout: iconLayout)
+            } else {
+                guard let listLayout = self?.makeCollectionViewListLayout() else { return }
+                self?.makeListDataSource()
+                self?.changeCollectionViewLayout(layout: listLayout)
+            }
+            self?.rankingViewType.toggle()
             self?.fetchBoxofficeData()
-        }))
-        alert.addAction(UIAlertAction(title: "취소", style: .cancel))
+        })
+        let cancelAction = UIAlertAction(title: "취소", style: .cancel)
+        
+        alert.addAction(alertAction)
+        alert.addAction(cancelAction)
         present(alert, animated: true)
     }
 }
