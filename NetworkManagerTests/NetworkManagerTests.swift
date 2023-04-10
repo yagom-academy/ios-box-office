@@ -30,7 +30,7 @@ final class NetworkManagerTests: XCTestCase {
                 throw NetworkError.invalidResponse
             }
     
-            let data = StubBoxOffice().data
+            let data = DummyBoxOffice().data
             let responses = HTTPURLResponse(url: url,
                                             mimeType: "json",
                                             expectedContentLength: 0,
@@ -68,7 +68,7 @@ final class NetworkManagerTests: XCTestCase {
                 throw NetworkError.invalidResponse
             }
     
-            let data = StubBoxOffice().data
+            let data = DummyBoxOffice().data
             let responses = HTTPURLResponse(url: url,
                                             mimeType: "json",
                                             expectedContentLength: 0,

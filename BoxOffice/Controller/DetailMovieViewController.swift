@@ -22,6 +22,15 @@ final class DetailMovieViewController: UIViewController {
     private var moviePoster: MoviePoster?
     
     //MARK: - UIProperty
+    private let loadingIndicatorView: UIActivityIndicatorView = {
+        let loadingIndicatorView = UIActivityIndicatorView(style: .large)
+        loadingIndicatorView.color = .systemGray3
+        loadingIndicatorView.translatesAutoresizingMaskIntoConstraints = false
+        loadingIndicatorView.hidesWhenStopped = true
+        
+        return loadingIndicatorView
+    }()
+    
     private let scrollView: UIScrollView = {
         let scrollview = UIScrollView()
         scrollview.translatesAutoresizingMaskIntoConstraints = false
@@ -80,7 +89,7 @@ final class DetailMovieViewController: UIViewController {
                 
                 ImageLoader.loadImage(imageURL: urlString) { result in
                     DispatchQueue.main.async {
-                        LoadingIndicator.hideLoading()
+                        self?.loadingIndicatorView.stopAnimating()
                         self?.imageView.image = try? self?.verifyResult(result: result)
                         self?.configureContentStackView()
                     }
@@ -130,7 +139,7 @@ final class DetailMovieViewController: UIViewController {
     
     private func configureViewController() {
         view.backgroundColor = .white
-        LoadingIndicator.showLoading()
+        loadingIndicatorView.startAnimating()
         fetchData()
         configureMainView()
     }
@@ -143,6 +152,7 @@ final class DetailMovieViewController: UIViewController {
     
     private func configureUI() {
         view.addSubview(scrollView)
+        view.addSubview(loadingIndicatorView)
         scrollView.addSubview(contentStackView)
         
         [imageView, directorStackView, productYearStackView,
@@ -154,6 +164,11 @@ final class DetailMovieViewController: UIViewController {
 
     private func configureLayout() {
         NSLayoutConstraint.activate([
+            loadingIndicatorView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor),
+            loadingIndicatorView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor),
+            loadingIndicatorView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
+            loadingIndicatorView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor),
+            
             scrollView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 20),
             scrollView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -20),
             scrollView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),

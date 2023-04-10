@@ -8,8 +8,11 @@
 import Foundation
 
 extension Date {
-    static func configureYesterday(isFormatted: Bool) -> String {
-        let yesterdayDate = Date(timeIntervalSinceNow: -86400)
+    static var yesterday: Date {
+        return Date(timeIntervalSinceNow: -86400)
+    }
+    
+    func convertString(isFormatted: Bool) -> String {
         let dateFormatter = DateFormatter()
         
         if isFormatted {
@@ -18,9 +21,9 @@ extension Date {
             dateFormatter.dateFormat = "yyyyMMdd"
         }
         
-        let convertDate = dateFormatter.string(from: yesterdayDate)
+        let convertedDate = dateFormatter.string(from: self)
                 
-        return convertDate
+        return convertedDate
     }
 }
 

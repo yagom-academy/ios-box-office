@@ -11,6 +11,16 @@ final class BoxOfficeListViewController: UIViewController {
     private let server = NetworkManager.shared
     private let urlMaker = URLRequestMaker()
     private var boxOffice: BoxOffice?
+    private var currentDate: String = Date.yesterday.convertString(isFormatted: false)
+    
+    private let loadingIndicatorView: UIActivityIndicatorView = {
+        let loadingIndicatorView = UIActivityIndicatorView(style: .large)
+        loadingIndicatorView.color = .systemGray3
+        loadingIndicatorView.translatesAutoresizingMaskIntoConstraints = false
+        loadingIndicatorView.hidesWhenStopped = true
+        
+        return loadingIndicatorView
+    }()
     
     private let collectionView: UICollectionView = {
         let layout = UICollectionViewFlowLayout()
@@ -20,40 +30,34 @@ final class BoxOfficeListViewController: UIViewController {
         let collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
         collectionView.register(CustomCollectionViewCell.self,
                                 forCellWithReuseIdentifier: CustomCollectionViewCell.identifier)
+        collectionView.translatesAutoresizingMaskIntoConstraints = false
         
         return collectionView
     }()
     
-    
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        configureMainView()
+        configureUI()
+        configureLayout()
+        loadingIndicatorView.startAnimating()
+        configureViewController()
         configureCollectionView()
         configureRefreshControl()
     }
-    
-    private func configureCollectionView() {
-        collectionView.dataSource = self
-        collectionView.delegate = self
-        
-        LoadingIndicator.showLoading()
-        
+
+    private func configureUI() {
         view.addSubview(collectionView)
-        setCollectionViewAutoLayout()
-        
-        fetchBoxOfficeData { [weak self] in
-            DispatchQueue.main.async {
-                LoadingIndicator.hideLoading()
-                self?.collectionView.reloadData()
-            }
-        }
+        view.addSubview(loadingIndicatorView)
     }
     
-    private func setCollectionViewAutoLayout() {
-        collectionView.translatesAutoresizingMaskIntoConstraints = false
-        
+    private func configureLayout() {
         NSLayoutConstraint.activate([
+            loadingIndicatorView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor),
+            loadingIndicatorView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor),
+            loadingIndicatorView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
+            loadingIndicatorView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor),
+            
             collectionView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor),
             collectionView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor),
             collectionView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
@@ -61,13 +65,42 @@ final class BoxOfficeListViewController: UIViewController {
         ])
     }
     
-    private func configureMainView() {
+    private func configureCollectionView() {
+        collectionView.dataSource = self
+        collectionView.delegate = self
+        
+        fetchBoxOfficeData { [weak self] in
+            DispatchQueue.main.async {
+                self?.loadingIndicatorView.stopAnimating()
+                self?.collectionView.reloadData()
+                self?.collectionView.refreshControl?.endRefreshing()
+            }
+        }
+    }
+    
+    private func configureViewController() {
         view.backgroundColor = .white
-        title = Date.configureYesterday(isFormatted: true)
+        title = currentDate.formatDateString(format: DateFormat.yearMonthDay)
+        
+        let selectDateButton: UIBarButtonItem = {
+            let button = UIBarButtonItem(title: "날짜 선택",
+                                         style: .plain,
+                                         target: self,
+                                         action: #selector(presentSelectDateModal))
+            return button
+        }()
+        self.navigationItem.rightBarButtonItem = selectDateButton
+    }
+    
+    @objc private func presentSelectDateModal() {
+        let modal = CalendarViewController(currentDate)
+        modal.delegate = self
+        
+        self.present(modal, animated: true)
     }
     
     private func fetchBoxOfficeData(completion: @escaping () -> Void) {
-        guard let request = urlMaker.makeBoxOfficeURLRequest(date: Date.configureYesterday(isFormatted: false)) else { return }
+        guard let request = urlMaker.makeBoxOfficeURLRequest(date: currentDate) else { return }
         
         server.startLoad(request: request, mime: "json") { [weak self] result in
             let decoder = DecodeManager()
@@ -101,14 +134,10 @@ final class BoxOfficeListViewController: UIViewController {
     }
     
     @objc private func handleRefreshControl() {
-        self.fetchBoxOfficeData {
-            DispatchQueue.main.async {
-                self.collectionView.reloadData()
-                self.collectionView.refreshControl?.endRefreshing()
-            }
-        }
+        self.currentDate = Date.yesterday.convertString(isFormatted: false)
+        configureViewController()
+        configureCollectionView()
     }
-    
 }
 
 extension BoxOfficeListViewController: UICollectionViewDataSource {
@@ -152,5 +181,14 @@ extension BoxOfficeListViewController: UICollectionViewDelegateFlowLayout {
         let detailMovieViewController = DetailMovieViewController(movieCode: movieCode)
         
         navigationController?.pushViewController(detailMovieViewController, animated: true)
+    }
+}
+
+extension BoxOfficeListViewController: CalendarViewControllerDelegate {
+    func deliverData(_ data: String) {
+        self.currentDate = data
+        
+        configureViewController()
+        configureCollectionView()
     }
 }
