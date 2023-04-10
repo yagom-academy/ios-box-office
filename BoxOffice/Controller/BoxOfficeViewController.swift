@@ -251,7 +251,7 @@ extension BoxOfficeViewController {
             
             item.contentInsets = NSDirectionalEdgeInsets(top: 5, leading: 5, bottom: 5, trailing: 5)
             
-            let groupHeight =  NSCollectionLayoutDimension.fractionalWidth(1/2.3)
+            let groupHeight =  NSCollectionLayoutDimension.fractionalWidth(1/2)
             let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0), heightDimension: groupHeight)
             let group = NSCollectionLayoutGroup.horizontal(layoutSize: groupSize, subitem: item, count: 2)
             let section = NSCollectionLayoutSection(group: group)

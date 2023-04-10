@@ -38,7 +38,8 @@ class BoxOfficeListCell: UICollectionViewListCell  {
         stackView.translatesAutoresizingMaskIntoConstraints = false
         stackView.axis = .vertical
         stackView.alignment = .center
-        stackView.spacing = 10
+        stackView.distribution = .equalSpacing
+        stackView.spacing = 6
         return stackView
     }()
     
@@ -82,12 +83,15 @@ class BoxOfficeListCell: UICollectionViewListCell  {
         iconTypeStackView.addArrangedSubview(rankGapLabel)
         iconTypeStackView.addArrangedSubview(audienceCountLabel)
         
+        
+        
         NSLayoutConstraint.activate([
             iconTypeStackView.topAnchor.constraint(equalTo: self.topAnchor),
             iconTypeStackView.leadingAnchor.constraint(equalTo: self.leadingAnchor),
             iconTypeStackView.trailingAnchor.constraint(equalTo: self.trailingAnchor),
-            iconTypeStackView.bottomAnchor.constraint(equalTo: self.bottomAnchor,constant: -10)
+            iconTypeStackView.bottomAnchor.constraint(equalTo: self.bottomAnchor,constant: -10),
             
+            movieTitleLabel.centerXAnchor.constraint(equalTo: self.centerXAnchor)
         ])
     }
     
