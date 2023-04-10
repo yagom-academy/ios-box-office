@@ -19,6 +19,7 @@
 		1639532629D1739A00032636 /* Nation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1639532529D1739A00032636 /* Nation.swift */; };
 		1639532A29D179EF00032636 /* Array+Subscript.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1639532929D179EF00032636 /* Array+Subscript.swift */; };
 		1639532E29D1BE6800032636 /* String+DecimalFormatter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1639532D29D1BE6800032636 /* String+DecimalFormatter.swift */; };
+		163AD2BF29E3F0CC00DE0B89 /* CollectionView+Animate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 163AD2BE29E3F0CC00DE0B89 /* CollectionView+Animate.swift */; };
 		1658230F29DD0ED4006A570A /* BoxOfficeDataLoader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1658230E29DD0ED4006A570A /* BoxOfficeDataLoader.swift */; };
 		1680878929DFB3CB000DBFB1 /* Date+previousDate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1680878829DFB3CB000DBFB1 /* Date+previousDate.swift */; };
 		1680878B29E00982000DBFB1 /* Configurable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1680878A29E00982000DBFB1 /* Configurable.swift */; };
@@ -92,6 +93,7 @@
 		1639532529D1739A00032636 /* Nation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Nation.swift; sourceTree = "<group>"; };
 		1639532929D179EF00032636 /* Array+Subscript.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Array+Subscript.swift"; sourceTree = "<group>"; };
 		1639532D29D1BE6800032636 /* String+DecimalFormatter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "String+DecimalFormatter.swift"; sourceTree = "<group>"; };
+		163AD2BE29E3F0CC00DE0B89 /* CollectionView+Animate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CollectionView+Animate.swift"; sourceTree = "<group>"; };
 		1658230E29DD0ED4006A570A /* BoxOfficeDataLoader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BoxOfficeDataLoader.swift; sourceTree = "<group>"; };
 		1680878829DFB3CB000DBFB1 /* Date+previousDate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Date+previousDate.swift"; sourceTree = "<group>"; };
 		1680878A29E00982000DBFB1 /* Configurable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Configurable.swift; sourceTree = "<group>"; };
@@ -278,6 +280,7 @@
 				4A51039529D7063900DB9887 /* UIViewController+showFailAlert.swift */,
 				1680878829DFB3CB000DBFB1 /* Date+previousDate.swift */,
 				1680878A29E00982000DBFB1 /* Configurable.swift */,
+				163AD2BE29E3F0CC00DE0B89 /* CollectionView+Animate.swift */,
 			);
 			path = Etc;
 			sourceTree = "<group>";
@@ -568,6 +571,7 @@
 				4A03E49F29D16C2D0066AF87 /* RankOldAndNew.swift in Sources */,
 				4A32B3A929CC2DB2005A8575 /* MockURLSessionDataTask.swift in Sources */,
 				1639532229D1737900032636 /* Director.swift in Sources */,
+				163AD2BF29E3F0CC00DE0B89 /* CollectionView+Animate.swift in Sources */,
 				4ABC810529C9507100FB065A /* Movie.swift in Sources */,
 				1680878B29E00982000DBFB1 /* Configurable.swift in Sources */,
 				16B6214F29CAE13C00D6BA27 /* BoxOfficeEndpoint.swift in Sources */,

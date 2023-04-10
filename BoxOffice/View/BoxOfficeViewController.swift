@@ -133,15 +133,15 @@ final class BoxOfficeViewController: UIViewController {
 
         let listActionHandler: (UIAlertAction) -> () = { _ in
             self.layoutMode = .icon
-            self.listCollectionView.isHidden = true
-            self.iconCollectionView.isHidden = false
+            self.listCollectionView.fadeOut()
+            self.iconCollectionView.fadeIn()
             self.iconCollectionView.reloadData()
         }
 
         let iconActionHandler: (UIAlertAction) -> () = { _ in
             self.layoutMode = .list
-            self.iconCollectionView.isHidden = true
-            self.listCollectionView.isHidden = false
+            self.iconCollectionView.fadeOut()
+            self.listCollectionView.fadeIn()
             self.listCollectionView.reloadData()
         }
 
