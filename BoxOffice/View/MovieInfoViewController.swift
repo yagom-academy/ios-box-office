@@ -59,28 +59,30 @@ final class MovieInfoViewController: UIViewController {
         
         activityIndicator.startAnimating()
         group.enter()
-        movieInfoDataLoader.loadMovieInfo(movieCode: movieCode) { movie, error in
+        movieInfoDataLoader.loadMovieInfo(movieCode: movieCode) { result in
             DispatchQueue.main.async { [weak self] in
-                guard let error = error else {
-                    self?.configureLabels(data: movie)
+                switch result {
+                case .success(let data):
+                    self?.configureLabels(data: data)
                     group.leave()
-                    return
+                case .failure(let error):
+                    self?.showFailAlert(error: error)
+                    group.leave()
                 }
-                
-                self?.showFailAlert(error: error)
             }
         }
         
         group.enter()
-        movieInfoDataLoader.loadMoviePosterImage(movieName: movieName) { image, error in
+        movieInfoDataLoader.loadMoviePosterImage(movieName: movieName) { result in
             DispatchQueue.main.async { [weak self] in
-                guard let error = error else {
+                switch result {
+                case .success(let image):
                     self?.posterImageView.image = image
                     group.leave()
-                    return
+                case .failure(let error):
+                    self?.showFailAlert(error: error)
+                    group.leave()
                 }
-                
-                self?.showFailAlert(error: error)
             }
         }
         

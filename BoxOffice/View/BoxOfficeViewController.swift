@@ -19,14 +19,8 @@ final class BoxOfficeViewController: UIViewController {
     private let boxOfficeDataLoader = BoxOfficeDataLoader()
     private let refreshControl = UIRefreshControl()
     private var boxOffice: BoxOffice?
+    private var selectedDate = Date().previousDate()
     private var layoutMode: LayoutMode = .list
-
-    private var selectedDate = Date(timeIntervalSinceNow: -86400) {
-        didSet {
-            navigationItem.title = DateFormatter.hyphenText(date: selectedDate)
-            loadInitialData()
-        }
-    }
     
     private lazy var activityIndicator: UIActivityIndicatorView = {
         let activityIndicator = UIActivityIndicatorView()
@@ -58,18 +52,18 @@ final class BoxOfficeViewController: UIViewController {
     }
     
     private func loadData(completion: @escaping () -> ()) {
-        boxOfficeDataLoader.loadDailyBoxOffice(date: selectedDate) { boxOffice, error in
+        boxOfficeDataLoader.loadDailyBoxOffice(date: selectedDate) { result in
             DispatchQueue.main.async { [weak self] in
-                guard let error = error else {
-                    self?.boxOffice = boxOffice
+                switch result {
+                case .success(let data):
+                    self?.boxOffice = data
                     self?.listCollectionView.reloadData()
                     self?.iconCollectionView.reloadData()
                     completion()
-                    return
+                case .failure(let error):
+                    self?.showFailAlert(error: error)
+                    completion()
                 }
-                
-                self?.showFailAlert(error: error)
-                completion()
             }
         }
     }
@@ -110,8 +104,9 @@ final class BoxOfficeViewController: UIViewController {
     @IBAction private func chooseDateButtonTapped(_ sender: UIBarButtonItem) {
         if let calendarVC = storyboard?.instantiateViewController(identifier: CalendarViewController.identifier, creator: {
             [weak self] creator in
-            guard let self = self else { return UIViewController() }
-            let viewController = CalendarViewController(date: self.selectedDate, coder: creator)
+            guard let selectedDate = self?.selectedDate else { return UIViewController() }
+            
+            let viewController = CalendarViewController(date: selectedDate, coder: creator)
             viewController?.delegate = self
             
             return viewController
@@ -197,7 +192,9 @@ extension BoxOfficeViewController: UICollectionViewDelegate {
 
 extension BoxOfficeViewController: UpdateDateDelegate {
     func sendDate(date: Date) {
-        self.selectedDate = date
+        selectedDate = date
+        navigationItem.title = DateFormatter.hyphenText(date: selectedDate)
+        loadInitialData()
     }
 }
 
