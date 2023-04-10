@@ -40,7 +40,7 @@ final class DailyBoxOfficeIconCell: UICollectionViewCell {
             let stackView = UIStackView()
             stackView.axis = .vertical
             stackView.alignment = .center
-            stackView.distribution = .equalCentering
+            stackView.distribution = .fillEqually
             stackView.addArrangedSubview(rankLabel)
             stackView.addArrangedSubview(movieTitleLabel)
             stackView.addArrangedSubview(rankDifferenceLabel)
@@ -85,12 +85,12 @@ final class DailyBoxOfficeIconCell: UICollectionViewCell {
     
     private func configureMovieTitleLabel(with textMaker: DailyBoxOfficeCellTextMaker) {
         movieTitleLabel.text = textMaker.movieTitle
-        movieTitleLabel.font = UIFont.preferredFont(forTextStyle: .title3)
         movieTitleLabel.textAlignment = .center
+        movieTitleLabel.font = UIFont.preferredFont(forTextStyle: .title3)
         movieTitleLabel.adjustsFontForContentSizeCategory = true
-        movieTitleLabel.numberOfLines = 0
         movieTitleLabel.adjustsFontSizeToFitWidth = true
         movieTitleLabel.minimumScaleFactor = 0.2
+        movieTitleLabel.numberOfLines = 0
         movieTitleLabel.setContentCompressionResistancePriority(.defaultLow, for: .vertical)
     }
     

@@ -11,7 +11,7 @@ final class DailyBoxOfficeViewController: UIViewController {
     private typealias DataSource = UICollectionViewDiffableDataSource<Section, DailyBoxOfficeMovie>
     private typealias Snapshot = NSDiffableDataSourceSnapshot<Section, DailyBoxOfficeMovie>
     
-    private lazy var collectionView = UICollectionView(frame: UIScreen.main.bounds,
+    private lazy var collectionView = UICollectionView(frame: .zero,
                                                        collectionViewLayout: collectionViewLayout())
     private var dataSource: DataSource!
     private var dailyBoxOffice: DailyBoxOffice?
@@ -83,7 +83,9 @@ final class DailyBoxOfficeViewController: UIViewController {
         }
         
         collectionView.reloadData()
-        collectionView.setCollectionViewLayout(collectionViewLayout(), animated: true)
+        collectionView.setCollectionViewLayout(collectionViewLayout(), animated: true) { _ in
+            self.collectionView.reloadData()
+        }
     }
     
     private func configureCollectionView() {
@@ -111,12 +113,17 @@ final class DailyBoxOfficeViewController: UIViewController {
          dataSource = DataSource(collectionView: collectionView) { collectionView, indexPath, itemIdentifier in
              switch self.collectionViewMode {
              case .icon:
-                 let cell = collectionView.dequeueConfiguredReusableCell(using: iconCellRegistration, for: indexPath, item: itemIdentifier)
+                 let cell = collectionView.dequeueConfiguredReusableCell(using: iconCellRegistration,
+                                                                         for: indexPath,
+                                                                         item: itemIdentifier)
+                 cell.snapshotView(afterScreenUpdates: true)
                  
                  return cell
              case .list:
-                 let cell = collectionView.dequeueConfiguredReusableCell(using: listCellRegistration, for: indexPath, item: itemIdentifier)
-                 
+                 let cell = collectionView.dequeueConfiguredReusableCell(using: listCellRegistration,
+                                                                         for: indexPath,
+                                                                         item: itemIdentifier)
+                 cell.snapshotView(afterScreenUpdates: true)
                  return cell
              }
          }
