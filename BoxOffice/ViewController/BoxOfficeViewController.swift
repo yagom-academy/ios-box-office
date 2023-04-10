@@ -208,7 +208,7 @@ extension BoxOfficeViewController {
             let section = NSCollectionLayoutSection(group: group)
             section.contentInsets = NSDirectionalEdgeInsets(top: 0,
                                                             leading: 10,
-                                                            bottom: 50,
+                                                            bottom: 0,
                                                             trailing: 10)
             
             let layout = UICollectionViewCompositionalLayout(section: section)
@@ -231,7 +231,7 @@ extension BoxOfficeViewController {
             section.interGroupSpacing = spacing
             section.contentInsets = NSDirectionalEdgeInsets(top: 0,
                                                             leading: 10,
-                                                            bottom: 50,
+                                                            bottom: 0,
                                                             trailing: 10)
 
             let layout = UICollectionViewCompositionalLayout(section: section)
@@ -253,11 +253,12 @@ extension BoxOfficeViewController {
         view.addSubview(collectionView)
         collectionView.translatesAutoresizingMaskIntoConstraints = false
         
+        let toolbarHeight = self.toolBar.frame.height
         NSLayoutConstraint.activate([
             collectionView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
             collectionView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor),
             collectionView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor),
-            collectionView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor)
+            collectionView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -toolbarHeight)
         ])
     }
     
