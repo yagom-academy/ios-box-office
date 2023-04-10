@@ -15,48 +15,10 @@ final class MovieRankingListCell: UICollectionViewListCell {
     private let rankStackView = UIStackView()
     private let movieInfoStackView = UIStackView()
     
-    private let rankStatusLabel = {
-        let label = UILabel()
-        
-        label.translatesAutoresizingMaskIntoConstraints = false
-        label.adjustsFontForContentSizeCategory = true
-        label.font = .preferredFont(forTextStyle: .body)
-        
-        return label
-    }()
-    
-    private let audienceLabel = {
-        let label = UILabel()
-        
-        label.translatesAutoresizingMaskIntoConstraints = false
-        label.adjustsFontForContentSizeCategory = true
-        label.font = .preferredFont(forTextStyle: .body)
-        label.adjustsFontSizeToFitWidth = true
-        
-        return label
-    }()
-    
-    private let rankLabel = {
-        let label = UILabel()
-        
-        label.translatesAutoresizingMaskIntoConstraints = false
-        label.adjustsFontForContentSizeCategory = true
-        label.font = .preferredFont(forTextStyle: .largeTitle)
-        
-        return label
-    }()
-    
-    private let movieNameLabel = {
-        let label = UILabel()
-        
-        label.translatesAutoresizingMaskIntoConstraints = false
-        label.adjustsFontForContentSizeCategory = true
-        label.numberOfLines = 0
-        label.font = .preferredFont(forTextStyle: .title3)
-        label.adjustsFontSizeToFitWidth = true
-        
-        return label
-    }()
+    private let rankStatusLabel = UILabel(fontStyle: .body)
+    private let audienceLabel = UILabel(fontStyle: .body)
+    private let rankLabel = UILabel(fontStyle: .largeTitle)
+    private let movieNameLabel = UILabel(fontStyle: .title3, numberOfLine: 0)
     
     override init(frame: CGRect) {
         super.init(frame: frame)

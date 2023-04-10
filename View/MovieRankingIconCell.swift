@@ -11,42 +11,10 @@ class MovieRankingIconCell: UICollectionViewCell {
     static let identifier = "MovieRankingIconCell"
     
     // MARK: UI Properties
-    private let rankLabel = {
-        let label = UILabel()
-        
-        label.font = .preferredFont(forTextStyle: .largeTitle)
-        label.textAlignment = .center
-        
-        return label
-    }()
-    
-    private let movieNameLabel = {
-        let label = UILabel()
-        
-        label.numberOfLines = 0
-        label.font = .preferredFont(forTextStyle: .title3)
-        label.textAlignment = .center
-        label.adjustsFontSizeToFitWidth = true
-        
-        return label
-    }()
-    
-    private let rankStatusLabel = {
-        let label = UILabel()
-        
-        label.font = .preferredFont(forTextStyle: .body)
-        
-        return label
-    }()
-    
-    private let audienceLabel = {
-        let label = UILabel()
-        
-        label.font = .preferredFont(forTextStyle: .largeTitle)
-        label.adjustsFontSizeToFitWidth = true
-        
-        return label
-    }()
+    private let rankLabel = UILabel(fontStyle: .largeTitle)
+    private let movieNameLabel = UILabel(fontStyle: .title3, numberOfLine: 0)
+    private let rankStatusLabel = UILabel(fontStyle: .body)
+    private let audienceLabel = UILabel(fontStyle: .largeTitle)
     
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -82,10 +50,10 @@ extension MovieRankingIconCell {
         contentView.addSubview(mainStackView)
         
         NSLayoutConstraint.activate([
-            mainStackView.topAnchor.constraint(equalTo: contentView.topAnchor),
-            mainStackView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 5),
-            mainStackView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -5),
-            mainStackView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -5),
+            mainStackView.topAnchor.constraint(equalTo: topAnchor),
+            mainStackView.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 5),
+            mainStackView.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -5),
+            mainStackView.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -5),
         ])
         
         let rankStackView = UIStackView(arrangedSubviews: [rankLabel])
