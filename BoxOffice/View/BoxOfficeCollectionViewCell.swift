@@ -20,9 +20,10 @@ class BoxOfficeCollectionViewCell: UICollectionViewCell, Configurable {
         self.layer.borderColor = UIColor.systemGray.cgColor
         
         NotificationCenter.default.addObserver(self,
-                                               selector: #selector(simplifyItems),
+                                               selector: #selector(updateFonts),
                                                name: UIContentSizeCategory.didChangeNotification,
                                                object: nil)
+        simplifyItems()
     }
     
     override func prepareForReuse() {
@@ -31,7 +32,18 @@ class BoxOfficeCollectionViewCell: UICollectionViewCell, Configurable {
         rankInfoLabel.textColor = .label
     }
     
-    @objc func simplifyItems() {
+    func configure(item: DailyBoxOffice) {
+        rankLabel.text = item.rankText
+        configureRankInfoLabel(item: item)
+        titleLabel.text = item.movieKoreanName
+        audienceInfoLabel.text = "오늘 \(item.audienceCountText.convertToDecimalText()) / 총 \(item.audienceAccumulationText.convertToDecimalText())"
+    }
+    
+    @objc private func updateFonts() {
+        simplifyItems()
+    }
+    
+    private func simplifyItems() {
         if traitCollection.preferredContentSizeCategory >= UIContentSizeCategory.extraExtraLarge {
             rankInfoLabel.isHidden = true
             audienceInfoLabel.isHidden = true
@@ -39,15 +51,6 @@ class BoxOfficeCollectionViewCell: UICollectionViewCell, Configurable {
             rankInfoLabel.isHidden = false
             audienceInfoLabel.isHidden = false
         }
-        
-        layoutIfNeeded()
-    }
-    
-    func configure(item: DailyBoxOffice) {
-        rankLabel.text = item.rankText
-        configureRankInfoLabel(item: item)
-        titleLabel.text = item.movieKoreanName
-        audienceInfoLabel.text = "오늘 \(item.audienceCountText.convertToDecimalText()) / 총 \(item.audienceAccumulationText.convertToDecimalText())"
     }
     
     private func configureRankInfoLabel(item: DailyBoxOffice) {
