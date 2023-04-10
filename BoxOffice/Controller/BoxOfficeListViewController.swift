@@ -48,7 +48,7 @@ final class BoxOfficeListViewController: UIViewController {
         configureCollectionView()
         configureRefreshControl()
     }
-
+    
     private func configureUI() {
         view.addSubview(collectionView)
         view.addSubview(loadingIndicatorView)
@@ -72,6 +72,8 @@ final class BoxOfficeListViewController: UIViewController {
         collectionView.dataSource = self
         collectionView.delegate = self
         
+        readCellMode()
+        
         fetchBoxOfficeData { [weak self] in
             DispatchQueue.main.async {
                 self?.loadingIndicatorView.stopAnimating()
@@ -79,6 +81,20 @@ final class BoxOfficeListViewController: UIViewController {
                 self?.collectionView.refreshControl?.endRefreshing()
             }
         }
+    }
+    
+    private func readCellMode() {
+        guard let data = UserDefaults.standard.data(forKey: "cellMode") else {
+            cellMode = .List
+            return
+        }
+        
+        let result = DecodeManager().decodeJSON(data: data, type: CellMode.self)
+        guard let storedCellMode = try? verifyResult(result: result) else { return }
+        
+        self.cellMode = storedCellMode
+        
+        UserDefaults.standard.removeObject(forKey: "cellMode")
     }
     
     private func configureViewController() {
@@ -117,26 +133,39 @@ final class BoxOfficeListViewController: UIViewController {
     
     @objc private func presentCellChangeActionSheet() {
         let actionSheet = UIAlertController(title: "화면모드변경", message: nil, preferredStyle: .actionSheet)
-        var actionDefault: UIAlertAction
+        var actionDefault = createAlertAction()
         let actionCancel = UIAlertAction(title: "취소", style: .cancel)
-        
-        switch cellMode {
-        case .List:
-            actionDefault = UIAlertAction(title: cellMode.alertText, style: .default) { [weak self] _ in
-                self?.cellMode = .Icon
-                self?.collectionView.reloadData()
-            }
-        case .Icon:
-            actionDefault = UIAlertAction(title: cellMode.alertText, style: .default) { [weak self] _ in
-                self?.cellMode = .List
-                self?.collectionView.reloadData()
-            }
-        }
         
         actionSheet.addAction(actionDefault)
         actionSheet.addAction(actionCancel)
         
         self.present(actionSheet, animated: true)
+    }
+    
+    private func createAlertAction() -> UIAlertAction {
+        var action: UIAlertAction
+        
+        switch cellMode {
+        case .List:
+            action = UIAlertAction(title: cellMode.alertText, style: .default) { [weak self] _ in
+                self?.cellMode = .Icon
+                self?.collectionView.reloadData()
+            }
+        case .Icon:
+            action = UIAlertAction(title: cellMode.alertText, style: .default) { [weak self] _ in
+                self?.cellMode = .List
+                self?.collectionView.reloadData()
+            }
+        }
+        registerCellMode()
+        
+        return action
+    }
+    
+    private func registerCellMode() {
+        let encoder = JSONEncoder()
+        let encodedData = try? encoder.encode(cellMode)
+        UserDefaults.standard.set(encodedData, forKey: "cellMode")
     }
     
     private func fetchBoxOfficeData(completion: @escaping () -> Void) {
@@ -156,7 +185,7 @@ final class BoxOfficeListViewController: UIViewController {
             }
         }
     }
- 
+    
     private func verifyResult<T, E: Error>(result: Result<T, E>) throws -> T? {
         switch result {
         case .success(let data):
@@ -194,12 +223,12 @@ extension BoxOfficeListViewController: UICollectionViewDataSource {
         case .List:
             guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: CustomCollectionViewListCell.identifier, for: indexPath) as? CustomCollectionViewListCell else { return CustomCollectionViewListCell() }
             cell.configureCell(dailyBoxOffice: dailyBoxOffice)
-
+            
             return cell
         case .Icon:
             guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: CustomCollectionViewIconCell.identifier, for: indexPath) as? CustomCollectionViewIconCell else { return CustomCollectionViewIconCell() }
             cell.configureCell(dailyBoxOffice: dailyBoxOffice)
-
+            
             return cell
         }
     }
@@ -214,7 +243,7 @@ extension BoxOfficeListViewController: UICollectionViewDelegateFlowLayout {
         case .Icon:
             return  collectionViewWithIcon(collectionViewLayout: collectionViewLayout)
         }
-
+        
     }
     
     private func collectionViewWithIcon(collectionViewLayout: UICollectionViewLayout) -> CGSize {
@@ -276,7 +305,7 @@ extension BoxOfficeListViewController: CalendarViewControllerDelegate {
     }
 }
 
-enum CellMode {
+enum CellMode: Codable {
     case List
     case Icon
     
