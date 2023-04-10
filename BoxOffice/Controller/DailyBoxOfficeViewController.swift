@@ -169,7 +169,7 @@ extension DailyBoxOfficeViewController: UICollectionViewDelegate {
 }
 
 extension DailyBoxOfficeViewController: CalendarViewControllerDelegate {
-    func changeTarget(date: Date) {
+    func calendarViewDidSelect(date: Date) {
         targetDate = date
         let titleText = DateFormatter.shared.string(from: date, dateFormat: "yyyy-MM-dd")
         navigationItem.title = titleText

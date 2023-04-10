@@ -93,7 +93,7 @@ final class CalendarViewController: UIViewController {
 extension CalendarViewController: UICalendarSelectionSingleDateDelegate {
     func dateSelection(_ selection: UICalendarSelectionSingleDate, didSelectDate dateComponents: DateComponents?) {
         guard let date = dateComponents?.date else { return }
-        delegate?.changeTarget(date: date)
+        delegate?.calendarViewDidSelect(date: date)
         
         self.dismiss(animated: true)
     }
