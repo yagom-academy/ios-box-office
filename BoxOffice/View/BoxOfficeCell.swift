@@ -8,7 +8,6 @@
 import UIKit
 
 final class BoxOfficeCell: UICollectionViewCell {
-    
     private let rankLabel = {
         let label = UILabel()
         
