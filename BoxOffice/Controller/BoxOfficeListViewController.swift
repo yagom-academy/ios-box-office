@@ -12,6 +12,7 @@ final class BoxOfficeListViewController: UIViewController {
     private let urlMaker = URLRequestMaker()
     private var boxOffice: BoxOffice?
     private var currentDate: String = Date.yesterday.convertString(isFormatted: false)
+    private var cellMode: CellMode = CellMode.List
     
     private let loadingIndicatorView: UIActivityIndicatorView = {
         let loadingIndicatorView = UIActivityIndicatorView(style: .large)
@@ -116,8 +117,20 @@ final class BoxOfficeListViewController: UIViewController {
     
     @objc private func presentCellChangeActionSheet() {
         let actionSheet = UIAlertController(title: "화면모드변경", message: nil, preferredStyle: .actionSheet)
-        let actionDefault = UIAlertAction(title: "아이콘", style: .default)
+        var actionDefault: UIAlertAction
         let actionCancel = UIAlertAction(title: "취소", style: .cancel)
+        
+        switch cellMode {
+        case .List:
+            actionDefault = UIAlertAction(title: cellMode.alertText, style: .default) { [weak self] _ in
+                self?.cellMode = .Icon
+            }
+        case .Icon:
+            actionDefault = UIAlertAction(title: cellMode.alertText, style: .default) { [weak self] _ in
+                self?.cellMode = .List
+            }
+        }
+        
         actionSheet.addAction(actionDefault)
         actionSheet.addAction(actionCancel)
         
@@ -230,5 +243,19 @@ extension BoxOfficeListViewController: CalendarViewControllerDelegate {
         
         configureViewController()
         configureCollectionView()
+    }
+}
+
+enum CellMode {
+    case List
+    case Icon
+    
+    var alertText: String {
+        switch self {
+        case .List:
+            return "아이콘"
+        case .Icon:
+            return "리스트"
+        }
     }
 }
