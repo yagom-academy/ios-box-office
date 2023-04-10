@@ -40,7 +40,7 @@ final class DailyBoxOfficeIconCell: UICollectionViewCell {
             let stackView = UIStackView()
             stackView.axis = .vertical
             stackView.alignment = .center
-            stackView.distribution = .fillEqually
+            stackView.distribution = .equalCentering
             stackView.addArrangedSubview(rankLabel)
             stackView.addArrangedSubview(movieTitleLabel)
             stackView.addArrangedSubview(rankDifferenceLabel)
@@ -80,7 +80,6 @@ final class DailyBoxOfficeIconCell: UICollectionViewCell {
     private func configureRankLabel(with textMaker: DailyBoxOfficeCellTextMaker) {
         rankLabel.text = textMaker.rank
         rankLabel.font = UIFont.preferredFont(forTextStyle: .largeTitle)
-        rankLabel.adjustsFontForContentSizeCategory = true
     }
     
     private func configureMovieTitleLabel(with textMaker: DailyBoxOfficeCellTextMaker) {
@@ -88,10 +87,8 @@ final class DailyBoxOfficeIconCell: UICollectionViewCell {
         movieTitleLabel.textAlignment = .center
         movieTitleLabel.font = UIFont.preferredFont(forTextStyle: .title3)
         movieTitleLabel.adjustsFontForContentSizeCategory = true
-        movieTitleLabel.adjustsFontSizeToFitWidth = true
-        movieTitleLabel.minimumScaleFactor = 0.2
         movieTitleLabel.numberOfLines = 0
-        movieTitleLabel.setContentCompressionResistancePriority(.defaultLow, for: .vertical)
+        movieTitleLabel.setContentCompressionResistancePriority(.required, for: .vertical)
     }
     
     private func configureRankDifferenceLabel(with textMaker: DailyBoxOfficeCellTextMaker) {
@@ -118,9 +115,7 @@ final class DailyBoxOfficeIconCell: UICollectionViewCell {
         
         rankDifferenceLabel.font = UIFont.preferredFont(forTextStyle: .body)
         rankDifferenceLabel.adjustsFontForContentSizeCategory = true
-        rankDifferenceLabel.adjustsFontSizeToFitWidth = true
-        rankDifferenceLabel.minimumScaleFactor = 0.2
-        rankDifferenceLabel.numberOfLines = 1
+        rankDifferenceLabel.setContentCompressionResistancePriority(.defaultLow, for: .vertical)
     }
     
     private func configureAudienceLabel(with textMaker: DailyBoxOfficeCellTextMaker) {
@@ -128,8 +123,9 @@ final class DailyBoxOfficeIconCell: UICollectionViewCell {
         audienceLabel.font = UIFont.preferredFont(forTextStyle: .body)
         audienceLabel.adjustsFontForContentSizeCategory = true
         audienceLabel.adjustsFontSizeToFitWidth = true
-        audienceLabel.minimumScaleFactor = 0.2
+        audienceLabel.minimumScaleFactor = 0.3
         audienceLabel.numberOfLines = 1
+        audienceLabel.setContentCompressionResistancePriority(.defaultLow, for: .vertical)
     }
     
     private enum Sign {
