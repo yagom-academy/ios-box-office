@@ -133,7 +133,7 @@ final class BoxOfficeListViewController: UIViewController {
     
     @objc private func presentCellChangeActionSheet() {
         let actionSheet = UIAlertController(title: "화면모드변경", message: nil, preferredStyle: .actionSheet)
-        var actionDefault = createAlertAction()
+        let actionDefault = createAlertAction()
         let actionCancel = UIAlertAction(title: "취소", style: .cancel)
         
         actionSheet.addAction(actionDefault)
@@ -150,14 +150,15 @@ final class BoxOfficeListViewController: UIViewController {
             action = UIAlertAction(title: cellMode.alertText, style: .default) { [weak self] _ in
                 self?.cellMode = .Icon
                 self?.collectionView.reloadData()
+                self?.registerCellMode()
             }
         case .Icon:
             action = UIAlertAction(title: cellMode.alertText, style: .default) { [weak self] _ in
                 self?.cellMode = .List
                 self?.collectionView.reloadData()
+                self?.registerCellMode()
             }
         }
-        registerCellMode()
         
         return action
     }
