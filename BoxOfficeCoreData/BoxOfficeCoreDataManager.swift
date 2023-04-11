@@ -7,33 +7,48 @@
 
 import Foundation
 import CoreData
+import UIKit
 
 class BoxOfficeCoreDataManager {
-    private init() { }
+    static let shared = BoxOfficeCoreDataManager()
+    private let context = (UIApplication.shared.delegate as? AppDelegate)?.persistentContainer.newBackgroundContext()
     
-    static let shared: BoxOfficeCoreDataManager = BoxOfficeCoreDataManager()
+    private init() {}
     
-    lazy var persistentContainer: NSPersistentContainer = {
-        let container = NSPersistentContainer(name: "BoxOfficeCoreData")
-        container.loadPersistentStores { description, error in
-            if let error = error {
-                fatalError("Unable to load persistent sotres: \(error)")
-            }
+    func create(date: String, and movies: [DailyBoxOffice.BoxOfficeResult.Movie]) {
+        guard let context = self.context,
+              let dailyBoxOfficeEntity = NSEntityDescription.entity(forEntityName: "DailyBoxOfficeData", in: context),
+              let dailyBoxOfficeData = NSManagedObject(entity: dailyBoxOfficeEntity, insertInto: context) as? DailyBoxOfficeData else { return }
+        
+        setValue(at: dailyBoxOfficeData, date: date, and: movies)
+        save()
+    }
+    
+    func read(date: String) -> DailyBoxOfficeData? {
+        fetchData(date: date)
+    }
+    
+    func update(date: String, and movies: [DailyBoxOffice.BoxOfficeResult.Movie]) {
+        guard let dailyBoxOfficeData = fetchData(date: date) else { return }
+        
+        setValue(at: dailyBoxOfficeData, date: date, and: movies)
+        save()
+    }
+    
+    func delete<T: NSManagedObject>(targetType: T.Type) {
+        guard let context = self.context else { return }
+        
+        let request: NSFetchRequest<NSFetchRequestResult> = targetType.fetchRequest()
+        let delete = NSBatchDeleteRequest(fetchRequest: request)
+        do {
+            try context.execute(delete)
+        } catch {
+            print(error.localizedDescription)
         }
-        return container
-    }()
+    }
     
-    func saveData(date: String, with movies: [DailyBoxOffice.BoxOfficeResult.Movie]) {
-        let context = persistentContainer.newBackgroundContext()
-        guard let dailyBoxOfficeEntity = NSEntityDescription.entity(forEntityName: "DailyBoxOfficeData", in: context) else { return }
-        
-        var dailyBoxOfficeData = fetchData(date: date)
-        
-        if dailyBoxOfficeData == nil {
-            dailyBoxOfficeData = NSManagedObject(entity: dailyBoxOfficeEntity, insertInto: context) as? DailyBoxOfficeData
-        }
-        
-        var movieList: [Movie] = []
+    private func setValue(at target: DailyBoxOfficeData, date: String, and movies: [DailyBoxOffice.BoxOfficeResult.Movie]) {
+        var movieList = [Movie]()
         movies.forEach {
             let movie = Movie()
             
@@ -59,10 +74,14 @@ class BoxOfficeCoreDataManager {
             movieList.append(movie)
         }
         
-        let movieData: Movies = Movies(boxOfficeDatas: movieList)
+        let movieData = Movies(movieList: movieList)
         
-        dailyBoxOfficeData?.setValue(date, forKey: "selectedDate")
-        dailyBoxOfficeData?.setValue(movieData, forKey: "movies")
+        target.setValue(date, forKey: "selectedDate")
+        target.setValue(movieData, forKey: "movies")
+    }
+    
+    private func save() {
+        guard let context = self.context else { return }
         
         do {
             try context.save()
@@ -71,14 +90,15 @@ class BoxOfficeCoreDataManager {
         }
     }
     
-    func filteredDataRequest(date: String) -> NSFetchRequest<DailyBoxOfficeData> {
-        let fetchRequest: NSFetchRequest<DailyBoxOfficeData> = NSFetchRequest<DailyBoxOfficeData>(entityName: "DailyBoxOfficeData")
+    private func filteredDataRequest(date: String) -> NSFetchRequest<DailyBoxOfficeData> {
+        let fetchRequest = NSFetchRequest<DailyBoxOfficeData>(entityName: "DailyBoxOfficeData")
         fetchRequest.predicate = NSPredicate(format: "selectedDate == %@", date)
         return fetchRequest
     }
     
-    func fetchData(date: String) -> DailyBoxOfficeData? {
-        let context = self.persistentContainer.newBackgroundContext()
+    private func fetchData(date: String) -> DailyBoxOfficeData? {
+        guard let context = self.context else { return nil }
+        
         let filter = filteredDataRequest(date: date)
         
         do {
@@ -89,4 +109,3 @@ class BoxOfficeCoreDataManager {
         }
     }
 }
-

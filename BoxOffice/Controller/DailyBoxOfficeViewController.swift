@@ -141,7 +141,7 @@ final class DailyBoxOfficeViewController: UIViewController, DateUpdatable {
         dateFormatter.dateFormat = "yyyyMMdd"
         let selectedDate = dateFormatter.string(from: selectedDate)
         
-        if let fetchedData = BoxOfficeCoreDataManager.shared.fetchData(date: selectedDate),
+        if let fetchedData = BoxOfficeCoreDataManager.shared.read(date: selectedDate),
            let movies = fetchedData.movies {
             applyMoviesToDailyBoxOfficeItem(from: movies.movieList)
             
@@ -160,9 +160,9 @@ final class DailyBoxOfficeViewController: UIViewController, DateUpdatable {
                 print(error)
             case .success(let result):
                 
-                BoxOfficeCoreDataManager.shared.saveData(date: selectedDate, with: result.boxOfficeResult.boxOfficeList)
+                BoxOfficeCoreDataManager.shared.create(date: selectedDate, and: result.boxOfficeResult.boxOfficeList)
                 
-                guard let fetchedData = BoxOfficeCoreDataManager.shared.fetchData(date: selectedDate),
+                guard let fetchedData = BoxOfficeCoreDataManager.shared.read(date: selectedDate),
                       let movies = fetchedData.movies else { return }
                 self?.applyMoviesToDailyBoxOfficeItem(from: movies.movieList)
                 

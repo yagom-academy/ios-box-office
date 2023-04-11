@@ -11,14 +11,14 @@ import Foundation
 final class Movies: NSObject {
     var movieList: [Movie] = []
     
-    init(boxOfficeDatas: [Movie]) {
-        self.movieList = boxOfficeDatas
+    init(movieList: [Movie]) {
+        self.movieList = movieList
     }
     
     convenience required init?(coder: NSCoder) {
-        let boxOfficeDatas = coder.decodeObject(of: [NSArray.self, Movie.self], forKey: "movieList")
+        let movieList = coder.decodeObject(of: [NSArray.self, Movie.self, NSString.self], forKey: "movieList")
         
-        self.init(boxOfficeDatas: boxOfficeDatas as! [Movie])
+        self.init(movieList: movieList as! [Movie])
     }
 }
 

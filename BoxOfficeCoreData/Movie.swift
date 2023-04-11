@@ -38,7 +38,7 @@ final class Movie: NSObject {
         self.name = coder.decodeObject(forKey: "name") as? String
         self.openDate = coder.decodeObject(forKey: "openDate") as? String
         self.order = coder.decodeObject(forKey: "order") as? String
-        self.rank = coder.decodeObject( forKey: "rank") as? String
+        self.rank = coder.decodeObject(forKey: "rank") as? String
         self.rankOldAndNew = coder.decodeObject(forKey: "rankOldAndNew") as? String
         self.rankVariance = coder.decodeObject(forKey: "rankVariance") as? String
         self.salesAccumulation = coder.decodeObject(forKey: "salesAccumulation") as? String
