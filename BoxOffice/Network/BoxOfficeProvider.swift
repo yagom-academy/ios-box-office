@@ -30,18 +30,31 @@ final class BoxOfficeProvider<Target: Requestable>: Provider {
             return
         }
         
+        if let cachedData = URLCache.shared.cachedResponse(for: request) {
+            print("저장된 데이터가 있음")
+            do {
+                let decodeData = try JSONDecoder().decode(type, from: cachedData.data)
+                completion(.success(decodeData))
+            } catch {
+                completion(.failure(NetworkError.failToParse))
+            }
+        }
+        
         let task = session.dataTask(with: request) { data, response, error in
             let result = self.checkError(with: data, response, error)
             switch result {
             case .success(let data):
                 do {
+                    let cachedResponse = try URLCacheManager.shared.createCachedResponse(response: response, data: data)
+                    URLCacheManager.shared.storeCachedResponse(for: cachedResponse, request: request)
                     let decodedData = try JSONDecoder().decode(type, from: data)
                     completion(.success(decodedData))
+                } catch NetworkError.invalidResponseError {
+                    completion(.failure(NetworkError.invalidResponseError))
                 } catch {
                     completion(.failure(NetworkError.failToParse))
                 }
             case .failure(let error):
-                
                 completion(.failure(error))
             }
         }
