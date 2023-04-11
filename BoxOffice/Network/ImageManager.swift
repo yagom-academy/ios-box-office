@@ -41,8 +41,7 @@ final class ImageManager {
     }
     
     private func downloadImage(request: URLRequest, completionHandler: @escaping (Data) -> Void) {
-        
-        let dataTask = URLSession.shared.dataTask(with: request) { data, response, error in
+        let task = URLSession.shared.dataTask(with: request) { data, response, error in
             guard error == nil else {
                 return
             }
@@ -61,7 +60,7 @@ final class ImageManager {
             DEBUG_LOG("다운로드 및 캐시 저장 완료")
             completionHandler(data)
         }
-        dataTask.resume()
+        task.resume()
     }
     
     private func loadImageFromCache(request: URLRequest, completionHandler: @escaping(Result<Data, ImageCacheError>) -> Void) {
