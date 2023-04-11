@@ -1,5 +1,5 @@
 //
-//  ViewController.swift
+//  MainViewController.swift
 //  BoxOffice
 //
 //  Created by Seoyeon Hong on 2023/03/22.
@@ -7,7 +7,7 @@
 
 import UIKit
 
-final class ViewController: UIViewController {
+final class MainViewController: UIViewController {
     
     private var collectionView: UICollectionView!
     private var dataSource: UICollectionViewDiffableDataSource<ListSection, ListItem>!
@@ -253,7 +253,7 @@ final class ViewController: UIViewController {
     
 }
 
-extension ViewController: DateSelectionDelegate {
+extension MainViewController: DateSelectionDelegate {
     
     func dateSelection(_ date: Date) {
         currentDate = date
@@ -262,7 +262,7 @@ extension ViewController: DateSelectionDelegate {
     
 }
 
-extension ViewController: UICollectionViewDelegate {
+extension MainViewController: UICollectionViewDelegate {
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         
