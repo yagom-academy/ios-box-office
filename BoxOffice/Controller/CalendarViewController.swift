@@ -8,17 +8,22 @@
 import UIKit
 
 final class CalendarViewController: UIViewController {
-    private let calendar = Calendar(identifier: .gregorian)
+    private let calendar: Calendar
     private let calendarView = UICalendarView()
     private var targetDate: Date?
     private var yesterday: Date {
         return Date(timeIntervalSinceNow: 3600 * -24)
     }
     
-    weak var delegate: CalendarViewControllerDelegate?
+    private weak var delegate: CalendarViewControllerDelegate?
     
-    init(targetDate: Date) {
+    init(targetDate: Date,
+         calendar: Calendar = Calendar(identifier: .gregorian),
+         delegate: CalendarViewControllerDelegate?) {
         self.targetDate = targetDate
+        self.calendar = calendar
+        self.delegate = delegate
+        
         super.init(nibName: nil, bundle: nil)
     }
     
@@ -39,7 +44,7 @@ final class CalendarViewController: UIViewController {
     }
     
     private func configureCalendarView() {
-        guard let targetDate = self.targetDate else { return }
+        guard let targetDate else { return }
         
         calendarView.calendar = calendar
         calendarView.locale = Locale(identifier: "ko_KR")
@@ -88,7 +93,7 @@ final class CalendarViewController: UIViewController {
 extension CalendarViewController: UICalendarSelectionSingleDateDelegate {
     func dateSelection(_ selection: UICalendarSelectionSingleDate, didSelectDate dateComponents: DateComponents?) {
         guard let date = dateComponents?.date else { return }
-        delegate?.changeTarget(date: date)
+        delegate?.calendarViewDidSelect(date: date)
         
         self.dismiss(animated: true)
     }

@@ -55,10 +55,10 @@ final class DailyBoxOfficeViewController: UIViewController {
         navigationItem.rightBarButtonItem = dateChangeButton
     }
     
-    @objc private func showCalendar() {
-        let calendarViewController = CalendarViewController(targetDate: targetDate ?? yesterday)
+    @objc
+    private func showCalendar() {
+        let calendarViewController = CalendarViewController(targetDate: targetDate ?? yesterday, delegate: self)
         navigationController?.present(calendarViewController, animated: true)
-        calendarViewController.delegate = self
     }
     
     private func configureToolBar() {
@@ -222,7 +222,7 @@ extension DailyBoxOfficeViewController: UICollectionViewDelegate {
 }
 
 extension DailyBoxOfficeViewController: CalendarViewControllerDelegate {
-    func changeTarget(date: Date) {
+    func calendarViewDidSelect(date: Date) {
         targetDate = date
         let titleText = DateFormatter.shared.string(from: date, dateFormat: "yyyy-MM-dd")
         navigationItem.title = titleText

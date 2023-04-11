@@ -8,5 +8,5 @@
 import Foundation
 
 protocol CalendarViewControllerDelegate: AnyObject {
-    func changeTarget(date: Date)
+    func calendarViewDidSelect(date: Date)
 }
