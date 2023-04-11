@@ -11,9 +11,7 @@ final class BoxOfficeIconCell: UICollectionViewCell {
     private let rankLabel = {
         let label = UILabel()
         
-        label.font = .preferredFont(forTextStyle: .title1)
-        label.adjustsFontForContentSizeCategory = true
-        label.adjustsFontSizeToFitWidth = true
+        label.font = .systemFont(ofSize: 28)
         
         return label
     }()
@@ -21,9 +19,7 @@ final class BoxOfficeIconCell: UICollectionViewCell {
     private let rankInfoLabel = {
         let label = UILabel()
         
-        label.font = .preferredFont(forTextStyle: .caption1)
-        label.adjustsFontForContentSizeCategory = true
-        label.adjustsFontSizeToFitWidth = true
+        label.font = .systemFont(ofSize: 12)
         
         return label
     }()
