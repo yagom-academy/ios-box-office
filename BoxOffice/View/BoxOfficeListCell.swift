@@ -11,7 +11,9 @@ final class BoxOfficeListCell: UICollectionViewCell {
     private let rankLabel = {
         let label = UILabel()
         
+        label.numberOfLines = 0
         label.font = .preferredFont(forTextStyle: .title1)
+        label.adjustsFontForContentSizeCategory = true
         
         return label
     }()
@@ -19,7 +21,9 @@ final class BoxOfficeListCell: UICollectionViewCell {
     private let rankInfoLabel = {
         let label = UILabel()
         
+        label.numberOfLines = 0
         label.font = .preferredFont(forTextStyle: .caption1)
+        label.adjustsFontForContentSizeCategory = true
         
         return label
     }()
@@ -27,8 +31,9 @@ final class BoxOfficeListCell: UICollectionViewCell {
     private let movieNameLabel = {
         let label = UILabel()
         
-        label.numberOfLines = 1
+        label.numberOfLines = 0
         label.font = .preferredFont(forTextStyle: .body)
+        label.adjustsFontForContentSizeCategory = true
         
         return label
     }()
@@ -36,7 +41,9 @@ final class BoxOfficeListCell: UICollectionViewCell {
     private let audienceCountLabel = {
         let label = UILabel()
         
+        label.numberOfLines = 0
         label.font = .preferredFont(forTextStyle: .callout)
+        label.adjustsFontForContentSizeCategory = true
         
         return label
     }()

@@ -11,7 +11,9 @@ final class RowStackView: UIStackView {
     private let titleLabel = {
         let label = UILabel()
         
-        label.font = .boldSystemFont(ofSize: 16)
+        label.adjustsFontForContentSizeCategory = true
+        label.font = .preferredFont(forTextStyle: .callout)
+        label.numberOfLines = 0
         label.textAlignment = .center
         
         return label
@@ -20,6 +22,7 @@ final class RowStackView: UIStackView {
     private let valueLabel = {
         let label = UILabel()
         
+        label.adjustsFontForContentSizeCategory = true
         label.font = .preferredFont(forTextStyle: .body)
         label.numberOfLines = 0
         label.lineBreakMode = .byWordWrapping
