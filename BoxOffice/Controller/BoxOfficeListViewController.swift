@@ -84,7 +84,7 @@ final class BoxOfficeListViewController: UIViewController {
     }
     
     private func readCellMode() {
-        guard let data = UserDefaults.standard.data(forKey: "cellMode") else {
+        guard let data = UserDefaults.standard.data(forKey: CellMode.identifier) else {
             cellMode = .List
             return
         }
@@ -94,7 +94,7 @@ final class BoxOfficeListViewController: UIViewController {
         
         self.cellMode = storedCellMode
         
-        UserDefaults.standard.removeObject(forKey: "cellMode")
+        UserDefaults.standard.removeObject(forKey: CellMode.identifier)
     }
     
     private func configureViewController() {
@@ -166,7 +166,7 @@ final class BoxOfficeListViewController: UIViewController {
     private func registerCellMode() {
         let encoder = JSONEncoder()
         let encodedData = try? encoder.encode(cellMode)
-        UserDefaults.standard.set(encodedData, forKey: "cellMode")
+        UserDefaults.standard.set(encodedData, forKey: CellMode.identifier)
     }
     
     private func fetchBoxOfficeData(completion: @escaping () -> Void) {
@@ -306,16 +306,4 @@ extension BoxOfficeListViewController: CalendarViewControllerDelegate {
     }
 }
 
-enum CellMode: Codable {
-    case List
-    case Icon
-    
-    var alertText: String {
-        switch self {
-        case .List:
-            return "아이콘"
-        case .Icon:
-            return "리스트"
-        }
-    }
-}
+
