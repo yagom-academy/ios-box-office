@@ -16,7 +16,7 @@ final class DailyBoxOfficeViewController: UIViewController {
     private var dataSource: DataSource!
     private var dailyBoxOffice: DailyBoxOffice?
     private var yesterday: Date {
-        return Date(timeIntervalSinceNow: 3600 * -24)
+        Date(timeIntervalSinceNow: 3600 * -24)
     }
     private var targetDate: Date?
     private var collectionViewMode = CollectionViewMode.list
@@ -36,6 +36,26 @@ final class DailyBoxOfficeViewController: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(true)
         self.navigationController?.isToolbarHidden = false
+    }
+    
+    func changeCollectionViewMode() {
+        switch collectionViewMode {
+        case .icon:
+            collectionViewMode = .list
+        case .list:
+            collectionViewMode = .icon
+        }
+        
+        collectionView.reloadData()
+        collectionView.setCollectionViewLayout(collectionViewLayout(), animated: true) { _ in
+            self.collectionView.reloadData()
+        }
+    }
+    
+    private func collectionViewLayout() -> UICollectionViewCompositionalLayout {
+        let layout = collectionViewModeManager.layout(mode: collectionViewMode)
+        
+        return layout
     }
     
     private func configureRootView() {
@@ -75,22 +95,9 @@ final class DailyBoxOfficeViewController: UIViewController {
         self.toolbarItems = [flexibleSpace, modeChangeButton, flexibleSpace]
     }
     
-    @objc private func showActionSheet() {
+    @objc
+    private func showActionSheet() {
         AlertController.showActionSheet(mode: collectionViewMode, to: self)
-    }
-    
-    func changeCollectionViewMode() {
-        switch collectionViewMode {
-        case .icon:
-            collectionViewMode = .list
-        case .list:
-            collectionViewMode = .icon
-        }
-        
-        collectionView.reloadData()
-        collectionView.setCollectionViewLayout(collectionViewLayout(), animated: true) { _ in
-            self.collectionView.reloadData()
-        }
     }
     
     private func configureCollectionView() {
@@ -115,24 +122,24 @@ final class DailyBoxOfficeViewController: UIViewController {
             cell.updateData(with: item)
         }
         
-         dataSource = DataSource(collectionView: collectionView) { collectionView, indexPath, itemIdentifier in
-             switch self.collectionViewMode {
-             case .icon:
-                 let cell = collectionView.dequeueConfiguredReusableCell(using: iconCellRegistration,
-                                                                         for: indexPath,
-                                                                         item: itemIdentifier)
-                 cell.snapshotView(afterScreenUpdates: true)
-                 
-                 return cell
-             case .list:
-                 let cell = collectionView.dequeueConfiguredReusableCell(using: listCellRegistration,
-                                                                         for: indexPath,
-                                                                         item: itemIdentifier)
-                 cell.snapshotView(afterScreenUpdates: true)
-                 
-                 return cell
-             }
-         }
+        dataSource = DataSource(collectionView: collectionView) { collectionView, indexPath, itemIdentifier in
+            switch self.collectionViewMode {
+            case .icon:
+                let cell = collectionView.dequeueConfiguredReusableCell(using: iconCellRegistration,
+                                                                        for: indexPath,
+                                                                        item: itemIdentifier)
+                cell.snapshotView(afterScreenUpdates: true)
+                
+                return cell
+            case .list:
+                let cell = collectionView.dequeueConfiguredReusableCell(using: listCellRegistration,
+                                                                        for: indexPath,
+                                                                        item: itemIdentifier)
+                cell.snapshotView(afterScreenUpdates: true)
+                
+                return cell
+            }
+        }
     }
     
     private func loadDailyBoxOffice(date: Date) {
@@ -180,22 +187,17 @@ final class DailyBoxOfficeViewController: UIViewController {
     
     private func configureRefreshControl() {
         let refreshControl = UIRefreshControl()
-        refreshControl.addTarget(self, action: #selector(handlerRefreshControl), for: .valueChanged)
+        refreshControl.addTarget(self, action: #selector(refresh), for: .valueChanged)
         collectionView.refreshControl = refreshControl
     }
     
-    @objc func handlerRefreshControl() {
+    @objc
+    private func refresh() {
         loadDailyBoxOffice(date: targetDate ?? yesterday)
         
         DispatchQueue.main.async {
             self.configureNavigationBar()
         }
-    }
-    
-    private func collectionViewLayout() -> UICollectionViewCompositionalLayout {
-        let layout = collectionViewModeManager.layout(mode: collectionViewMode)
-        
-        return layout
     }
     
     private enum Section {
@@ -229,4 +231,3 @@ extension DailyBoxOfficeViewController: CalendarViewControllerDelegate {
         loadDailyBoxOffice(date: date)
     }
 }
-

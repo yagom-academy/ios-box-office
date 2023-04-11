@@ -8,8 +8,9 @@
 import UIKit
 
 final class DailyBoxOfficeListCell: UICollectionViewListCell {
-    var dailyBoxOfficeData: DailyBoxOfficeMovie?
     static let identifier = "listCell"
+    
+    var dailyBoxOfficeData: DailyBoxOfficeMovie?
     let rankLabel = UILabel()
     let rankDifferenceLabel = UILabel()
     let dailyBoxOfficeListContentView = UIListContentView(configuration: UIListContentConfiguration.subtitleCell())
@@ -23,17 +24,28 @@ final class DailyBoxOfficeListCell: UICollectionViewListCell {
         fatalError("init(coder:) has not been implemented")
     }
     
-    override func prepareForReuse() {
-        super.prepareForReuse()
-        rankDifferenceLabel.textColor = .black
-    }
-    
     func updateData(with newDailyBoxOfficeData: DailyBoxOfficeMovie) {
         guard dailyBoxOfficeData != newDailyBoxOfficeData else { return }
         
         dailyBoxOfficeData = newDailyBoxOfficeData
     }
+
+    override func prepareForReuse() {
+        super.prepareForReuse()
+        rankDifferenceLabel.textColor = .black
+    }
     
+    override func updateConfiguration(using state: UICellConfigurationState) {
+        guard let dailyBoxOfficeData = self.dailyBoxOfficeData else { return }
+        let textMaker = DailyBoxOfficeCellTextMaker(data: dailyBoxOfficeData)
+        
+        configureContentView(with: textMaker)
+        configureRankLabel(with: textMaker)
+        configureRankDifferenceLabel(with: textMaker)
+        
+        self.accessories = [.disclosureIndicator()]
+    }
+
     private func configureLayoutConstraints() {
         let rankStackView = {
             let stackView = UIStackView()
@@ -59,17 +71,6 @@ final class DailyBoxOfficeListCell: UICollectionViewListCell {
             dailyBoxOfficeListContentView.leadingAnchor.constraint(equalTo: rankStackView.trailingAnchor),
             dailyBoxOfficeListContentView.trailingAnchor.constraint(equalTo: self.contentView.trailingAnchor)
         ])
-    }
-    
-    override func updateConfiguration(using state: UICellConfigurationState) {
-        guard let dailyBoxOfficeData = self.dailyBoxOfficeData else { return }
-        let textMaker = DailyBoxOfficeCellTextMaker(data: dailyBoxOfficeData)
-        
-        configureContentView(with: textMaker)
-        configureRankLabel(with: textMaker)
-        configureRankDifferenceLabel(with: textMaker)
-        
-        self.accessories = [.disclosureIndicator()]
     }
     
     private func configureContentView(with textMaker: DailyBoxOfficeCellTextMaker) {
@@ -130,4 +131,3 @@ final class DailyBoxOfficeListCell: UICollectionViewListCell {
         static let up = "⏶"
     }
 }
-

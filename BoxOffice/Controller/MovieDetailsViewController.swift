@@ -16,10 +16,12 @@ final class MovieDetailsViewController: UIViewController {
     private let nationView = CategoryStackView()
     private let genreView = CategoryStackView()
     private let actorView = CategoryStackView()
+    
     private lazy var movieInformationStackViews = [
         directorView, productionYearView, openDateView,
         runningTimeView, watchGradeView, nationView, genreView, actorView
     ]
+    
     private let posterView = {
         let imageView = UIImageView()
         imageView.contentMode = .scaleAspectFit
@@ -158,7 +160,8 @@ final class MovieDetailsViewController: UIViewController {
         genreView.categoryLabel.text = "장르"
         actorView.categoryLabel.text = "배우"
         
-        movieInformationStackViews.map { $0.categoryLabel }
+        movieInformationStackViews
+            .map { $0.categoryLabel }
             .forEach {
                 $0.widthAnchor.constraint(
                     equalTo: productionYearView.categoryLabel.widthAnchor,

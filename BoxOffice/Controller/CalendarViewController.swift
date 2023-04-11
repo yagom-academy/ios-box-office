@@ -12,7 +12,7 @@ final class CalendarViewController: UIViewController {
     private let calendarView = UICalendarView()
     private var targetDate: Date?
     private var yesterday: Date {
-        return Date(timeIntervalSinceNow: 3600 * -24)
+        Date(timeIntervalSinceNow: 3600 * -24)
     }
     
     private weak var delegate: CalendarViewControllerDelegate?
@@ -23,7 +23,6 @@ final class CalendarViewController: UIViewController {
         self.targetDate = targetDate
         self.calendar = calendar
         self.delegate = delegate
-        
         super.init(nibName: nil, bundle: nil)
     }
     

@@ -8,8 +8,9 @@
 import UIKit
 
 final class DailyBoxOfficeIconCell: UICollectionViewCell {
-    var dailyBoxOfficeData: DailyBoxOfficeMovie?
     static let identifier = "iconCell"
+    
+    var dailyBoxOfficeData: DailyBoxOfficeMovie?
     let rankLabel = UILabel()
     let rankDifferenceLabel = UILabel()
     let movieTitleLabel = UILabel()
@@ -24,15 +25,32 @@ final class DailyBoxOfficeIconCell: UICollectionViewCell {
         fatalError("init(coder:) has not been implemented")
     }
     
-    override func prepareForReuse() {
-        super.prepareForReuse()
-        rankDifferenceLabel.textColor = .black
-    }
-    
     func updateData(with newDailyBoxOfficeData: DailyBoxOfficeMovie) {
         guard dailyBoxOfficeData != newDailyBoxOfficeData else { return }
         
         dailyBoxOfficeData = newDailyBoxOfficeData
+    }
+    
+    override func prepareForReuse() {
+        super.prepareForReuse()
+        rankDifferenceLabel.textColor = .black
+    }
+
+    override func updateConfiguration(using state: UICellConfigurationState) {
+        guard let dailyBoxOfficeData = self.dailyBoxOfficeData else { return }
+        let textMaker = DailyBoxOfficeCellTextMaker(data: dailyBoxOfficeData)
+        
+        configureRankLabel(with: textMaker)
+        configureMovieTitleLabel(with: textMaker)
+        configureRankDifferenceLabel(with: textMaker)
+        configureAudienceLabel(with: textMaker)
+        
+        var backgroundConfiguration = UIBackgroundConfiguration.listPlainCell()
+        backgroundConfiguration.strokeWidth = 3.0
+        backgroundConfiguration.strokeOutset = 10
+        backgroundConfiguration.strokeColor = .systemGray2
+        
+        self.backgroundConfiguration = backgroundConfiguration
     }
     
     private func configureLayoutConstraints() {
@@ -58,23 +76,6 @@ final class DailyBoxOfficeIconCell: UICollectionViewCell {
             dailyBoxOfficeStackView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
             dailyBoxOfficeStackView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor)
         ])
-    }
-    
-    override func updateConfiguration(using state: UICellConfigurationState) {
-        guard let dailyBoxOfficeData = self.dailyBoxOfficeData else { return }
-        let textMaker = DailyBoxOfficeCellTextMaker(data: dailyBoxOfficeData)
-        
-        configureRankLabel(with: textMaker)
-        configureMovieTitleLabel(with: textMaker)
-        configureRankDifferenceLabel(with: textMaker)
-        configureAudienceLabel(with: textMaker)
-        
-        var backgroundConfiguration = UIBackgroundConfiguration.listPlainCell()
-        backgroundConfiguration.strokeWidth = 3.0
-        backgroundConfiguration.strokeOutset = 10
-        backgroundConfiguration.strokeColor = .systemGray2
-        
-        self.backgroundConfiguration = backgroundConfiguration
     }
     
     private func configureRankLabel(with textMaker: DailyBoxOfficeCellTextMaker) {
