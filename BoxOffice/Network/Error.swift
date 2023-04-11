@@ -1,5 +1,5 @@
 //
-//  NetworkError.swift
+//  Error.swift
 //  BoxOffice
 //
 //  Created by Seoyeon Hong on 2023/03/22.
@@ -27,6 +27,19 @@ enum NetworkError: LocalizedError, CustomStringConvertible {
             return "INVALID_URL_REQUEST"
         case .missingData:
             return "MISSING_DATA"
+        }
+    }
+    
+}
+
+enum ImageCacheError: LocalizedError, CustomStringConvertible {
+    
+    case invalidImageData
+    
+    var description: String {
+        switch self {
+        case .invalidImageData:
+            return "INVALID_IMAGE_DATA"
         }
     }
     
