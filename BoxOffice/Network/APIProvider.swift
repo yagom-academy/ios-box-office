@@ -72,10 +72,12 @@ struct APIProvider {
                 return
             }
             
-            completion(.success(UIImage(data: data)))
+            guard let image = UIImage(data: data) else {
+                return
+            }
             
-            let cachedURLResponse = CachedURLResponse(response: httpResponse, data: data)
-            URLCacheManager.shared.store(response: cachedURLResponse, for: url)
+            CacheManager.shared.store(image: image, urlString: url.absoluteString)
+            completion(.success(image))
         }
         task.resume()
     }
