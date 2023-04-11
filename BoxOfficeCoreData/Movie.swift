@@ -1,5 +1,5 @@
 //
-//  DailyBoxOfficeData+CoreDataClass.swift
+//  Movie.swift
 //  BoxOffice
 //
 //  Created by 리지, kokkilE on 2023/04/10.
@@ -8,27 +8,27 @@
 
 import Foundation
 
-public class BoxOfficeData: NSObject {
-    public var audienceAccumulation: String?
-    public var audienceChange: String?
-    public var audienceCount: String?
-    public var audienceVariance: String?
-    public var code: String?
-    public var name: String?
-    public var openDate: String?
-    public var order: String?
-    public var rank: String?
-    public var rankOldAndNew: String?
-    public var rankVariance: String?
-    public var salesAccumulation: String?
-    public var salesAmount: String?
-    public var salesChange: String?
-    public var salesShare: String?
-    public var salesVariance: String?
-    public var screenCount: String?
-    public var showCount: String?
+final class Movie: NSObject {
+    var audienceAccumulation: String?
+    var audienceChange: String?
+    var audienceCount: String?
+    var audienceVariance: String?
+    var code: String?
+    var name: String?
+    var openDate: String?
+    var order: String?
+    var rank: String?
+    var rankOldAndNew: String?
+    var rankVariance: String?
+    var salesAccumulation: String?
+    var salesAmount: String?
+    var salesChange: String?
+    var salesShare: String?
+    var salesVariance: String?
+    var screenCount: String?
+    var showCount: String?
     
-    public required convenience init?(coder: NSCoder) {
+    required convenience init?(coder: NSCoder) {
         self.init()
         self.audienceAccumulation = coder.decodeObject(forKey: "audienceAccumulation") as? String
         self.audienceChange = coder.decodeObject(forKey: "audienceChange") as? String
@@ -51,16 +51,12 @@ public class BoxOfficeData: NSObject {
     }
 }
 
-extension BoxOfficeData: Identifiable {
-
-}
-
-extension BoxOfficeData: NSSecureCoding {
-    public static var supportsSecureCoding: Bool {
+extension Movie: NSSecureCoding {
+    static var supportsSecureCoding: Bool {
         return true
     }
     
-    public func encode(with coder: NSCoder) {
+    func encode(with coder: NSCoder) {
         coder.encode(audienceAccumulation, forKey: "audienceAccumulation")
         coder.encode(audienceChange, forKey: "audienceChange")
         coder.encode(audienceCount, forKey: "audienceCount")

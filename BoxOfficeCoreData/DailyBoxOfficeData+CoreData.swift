@@ -1,5 +1,5 @@
 //
-//  DailyBoxOfficeData+CoreDataProperties.swift
+//  DailyBoxOfficeData+CoreData.swift
 //  BoxOffice
 //
 //  Created by 리지, kokkilE on 2023/04/10.
@@ -9,13 +9,18 @@
 import Foundation
 import CoreData
 
+@objc(DailyBoxOfficeData)
+public class DailyBoxOfficeData: NSManagedObject {
+
+}
+
 extension DailyBoxOfficeData {
     @nonobjc public class func fetchRequest() -> NSFetchRequest<DailyBoxOfficeData> {
         return NSFetchRequest<DailyBoxOfficeData>(entityName: "DailyBoxOfficeData")
     }
 
-    @NSManaged public var selectedDate: String?
-    @NSManaged public var movie: BoxOfficeDatas?
+    @NSManaged var selectedDate: String?
+    @NSManaged var movies: Movies?
 }
 
 extension DailyBoxOfficeData : Identifiable {
