@@ -1,5 +1,5 @@
 //
-//  BoxOfficeCell.swift
+//  BoxOfficeListCell.swift
 //  BoxOffice
 //
 //  Created by Christy, Hyemory on 2023/03/31.
@@ -7,7 +7,7 @@
 
 import UIKit
 
-final class BoxOfficeCell: UICollectionViewCell {
+final class BoxOfficeListCell: UICollectionViewCell {
     private let rankLabel = {
         let label = UILabel()
         

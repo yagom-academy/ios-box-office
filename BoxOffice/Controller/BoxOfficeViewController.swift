@@ -133,7 +133,7 @@ extension BoxOfficeViewController {
             loadingView.topAnchor.constraint(equalTo: self.collectionView.topAnchor),
         ])
         
-        collectionView.register(BoxOfficeCell.self, forCellWithReuseIdentifier: BoxOfficeCell.identifier)
+        collectionView.register(BoxOfficeListCell.self, forCellWithReuseIdentifier: BoxOfficeListCell.identifier)
     }
 }
 
@@ -169,7 +169,7 @@ extension BoxOfficeViewController: UICollectionViewDataSource {
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: BoxOfficeCell.identifier, for: indexPath) as? BoxOfficeCell,
+        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: BoxOfficeListCell.identifier, for: indexPath) as? BoxOfficeListCell,
               let boxOfficeItem = boxOffice?.result.dailyBoxOfficeList[safe: indexPath.item] else { return UICollectionViewCell() }
 
         cell.configure(with: boxOfficeItem)
