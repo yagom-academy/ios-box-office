@@ -170,7 +170,7 @@ final class ViewController: UIViewController {
             switch requestResult {
             case .success(let data):
                 do {
-                    let boxOfficeItem: BoxOfficeItem = try JSONConverter.shared.decodeData(data, T: BoxOfficeItem.self)
+                    let boxOfficeItem: BoxOfficeItem = try JSONConverter.shared.decodeData(data, BoxOfficeItem.self)
                     let dailyBoxOffices = boxOfficeItem.boxOfficeResult.dailyBoxOfficeList
                     var movieRanking = [ListItem]()
                     for dailyBoxOffice in dailyBoxOffices {
