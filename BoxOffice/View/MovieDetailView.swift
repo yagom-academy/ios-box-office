@@ -45,32 +45,28 @@ class MovieDetailView: UIView {
     lazy var actorStackView = makeHorizontalStackView()
 
     lazy var directorTitleLabel = makeTitleLabel()
-    let directorDataLabel = UILabel()
+    lazy var directorDataLabel = makeDataLabel()
 
     lazy var  productYearTitleLabel = makeTitleLabel()
-    let productYearDataLabel = UILabel()
+    lazy var productYearDataLabel = makeDataLabel()
    
     lazy var  openDayTitleLabel = makeTitleLabel()
-    let openDayDataLabel = UILabel()
+    lazy var openDayDataLabel = makeDataLabel()
     
     lazy var showTimeTitleLabel = makeTitleLabel()
-    let showTimeDataLabel = UILabel()
+    lazy var showTimeDataLabel = makeDataLabel()
     
     lazy var auditsTitleLabel = makeTitleLabel()
-    let auditsDataLabel = UILabel()
+    lazy var auditsDataLabel = makeDataLabel()
     
     lazy var nationTitleLabel = makeTitleLabel()
-    let nationDataLabel = UILabel()
+    lazy var nationDataLabel = makeDataLabel()
     
     lazy var genreTitleLabel = makeTitleLabel()
-    let genreDataLabel = UILabel()
+    lazy var genreDataLabel = makeDataLabel()
     
-    lazy var actorTitleLabel: UILabel = makeTitleLabel()
-    let actorDataLabel: UILabel = {
-        let label = UILabel()
-        label.numberOfLines = 0
-        return label
-    }()
+    lazy var actorTitleLabel = makeTitleLabel()
+    lazy var actorDataLabel = makeDataLabel()
    
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -86,13 +82,24 @@ class MovieDetailView: UIView {
         let stackView = UIStackView()
         stackView.translatesAutoresizingMaskIntoConstraints = false
         stackView.axis = .horizontal
+        stackView.spacing = 6
         return stackView
     }
     
     private func makeTitleLabel() -> UILabel {
         let label = UILabel()
         label.textAlignment = .center
-        label.font = UIFont.boldSystemFont(ofSize: 16)
+        label.adjustsFontForContentSizeCategory = true
+        label.font = UIFont.preferredFont(forTextStyle: .headline)
+        return label
+    }
+    
+    private func makeDataLabel() -> UILabel {
+        let label = UILabel()
+        label.textAlignment = .left
+        label.numberOfLines = 0
+        label.adjustsFontForContentSizeCategory = true
+        label.font = UIFont.preferredFont(forTextStyle: .callout)
         return label
     }
     
@@ -160,14 +167,16 @@ class MovieDetailView: UIView {
             verticalStackView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
             verticalStackView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor),
             
-            directorTitleLabel.widthAnchor.constraint(equalToConstant: 70),
-            productYearTitleLabel.widthAnchor.constraint(equalToConstant: 70),
-            openDayTitleLabel.widthAnchor.constraint(equalToConstant: 70),
-            showTimeTitleLabel.widthAnchor.constraint(equalToConstant: 70),
-            auditsTitleLabel.widthAnchor.constraint(equalToConstant: 70),
-            nationTitleLabel.widthAnchor.constraint(equalToConstant: 70),
-            genreTitleLabel.widthAnchor.constraint(equalToConstant: 70),
-            actorTitleLabel.widthAnchor.constraint(equalToConstant: 70)
+            directorTitleLabel.widthAnchor.constraint(greaterThanOrEqualToConstant: 70),
+            productYearTitleLabel.widthAnchor.constraint(greaterThanOrEqualToConstant: 70),
+            openDayTitleLabel.widthAnchor.constraint(greaterThanOrEqualToConstant: 70),
+            showTimeTitleLabel.widthAnchor.constraint(greaterThanOrEqualToConstant: 70),
+            auditsTitleLabel.widthAnchor.constraint(greaterThanOrEqualToConstant: 70),
+            nationTitleLabel.widthAnchor.constraint(greaterThanOrEqualToConstant: 70),
+            genreTitleLabel.widthAnchor.constraint(greaterThanOrEqualToConstant: 70),
+            actorTitleLabel.widthAnchor.constraint(greaterThanOrEqualToConstant: 70)
+           
         ])
     }
 }
+
