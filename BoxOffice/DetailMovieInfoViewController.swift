@@ -51,7 +51,7 @@ final class DetailMovieInfoViewController: UIViewController {
         title = movieName
         view.backgroundColor = .white
         fetchMovieDetailData()
-        fetchImageForMovie(movieName: movieName)
+        fetchImageforMovie(name: movieName)
         setupViews()
     }
     
@@ -65,9 +65,8 @@ final class DetailMovieInfoViewController: UIViewController {
             switch requestResult {
             case .success(let data):
                 do {
-                    let movieInfo: MovieInfoItem = try JSONConverter.shared.decodeData(data, T: MovieInfoItem.self)
+                    let movieInfo: MovieInfoItem = try JSONConverter.shared.decodeData(data, MovieInfoItem.self)
                     let movieInfoItem = movieInfo.movieInfoResult.movieInfo
-                    DEBUG_LOG(movieInfo)
                     DispatchQueue.main.async {
                         self.updateStackView(movieInfoItem)
                     }
@@ -82,35 +81,32 @@ final class DetailMovieInfoViewController: UIViewController {
         }
     }
     
-    private func fetchImageForMovie(movieName: String) {
+    private func fetchImageforMovie(name: String) {
         let query = ImageAPI.imageQuery(movieName)
         let imageAPI = ImageAPI.imageSearchQuery(query: query)
-        startIndicator()
         
-        provider.performImageRequest(api: imageAPI, completionHandler: { [weak self] requestResult in
-            guard let self = self else { return }
+        provider.performImageRequest(api: imageAPI) { [weak self] requestResult in
+            guard let self else { return }
             switch requestResult {
             case .success(let data):
                 do {
-                    let imageSearchResult: ImageSearchResult = try JSONConverter.shared.decodeData(data, T: ImageSearchResult.self)
-                    let imageInfo = imageSearchResult.documents.first
-                    
-                    DispatchQueue.main.async {
-                        if let imageInfo = imageInfo, let url = URL(string: imageInfo.imageUrl) {
-                            self.imageView.load(url: url, originalWidth: imageInfo.width)
+                    let imageSearchResult: ImageSearchResult = try JSONConverter.shared.decodeData(data, ImageSearchResult.self)
+                    if let imageInfo = imageSearchResult.documents.first,
+                       let url = URL(string: imageInfo.imageUrl) {
+                        self.imageView.loadImage(url: url, originalWidth: imageInfo.width)
+                        DispatchQueue.main.async {
                             self.stopIndicator()
                         }
                     }
+                } catch let error as NetworkError {
+                    DEBUG_LOG(error.description)
                 } catch {
-                    self.stopIndicator()
                     DEBUG_LOG("Unexpected error: \(error)")
                 }
-                
             case .failure(let error):
-                self.stopIndicator()
                 DEBUG_LOG(error)
             }
-        })
+        }
     }
     
     private func updateStackView(_ item: MovieInfo) {
@@ -175,16 +171,6 @@ final class DetailMovieInfoViewController: UIViewController {
     private func stopIndicator() {
         indicatorView.stopAnimating()
         indicatorView.isHidden = true
-    }
-    
-    private func formatDate(_ dateString: String) -> String {
-        let dateFormatter = DateFormatter()
-        dateFormatter.dateFormat = "yyyyMMdd"
-        if let date = dateFormatter.date(from: dateString) {
-            dateFormatter.dateFormat = "yyyy-MM-dd"
-            return dateFormatter.string(from: date)
-        }
-        return dateString
     }
         
 }
