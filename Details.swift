@@ -17,17 +17,29 @@ final class Details: NSObject {
     var openDate: String?
     var productionStatus: String?
     var typeName: String?
-    var nations: [MovieInformation.MovieInformationResult.Movie.Nation]?
-    var genres: [MovieInformation.MovieInformationResult.Movie.Genre]?
-    var directors: [MovieInformation.MovieInformationResult.Movie.Director]?
-    var actors: [MovieInformation.MovieInformationResult.Movie.Actor]?
-    var showTypes: [MovieInformation.MovieInformationResult.Movie.ShowType]?
-    var companys: [MovieInformation.MovieInformationResult.Movie.Company]?
-    var audits: [MovieInformation.MovieInformationResult.Movie.Audit]?
-    var staffs: [MovieInformation.MovieInformationResult.Movie.Staff]?
-
+    var nationsName: [String]?
+    var genresName: [String]?
+    var directorsName: [String]?
+    var directorsEnglishName: [String]?
+    var actorsName: [String]?
+    var actorsEnglishName: [String]?
+    var actorsCast: [String]?
+    var actorsCastEnglish: [String]?
+    var showTypesGroupName: [String]?
+    var showTypesName: [String]?
+    var companysCode: [String]?
+    var companysName: [String]?
+    var companysEnglishName: [String]?
+    var companysPart: [String]?
+    var auditsNumber: [String]?
+    var auditsWatchGrade: [String]?
+    var staffsName: [String]?
+    var staffEnglishName: [String]?
+    var staffRoleName: [String]?
+    
     required convenience init?(coder: NSCoder) {
         self.init()
+        
         self.movieCode = coder.decodeObject(forKey: "movieCode") as? String
         self.movieKoreanName = coder.decodeObject(forKey: "movieKoreanName") as? String
         self.movieEnglishName = coder.decodeObject(forKey: "movieEnglishName") as? String
@@ -37,14 +49,25 @@ final class Details: NSObject {
         self.openDate = coder.decodeObject(forKey: "openDate") as? String
         self.productionStatus = coder.decodeObject(forKey: "productionStatus") as? String
         self.typeName = coder.decodeObject(forKey: "typeName") as? String
-        self.nations = coder.decodeObject(forKey: "nations") as? [MovieInformation.MovieInformationResult.Movie.Nation]
-        self.genres = coder.decodeObject(forKey: "genres") as? [MovieInformation.MovieInformationResult.Movie.Genre]
-        self.directors = coder.decodeObject(forKey: "directors") as? [MovieInformation.MovieInformationResult.Movie.Director]
-        self.actors = coder.decodeObject(forKey: "actors") as? [MovieInformation.MovieInformationResult.Movie.Actor]
-        self.showTypes = coder.decodeObject(forKey: "showTypes") as? [MovieInformation.MovieInformationResult.Movie.ShowType]
-        self.companys = coder.decodeObject(forKey: "companys") as? [MovieInformation.MovieInformationResult.Movie.Company]
-        self.audits = coder.decodeObject(forKey: "audits") as? [MovieInformation.MovieInformationResult.Movie.Audit]
-        self.staffs = coder.decodeObject(forKey: "staffs") as? [MovieInformation.MovieInformationResult.Movie.Staff]
+        self.nationsName = coder.decodeObject(of: [NSArray.self], forKey: "nationsName") as? [String]
+        self.genresName = coder.decodeObject(of: [NSArray.self], forKey: "genresName") as? [String]
+        self.directorsName = coder.decodeObject(of: [NSArray.self], forKey: "directorsName") as? [String]
+        self.directorsEnglishName = coder.decodeObject(of: [NSArray.self], forKey: "directorsEnglishName") as? [String]
+        self.actorsName = coder.decodeObject(of: [NSArray.self], forKey: "actorsName") as? [String]
+        self.actorsEnglishName = coder.decodeObject(of: [NSArray.self], forKey: "actorsEnglishName") as? [String]
+        self.actorsCast = coder.decodeObject(of: [NSArray.self], forKey: "actorsCast") as? [String]
+        self.actorsCastEnglish = coder.decodeObject(of: [NSArray.self], forKey: "actorsCastEnglish") as? [String]
+        self.showTypesGroupName = coder.decodeObject(of: [NSArray.self], forKey: "showTypesGroupName") as? [String]
+        self.showTypesName = coder.decodeObject(of: [NSArray.self], forKey: "showTypesName") as? [String]
+        self.companysCode = coder.decodeObject(of: [NSArray.self], forKey: "companysCode") as? [String]
+        self.companysName = coder.decodeObject(of: [NSArray.self], forKey: "companysName") as? [String]
+        self.companysEnglishName = coder.decodeObject(of: [NSArray.self], forKey: "companysEnglishName") as? [String]
+        self.companysPart = coder.decodeObject(of: [NSArray.self], forKey: "companysPart") as? [String]
+        self.auditsNumber = coder.decodeObject(of: [NSArray.self], forKey: "auditsNumber") as? [String]
+        self.auditsWatchGrade = coder.decodeObject(of: [NSArray.self], forKey: "auditsWatchGrade") as? [String]
+        self.staffsName = coder.decodeObject(of: [NSArray.self], forKey: "staffsName") as? [String]
+        self.staffEnglishName = coder.decodeObject(of: [NSArray.self], forKey: "staffEnglishName") as? [String]
+        self.staffRoleName = coder.decodeObject(of: [NSArray.self], forKey: "staffRoleName") as? [String]
     }
 }
 
@@ -63,14 +86,24 @@ extension Details: NSSecureCoding {
         coder.encode(openDate, forKey: "openDate")
         coder.encode(productionStatus, forKey: "productionStatus")
         coder.encode(typeName, forKey: "typeName")
-        coder.encode(nations, forKey: "nations")
-        coder.encode(genres, forKey: "genres")
-        coder.encode(directors, forKey: "directors")
-        coder.encode(actors, forKey: "actors")
-        coder.encode(showTypes, forKey: "showTypes")
-        coder.encode(companys, forKey: "companys")
-        coder.encode(audits, forKey: "audits")
-        coder.encode(staffs, forKey: "staffs")
+        coder.encode(nationsName, forKey: "nationsName")
+        coder.encode(genresName, forKey: "genresName")
+        coder.encode(directorsName, forKey: "directorsName")
+        coder.encode(directorsEnglishName, forKey: "directorsEnglishName")
+        coder.encode(actorsName, forKey: "actorsName")
+        coder.encode(actorsEnglishName, forKey: "actorsEnglishName")
+        coder.encode(actorsCast, forKey: "actorsCast")
+        coder.encode(actorsCastEnglish, forKey: "actorsCastEnglish")
+        coder.encode(showTypesGroupName, forKey: "showTypesGroupName")
+        coder.encode(showTypesName, forKey: "showTypesName")
+        coder.encode(companysCode, forKey: "companysCode")
+        coder.encode(companysName, forKey: "companysName")
+        coder.encode(companysEnglishName, forKey: "companysEnglishName")
+        coder.encode(companysPart, forKey: "companysPart")
+        coder.encode(auditsNumber, forKey: "auditsNumber")
+        coder.encode(auditsWatchGrade, forKey: "auditsWatchGrade")
+        coder.encode(staffsName, forKey: "staffsName")
+        coder.encode(staffEnglishName, forKey: "staffEnglishName")
+        coder.encode(staffRoleName, forKey: "staffRoleName")
     }
 }
-

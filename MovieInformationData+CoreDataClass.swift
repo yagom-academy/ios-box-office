@@ -22,9 +22,4 @@ extension MovieInformationData {
 
     @NSManaged var movieCode: String?
     @NSManaged var details: Details?
-
-}
-
-extension MovieInformationData : Identifiable {
-
 }

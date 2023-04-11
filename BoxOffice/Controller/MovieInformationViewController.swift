@@ -74,6 +74,8 @@ final class MovieInformationViewController: UIViewController {
                 self?.movieInformationScrollView.setupDescriptionLabels(
                 director: movieInformationItem.directors, productionYear: movieInformationItem.productionYear, openDate: movieInformationItem.openDate, showTime: movieInformationItem.showTime, watchGrade: movieInformationItem.audits, nation: movieInformationItem.nations, genre: movieInformationItem.genres, actor: movieInformationItem.actors)
             }
+            
+            return
         }
         
         networkManager.request(endPoint: boxOfficeEndPoint, returnType: MovieInformation.self) { [weak self] in
@@ -143,81 +145,89 @@ struct MovieInformationItem: Hashable {
     var genres: String = ""
     var actors: String = ""
     
-    
     init(from movie: Details) {
-        guard let movieDirectors = movie.directors,
-              let movieAudits = movie.audits,
-              let movieNations = movie.nations,
-              let movieGenres = movie.genres,
-              let movieActors = movie.actors,
-              let movieProductionYear = movie.productionYear,
-              let movieOpenDate = movie.openDate,
-              let movieShowTime = movie.showTime else { return }
-            
         self.directors = {
+            guard let movieDirectors = movie.directorsName else { return "" }
+
             var directors = ""
+
             for index in 0..<movieDirectors.count {
                 if index == 0 {
-                    directors = movieDirectors[index].name
+                    directors = movieDirectors[index]
                 } else {
-                    directors = directors + ", " + movieDirectors[index].name
+                    directors = directors + ", " + movieDirectors[index]
                 }
             }
-            
+
             return directors
         }()
         self.audits = {
+            guard let movieAudits = movie.auditsWatchGrade else { return "" }
+
             var audits = ""
             for index in 0..<movieAudits.count {
                 if index == 0 {
-                    audits = movieAudits[index].watchGrade
+                    audits = movieAudits[index]
                 } else {
-                    audits = audits + ", " + movieAudits[index].watchGrade
+                    audits = audits + ", " + movieAudits[index]
                 }
             }
-            
+
             return audits
         }()
         self.nations = {
+            guard let movieNations = movie.nationsName else { return "" }
+
             var nations = ""
             for index in 0..<movieNations.count {
                 if index == 0 {
-                    nations = movieNations[index].name
+                    nations = movieNations[index]
                 } else {
-                    nations = nations + ", " + movieNations[index].name
+                    nations = nations + ", " + movieNations[index]
                 }
             }
-            
+
             return nations
         }()
         self.genres = {
+            guard let movieGenres = movie.genresName else { return "" }
+
             var genres = ""
             for index in 0..<movieGenres.count {
                 if index == 0 {
-                    genres = movieGenres[index].name
+                    genres = movieGenres[index]
                 } else {
-                    genres = genres + ", " + movieGenres[index].name
+                    genres = genres + ", " + movieGenres[index]
                 }
             }
-            
+
             return genres
         }()
         self.actors = {
+            guard let movieActors = movie.actorsName else { return "" }
+
             var actors = ""
             for index in 0..<movieActors.count {
                 if index == 0 {
-                    actors = movieActors[index].name
+                    actors = movieActors[index]
                 } else {
-                    actors = actors + ", " + movieActors[index].name
+                    actors = actors + ", " + movieActors[index]
                 }
             }
-            
+
             return actors
         }()
         
-        self.productionYear = movieProductionYear
-        self.openDate = movieOpenDate
-        self.showTime = movieShowTime
+        if let movieProductionYear = movie.productionYear {
+            self.productionYear = movieProductionYear
+        }
+        
+        if let movieOpenDate = movie.openDate {
+            self.openDate = movieOpenDate
+        }
+        
+        if let movieShowTime = movie.showTime {
+            self.showTime = movieShowTime
+        }
     }
 }
-
