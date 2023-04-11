@@ -13,8 +13,9 @@ class URLCacheManager {
     
     private init() { }
     
-    func store(response: CachedURLResponse, for request: URLRequest) {
-        storage.storeCachedResponse(response, for: request)
+    func store(response: CachedURLResponse, for url: URL) {
+        let urlRequest = URLRequest(url: url)
+        storage.storeCachedResponse(response, for: urlRequest)
     }
     
     func getCachedResponse(for dataTask: URLSessionDataTask, completionHandler: @escaping (CachedURLResponse?) -> Void) {

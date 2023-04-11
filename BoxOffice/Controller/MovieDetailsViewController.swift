@@ -39,6 +39,7 @@ final class MovieDetailsViewController: UIViewController {
 
     private var movieCode: String
     private var movieName: String
+    private var movieImageURL: URL?
     
     init(movieCode: String, movieName: String) {
         self.movieCode = movieCode
@@ -55,7 +56,7 @@ final class MovieDetailsViewController: UIViewController {
         configureRootView()
         configureNavigationBar()
         loadMovieDetails()
-        loadPosterImage()
+        fetchPosterImageURL()
         configureScrollView()
         configureCategoryLabels()
     }
@@ -90,10 +91,10 @@ final class MovieDetailsViewController: UIViewController {
             case .failure(let error):
                 AlertController.showAlert(for: error, to: self)
             }
-        }?.resume()
+        }
     }
     
-    private func loadPosterImage() {
+    private func fetchPosterImageURL() {
         var api = DaumSearchAPI()
         let queryName = "query"
         let queryValue = movieName + " 영화 포스터"
@@ -101,44 +102,16 @@ final class MovieDetailsViewController: UIViewController {
         
         var apiProvider = APIProvider()
         apiProvider.target(api: api)
-        
-        LoadingIndicator.showLoading(in: posterView)
-        
-        let dataTask = apiProvider.startLoad(decodingType: DaumSearchResult.self) { result in
-            LoadingIndicator.hideLoading(in: self.posterView)
-            
+
+        apiProvider.startLoad(decodingType: DaumSearchResult.self) { result in
             switch result {
             case .success(let searchedResult):
                 guard let document = searchedResult.documents.first,
-                      let url = URL(string: document.imageURL),
-                      let data = try? Data(contentsOf: url) else { return }
-                
-                DispatchQueue.main.async {
-                    self.posterView.image = UIImage(data: data)
-                }
+                      let url = URL(string: document.imageURL) else { return }
+                self.movieImageURL = url
             case .failure(let error):
                 AlertController.showAlert(for: error, to: self)
             }
-        }
-        
-        if let dataTask {
-            URLCacheManager.shared.getCachedResponse(for: dataTask) { response in
-                guard let response,
-                let decodedData = try? JSONDecoder().decode(DaumSearchResult.self, from: response.data)
-                else {
-                    return
-                }
-                
-                DispatchQueue.main.async {
-                    guard let document = decodedData.documents.first,
-                          let url = URL(string: document.imageURL),
-                          let data = try? Data(contentsOf: url) else { return }
-                    
-                    self.posterView.image = UIImage(data: data)
-                }
-            }
-        } else {
-            dataTask?.resume()
         }
     }
     
