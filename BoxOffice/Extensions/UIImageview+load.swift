@@ -8,18 +8,15 @@
 import UIKit
 
 extension UIImageView {
-    
-    func load(url: URL, originalWidth: Int = 0) {
-        let viewWidth = frame.width
-        
-        DispatchQueue.global().async { [weak self] in
-            guard let self = self, let data = try? Data(contentsOf: url) else { return }
-            
-            let scale = CGFloat(originalWidth) / CGFloat(viewWidth)
-            
-            let image = UIImage(data: data, scale: scale)
-            
+   
+    func loadImage(url: URL, originalWidth: Int = 0) {
+        ImageManager.shared.fetchImage(imageURL: url) { [weak self] data in
+            guard let self else { return }
             DispatchQueue.main.async {
+                let viewWidth = self.frame.width
+                let scale = CGFloat(originalWidth) / CGFloat(viewWidth)
+                
+                let image = UIImage(data: data, scale: scale)
                 self.image = image
             }
         }
