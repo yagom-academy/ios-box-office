@@ -131,10 +131,13 @@ final class MovieDetailViewController: UIViewController {
                       let imageUrl = URL(string: url) else {
                     return
                 }
-                guard let image = try? Data(contentsOf: imageUrl) else { return }
-                DispatchQueue.main.async {
-                    self?.posterImageView.image = UIImage(data: image)
-                    self?.activityIndicator.stopAnimating()
+                
+                DispatchQueue.global().async {
+                    guard let image = try? Data(contentsOf: imageUrl) else { return }
+                    DispatchQueue.main.async {
+                        self?.posterImageView.image = UIImage(data: image)
+                        self?.activityIndicator.stopAnimating()
+                    }
                 }
             case .failure:
                 let alertViewController = AlertManager.shared.showFailureAlert()

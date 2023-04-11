@@ -9,9 +9,11 @@ import Foundation
 
 struct URLCacheManager {
     static let shared = URLCacheManager()
-    private let urlCache = URLCache.shared
+    private var urlCache: URLCache
     
-    private init() {}
+    private init() {
+        urlCache = URLCache(memoryCapacity: 0, diskCapacity: 100 * 1024 * 1024)
+    }
     
     func createCachedResponse(response: URLResponse?, data: Data) throws -> CachedURLResponse {
         guard let response else {
