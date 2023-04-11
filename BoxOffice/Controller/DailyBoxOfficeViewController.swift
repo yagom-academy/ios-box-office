@@ -138,23 +138,33 @@ final class DailyBoxOfficeViewController: UIViewController, DateUpdatable {
     private func fetchDailyBoxOfficeData() {
         guard let endPoint = boxOfficeEndPoint else { return }
         
+        dateFormatter.dateFormat = "yyyyMMdd"
+        let selectedDate = dateFormatter.string(from: selectedDate)
+        
+        if let fetchedData = BoxOfficeCoreDataManager.shared.fetchData(date: selectedDate),
+           let movies = fetchedData.movies {
+            applyMoviesToDailyBoxOfficeItem(from: movies.movieList)
+            
+            DispatchQueue.main.async { [weak self] in
+                self?.setupDataSource()
+                self?.updateDataSource()
+                self?.refreshControl.endRefreshing()
+            }
+            
+            return
+        }
+        
         networkManager.request(endPoint: endPoint, returnType: DailyBoxOffice.self) { [weak self] in
             switch $0 {
             case .failure(let error):
                 print(error)
             case .success(let result):
                 
-                self?.dateFormatter.dateFormat = "yyyyMMdd"
-                guard let seletedDate = self?.selectedDate,
-                      let date = self?.dateFormatter.string(from: seletedDate) else { return }
+                BoxOfficeCoreDataManager.shared.saveData(date: selectedDate, with: result.boxOfficeResult.boxOfficeList)
                 
-                result.boxOfficeResult.boxOfficeList.forEach {
-                    BoxOfficeCoreDataManager.shared.saveData(date: date, with: $0)
-                }
-                
-                let selectedDate = BoxOfficeCoreDataManager.shared.fetchData()
-                guard let movie = selectedDate.first?.movie else { return }
-                self?.applyMoviesToDailyBoxOfficeItem(from: movie.boxOfficeDatas)
+                guard let fetchedData = BoxOfficeCoreDataManager.shared.fetchData(date: selectedDate),
+                      let movies = fetchedData.movies else { return }
+                self?.applyMoviesToDailyBoxOfficeItem(from: movies.movieList)
                 
                 DispatchQueue.main.async {
                     self?.setupDataSource()
@@ -165,7 +175,7 @@ final class DailyBoxOfficeViewController: UIViewController, DateUpdatable {
         }
     }
     
-    private func applyMoviesToDailyBoxOfficeItem(from movies: [BoxOfficeData]) {
+    private func applyMoviesToDailyBoxOfficeItem(from movies: [Movie]) {
         dailyBoxOfficeItem = movies.map {
             DailyBoxOfficeItem(from: $0)
         }
@@ -346,7 +356,7 @@ struct DailyBoxOfficeItem: Hashable {
     let audienceCount: String
     let audienceAccumulation: String
     
-    init(from movie: BoxOfficeData) {
+    init(from movie: Movie) {
         self.identifier = UUID()
         self.rank = movie.rank ?? ""
         self.rankVariance = movie.rankVariance ?? ""
