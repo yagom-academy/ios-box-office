@@ -24,7 +24,7 @@ final class ImageManager {
         create: false
     )
     
-    func fetchImage(imageURL: URL, completionHandler: @escaping (Data) -> Void) {
+    func fetchImage(imageURL: URL, cachePolicy: URLRequest.CachePolicy = .returnCacheDataElseLoad, completionHandler: @escaping (Data) -> Void) {
         let urlRequest = URLRequest(url: imageURL)
         
         loadImageFromCache(request: urlRequest) { [weak self] result in
