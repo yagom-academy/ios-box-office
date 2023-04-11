@@ -12,7 +12,7 @@ final class MovieDetailViewController: UIViewController {
     // MARK: - Properties
     var movieName: String = ""
     var movieCode: String = ""
-    private lazy var dataManager = MovieDescManager(movieCode: movieCode, movieName: movieName)
+    private var dataManager: MovieDescManager?
     private let dispatchGroup = DispatchGroup()
     
     // MARK: - UI Properties
@@ -36,6 +36,7 @@ final class MovieDetailViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        createMovieDescManager()
         configureUI()
         startLoading()
         fetchImage()
@@ -43,10 +44,14 @@ final class MovieDetailViewController: UIViewController {
         stopLoading()
     }
     
+    private func createMovieDescManager() {
+        self.dataManager = MovieDescManager(movieCode: movieCode, movieName: movieName)
+    }
+    
     private func fetchData() {
         dispatchGroup.enter()
         
-        dataManager.boxofficeInfo.fetchData { [weak self] result in
+        dataManager?.boxofficeInfo.fetchData { [weak self] result in
             switch result {
             case .success(let data):
                 let infoUIModel = MovieInfoUIModel(data: data.movieInfoResult.movieInfo)
@@ -65,7 +70,7 @@ final class MovieDetailViewController: UIViewController {
     private func fetchImage() {
         dispatchGroup.enter()
         
-        dataManager.fetchMoviePosterImage { [weak self] result in
+        dataManager?.fetchMoviePosterImage { [weak self] result in
             DispatchQueue.main.async {
                 switch result {
                 case .success((let image, let imageSize)):
@@ -92,7 +97,6 @@ final class MovieDetailViewController: UIViewController {
         descStackView.isHidden = true
     }
     
-    
     private func stopLoading() {
         dispatchGroup.notify(queue: .main) {
             self.loadingView.stopAnimating()
@@ -101,7 +105,6 @@ final class MovieDetailViewController: UIViewController {
         }
     }
 }
-
 
 // MARK: - UI
 extension MovieDetailViewController {

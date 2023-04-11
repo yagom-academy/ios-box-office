@@ -10,12 +10,12 @@ import UIKit
 final class MovieRankingViewController: UIViewController {
     
     // MARK: Propertie
-    private var dataManager = {
-        guard let yesterday = Date.yesterday else {
-            return RankingManager(date: Date())
+    private var dataManager: RankingManager?
+    private var boxofficeDate = {
+        guard let boxofficeDate = Date.yesterday else {
+            return Date()
         }
-        
-        return RankingManager(date: yesterday)
+        return boxofficeDate
     }()
     
     // MARK: UI Properties
@@ -29,28 +29,31 @@ final class MovieRankingViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        makeDataManager()
         configureUI()
+        configureNavigationTitle()
         startLoadingView()
-        makeDataSource()
-        configureRefreshController()
         fetchBoxofficeData()
     }
     
+    private func makeDataManager() {
+        dataManager = RankingManager(date: boxofficeDate)
+    }
+    
     private func fetchBoxofficeData() {
-        dataManager.fetchRanking { [weak self] result in
+        dataManager?.fetchRanking(handler: { [weak self] result in
             switch result {
             case .success(_):
                 DispatchQueue.main.async {
-                    self?.applySnapshot()
                     self?.stopLoadingView()
                     self?.collectionView?.refreshControl?.endRefreshing()
+                    self?.applySnapshot()
                 }
             case .failure(let error):
-                DispatchQueue.main.async {
-                    self?.presentErrorAlert(error: error, title: "박스오피스")
-                }
+                self?.presentErrorAlert(error: error, title: "박스오피스")
             }
-        }
+        })
     }
 
     private func startLoadingView() {
@@ -69,15 +72,36 @@ final class MovieRankingViewController: UIViewController {
     @objc private func refreshCollectionView() {
         self.fetchBoxofficeData()
     }
+
+    @objc private func didTapDateSelectionButton() {
+        let calendarVC = CalendarViewController()
+        calendarVC.delegate = self
+        calendarVC.selectedDate = boxofficeDate
+        present(calendarVC, animated: true)
+    }
+}
+
+// MARK: ChangedDateDelegate
+extension MovieRankingViewController: ChangedDateDelegate {
+    func changeDate(_ date: Date) {
+        startLoadingView()
+        boxofficeDate = date
+        makeDataManager()
+        configureNavigationTitle()
+        fetchBoxofficeData()
+    }
 }
 
 // MARK: Delegate
 extension MovieRankingViewController: UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        guard let movieItem = dataManager?.movieItems[indexPath.row] else {
+            return
+        }
         let nextViewController = MovieDetailViewController()
         
-        nextViewController.movieName = dataManager.movieItems[indexPath.row].name
-        nextViewController.movieCode = dataManager.movieItems[indexPath.row].code
+        nextViewController.movieName = movieItem.name
+        nextViewController.movieCode = movieItem.code
         
         navigationController?.pushViewController(nextViewController, animated: true)
     }
@@ -85,6 +109,16 @@ extension MovieRankingViewController: UICollectionViewDelegate {
 
 // MARK: UI
 extension MovieRankingViewController {
+    
+    private func configureNavigationTitle() {
+        navigationItem.title = dataManager?.navigationTitleText
+    }
+    
+    private func configureNavigationItems() {
+        configureNavigationTitle()
+        navigationItem.rightBarButtonItem = UIBarButtonItem(title: "날짜 선택", style: .plain, target: self, action: #selector(didTapDateSelectionButton))
+    }
+    
     private func configureUI() {
         view.backgroundColor = .systemBackground
         
@@ -93,8 +127,9 @@ extension MovieRankingViewController {
         collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
         configureCollectionViewLayout()
         configureLoadingView()
-        
-        navigationItem.title = "\(dataManager.navigationTitleText)"
+        configureNavigationItems()
+        configureRefreshController()
+        makeDataSource()
     }
     
     private func configureLoadingView() {
@@ -104,7 +139,7 @@ extension MovieRankingViewController {
         view.addSubview(loadingView)
     }
     
-    func makeCollectionViewListLayout() -> UICollectionViewCompositionalLayout {
+    private func makeCollectionViewListLayout() -> UICollectionViewCompositionalLayout {
         let configuration = UICollectionLayoutListConfiguration(appearance: .plain)
         let layout = UICollectionViewCompositionalLayout.list(using: configuration)
         
@@ -126,8 +161,10 @@ extension MovieRankingViewController {
     }
     
     private func applySnapshot() {
-        var snapshot = NSDiffableDataSourceSnapshot<APIType, InfoObject>()
+        guard let dataManager = dataManager else { return }
         
+        var snapshot = NSDiffableDataSourceSnapshot<APIType, InfoObject>()
+    
         snapshot.appendSections([dataManager.apiType])
         snapshot.appendItems(dataManager.movieItems)
         

@@ -11,26 +11,16 @@ final class MovieRankingCell: UICollectionViewListCell {
         
     static let identifier = "MovieRankingCell"
     
-    func updateLabelText(for manager: CellUIModel) {
-        self.rankLabel.text = manager.rank
-        self.rankStatusLabel.attributedText = manager.rankStatusAttributedText
-        self.movieNameLabel.text = manager.name
-        self.audienceLabel.text = manager.audienceInfoText
-    }
-    
     // MARK: UI Properties
+    private let rankStatusLabel = UILabel()
+    private let audienceLabel = UILabel()
+    private let rankStackView = UIStackView()
+    private let movieInfoStackView = UIStackView()
+    
     private let rankLabel = {
         let label = UILabel()
         
         label.font = .preferredFont(forTextStyle: .largeTitle)
-        
-        return label
-    }()
-    
-    private let rankStatusLabel = {
-        let label = UILabel()
-        
-        label.tintColor = .blue
         
         return label
     }()
@@ -44,38 +34,22 @@ final class MovieRankingCell: UICollectionViewListCell {
         return label
     }()
     
-    private var audienceLabel = {
-        let label = UILabel()
-        
-        return label
-    }()
-    
-    private lazy var rankStackView = {
-        let stackView = UIStackView(arrangedSubviews: [rankLabel, rankStatusLabel])
-        
-        stackView.translatesAutoresizingMaskIntoConstraints = false
-        stackView.axis = .vertical
-        stackView.alignment = .center
-        
-        return stackView
-    }()
-    
-    private lazy var movieInfoStackView = {
-        let stackView = UIStackView(arrangedSubviews: [movieNameLabel, audienceLabel])
-        
-        stackView.translatesAutoresizingMaskIntoConstraints = false
-        stackView.axis = .vertical
-        
-        return stackView
-    }()
-    
     override init(frame: CGRect) {
         super.init(frame: frame)
+        configureRankStackView()
+        configureMovieInfoStackView()
         configureUI()
     }
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
+    }
+    
+    func updateLabelText(for manager: CellUIModel) {
+        self.rankLabel.text = manager.rank
+        self.rankStatusLabel.attributedText = manager.rankStatusAttributedText
+        self.movieNameLabel.text = manager.name
+        self.audienceLabel.text = manager.audienceInfoText
     }
 }
 
@@ -97,5 +71,20 @@ extension MovieRankingCell {
             movieInfoStackView.leadingAnchor.constraint(equalTo: rankStackView.trailingAnchor),
             movieInfoStackView.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -30)
         ])
+    }
+    
+    private func configureRankStackView() {
+        rankStackView.addArrangedSubview(rankLabel)
+        rankStackView.addArrangedSubview(rankStatusLabel)
+        rankStackView.translatesAutoresizingMaskIntoConstraints = false
+        rankStackView.axis = .vertical
+        rankStackView.alignment = .center
+    }
+    
+    private func configureMovieInfoStackView() {
+        movieInfoStackView.addArrangedSubview(movieNameLabel)
+        movieInfoStackView.addArrangedSubview(audienceLabel)
+        movieInfoStackView.translatesAutoresizingMaskIntoConstraints = false
+        movieInfoStackView.axis = .vertical
     }
 }

@@ -14,6 +14,7 @@
 		269309B129DACB1600F7B6B6 /* DescStackView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 269309B029DACB1600F7B6B6 /* DescStackView.swift */; };
 		269BFC9829D6A9E800263E4C /* CellUIModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 269BFC9729D6A9E800263E4C /* CellUIModel.swift */; };
 		269BFC9A29D6D0FF00263E4C /* RankingManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 269BFC9929D6D0FF00263E4C /* RankingManager.swift */; };
+		26AFF55429DD567800CA1DAA /* ChangedDateDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26AFF55329DD567800CA1DAA /* ChangedDateDelegate.swift */; };
 		26B1733729C845CD0086B7CA /* String+extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26B1733629C845CD0086B7CA /* String+extension.swift */; };
 		26B6853A29C986C5001580FF /* MovieInfoObject.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26B6853929C986C5001580FF /* MovieInfoObject.swift */; };
 		26B6853C29C987A6001580FF /* MovieInfoResultObject.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26B6853B29C987A6001580FF /* MovieInfoResultObject.swift */; };
@@ -32,6 +33,7 @@
 		7139126629C821BF00E54F5E /* InfoObject.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7139126529C821BF00E54F5E /* InfoObject.swift */; };
 		715553DF29D30E6300B7FC3D /* NetworkingProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 715553DE29D30E6300B7FC3D /* NetworkingProtocol.swift */; };
 		715553E129D30E8200B7FC3D /* BoxofficeInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 715553E029D30E8200B7FC3D /* BoxofficeInfo.swift */; };
+		71741B1C29DD160800FA9FE4 /* CalendarViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71741B1B29DD160800FA9FE4 /* CalendarViewController.swift */; };
 		7180BC3829C953D600C9E70B /* BoxOfficeInfo.plist in Resources */ = {isa = PBXBuildFile; fileRef = 7180BC3729C953D600C9E70B /* BoxOfficeInfo.plist */; };
 		7180BC3A29C9547A00C9E70B /* Bundle+extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7180BC3929C9547A00C9E70B /* Bundle+extension.swift */; };
 		71A0A45929C98E64006D3932 /* APIType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71A0A45829C98E64006D3932 /* APIType.swift */; };
@@ -70,6 +72,7 @@
 		269309B029DACB1600F7B6B6 /* DescStackView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DescStackView.swift; sourceTree = "<group>"; };
 		269BFC9729D6A9E800263E4C /* CellUIModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CellUIModel.swift; sourceTree = "<group>"; };
 		269BFC9929D6D0FF00263E4C /* RankingManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RankingManager.swift; sourceTree = "<group>"; };
+		26AFF55329DD567800CA1DAA /* ChangedDateDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChangedDateDelegate.swift; sourceTree = "<group>"; };
 		26B1733629C845CD0086B7CA /* String+extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "String+extension.swift"; sourceTree = "<group>"; };
 		26B6853929C986C5001580FF /* MovieInfoObject.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MovieInfoObject.swift; sourceTree = "<group>"; };
 		26B6853B29C987A6001580FF /* MovieInfoResultObject.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MovieInfoResultObject.swift; sourceTree = "<group>"; };
@@ -92,6 +95,7 @@
 		7139126529C821BF00E54F5E /* InfoObject.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InfoObject.swift; sourceTree = "<group>"; };
 		715553DE29D30E6300B7FC3D /* NetworkingProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkingProtocol.swift; sourceTree = "<group>"; };
 		715553E029D30E8200B7FC3D /* BoxofficeInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BoxofficeInfo.swift; sourceTree = "<group>"; };
+		71741B1B29DD160800FA9FE4 /* CalendarViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarViewController.swift; sourceTree = "<group>"; };
 		7180BC3729C953D600C9E70B /* BoxOfficeInfo.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = BoxOfficeInfo.plist; sourceTree = "<group>"; };
 		7180BC3929C9547A00C9E70B /* Bundle+extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Bundle+extension.swift"; sourceTree = "<group>"; };
 		71A0A45829C98E64006D3932 /* APIType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIType.swift; sourceTree = "<group>"; };
@@ -280,6 +284,7 @@
 			isa = PBXGroup;
 			children = (
 				715553DE29D30E6300B7FC3D /* NetworkingProtocol.swift */,
+				26AFF55329DD567800CA1DAA /* ChangedDateDelegate.swift */,
 			);
 			path = Protocol;
 			sourceTree = "<group>";
@@ -299,6 +304,7 @@
 			children = (
 				63DF20F22970E1A0005DF7D1 /* MovieRankingViewController.swift */,
 				269309AC29DA96F100F7B6B6 /* MovieDetailViewController.swift */,
+				71741B1B29DD160800FA9FE4 /* CalendarViewController.swift */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -455,12 +461,14 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				71741B1C29DD160800FA9FE4 /* CalendarViewController.swift in Sources */,
 				71EDC4A029DBEE2900510E15 /* MovieInfoUIModel.swift in Sources */,
 				71A0A45929C98E64006D3932 /* APIType.swift in Sources */,
 				269309AF29DAAB8900F7B6B6 /* MovieDescManager.swift in Sources */,
 				26B6853E29C988C1001580FF /* MovieInfoDescObject.swift in Sources */,
 				63DF20F32970E1A0005DF7D1 /* MovieRankingViewController.swift in Sources */,
 				715553DF29D30E6300B7FC3D /* NetworkingProtocol.swift in Sources */,
+				26AFF55429DD567800CA1DAA /* ChangedDateDelegate.swift in Sources */,
 				269309AD29DA96F100F7B6B6 /* MovieDetailViewController.swift in Sources */,
 				269309B129DACB1600F7B6B6 /* DescStackView.swift in Sources */,
 				71D8B04A29D56CC80005A625 /* Date+extension.swift in Sources */,
@@ -691,7 +699,7 @@
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
-				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -718,7 +726,7 @@
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
-				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
