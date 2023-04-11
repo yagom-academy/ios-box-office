@@ -14,7 +14,6 @@ class BoxOfficeListCell: UICollectionViewListCell  {
     @IBOutlet weak var movieTitleLabel: UILabel!
     @IBOutlet weak var audienceCountLabel: UILabel!
     
-    
     private let rankStackView: UIStackView = {
         let stackView = UIStackView()
         stackView.translatesAutoresizingMaskIntoConstraints = false
@@ -29,7 +28,8 @@ class BoxOfficeListCell: UICollectionViewListCell  {
         let stackView = UIStackView()
         stackView.translatesAutoresizingMaskIntoConstraints = false
         stackView.axis = .vertical
-        stackView.distribution = .fillEqually
+        stackView.distribution = .fillProportionally
+        
         return stackView
     }()
     
@@ -40,11 +40,13 @@ class BoxOfficeListCell: UICollectionViewListCell  {
         stackView.alignment = .center
         stackView.distribution = .equalSpacing
         stackView.spacing = 6
+        
         return stackView
     }()
     
     func configureListCellUI() {
         setUpLabelStyle()
+        self.accessories = [.disclosureIndicator(displayed: .always, options: .init(isHidden: false, reservedLayoutWidth: .custom(30)) )]
         self.layer.borderWidth = 0.2
         self.layer.borderColor = UIColor.lightGray.cgColor
         
@@ -68,13 +70,15 @@ class BoxOfficeListCell: UICollectionViewListCell  {
             rankStackView.centerYAnchor.constraint(equalTo: self.centerYAnchor),
             
             titleAndAudienceStackView.leadingAnchor.constraint(equalTo: rankStackView.trailingAnchor,constant: 20),
-            titleAndAudienceStackView.centerYAnchor.constraint(equalTo: self.centerYAnchor),
-            titleAndAudienceStackView.trailingAnchor.constraint(lessThanOrEqualTo: self.trailingAnchor, constant: -20)
+            titleAndAudienceStackView.trailingAnchor.constraint(lessThanOrEqualTo: self.trailingAnchor, constant: -50),
+            titleAndAudienceStackView.topAnchor.constraint(equalTo: self.topAnchor, constant: 15),
+            titleAndAudienceStackView.bottomAnchor.constraint(equalTo: self.bottomAnchor, constant: -15),
         ])
     }
     
     func configureIconCellUI() {
         setUpLabelStyle()
+        self.accessories = []
         self.layer.borderWidth = 1
         self.layer.borderColor = UIColor.black.cgColor
         self.addSubview(iconTypeStackView)
@@ -97,9 +101,7 @@ class BoxOfficeListCell: UICollectionViewListCell  {
         rankGapLabel.font = UIFont.preferredFont(forTextStyle: .subheadline)
         movieTitleLabel.font = UIFont.preferredFont(forTextStyle: .title3)
         audienceCountLabel.font = UIFont.preferredFont(forTextStyle: .subheadline)
-        
         rankGapLabel.textAlignment = .center
-        
     }
     
     func setUpLabel(by dailyBoxOffice: DailyBoxOffice, indexPath: IndexPath) {

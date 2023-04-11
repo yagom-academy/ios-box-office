@@ -162,8 +162,6 @@ final class BoxOfficeViewController: UIViewController {
         alertToListLayout.addAction(UIAlertAction(title: "취소", style: .cancel, handler: { _ in print("알럿 취소") }))
         present(alertToListLayout, animated: true)
     }
-    
-    
 }
 
 extension BoxOfficeViewController: UICollectionViewDataSource {
@@ -174,30 +172,20 @@ extension BoxOfficeViewController: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cellId = String(describing: BoxOfficeListCell.self)
         let cell = boxOfficeListCollectionView.dequeueReusableCell(withReuseIdentifier: cellId, for: indexPath) as! BoxOfficeListCell
-//        if isCurrentListLayout == true {
-//            cell.configureListCellUI()
-//            cell.accessories = [.disclosureIndicator()]
-//            self.boxOfficeListCollectionView.reloadData()
-//        } else if isCurrentListLayout == false {
-//            cell.configureIconCellUI()
-//            cell.accessories = []
-//        }
         
         switch isCurrentListLayout {
         case true:
             cell.configureListCellUI()
-            cell.accessories = [.disclosureIndicator()]
         case false:
             cell.configureIconCellUI()
-            cell.accessories = []
         }
-        
         
         guard let validDailyBoxOffice = boxOfficeService.dailyBoxOffice else {
             return cell
         }
 
         cell.setUpLabel(by: validDailyBoxOffice, indexPath: indexPath)
+        
         return cell
     }
     
@@ -235,21 +223,9 @@ extension BoxOfficeViewController: UICollectionViewDelegate {
 
 extension BoxOfficeViewController {
     private func setUpCompositionalListLayout() -> UICollectionViewLayout {
-        let layout = UICollectionViewCompositionalLayout {
-            (sectionIndex: Int, layoutEnvironment: NSCollectionLayoutEnvironment) -> NSCollectionLayoutSection? in
-            
-            let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0), heightDimension: .fractionalHeight(1.0))
-            let item = NSCollectionLayoutItem(layoutSize: itemSize)
-            
-            item.contentInsets = NSDirectionalEdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 0)
-            
-            let groupHeight =  NSCollectionLayoutDimension.fractionalWidth(1/4)
-            let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0), heightDimension: groupHeight)
-            let group = NSCollectionLayoutGroup.horizontal(layoutSize: groupSize, subitem: item, count: 1)
-            let section = NSCollectionLayoutSection(group: group)
-            
-            return section
-        }
+        let configuration = UICollectionLayoutListConfiguration(appearance: .plain)
+        let layout = UICollectionViewCompositionalLayout.list(using: configuration)
+        
         return layout
     }
     
@@ -279,3 +255,5 @@ extension BoxOfficeViewController: CalendarDateDelegate {
         print(choosenDate)
     }
 }
+
+
