@@ -9,36 +9,36 @@ import Foundation
 import CoreData
 import UIKit
 
-class BoxOfficeCoreDataManager {
+class BoxOfficeCoreDataManager: DataManager {
     static let shared = BoxOfficeCoreDataManager()
     private let context = (UIApplication.shared.delegate as? AppDelegate)?.persistentContainer.newBackgroundContext()
     
     private init() {}
     
-    func create(date: String, and movies: [DailyBoxOffice.BoxOfficeResult.Movie]) {
+    func create(key: String, value: [Any]) {
         guard let context = self.context,
               let dailyBoxOfficeEntity = NSEntityDescription.entity(forEntityName: "DailyBoxOfficeData", in: context),
               let dailyBoxOfficeData = NSManagedObject(entity: dailyBoxOfficeEntity, insertInto: context) as? DailyBoxOfficeData else { return }
         
-        setValue(at: dailyBoxOfficeData, date: date, and: movies)
+        setValue(at: dailyBoxOfficeData, date: key, and: value)
         save()
     }
     
-    func read(date: String) -> DailyBoxOfficeData? {
-        fetchData(date: date)
+    func read(key: String) -> Any? {
+        fetchData(date: key)
     }
     
-    func update(date: String, and movies: [DailyBoxOffice.BoxOfficeResult.Movie]) {
-        guard let dailyBoxOfficeData = fetchData(date: date) else { return }
+    func update(key: String, value: [Any]) {
+        guard let dailyBoxOfficeData = fetchData(date: key) else { return }
         
-        setValue(at: dailyBoxOfficeData, date: date, and: movies)
+        setValue(at: dailyBoxOfficeData, date: key, and: value)
         save()
     }
     
-    func delete<T: NSManagedObject>(targetType: T.Type) {
+    func delete() {
         guard let context = self.context else { return }
         
-        let request: NSFetchRequest<NSFetchRequestResult> = targetType.fetchRequest()
+        let request: NSFetchRequest<NSFetchRequestResult> = DailyBoxOfficeData.fetchRequest()
         let delete = NSBatchDeleteRequest(fetchRequest: request)
         do {
             try context.execute(delete)
@@ -47,7 +47,9 @@ class BoxOfficeCoreDataManager {
         }
     }
     
-    private func setValue(at target: DailyBoxOfficeData, date: String, and movies: [DailyBoxOffice.BoxOfficeResult.Movie]) {
+    private func setValue(at target: DailyBoxOfficeData, date: String, and movies: [Any]) {
+        guard let movies = movies as? [DailyBoxOffice.BoxOfficeResult.Movie] else { return }
+        
         var movieList = [Movie]()
         movies.forEach {
             let movie = Movie()

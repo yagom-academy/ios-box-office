@@ -4,4 +4,8 @@
         <attribute name="movies" optional="YES" attributeType="Transformable" valueTransformerName="MovieAttributeTransformer" customClassName="BoxOfficeDatas"/>
         <attribute name="selectedDate" optional="YES" attributeType="String"/>
     </entity>
+    <entity name="MovieInformationData" representedClassName="MovieInformationData" syncable="YES">
+        <attribute name="details" optional="YES" attributeType="Transformable" valueTransformerName="DetailsAttributeTransformer" customClassName="Details"/>
+        <attribute name="movieCode" optional="YES" attributeType="String"/>
+    </entity>
 </model>
