@@ -236,9 +236,9 @@
 				AD1E9C1C29CDD2920023A817 /* Endpoint.swift */,
 				4B4A799629D4317100514141 /* DaumSearchAPI.swift */,
 				ADF3305029CAF5DB00E0EF8B /* KobisAPI.swift */,
+				4BE1519529E5421100328494 /* URLCacheManager.swift */,
 				4B9E3A1329C986EC00B60AD1 /* Error */,
 				4B9E3A2529CADF8600B60AD1 /* Protocol */,
-				4BE1519529E5421100328494 /* URLCacheManager.swift */,
 			);
 			path = Network;
 			sourceTree = "<group>";

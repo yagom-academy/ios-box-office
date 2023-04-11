@@ -17,4 +17,7 @@ class URLCacheManager {
         storage.storeCachedResponse(response, for: request)
     }
     
+    func getCachedResponse(for dataTask: URLSessionDataTask, completionHandler: @escaping (CachedURLResponse?) -> Void) {
+        storage.getCachedResponse(for: dataTask, completionHandler: completionHandler)
+    }
 }

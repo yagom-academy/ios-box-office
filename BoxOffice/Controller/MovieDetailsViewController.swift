@@ -36,9 +36,7 @@ final class MovieDetailsViewController: UIViewController {
         
         return scrollView
     }()
-    
-    private var movieDetails: MovieDetails?
-    private var searchedResult: DaumSearchResult?
+
     private var movieCode: String
     private var movieName: String
     
@@ -86,15 +84,13 @@ final class MovieDetailsViewController: UIViewController {
         apiProvider.startLoad(decodingType: MovieDetails.self) { result in
             switch result {
             case .success(let movieDetails):
-                self.movieDetails = movieDetails
-                
                 DispatchQueue.main.async {
                     self.configureDetailLabels(with: movieDetails)
                 }
             case .failure(let error):
                 AlertController.showAlert(for: error, to: self)
             }
-        }
+        }?.resume()
     }
     
     private func loadPosterImage() {
@@ -108,13 +104,11 @@ final class MovieDetailsViewController: UIViewController {
         
         LoadingIndicator.showLoading(in: posterView)
         
-        apiProvider.startLoad(decodingType: DaumSearchResult.self) { result in
+        let dataTask = apiProvider.startLoad(decodingType: DaumSearchResult.self) { result in
             LoadingIndicator.hideLoading(in: self.posterView)
             
             switch result {
             case .success(let searchedResult):
-                self.searchedResult = searchedResult
-                
                 guard let document = searchedResult.documents.first,
                       let url = URL(string: document.imageURL),
                       let data = try? Data(contentsOf: url) else { return }
@@ -125,6 +119,26 @@ final class MovieDetailsViewController: UIViewController {
             case .failure(let error):
                 AlertController.showAlert(for: error, to: self)
             }
+        }
+        
+        if let dataTask {
+            URLCacheManager.shared.getCachedResponse(for: dataTask) { response in
+                guard let response,
+                let decodedData = try? JSONDecoder().decode(DaumSearchResult.self, from: response.data)
+                else {
+                    return
+                }
+                
+                DispatchQueue.main.async {
+                    guard let document = decodedData.documents.first,
+                          let url = URL(string: document.imageURL),
+                          let data = try? Data(contentsOf: url) else { return }
+                    
+                    self.posterView.image = UIImage(data: data)
+                }
+            }
+        } else {
+            dataTask?.resume()
         }
     }
     

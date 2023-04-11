@@ -172,7 +172,7 @@ final class DailyBoxOfficeViewController: UIViewController {
             }
             
             LoadingIndicator.hideLoading()
-        }
+        }?.resume()
     }
     
     private func applySnapshot() {

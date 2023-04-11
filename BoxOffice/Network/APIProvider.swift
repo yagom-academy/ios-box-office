@@ -20,9 +20,9 @@ struct APIProvider {
         self.api = api
     }
     
-    func startLoad<T: Decodable>(decodingType: T.Type, completion: @escaping (Result<T, Error>) -> Void) {
+    func startLoad<T: Decodable>(decodingType: T.Type, completion: @escaping (Result<T, Error>) -> Void) -> URLSessionDataTask? {
         guard let api = self.api,
-              let request = endpoint.request(for: api) else { return }
+              let request = endpoint.request(for: api) else { return nil }
         
         let task = urlSession.dataTask(with: request) { data, response, error in
             if let error = error {
@@ -51,7 +51,7 @@ struct APIProvider {
             URLCacheManager.shared.store(response: cachedURLResponse, for: request)
         }
         
-        task.resume()
+        return task
     }
     
     mutating func target(api: API) {
