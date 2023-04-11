@@ -96,7 +96,7 @@ final class MovieRankingViewController: UIViewController {
                 self?.changeCollectionViewLayout(layout: listLayout)
             }
             self?.rankingViewType.toggle()
-            self?.fetchBoxofficeData()
+            self?.applySnapshot()
         })
         let cancelAction = UIAlertAction(title: "취소", style: .cancel)
         

@@ -16,6 +16,8 @@ class MovieRankingIconCell: UICollectionViewCell {
     private let rankStatusLabel = UILabel(fontStyle: .preferredFont(forTextStyle: .body))
     private let audienceLabel = UILabel(fontStyle: .preferredFont(forTextStyle: .largeTitle))
     
+    private let mainStackView = UIStackView()
+    
     override init(frame: CGRect) {
         super.init(frame: frame)
         configureUI()
@@ -40,8 +42,20 @@ extension MovieRankingIconCell {
     private func configureUI() {
         self.layer.borderWidth = 0.5
         
-        let mainStackView = UIStackView()
-        
+        configureLabelTextAlignment()
+        configureMainStackView()
+        configureRankStackView()
+        configureMovieNameStackView()
+        configureStatusStackView()
+    }
+    
+    private func configureLabelTextAlignment() {
+        [rankLabel, movieNameLabel, movieNameLabel, audienceLabel].forEach { label in
+            label.textAlignment = .center
+        }
+    }
+    
+    private func configureMainStackView() {
         mainStackView.translatesAutoresizingMaskIntoConstraints = false
         mainStackView.axis = .vertical
         mainStackView.distribution = .fillEqually
@@ -55,19 +69,25 @@ extension MovieRankingIconCell {
             mainStackView.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -5),
             mainStackView.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -5),
         ])
-        
+    }
+    
+    private func configureRankStackView() {
         let rankStackView = UIStackView(arrangedSubviews: [rankLabel])
         
         rankStackView.translatesAutoresizingMaskIntoConstraints = false
         
         mainStackView.addArrangedSubview(rankStackView)
-        
+    }
+    
+    private func configureMovieNameStackView() {
         let movieNameStackView = UIStackView(arrangedSubviews: [movieNameLabel])
         
         movieNameStackView.translatesAutoresizingMaskIntoConstraints = false
         
         mainStackView.addArrangedSubview(movieNameStackView)
-        
+    }
+    
+    private func configureStatusStackView() {
         let statusStackView = UIStackView(arrangedSubviews: [rankStatusLabel, audienceLabel])
         
         statusStackView.axis = .vertical
@@ -77,4 +97,5 @@ extension MovieRankingIconCell {
         
         mainStackView.addArrangedSubview(statusStackView)
     }
+    
 }
