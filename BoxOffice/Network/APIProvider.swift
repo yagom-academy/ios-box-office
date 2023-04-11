@@ -38,14 +38,17 @@ struct APIProvider {
                 return
             }
             
-            if let data = data,
-               let decodedData = try? JSONDecoder().decode(decodingType, from: data) {
-                completion(.success(decodedData))
+            guard let data = data,
+                  let decodedData = try? JSONDecoder().decode(decodingType, from: data) else {
+                completion(.failure(NetworkError.decoding))
                 
                 return
             }
-            print(request)
-            completion(.failure(NetworkError.decoding))
+            
+            completion(.success(decodedData))
+            
+            let cachedURLResponse = CachedURLResponse(response: httpResponse, data: data)
+            URLCacheManager.shared.store(response: cachedURLResponse, for: request)
         }
         
         task.resume()

@@ -19,6 +19,7 @@
 		4B9E3A2729CADF9D00B60AD1 /* DataTaskMakeable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B9E3A2629CADF9D00B60AD1 /* DataTaskMakeable.swift */; };
 		4B9E3A2A29CAE42100B60AD1 /* TestDoubles.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B9E3A2929CAE42100B60AD1 /* TestDoubles.swift */; };
 		4B9E3A5429CD838300B60AD1 /* KobisAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = ADF3305029CAF5DB00E0EF8B /* KobisAPI.swift */; };
+		4BE1519629E5421100328494 /* URLCacheManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4BE1519529E5421100328494 /* URLCacheManager.swift */; };
 		4BE7DB9929DEA869008674AB /* CalendarViewControllerDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4BE7DB9829DEA869008674AB /* CalendarViewControllerDelegate.swift */; };
 		4BE7DB9B29DEB5DB008674AB /* DailyBoxOfficeIconCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4BE7DB9A29DEB5DB008674AB /* DailyBoxOfficeIconCell.swift */; };
 		63DF20EF2970E1A0005DF7D1 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63DF20EE2970E1A0005DF7D1 /* AppDelegate.swift */; };
@@ -75,6 +76,7 @@
 		4B9E3A1A29CAD72E00B60AD1 /* JSONModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JSONModelTests.swift; sourceTree = "<group>"; };
 		4B9E3A2629CADF9D00B60AD1 /* DataTaskMakeable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataTaskMakeable.swift; sourceTree = "<group>"; };
 		4B9E3A2929CAE42100B60AD1 /* TestDoubles.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestDoubles.swift; sourceTree = "<group>"; };
+		4BE1519529E5421100328494 /* URLCacheManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = URLCacheManager.swift; sourceTree = "<group>"; };
 		4BE7DB9829DEA869008674AB /* CalendarViewControllerDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarViewControllerDelegate.swift; sourceTree = "<group>"; };
 		4BE7DB9A29DEB5DB008674AB /* DailyBoxOfficeIconCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DailyBoxOfficeIconCell.swift; sourceTree = "<group>"; };
 		63DF20EE2970E1A0005DF7D1 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -236,6 +238,7 @@
 				ADF3305029CAF5DB00E0EF8B /* KobisAPI.swift */,
 				4B9E3A1329C986EC00B60AD1 /* Error */,
 				4B9E3A2529CADF8600B60AD1 /* Protocol */,
+				4BE1519529E5421100328494 /* URLCacheManager.swift */,
 			);
 			path = Network;
 			sourceTree = "<group>";
@@ -444,6 +447,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				4BE1519629E5421100328494 /* URLCacheManager.swift in Sources */,
 				ADE1B1BD29D4356B00632173 /* DaumSearchResult.swift in Sources */,
 				AD69655D29DA9929004A7502 /* CategoryStackView.swift in Sources */,
 				AD1E9C1F29CDD2CA0023A817 /* API.swift in Sources */,
