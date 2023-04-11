@@ -51,6 +51,12 @@ struct APIProvider {
     }
     
     func loadImage(url: URL, completion: @escaping (Result<UIImage?, Error>) -> Void) {
+        if let cachedImage = CacheManager.shared.cachedImage(urlString: url.absoluteString) {
+            completion(.success(cachedImage))
+            
+            return
+        }
+        
         let urlRequest = URLRequest(url: url)
         let task = urlSession.dataTask(with: urlRequest) { data, response, error in
             if let error = error {

@@ -39,7 +39,11 @@ final class MovieDetailsViewController: UIViewController {
 
     private var movieCode: String
     private var movieName: String
-    private var movieImageURL: URL?
+    private var movieImageURL: URL? {
+        didSet {
+            loadPosterImage()
+        }
+    }
     
     init(movieCode: String, movieName: String) {
         self.movieCode = movieCode
@@ -112,6 +116,23 @@ final class MovieDetailsViewController: UIViewController {
             case .failure(let error):
                 AlertController.showAlert(for: error, to: self)
             }
+        }
+    }
+    
+    private func loadPosterImage() {
+        guard let movieImageURL else { return }
+        let apiProvider = APIProvider()
+        LoadingIndicator.showLoading(in: posterView)
+        apiProvider.loadImage(url: movieImageURL) { result in
+            switch result {
+            case .success(let image):
+                DispatchQueue.main.async {
+                    self.posterView.image = image
+                }
+            case .failure(let error):
+                AlertController.showAlert(for: error, to: self)
+            }
+            LoadingIndicator.hideLoading(in: self.posterView)
         }
     }
     
