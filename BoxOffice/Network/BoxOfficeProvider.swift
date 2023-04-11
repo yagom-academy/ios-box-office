@@ -37,7 +37,6 @@ final class BoxOfficeProvider<Target: Requestable>: Provider {
             } catch {
                 completion(.failure(NetworkError.failToParse))
             }
-            return
         } else {
             let task = session.dataTask(with: request) { data, response, error in
                 let result = self.checkError(with: data, response, error)
@@ -55,6 +54,34 @@ final class BoxOfficeProvider<Target: Requestable>: Provider {
                         completion(.failure(NetworkError.invalidResponseError))
                     } catch {
                         completion(.failure(NetworkError.failToParse))
+                    }
+                case .failure(let error):
+                    completion(.failure(error))
+                }
+            }
+            
+            task.resume()
+        }
+    }
+    
+    func fetchImage(url: URL, completion: @escaping (Result<Data, Error>) -> Void) {
+        let request = URLRequest(url: url)
+        
+        if let cachedData = URLCache.shared.cachedResponse(for: request) {
+            completion(.success(cachedData.data))
+        } else {
+            let task = session.dataTask(with: request) { data, response, error in
+                let result = self.checkError(with: data, response, error)
+                switch result {
+                case .success(let ImageData):
+                    do {
+                        let cachedResponse = try URLCacheManager.shared.createCachedResponse(
+                            response: response,
+                            data: ImageData)
+                        URLCacheManager.shared.storeCachedResponse(for: cachedResponse, request: request)
+                        completion(.success(ImageData))
+                    } catch {
+                        completion(.failure(NetworkError.invalidResponseError))
                     }
                 case .failure(let error):
                     completion(.failure(error))

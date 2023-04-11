@@ -132,11 +132,18 @@ final class MovieDetailViewController: UIViewController {
                     return
                 }
                 
-                DispatchQueue.global().async {
-                    guard let image = try? Data(contentsOf: imageUrl) else { return }
-                    DispatchQueue.main.async {
-                        self?.posterImageView.image = UIImage(data: image)
-                        self?.activityIndicator.stopAnimating()
+                boxOfficeProvider.fetchImage(url: imageUrl) { result in
+                    switch result {
+                    case .success(let imageData):
+                        DispatchQueue.main.async {
+                            self?.posterImageView.image = UIImage(data: imageData)
+                            self?.activityIndicator.stopAnimating()
+                        }
+                    case .failure:
+                        DispatchQueue.main.async {
+                            let alertController = AlertManager.shared.showFailureAlert()
+                            self?.present(alertController, animated: true)
+                        }
                     }
                 }
             case .failure:
