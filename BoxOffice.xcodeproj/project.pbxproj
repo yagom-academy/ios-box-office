@@ -23,6 +23,10 @@
 		1658230F29DD0ED4006A570A /* BoxOfficeDataLoader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1658230E29DD0ED4006A570A /* BoxOfficeDataLoader.swift */; };
 		1680878929DFB3CB000DBFB1 /* Date+previousDate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1680878829DFB3CB000DBFB1 /* Date+previousDate.swift */; };
 		1680878B29E00982000DBFB1 /* CellConfigurable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1680878A29E00982000DBFB1 /* CellConfigurable.swift */; };
+		16B35BB929E6503D00A54D44 /* AlertFactoryService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16B35BB829E6503D00A54D44 /* AlertFactoryService.swift */; };
+		16B35BBB29E6506000A54D44 /* AlertActionDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16B35BBA29E6506000A54D44 /* AlertActionDelegate.swift */; };
+		16B35BBD29E6507600A54D44 /* AlertImplementation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16B35BBC29E6507600A54D44 /* AlertImplementation.swift */; };
+		16B35BBF29E6509600A54D44 /* AlertViewData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16B35BBE29E6509600A54D44 /* AlertViewData.swift */; };
 		16B6214F29CAE13C00D6BA27 /* BoxOfficeEndpoint.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16B6214E29CAE13C00D6BA27 /* BoxOfficeEndpoint.swift */; };
 		16B6215129CC21C900D6BA27 /* URLSessionProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16B6215029CC21C900D6BA27 /* URLSessionProtocol.swift */; };
 		16B6215929CC239300D6BA27 /* NetworkManagerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16B6215829CC239300D6BA27 /* NetworkManagerTests.swift */; };
@@ -97,6 +101,10 @@
 		1658230E29DD0ED4006A570A /* BoxOfficeDataLoader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BoxOfficeDataLoader.swift; sourceTree = "<group>"; };
 		1680878829DFB3CB000DBFB1 /* Date+previousDate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Date+previousDate.swift"; sourceTree = "<group>"; };
 		1680878A29E00982000DBFB1 /* CellConfigurable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CellConfigurable.swift; sourceTree = "<group>"; };
+		16B35BB829E6503D00A54D44 /* AlertFactoryService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlertFactoryService.swift; sourceTree = "<group>"; };
+		16B35BBA29E6506000A54D44 /* AlertActionDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlertActionDelegate.swift; sourceTree = "<group>"; };
+		16B35BBC29E6507600A54D44 /* AlertImplementation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlertImplementation.swift; sourceTree = "<group>"; };
+		16B35BBE29E6509600A54D44 /* AlertViewData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlertViewData.swift; sourceTree = "<group>"; };
 		16B6214E29CAE13C00D6BA27 /* BoxOfficeEndpoint.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BoxOfficeEndpoint.swift; sourceTree = "<group>"; };
 		16B6215029CC21C900D6BA27 /* URLSessionProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = URLSessionProtocol.swift; sourceTree = "<group>"; };
 		16B6215629CC239300D6BA27 /* NetworkManagerTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = NetworkManagerTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -199,6 +207,17 @@
 			path = Movie;
 			sourceTree = "<group>";
 		};
+		16B35BB729E64F5A00A54D44 /* AlertFactory */ = {
+			isa = PBXGroup;
+			children = (
+				16B35BB829E6503D00A54D44 /* AlertFactoryService.swift */,
+				16B35BBA29E6506000A54D44 /* AlertActionDelegate.swift */,
+				16B35BBC29E6507600A54D44 /* AlertImplementation.swift */,
+				16B35BBE29E6509600A54D44 /* AlertViewData.swift */,
+			);
+			path = AlertFactory;
+			sourceTree = "<group>";
+		};
 		16B6215729CC239300D6BA27 /* NetworkManagerTests */ = {
 			isa = PBXGroup;
 			children = (
@@ -271,6 +290,7 @@
 		4AF7A99729C9811B002925FF /* Etc */ = {
 			isa = PBXGroup;
 			children = (
+				16B35BB729E64F5A00A54D44 /* AlertFactory */,
 				63DF20EE2970E1A0005DF7D1 /* AppDelegate.swift */,
 				63DF20F02970E1A0005DF7D1 /* SceneDelegate.swift */,
 				16E737DA29CD8378009B5DE8 /* Identifying.swift */,
@@ -540,8 +560,10 @@
 				16B6215129CC21C900D6BA27 /* URLSessionProtocol.swift in Sources */,
 				4A03E49D29D16C060066AF87 /* DailyBoxOffice.swift in Sources */,
 				4AF7A99C29C982B0002925FF /* NetworkManager.swift in Sources */,
+				16B35BBF29E6509600A54D44 /* AlertViewData.swift in Sources */,
 				1639531E29D1735000032636 /* Actor.swift in Sources */,
 				4ABE477029CD7F0D00CD7D4B /* BoxOfficeCollectionViewListCell.swift in Sources */,
+				16B35BBB29E6506000A54D44 /* AlertActionDelegate.swift in Sources */,
 				4A0300A429DD50E700DE39C4 /* MovieInfoDataLoader.swift in Sources */,
 				4AF7A99E29C985D2002925FF /* NetworkError.swift in Sources */,
 				4A03E49B29D16BD50066AF87 /* BoxOfficeResult.swift in Sources */,
@@ -563,8 +585,10 @@
 				162AFFA629C823E100D1926E /* BoxOffice.swift in Sources */,
 				4A51039629D7063900DB9887 /* UIViewController+AlertController.swift in Sources */,
 				1639532A29D179EF00032636 /* Array+Subscript.swift in Sources */,
+				16B35BB929E6503D00A54D44 /* AlertFactoryService.swift in Sources */,
 				1680878929DFB3CB000DBFB1 /* Date+previousDate.swift in Sources */,
 				1639532E29D1BE6800032636 /* String+DecimalFormatter.swift in Sources */,
+				16B35BBD29E6507600A54D44 /* AlertImplementation.swift in Sources */,
 				1658230F29DD0ED4006A570A /* BoxOfficeDataLoader.swift in Sources */,
 				4A32B3AD29CC36A8005A8575 /* URLSessionDataTaskProtocol.swift in Sources */,
 				4A0300A729DEBD3900DE39C4 /* BoxOfficeCollectionViewCell.swift in Sources */,
