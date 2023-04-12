@@ -27,5 +27,4 @@ enum RankingViewType {
             self = .list
         }
     }
-    
 }

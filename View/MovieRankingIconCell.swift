@@ -7,7 +7,7 @@
 
 import UIKit
 
-class MovieRankingIconCell: UICollectionViewCell {
+final class MovieRankingIconCell: UICollectionViewCell {
     static let identifier = "MovieRankingIconCell"
     
     // MARK: UI Properties
