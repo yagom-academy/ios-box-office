@@ -11,6 +11,7 @@ enum NetworkError {
     case decoding
     case request
     case server
+    case imageCreating
 }
 
 extension NetworkError: LocalizedError {
@@ -24,6 +25,8 @@ extension NetworkError: LocalizedError {
             return NSLocalizedString("네트워크 통신 요청에 실패했습니다.", comment: "Network request error")
         case .server:
             return NSLocalizedString("네트워크 서버에 오류가 발생했습니다.", comment: "Network server error")
+        case .imageCreating:
+            return NSLocalizedString("이미지 생성에 실패했습니다.", comment: "Image creating error")
         }
     }
 }

@@ -11,7 +11,9 @@ final class CacheManager {
     static let shared = CacheManager()
     private let storage = NSCache<NSString, UIImage>()
     
-    private init() { }
+    private init() {
+        storage.countLimit = 10
+    }
     
     func store(image: UIImage, urlString: String) {
         let key = NSString(string: urlString)

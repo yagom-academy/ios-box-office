@@ -72,13 +72,10 @@ struct APIProvider {
                 return
             }
             
-            guard let data = data else {
-                completion(.failure(NetworkError.decoding))
+            guard let data = data,
+                  let image = UIImage(data: data) else {
+                completion(.failure(NetworkError.imageCreating))
                 
-                return
-            }
-            
-            guard let image = UIImage(data: data) else {
                 return
             }
             
