@@ -32,7 +32,9 @@ final class DailyBoxOfficeViewController: UIViewController, DateUpdatable {
     override func viewDidLoad() {
         super.viewDidLoad()
         view.addSubview(collectionView)
-        
+        DailyBoxOfficeCoreDataManager.shared.deleteByTimeInterval()
+        MovieInformationCoreDataManager.shared.deleteByTimeInterval()
+
         configureCollectionView()
         configureSelectionDateButton()
         configureToolBar()
@@ -88,19 +90,16 @@ final class DailyBoxOfficeViewController: UIViewController, DateUpdatable {
     }
     
     @objc private func changeScreenModeButtonTapped() {
-        let alert = UIAlertController(title: "화면모드변경", message: nil, preferredStyle: .actionSheet)
         let title = screenMode.oppositeTitle
-        
-        let listMode = UIAlertAction(title: title, style: .default) { [weak self] _ in
+        AlertManager.shared.showAlert(target: self,
+                                      alertTitle: "화면모드변경",
+                                      message: nil,
+                                      style: .actionSheet,
+                                      okActionTitle: title,
+                                      cancelActionTitle: "취소") { [weak self] _ in
             self?.screenMode.changeMode()
             self?.updateCell()
         }
-        
-        let cancelAction = UIAlertAction(title: "취소", style: .cancel)
-        alert.addAction(listMode)
-        alert.addAction(cancelAction)
-        
-        present(alert, animated: true)
     }
     
     private func updateCell() {
@@ -141,7 +140,7 @@ final class DailyBoxOfficeViewController: UIViewController, DateUpdatable {
         dateFormatter.dateFormat = "yyyyMMdd"
         let selectedDate = dateFormatter.string(from: selectedDate)
         
-        if let fetchedData = BoxOfficeCoreDataManager.shared.read(key: selectedDate) as? DailyBoxOfficeData,
+        if let fetchedData = DailyBoxOfficeCoreDataManager.shared.read(key: selectedDate) as? DailyBoxOfficeData,
            let movies = fetchedData.movies {
             applyMoviesToDailyBoxOfficeItem(from: movies.movieList)
             
@@ -160,9 +159,9 @@ final class DailyBoxOfficeViewController: UIViewController, DateUpdatable {
                 print(error)
             case .success(let result):
                 
-                BoxOfficeCoreDataManager.shared.create(key: selectedDate, value: result.boxOfficeResult.boxOfficeList)
+                DailyBoxOfficeCoreDataManager.shared.create(key: selectedDate, value: result.boxOfficeResult.boxOfficeList)
                 
-                guard let fetchedData = BoxOfficeCoreDataManager.shared.read(key: selectedDate) as? DailyBoxOfficeData,
+                guard let fetchedData = DailyBoxOfficeCoreDataManager.shared.read(key: selectedDate) as? DailyBoxOfficeData,
                       let movies = fetchedData.movies else { return }
                 self?.applyMoviesToDailyBoxOfficeItem(from: movies.movieList)
                 
@@ -239,8 +238,8 @@ extension DailyBoxOfficeViewController {
         var audienceVariance: String
         var rankMarkColor : MovieRankMarkColor
         
-        guard let todayAudience = NumberFormatterManager.shared.convertToFormattedNumber(from: movie.audienceCount),
-              let totalAudience = NumberFormatterManager.shared.convertToFormattedNumber(from: movie.audienceAccumulation) else { return nil }
+        guard let todayAudience = NumberFormatterManager.shared.convertToFormattedNumber(from: movie.audienceCount, style: .decimal),
+              let totalAudience = NumberFormatterManager.shared.convertToFormattedNumber(from: movie.audienceAccumulation, style: .decimal) else { return nil }
         
         name = movie.name
         audienceInformation = "오늘 \(todayAudience) / 총 \(totalAudience)"

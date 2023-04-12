@@ -12,14 +12,10 @@ final class NumberFormatterManager {
     
     private init() { }
     
-    private let numberFormatter: NumberFormatter = {
-        let numberFormatter = NumberFormatter()
-        numberFormatter.numberStyle = .decimal
-        
-        return numberFormatter
-    }()
+    private let numberFormatter = NumberFormatter()
     
-    func convertToFormattedNumber(from text: String) -> String? {
+    func convertToFormattedNumber(from text: String, style: NumberFormatter.Style) -> String? {
+        numberFormatter.numberStyle = style
         guard let number = numberFormatter.number(from: text),
               let stringNumber = numberFormatter.string(from: number) else { return nil }
         

@@ -10,7 +10,7 @@ import Foundation
 import CoreData
 
 @objc(DailyBoxOfficeData)
-public class DailyBoxOfficeData: NSManagedObject {
+public final class DailyBoxOfficeData: NSManagedObject {
 
 }
 
@@ -19,10 +19,7 @@ extension DailyBoxOfficeData {
         return NSFetchRequest<DailyBoxOfficeData>(entityName: "DailyBoxOfficeData")
     }
 
+    @NSManaged var createdAt: Date?
     @NSManaged var selectedDate: String?
     @NSManaged var movies: Movies?
-}
-
-extension DailyBoxOfficeData : Identifiable {
-
 }

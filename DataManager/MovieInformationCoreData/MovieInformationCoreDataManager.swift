@@ -9,7 +9,7 @@ import Foundation
 import CoreData
 import UIKit
 
-class MovieInformationCoreDataManager: DataManager {
+final class MovieInformationCoreDataManager: DataManager {
     static let shared = MovieInformationCoreDataManager()
     private let context = (UIApplication.shared.delegate as? AppDelegate)?.persistentContainer.newBackgroundContext()
     
@@ -39,6 +39,21 @@ class MovieInformationCoreDataManager: DataManager {
         guard let context = self.context else { return }
         
         let request: NSFetchRequest<NSFetchRequestResult> = MovieInformationData.fetchRequest()
+        let delete = NSBatchDeleteRequest(fetchRequest: request)
+        do {
+            try context.execute(delete)
+        } catch {
+            print(error.localizedDescription)
+        }
+    }
+    
+    func deleteByTimeInterval() {
+        guard let context = self.context else { return }
+        
+        let request: NSFetchRequest<NSFetchRequestResult> = MovieInformationData.fetchRequest()
+        let olderThanDate = Date().addingTimeInterval(-1 * 24 * 60 * 60)
+        request.predicate = NSPredicate(format: "createdAt < %@", argumentArray: [olderThanDate])
+        
         let delete = NSBatchDeleteRequest(fetchRequest: request)
         do {
             try context.execute(delete)
@@ -132,6 +147,7 @@ class MovieInformationCoreDataManager: DataManager {
             details.staffRoleName?.append(movie.staffs[index].roleName)
         }
         
+        target.setValue(Date.now, forKey: "createdAt")
         target.setValue(code, forKey: "movieCode")
         target.setValue(details, forKey: "details")
     }

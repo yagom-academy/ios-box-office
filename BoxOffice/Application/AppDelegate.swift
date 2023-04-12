@@ -12,15 +12,22 @@ import CoreData
 class AppDelegate: UIResponder, UIApplicationDelegate {
     lazy var persistentContainer: NSPersistentContainer = {
         let container = NSPersistentContainer(name: "BoxOfficeCoreData")
-        container.loadPersistentStores { description, error in
-            if let error = error {
-                fatalError("Unable to load persistent sotres: \(error)")
-            }
-        }
+        let fileManager = FileManager.default
+        let cacheDirectoryURL = fileManager.urls(for: .cachesDirectory, in: .userDomainMask)[0]
+        let persistentStoreURL = cacheDirectoryURL.appendingPathComponent("BoxOfficeCoreData.sqlite")
+        let description = container.persistentStoreDescriptions.first
         
+        description?.url = persistentStoreURL
+        
+        container.loadPersistentStores(completionHandler: { (storeDescription, error) in
+            if let error = error {
+                fatalError("Failed to load store: \(error)")
+            }
+        })
+
         return container
     }()
-
+    
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         
         MovieAttributeTransformer.register()

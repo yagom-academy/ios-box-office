@@ -1,5 +1,5 @@
 //
-//  BoxOfficeCoreDataManager.swift
+//  DailyBoxOfficeCoreDataManager.swift
 //  BoxOffice
 //
 //  Created by 리지, kokkilE on 2023/04/10.
@@ -9,8 +9,8 @@ import Foundation
 import CoreData
 import UIKit
 
-class BoxOfficeCoreDataManager: DataManager {
-    static let shared = BoxOfficeCoreDataManager()
+final class DailyBoxOfficeCoreDataManager: DataManager {
+    static let shared = DailyBoxOfficeCoreDataManager()
     private let context = (UIApplication.shared.delegate as? AppDelegate)?.persistentContainer.newBackgroundContext()
     
     private init() {}
@@ -39,6 +39,21 @@ class BoxOfficeCoreDataManager: DataManager {
         guard let context = self.context else { return }
         
         let request: NSFetchRequest<NSFetchRequestResult> = DailyBoxOfficeData.fetchRequest()
+        let delete = NSBatchDeleteRequest(fetchRequest: request)
+        do {
+            try context.execute(delete)
+        } catch {
+            print(error.localizedDescription)
+        }
+    }
+    
+    func deleteByTimeInterval() {
+        guard let context = self.context else { return }
+        
+        let request: NSFetchRequest<NSFetchRequestResult> = DailyBoxOfficeData.fetchRequest()
+        let olderThanDate = Date().addingTimeInterval(-1 * 24 * 60 * 60)
+        request.predicate = NSPredicate(format: "createdAt < %@", argumentArray: [olderThanDate])
+        
         let delete = NSBatchDeleteRequest(fetchRequest: request)
         do {
             try context.execute(delete)
@@ -78,6 +93,7 @@ class BoxOfficeCoreDataManager: DataManager {
         
         let movieData = Movies(movieList: movieList)
         
+        target.setValue(Date.now, forKey: "createdAt")
         target.setValue(date, forKey: "selectedDate")
         target.setValue(movieData, forKey: "movies")
     }

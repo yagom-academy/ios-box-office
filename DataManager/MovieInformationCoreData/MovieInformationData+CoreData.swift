@@ -1,5 +1,5 @@
 //
-//  MovieInformationData+CoreDataClass.swift
+//  MovieInformationData+CoreData.swift
 //  BoxOffice
 //
 //  Created by 리지, kokkilE on 2023/04/11.
@@ -10,7 +10,7 @@ import Foundation
 import CoreData
 
 @objc(MovieInformationData)
-public class MovieInformationData: NSManagedObject {
+public final class MovieInformationData: NSManagedObject {
 
 }
 
@@ -20,6 +20,7 @@ extension MovieInformationData {
         return NSFetchRequest<MovieInformationData>(entityName: "MovieInformationData")
     }
 
+    @NSManaged var createdAt: Date?
     @NSManaged var movieCode: String?
     @NSManaged var details: Details?
 }

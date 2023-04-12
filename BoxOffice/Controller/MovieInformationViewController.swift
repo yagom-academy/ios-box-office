@@ -111,7 +111,7 @@ final class MovieInformationViewController: UIViewController {
     }
     
     private func fetchMoviePosterImage(from imageURL: URL) {
-        if let cachedImage = ImageCacheManager.shared.cachedImage(urlString: imageURL.absoluteString) {
+        if let cachedImage = ImageCacheManager.shared.read(key: imageURL.absoluteString) as? UIImage {
             DispatchQueue.main.async {
                 self.movieInformationScrollView.setupMoviePoterImage(cachedImage)
                 self.loadingView.stopAnimating()
@@ -124,7 +124,7 @@ final class MovieInformationViewController: UIViewController {
             case .failure(let error):
                 print(error)
             case .success(let image):
-                ImageCacheManager.shared.setObject(image: image, urlString: imageURL.absoluteString)
+                ImageCacheManager.shared.create(key: imageURL.absoluteString, value: [image])
                 DispatchQueue.main.async {
                     self?.movieInformationScrollView.setupMoviePoterImage(image)
                     self?.loadingView.stopAnimating()
