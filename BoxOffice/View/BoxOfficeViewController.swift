@@ -83,10 +83,10 @@ final class BoxOfficeViewController: UIViewController {
     
     private func registerXib() {
         let listCellNib = UINib(nibName: BoxOfficeCollectionViewListCell.identifier, bundle: nil)
-                listCollectionView.register(listCellNib, forCellWithReuseIdentifier: BoxOfficeCollectionViewListCell.identifier)
+        listCollectionView.register(listCellNib, forCellWithReuseIdentifier: BoxOfficeCollectionViewListCell.identifier)
         
         let iconCellNib = UINib(nibName: BoxOfficeCollectionViewCell.identifier, bundle: nil)
-                iconCollectionView.register(iconCellNib, forCellWithReuseIdentifier: BoxOfficeCollectionViewCell.identifier)
+        iconCollectionView.register(iconCellNib, forCellWithReuseIdentifier: BoxOfficeCollectionViewCell.identifier)
     }
     
     private func configureCollectionView() {

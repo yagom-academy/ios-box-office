@@ -12,11 +12,11 @@ extension UICollectionView {
         self.alpha = 0
         self.isHidden = false
         UICollectionView.animate(withDuration: duration,
-                       animations: { self.alpha = 1 })
+                                 animations: { self.alpha = 1 })
     }
     
     func fadeOut(_ duration: TimeInterval = 0.4) {
         UICollectionView.animate(withDuration: duration,
-                       animations: { self.alpha = 0 })
+                                 animations: { self.alpha = 0 })
     }
 }
