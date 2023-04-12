@@ -64,10 +64,10 @@ extension MovieRankingIconCell {
         contentView.addSubview(mainStackView)
         
         NSLayoutConstraint.activate([
-            mainStackView.topAnchor.constraint(equalTo: topAnchor),
-            mainStackView.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 5),
-            mainStackView.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -5),
-            mainStackView.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -5),
+            mainStackView.topAnchor.constraint(equalTo: contentView.topAnchor),
+            mainStackView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 5),
+            mainStackView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -5),
+            mainStackView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor),
         ])
     }
     
@@ -75,7 +75,6 @@ extension MovieRankingIconCell {
         let rankStackView = UIStackView(arrangedSubviews: [rankLabel])
         
         rankStackView.translatesAutoresizingMaskIntoConstraints = false
-        
         mainStackView.addArrangedSubview(rankStackView)
     }
     
@@ -83,7 +82,6 @@ extension MovieRankingIconCell {
         let movieNameStackView = UIStackView(arrangedSubviews: [movieNameLabel])
         
         movieNameStackView.translatesAutoresizingMaskIntoConstraints = false
-        
         mainStackView.addArrangedSubview(movieNameStackView)
     }
     
@@ -93,7 +91,6 @@ extension MovieRankingIconCell {
         statusStackView.axis = .vertical
         statusStackView.spacing = 1
         statusStackView.alignment = .center
-        statusStackView.distribution = .fillEqually
         
         mainStackView.addArrangedSubview(statusStackView)
     }

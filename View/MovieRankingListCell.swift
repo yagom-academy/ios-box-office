@@ -57,7 +57,8 @@ extension MovieRankingListCell {
             movieInfoStackView.leadingAnchor.constraint(equalTo: rankStackView.trailingAnchor),
             movieInfoStackView.trailingAnchor.constraint(equalTo: safeAreaLayoutGuide.trailingAnchor, constant: -30),
             movieInfoStackView.topAnchor.constraint(equalTo: topAnchor, constant: 15),
-            movieInfoStackView.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -15)
+            movieInfoStackView.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -15),
+
         ])
     }
     
