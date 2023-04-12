@@ -13,8 +13,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     lazy var persistentContainer: NSPersistentContainer = {
         let container = NSPersistentContainer(name: "BoxOfficeCoreData")
         let fileManager = FileManager.default
-        let cacheDirectoryURL = fileManager.urls(for: .cachesDirectory, in: .userDomainMask)[0]
-        let persistentStoreURL = cacheDirectoryURL.appendingPathComponent("BoxOfficeCoreData.sqlite")
+        let cacheDirectoryURL = fileManager.urls(for: .cachesDirectory, in: .userDomainMask).first
+        let persistentStoreURL = cacheDirectoryURL?.appendingPathComponent("BoxOfficeCoreData.sqlite")
         let description = container.persistentStoreDescriptions.first
         
         description?.url = persistentStoreURL
@@ -32,6 +32,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         MovieAttributeTransformer.register()
         DetailsAttributeTransformer.register()
+        
+        DailyBoxOfficeCoreDataManager.shared.deleteByTimeInterval()
+        MovieInformationCoreDataManager.shared.deleteByTimeInterval()
+        
         return true
     }
 

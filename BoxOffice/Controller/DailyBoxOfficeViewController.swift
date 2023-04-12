@@ -32,8 +32,6 @@ final class DailyBoxOfficeViewController: UIViewController, DateUpdatable {
     override func viewDidLoad() {
         super.viewDidLoad()
         view.addSubview(collectionView)
-        DailyBoxOfficeCoreDataManager.shared.deleteByTimeInterval()
-        MovieInformationCoreDataManager.shared.deleteByTimeInterval()
 
         configureCollectionView()
         configureSelectionDateButton()

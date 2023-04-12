@@ -134,8 +134,7 @@ final class MovieInformationViewController: UIViewController {
     }
 }
 
-struct MovieInformationItem: Hashable {
-    let identifier = UUID()
+struct MovieInformationItem {
     var directors: String = ""
     var productionYear: String = ""
     var openDate: String = ""
