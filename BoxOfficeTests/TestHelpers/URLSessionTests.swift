@@ -64,7 +64,7 @@ final class URLTest: XCTestCase {
         var item: BoxOfficeItem?
         sut.performRequest(api: boxOfficeAPI) { result in
             if case let .success(data) = result {
-                item = try! JSONConverter.shared.decodeData(data, T: BoxOfficeItem.self)
+                item = try! JSONConverter.shared.decodeData(data, BoxOfficeItem.self)
             }
         }
         
@@ -85,14 +85,14 @@ final class URLTest: XCTestCase {
         var item: BoxOfficeItem?
         sut.performRequest(api: boxOfficeAPI) { result in
             if case let .success(data) = result {
-                item = try! JSONConverter.shared.decodeData(data, T: BoxOfficeItem.self)
+                item = try! JSONConverter.shared.decodeData(data, BoxOfficeItem.self)
             }
         }
         
         // then
         XCTAssertEqual(
-            item?.boxOfficeResult.dailyBoxOfficeList.first?.movieName,
-            expectation?.boxOfficeResult.dailyBoxOfficeList.first?.movieName
+            item?.boxOfficeResult.dailyBoxOfficeList.first?.movieTitle,
+            expectation?.boxOfficeResult.dailyBoxOfficeList.first?.movieTitle
         )
     }
     
