@@ -168,13 +168,13 @@ class MovieDetailView: UIView {
             verticalStackView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor),
             
             directorTitleLabel.widthAnchor.constraint(greaterThanOrEqualToConstant: 70),
-            productYearTitleLabel.widthAnchor.constraint(greaterThanOrEqualToConstant: 70),
-            openDayTitleLabel.widthAnchor.constraint(greaterThanOrEqualToConstant: 70),
-            showTimeTitleLabel.widthAnchor.constraint(greaterThanOrEqualToConstant: 70),
-            auditsTitleLabel.widthAnchor.constraint(greaterThanOrEqualToConstant: 70),
-            nationTitleLabel.widthAnchor.constraint(greaterThanOrEqualToConstant: 70),
-            genreTitleLabel.widthAnchor.constraint(greaterThanOrEqualToConstant: 70),
-            actorTitleLabel.widthAnchor.constraint(greaterThanOrEqualToConstant: 70)
+            productYearTitleLabel.widthAnchor.constraint(equalTo: directorTitleLabel.widthAnchor),
+            openDayTitleLabel.widthAnchor.constraint(equalTo: directorTitleLabel.widthAnchor),
+            showTimeTitleLabel.widthAnchor.constraint(equalTo: directorTitleLabel.widthAnchor),
+            auditsTitleLabel.widthAnchor.constraint(equalTo: directorTitleLabel.widthAnchor),
+            nationTitleLabel.widthAnchor.constraint(equalTo: directorTitleLabel.widthAnchor),
+            genreTitleLabel.widthAnchor.constraint(equalTo: directorTitleLabel.widthAnchor),
+            actorTitleLabel.widthAnchor.constraint(equalTo: directorTitleLabel.widthAnchor)
            
         ])
     }
