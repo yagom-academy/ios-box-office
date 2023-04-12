@@ -11,12 +11,12 @@ fileprivate enum LayoutMode {
     case list
     case icon
     
-    var okActionTitle: String {
-        switch self{
+    var actionKey: AlertActionKeys {
+        switch self {
         case .list:
-            return "아이콘"
+            return .listAction
         case .icon:
-            return "리스트"
+            return .iconAction
         }
     }
     
@@ -58,9 +58,37 @@ final class BoxOfficeViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        alertFactory.delegate = self
+        
         configureInitialView()
         loadInitialData()
+    }
+    
+    @IBAction private func chooseDateButtonTapped(_ sender: UIBarButtonItem) {
+        if let calendarVC = storyboard?.instantiateViewController(identifier: CalendarViewController.identifier, creator: {
+            [weak self] creator in
+            guard let selectedDate = self?.selectedDate else { return UIViewController() }
+            
+            let viewController = CalendarViewController(date: selectedDate, coder: creator)
+            viewController?.delegate = self
+            
+            return viewController
+        }) {
+            self.present(calendarVC, animated: true)
+        }
+    }
+    
+    @IBAction private func switchLayoutModeTapped() {
+        let alertData = AlertViewData(title: "화면모드 변경",
+                                      message: nil,
+                                      style: .actionSheet,
+                                      enableOkAction: true,
+                                      okActionTitle: layoutMode.actionKey.okActionTitle,
+                                      okActionStyle: .default,
+                                      enableCancelAction: true,
+                                      key: layoutMode.actionKey)
+        let actionSheet = alertFactory.makeAlert(alertData: alertData)
+        
+        present(actionSheet, animated: true)
     }
     
     @objc private func refreshData() {
@@ -122,6 +150,7 @@ final class BoxOfficeViewController: UIViewController {
     
     private func configureInitialView() {
         navigationItem.title = DateFormatter.hyphenText(date: selectedDate)
+        alertFactory.delegate = self
         self.view.addSubview(activityIndicator)
         configureCollectionView()
     }
@@ -136,39 +165,12 @@ final class BoxOfficeViewController: UIViewController {
                                       message: "데이터 로딩 실패 \n \(error.localizedDescription)",
                                       style: .alert,
                                       enableOkAction: true,
-                                      okActionTitle: "확인",
-                                      okActionStyle: .default)
+                                      okActionTitle: AlertActionKeys.noAction.okActionTitle,
+                                      okActionStyle: .default,
+                                      key: .noAction)
         let alert = alertFactory.makeAlert(alertData: alertData)
         
         present(alert, animated: true)
-    }
-    
-    @IBAction private func chooseDateButtonTapped(_ sender: UIBarButtonItem) {
-        if let calendarVC = storyboard?.instantiateViewController(identifier: CalendarViewController.identifier, creator: {
-            [weak self] creator in
-            guard let selectedDate = self?.selectedDate else { return UIViewController() }
-            
-            let viewController = CalendarViewController(date: selectedDate, coder: creator)
-            viewController?.delegate = self
-            
-            return viewController
-        }) {
-            self.present(calendarVC, animated: true)
-        }
-    }
-    
-    @IBAction private func switchLayoutModeTapped() {        
-        let alertData = AlertViewData(title: "화면모드 변경",
-                                      message: nil,
-                                      style: .actionSheet,
-                                      enableOkAction: true,
-                                      okActionTitle: layoutMode.okActionTitle,
-                                      okActionStyle: .default,
-                                      enableCancelAction: true,
-                                      cancelActionTitle: "취소")
-        let actionSheet = alertFactory.makeActionSheet(alertData: alertData)
-        
-        present(actionSheet, animated: true)
     }
 }
 
@@ -248,18 +250,24 @@ extension BoxOfficeViewController {
 }
 
 extension BoxOfficeViewController: AlertActionDelegate {
-    func firstAction() {
-        switch layoutMode {
-        case .list:
-            self.layoutMode = .icon
-            self.listCollectionView.fadeOut()
-            self.iconCollectionView.fadeIn()
-            self.iconCollectionView.reloadData()
-        case .icon:
-            self.layoutMode = .list
-            self.iconCollectionView.fadeOut()
-            self.listCollectionView.fadeIn()
-            self.listCollectionView.reloadData()
+    func okAction(_ key: AlertActionKeys) {
+        switch key {
+        case .noAction:
+            return
+        case .listAction:
+            layoutMode.toggle()
+            listCollectionView.fadeOut()
+            iconCollectionView.fadeIn()
+            iconCollectionView.reloadData()
+        case .iconAction:
+            layoutMode.toggle()
+            iconCollectionView.fadeOut()
+            listCollectionView.fadeIn()
+            listCollectionView.reloadData()
         }
+    }
+    
+    func cancelAction(_ key: AlertActionKeys) {
+        return
     }
 }

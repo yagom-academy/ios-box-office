@@ -22,6 +22,7 @@ final class MovieInfoViewController: UIViewController {
     private let movieCode: String?
     private let movieName: String?
     private let movieInfoDataLoader = MovieInfoDataLoader()
+    private let alertFactory: AlertImplementation = AlertImplementation()
     
     private lazy var activityIndicator: UIActivityIndicatorView = {
         let activityIndicator = UIActivityIndicatorView()
@@ -50,6 +51,7 @@ final class MovieInfoViewController: UIViewController {
     
     private func configureInitialView() {
         navigationItem.title = movieName
+        alertFactory.delegate = self
         contentStackView.isHidden = true
         self.view.addSubview(activityIndicator)
     }
@@ -66,7 +68,7 @@ final class MovieInfoViewController: UIViewController {
                     self?.configureLabels(data: data)
                     group.leave()
                 case .failure(let error):
-                    self?.showFailAlert(error: error)
+                    self?.showFetchFailAlert(error: error)
                     group.leave()
                 }
             }
@@ -80,7 +82,7 @@ final class MovieInfoViewController: UIViewController {
                     self?.posterImageView.image = image
                     group.leave()
                 case .failure(let error):
-                    self?.showFailAlert(error: error)
+                    self?.showFetchFailAlert(error: error)
                     group.leave()
                 }
             }
@@ -111,6 +113,29 @@ final class MovieInfoViewController: UIViewController {
             self?.activityIndicator.stopAnimating()
             self?.contentStackView.isHidden = false
         }
+    }
+    
+    private func showFetchFailAlert(error: Error) {
+        let alertData = AlertViewData(title: "Error",
+                                      message: "데이터 로딩 실패 \n \(error.localizedDescription)",
+                                      style: .alert,
+                                      enableOkAction: true,
+                                      okActionTitle: AlertActionKeys.noAction.okActionTitle,
+                                      okActionStyle: .default,
+                                      key: .noAction)
+        let alert = alertFactory.makeAlert(alertData: alertData)
+        
+        present(alert, animated: true)
+    }
+}
+
+extension MovieInfoViewController: AlertActionDelegate {
+    func okAction(_ key: AlertActionKeys) {
+        return
+    }
+    
+    func cancelAction(_ key: AlertActionKeys) {
+        return
     }
 }
 

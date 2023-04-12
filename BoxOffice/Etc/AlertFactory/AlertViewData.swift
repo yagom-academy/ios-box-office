@@ -17,6 +17,7 @@ struct AlertViewData {
     let enableCancelAction: Bool
     let cancelActionTitle: String?
     let cancelActionStyle: UIAlertAction.Style
+    let key: AlertActionKeys
     
     init(title: String,
          message: String?,
@@ -25,8 +26,9 @@ struct AlertViewData {
          okActionTitle: String,
          okActionStyle: UIAlertAction.Style,
          enableCancelAction: Bool = false,
-         cancelActionTitle: String? = nil,
-         cancelActionStyle: UIAlertAction.Style = .cancel) {
+         cancelActionTitle: String? = "취소",
+         cancelActionStyle: UIAlertAction.Style = .cancel,
+         key: AlertActionKeys) {
         self.title = title
         self.message = message
         self.style = style
@@ -36,5 +38,6 @@ struct AlertViewData {
         self.enableCancelAction = enableCancelAction
         self.cancelActionTitle = cancelActionTitle
         self.cancelActionStyle = cancelActionStyle
+        self.key = key
     }
 }

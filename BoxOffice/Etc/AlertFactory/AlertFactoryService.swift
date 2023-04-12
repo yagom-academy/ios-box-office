@@ -9,6 +9,5 @@ import UIKit
 
 protocol AlertFactoryService {
     var delegate: AlertActionDelegate? { get set }
-    func makeAlert(alertData: AlertViewData) -> UIViewController
-//    func makeActionSheet(alertData: AlertViewData) -> UIViewController
+    func makeAlert(alertData: AlertViewData) -> UIAlertController
 }
