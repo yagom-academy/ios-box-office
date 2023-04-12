@@ -11,12 +11,12 @@ class MovieRankingIconCell: UICollectionViewCell {
     static let identifier = "MovieRankingIconCell"
     
     // MARK: UI Properties
+    private let mainStackView = UIStackView()
+    
     private let rankLabel = UILabel(fontStyle: .preferredFont(forTextStyle: .largeTitle))
     private let movieNameLabel = UILabel(fontStyle: .preferredFont(forTextStyle: .title3), numberOfLine: 2)
     private let rankStatusLabel = UILabel(fontStyle: .preferredFont(forTextStyle: .body))
     private let audienceLabel = UILabel(fontStyle: .preferredFont(forTextStyle: .largeTitle))
-    
-    private let mainStackView = UIStackView()
     
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -35,10 +35,8 @@ class MovieRankingIconCell: UICollectionViewCell {
     }
 }
 
-
 // MARK: UI
 extension MovieRankingIconCell {
-    
     private func configureUI() {
         self.layer.borderWidth = 0.5
         
@@ -95,5 +93,4 @@ extension MovieRankingIconCell {
         
         mainStackView.addArrangedSubview(statusStackView)
     }
-    
 }

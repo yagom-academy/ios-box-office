@@ -15,10 +15,10 @@ final class MovieRankingListCell: UICollectionViewListCell {
     private let rankStackView = UIStackView()
     private let movieInfoStackView = UIStackView()
     
-    private let rankStatusLabel = UILabel(fontStyle: .preferredFont(forTextStyle: .body))
-    private let audienceLabel = UILabel(fontStyle: .preferredFont(forTextStyle: .body))
     private let rankLabel = UILabel(fontStyle: .preferredFont(forTextStyle: .largeTitle))
+    private let rankStatusLabel = UILabel(fontStyle: .preferredFont(forTextStyle: .body))
     private let movieNameLabel = UILabel(fontStyle: .preferredFont(forTextStyle: .title3), numberOfLine: 0)
+    private let audienceLabel = UILabel(fontStyle: .preferredFont(forTextStyle: .body))
     
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -41,27 +41,6 @@ final class MovieRankingListCell: UICollectionViewListCell {
 
 // MARK: UI
 extension MovieRankingListCell {
-    private func configureUI() {
-        self.accessories = [.disclosureIndicator()]
-        
-        contentView.addSubview(rankStackView)
-        contentView.addSubview(movieInfoStackView)
-        
-        NSLayoutConstraint.activate([
-            rankStackView.widthAnchor.constraint(equalTo: contentView.widthAnchor , multiplier: 0.25),
-            rankStackView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
-            rankStackView.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 15),
-            rankStackView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -15),
-            
-            movieInfoStackView.centerYAnchor.constraint(equalTo: contentView.centerYAnchor),
-            movieInfoStackView.leadingAnchor.constraint(equalTo: rankStackView.trailingAnchor),
-            movieInfoStackView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -30),
-            movieInfoStackView.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 15),
-            movieInfoStackView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -15),
-
-        ])
-    }
-    
     private func configureRankStackView() {
         rankStackView.addArrangedSubview(rankLabel)
         rankStackView.addArrangedSubview(rankStatusLabel)
@@ -79,5 +58,25 @@ extension MovieRankingListCell {
         movieInfoStackView.axis = .vertical
         
         movieNameLabel.heightAnchor.constraint(equalTo: movieInfoStackView.heightAnchor, multiplier: 0.5).isActive = true
+    }
+    
+    private func configureUI() {
+        self.accessories = [.disclosureIndicator()]
+        
+        contentView.addSubview(rankStackView)
+        contentView.addSubview(movieInfoStackView)
+        
+        NSLayoutConstraint.activate([
+            rankStackView.widthAnchor.constraint(equalTo: contentView.widthAnchor , multiplier: 0.25),
+            rankStackView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
+            rankStackView.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 15),
+            rankStackView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -15),
+            
+            movieInfoStackView.centerYAnchor.constraint(equalTo: contentView.centerYAnchor),
+            movieInfoStackView.leadingAnchor.constraint(equalTo: rankStackView.trailingAnchor),
+            movieInfoStackView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -30),
+            movieInfoStackView.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 15),
+            movieInfoStackView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -15),
+        ])
     }
 }

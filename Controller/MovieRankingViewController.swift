@@ -30,15 +30,14 @@ final class MovieRankingViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        makeDataManager()
+        createDataManager()
         configureUI()
         configureNavigationTitle()
         startLoadingView()
         fetchBoxofficeData()
     }
     
-    private func makeDataManager() {
+    private func createDataManager() {
         dataManager = RankingManager(date: boxofficeDate)
     }
     
@@ -65,19 +64,16 @@ final class MovieRankingViewController: UIViewController {
         self.loadingView.stopAnimating()
     }
     
-    private func configureRefreshController() {
-        refreshController.addTarget(self, action: #selector(refreshCollectionView), for: .valueChanged)
-        collectionView?.refreshControl = refreshController
-    }
-    
     @objc private func refreshCollectionView() {
         self.fetchBoxofficeData()
     }
 
     @objc private func didTapDateSelectionButton() {
         let calendarVC = CalendarViewController()
+        
         calendarVC.delegate = self
         calendarVC.selectedDate = boxofficeDate
+        
         present(calendarVC, animated: true)
     }
     
@@ -86,14 +82,17 @@ final class MovieRankingViewController: UIViewController {
                                       message: nil,
                                       preferredStyle: .actionSheet)
         let alertAction = UIAlertAction(title: rankingViewType.anotherTitle, style: .default, handler: { [weak self] _ in
-            if self?.rankingViewType == .list {
+            switch self?.rankingViewType {
+            case .list:
                 guard let iconLayout = self?.makeCollectionViewIconLayout() else { return }
-                self?.makeIconDataSource()
+                self?.createIconDataSource()
                 self?.changeCollectionViewLayout(layout: iconLayout)
-            } else {
+            case .icon:
                 guard let listLayout = self?.makeCollectionViewListLayout() else { return }
-                self?.makeListDataSource()
+                self?.createListDataSource()
                 self?.changeCollectionViewLayout(layout: listLayout)
+            default:
+                return
             }
             self?.rankingViewType.toggle()
             self?.applySnapshot()
@@ -111,7 +110,7 @@ extension MovieRankingViewController: ChangedDateDelegate {
     func changeDate(_ date: Date) {
         startLoadingView()
         boxofficeDate = date
-        makeDataManager()
+        createDataManager()
         configureNavigationTitle()
         fetchBoxofficeData()
     }
@@ -120,9 +119,7 @@ extension MovieRankingViewController: ChangedDateDelegate {
 // MARK: Delegate
 extension MovieRankingViewController: UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        guard let movieItem = dataManager?.movieItems[indexPath.row] else {
-            return
-        }
+        guard let movieItem = dataManager?.movieItems[indexPath.row] else { return }
         let nextViewController = MovieDetailViewController()
         
         nextViewController.movieName = movieItem.name
@@ -134,48 +131,8 @@ extension MovieRankingViewController: UICollectionViewDelegate {
 
 // MARK: UI
 extension MovieRankingViewController {
-    
     private func configureNavigationTitle() {
         navigationItem.title = dataManager?.navigationTitleText
-    }
-    
-    private func configureNavigationItems() {
-        configureNavigationTitle()
-        navigationItem.rightBarButtonItem = UIBarButtonItem(title: "날짜 선택", style: .plain, target: self, action: #selector(didTapDateSelectionButton))
-    }
-    
-    private func configureUI() {
-        view.backgroundColor = .systemBackground
-        
-        let layout = makeCollectionViewListLayout()
-        collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
-        
-        configureCollectionViewLayout()
-        configureLoadingView()
-        configureNavigationItems()
-        configureRefreshController()
-        makeToolbar()
-        makeListDataSource()
-    }
-    
-    private func changeCollectionViewLayout(layout: UICollectionViewCompositionalLayout) {
-        collectionView?.setCollectionViewLayout(layout, animated: true)
-    }
-    
-    private func configureLoadingView() {
-        loadingView.center = view.center
-        loadingView.style = .large
-        
-        view.addSubview(loadingView)
-    }
-    
-    private func makeToolbar() {
-        navigationController?.setToolbarHidden(false, animated: true)
-        
-        let flexibleItem = UIBarButtonItem(systemItem: .flexibleSpace)
-        let barButtonItem = UIBarButtonItem(title: "화면 전환", style: .plain, target: self, action: #selector(didTapChangedScreenButton))
-        
-        setToolbarItems([flexibleItem, barButtonItem, flexibleItem], animated: true)
     }
     
     private func makeCollectionViewListLayout() -> UICollectionViewCompositionalLayout {
@@ -193,7 +150,6 @@ extension MovieRankingViewController {
         let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0), heightDimension: .estimated(1000))
         let group = NSCollectionLayoutGroup.horizontal(layoutSize: groupSize, subitems: [item])
 
-        
         let section = NSCollectionLayoutSection(group: group)
         section.interGroupSpacing = 10
         
@@ -202,34 +158,10 @@ extension MovieRankingViewController {
         return layout
     }
     
-    private func makeListDataSource() {
-        guard let collectionView = collectionView else { return }
+    private func changeCollectionViewLayout(layout: UICollectionViewCompositionalLayout) {
+        collectionView?.setCollectionViewLayout(layout, animated: true)
+    }
         
-        dataSource = UICollectionViewDiffableDataSource<APIType, InfoObject>(collectionView: collectionView, cellProvider: { collectionView, indexPath, itemIdentifier in
-            guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: MovieRankingListCell.identifier, for: indexPath) as? MovieRankingListCell else { return UICollectionViewListCell() }
-            
-            let uiModel = CellUIModel(data: itemIdentifier)
-            
-            cell.updateLabelText(for: uiModel)
-            
-            return cell
-        })
-    }
-    
-    private func makeIconDataSource() {
-        guard let collectionView = collectionView else { return }
-
-        dataSource = UICollectionViewDiffableDataSource<APIType, InfoObject>(collectionView: collectionView, cellProvider: { collectionView, indexPath, itemIdentifier in
-            guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: MovieRankingIconCell.identifier, for: indexPath) as? MovieRankingIconCell else { return UICollectionViewCell() }
-
-            let uiModel = CellUIModel(data: itemIdentifier)
-
-            cell.updateLabelText(for: uiModel)
-
-            return cell
-        })
-    }
-    
     private func applySnapshot() {
         guard let dataManager = dataManager else { return }
         
@@ -240,7 +172,21 @@ extension MovieRankingViewController {
         
         dataSource?.apply(snapshot, animatingDifferences: true)
     }
-
+    
+    private func configureUI() {
+        view.backgroundColor = .systemBackground
+        
+        let layout = makeCollectionViewListLayout()
+        collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
+        
+        configureCollectionViewLayout()
+        configureLoadingView()
+        configureNavigationItems()
+        configureRefreshController()
+        createToolbar()
+        createListDataSource()
+    }
+    
     private func configureCollectionViewLayout() {
         guard let collectionView = collectionView else { return }
         
@@ -257,5 +203,59 @@ extension MovieRankingViewController {
             collectionView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor),
             collectionView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor)
         ])
+    }
+    
+    private func configureLoadingView() {
+        loadingView.center = view.center
+        loadingView.style = .large
+        
+        view.addSubview(loadingView)
+    }
+    
+    private func configureNavigationItems() {
+        configureNavigationTitle()
+        navigationItem.rightBarButtonItem = UIBarButtonItem(title: "날짜 선택", style: .plain, target: self, action: #selector(didTapDateSelectionButton))
+    }
+    
+    private func configureRefreshController() {
+        refreshController.addTarget(self, action: #selector(refreshCollectionView), for: .valueChanged)
+        collectionView?.refreshControl = refreshController
+    }
+        
+    private func createToolbar() {
+        navigationController?.setToolbarHidden(false, animated: true)
+        
+        let flexibleItem = UIBarButtonItem(systemItem: .flexibleSpace)
+        let barButtonItem = UIBarButtonItem(title: "화면 전환", style: .plain, target: self, action: #selector(didTapChangedScreenButton))
+        
+        setToolbarItems([flexibleItem, barButtonItem, flexibleItem], animated: true)
+    }
+    
+    private func createListDataSource() {
+        guard let collectionView = collectionView else { return }
+        
+        dataSource = UICollectionViewDiffableDataSource<APIType, InfoObject>(collectionView: collectionView, cellProvider: { collectionView, indexPath, itemIdentifier in
+            guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: MovieRankingListCell.identifier, for: indexPath) as? MovieRankingListCell else { return UICollectionViewListCell() }
+            
+            let uiModel = CellUIModel(data: itemIdentifier)
+            
+            cell.updateLabelText(for: uiModel)
+            
+            return cell
+        })
+    }
+    
+    private func createIconDataSource() {
+        guard let collectionView = collectionView else { return }
+
+        dataSource = UICollectionViewDiffableDataSource<APIType, InfoObject>(collectionView: collectionView, cellProvider: { collectionView, indexPath, itemIdentifier in
+            guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: MovieRankingIconCell.identifier, for: indexPath) as? MovieRankingIconCell else { return UICollectionViewCell() }
+
+            let uiModel = CellUIModel(data: itemIdentifier)
+
+            cell.updateLabelText(for: uiModel)
+
+            return cell
+        })
     }
 }

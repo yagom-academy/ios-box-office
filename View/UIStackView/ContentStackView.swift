@@ -14,8 +14,8 @@ final class ContentStackView: UIStackView {
     private let categoryLabel = {
         let font = UIFont.systemFont(ofSize: 12, weight: .bold)
         let fontMatrics = UIFontMetrics(forTextStyle: .headline).scaledFont(for: font)
-        
         let label = UILabel(fontStyle: fontMatrics)
+        
         label.textAlignment = .center
         
         return label
@@ -24,7 +24,6 @@ final class ContentStackView: UIStackView {
     private let contentLabel = {
         let font = UIFont.systemFont(ofSize: 12)
         let fontMatrics = UIFontMetrics(forTextStyle: .headline).scaledFont(for: font)
-        
         let label = UILabel(fontStyle: fontMatrics, numberOfLine: 0)
         
         return label
@@ -47,20 +46,6 @@ final class ContentStackView: UIStackView {
     
     func updateLabelText(_ contentText: String) {
         contentLabel.text = contentText
-    }
-    
-    private func configure() {
-        translatesAutoresizingMaskIntoConstraints = false
-        addArrangedSubview(categoryLabel)
-        addArrangedSubview(contentLabel)
-        spacing = 5
-        
-        let mutiplierValue = makeWidthMultiplier()
-        
-        labelWidthLayout = categoryLabel.widthAnchor.constraint(equalTo: widthAnchor, multiplier: mutiplierValue)
-        labelWidthLayout?.isActive = true
-        
-        NotificationCenter.default.addObserver(self, selector: #selector(changeWidthMultiplier), name: UIContentSizeCategory.didChangeNotification, object: nil)
     }
     
     private func changeWidth(by multiplier: CGFloat) {
@@ -90,5 +75,22 @@ final class ContentStackView: UIStackView {
     @objc private func changeWidthMultiplier() {
         let mutiplierValue = makeWidthMultiplier()
         changeWidth(by: mutiplierValue)
+    }
+}
+
+// MARK: UI
+extension ContentStackView {
+    private func configure() {
+        translatesAutoresizingMaskIntoConstraints = false
+        addArrangedSubview(categoryLabel)
+        addArrangedSubview(contentLabel)
+        spacing = 5
+        
+        let mutiplierValue = makeWidthMultiplier()
+        
+        labelWidthLayout = categoryLabel.widthAnchor.constraint(equalTo: widthAnchor, multiplier: mutiplierValue)
+        labelWidthLayout?.isActive = true
+        
+        NotificationCenter.default.addObserver(self, selector: #selector(changeWidthMultiplier), name: UIContentSizeCategory.didChangeNotification, object: nil)
     }
 }
