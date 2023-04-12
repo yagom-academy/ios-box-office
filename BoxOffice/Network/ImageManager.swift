@@ -11,9 +11,13 @@ final class ImageManager {
     
     static let shared = ImageManager()
     
+    static let megabytes = 1024 * 1024
+    static let memoryCapacity = 500 * megabytes
+    static let diskCapacity = 500 * megabytes
+    
     static let cache = URLCache(
-        memoryCapacity: 500 * 1024 * 1024,
-        diskCapacity: 500 * 1024 * 1024,
+        memoryCapacity: memoryCapacity,
+        diskCapacity: diskCapacity,
         directory: cacheDirectory
     )
     
