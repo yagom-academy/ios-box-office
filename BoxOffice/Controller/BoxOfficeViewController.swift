@@ -132,32 +132,20 @@ final class BoxOfficeViewController: UIViewController {
     }
     
     @objc func convertAlertMode() {
-        switch self.isCurrentListLayout {
-        case true:
-            return changeToIconAlert()
-        case false:
-            return changeToListAlert()
+        if isCurrentListLayout == true {
+            makeAlert(presentType: "아이콘", layoutType: setUpCompositionalIconLayout)
+            isCurrentListLayout = false
+        } else {
+            makeAlert(presentType: "리스트", layoutType: setUpCompositionalListLayout)
+            isCurrentListLayout = true
         }
     }
-    
-    private func changeToIconAlert() {
-        let alertToIconLayout = UIAlertController(title: "화면 모드 변경", message: "", preferredStyle: .actionSheet)
-        
-        alertToIconLayout.addAction(UIAlertAction(title: "아이콘", style: .default, handler: { _ in
-            self.boxOfficeListCollectionView.collectionViewLayout = self.setUpCompositionalIconLayout()
-            self.boxOfficeListCollectionView.reloadData()
-            self.isCurrentListLayout = false
-        }))
-        alertToIconLayout.addAction(UIAlertAction(title: "취소", style: .cancel, handler: { _ in print("알럿 취소") }))
-        present(alertToIconLayout, animated: true)
-    }
-    
-    private func changeToListAlert() {
+
+    private func makeAlert(presentType: String, layoutType: @escaping () -> UICollectionViewLayout) {
         let alertToListLayout = UIAlertController(title: "화면 모드 변경", message: "", preferredStyle: .actionSheet)
-        alertToListLayout.addAction(UIAlertAction(title: "리스트", style: .default, handler: { _ in
-            self.boxOfficeListCollectionView.collectionViewLayout = self.setUpCompositionalListLayout()
+        alertToListLayout.addAction(UIAlertAction(title: presentType, style: .default, handler: { _ in
+            self.boxOfficeListCollectionView.collectionViewLayout = layoutType()
             self.boxOfficeListCollectionView.reloadData()
-            self.isCurrentListLayout = true
         }))
         alertToListLayout.addAction(UIAlertAction(title: "취소", style: .cancel, handler: { _ in print("알럿 취소") }))
         present(alertToListLayout, animated: true)
@@ -252,7 +240,6 @@ extension BoxOfficeViewController {
 extension BoxOfficeViewController: CalendarDateDelegate {
     func receiveDate(date: String) {
         choosenDate = date
-        print(choosenDate)
     }
 }
 
