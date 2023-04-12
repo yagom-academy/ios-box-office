@@ -178,7 +178,7 @@ final class MainViewController: UIViewController {
                             rank: dailyBoxOffice.rank,
                             rankIntensity: dailyBoxOffice.rankIntensity,
                             rankOldandNew: dailyBoxOffice.rankOldAndNew.rawValue,
-                            movieName: dailyBoxOffice.movieName,
+                            movieTitle: dailyBoxOffice.movieTitle,
                             audienceCount: dailyBoxOffice.audienceCount,
                             audienceAcc: dailyBoxOffice.audienceAcc,
                             movieCode: dailyBoxOffice.movieCode
@@ -267,11 +267,11 @@ extension MainViewController: UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         
         guard let movieCode = dataSource.itemIdentifier(for: indexPath)?.movieCode,
-              let movieName = dataSource.itemIdentifier(for: indexPath)?.movieName else {
+              let movieTitle = dataSource.itemIdentifier(for: indexPath)?.movieTitle else {
             collectionView.deselectItem(at: indexPath, animated: true)
             return
         }
-        let viewController = DetailMovieInfoViewController(movieCode: movieCode, movieName: movieName)
+        let viewController = DetailMovieInfoViewController(movieCode: movieCode, movieTitle: movieTitle)
         navigationController?.pushViewController(viewController, animated: true)
         
         collectionView.deselectItem(at: indexPath, animated: true)

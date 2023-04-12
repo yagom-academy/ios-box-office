@@ -10,7 +10,7 @@ import UIKit
 final class DetailMovieInfoViewController: UIViewController {
     
     private let movieCode: String
-    private let movieName: String
+    private let movieTitle: String
     private let provider = APIProvider.shared
     
     private let mainStackView: UIStackView = {
@@ -44,14 +44,14 @@ final class DetailMovieInfoViewController: UIViewController {
         return indicatorView
     }()
     
-    init(movieCode: String, movieName: String) {
+    init(movieCode: String, movieTitle: String) {
         self.movieCode = movieCode
-        self.movieName = movieName
+        self.movieTitle = movieTitle
         super.init(nibName: nil, bundle: nil)
-        title = movieName
+        title = movieTitle
         view.backgroundColor = .white
         fetchMovieDetailData()
-        fetchImageforMovie(name: movieName)
+        fetchImageforMovie(name: movieTitle)
         setupViews()
     }
     
@@ -82,7 +82,7 @@ final class DetailMovieInfoViewController: UIViewController {
     }
     
     private func fetchImageforMovie(name: String) {
-        let query = ImageAPI.imageQuery(movieName)
+        let query = ImageAPI.imageQuery(movieTitle)
         let imageAPI = ImageAPI.imageSearchQuery(query: query)
         
         provider.performImageRequest(api: imageAPI) { [weak self] requestResult in

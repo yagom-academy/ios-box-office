@@ -17,7 +17,7 @@ struct MovieInfoResult: Decodable {
 
 struct MovieInfo: Decodable {
     let movieCode: String
-    let movieName: String
+    let movieTitle: String
     let showTime: String
     let productionYear: String
     let openDate: String
@@ -29,7 +29,7 @@ struct MovieInfo: Decodable {
     
     enum CodingKeys: String, CodingKey {
         case movieCode = "movieCd"
-        case movieName = "movieNm"
+        case movieTitle = "movieNm"
         case showTime = "showTm"
         case productionYear = "prdtYear"
         case openDate = "openDt"

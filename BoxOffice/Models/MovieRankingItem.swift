@@ -15,7 +15,7 @@ struct ListItem: Hashable {
     let rank: String
     let rankIntensity: String
     let rankOldandNew: String
-    let movieName: String
+    let movieTitle: String
     let audienceCount: String
     let audienceAcc: String
     let movieCode: String 
