@@ -7,6 +7,6 @@
 
 import Foundation
 
-protocol ChangedDateDelegate {
+protocol ChangedDateDelegate: AnyObject {
     func changeDate(_ date: Date)
 }

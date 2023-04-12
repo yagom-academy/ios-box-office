@@ -36,7 +36,7 @@ final class MovieDetailViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        makeMovieDescManager()
+        createMovieDescManager()
         configureUI()
         startLoading()
         fetchImage()
@@ -44,7 +44,7 @@ final class MovieDetailViewController: UIViewController {
         stopLoading()
     }
     
-    private func makeMovieDescManager() {
+    private func createMovieDescManager() {
         self.dataManager = MovieDescManager(movieCode: movieCode, movieName: movieName)
     }
     
