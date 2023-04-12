@@ -182,7 +182,7 @@ final class MovieDetailsViewController: UIViewController {
         let movieInformationView = {
             let stackView = UIStackView()
             stackView.axis = .vertical
-            stackView.alignment = .fill
+            stackView.alignment = .leading
             stackView.spacing = 5
             stackView.translatesAutoresizingMaskIntoConstraints = false
             
@@ -224,9 +224,8 @@ final class MovieDetailsViewController: UIViewController {
             posterView.bottomAnchor.constraint(equalTo: movieInformationView.topAnchor),
             posterView.widthAnchor.constraint(equalTo: scrollView.frameLayoutGuide.widthAnchor, multiplier: 0.9),
             posterView.heightAnchor.constraint(equalTo: scrollView.frameLayoutGuide.heightAnchor, multiplier: 0.8),
-            movieInformationView.widthAnchor.constraint(equalTo: scrollView.frameLayoutGuide.widthAnchor),
             movieInformationView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 10),
-            movieInformationView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: 10),
+            movieInformationView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -10),
             movieInformationView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor)
         ])
     }
