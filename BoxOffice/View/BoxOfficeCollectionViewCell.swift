@@ -7,7 +7,7 @@
 
 import UIKit
 
-class BoxOfficeCollectionViewCell: UICollectionViewCell, CellConfigurable {
+final class BoxOfficeCollectionViewCell: UICollectionViewCell, CellConfigurable {
     @IBOutlet private weak var rankLabel: UILabel!
     @IBOutlet private weak var rankInfoLabel: UILabel!
     @IBOutlet private weak var titleLabel: UILabel!
@@ -16,14 +16,9 @@ class BoxOfficeCollectionViewCell: UICollectionViewCell, CellConfigurable {
     override func awakeFromNib() {
         super.awakeFromNib()
         
-        self.layer.borderWidth = 2
-        self.layer.borderColor = UIColor.systemGray.cgColor
-        
-        NotificationCenter.default.addObserver(self,
-                                               selector: #selector(updateFonts),
-                                               name: UIContentSizeCategory.didChangeNotification,
-                                               object: nil)
+        configureBorder()
         simplifyItems()
+        addSizeCategoryObserver()
     }
     
     override func prepareForReuse() {
@@ -38,12 +33,8 @@ class BoxOfficeCollectionViewCell: UICollectionViewCell, CellConfigurable {
         titleLabel.text = item.movieKoreanName
         audienceInfoLabel.text = "오늘 \(item.audienceCountText.convertToDecimalText()) / 총 \(item.audienceAccumulationText.convertToDecimalText())"
     }
-    
-    @objc private func updateFonts() {
-        simplifyItems()
-    }
-    
-    private func simplifyItems() {
+
+    @objc private func simplifyItems() {
         if traitCollection.preferredContentSizeCategory >= UIContentSizeCategory.extraExtraLarge {
             rankInfoLabel.isHidden = true
             audienceInfoLabel.isHidden = true
@@ -51,6 +42,18 @@ class BoxOfficeCollectionViewCell: UICollectionViewCell, CellConfigurable {
             rankInfoLabel.isHidden = false
             audienceInfoLabel.isHidden = false
         }
+    }
+    
+    private func configureBorder() {
+        self.layer.borderWidth = 2
+        self.layer.borderColor = UIColor.systemGray.cgColor
+    }
+    
+    private func addSizeCategoryObserver() {
+        NotificationCenter.default.addObserver(self,
+                                               selector: #selector(simplifyItems),
+                                               name: UIContentSizeCategory.didChangeNotification,
+                                               object: nil)
     }
     
     private func configureRankInfoLabel(item: DailyBoxOffice) {
