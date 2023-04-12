@@ -12,7 +12,7 @@ class MovieRankingIconCell: UICollectionViewCell {
     
     // MARK: UI Properties
     private let rankLabel = UILabel(fontStyle: .preferredFont(forTextStyle: .largeTitle))
-    private let movieNameLabel = UILabel(fontStyle: .preferredFont(forTextStyle: .title3), numberOfLine: 0)
+    private let movieNameLabel = UILabel(fontStyle: .preferredFont(forTextStyle: .title3), numberOfLine: 2)
     private let rankStatusLabel = UILabel(fontStyle: .preferredFont(forTextStyle: .body))
     private let audienceLabel = UILabel(fontStyle: .preferredFont(forTextStyle: .largeTitle))
     
@@ -91,6 +91,7 @@ extension MovieRankingIconCell {
         statusStackView.axis = .vertical
         statusStackView.spacing = 1
         statusStackView.alignment = .center
+        statusStackView.setContentCompressionResistancePriority(.required, for: .vertical)
         
         mainStackView.addArrangedSubview(statusStackView)
     }
