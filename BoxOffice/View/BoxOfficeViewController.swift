@@ -10,6 +10,24 @@ import UIKit
 fileprivate enum LayoutMode {
     case list
     case icon
+    
+    var okActionTitle: String {
+        switch self{
+        case .list:
+            return "아이콘"
+        case .icon:
+            return "리스트"
+        }
+    }
+    
+    mutating func toggle() {
+        switch self {
+        case .list:
+            self = .icon
+        case .icon:
+            self = .list
+        }
+    }
 }
 
 final class BoxOfficeViewController: UIViewController {
@@ -17,6 +35,7 @@ final class BoxOfficeViewController: UIViewController {
     @IBOutlet private weak var iconCollectionView: UICollectionView!
     
     private let boxOfficeDataLoader = BoxOfficeDataLoader()
+    private let alertFactory: AlertImplementation = AlertImplementation()
     private var boxOffice: BoxOffice?
     private var selectedDate = Date().previousDate()
     private var layoutMode: LayoutMode = .list
@@ -39,7 +58,7 @@ final class BoxOfficeViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+        alertFactory.delegate = self
         configureInitialView()
         loadInitialData()
     }
@@ -74,7 +93,7 @@ final class BoxOfficeViewController: UIViewController {
                     self?.currenCollectionView.reloadData()
                     completion()
                 case .failure(let error):
-                    self?.showFailAlert(error: error)
+                    self?.showFetchFailAlert(error: error)
                     completion()
                 }
             }
@@ -112,6 +131,18 @@ final class BoxOfficeViewController: UIViewController {
         iconCollectionView.collectionViewLayout = createIconLayout()
     }
     
+    private func showFetchFailAlert(error: Error) {
+        let alertData = AlertViewData(title: "Error",
+                                      message: "데이터 로딩 실패 \n \(error.localizedDescription)",
+                                      style: .alert,
+                                      enableOkAction: true,
+                                      okActionTitle: "확인",
+                                      okActionStyle: .default)
+        let alert = alertFactory.makeAlert(alertData: alertData)
+        
+        present(alert, animated: true)
+    }
+    
     @IBAction private func chooseDateButtonTapped(_ sender: UIBarButtonItem) {
         if let calendarVC = storyboard?.instantiateViewController(identifier: CalendarViewController.identifier, creator: {
             [weak self] creator in
@@ -126,23 +157,18 @@ final class BoxOfficeViewController: UIViewController {
         }
     }
     
-    @IBAction private func switchLayoutModeTapped() {
-        switch layoutMode {
-        case .list:
-            self.showIconModeSheet { [weak self] _ in
-                self?.layoutMode = .icon
-                self?.listCollectionView.fadeOut()
-                self?.iconCollectionView.fadeIn()
-                self?.iconCollectionView.reloadData()
-            }
-        case .icon:
-            self.showListModeSheet { [weak self] _ in
-                self?.layoutMode = .list
-                self?.iconCollectionView.fadeOut()
-                self?.listCollectionView.fadeIn()
-                self?.listCollectionView.reloadData()
-            }
-        }
+    @IBAction private func switchLayoutModeTapped() {        
+        let alertData = AlertViewData(title: "화면모드 변경",
+                                      message: nil,
+                                      style: .actionSheet,
+                                      enableOkAction: true,
+                                      okActionTitle: layoutMode.okActionTitle,
+                                      okActionStyle: .default,
+                                      enableCancelAction: true,
+                                      cancelActionTitle: "취소")
+        let actionSheet = alertFactory.makeActionSheet(alertData: alertData)
+        
+        present(actionSheet, animated: true)
     }
 }
 
@@ -218,5 +244,22 @@ extension BoxOfficeViewController {
         let layout = UICollectionViewCompositionalLayout(section: section)
         
         return layout
+    }
+}
+
+extension BoxOfficeViewController: AlertActionDelegate {
+    func firstAction() {
+        switch layoutMode {
+        case .list:
+            self.layoutMode = .icon
+            self.listCollectionView.fadeOut()
+            self.iconCollectionView.fadeIn()
+            self.iconCollectionView.reloadData()
+        case .icon:
+            self.layoutMode = .list
+            self.iconCollectionView.fadeOut()
+            self.listCollectionView.fadeIn()
+            self.listCollectionView.reloadData()
+        }
     }
 }

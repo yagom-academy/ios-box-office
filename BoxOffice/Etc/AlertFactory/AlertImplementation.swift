@@ -7,11 +7,11 @@
 
 import UIKit
 
-class AlertImplementation: AlertFactoryService {
+final class AlertImplementation: AlertFactoryService {
     weak var delegate: AlertActionDelegate?
     
-    func build(alertData: AlertViewData) -> UIViewController {
-        let vc = UIAlertController(title: alertData.title,
+    func makeAlert(alertData: AlertViewData) -> UIViewController {
+        let alertController = UIAlertController(title: alertData.title,
                                    message: alertData.message,
                                    preferredStyle: alertData.style)
         
@@ -20,9 +20,9 @@ class AlertImplementation: AlertFactoryService {
                            title: alertData.okActionTitle,
                            style: alertData.okActionStyle)
             { [weak self] _ in
-               self?.delegate?.okAction()
+               self?.delegate?.okAction?()
             }
-            vc.addAction(okAction)
+            alertController.addAction(okAction)
         }
         
         if alertData.enableCancelAction {
@@ -30,10 +30,37 @@ class AlertImplementation: AlertFactoryService {
                                title: alertData.cancelActionTitle,
                                style: alertData.cancelActionStyle)
             { [weak self] _ in
-               self?.delegate?.cancelAction()
+                self?.delegate?.cancelAction?()
             }
-            vc.addAction(cancelAction)
+            alertController.addAction(cancelAction)
         }
-        return vc
+        return alertController
+    }
+    
+    func makeActionSheet(alertData: AlertViewData) -> UIViewController {
+        let alertController = UIAlertController(title: alertData.title,
+                                   message: alertData.message,
+                                   preferredStyle: alertData.style)
+        
+        if alertData.enableOkAction {
+            let okAction = UIAlertAction(
+                           title: alertData.okActionTitle,
+                           style: alertData.okActionStyle)
+            { [weak self] _ in
+               self?.delegate?.firstAction?()
+            }
+            alertController.addAction(okAction)
+        }
+        
+        if alertData.enableCancelAction {
+            let cancelAction = UIAlertAction(
+                               title: alertData.cancelActionTitle,
+                               style: alertData.cancelActionStyle)
+            { [weak self] _ in
+                self?.delegate?.secondAction?()
+            }
+            alertController.addAction(cancelAction)
+        }
+        return alertController
     }
 }
