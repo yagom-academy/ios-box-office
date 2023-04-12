@@ -161,7 +161,7 @@ extension BoxOfficeViewController: UICollectionViewDataSource {
         }
     }
     
-    private func configureCell<T: Configurable>(_ collectionView: UICollectionView, type: T.Type, indexPath: IndexPath) -> UICollectionViewCell {
+    private func configureCell<T: CellConfigurable>(_ collectionView: UICollectionView, type: T.Type, indexPath: IndexPath) -> UICollectionViewCell {
         guard let cell = collectionView.dequeueReusableCell(
             withReuseIdentifier: T.identifier,
             for: indexPath) as? T,

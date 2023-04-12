@@ -7,7 +7,7 @@
 
 import UIKit
 
-final class BoxOfficeCollectionViewListCell: UICollectionViewListCell, Configurable {
+final class BoxOfficeCollectionViewListCell: UICollectionViewListCell, CellConfigurable {
     @IBOutlet private weak var rankLabel: UILabel!
     @IBOutlet private weak var rankInfoLabel: UILabel!
     @IBOutlet private weak var titleLabel: UILabel!
