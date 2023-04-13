@@ -201,7 +201,7 @@ extension BoxOfficeViewController {
         
         let gridRegistration = UICollectionView.CellRegistration<BoxOfficeGridCell, BoxOfficeItem> {
             (cell, indexPath, item) in
-            cell.configure(boxOfficeItem: item)
+            cell.configureInformation(item)
         }
         
         dataSource = UICollectionViewDiffableDataSource<Section, BoxOfficeItem.ID>(collectionView: collectionView) {

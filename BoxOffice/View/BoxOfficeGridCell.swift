@@ -71,7 +71,7 @@ final class BoxOfficeGridCell: UICollectionViewCell {
         self.rankIncrementLabel.textColor = .black
     }
     
-    func configure(boxOfficeItem: BoxOfficeItem) {
+    func configureInformation(_ boxOfficeItem: BoxOfficeItem) {
         configureRankInformation(rank: boxOfficeItem.rank,
                                  rankIncrement: boxOfficeItem.rankIncrement,
                                  rankOldAndNew: boxOfficeItem.rankOldAndNew)
