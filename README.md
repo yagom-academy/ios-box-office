@@ -26,78 +26,94 @@
 
 ### PARTI
 
-|    날짜    | 내용                                                                                        |
-|:----------:| ------------------------------------------------------------------------------------------- |
-| 2023.03.20 | Movie, BoxOffice 타입 구현 및 UnitTest                                                      |
-| 2023.03.21 | Decoder, MovieInformation, NetworkManager 타입 구현 및 step1 refactoring                    |
-| 2023.03.22 | Error 처리 구현, URL 관련 프로토콜 구현                                                     |
-| 2023.03.23 | 기존 NetworkManager 타입에서 Enpoint 타입 분리, refactorig                                  |
-| 2023.03.24 | git merge 오류 해결, 불필요한 코드 삭제, README작성                                         |
-| 2023.03.27 | ListCell을 활용하여 영화 목록 화면 UI 구현(StackView), viewController 기본 구현             |
-| 2023.03.28 | CustomCollectionCell, collectionView 영화 목록 화면 구현                                    |
-| 2023.03.29 | 상세 화면으로 전환, 상세화면 구현                                                           |
-| 2023.03.30 | MoviePosterImageView, ScrollView 구현                                                       |
+|    날짜    | 내용 |
+|:----:| ---- |
+| 2023.03.20 | Movie, BoxOffice 타입 구현 및 UnitTest|
+| 2023.03.21 | Decoder, MovieInformation, NetworkManager 타입 구현 및 step1 refactoring|
+| 2023.03.22 | Error 처리 구현, URL 관련 프로토콜 구현|
+| 2023.03.23 | 기존 NetworkManager 타입에서 Enpoint 타입 분리, refactorig|
+| 2023.03.24 | git merge 오류 해결, 불필요한 코드 삭제, README작성|
+| 2023.03.27 | ListCell을 활용하여 영화 목록 화면 UI 구현(StackView), viewController 기본 구현|
+| 2023.03.28 | CustomCollectionCell, collectionView 영화 목록 화면 구현|
+| 2023.03.29 | 상세 화면으로 전환, 상세화면 구현|
+| 2023.03.30 | MoviePosterImageView, ScrollView 구현|
 | 2023.03.31 | imageURL 로직 refactoring, JSON 데이터에서 필요한 데이터 타입 구현 refactoring, README 작성 |
 
  ### PARTII
  
-| 날짜       | 내용 |
-| ---------- | ---- |
-| 2023.04.03 | 날짜선택 화면 및 UICalendarView 구현 |
-| 2023.04.04 |아이콘모드 Cell 구현, autolayout 추가|
-| 2023.04.05 |View, VC 기능 분리, Dynamic Type적용|
-| 2023.04.06 |View, VC 기능 분리 로직수정, step1 브랜치 step2로 merge|
-| 2023.04.07 |step2 refactoring; 특정화면에 종속되는 타입 해당 VC로 이동, NumberFormatter Manager 구현 </br> README 작성|
-
+|    날짜    | 내용                                                                                                       |
+|:----------:| ---------------------------------------------------------------------------------------------------------- |
+| 2023.04.03 | 날짜선택 화면 및 UICalendarView 구현                                                                       |
+| 2023.04.04 | 아이콘모드 Cell 구현, autolayout 추가                                                                      |
+| 2023.04.05 | View, VC 기능 분리, Dynamic Type적용                                                                       |
+| 2023.04.06 | View, VC 기능 분리 로직수정, step1 브랜치 step2로 merge                                                    |
+| 2023.04.07 | step2 refactoring; 특정화면에 종속되는 타입 해당 VC로 이동, NumberFormatter Manager 구현 </br> README 작성 |
+| 2023.04.10 | BoxOfficeCoreData 기본 구현                                                                                |
+| 2023.04.11 | CoreData CRUD 구현, DataManager 구현                                                                       |
+| 2023.04.12 | CoreData 저장 경로 변경<br>(Library/Application Support -> Library/Caches)                                 |
+| 2023.04.13 | CoreDataManager Refactoring  |
+| 2023.04.14 | README 작성 |
 
 
 <br/>
 
 
 # 프로젝트 구조
-
+## Class Diagram
+<img src="https://i.imgur.com/uIL7hza.png">
 
 ## File Tree
 ```typescript
-ios-box-office
-├── BoxOffic
-│   ├── Model
-│   │   ├── JSON
-│   │   │   ├── DailyBoxOffice.swift
-│   │   │   ├── MovieInformation.swift
-│   │   │   ├── MoviePosterImage.swift
-│   │   │   └── Decoder.swift
-│   │   ├── EndPoint
-│   │   │   ├── HttpMethod.swift
-│   │   │   └── BoxOfficeEndPoint.swift
-│   │   ├── Network
-│   │       ├── NetworkError.swift
-│   │       └── NetworkManager.swift
-│   │   ├── ImageCacheManager
-│   │   └── NumberFormatterManager
-│   ├── View
-│   │   ├── DailyBoxOfficeListtCollectionViewCell.swift
-│   │   ├── DailyBoxOfficeIconCollectionViewCell.swift
-│   │   └── MovieInformationScrollView.swift
-│   ├── Controller
-│   │   ├── DailyBoxOfficeViewController.swift
-│   │   ├── MovieInformationViewController.swift
-│   │   ├── SelectDateViewController.swift
-│   │   └── Enum
-│   │       └── MovieRankMarkColor.swift
-│   ├── Resources
-│   │   └── Assets.xcassets
-│   └── Application
-│       ├── AppDelegate.swift
-│       ├── Base.lproj
-│       └── SceneDelegate.swift
-├── BoxOfficeTests
-│   └── BoxOfficeTests.swift
-└── NetworkManagerTest
-    ├── MockNetworkManager.swift
-    ├── MockURLProtocol.swift
-    └── NetworkManagerTest.swift
+BoxOffice
+├── DataManager
+│   ├── DataManager.swift
+│   ├── BoxOfficeCoreData.xcdatamodeld
+│   ├── MovieInformationCoreData
+│   │   ├── MovieInformationCoreDataManager.swift
+│   │   ├── MovieInformationData+CoreData.swift
+│   │   ├── Details.swift
+│   │   └── DetailsAttributeTransformer.swift
+│   ├── DailyBoxOfficeCoreData
+│   │   ├── DailyBoxOfficeCoreDataManager.swift
+│   │   ├── DailyBoxOfficeData+CoreData.swift
+│   │   ├── Movies.swift
+│   │   ├── Movie.swift
+│   │   └── MovieAttributeTransformer.swift
+│   └── ImageNSCache
+│       └── ImageCacheManager.swift
+└── BoxOffice
+    ├── Model
+    │   ├── JSON
+    │   │   ├── DailyBoxOffice.swift
+    │   │   ├── MoviePosterImage.swift
+    │   │   ├── MovieInformation.swift
+    │   │   └── Decoder.swift
+    │   ├── EndPoint
+    │   │   ├── BoxOfficeEndPoint.swift
+    │   │   └── HttpMethod.swift
+    │   ├── Network
+    │   │   ├── NetworkError.swift
+    │   │   └── NetworkManager.swift
+    │   ├── NumberFormatterManager.swift
+    │   └── AlertManager.swift
+    ├── View
+    │   ├── DailyBoxOfficeListCollectionViewCell.swift
+    │   ├── DailyBoxOfficeIconCollectionViewCell.swift
+    │   └── MovieInformationScrollView.swift
+    ├── Controller
+    │   ├── DailyBoxOfficeViewController.swift
+    │   ├── MovieInformationViewController.swift
+    │   ├── SelectDateViewController.swift
+    │   └── Enum
+    │       └── MovieRankMarkColor.swift
+    ├── Resources
+    │   └── Assets.xcassets
+    ├── Application
+    │   ├── AppDelegate.swift
+    │   └── SceneDelegate.swift
+    └── Info.plist
 ```
+
 
  <br/>  
 
@@ -584,8 +600,107 @@ final class DailyBoxOfficeViewController {
         ...
 }    
 ```
+## 7️⃣ CoreDataManager  
+### 🔍 문제점  
+두가지의 CoreData Entity가 있었고 이를 관리해주는 CoreDataManager를 각각 1개씩 구현하였습니다. 중복되는 요소가 많아 하나의 manager로 관리하고자 하였으나 setValue해주는 값이 다르고 Entity 타입이 달라 해결하는데 어려움이 있었습니다.
     
-## 7️⃣ Cell Identifier 관리
+### ⚒️ 해결방안
+이를 해결하고자 Generic을 활용하여 타입에 제한을 두지 않고 JSON 파싱 데이터를 바로 Entity 변환 후 CoreData에 저장하는 것이 아니라 DTO -> Entity 과정을 하는 중간 객체를 분리하였습니다.
+
+#### DTO -> Entity로 변경해주는 객체
+```swift
+final class TypeChanger {
+    
+    func changeToEntity(_ movie: MovieInformation.MovieInformationResult.Movie) -> MovieDetails {
+        let details = MovieDetails()
+    ...
+    }
+    ...
+    func changeToEntity(_ movies: [DailyBoxOffice.BoxOfficeResult.Movie]) -> Movies {
+    ...
+    }
+}
+```
+
+#### CoreDataManager Generic 적용
+```swift
+final class CoreDataManager<Entity: NSManagedObject & EntityKeyProtocol , Element>: DataManager {
+    private let context = (UIApplication.shared.delegate as? AppDelegate)?.persistentContainer.newBackgroundContext()
+    
+    func create(key: String, value: [Element]) {
+        guard let context = self.context,
+              let entity = NSEntityDescription.entity(forEntityName: Entity.key, in: context),
+              let storage = NSManagedObject(entity: entity, insertInto: context) as? Entity else { return }
+        
+        setValue(at: storage, key: key , data: value)
+        save()
+    }
+    
+    func read(key: String) -> Entity? {
+        guard let context = self.context else { return nil }
+        
+        let filter = filteredDataRequest(entityType: Entity.self, key: key)
+        
+        do {
+            let data = try context.fetch(filter)
+            return data.first
+        } catch {
+            return nil
+        }
+    }  
+    ...
+    
+    private func setValue(at target: Entity, key: String, data: [Element]) {
+        guard let data = data.first else { return }
+        let contents = data
+        
+        if target is DailyBoxOfficeData {
+            target.setValue(Date.now, forKey: "createdAt")
+            target.setValue(key, forKey: "selectedDate")
+            target.setValue(contents, forKey: "movies")
+        } else if target is MovieInformationData {
+            target.setValue(Date.now, forKey: "createdAt")
+            target.setValue(key, forKey: "movieCode")
+            target.setValue(contents, forKey: "movieDetails")
+        }
+    }
+    ...
+    
+    private func filteredDataRequest<T: NSManagedObject>(entityType: T.Type, key: String) -> NSFetchRequest<T> {
+        let fetchRequest = NSFetchRequest<T>(entityName: String(describing: entityType))
+        
+        if entityType == DailyBoxOfficeData.self {
+            fetchRequest.predicate = NSPredicate(format: "selectedDate == %@", key)
+        } else if entityType == MovieInformationData.self {
+            fetchRequest.predicate = NSPredicate(format: "movieCode == %@", key)
+        }
+        
+        return fetchRequest
+    }
+}
+```
+- `<Entity: NSManagedObject & EntityKeyProtocol , Element>` `Entity`, `Element` 두개의 Generic 구현, 두개이상의 프로토콜을 채택할 시 `&` 사용
+- Entity 별로 저장되는 attribute가 다르기 때문에 필요한 곳에서 분기처리하였습니다.
+
+#### DataManager protocol
+```swift
+protocol DataManager {
+    
+    associatedtype Element
+    associatedtype Entity
+    
+    func create(key: String, value: [Element])
+    
+    func read(key: String) -> Entity?
+    
+    func update(key: String, value: [Element])
+    
+    func delete()
+}
+```
+- `Any` 타입 대신 `associatedtype` 을 활용하였습니다.
+
+## 8️⃣ Cell Identifier 관리
 
 ### 🔍 문제점    
 dataSource가 cell에 데이터를 주거나, dequeueReusableCell을 호출할 때 cell의 Identifier가 필요한데 처음 접근한 방법은 cell안에 타입 프로퍼티로 자신의 identifier를 들고 있게 하여 필요한 부분에서 가져다 사용하는 식으로 구현을 하였습니다.
@@ -607,6 +722,7 @@ final class DailyBoxOfficeListCollectionViewCell: UICollectionViewCell {
     ...
 }
 ```
+
 
 ---
 
@@ -685,7 +801,7 @@ final class NetworkManagerTest: XCTestCase {
 
     
 <details>
-    <summary><big>✅ 테스트 케이스 작성 기준</big></summary> 
+    <summary><big>✅ Test Case</big></summary> 
 
 ---
 이전에 단위 테스트를 진행할 땐 `기능`을 기준으로 테스트를 했습니다. 하지만 이번 스텝에서는 기능이 존재하지 않는 타입에 대한 테스트였기 때문에, 테스트 케이스 작성 기준이 모호하여 어려움이 있었습니다.
@@ -706,7 +822,7 @@ final class NetworkManagerTest: XCTestCase {
 </details>
 
 <details>
-    <summary><big>✅ 새로고침 구현</big></summary> 
+    <summary><big>✅ UIRefreshControl</big></summary> 
 
 당겨서 새로고침 기능을 구현하기 위해 `UIRefreshControl` 타입을 사용했습니다.
 
@@ -716,10 +832,10 @@ final class NetworkManagerTest: XCTestCase {
 </details>
 
 <details>
-    <summary><big>✅ CalendarView 구현 및 선택된 날짜 delegate 패턴 적용</big></summary>
+    <summary><big>✅ UICalendarView</big></summary>
 
 ### CalendarView 구현
-- 달력을 구현하기 위해 iOS 16.0부터 UIKit에 추가된 `UICalendarView`을 사용하여 새로운 뷰컨트롤러 `SelectDateViewController`를 구현하였습니다.
+- 달력을 구현하기 위해 iOS 16.0부터 UIKit에 추가된 `UICalendarView`을 사용하여 새로운 VC인 `SelectDateViewController`를 구현하였습니다.
 
 - 달력에서 날짜 선택 시 이벤트 처리를 구현하기 위해 `UICalendarSelectionSingleDateDelegate` 프로토콜을 채택하여 `dateSelection` 메서드를 활용했습니다.
 ``` swift
@@ -758,7 +874,7 @@ extension SelectDateViewController: UICalendarSelectionSingleDateDelegate {
 </details>
 
 <details>
-    <summary><big>✅ Dynamic Type 적용을 위한 UICollectionViewLayout 레이아웃 구현 </big></summary>
+    <summary><big>✅ Dynamic Type</big></summary>
 
 두 가지 타입의 셀 레이아웃을 구현하기 위해 `DailyBoxOfficeViewController`에서 다음과 같이 레이아웃을 생성하는 메서드를 두 가지로 분리하였습니다.
 **DailyBoxOfficeViewController**
@@ -783,9 +899,175 @@ let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0),
 줄라이가 디스코드에서 조언해주신 대로 각 셀의 크기를 절대값으로 받아와서 설정하는 방안도 고려해 보았으나, 사용자 설정이 변경될때마다 실시간으로 `UICollectionViewLayout` 가 새로 생성되어야 한다는 점, VC에서 각 셀의 내부 컨텐츠 크기를 확인하는 로직이 복잡하다는 점을 고려하여 `estimated` 값을 설정하는 방법으로 구현하였습니다.
 
 </details>
+    
+<details>
+    <summary><big>✅ CoreData</big></summary>
+
+## 1️⃣ 캐싱 방법
+프로젝트를 시작하기 전 어떤 방식을 채택하면 좋을지 크게 CoreData와 URLCache, NSCache에 대해 고민하였습니다. 먼저 각각의 특징을 살펴보았습니다.
+- **CoreData**
+   - 많은 양의 정보를 저장하고 각각의 정보가 객체 형태로 저장하고 관리하며 관계를 설정할 수 있음
+   - On-disk 방식으로 저장
+- **URLCache**
+   - NSURLRequest -> CachedURLRequest 객체에 매핑하여 URL로드 요청에 대한 응답을 캐싱
+   - In-memory, On-disk 방식 중 선택하여 저장할 수 있음
+   - On-disk로 저장하면 애플리케이션이 종료되도 사라지지 않음
+- **NSCache**
+   - In-memory 방식으로 저장
+   - 애플리케이션이 종료되면 메모리에서 해제되어 사라짐
+
+이를 토대로 영화리스트와 상세정보에 대한 데이터는 변하지 않는 데이터라고 생각하여 On-disk 방식으로 저장하여 앱이 종료되어도 사라지지 않도록 구현하고자 했습니다. 따라서 선택지를 CoreData와 URLCache로 좁혔고, 그 안에서 **CoreData**를 선택하였습니다. 그 이유는 크게 3가지가 있습니다.
+
+1. URLCache의 경우 꺼내오는 데이터 타입이 URLRequest 타입으로 꺼내올 수 있기 때문에 원하는 타입으로 한번 더 변환해주어야 하는 과정이 필요한데, 이 과정이 크진 않지만 불필요하지 않을까? 생각하였습니다.
+2. CoreData의 특징 중 하나가 데이터들의 관계를 설정할 수 있다는 것인데, 처음 생각했을때 영화리스트 데이터와 상세정보 데이터간의 관계를 설정하여 관리할 수 있지 않을까? 생각하였습니다.
+3. URLCache는 저희가 사용해본적이 있는데 CoreData는 한번도 적용해본적이 없어 직접 구현해보고 싶었습니다!
+
+상세정보 화면에서 띄우는 포스터이미지의 경우, 검색한 첫 번째 이미지를 불러오기 때문에 검색하는 시점에 따라 계속해서 포스터 이미지가 변경되었습니다. 따라서 In-memory 방식으로 저장하여 앱이 종료되면 삭제되도록 **NSCache**를 사용하여 구현하였습니다.
+
+## 2️⃣ iOS File System 위치
+- **CoreData**
+
+파일 위치를 찍어보니 `Library/ApplicationSupport`에 저장되는 것을 확인할 수 있었습니다. `Library/ApplicationSupport`에는 주로 앱이 실행되는데 사용되지만 사용자에게 숨겨야 하는 파일을 저장하는 것으로 알고있습니다. `Library` 하위 폴더에는 `ApplicationSupport` 말고`Caches`도 존재하는데`Library/Caches`에는 일시적인 데이터보다는 오래 유지되어야 하지만, 지원하는 파일만큼 유지될 필요 없는 캐시 데이터가 저장됩니다. 따라서저희는 캐싱한 데이터를 저장하는 것이 목적이기 때문에 `Library/Caches`에 저장하도록 fileManager를 활용하여 파일경로를 변경하였습니다.
+
+```swift
+class AppDelegate: UIResponder, UIApplicationDelegate {
+    lazy var persistentContainer: NSPersistentContainer = {
+        let container = NSPersistentContainer(name: "BoxOfficeCoreData")
+        let fileManager = FileManager.default
+        let cacheDirectoryURL = fileManager.urls(for: .cachesDirectory, in: .userDomainMask)[0]
+        let persistentStoreURL = cacheDirectoryURL.appendingPathComponent("BoxOfficeCoreData.sqlite")
+        let description = container.persistentStoreDescriptions.first
+        
+        description?.url = persistentStoreURL
+        
+        container.loadPersistentStores(completionHandler: { (storeDescription, error) in
+            if let error = error {
+                fatalError("Failed to load store: \(error)")
+            }
+        })
+
+        return container
+    }()
+    ...
+}
+```
+
+## 3️⃣ 캐시 매니저 추상화
+구현한 캐시 매니저가 공통으로 채택하도록 추상화된 `DataManager` 프로토콜을 구현하였습니다.
+프로토콜에는 CRUD가 명세되어 있습니다.
+
+``` swift
+protocol DataManager {
+    func create(key: String, value: [Any])
+    func read(key: String) -> Any?
+    func update(key: String, value: [Any])
+    func delete()
+}
+
+final class MovieInformationCoreDataManager: DataManager { ... }
+
+final class DailyBoxOfficeCoreDataManager: DataManager { ... }
+
+final class ImageCacheManager: DataManager { ... }
+```
+
+## 4️⃣ 프로젝트의 모델 구조
+CoreData 캐시를 구현하기 위해 CoreData에 다음과 같이 Entity를 추가하였습니다. <br>
+<img src="https://i.imgur.com/67YT6Pi.png" width=500>
+<img src="https://i.imgur.com/uBfBznt.png" width=500>
+
+Entity가 추가되어 모델을 추가 구현하였는데, 그 결과 프로젝트 내 모델이 많아졌고, 모델 간 관계를 파악하기가 복잡해진 것 같습니다. 프로젝트 내 모델 구조는 다음과 같습니다.
+
+### 데일리 박스 오피스 조회 화면에 사용되는 모델
+<img src="https://i.imgur.com/NGMB24h.png" width=600>
+
+- `DailyBoxOffice` : JSON 파싱을 위한 모델
+- `DailyBoxOfficeData` : Core Data 캐시를 위한 모델
+- `DailyBoxOfficeItem` : VC에서 컬렉션뷰의 DataSource에 사용하기 위한 Hashable 모델
+
+### 영화 상세 정보 화면에 사용되는 모델
+<img src="https://i.imgur.com/UiOFR9l.png" width=600>
+
+- `MovieInformation` : JSON 파싱을 위한 모델
+- `MovieInformationData` : Core Data 캐시를 위한 모델
+- `MovieInformationItem` : VC에서 UI요소들에 데이터를 적용하기 위한 모델
+
+`MovieInformationData` 모델의 프로퍼티는 `MovieInformation`의 프로퍼티와 다른 형태로 구현하였습니다.
+
+**MovieInformation**
+``` swift
+struct MovieInformation: Decodable {
+    struct MovieInformationResult: Decodable {
+        let movie: Movie
+        ...
+        struct Movie: Decodable {
+            ...
+            let nations: [Nation]
+            ...
+            
+            struct Nation: Decodable {
+                let name: String
+                ...
+            }
+        }
+    }
+}
+```
+
+**MovieInformationData**
+``` swift
+public final class MovieInformationData: NSManagedObject {
+    ...
+    @NSManaged var details: Details?
+}
+
+final class Details: NSObject {
+    ...
+    var nationsName: [String]?
+    ...
+}
+```
+
+JSON 원본에서는 `Nation`이라는 중첩 타입으로 구현되어있던 프로퍼티를 `MovieInformationData` 내에서는 `String`으로 풀어서 저장하였습니다.
+사용자 정의 타입을 CoreData에 캐시하기 위해선 타입이 `NSSecureCoding`을 준수하고 해당 타입을 위한 `NSSecureUnarchiveFromDataTransformer` 모델을 추가적으로 구현해야 하는데,
+모든 중첩 타입에 대해 위 요구사항을 구현하는 것이 번거롭게 느껴졌기 때문입니다.
+ 
+## 5️⃣ 캐시정책
+저희는 특정 시간동안 저장되고 사라지도록 제거정책을 설정하였습니다. 그 시간은 앱을 실행시킨 시점을 기준으로 24시간동안으로 지정하였고 24시간이 지나면 캐시된 데이터가 삭제되도록 구현하였습니다.
+
+- CoreData, Entity에 `createdAt` Attribute 추가
+- NSPredicate로 원하는 기간 설정
+```swift
+func deleteByTimeInterval() {
+        guard let context = self.context else { return }
+        
+        let request: NSFetchRequest<NSFetchRequestResult> = MovieInformationData.fetchRequest()
+        let olderThanDate = Date().addingTimeInterval(-1 * 24 * 60 * 60)
+        request.predicate = NSPredicate(format: "createdAt < %@", argumentArray: [olderThanDate])
+        
+        let delete = NSBatchDeleteRequest(fetchRequest: request)
+        do {
+            try context.execute(delete)
+        } catch {
+            print(error.localizedDescription)
+        }
+    }
+```
+- AppDelegate에서 호출 
+
+```swift
+func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
+    ... 
+    DailyBoxOfficeCoreDataManager.shared.deleteByTimeInterval()
+    MovieInformationCoreDataManager.shared.deleteByTimeInterval()
+    ...
+}
+```
+
+</details>
 
 <details>
-    <summary><big>❇️ 추가 학습</big></summary>
+<summary><big>❇️ 추가 학습</big></summary>
 
 ### 중첩된 JSON 파일의 Model 구현
 기존에 다뤄본 JSON 파일은 아래와 같이 배열형태였는데, 이번에 다뤄야 하는 파일은 중첩된 형태라 어떻게 model 타입을 구현하면 좋을지 고민하였습니다.
@@ -861,7 +1143,11 @@ struct BoxOffice: Decodable {
 - [Mock 을 이용한 Network Unit Test](https://sujinnaljin.medium.com/swift-mock-을-이용한-network-unit-test-하기-a69570defb41)
 - [TestDouble-Mock](https://medium.com/@dhawaldawar/how-to-mock-urlsession-using-urlprotocol-8b74f389a67a)
 - [kodeco-URLSession](https://www.kodeco.com/3244963-urlsession-tutorial-getting-started)
-
+- [CoreData) NSSecureCoding](https://joonswift.tistory.com/41)
+- [CoreData 사용해보기](https://icksw.tistory.com/224)
+- [CoreData CRUD 구현하기](https://velog.io/@leeesangheee/Core-Data-사용해-CRUD-구현하기)
+- [CoreData에서 지원하지 않는 타입 저장하기](https://terrypotter.tistory.com/40)
+            
 ## 공식 문서
 - [AppleDevelopment-URLProtocol](https://developer.apple.com/documentation/foundation/urlprotocol)
 - [AppleDevelopment-dataTask](https://developer.apple.com/documentation/foundation/urlsession/1407613-datatask)
@@ -873,4 +1159,7 @@ struct BoxOffice: Decodable {
 - [AppleDevelopment-UICalendarView](https://developer.apple.com/documentation/uikit/uicalendarview)
 - [AppleDevelopment-Hashable](https://developer.apple.com/documentation/swift/hashable)
 - [AppleDevelopment-UIAlertController](https://developer.apple.com/documentation/uikit/uialertcontroller)
-
+- [AppleDevelopment-Core Data](https://developer.apple.com/documentation/coredata)
+- [AppleDevelopment-NSSecureCoding](https://developer.apple.com/documentation/foundation/nssecurecoding)
+- [AppleDevelopment-NSCache](https://developer.apple.com/documentation/foundation/nscache/)
+- [AppleDevelopment-iOS File System](https://developer.apple.com/library/archive/documentation/FileManagement/Conceptual/FileSystemProgrammingGuide/FileSystemOverview/FileSystemOverview.html)
