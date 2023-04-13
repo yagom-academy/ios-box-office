@@ -46,10 +46,8 @@ final class DailyBoxOfficeViewController: UIViewController {
             collectionViewMode = .icon
         }
         
-        collectionView.reloadData()
-        collectionView.setCollectionViewLayout(collectionViewLayout(), animated: true) { _ in
-            self.collectionView.reloadData()
-        }
+        collectionView.setCollectionViewLayout(collectionViewLayout(), animated: false)
+        self.collectionView.reloadData()
     }
     
     private func collectionViewLayout() -> UICollectionViewCompositionalLayout {
