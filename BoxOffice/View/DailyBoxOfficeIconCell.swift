@@ -43,7 +43,7 @@ final class DailyBoxOfficeIconCell: UICollectionViewCell {
 }
 
 extension DailyBoxOfficeIconCell: MovieDataUpdatable {
-    func movieDataUpdateIfNeeded(newData: DailyBoxOfficeMovie) {
+    func updateMovieDataIfNeeded(newData: DailyBoxOfficeMovie) {
         guard movieData != newData else { return }
         
         updateData(with: newData)
