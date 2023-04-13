@@ -10,6 +10,14 @@ import UIKit
 enum CollectionViewMode {
     case list
     case icon
+    var oppositeString: String {
+        switch self {
+        case .icon:
+            return "리스트"
+        case .list:
+            return "아이콘"
+        }
+    }
 }
 
 struct CollectionViewModeManager {
