@@ -313,6 +313,7 @@ extension BoxOfficeViewController: UICollectionViewDelegate {
         let movieDetailViewController = MovieDetailViewController(movieName: selectedTitle,
                                                                   movieCode: selectedCode)
         self.navigationController?.pushViewController(movieDetailViewController, animated: true)
+        collectionView.deselectItem(at: indexPath, animated: true)
     }
 }
 
