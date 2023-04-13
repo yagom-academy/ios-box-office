@@ -1,5 +1,5 @@
 //
-//  Details.swift
+//  MovieDetails.swift
 //  BoxOffice
 //
 //  Created by 리지, kokkilE on 2023/04/11.
@@ -7,7 +7,7 @@
 
 import Foundation
 
-final class Details: NSObject {
+final class MovieDetails: NSObject {
     var movieCode: String?
     var movieKoreanName: String?
     var movieEnglishName: String?
@@ -71,7 +71,7 @@ final class Details: NSObject {
     }
 }
 
-extension Details: NSSecureCoding {
+extension MovieDetails: NSSecureCoding {
     static var supportsSecureCoding: Bool {
         return true
     }

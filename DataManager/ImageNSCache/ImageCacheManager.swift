@@ -14,17 +14,17 @@ final class ImageCacheManager: DataManager {
     private init() {}
 
     func create(key: String, value: [Any]) {
-        let forKey = NSString(string: key)
         guard let image = value.first as? UIImage else { return }
+        let forKey = NSString(string: key)
+        
         self.storage.setObject(image, forKey: forKey)
     }
     
     func read(key: String) -> Any? {
         let cachedKey = NSString(string: key)
-        if let cachedImage = storage.object(forKey: cachedKey) {
-            return cachedImage
-        }
-        return nil
+        guard let cachedImage = storage.object(forKey: cachedKey) else { return nil }
+        
+        return cachedImage
     }
     
     func update(key: String, value: [Any]) {

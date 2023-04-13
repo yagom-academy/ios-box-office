@@ -14,9 +14,11 @@ public final class DailyBoxOfficeData: NSManagedObject {
 
 }
 
-extension DailyBoxOfficeData {
+extension DailyBoxOfficeData: EntityKeyProtocol {
+    static let key = "DailyBoxOfficeData"
+    
     @nonobjc public class func fetchRequest() -> NSFetchRequest<DailyBoxOfficeData> {
-        return NSFetchRequest<DailyBoxOfficeData>(entityName: "DailyBoxOfficeData")
+        return NSFetchRequest<DailyBoxOfficeData>(entityName: DailyBoxOfficeData.key)
     }
 
     @NSManaged var createdAt: Date?

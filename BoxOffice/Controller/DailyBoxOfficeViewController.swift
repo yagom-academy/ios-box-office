@@ -18,6 +18,8 @@ final class DailyBoxOfficeViewController: UIViewController, DateUpdatable {
     private typealias Snapshot = NSDiffableDataSourceSnapshot<Section, DailyBoxOfficeItem>
     
     private let networkManager = NetworkManager()
+    private let typeChanger = TypeChanger()
+    private let coreDataManager = CoreDataManager<DailyBoxOfficeData, Movies>()
     private var boxOfficeEndPoint: BoxOfficeEndPoint?
     private var movieDataSource: DataSource?
     private var dailyBoxOfficeItem: [DailyBoxOfficeItem] = []
@@ -138,7 +140,7 @@ final class DailyBoxOfficeViewController: UIViewController, DateUpdatable {
         dateFormatter.dateFormat = "yyyyMMdd"
         let selectedDate = dateFormatter.string(from: selectedDate)
         
-        if let fetchedData = DailyBoxOfficeCoreDataManager.shared.read(key: selectedDate) as? DailyBoxOfficeData,
+        if let fetchedData = coreDataManager.read(key: selectedDate),
            let movies = fetchedData.movies {
             applyMoviesToDailyBoxOfficeItem(from: movies.movieList)
             
@@ -156,10 +158,10 @@ final class DailyBoxOfficeViewController: UIViewController, DateUpdatable {
             case .failure(let error):
                 print(error)
             case .success(let result):
+                guard let entity = self?.typeChanger.changeToEntity(result.boxOfficeResult.boxOfficeList) else { return }
+                self?.coreDataManager.create(key: selectedDate, value: [entity])
                 
-                DailyBoxOfficeCoreDataManager.shared.create(key: selectedDate, value: result.boxOfficeResult.boxOfficeList)
-                
-                guard let fetchedData = DailyBoxOfficeCoreDataManager.shared.read(key: selectedDate) as? DailyBoxOfficeData,
+                guard let fetchedData = self?.coreDataManager.read(key: selectedDate),
                       let movies = fetchedData.movies else { return }
                 self?.applyMoviesToDailyBoxOfficeItem(from: movies.movieList)
                 
@@ -229,26 +231,27 @@ extension DailyBoxOfficeViewController {
     }
     
     private func setupCellLabels(with movie: DailyBoxOfficeItem) -> (name: String, audienceInformation: String, rank: String, rankMark: String, audienceVariance: String, rankMarkColor: MovieRankMarkColor)? {
-        var name: String
-        var audienceInformation: String
-        var rank: String
+        guard let movieAudienceCount = movie.audienceCount,
+              let movieAudienceAccumulation = movie.audienceAccumulation,
+              let movieName = movie.name,
+              let movieRank = movie.rank,
+              let movieRankVariance = movie.rankVariance,
+              let todayAudience = NumberFormatterManager.shared.convertToFormattedNumber(from: movieAudienceCount, style: .decimal),
+              let totalAudience = NumberFormatterManager.shared.convertToFormattedNumber(from: movieAudienceAccumulation, style: .decimal) else { return nil }
+        
+        let name = movieName
+        let audienceInformation = "오늘 \(todayAudience) / 총 \(totalAudience)"
+        let rank = movieRank
         var rankMark: String
         var audienceVariance: String
         var rankMarkColor : MovieRankMarkColor
-        
-        guard let todayAudience = NumberFormatterManager.shared.convertToFormattedNumber(from: movie.audienceCount, style: .decimal),
-              let totalAudience = NumberFormatterManager.shared.convertToFormattedNumber(from: movie.audienceAccumulation, style: .decimal) else { return nil }
-        
-        name = movie.name
-        audienceInformation = "오늘 \(todayAudience) / 총 \(totalAudience)"
-        rank = movie.rank
-        
+    
         if movie.rankOldAndNew == "NEW" {
             rankMarkColor = .red
             rankMark = "신작"
             audienceVariance = ""
         } else {
-            guard let variance = Int(movie.rankVariance) else { return nil }
+            guard let variance = Int(movieRankVariance) else { return nil }
             
             switch variance {
             case ..<0:
@@ -308,8 +311,8 @@ extension DailyBoxOfficeViewController {
 
 extension DailyBoxOfficeViewController: UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        let movieName = dailyBoxOfficeItem[indexPath.item].name
-        let movieCode = dailyBoxOfficeItem[indexPath.item].code
+        guard let movieName = dailyBoxOfficeItem[indexPath.item].name,
+              let movieCode = dailyBoxOfficeItem[indexPath.item].code else { return }
         
         let movieInformationViewController = MovieInformationViewController(movieName: movieName, movieCode: movieCode)
         navigationController?.pushViewController(movieInformationViewController, animated: true)
@@ -345,22 +348,22 @@ fileprivate enum Section: Hashable {
 
 struct DailyBoxOfficeItem: Hashable {
     let identifier: UUID
-    let rank: String
-    let rankVariance: String
-    let rankOldAndNew: String
-    let code: String
-    let name: String
-    let audienceCount: String
-    let audienceAccumulation: String
+    let rank: String?
+    let rankVariance: String?
+    let rankOldAndNew: String?
+    let code: String?
+    let name: String?
+    let audienceCount: String?
+    let audienceAccumulation: String?
     
     init(from movie: Movie) {
         self.identifier = UUID()
-        self.rank = movie.rank ?? ""
-        self.rankVariance = movie.rankVariance ?? ""
-        self.rankOldAndNew = movie.rankOldAndNew ?? ""
-        self.code = movie.code ?? ""
-        self.name = movie.name ?? ""
-        self.audienceCount = movie.audienceCount ?? ""
-        self.audienceAccumulation = movie.audienceAccumulation ?? ""
+        self.rank = movie.rank
+        self.rankVariance = movie.rankVariance
+        self.rankOldAndNew = movie.rankOldAndNew
+        self.code = movie.code
+        self.name = movie.name
+        self.audienceCount = movie.audienceCount
+        self.audienceAccumulation = movie.audienceAccumulation
     }
 }

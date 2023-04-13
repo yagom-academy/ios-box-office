@@ -2,12 +2,12 @@
 <model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="21754" systemVersion="22C65" minimumToolsVersion="Automatic" sourceLanguage="Swift" userDefinedModelVersionIdentifier="">
     <entity name="DailyBoxOfficeData" representedClassName="DailyBoxOfficeData" syncable="YES">
         <attribute name="createdAt" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
-        <attribute name="movies" optional="YES" attributeType="Transformable" valueTransformerName="MovieAttributeTransformer" customClassName="BoxOfficeDatas"/>
+        <attribute name="movies" optional="YES" attributeType="Transformable" valueTransformerName="MovieAttributeTransformer" customClassName="Movies"/>
         <attribute name="selectedDate" optional="YES" attributeType="String"/>
     </entity>
     <entity name="MovieInformationData" representedClassName="MovieInformationData" syncable="YES">
         <attribute name="createdAt" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
-        <attribute name="details" optional="YES" attributeType="Transformable" valueTransformerName="DetailsAttributeTransformer" customClassName="Details"/>
         <attribute name="movieCode" optional="YES" attributeType="String"/>
+        <attribute name="movieDetails" optional="YES" attributeType="Transformable" valueTransformerName="MovieDetailsAttributeTransformer" customClassName="MovieDetails"/>
     </entity>
 </model>

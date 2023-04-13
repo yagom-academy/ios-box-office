@@ -10,11 +10,14 @@ import CoreData
 
 protocol DataManager {
     
-    func create(key: String, value: [Any])
+    associatedtype Element
+    associatedtype Entity
     
-    func read(key: String) -> Any?
+    func create(key: String, value: [Element])
     
-    func update(key: String, value: [Any])
+    func read(key: String) -> Entity?
+    
+    func update(key: String, value: [Element])
     
     func delete()
 }

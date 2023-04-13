@@ -1,72 +1,18 @@
 //
-//  MovieInformationCoreDataManager.swift
+//  TypeChanger.swift
 //  BoxOffice
 //
-//  Created by 리지, kokkilE on 2023/04/11.
+//  Created by 리지, kokkilE on 2023/04/13.
 //
 
 import Foundation
 import CoreData
-import UIKit
 
-final class MovieInformationCoreDataManager: DataManager {
-    static let shared = MovieInformationCoreDataManager()
-    private let context = (UIApplication.shared.delegate as? AppDelegate)?.persistentContainer.newBackgroundContext()
+final class TypeChanger {
     
-    private init() {}
-    
-    func create(key: String, value: [Any]) {
-        guard let context = self.context,
-              let movieInformationEntity = NSEntityDescription.entity(forEntityName: "MovieInformationData", in: context),
-              let movieInformationData = NSManagedObject(entity: movieInformationEntity, insertInto: context) as? MovieInformationData else { return }
+    func changeToEntity(_ movie: MovieInformation.MovieInformationResult.Movie) -> MovieDetails {
+        let details = MovieDetails()
         
-        setValue(at: movieInformationData, code: key , and: value)
-        save()
-    }
-    
-    func read(key: String) -> Any? {
-        fetchData(movieCode: key)
-    }
-    
-    func update(key: String, value: [Any]) {
-        guard let movieInformationData = fetchData(movieCode: key) else { return }
-        
-        setValue(at: movieInformationData, code: key, and: value)
-        save()
-    }
-    
-    func delete() {
-        guard let context = self.context else { return }
-        
-        let request: NSFetchRequest<NSFetchRequestResult> = MovieInformationData.fetchRequest()
-        let delete = NSBatchDeleteRequest(fetchRequest: request)
-        do {
-            try context.execute(delete)
-        } catch {
-            print(error.localizedDescription)
-        }
-    }
-    
-    func deleteByTimeInterval() {
-        guard let context = self.context else { return }
-        
-        let request: NSFetchRequest<NSFetchRequestResult> = MovieInformationData.fetchRequest()
-        let olderThanDate = Date().addingTimeInterval(-1 * 24 * 60 * 60)
-        request.predicate = NSPredicate(format: "createdAt < %@", argumentArray: [olderThanDate])
-        
-        let delete = NSBatchDeleteRequest(fetchRequest: request)
-        do {
-            try context.execute(delete)
-        } catch {
-            print(error.localizedDescription)
-        }
-    }
-    
-    private func setValue(at target: MovieInformationData, code: String, and movies: [Any]) {
-        guard let movies = movies as? [MovieInformation.MovieInformationResult.Movie],
-              let movie = movies.first else { return }
-        
-        let details = Details()
         details.movieCode = movie.movieCode
         details.movieKoreanName = movie.movieKoreanName
         details.movieEnglishName = movie.movieEnglishName
@@ -146,38 +92,38 @@ final class MovieInformationCoreDataManager: DataManager {
             details.staffEnglishName?.append(movie.staffs[index].englishName)
             details.staffRoleName?.append(movie.staffs[index].roleName)
         }
-        
-        target.setValue(Date.now, forKey: "createdAt")
-        target.setValue(code, forKey: "movieCode")
-        target.setValue(details, forKey: "details")
+    
+        return details
     }
     
-    private func save() {
-        guard let context = self.context else { return }
-        
-        do {
-            try context.save()
-        } catch {
-            print(error.localizedDescription)
+    func changeToEntity(_ movies: [DailyBoxOffice.BoxOfficeResult.Movie]) -> Movies {
+        var movieList = [Movie]()
+        movies.forEach {
+            let movie = Movie()
+            
+            movie.audienceAccumulation = $0.audienceAccumulation
+            movie.screenCount = $0.screenCount
+            movie.showCount = $0.showCount
+            movie.rank = $0.rank
+            movie.rankVariance = $0.rankVariance
+            movie.rankOldAndNew = $0.rankOldAndNew
+            movie.code = $0.code
+            movie.name = $0.name
+            movie.openDate = $0.openDate
+            movie.salesAmount = $0.salesAmount
+            movie.salesShare = $0.salesShare
+            movie.salesVariance = $0.salesVariance
+            movie.salesChange = $0.salesChange
+            movie.salesAccumulation = $0.salesAccumulation
+            movie.audienceCount = $0.audienceCount
+            movie.audienceVariance = $0.audienceVariance
+            movie.audienceChange = $0.audienceChange
+            movie.order = $0.order
+            
+            movieList.append(movie)
         }
-    }
-    
-    private func filteredDataRequest(movieCode: String) -> NSFetchRequest<MovieInformationData> {
-        let fetchRequest = NSFetchRequest<MovieInformationData>(entityName: "MovieInformationData")
-        fetchRequest.predicate = NSPredicate(format: "movieCode == %@", movieCode)
-        return fetchRequest
-    }
-    
-    private func fetchData(movieCode: String) -> MovieInformationData? {
-        guard let context = self.context else { return nil }
         
-        let filter = filteredDataRequest(movieCode: movieCode)
-        
-        do {
-            let data = try context.fetch(filter)
-            return data.first
-        } catch {
-            return nil
-        }
+        let movieData = Movies(movieList: movieList)
+        return movieData
     }
 }

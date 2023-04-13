@@ -12,6 +12,8 @@ final class MovieInformationViewController: UIViewController {
     private let loadingView = UIActivityIndicatorView(style: .large)
     
     private let networkManager = NetworkManager()
+    private let coreDataManager = CoreDataManager<MovieInformationData, MovieDetails>()
+    private let typeChanger = TypeChanger()
     private let movieName: String
     private let movieCode: String
     
@@ -66,9 +68,9 @@ final class MovieInformationViewController: UIViewController {
     }
     
     private func fetchMovieInformation() {
-        if let fetchedData = MovieInformationCoreDataManager.shared.read(key: movieCode) as? MovieInformationData,
-           let details = fetchedData.details {
-           let movieInformationItem = MovieInformationItem(from: details)
+        if let fetchedData = coreDataManager.read(key: movieCode),
+           let movieDetails = fetchedData.movieDetails {
+           let movieInformationItem = MovieInformationItem(from: movieDetails)
             
             DispatchQueue.main.async { [weak self] in
                 self?.movieInformationScrollView.setupDescriptionLabels(
@@ -83,13 +85,15 @@ final class MovieInformationViewController: UIViewController {
             case .failure(let error):
                 print(error)
             case .success(let result):
-                guard let movieCode = self?.movieCode else { return }
-                MovieInformationCoreDataManager.shared.create(key: movieCode, value: [result.movieInformationResult.movie])
+                guard let movieCode = self?.movieCode,
+                      let entity = self?.typeChanger.changeToEntity(result.movieInformationResult.movie) else { return }
                 
-                guard let fetchedData = MovieInformationCoreDataManager.shared.read(key: movieCode) as? MovieInformationData,
-                      let details = fetchedData.details else { return }
+                self?.coreDataManager.create(key: movieCode, value: [entity])
                 
-                let movieInformationItem = MovieInformationItem(from: details)
+                guard let fetchedData = self?.coreDataManager.read(key: movieCode),
+                      let movieDetails = fetchedData.movieDetails else { return }
+                
+                let movieInformationItem = MovieInformationItem(from: movieDetails)
                 DispatchQueue.main.async {
                     self?.movieInformationScrollView.setupDescriptionLabels(director: movieInformationItem.directors, productionYear: movieInformationItem.productionYear, openDate: movieInformationItem.openDate, showTime: movieInformationItem.showTime, watchGrade: movieInformationItem.audits, nation: movieInformationItem.nations, genre: movieInformationItem.genres, actor: movieInformationItem.actors)
                 }
@@ -144,7 +148,7 @@ struct MovieInformationItem {
     var genres: String = ""
     var actors: String = ""
     
-    init(from movie: Details) {
+    init(from movie: MovieDetails) {
         self.directors = {
             guard let movieDirectors = movie.directorsName else { return "" }
 

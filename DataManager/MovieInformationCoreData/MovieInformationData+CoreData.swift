@@ -14,13 +14,14 @@ public final class MovieInformationData: NSManagedObject {
 
 }
 
-extension MovieInformationData {
-
+extension MovieInformationData: EntityKeyProtocol {
+    static let key = "MovieInformationData"
+    
     @nonobjc public class func fetchRequest() -> NSFetchRequest<MovieInformationData> {
-        return NSFetchRequest<MovieInformationData>(entityName: "MovieInformationData")
+        return NSFetchRequest<MovieInformationData>(entityName: MovieInformationData.key)
     }
 
     @NSManaged var createdAt: Date?
     @NSManaged var movieCode: String?
-    @NSManaged var details: Details?
+    @NSManaged var movieDetails: MovieDetails?
 }
