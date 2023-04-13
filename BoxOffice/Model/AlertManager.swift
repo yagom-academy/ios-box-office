@@ -24,4 +24,25 @@ struct AlertManager {
         
         return alert
     }
+    
+    func showScreenMode(layout: LayoutType, changeScreenFunc: @escaping () -> Void) -> UIAlertController {
+        let actionSheetController = UIAlertController(title: "화면모드 변경", message: nil, preferredStyle: .actionSheet)
+        let actionCancel = UIAlertAction(title: "취소", style: .cancel, handler: nil)
+        
+        if layout == .grid {
+            let actionList = UIAlertAction(title: "리스트", style: .default, handler: { _ in
+                changeScreenFunc()
+            })
+            actionSheetController.addAction(actionList)
+        } else if layout == .list {
+            let actionIcon = UIAlertAction(title: "아이콘", style: .default, handler: { _ in
+                changeScreenFunc()
+            })
+            actionSheetController.addAction(actionIcon)
+        }
+        
+        actionSheetController.addAction(actionCancel)
+        
+        return actionSheetController
+    }
 }

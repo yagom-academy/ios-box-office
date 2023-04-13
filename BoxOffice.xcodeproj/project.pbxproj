@@ -41,7 +41,9 @@
 		984BFCD129CA940300CA8495 /* BoxOfficeProviderTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 984BFCD029CA940300CA8495 /* BoxOfficeProviderTests.swift */; };
 		984BFCD829CA943400CA8495 /* MockURLSession.swift in Sources */ = {isa = PBXBuildFile; fileRef = 984BFCD729CA943400CA8495 /* MockURLSession.swift */; };
 		984BFCDA29CA965100CA8495 /* JsonLoader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 984BFCD929CA965100CA8495 /* JsonLoader.swift */; };
+		987C5D3E29E7F8A100403E8E /* LayoutType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 987C5D3D29E7F8A100403E8E /* LayoutType.swift */; };
 		98B4905229DA964A004CD40C /* MovieInformationStackView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98B4905129DA964A004CD40C /* MovieInformationStackView.swift */; };
+		98B4905D29DD1825004CD40C /* BoxOfficeGridCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98B4905C29DD1825004CD40C /* BoxOfficeGridCell.swift */; };
 		98C948F529D55BBF00D3B282 /* DaumAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98C948F429D55BBF00D3B282 /* DaumAPI.swift */; };
 		98C948F729D55C4600D3B282 /* HttpMethod.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98C948F629D55C4600D3B282 /* HttpMethod.swift */; };
 		98C948FF29D5774D00D3B282 /* SearchedMovieImageDTOTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98C948FE29D5774D00D3B282 /* SearchedMovieImageDTOTests.swift */; };
@@ -111,7 +113,9 @@
 		984BFCD029CA940300CA8495 /* BoxOfficeProviderTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BoxOfficeProviderTests.swift; sourceTree = "<group>"; };
 		984BFCD729CA943400CA8495 /* MockURLSession.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockURLSession.swift; sourceTree = "<group>"; };
 		984BFCD929CA965100CA8495 /* JsonLoader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JsonLoader.swift; sourceTree = "<group>"; };
+		987C5D3D29E7F8A100403E8E /* LayoutType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LayoutType.swift; sourceTree = "<group>"; };
 		98B4905129DA964A004CD40C /* MovieInformationStackView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MovieInformationStackView.swift; sourceTree = "<group>"; };
+		98B4905C29DD1825004CD40C /* BoxOfficeGridCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BoxOfficeGridCell.swift; sourceTree = "<group>"; };
 		98C948F429D55BBF00D3B282 /* DaumAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DaumAPI.swift; sourceTree = "<group>"; };
 		98C948F629D55C4600D3B282 /* HttpMethod.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HttpMethod.swift; sourceTree = "<group>"; };
 		98C948FC29D5774D00D3B282 /* SearchedImageDTOTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = SearchedImageDTOTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -162,6 +166,7 @@
 				984BFCC529C99D0C00CA8495 /* MovieDetailInformation.swift */,
 				98C9490529D6718A00D3B282 /* MovieDetailInformationItem.swift */,
 				6240795829DAB93D006C462F /* AlertManager.swift */,
+				987C5D3D29E7F8A100403E8E /* LayoutType.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -171,6 +176,7 @@
 			children = (
 				6241B57629D1BFFE00EB4E7C /* BoxOfficeContentView.swift */,
 				982FE47F29D1DB8B0037BC8F /* BoxOfficeListCell.swift */,
+				98B4905C29DD1825004CD40C /* BoxOfficeGridCell.swift */,
 				62A60DBF29D6A44E00A58284 /* CategoryStackView.swift */,
 				98B4905129DA964A004CD40C /* MovieInformationStackView.swift */,
 			);
@@ -491,9 +497,11 @@
 				98C948F729D55C4600D3B282 /* HttpMethod.swift in Sources */,
 				982FE48329D2AF890037BC8F /* Date+.swift in Sources */,
 				982FE48029D1DB8B0037BC8F /* BoxOfficeListCell.swift in Sources */,
+				987C5D3E29E7F8A100403E8E /* LayoutType.swift in Sources */,
 				62A60DC029D6A44E00A58284 /* CategoryStackView.swift in Sources */,
 				982FE47E29D189BE0037BC8F /* BoxOfficeDTO.swift in Sources */,
 				6274DE8A29DBB9AA00A97A39 /* CalendarViewController.swift in Sources */,
+				98B4905D29DD1825004CD40C /* BoxOfficeGridCell.swift in Sources */,
 				98B4905229DA964A004CD40C /* MovieInformationStackView.swift in Sources */,
 				6241B57729D1BFFE00EB4E7C /* BoxOfficeContentView.swift in Sources */,
 				63DF20F32970E1A0005DF7D1 /* BoxOfficeViewController.swift in Sources */,

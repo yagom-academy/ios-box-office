@@ -68,6 +68,8 @@ final class BoxOfficeContentView: UIView, UIContentView {
         let label = UILabel()
         label.adjustsFontForContentSizeCategory = true
         label.font = .preferredFont(forTextStyle: .body)
+        label.adjustsFontSizeToFitWidth = true
+        label.minimumScaleFactor = CGFloat(0.5)
         
         return label
     }()
@@ -130,9 +132,9 @@ private extension BoxOfficeContentView {
         NSLayoutConstraint.activate([
             rankStackView.widthAnchor.constraint(equalTo: self.widthAnchor, multiplier: 0.2),
             movieStackView.leadingAnchor.constraint(equalTo: self.leadingAnchor),
-            movieStackView.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: -10),
-            movieStackView.topAnchor.constraint(equalTo: self.topAnchor),
-            movieStackView.bottomAnchor.constraint(equalTo: self.bottomAnchor),
+            movieStackView.trailingAnchor.constraint(equalTo: accessoryImageView.leadingAnchor, constant: 0),
+            movieStackView.topAnchor.constraint(equalTo: self.topAnchor, constant: 10),
+            movieStackView.bottomAnchor.constraint(equalTo: self.bottomAnchor, constant: -10),
             
             accessoryImageView.centerYAnchor.constraint(equalTo: self.centerYAnchor),
             accessoryImageView.widthAnchor.constraint(equalToConstant: 13),
@@ -153,7 +155,7 @@ private extension BoxOfficeContentView {
         
         currentConfiguration = configuration
         rankIncrementLabel.textColor = configuration.audienceAccumulationCountColor
-//        resetReusingView()
+        resetReusingView()
         configureRankInformation(configuration: configuration)
         configureMovieInformation(configuration: configuration)
     }
