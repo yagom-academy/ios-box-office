@@ -7,14 +7,14 @@
 
 import UIKit
 
-final class DailyBoxOfficeIconCell: UICollectionViewCell {
+final class DailyBoxOfficeIconCell: UICollectionViewCell, MovieDataUpdatable {
     static let identifier = "iconCell"
     
-    var dailyBoxOfficeData: DailyBoxOfficeMovie?
-    let rankLabel = UILabel()
-    let rankDifferenceLabel = UILabel()
-    let movieTitleLabel = UILabel()
-    let audienceLabel = UILabel()
+    private var movieData: DailyBoxOfficeMovie?
+    private let rankLabel = UILabel()
+    private let rankDifferenceLabel = UILabel()
+    private let movieTitleLabel = UILabel()
+    private let audienceLabel = UILabel()
     
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -26,9 +26,9 @@ final class DailyBoxOfficeIconCell: UICollectionViewCell {
     }
     
     func updateData(with newDailyBoxOfficeData: DailyBoxOfficeMovie) {
-        guard dailyBoxOfficeData != newDailyBoxOfficeData else { return }
+        guard movieData != newDailyBoxOfficeData else { return }
         
-        dailyBoxOfficeData = newDailyBoxOfficeData
+        movieData = newDailyBoxOfficeData
     }
     
     override func prepareForReuse() {
@@ -37,7 +37,7 @@ final class DailyBoxOfficeIconCell: UICollectionViewCell {
     }
 
     override func updateConfiguration(using state: UICellConfigurationState) {
-        guard let dailyBoxOfficeData = self.dailyBoxOfficeData else { return }
+        guard let dailyBoxOfficeData = self.movieData else { return }
         let textMaker = DailyBoxOfficeCellTextMaker(data: dailyBoxOfficeData)
         
         configureRankLabel(with: textMaker)

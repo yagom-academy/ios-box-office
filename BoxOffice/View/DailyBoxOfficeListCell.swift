@@ -7,13 +7,13 @@
 
 import UIKit
 
-final class DailyBoxOfficeListCell: UICollectionViewListCell {
+final class DailyBoxOfficeListCell: UICollectionViewListCell, MovieDataUpdatable {
     static let identifier = "listCell"
     
-    var dailyBoxOfficeData: DailyBoxOfficeMovie?
-    let rankLabel = UILabel()
-    let rankDifferenceLabel = UILabel()
-    let dailyBoxOfficeListContentView = UIListContentView(configuration: UIListContentConfiguration.subtitleCell())
+    private var movieData: DailyBoxOfficeMovie?
+    private let rankLabel = UILabel()
+    private let rankDifferenceLabel = UILabel()
+    private let dailyBoxOfficeListContentView = UIListContentView(configuration: UIListContentConfiguration.subtitleCell())
 
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -25,9 +25,9 @@ final class DailyBoxOfficeListCell: UICollectionViewListCell {
     }
     
     func updateData(with newDailyBoxOfficeData: DailyBoxOfficeMovie) {
-        guard dailyBoxOfficeData != newDailyBoxOfficeData else { return }
+        guard movieData != newDailyBoxOfficeData else { return }
         
-        dailyBoxOfficeData = newDailyBoxOfficeData
+        movieData = newDailyBoxOfficeData	
     }
 
     override func prepareForReuse() {
@@ -36,7 +36,7 @@ final class DailyBoxOfficeListCell: UICollectionViewListCell {
     }
     
     override func updateConfiguration(using state: UICellConfigurationState) {
-        guard let dailyBoxOfficeData = self.dailyBoxOfficeData else { return }
+        guard let dailyBoxOfficeData = self.movieData else { return }
         let textMaker = DailyBoxOfficeCellTextMaker(data: dailyBoxOfficeData)
         
         configureContentView(with: textMaker)

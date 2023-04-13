@@ -114,14 +114,9 @@ final class DailyBoxOfficeViewController: UIViewController {
     }
     
     private func configureDataSource() {
-        let listCellRegistration = UICollectionView.CellRegistration<DailyBoxOfficeListCell, DailyBoxOfficeMovie> { cell, indexPath, item in
-            cell.updateData(with: item)
-        }
-        
-        let iconCellRegistration = UICollectionView.CellRegistration<DailyBoxOfficeIconCell, DailyBoxOfficeMovie> { cell, indexPath, item in
-            cell.updateData(with: item)
-        }
-        
+        let listCellRegistration = createCellRegistration(cell: DailyBoxOfficeListCell.self)
+        let iconCellRegistration = createCellRegistration(cell: DailyBoxOfficeIconCell.self)
+
         dataSource = DataSource(collectionView: collectionView) { collectionView, indexPath, itemIdentifier in
             switch self.collectionViewMode {
             case .icon:
@@ -140,6 +135,15 @@ final class DailyBoxOfficeViewController: UIViewController {
                 return cell
             }
         }
+    }
+    
+    private func createCellRegistration<Cell: MovieDataUpdatable>(cell: Cell.Type) -> UICollectionView.CellRegistration<Cell, DailyBoxOfficeMovie>{
+        let cellRegistration = UICollectionView.CellRegistration<Cell, DailyBoxOfficeMovie> { cell, indexPath, item in
+            
+            cell.updateData(with: item)
+        }
+        
+        return cellRegistration
     }
     
     private func loadDailyBoxOffice(date: Date) {
