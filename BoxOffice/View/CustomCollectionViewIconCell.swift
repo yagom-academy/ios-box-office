@@ -9,7 +9,7 @@ import UIKit
 
 final class CustomCollectionViewIconCell: UICollectionViewCell {
     static let identifier = "CustomCollectionViewIconCell"
-    var dailyBoxOffice: DailyBoxOffice?
+    private var dailyBoxOffice: DailyBoxOffice?
     
     private let mainStackView: UIStackView = {
         let stackView = UIStackView()
@@ -21,7 +21,7 @@ final class CustomCollectionViewIconCell: UICollectionViewCell {
         return stackView
     }()
     
-    let rankLabel: UILabel = {
+    private let rankLabel: UILabel = {
         let label = UILabel()
         label.font = .preferredFont(forTextStyle: .largeTitle)
         label.adjustsFontForContentSizeCategory = true
@@ -29,7 +29,7 @@ final class CustomCollectionViewIconCell: UICollectionViewCell {
         return label
     }()
     
-    let movieNameLabel: UILabel = {
+    private let movieNameLabel: UILabel = {
         let label = UILabel()
         label.textAlignment = .center
         label.font = .preferredFont(forTextStyle: .body)
@@ -39,7 +39,7 @@ final class CustomCollectionViewIconCell: UICollectionViewCell {
         return label
     }()
     
-    let rankIntensityLabel: UILabel = {
+    private let rankIntensityLabel: UILabel = {
         let label = UILabel()
         label.font = .preferredFont(forTextStyle: .caption1)
         label.adjustsFontForContentSizeCategory = true
@@ -47,7 +47,7 @@ final class CustomCollectionViewIconCell: UICollectionViewCell {
         return label
     }()
     
-    let audienceLabel: UILabel = {
+    private let audienceLabel: UILabel = {
         let label = UILabel()
         label.textAlignment = .left
         label.font = .preferredFont(forTextStyle: .caption1)

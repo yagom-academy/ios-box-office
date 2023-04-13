@@ -8,14 +8,14 @@
 enum CellMode: Codable {
     static let identifier = "CellMode"
     
-    case List
-    case Icon
+    case list
+    case icon
     
     var alertText: String {
         switch self {
-        case .List:
+        case .list:
             return "아이콘"
-        case .Icon:
+        case .icon:
             return "리스트"
         }
     }

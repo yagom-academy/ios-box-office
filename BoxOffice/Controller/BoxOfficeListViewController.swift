@@ -12,7 +12,7 @@ final class BoxOfficeListViewController: UIViewController {
     private let urlMaker = URLRequestMaker()
     private var boxOffice: BoxOffice?
     private var currentDate: String = Date.yesterday.convertString(isFormatted: false)
-    private var cellMode: CellMode = CellMode.List
+    private var cellMode: CellMode = CellMode.list
     
     private let loadingIndicatorView: UIActivityIndicatorView = {
         let loadingIndicatorView = UIActivityIndicatorView(style: .large)
@@ -85,7 +85,7 @@ final class BoxOfficeListViewController: UIViewController {
     
     private func readCellMode() {
         guard let data = UserDefaults.standard.data(forKey: CellMode.identifier) else {
-            cellMode = .List
+            cellMode = .list
             return
         }
         
@@ -146,15 +146,15 @@ final class BoxOfficeListViewController: UIViewController {
         var action: UIAlertAction
         
         switch cellMode {
-        case .List:
+        case .list:
             action = UIAlertAction(title: cellMode.alertText, style: .default) { [weak self] _ in
-                self?.cellMode = .Icon
+                self?.cellMode = .icon
                 self?.collectionView.reloadData()
                 self?.registerCellMode()
             }
-        case .Icon:
+        case .icon:
             action = UIAlertAction(title: cellMode.alertText, style: .default) { [weak self] _ in
-                self?.cellMode = .List
+                self?.cellMode = .list
                 self?.collectionView.reloadData()
                 self?.registerCellMode()
             }
@@ -221,12 +221,12 @@ extension BoxOfficeListViewController: UICollectionViewDataSource {
         let dailyBoxOffice = self.boxOffice?.boxOfficeResult.dailyBoxOfficeList[index: indexPath.item]
         
         switch cellMode {
-        case .List:
+        case .list:
             guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: CustomCollectionViewListCell.identifier, for: indexPath) as? CustomCollectionViewListCell else { return CustomCollectionViewListCell() }
             cell.configureCell(dailyBoxOffice: dailyBoxOffice)
             
             return cell
-        case .Icon:
+        case .icon:
             guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: CustomCollectionViewIconCell.identifier, for: indexPath) as? CustomCollectionViewIconCell else { return CustomCollectionViewIconCell() }
             cell.configureCell(dailyBoxOffice: dailyBoxOffice)
             
@@ -239,9 +239,9 @@ extension BoxOfficeListViewController: UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         
         switch cellMode {
-        case .List:
+        case .list:
             return collectionViewWithList()
-        case .Icon:
+        case .icon:
             return  collectionViewWithIcon(collectionViewLayout: collectionViewLayout)
         }
         
@@ -281,17 +281,17 @@ extension BoxOfficeListViewController: UICollectionViewDelegateFlowLayout {
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {
-        guard cellMode == .Icon else { return UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)}
+        guard cellMode == .icon else { return UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)}
         
         return UIEdgeInsets(top: 10, left: 15, bottom: 10, right: 15)
     }
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
-        guard cellMode == .Icon else { return 0 }
+        guard cellMode == .icon else { return 0 }
         
         return 15.0
     }
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumInteritemSpacingForSectionAt section: Int) -> CGFloat {
-        guard cellMode == .Icon else { return 0 }
+        guard cellMode == .icon else { return 0 }
         
         return 10.0
     }
