@@ -15,6 +15,14 @@ struct URLCacheManager {
         urlCache = URLCache(memoryCapacity: 0, diskCapacity: 100 * 1024 * 1024)
     }
     
+    func cachedResponse(for request: URLRequest) -> CachedURLResponse? {
+        guard let response = urlCache.cachedResponse(for: request) else {
+            return nil
+        }
+        
+        return response
+    }
+    
     func createCachedResponse(response: URLResponse?, data: Data) throws -> CachedURLResponse {
         guard let response else {
             throw NetworkError.invalidResponseError

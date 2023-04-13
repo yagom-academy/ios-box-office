@@ -30,7 +30,7 @@ final class BoxOfficeProvider<Target: Requestable>: Provider {
             return
         }
         
-        if let cachedData = URLCache.shared.cachedResponse(for: request) {
+        if let cachedData = URLCacheManager.shared.cachedResponse(for: request) {
             do {
                 let decodeData = try JSONDecoder().decode(type, from: cachedData.data)
                 completion(.success(decodeData))

@@ -29,7 +29,6 @@ final class SearchedMovieImageDTOTests: XCTestCase {
                                     type: SearchedMovieImageDTO.self) { result in
             switch result {
             case .success(let data):
-                print(data.documents[0])
                 resultImageURL = data.documents[0].imageURL
                 expectation.fulfill()
             case .failure:

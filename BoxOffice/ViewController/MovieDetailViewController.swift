@@ -44,6 +44,7 @@ final class MovieDetailViewController: UIViewController {
     
     private let posterImageView: UIImageView = {
         let imageView = UIImageView()
+        imageView.contentMode = .scaleAspectFit
         imageView.translatesAutoresizingMaskIntoConstraints = false
         
         return imageView
@@ -90,9 +91,9 @@ final class MovieDetailViewController: UIViewController {
             contentView.bottomAnchor.constraint(equalTo: self.scrollView.contentLayoutGuide.bottomAnchor),
             contentView.widthAnchor.constraint(equalTo: self.scrollView.frameLayoutGuide.widthAnchor),
             
-            posterImageView.centerXAnchor.constraint(equalTo: self.view.centerXAnchor),
-            posterImageView.widthAnchor.constraint(equalTo: self.view.widthAnchor, multiplier: 0.9),
-            posterImageView.heightAnchor.constraint(equalTo: self.view.widthAnchor, multiplier: 1),
+            posterImageView.centerXAnchor.constraint(equalTo: self.scrollView.frameLayoutGuide.centerXAnchor),
+            posterImageView.widthAnchor.constraint(equalTo: self.scrollView.frameLayoutGuide.widthAnchor, multiplier: 0.9),
+            posterImageView.heightAnchor.constraint(equalTo: self.scrollView.frameLayoutGuide.heightAnchor, multiplier: 0.6),
             posterImageView.topAnchor.constraint(equalTo: self.contentView.topAnchor),
             
             activityIndicator.centerXAnchor.constraint(equalTo: self.posterImageView.centerXAnchor),

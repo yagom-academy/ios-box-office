@@ -17,7 +17,7 @@ extension DaumAPI: Requestable {
         components?.path = self.path
         
         var queriesItem: [URLQueryItem] = []
-        self.queries.forEach { queryItem in
+        self.queries.sorted(by:<).forEach { queryItem in
             let queryItem = URLQueryItem(name: queryItem.key, value: queryItem.value)
             queriesItem.append(queryItem)
         }
