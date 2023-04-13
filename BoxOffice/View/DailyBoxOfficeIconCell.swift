@@ -7,7 +7,7 @@
 
 import UIKit
 
-final class DailyBoxOfficeIconCell: UICollectionViewCell, MovieDataUpdatable {
+final class DailyBoxOfficeIconCell: UICollectionViewCell {
     static let identifier = "iconCell"
     
     private var movieData: DailyBoxOfficeMovie?
@@ -24,13 +24,7 @@ final class DailyBoxOfficeIconCell: UICollectionViewCell, MovieDataUpdatable {
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-    
-    func updateData(with newDailyBoxOfficeData: DailyBoxOfficeMovie) {
-        guard movieData != newDailyBoxOfficeData else { return }
         
-        movieData = newDailyBoxOfficeData
-    }
-    
     override func prepareForReuse() {
         super.prepareForReuse()
         rankDifferenceLabel.textColor = .black
@@ -44,15 +38,18 @@ final class DailyBoxOfficeIconCell: UICollectionViewCell, MovieDataUpdatable {
         configureMovieTitleLabel(with: textMaker)
         configureRankDifferenceLabel(with: textMaker)
         configureAudienceLabel(with: textMaker)
-        
-        var backgroundConfiguration = UIBackgroundConfiguration.listPlainCell()
-        backgroundConfiguration.strokeWidth = 3.0
-        backgroundConfiguration.strokeOutset = 10
-        backgroundConfiguration.strokeColor = .systemGray2
-        
-        self.backgroundConfiguration = backgroundConfiguration
+        configureBackgroud()
     }
-    
+}
+
+extension DailyBoxOfficeIconCell: MovieDataUpdatable {
+    func updateData(with newDailyBoxOfficeData: DailyBoxOfficeMovie) {
+        guard movieData != newDailyBoxOfficeData else { return }
+        
+        movieData = newDailyBoxOfficeData
+    }
+}
+extension DailyBoxOfficeIconCell {
     private func configureLayoutConstraints() {
         let dailyBoxOfficeStackView = {
             let stackView = UIStackView()
@@ -76,6 +73,15 @@ final class DailyBoxOfficeIconCell: UICollectionViewCell, MovieDataUpdatable {
             dailyBoxOfficeStackView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
             dailyBoxOfficeStackView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor)
         ])
+    }
+    
+    private func configureBackgroud() {
+        var backgroundConfiguration = UIBackgroundConfiguration.listPlainCell()
+        backgroundConfiguration.strokeWidth = 3.0
+        backgroundConfiguration.strokeOutset = 10
+        backgroundConfiguration.strokeColor = .systemGray2
+        
+        self.backgroundConfiguration = backgroundConfiguration
     }
     
     private func configureRankLabel(with textMaker: DailyBoxOfficeCellTextMaker) {

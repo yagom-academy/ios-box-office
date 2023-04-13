@@ -7,7 +7,7 @@
 
 import UIKit
 
-final class DailyBoxOfficeListCell: UICollectionViewListCell, MovieDataUpdatable {
+final class DailyBoxOfficeListCell: UICollectionViewListCell {
     static let identifier = "listCell"
     
     private var movieData: DailyBoxOfficeMovie?
@@ -22,12 +22,6 @@ final class DailyBoxOfficeListCell: UICollectionViewListCell, MovieDataUpdatable
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
-    }
-    
-    func updateData(with newDailyBoxOfficeData: DailyBoxOfficeMovie) {
-        guard movieData != newDailyBoxOfficeData else { return }
-        
-        movieData = newDailyBoxOfficeData	
     }
 
     override func prepareForReuse() {
@@ -45,7 +39,17 @@ final class DailyBoxOfficeListCell: UICollectionViewListCell, MovieDataUpdatable
         
         self.accessories = [.disclosureIndicator()]
     }
+}
 
+extension DailyBoxOfficeListCell: MovieDataUpdatable {
+    func updateData(with newDailyBoxOfficeData: DailyBoxOfficeMovie) {
+        guard movieData != newDailyBoxOfficeData else { return }
+        
+        movieData = newDailyBoxOfficeData
+    }
+}
+
+extension DailyBoxOfficeListCell {
     private func configureLayoutConstraints() {
         let rankStackView = {
             let stackView = UIStackView()
@@ -86,7 +90,7 @@ final class DailyBoxOfficeListCell: UICollectionViewListCell, MovieDataUpdatable
         
         dailyBoxOfficeListContentView.configuration = content
     }
-
+    
     private func configureRankLabel(with textMaker: DailyBoxOfficeCellTextMaker) {
         rankLabel.text = textMaker.rank
         rankLabel.font = UIFont.preferredFont(forTextStyle: .largeTitle)
