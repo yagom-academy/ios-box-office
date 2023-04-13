@@ -10,6 +10,7 @@ import UIKit
 enum CollectionViewMode {
     case list
     case icon
+    
     var oppositeString: String {
         switch self {
         case .icon:
