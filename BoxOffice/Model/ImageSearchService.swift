@@ -35,6 +35,8 @@ class ImageSearchService {
         
         urlRequest.httpMethod = "GET"
         
+        urlRequest.cachePolicy = .returnCacheDataElseLoad
+        
         let dataTask = URLSession.shared.dataTask(with: urlRequest) { data, response, error in
             guard error == nil else { return }
             
@@ -42,9 +44,26 @@ class ImageSearchService {
             
             guard let validData = data else { return }
             
+            let cacheURLResponse = CachedURLResponse(response: httpURLResponse, data: validData, storagePolicy: .allowedInMemoryOnly)
+            
+            URLCache.shared.storeCachedResponse(cacheURLResponse, for: urlRequest)
+            
             completion(validData)
         }
         
-        dataTask.resume()
+        URLCache.shared.getCachedResponse(for: dataTask) { cachedResponse in
+            if let cachedResponse = cachedResponse {
+                print("캐시 정상 작동")
+                completion(cachedResponse.data)
+            } else {
+                print("캐시 데이터 없음")
+                dataTask.resume()
+            }
+        }
+    }
+    
+    func removeCache() {
+        print("캐시 지워짐")
+        URLCache.shared.removeAllCachedResponses()
     }
 }
