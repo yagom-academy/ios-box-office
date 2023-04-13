@@ -120,30 +120,42 @@ final class DailyBoxOfficeViewController: UIViewController {
         dataSource = DataSource(collectionView: collectionView) { collectionView, indexPath, itemIdentifier in
             switch self.collectionViewMode {
             case .icon:
-                let cell = collectionView.dequeueConfiguredReusableCell(using: iconCellRegistration,
-                                                                        for: indexPath,
-                                                                        item: itemIdentifier)
-                cell.snapshotView(afterScreenUpdates: true)
-                
+                let cell = self.cellForDataSource(collectionView,
+                                                  cellRegistration: iconCellRegistration,
+                                                  indexPath: indexPath,
+                                                  item: itemIdentifier)
                 return cell
             case .list:
-                let cell = collectionView.dequeueConfiguredReusableCell(using: listCellRegistration,
-                                                                        for: indexPath,
-                                                                        item: itemIdentifier)
-                cell.snapshotView(afterScreenUpdates: true)
-                
+                let cell = self.cellForDataSource(collectionView,
+                                                  cellRegistration: listCellRegistration,
+                                                  indexPath: indexPath,
+                                                  item: itemIdentifier)
                 return cell
             }
         }
     }
     
-    private func createCellRegistration<Cell: MovieDataUpdatable>(cell: Cell.Type) -> UICollectionView.CellRegistration<Cell, DailyBoxOfficeMovie>{
+    private func createCellRegistration<Cell: MovieDataUpdatable>(cell: Cell.Type) -> UICollectionView.CellRegistration<Cell, DailyBoxOfficeMovie> {
         let cellRegistration = UICollectionView.CellRegistration<Cell, DailyBoxOfficeMovie> { cell, indexPath, item in
             
             cell.updateData(with: item)
         }
         
         return cellRegistration
+    }
+    
+    private func cellForDataSource<Cell: MovieDataUpdatable>(
+        _ collectionView: UICollectionView,
+        cellRegistration: UICollectionView.CellRegistration<Cell, DailyBoxOfficeMovie>,
+        indexPath: IndexPath,
+        item: DailyBoxOfficeMovie
+    ) -> UICollectionViewCell {
+        let cell = collectionView.dequeueConfiguredReusableCell(using: cellRegistration,
+                                                                for: indexPath,
+                                                                item: item)
+        cell.snapshotView(afterScreenUpdates: true)
+        
+        return cell
     }
     
     private func loadDailyBoxOffice(date: Date) {
