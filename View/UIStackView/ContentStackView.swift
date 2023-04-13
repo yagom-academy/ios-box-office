@@ -8,24 +8,23 @@
 import UIKit
 
 final class ContentStackView: UIStackView {
+    
+    private var labelWidthLayout: NSLayoutConstraint?
 
     private let categoryLabel = {
-        let label = UILabel()
+        let font = UIFont.systemFont(ofSize: 12, weight: .bold)
+        let fontMatrics = UIFontMetrics(forTextStyle: .headline).scaledFont(for: font)
+        let label = UILabel(fontStyle: fontMatrics)
         
-        label.translatesAutoresizingMaskIntoConstraints = false
         label.textAlignment = .center
-        label.numberOfLines = 1
-        label.font = .systemFont(ofSize: 12, weight: .bold)
         
         return label
     }()
     
     private let contentLabel = {
-        let label = UILabel()
-        
-        label.translatesAutoresizingMaskIntoConstraints = false
-        label.numberOfLines = 0
-        label.font = .systemFont(ofSize: 12)
+        let font = UIFont.systemFont(ofSize: 12)
+        let fontMatrics = UIFontMetrics(forTextStyle: .headline).scaledFont(for: font)
+        let label = UILabel(fontStyle: fontMatrics, numberOfLine: 0)
         
         return label
     }()
@@ -34,7 +33,7 @@ final class ContentStackView: UIStackView {
         self.init(frame: CGRect.zero)
         configure()
         
-        self.categoryLabel.text = categoryText
+        categoryLabel.text = categoryText
     }
     
     override init(frame: CGRect) {
@@ -49,13 +48,49 @@ final class ContentStackView: UIStackView {
         contentLabel.text = contentText
     }
     
-    private func configure() {
-        self.translatesAutoresizingMaskIntoConstraints = false
-        self.addArrangedSubview(categoryLabel)
-        self.addArrangedSubview(contentLabel)
-        self.spacing = 5
+    private func changeWidth(by multiplier: CGFloat) {
+        guard let previousWidthLayout = labelWidthLayout else { return }
         
-        categoryLabel.widthAnchor.constraint(equalTo: self.widthAnchor, multiplier: 0.15).isActive = true
+        NSLayoutConstraint.deactivate([
+            previousWidthLayout
+        ])
+        
+        labelWidthLayout = categoryLabel.widthAnchor.constraint(equalTo: widthAnchor, multiplier: multiplier)
+        labelWidthLayout?.isActive = true
     }
+    
+    private func makeWidthMultiplier() -> CGFloat {
+        switch traitCollection.preferredContentSizeCategory {
+        case .accessibilityExtraExtraExtraLarge:
+            return 0.3
+        case .accessibilityExtraExtraLarge,
+             .accessibilityExtraLarge,
+             .accessibilityLarge:
+            return 0.25
+        default:
+            return 0.15
+        }
+    }
+    
+    @objc private func changeWidthMultiplier() {
+        let mutiplierValue = makeWidthMultiplier()
+        changeWidth(by: mutiplierValue)
+    }
+}
 
+// MARK: UI
+extension ContentStackView {
+    private func configure() {
+        translatesAutoresizingMaskIntoConstraints = false
+        addArrangedSubview(categoryLabel)
+        addArrangedSubview(contentLabel)
+        spacing = 5
+        
+        let mutiplierValue = makeWidthMultiplier()
+        
+        labelWidthLayout = categoryLabel.widthAnchor.constraint(equalTo: widthAnchor, multiplier: mutiplierValue)
+        labelWidthLayout?.isActive = true
+        
+        NotificationCenter.default.addObserver(self, selector: #selector(changeWidthMultiplier), name: UIContentSizeCategory.didChangeNotification, object: nil)
+    }
 }

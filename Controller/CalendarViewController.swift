@@ -14,6 +14,7 @@ final class CalendarViewController: UIViewController {
     
     private let calendarView = {
         let calendarView = UICalendarView()
+        
         calendarView.translatesAutoresizingMaskIntoConstraints = false
         calendarView.calendar = Calendar(identifier: .gregorian)
         calendarView.locale = Locale(identifier: "ko_KR")
@@ -56,18 +57,6 @@ final class CalendarViewController: UIViewController {
         calendarView.selectionBehavior = selection
         selection.selectedDate = DateComponents(calendar: calendar, year: selectedYear, month: selectedMonth, day: selectedDay)
     }
-    
-    private func configureUI() {
-        view.backgroundColor = .systemBackground
-        view.addSubview(calendarView)
-        
-        NSLayoutConstraint.activate([
-            calendarView.topAnchor.constraint(equalTo: view.topAnchor),
-            calendarView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
-            calendarView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
-            calendarView.bottomAnchor.constraint(equalTo: view.bottomAnchor)
-        ])
-    }
 }
 
 //MARK: - UICalendarSelectionSingleDateDelegate
@@ -78,5 +67,20 @@ extension CalendarViewController: UICalendarSelectionSingleDateDelegate {
         delegate?.changeDate(selectedDate)
         
         dismiss(animated: true)
+    }
+}
+
+//MARK: - UI
+extension CalendarViewController {
+    private func configureUI() {
+        view.backgroundColor = .systemBackground
+        view.addSubview(calendarView)
+        
+        NSLayoutConstraint.activate([
+            calendarView.topAnchor.constraint(equalTo: view.topAnchor),
+            calendarView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            calendarView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+            calendarView.bottomAnchor.constraint(equalTo: view.bottomAnchor)
+        ])
     }
 }

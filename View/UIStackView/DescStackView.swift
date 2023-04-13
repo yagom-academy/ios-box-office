@@ -27,6 +27,26 @@ final class DescStackView: UIStackView {
     required init(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
+        
+    func updateTextLabel(_ data: MovieInfoUIModel) {
+        directorStackView.updateLabelText(data.directors)
+        productedYearStackView.updateLabelText(data.productedYear)
+        openDateStackView.updateLabelText(data.openDate)
+        showTimeStackView.updateLabelText(data.showTime)
+        auditStackView.updateLabelText(data.audits)
+        nationStackView.updateLabelText(data.nations)
+        genreStackView.updateLabelText(data.genre)
+        actorsStackView.updateLabelText(data.actors)
+    }
+}
+
+// MARK: UI
+extension DescStackView {
+    private func configure() {
+        self.translatesAutoresizingMaskIntoConstraints = false
+        self.axis = .vertical
+        self.spacing = 3
+    }
     
     private func addArrangedSubviews() {
         self.addArrangedSubview(directorStackView)
@@ -37,22 +57,5 @@ final class DescStackView: UIStackView {
         self.addArrangedSubview(nationStackView)
         self.addArrangedSubview(genreStackView)
         self.addArrangedSubview(actorsStackView)
-    }
-    
-    private func configure() {
-        self.translatesAutoresizingMaskIntoConstraints = false
-        self.axis = .vertical
-        self.spacing = 3
-    }
-    
-    func updateTextLabel(_ data: MovieInfoUIModel) {
-        directorStackView.updateLabelText(data.directors)
-        productedYearStackView.updateLabelText(data.productedYear)
-        openDateStackView.updateLabelText(data.openDate)
-        showTimeStackView.updateLabelText(data.showTime)
-        auditStackView.updateLabelText(data.audits)
-        nationStackView.updateLabelText(data.nations)
-        genreStackView.updateLabelText(data.genre)
-        actorsStackView.updateLabelText(data.actors)
     }
 }

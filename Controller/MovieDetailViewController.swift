@@ -83,14 +83,7 @@ final class MovieDetailViewController: UIViewController {
             }
         }
     }
-    
-    private func configureImageWidthConstraint(size: CGSize) {
-        let width = CGFloat(size.width)
-        let height = CGFloat(size.height)
         
-        posterImageView.heightAnchor.constraint(equalTo: posterImageView.widthAnchor, multiplier: height / width).isActive = true
-    }
-    
     private func startLoading() {
         loadingView.startAnimating()
         posterImageView.isHidden = true
@@ -108,6 +101,13 @@ final class MovieDetailViewController: UIViewController {
 
 // MARK: - UI
 extension MovieDetailViewController {
+    private func configureImageWidthConstraint(size: CGSize) {
+        let width = CGFloat(size.width)
+        let height = CGFloat(size.height)
+        
+        posterImageView.heightAnchor.constraint(equalTo: posterImageView.widthAnchor, multiplier: height / width).isActive = true
+    }
+    
     private func configureUI() {
         view.backgroundColor = .systemBackground
         navigationItem.title = movieName
