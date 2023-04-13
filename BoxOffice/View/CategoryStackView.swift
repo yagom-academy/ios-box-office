@@ -33,7 +33,7 @@ final class CategoryStackView: UIStackView {
     override init(frame: CGRect) {
         super.init(frame: frame)
         configureSubviews()
-        configureProperties()
+        configureSpacing()
     }
     
     required init(coder: NSCoder) {
@@ -45,7 +45,7 @@ final class CategoryStackView: UIStackView {
         addArrangedSubview(detailLabel)
     }
     
-    private func configureProperties() {
+    private func configureSpacing() {
         spacing = 15
     }
 }

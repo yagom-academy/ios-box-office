@@ -16,24 +16,16 @@ enum AlertController {
     
     static func showActionSheet(mode: CollectionViewMode, to viewController: DailyBoxOfficeViewController) {
         let actionSheet = UIAlertController(title: "화면모드변경", message: nil, preferredStyle: .actionSheet)
-        let icon = UIAlertAction(title: "아이콘", style: .default) { action in
-            DispatchQueue.main.async {
-                viewController.changeCollectionViewMode()
-            }
-        }
-        let list = UIAlertAction(title: "리스트", style: .default) { action in
-            DispatchQueue.main.async {
-                viewController.changeCollectionViewMode()
-            }
-        }
-        let cancel = UIAlertAction(title: "취소", style: .cancel)
         
-        switch mode {
-        case .icon:
-            actionSheet.addAction(list)
-        case .list:
-            actionSheet.addAction(icon)
+        let alertAction = UIAlertAction(title: mode.oppositeString, style: .default) { action in
+            DispatchQueue.main.async {
+                viewController.changeCollectionViewMode()
+            }
         }
+        
+        let cancel = UIAlertAction(title: "취소", style: .cancel)
+ 
+        actionSheet.addAction(alertAction)
         actionSheet.addAction(cancel)
         
         viewController.present(actionSheet, animated: true)

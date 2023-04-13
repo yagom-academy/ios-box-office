@@ -10,11 +10,11 @@ import UIKit
 final class DailyBoxOfficeIconCell: UICollectionViewCell {
     static let identifier = "iconCell"
     
-    var dailyBoxOfficeData: DailyBoxOfficeMovie?
-    let rankLabel = UILabel()
-    let rankDifferenceLabel = UILabel()
-    let movieTitleLabel = UILabel()
-    let audienceLabel = UILabel()
+    private var movieData: DailyBoxOfficeMovie?
+    private let rankLabel = UILabel()
+    private let rankDifferenceLabel = UILabel()
+    private let movieTitleLabel = UILabel()
+    private let audienceLabel = UILabel()
     
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -24,35 +24,37 @@ final class DailyBoxOfficeIconCell: UICollectionViewCell {
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-    
-    func updateData(with newDailyBoxOfficeData: DailyBoxOfficeMovie) {
-        guard dailyBoxOfficeData != newDailyBoxOfficeData else { return }
         
-        dailyBoxOfficeData = newDailyBoxOfficeData
-    }
-    
     override func prepareForReuse() {
         super.prepareForReuse()
         rankDifferenceLabel.textColor = .black
     }
 
     override func updateConfiguration(using state: UICellConfigurationState) {
-        guard let dailyBoxOfficeData = self.dailyBoxOfficeData else { return }
+        guard let dailyBoxOfficeData = self.movieData else { return }
         let textMaker = DailyBoxOfficeCellTextMaker(data: dailyBoxOfficeData)
         
         configureRankLabel(with: textMaker)
         configureMovieTitleLabel(with: textMaker)
         configureRankDifferenceLabel(with: textMaker)
         configureAudienceLabel(with: textMaker)
+        configureBackgroud()
+    }
+}
+
+extension DailyBoxOfficeIconCell: MovieDataUpdatable {
+    func updateMovieDataIfNeeded(newData: DailyBoxOfficeMovie) {
+        guard movieData != newData else { return }
         
-        var backgroundConfiguration = UIBackgroundConfiguration.listPlainCell()
-        backgroundConfiguration.strokeWidth = 3.0
-        backgroundConfiguration.strokeOutset = 10
-        backgroundConfiguration.strokeColor = .systemGray2
-        
-        self.backgroundConfiguration = backgroundConfiguration
+        updateData(with: newData)
     }
     
+    private func updateData(with newMovieData: DailyBoxOfficeMovie) {
+        movieData = newMovieData
+    }
+}
+
+extension DailyBoxOfficeIconCell {
     private func configureLayoutConstraints() {
         let dailyBoxOfficeStackView = {
             let stackView = UIStackView()
@@ -127,6 +129,15 @@ final class DailyBoxOfficeIconCell: UICollectionViewCell {
         audienceLabel.minimumScaleFactor = 0.3
         audienceLabel.numberOfLines = 1
         audienceLabel.setContentCompressionResistancePriority(.defaultLow, for: .vertical)
+    }
+    
+    private func configureBackgroud() {
+        var backgroundConfiguration = UIBackgroundConfiguration.listPlainCell()
+        backgroundConfiguration.strokeWidth = 3.0
+        backgroundConfiguration.strokeOutset = 10
+        backgroundConfiguration.strokeColor = .systemGray2
+        
+        self.backgroundConfiguration = backgroundConfiguration
     }
     
     private enum Sign {

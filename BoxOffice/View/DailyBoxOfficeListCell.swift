@@ -10,10 +10,10 @@ import UIKit
 final class DailyBoxOfficeListCell: UICollectionViewListCell {
     static let identifier = "listCell"
     
-    var dailyBoxOfficeData: DailyBoxOfficeMovie?
-    let rankLabel = UILabel()
-    let rankDifferenceLabel = UILabel()
-    let dailyBoxOfficeListContentView = UIListContentView(configuration: UIListContentConfiguration.subtitleCell())
+    private var movieData: DailyBoxOfficeMovie?
+    private let rankLabel = UILabel()
+    private let rankDifferenceLabel = UILabel()
+    private let dailyBoxOfficeListContentView = UIListContentView(configuration: UIListContentConfiguration.subtitleCell())
 
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -23,12 +23,6 @@ final class DailyBoxOfficeListCell: UICollectionViewListCell {
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-    
-    func updateData(with newDailyBoxOfficeData: DailyBoxOfficeMovie) {
-        guard dailyBoxOfficeData != newDailyBoxOfficeData else { return }
-        
-        dailyBoxOfficeData = newDailyBoxOfficeData
-    }
 
     override func prepareForReuse() {
         super.prepareForReuse()
@@ -36,7 +30,7 @@ final class DailyBoxOfficeListCell: UICollectionViewListCell {
     }
     
     override func updateConfiguration(using state: UICellConfigurationState) {
-        guard let dailyBoxOfficeData = self.dailyBoxOfficeData else { return }
+        guard let dailyBoxOfficeData = self.movieData else { return }
         let textMaker = DailyBoxOfficeCellTextMaker(data: dailyBoxOfficeData)
         
         configureContentView(with: textMaker)
@@ -45,7 +39,21 @@ final class DailyBoxOfficeListCell: UICollectionViewListCell {
         
         self.accessories = [.disclosureIndicator()]
     }
+}
 
+extension DailyBoxOfficeListCell: MovieDataUpdatable {
+    func updateMovieDataIfNeeded(newData: DailyBoxOfficeMovie) {
+        guard movieData != newData else { return }
+        
+        updateData(with: newData)
+    }
+    
+    private func updateData(with newMovieData: DailyBoxOfficeMovie) {
+        movieData = newMovieData
+    }
+}
+
+extension DailyBoxOfficeListCell {
     private func configureLayoutConstraints() {
         let rankStackView = {
             let stackView = UIStackView()
@@ -86,7 +94,7 @@ final class DailyBoxOfficeListCell: UICollectionViewListCell {
         
         dailyBoxOfficeListContentView.configuration = content
     }
-
+    
     private func configureRankLabel(with textMaker: DailyBoxOfficeCellTextMaker) {
         rankLabel.text = textMaker.rank
         rankLabel.font = UIFont.preferredFont(forTextStyle: .largeTitle)
