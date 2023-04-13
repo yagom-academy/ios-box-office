@@ -15,6 +15,7 @@ final class CategoryStackView: UIStackView {
         }
         label.translatesAutoresizingMaskIntoConstraints = false
         label.textAlignment = .center
+        label.adjustsFontForContentSizeCategory = true
         
         return label
     }()
@@ -24,6 +25,7 @@ final class CategoryStackView: UIStackView {
         label.font = UIFont.preferredFont(forTextStyle: .body)
         label.numberOfLines = 0
         label.translatesAutoresizingMaskIntoConstraints = false
+        label.adjustsFontForContentSizeCategory = true
         
         return label
     }()
@@ -31,6 +33,7 @@ final class CategoryStackView: UIStackView {
     override init(frame: CGRect) {
         super.init(frame: frame)
         configureSubviews()
+        configureSpacing()
     }
     
     required init(coder: NSCoder) {
@@ -40,9 +43,9 @@ final class CategoryStackView: UIStackView {
     private func configureSubviews() {
         addArrangedSubview(categoryLabel)
         addArrangedSubview(detailLabel)
-        
-        NSLayoutConstraint.activate([
-            categoryLabel.widthAnchor.constraint(equalTo: self.widthAnchor, multiplier: 0.2)
-        ])
+    }
+    
+    private func configureSpacing() {
+        spacing = 15
     }
 }

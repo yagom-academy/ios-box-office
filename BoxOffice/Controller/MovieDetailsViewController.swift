@@ -16,6 +16,12 @@ final class MovieDetailsViewController: UIViewController {
     private let nationView = CategoryStackView()
     private let genreView = CategoryStackView()
     private let actorView = CategoryStackView()
+    
+    private lazy var movieInformationStackViews = [
+        directorView, productionYearView, openDateView,
+        runningTimeView, watchGradeView, nationView, genreView, actorView
+    ]
+    
     private let posterView = {
         let imageView = UIImageView()
         imageView.contentMode = .scaleAspectFit
@@ -52,8 +58,13 @@ final class MovieDetailsViewController: UIViewController {
         configureNavigationBar()
         loadMovieDetails()
         loadPosterImage()
-        configureCategoryLabels()
         configureScrollView()
+        configureCategoryLabels()
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(true)
+        self.navigationController?.isToolbarHidden = true
     }
     
     private func configureRootView() {
@@ -107,7 +118,7 @@ final class MovieDetailsViewController: UIViewController {
                 guard let document = searchedResult.documents.first,
                       let url = URL(string: document.imageURL),
                       let data = try? Data(contentsOf: url) else { return }
-            
+                
                 DispatchQueue.main.async {
                     self.posterView.image = UIImage(data: data)
                 }
@@ -125,8 +136,8 @@ final class MovieDetailsViewController: UIViewController {
             .joined(separator: ", ")
         productionYearView.detailLabel.text = movieInfo.productionYear
         let date = DateFormatter.shared.convertFormat(of: movieInfo.openDate,
-                                                     from: "yyyyMMdd",
-                                                     to: "yyyy-MM-dd")
+                                                      from: "yyyyMMdd",
+                                                      to: "yyyy-MM-dd")
         openDateView.detailLabel.text = date
         runningTimeView.detailLabel.text = movieInfo.runningTime + "분"
         watchGradeView.detailLabel.text = movieInfo.audits.first?.watchGradeName
@@ -148,6 +159,15 @@ final class MovieDetailsViewController: UIViewController {
         nationView.categoryLabel.text = "제작국가"
         genreView.categoryLabel.text = "장르"
         actorView.categoryLabel.text = "배우"
+        
+        movieInformationStackViews
+            .map { $0.categoryLabel }
+            .forEach {
+                $0.widthAnchor.constraint(
+                    equalTo: productionYearView.categoryLabel.widthAnchor,
+                    multiplier: 1
+                ).isActive = true
+            }
     }
     
     private func configureScrollView() {
@@ -158,11 +178,7 @@ final class MovieDetailsViewController: UIViewController {
             stackView.spacing = 5
             stackView.translatesAutoresizingMaskIntoConstraints = false
             
-            let subviews = [
-                directorView, productionYearView, openDateView,
-                runningTimeView, watchGradeView, nationView, genreView, actorView
-            ]
-            subviews.forEach { stackView.addArrangedSubview($0) }
+            movieInformationStackViews.forEach { stackView.addArrangedSubview($0) }
             
             return stackView
         }()
@@ -175,7 +191,7 @@ final class MovieDetailsViewController: UIViewController {
             
             return view
         }()
-    
+        
         scrollView.addSubview(contentView)
         
         NSLayoutConstraint.activate([
@@ -201,8 +217,8 @@ final class MovieDetailsViewController: UIViewController {
             posterView.widthAnchor.constraint(equalTo: scrollView.frameLayoutGuide.widthAnchor, multiplier: 0.9),
             posterView.heightAnchor.constraint(equalTo: scrollView.frameLayoutGuide.heightAnchor, multiplier: 0.8),
             movieInformationView.widthAnchor.constraint(equalTo: scrollView.frameLayoutGuide.widthAnchor),
-            movieInformationView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
-            movieInformationView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
+            movieInformationView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 10),
+            movieInformationView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: 10),
             movieInformationView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor)
         ])
     }

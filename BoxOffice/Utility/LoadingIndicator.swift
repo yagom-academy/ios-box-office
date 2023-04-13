@@ -10,7 +10,9 @@ import UIKit
 enum LoadingIndicator {
     static func showLoading() {
         DispatchQueue.main.async {
-            guard let window = UIApplication.shared.windows.last else { return }
+            let scenes = UIApplication.shared.connectedScenes
+            let windowScene = scenes.first as? UIWindowScene
+            guard let window = windowScene?.windows.last else { return }
             
             let loadingIndicatorView: UIActivityIndicatorView
             
@@ -30,7 +32,10 @@ enum LoadingIndicator {
     
     static func hideLoading() {
         DispatchQueue.main.async {
-            guard let window = UIApplication.shared.windows.last else { return }
+            let scenes = UIApplication.shared.connectedScenes
+            let windowScene = scenes.first as? UIWindowScene
+            guard let window = windowScene?.windows.last else { return }
+            
             window.subviews.filter({ $0 is UIActivityIndicatorView })
                            .forEach { $0.removeFromSuperview() }
         }
