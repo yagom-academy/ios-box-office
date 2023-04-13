@@ -2,7 +2,7 @@
 //  Array+.swift
 //  BoxOffice
 //
-//  Created by Jinah Park on 2023/04/06.
+//  Created by Rhode, Rilla on 2023/04/06.
 //
 
 extension Array {

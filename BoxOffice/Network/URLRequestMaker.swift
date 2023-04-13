@@ -19,7 +19,9 @@ struct URLRequestMaker {
         components?.queryItems = [keyItem, targetDateItem]
         guard let url = components?.url else { return nil }
         
-        let request = URLRequest(url: url)
+        let request = URLRequest(url: url,
+                                 cachePolicy: .returnCacheDataElseLoad,
+                                 timeoutInterval: 300)
         
         return request
     }
@@ -32,7 +34,9 @@ struct URLRequestMaker {
         components?.queryItems = [keyItem, movieCodeItem]
         guard let url = components?.url else { return nil }
         
-        let request = URLRequest(url: url)
+        let request = URLRequest(url: url,
+                                 cachePolicy: .returnCacheDataElseLoad,
+                                 timeoutInterval: 300)
         
         return request
     }
@@ -45,7 +49,10 @@ struct URLRequestMaker {
         components?.queryItems = [queryItem]
         guard let url = components?.url else { return nil }
         
-        var request = URLRequest(url: url)
+        var request = URLRequest(url: url,
+                                 cachePolicy: .returnCacheDataElseLoad,
+                                 timeoutInterval: 300)
+        
         request.addValue("KakaoAK \(kakaoAPIKey)", forHTTPHeaderField: "Authorization")
         
         return request
