@@ -162,8 +162,8 @@ extension BoxOfficeViewController {
             collectionView.topAnchor.constraint(equalTo: view.topAnchor),
             collectionView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
             
-            loadingView.leftAnchor.constraint(equalTo: self.collectionView.leftAnchor),
-            loadingView.rightAnchor.constraint(equalTo: self.collectionView.rightAnchor),
+            loadingView.leadingAnchor.constraint(equalTo: self.collectionView.leadingAnchor),
+            loadingView.trailingAnchor.constraint(equalTo: self.collectionView.trailingAnchor),
             loadingView.bottomAnchor.constraint(equalTo: self.collectionView.bottomAnchor),
             loadingView.topAnchor.constraint(equalTo: self.collectionView.topAnchor),
         ])
