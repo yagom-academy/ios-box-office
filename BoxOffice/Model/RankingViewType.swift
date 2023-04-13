@@ -18,13 +18,4 @@ enum RankingViewType {
             return "리스트"
         }
     }
-    
-    mutating func toggle() {
-        switch self {
-        case .list:
-            self = .icon
-        case .icon:
-            self = .list
-        }
-    }
 }

@@ -85,16 +85,17 @@ final class MovieRankingViewController: UIViewController {
             switch self?.rankingViewType {
             case .list:
                 guard let iconLayout = self?.makeCollectionViewIconLayout() else { return }
+                self?.rankingViewType = .icon
                 self?.createIconDataSource()
                 self?.changeCollectionViewLayout(layout: iconLayout)
             case .icon:
                 guard let listLayout = self?.makeCollectionViewListLayout() else { return }
+                self?.rankingViewType = .list
                 self?.createListDataSource()
                 self?.changeCollectionViewLayout(layout: listLayout)
             default:
                 return
             }
-            self?.rankingViewType.toggle()
             self?.applySnapshot()
         })
         let cancelAction = UIAlertAction(title: "취소", style: .cancel)
