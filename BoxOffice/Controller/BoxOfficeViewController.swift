@@ -14,6 +14,7 @@ protocol CalendarDateDelegate: AnyObject {
 final class BoxOfficeViewController: UIViewController {
     let boxOfficeService = BoxOfficeService()
     private var provider = Provider()
+    private var isCurrentListLayout: Bool = true
     let calendarViewController = CalendarViewController()
     var choosenDate: String = "" {
         didSet {
@@ -51,6 +52,7 @@ final class BoxOfficeViewController: UIViewController {
         setBoxOfficeListCollectionView()
         configureRefreshControl()
         configureUI()
+        setNavigationToolBar()
     }
     
     private func setNavigationBar() {
@@ -72,7 +74,7 @@ final class BoxOfficeViewController: UIViewController {
     private func setBoxOfficeListCollectionView() {
         boxOfficeListCollectionView.dataSource = self
         boxOfficeListCollectionView.delegate = self
-        self.boxOfficeListCollectionView.collectionViewLayout = self.setUpCompositionalLayout()
+        self.boxOfficeListCollectionView.collectionViewLayout = self.setUpCompositionalListLayout()
     }
     
     private func configureRefreshControl() {
@@ -117,6 +119,37 @@ final class BoxOfficeViewController: UIViewController {
         let yesterDate = formatter.string(from: Date(timeIntervalSinceNow: -86400))
         return yesterDate
     }
+    
+    private func setNavigationToolBar() {
+        let flexibleSpace: UIBarButtonItem
+        let changeModeButton: UIBarButtonItem
+        
+        changeModeButton = UIBarButtonItem(title: "화면 모드 변경", style: .plain, target: self, action: #selector(convertAlertMode))
+        flexibleSpace = UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: self, action: nil)
+        
+        toolbarItems = [flexibleSpace, changeModeButton, flexibleSpace]
+        self.navigationController?.isToolbarHidden = false
+    }
+    
+    @objc func convertAlertMode() {
+        if isCurrentListLayout == true {
+            makeAlert(presentType: "아이콘", layoutType: setUpCompositionalIconLayout)
+            isCurrentListLayout = false
+        } else {
+            makeAlert(presentType: "리스트", layoutType: setUpCompositionalListLayout)
+            isCurrentListLayout = true
+        }
+    }
+
+    private func makeAlert(presentType: String, layoutType: @escaping () -> UICollectionViewLayout) {
+        let alertToListLayout = UIAlertController(title: "화면 모드 변경", message: "", preferredStyle: .actionSheet)
+        alertToListLayout.addAction(UIAlertAction(title: presentType, style: .default, handler: { _ in
+            self.boxOfficeListCollectionView.collectionViewLayout = layoutType()
+            self.boxOfficeListCollectionView.reloadData()
+        }))
+        alertToListLayout.addAction(UIAlertAction(title: "취소", style: .cancel, handler: { _ in print("알럿 취소") }))
+        present(alertToListLayout, animated: true)
+    }
 }
 
 extension BoxOfficeViewController: UICollectionViewDataSource {
@@ -128,14 +161,19 @@ extension BoxOfficeViewController: UICollectionViewDataSource {
         let cellId = String(describing: BoxOfficeListCell.self)
         let cell = boxOfficeListCollectionView.dequeueReusableCell(withReuseIdentifier: cellId, for: indexPath) as! BoxOfficeListCell
         
+        switch isCurrentListLayout {
+        case true:
+            cell.configureListCellUI()
+        case false:
+            cell.configureIconCellUI()
+        }
+        
         guard let validDailyBoxOffice = boxOfficeService.dailyBoxOffice else {
             return cell
         }
-        
-        cell.setUpBoxOffcieCellUI()
+
         cell.setUpLabel(by: validDailyBoxOffice, indexPath: indexPath)
-        cell.accessories = [.disclosureIndicator()]
-    
+        
         return cell
     }
     
@@ -172,18 +210,25 @@ extension BoxOfficeViewController: UICollectionViewDelegate {
 }
 
 extension BoxOfficeViewController {
-    private func setUpCompositionalLayout() -> UICollectionViewLayout {
+    private func setUpCompositionalListLayout() -> UICollectionViewLayout {
+        let configuration = UICollectionLayoutListConfiguration(appearance: .plain)
+        let layout = UICollectionViewCompositionalLayout.list(using: configuration)
+        
+        return layout
+    }
+    
+    private func setUpCompositionalIconLayout() -> UICollectionViewLayout {
         let layout = UICollectionViewCompositionalLayout {
             (sectionIndex: Int, layoutEnvironment: NSCollectionLayoutEnvironment) -> NSCollectionLayoutSection? in
             
             let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0), heightDimension: .fractionalHeight(1.0))
             let item = NSCollectionLayoutItem(layoutSize: itemSize)
             
-            item.contentInsets = NSDirectionalEdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 0)
+            item.contentInsets = NSDirectionalEdgeInsets(top: 5, leading: 5, bottom: 5, trailing: 5)
             
-            let groupHeight =  NSCollectionLayoutDimension.fractionalWidth(1/4)
+            let groupHeight =  NSCollectionLayoutDimension.fractionalWidth(1/2)
             let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0), heightDimension: groupHeight)
-            let group = NSCollectionLayoutGroup.horizontal(layoutSize: groupSize, subitem: item, count: 1)
+            let group = NSCollectionLayoutGroup.horizontal(layoutSize: groupSize, subitem: item, count: 2)
             let section = NSCollectionLayoutSection(group: group)
             
             return section
@@ -195,6 +240,7 @@ extension BoxOfficeViewController {
 extension BoxOfficeViewController: CalendarDateDelegate {
     func receiveDate(date: String) {
         choosenDate = date
-        print(choosenDate)
     }
 }
+
+
