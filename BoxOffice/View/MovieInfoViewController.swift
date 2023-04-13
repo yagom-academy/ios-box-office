@@ -51,7 +51,6 @@ final class MovieInfoViewController: UIViewController {
     
     private func configureInitialView() {
         navigationItem.title = movieName
-        alertFactory.delegate = self
         contentStackView.isHidden = true
         self.view.addSubview(activityIndicator)
     }
@@ -120,22 +119,10 @@ final class MovieInfoViewController: UIViewController {
                                       message: "데이터 로딩 실패 \n \(error.localizedDescription)",
                                       style: .alert,
                                       enableOkAction: true,
-                                      okActionTitle: AlertActionKeys.noAction.okActionTitle,
-                                      okActionStyle: .default,
-                                      key: .noAction)
+                                      okActionStyle: .default)
         let alert = alertFactory.makeAlert(alertData: alertData)
         
         present(alert, animated: true)
-    }
-}
-
-extension MovieInfoViewController: AlertActionDelegate {
-    func okAction(_ key: AlertActionKeys) {
-        return
-    }
-    
-    func cancelAction(_ key: AlertActionKeys) {
-        return
     }
 }
 

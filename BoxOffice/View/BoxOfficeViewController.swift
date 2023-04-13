@@ -11,12 +11,12 @@ fileprivate enum LayoutMode {
     case list
     case icon
     
-    var actionKey: AlertActionKeys {
+    var actionTitle: String {
         switch self {
         case .list:
-            return .listAction
+            return "아이콘"
         case .icon:
-            return .iconAction
+            return "리스트"
         }
     }
     
@@ -73,10 +73,10 @@ final class BoxOfficeViewController: UIViewController {
                                       message: nil,
                                       style: .actionSheet,
                                       enableOkAction: true,
-                                      okActionTitle: layoutMode.actionKey.okActionTitle,
+                                      okActionTitle: layoutMode.actionTitle,
                                       okActionStyle: .default,
                                       enableCancelAction: true,
-                                      key: layoutMode.actionKey)
+                                      completion: changeLayout)
         let actionSheet = alertFactory.makeAlert(alertData: alertData)
         
         present(actionSheet, animated: true)
@@ -136,7 +136,6 @@ final class BoxOfficeViewController: UIViewController {
     
     private func configureInitialView() {
         navigationItem.title = DateFormatter.hyphenText(date: selectedDate)
-        alertFactory.delegate = self
         self.view.addSubview(activityIndicator)
         configureCollectionView()
     }
@@ -155,9 +154,7 @@ final class BoxOfficeViewController: UIViewController {
                                       message: "데이터 로딩 실패 \n \(error.localizedDescription)",
                                       style: .alert,
                                       enableOkAction: true,
-                                      okActionTitle: AlertActionKeys.noAction.okActionTitle,
-                                      okActionStyle: .default,
-                                      key: .noAction)
+                                      okActionStyle: .default)
         let alert = alertFactory.makeAlert(alertData: alertData)
         
         present(alert, animated: true)
@@ -240,25 +237,12 @@ extension BoxOfficeViewController {
     }
 }
 
-extension BoxOfficeViewController: AlertActionDelegate {
-    func okAction(_ key: AlertActionKeys) {
-        switch key {
-        case .noAction:
-            return
-        case .listAction:
-            layoutMode.toggle()
-            configureCollectionViewLayout()
-            collectionView.reloadData()
-            collectionView.fadeIn()
-        case .iconAction:
-            layoutMode.toggle()
-            configureCollectionViewLayout()
-            collectionView.reloadData()
-            collectionView.fadeIn()
-        }
-    }
-    
-    func cancelAction(_ key: AlertActionKeys) {
-        return
+// MARK: - Actionsheet Handler
+extension BoxOfficeViewController {
+    func changeLayout() {
+        layoutMode.toggle()
+        configureCollectionViewLayout()
+        collectionView.reloadData()
+        collectionView.fadeIn()
     }
 }

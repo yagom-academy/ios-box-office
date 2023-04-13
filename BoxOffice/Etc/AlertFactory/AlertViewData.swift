@@ -17,18 +17,18 @@ struct AlertViewData {
     let enableCancelAction: Bool
     let cancelActionTitle: String?
     let cancelActionStyle: UIAlertAction.Style
-    let key: AlertActionKeys
+    let completion: (() -> ())?
     
     init(title: String,
          message: String?,
          style: UIAlertController.Style,
          enableOkAction: Bool,
-         okActionTitle: String,
+         okActionTitle: String = "확인",
          okActionStyle: UIAlertAction.Style,
          enableCancelAction: Bool = false,
          cancelActionTitle: String? = "취소",
          cancelActionStyle: UIAlertAction.Style = .cancel,
-         key: AlertActionKeys) {
+         completion: (() -> ())? = nil) {
         self.title = title
         self.message = message
         self.style = style
@@ -38,6 +38,6 @@ struct AlertViewData {
         self.enableCancelAction = enableCancelAction
         self.cancelActionTitle = cancelActionTitle
         self.cancelActionStyle = cancelActionStyle
-        self.key = key
+        self.completion = completion
     }
 }
