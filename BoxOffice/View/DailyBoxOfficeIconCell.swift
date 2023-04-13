@@ -43,12 +43,17 @@ final class DailyBoxOfficeIconCell: UICollectionViewCell {
 }
 
 extension DailyBoxOfficeIconCell: MovieDataUpdatable {
-    func updateData(with newDailyBoxOfficeData: DailyBoxOfficeMovie) {
-        guard movieData != newDailyBoxOfficeData else { return }
+    func movieDataUpdateIfNeeded(newData: DailyBoxOfficeMovie) {
+        guard movieData != newData else { return }
         
-        movieData = newDailyBoxOfficeData
+        updateData(with: newData)
+    }
+    
+    private func updateData(with newMovieData: DailyBoxOfficeMovie) {
+        movieData = newMovieData
     }
 }
+
 extension DailyBoxOfficeIconCell {
     private func configureLayoutConstraints() {
         let dailyBoxOfficeStackView = {
@@ -73,15 +78,6 @@ extension DailyBoxOfficeIconCell {
             dailyBoxOfficeStackView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
             dailyBoxOfficeStackView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor)
         ])
-    }
-    
-    private func configureBackgroud() {
-        var backgroundConfiguration = UIBackgroundConfiguration.listPlainCell()
-        backgroundConfiguration.strokeWidth = 3.0
-        backgroundConfiguration.strokeOutset = 10
-        backgroundConfiguration.strokeColor = .systemGray2
-        
-        self.backgroundConfiguration = backgroundConfiguration
     }
     
     private func configureRankLabel(with textMaker: DailyBoxOfficeCellTextMaker) {
@@ -133,6 +129,15 @@ extension DailyBoxOfficeIconCell {
         audienceLabel.minimumScaleFactor = 0.3
         audienceLabel.numberOfLines = 1
         audienceLabel.setContentCompressionResistancePriority(.defaultLow, for: .vertical)
+    }
+    
+    private func configureBackgroud() {
+        var backgroundConfiguration = UIBackgroundConfiguration.listPlainCell()
+        backgroundConfiguration.strokeWidth = 3.0
+        backgroundConfiguration.strokeOutset = 10
+        backgroundConfiguration.strokeColor = .systemGray2
+        
+        self.backgroundConfiguration = backgroundConfiguration
     }
     
     private enum Sign {

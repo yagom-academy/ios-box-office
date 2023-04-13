@@ -8,5 +8,5 @@
 import Foundation
 
 protocol MovieDataUpdatable {
-    func updateData(with newDailyBoxOfficeData: DailyBoxOfficeMovie)
+    func movieDataUpdateIfNeeded(newData: DailyBoxOfficeMovie)
 }

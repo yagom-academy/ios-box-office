@@ -138,7 +138,7 @@ final class DailyBoxOfficeViewController: UIViewController {
     private func createCellRegistration<Cell: MovieDataUpdatable>(cell: Cell.Type) -> UICollectionView.CellRegistration<Cell, DailyBoxOfficeMovie> {
         let cellRegistration = UICollectionView.CellRegistration<Cell, DailyBoxOfficeMovie> { cell, indexPath, item in
             
-            cell.updateData(with: item)
+            cell.movieDataUpdateIfNeeded(newData: item)
         }
         
         return cellRegistration

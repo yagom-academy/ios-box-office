@@ -42,10 +42,14 @@ final class DailyBoxOfficeListCell: UICollectionViewListCell {
 }
 
 extension DailyBoxOfficeListCell: MovieDataUpdatable {
-    func updateData(with newDailyBoxOfficeData: DailyBoxOfficeMovie) {
-        guard movieData != newDailyBoxOfficeData else { return }
+    func movieDataUpdateIfNeeded(newData: DailyBoxOfficeMovie) {
+        guard movieData != newData else { return }
         
-        movieData = newDailyBoxOfficeData
+        updateData(with: newData)
+    }
+    
+    private func updateData(with newMovieData: DailyBoxOfficeMovie) {
+        movieData = newMovieData
     }
 }
 
