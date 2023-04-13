@@ -1,5 +1,5 @@
 //
-//  CustomCollectionViewCell.swift
+//  CustomCollectionViewListCell.swift
 //  BoxOffice
 //
 //  Created by Rhode, Rilla on 2023/03/27.
@@ -7,8 +7,8 @@
 
 import UIKit
 
-final class CustomCollectionViewCell: UICollectionViewListCell {
-    static let identifier = "CustomCollectionViewCell"
+final class CustomCollectionViewListCell: UICollectionViewListCell {
+    static let identifier = "CustomCollectionViewListCell"
     
     private let mainStackView: UIStackView = {
         let stackView = UIStackView()
@@ -38,13 +38,14 @@ final class CustomCollectionViewCell: UICollectionViewListCell {
         }
     }
     
+    func configureCell(dailyBoxOffice: DailyBoxOffice?) {
+        configureMainStackView(dailyBoxOffice: dailyBoxOffice)
+        configureCellStyle()
+    }
+    
     func configureCellStyle() {
         self.accessories = [.disclosureIndicator()]
         self.layer.addBorder([.bottom], color: .systemGray3, width: 0.8)
-    }
-    
-    func configureDailyBoxOffice(dailyBoxOffice: DailyBoxOffice?) {
-        configureMainStackView(dailyBoxOffice: dailyBoxOffice)
     }
     
     private func configureMainStackView(dailyBoxOffice: DailyBoxOffice?) {
@@ -78,6 +79,7 @@ final class CustomCollectionViewCell: UICollectionViewListCell {
             let label = UILabel()
             label.text = dailyBoxOffice?.rank
             label.font = .preferredFont(forTextStyle: .largeTitle)
+            label.adjustsFontForContentSizeCategory = true
             
             return label
         }()
@@ -86,6 +88,7 @@ final class CustomCollectionViewCell: UICollectionViewListCell {
             let label = UILabel()
             label.attributedText = configureRankIntensityText(dailyBoxOffice: dailyBoxOffice)
             label.font = .preferredFont(forTextStyle: .body)
+            label.adjustsFontForContentSizeCategory = true
             
             return label
         }()
@@ -149,6 +152,7 @@ final class CustomCollectionViewCell: UICollectionViewListCell {
             label.text = dailyBoxOffice?.movieName
             label.textAlignment = .left
             label.font = .preferredFont(forTextStyle: .body)
+            label.adjustsFontForContentSizeCategory = true
             
             return label
         }()
@@ -160,6 +164,7 @@ final class CustomCollectionViewCell: UICollectionViewListCell {
                  label.text = "오늘 \(count) / 총 \(accumulation)"
                  label.textAlignment = .left
                  label.font = .preferredFont(forTextStyle: .caption1)
+                 label.adjustsFontForContentSizeCategory = true
                  
                  return label
              }

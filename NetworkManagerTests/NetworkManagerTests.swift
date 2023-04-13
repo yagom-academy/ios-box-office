@@ -39,7 +39,7 @@ final class NetworkManagerTests: XCTestCase {
             return (responses, data)
         }
         
-        let expectedResult = StubBoxOffice().data
+        let expectedResult = DummyBoxOffice().data
         let expectation = XCTestExpectation()
         guard let request = URLRequestMaker().makeBoxOfficeURLRequest(date: "20220105") else {
             return
