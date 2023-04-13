@@ -93,8 +93,8 @@ final class DetailMovieInfoViewController: UIViewController {
                     let imageSearchResult: ImageSearchResult = try JSONConverter.shared.decodeData(data, ImageSearchResult.self)
                     if let imageInfo = imageSearchResult.documents.first,
                        let url = URL(string: imageInfo.imageUrl) {
-                        self.imageView.loadImage(url: url, originalWidth: imageInfo.width)
                         DispatchQueue.main.async {
+                            self.loadImage(url: url, originalWidth: imageInfo.width)
                             self.stopIndicator()
                         }
                     }
@@ -105,6 +105,19 @@ final class DetailMovieInfoViewController: UIViewController {
                 }
             case .failure(let error):
                 DEBUG_LOG(error)
+            }
+        }
+    }
+    
+    private func loadImage(url: URL, originalWidth: Int = 0) {
+        ImageManager.shared.fetchImage(imageURL: url) { [weak self] data in
+            guard let self else { return }
+            DispatchQueue.main.async {
+            let viewWidth = self.imageView.frame.width
+            let scale = CGFloat(originalWidth) / CGFloat(viewWidth)
+            
+            let image = UIImage(data: data, scale: scale)
+                self.imageView.image = image
             }
         }
     }

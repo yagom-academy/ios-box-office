@@ -12,7 +12,6 @@
 		368A11C829D6A828007C8877 /* JoinedString.swift in Sources */ = {isa = PBXBuildFile; fileRef = 368A11C729D6A828007C8877 /* JoinedString.swift */; };
 		368A11CA29D6AAE9007C8877 /* ImageAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 368A11C929D6AAE9007C8877 /* ImageAPI.swift */; };
 		368A11CC29D6AB52007C8877 /* ImageSearchResult.swift in Sources */ = {isa = PBXBuildFile; fileRef = 368A11CB29D6AB52007C8877 /* ImageSearchResult.swift */; };
-		368A11CE29D6AD14007C8877 /* UIImageview+load.swift in Sources */ = {isa = PBXBuildFile; fileRef = 368A11CD29D6AD14007C8877 /* UIImageview+load.swift */; };
 		368A11D029D6B1B6007C8877 /* CustomLog.swift in Sources */ = {isa = PBXBuildFile; fileRef = 368A11CF29D6B1B6007C8877 /* CustomLog.swift */; };
 		368A11D629D9D373007C8877 /* SecretKey.swift in Sources */ = {isa = PBXBuildFile; fileRef = 368A11D529D9D373007C8877 /* SecretKey.swift */; };
 		368A11D829DAAC95007C8877 /* CalendarViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 368A11D729DAAC95007C8877 /* CalendarViewController.swift */; };
@@ -24,7 +23,7 @@
 		36B479DC29E3DDC5005EC147 /* ImageManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36B479DB29E3DDC5005EC147 /* ImageManager.swift */; };
 		36B59D5B29C83D3B00A4FC11 /* BoxOfficeItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36B59D5A29C83D3B00A4FC11 /* BoxOfficeItem.swift */; };
 		36B59E2329CAF99300A4FC11 /* APIProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36B59E2229CAF99300A4FC11 /* APIProvider.swift */; };
-		36B59E2529CAFA2A00A4FC11 /* Error.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36B59E2429CAFA2A00A4FC11 /* Error.swift */; };
+		36B59E2529CAFA2A00A4FC11 /* BoxOfficeError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36B59E2429CAFA2A00A4FC11 /* BoxOfficeError.swift */; };
 		36B59E2729CAFCE900A4FC11 /* JSONConverter .swift in Sources */ = {isa = PBXBuildFile; fileRef = 36B59E2629CAFCE900A4FC11 /* JSONConverter .swift */; };
 		36B59E2929CAFDAC00A4FC11 /* NameSpace.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36B59E2829CAFDAC00A4FC11 /* NameSpace.swift */; };
 		36B59E2B29CAFDF600A4FC11 /* MovieInfoItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36B59E2A29CAFDF600A4FC11 /* MovieInfoItem.swift */; };
@@ -62,7 +61,6 @@
 		368A11C729D6A828007C8877 /* JoinedString.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JoinedString.swift; sourceTree = "<group>"; };
 		368A11C929D6AAE9007C8877 /* ImageAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageAPI.swift; sourceTree = "<group>"; };
 		368A11CB29D6AB52007C8877 /* ImageSearchResult.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageSearchResult.swift; sourceTree = "<group>"; };
-		368A11CD29D6AD14007C8877 /* UIImageview+load.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIImageview+load.swift"; sourceTree = "<group>"; };
 		368A11CF29D6B1B6007C8877 /* CustomLog.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomLog.swift; sourceTree = "<group>"; };
 		368A11D529D9D373007C8877 /* SecretKey.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SecretKey.swift; sourceTree = "<group>"; };
 		368A11D729DAAC95007C8877 /* CalendarViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarViewController.swift; sourceTree = "<group>"; };
@@ -75,7 +73,7 @@
 		36B59D5A29C83D3B00A4FC11 /* BoxOfficeItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BoxOfficeItem.swift; sourceTree = "<group>"; };
 		36B59D6029C8469100A4FC11 /* BoxOfficeTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = BoxOfficeTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		36B59E2229CAF99300A4FC11 /* APIProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIProvider.swift; sourceTree = "<group>"; };
-		36B59E2429CAFA2A00A4FC11 /* Error.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Error.swift; sourceTree = "<group>"; };
+		36B59E2429CAFA2A00A4FC11 /* BoxOfficeError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BoxOfficeError.swift; sourceTree = "<group>"; };
 		36B59E2629CAFCE900A4FC11 /* JSONConverter .swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "JSONConverter .swift"; sourceTree = "<group>"; };
 		36B59E2829CAFDAC00A4FC11 /* NameSpace.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NameSpace.swift; sourceTree = "<group>"; };
 		36B59E2A29CAFDF600A4FC11 /* MovieInfoItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MovieInfoItem.swift; sourceTree = "<group>"; };
@@ -160,6 +158,7 @@
 				36B59E2829CAFDAC00A4FC11 /* NameSpace.swift */,
 				368A11D529D9D373007C8877 /* SecretKey.swift */,
 				36B479B229DED90C005EC147 /* ViewOption.swift */,
+				36B59E2429CAFA2A00A4FC11 /* BoxOfficeError.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -176,7 +175,6 @@
 			isa = PBXGroup;
 			children = (
 				36B59E2229CAF99300A4FC11 /* APIProvider.swift */,
-				36B59E2429CAFA2A00A4FC11 /* Error.swift */,
 				36B479DB29E3DDC5005EC147 /* ImageManager.swift */,
 				36B59E2629CAFCE900A4FC11 /* JSONConverter .swift */,
 			);
@@ -208,7 +206,6 @@
 				36CF325529D2926700E3DEE6 /* Int+decimal.swift */,
 				368A11C729D6A828007C8877 /* JoinedString.swift */,
 				36CF325329D2920200E3DEE6 /* String+NSMutableAttributed.swift */,
-				368A11CD29D6AD14007C8877 /* UIImageview+load.swift */,
 				36B59E5929CB5A5100A4FC11 /* URL+normalized.swift */,
 			);
 			path = Extensions;
@@ -384,7 +381,7 @@
 				36B479B329DED90C005EC147 /* ViewOption.swift in Sources */,
 				368A11D629D9D373007C8877 /* SecretKey.swift in Sources */,
 				36B59E2729CAFCE900A4FC11 /* JSONConverter .swift in Sources */,
-				36B59E2529CAFA2A00A4FC11 /* Error.swift in Sources */,
+				36B59E2529CAFA2A00A4FC11 /* BoxOfficeError.swift in Sources */,
 				36B479B529DEDA77005EC147 /* MovieIconCell.swift in Sources */,
 				36B479B829DEDBB8005EC147 /* MovieInfoTitle.swift in Sources */,
 				36B59D5B29C83D3B00A4FC11 /* BoxOfficeItem.swift in Sources */,
@@ -392,7 +389,6 @@
 				368A11DA29DB2AF2007C8877 /* DateFormatOption.swift in Sources */,
 				36B59E2929CAFDAC00A4FC11 /* NameSpace.swift in Sources */,
 				36B59E4B29CB34A500A4FC11 /* URLSessionable.swift in Sources */,
-				368A11CE29D6AD14007C8877 /* UIImageview+load.swift in Sources */,
 				368A11CC29D6AB52007C8877 /* ImageSearchResult.swift in Sources */,
 				36B59E2B29CAFDF600A4FC11 /* MovieInfoItem.swift in Sources */,
 				36B59E2D29CAFE5900A4FC11 /* MovieAPI.swift in Sources */,
