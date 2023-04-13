@@ -7,18 +7,30 @@
 
 import UIKit
 
-enum LayoutMode {
-    case list
-    case icon
-}
-
 final class BoxOfficeViewController: UIViewController {
+    enum LayoutMode {
+        case list
+        case icon
+        
+        var title: String {
+            switch self {
+            case .list:
+                return "리스트"
+            case .icon:
+                return "아이콘"
+            }
+        }
+    }
+    
     private var boxOffice: BoxOffice?
     private let networkManager = NetworkManager()
     private var currentLayoutMode = LayoutMode.list
     private var isReceivingBoxOffice = false
+
     private lazy var collectionView = UICollectionView(frame: .zero,
                                                        collectionViewLayout: UICollectionViewFlowLayout())
+    private var collectionViewLeadingConstraint: NSLayoutConstraint?
+    private var collectionViewTrailingConstraint: NSLayoutConstraint?
     
     private let dateFormatterWithHyphen = {
         let formatter = DateFormatter()
@@ -120,19 +132,21 @@ final class BoxOfficeViewController: UIViewController {
 // MARK: - BoxOfficeListCell 등록 및 DataSource 설정
 
 extension BoxOfficeViewController {
-    private func updateCollectionViewLayout() {
+    private func switchLayout() {
+        collectionViewLeadingConstraint?.isActive = false
+        collectionViewTrailingConstraint?.isActive = false
+        
         switch currentLayoutMode {
         case .list:
-            NSLayoutConstraint.activate([
-                collectionView.leftAnchor.constraint(equalTo: view.leftAnchor),
-                collectionView.rightAnchor.constraint(equalTo: view.rightAnchor, constant: 10),
-            ])
+            collectionViewLeadingConstraint = collectionView.leadingAnchor.constraint(equalTo: view.leadingAnchor)
+            collectionViewTrailingConstraint = collectionView.trailingAnchor.constraint(equalTo: view.trailingAnchor)
         case .icon:
-            NSLayoutConstraint.activate([
-                collectionView.leftAnchor.constraint(equalTo: view.leftAnchor, constant: 10),
-                collectionView.rightAnchor.constraint(equalTo: view.rightAnchor, constant: -10),
-            ])
+            collectionViewLeadingConstraint = collectionView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 10)
+            collectionViewTrailingConstraint = collectionView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -10)
         }
+        
+        collectionViewLeadingConstraint?.isActive = true
+        collectionViewTrailingConstraint?.isActive = true
     }
     
     private func configureCollectionView() {
@@ -147,8 +161,6 @@ extension BoxOfficeViewController {
         NSLayoutConstraint.activate([
             collectionView.topAnchor.constraint(equalTo: view.topAnchor),
             collectionView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
-            collectionView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
-            collectionView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
             
             loadingView.leftAnchor.constraint(equalTo: self.collectionView.leftAnchor),
             loadingView.rightAnchor.constraint(equalTo: self.collectionView.rightAnchor),
@@ -156,7 +168,13 @@ extension BoxOfficeViewController {
             loadingView.topAnchor.constraint(equalTo: self.collectionView.topAnchor),
         ])
         
+        collectionViewLeadingConstraint = collectionView.leadingAnchor.constraint(equalTo: view.leadingAnchor)
+        collectionViewTrailingConstraint = collectionView.trailingAnchor.constraint(equalTo: view.trailingAnchor)
+        collectionViewLeadingConstraint?.isActive = true
+        collectionViewTrailingConstraint?.isActive = true
+        
         collectionView.register(BoxOfficeListCell.self, forCellWithReuseIdentifier: BoxOfficeListCell.identifier)
+        collectionView.register(BoxOfficeIconCell.self, forCellWithReuseIdentifier: BoxOfficeIconCell.identifier)
     }
 }
 
@@ -273,10 +291,9 @@ extension BoxOfficeViewController {
     
     @objc private func changeLayoutMode() {
         let alert = UIAlertController(title: "화면모드변경", message: nil, preferredStyle: .actionSheet)
-        let currentState = informCurrentLayoutMode()
-        let modeTitle = currentState == .list ? "아이콘" : "리스트"
+        let modeTitle = currentLayoutMode.title
         let modeAction = UIAlertAction(title: modeTitle, style: .default) { [weak self] _ in
-            self?.switchCurrentLayoutMode(currentState)
+            self?.switchCurrentLayoutMode()
         }
         let cancelAction = UIAlertAction(title: "취소", style: .cancel)
         
@@ -286,24 +303,10 @@ extension BoxOfficeViewController {
         present(alert, animated: true)
     }
     
-    private func informCurrentLayoutMode() -> LayoutMode {
-        return currentLayoutMode
-    }
-    
-    private func switchCurrentLayoutMode(_ mode: LayoutMode) {
-        switch mode {
-        case .list:
-            DispatchQueue.main.async { [weak self] in
-                self?.collectionView.register(BoxOfficeIconCell.self, forCellWithReuseIdentifier: BoxOfficeIconCell.identifier)
-                self?.updateCollectionViewLayout()
-                self?.collectionView.reloadData()
-            }
-        case .icon:
-            DispatchQueue.main.async { [weak self] in
-                self?.collectionView.register(BoxOfficeListCell.self, forCellWithReuseIdentifier: BoxOfficeListCell.identifier)
-                self?.updateCollectionViewLayout()
-                self?.collectionView.reloadData()
-            }
+    private func switchCurrentLayoutMode() {
+        DispatchQueue.main.async { [weak self] in
+            self?.switchLayout()
+            self?.collectionView.reloadData()
         }
         
         currentLayoutMode = currentLayoutMode == .list ? .icon : .list

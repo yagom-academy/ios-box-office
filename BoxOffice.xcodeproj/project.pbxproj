@@ -37,6 +37,7 @@
 		BF92967B29D723F700FC0F74 /* MoviePoster.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF92967A29D723F700FC0F74 /* MoviePoster.swift */; };
 		BF9A271429CC750600D02E72 /* MockURLSession.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF9A271329CC750600D02E72 /* MockURLSession.swift */; };
 		BF9A271629CC762200D02E72 /* MockURLSessionDataTask.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF9A271529CC762200D02E72 /* MockURLSessionDataTask.swift */; };
+		BFA6D0C529E7ED62006B57DC /* RankInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFA6D0C429E7ED62006B57DC /* RankInfo.swift */; };
 		BFA9452729D9894B00EDE895 /* Array+extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFA9452629D9894B00EDE895 /* Array+extension.swift */; };
 		BFC35E7F29C99B300093B526 /* NetworkManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFC35E7E29C99B300093B526 /* NetworkManager.swift */; };
 /* End PBXBuildFile section */
@@ -85,6 +86,7 @@
 		BF92967A29D723F700FC0F74 /* MoviePoster.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MoviePoster.swift; sourceTree = "<group>"; };
 		BF9A271329CC750600D02E72 /* MockURLSession.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockURLSession.swift; sourceTree = "<group>"; };
 		BF9A271529CC762200D02E72 /* MockURLSessionDataTask.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockURLSessionDataTask.swift; sourceTree = "<group>"; };
+		BFA6D0C429E7ED62006B57DC /* RankInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RankInfo.swift; sourceTree = "<group>"; };
 		BFA9452629D9894B00EDE895 /* Array+extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Array+extension.swift"; sourceTree = "<group>"; };
 		BFC35E7E29C99B300093B526 /* NetworkManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkManager.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -183,6 +185,7 @@
 			isa = PBXGroup;
 			children = (
 				7F84906229D97E7A00ADAD9D /* Protocol */,
+				BFA6D0C429E7ED62006B57DC /* RankInfo.swift */,
 				7F5F3D6029D5EA4B001D9397 /* BoxOfficeListCell.swift */,
 				7F8D1F9A29E5045900140462 /* BoxOfficeIconCell.swift */,
 				7FE26C3D29D6CED100DBA733 /* RowStackView.swift */,
@@ -357,6 +360,7 @@
 				7F0F794B29C94D4D00111C12 /* NetworkingError.swift in Sources */,
 				7F0F795129CAFC3900111C12 /* EndPoint.swift in Sources */,
 				63DF20EF2970E1A0005DF7D1 /* AppDelegate.swift in Sources */,
+				BFA6D0C529E7ED62006B57DC /* RankInfo.swift in Sources */,
 				7F84906129D97D3300ADAD9D /* IdentifierType.swift in Sources */,
 				7F7E335329D2D96D0025D81C /* Date+extension.swift in Sources */,
 				BFC35E7F29C99B300093B526 /* NetworkManager.swift in Sources */,
