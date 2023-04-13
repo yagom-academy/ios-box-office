@@ -104,7 +104,7 @@ final class BoxOfficeViewController: UIViewController {
     }
     
     @objc private func presentScreenMode() {
-        let alert = AlertManager.shared.showScreenMode(layout: layoutType.rawValue) { [weak self] in
+        let alert = AlertManager.shared.showScreenMode(layout: layoutType) { [weak self] in
             self?.updateLayout()
         }
         present(alert, animated: true)
@@ -193,6 +193,51 @@ final class BoxOfficeViewController: UIViewController {
 
 @available(iOS 16.0, *)
 extension BoxOfficeViewController {
+    private func configureDataSource() {
+        let listCellRegistration = UICollectionView.CellRegistration<BoxOfficeListCell, BoxOfficeItem> {
+            (cell, indexPath, item) in
+            cell.item = item
+        }
+        
+        let gridRegistration = UICollectionView.CellRegistration<BoxOfficeGridCell, BoxOfficeItem> {
+            (cell, indexPath, item) in
+            cell.configureInformation(item)
+        }
+        
+        dataSource = UICollectionViewDiffableDataSource<Section, BoxOfficeItem.ID>(collectionView: collectionView) {
+            (collectionView: UICollectionView, indexPath: IndexPath, identifier: BoxOfficeItem.ID) -> UICollectionViewCell? in
+            
+            let boxOfficeItem = self.boxOfficeItems.filter { $0.id == identifier }.first
+            switch self.layoutType {
+            case .list:
+                let cell = collectionView.dequeueConfiguredReusableCell(using: listCellRegistration,
+                                                                        for: indexPath,
+                                                                        item: boxOfficeItem)
+                cell.snapshotView(afterScreenUpdates: true)
+                
+                return cell
+            case .grid:
+                let cell = collectionView.dequeueConfiguredReusableCell(using: gridRegistration,
+                                                                        for: indexPath,
+                                                                        item: boxOfficeItem)
+                cell.snapshotView(afterScreenUpdates: true)
+                
+                return cell
+            }
+        }
+    }
+    
+    private func updateSnapshot() {
+        snapshot.deleteAllItems()
+        snapshot.appendSections([.main])
+        snapshot.appendItems(boxOfficeItems.map { $0.id })
+        
+        dataSource.apply(snapshot, animatingDifferences: true)
+    }
+}
+
+@available(iOS 16.0, *)
+extension BoxOfficeViewController {
     private func createLayout(for layout: LayoutType = .list) -> UICollectionViewLayout {
         switch layout {
         case .list:
@@ -237,12 +282,8 @@ extension BoxOfficeViewController {
             let layout = UICollectionViewCompositionalLayout(section: section)
             return layout
         }
-        
     }
-}
-
-@available(iOS 16.0, *)
-extension BoxOfficeViewController {
+    
     private func configureHierarchy(for layout: LayoutType = .list) {
         collectionView = UICollectionView(
             frame: .zero,
@@ -260,48 +301,6 @@ extension BoxOfficeViewController {
             collectionView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor),
             collectionView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -toolbarHeight)
         ])
-    }
-    
-    private func configureDataSource() {
-        let listCellRegistration = UICollectionView.CellRegistration<BoxOfficeListCell, BoxOfficeItem> {
-            (cell, indexPath, item) in
-            cell.item = item
-        }
-        
-        let gridRegistration = UICollectionView.CellRegistration<BoxOfficeGridCell, BoxOfficeItem> {
-            (cell, indexPath, item) in
-            cell.configure(boxOfficeItem: item)
-        }
-        
-        dataSource = UICollectionViewDiffableDataSource<Section, BoxOfficeItem.ID>(collectionView: collectionView) {
-            (collectionView: UICollectionView, indexPath: IndexPath, identifier: BoxOfficeItem.ID) -> UICollectionViewCell? in
-            
-            let boxOfficeItem = self.boxOfficeItems.filter { $0.id == identifier }.first
-            switch self.layoutType {
-            case .list:
-                let cell = collectionView.dequeueConfiguredReusableCell(using: listCellRegistration,
-                                                                        for: indexPath,
-                                                                        item: boxOfficeItem)
-                cell.snapshotView(afterScreenUpdates: true)
-                
-                return cell
-            case .grid:
-                let cell = collectionView.dequeueConfiguredReusableCell(using: gridRegistration,
-                                                                        for: indexPath,
-                                                                        item: boxOfficeItem)
-                cell.snapshotView(afterScreenUpdates: true)
-                
-                return cell
-            }
-        }
-    }
-    
-    private func updateSnapshot() {
-        snapshot.deleteAllItems()
-        snapshot.appendSections([.main])
-        snapshot.appendItems(boxOfficeItems.map { $0.id })
-        
-        dataSource.apply(snapshot, animatingDifferences: true)
     }
 }
 
@@ -325,9 +324,4 @@ extension BoxOfficeViewController: DateChangeable {
         updateNavigationTitle(form: "yyyy-MM-dd", date: selectedDate)
         fetchDailyBoxOffice(from: selectedDate)
     }
-}
-
-fileprivate enum LayoutType: String {
-    case list = "리스트"
-    case grid = "아이콘"
 }
