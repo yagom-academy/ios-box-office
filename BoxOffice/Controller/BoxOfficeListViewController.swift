@@ -90,11 +90,14 @@ final class BoxOfficeListViewController: UIViewController {
         }
         
         let result = DecodeManager().decodeJSON(data: data, type: CellMode.self)
-        guard let storedCellMode = try? verifyResult(result: result) else { return }
         
-        self.cellMode = storedCellMode
-        
-        UserDefaults.standard.removeObject(forKey: CellMode.identifier)
+        do {
+            guard let storedCellMode = try verifyResult(result: result) else { return }
+            self.cellMode = storedCellMode
+            UserDefaults.standard.removeObject(forKey: CellMode.identifier)
+        } catch {
+            print(error.localizedDescription)
+        }
     }
     
     private func configureViewController() {
@@ -281,7 +284,7 @@ extension BoxOfficeListViewController: UICollectionViewDelegateFlowLayout {
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {
-        guard cellMode == .icon else { return UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)}
+        guard cellMode == .icon else { return UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0) }
         
         return UIEdgeInsets(top: 10, left: 15, bottom: 10, right: 15)
     }
