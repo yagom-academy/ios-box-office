@@ -1,13 +1,13 @@
 //
-//  NetworkManagerTest.swift
-//  NetworkManagerTest
+//  NetworkManagerTests.swift
+//  NetworkManagerTests
 //
 //  Created by 리지, kokkilE on 2023/03/23.
 //
 
 import XCTest
 @testable import BoxOffice
-final class NetworkManagerTest: XCTestCase {
+final class NetworkManagerTests: XCTestCase {
     var sut: NetworkManager!
     var expectation: XCTestExpectation!
     var boxOfficeEndPoint: BoxOfficeEndPoint!
@@ -18,7 +18,7 @@ final class NetworkManagerTest: XCTestCase {
         let urlSession = URLSession.init(configuration: configuration)
         sut = NetworkManager(urlSession: urlSession)
         
-        boxOfficeEndPoint = BoxOfficeEndPoint.DailyBoxOffice(tagetDate: "20230320", httpMethod: .get)
+        boxOfficeEndPoint = BoxOfficeEndPoint.DailyBoxOffice(tagetDate: "20230320")
         
         expectation = expectation(description: "Expectation")
     }

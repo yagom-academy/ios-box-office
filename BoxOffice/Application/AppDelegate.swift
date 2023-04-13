@@ -29,11 +29,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     }()
     
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
-        let dailyBoxOfficeCoreDataManager = CoreDataManager<DailyBoxOfficeData, Movies>()
-        let movieInformationCoreDataManager = CoreDataManager<MovieInformationData, MovieDetails>()
-        
         MovieAttributeTransformer.register()
         MovieDetailsAttributeTransformer.register()
+        
+        let dailyBoxOfficeCoreDataManager = CoreDataManager<DailyBoxOfficeData, Movies>()
+        let movieInformationCoreDataManager = CoreDataManager<MovieInformationData, MovieDetails>()
         dailyBoxOfficeCoreDataManager.deleteByTimeInterval()
         movieInformationCoreDataManager.deleteByTimeInterval()
         

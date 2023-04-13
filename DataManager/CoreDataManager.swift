@@ -9,7 +9,7 @@ import Foundation
 import CoreData
 import UIKit
 
-final class CoreDataManager<Entity: NSManagedObject & KeyProtocol , Element>: DataManager {
+final class CoreDataManager<Entity: NSManagedObject & EntityKeyProtocol , Element>: DataManager {
     private let context = (UIApplication.shared.delegate as? AppDelegate)?.persistentContainer.newBackgroundContext()
     
     func create(key: String, value: [Element]) {
@@ -17,18 +17,27 @@ final class CoreDataManager<Entity: NSManagedObject & KeyProtocol , Element>: Da
               let entity = NSEntityDescription.entity(forEntityName: Entity.key, in: context),
               let storage = NSManagedObject(entity: entity, insertInto: context) as? Entity else { return }
         
-        setValue(at: storage, key: key , and: value)
+        setValue(at: storage, key: key , data: value)
         save()
     }
     
     func read(key: String) -> Entity? {
-        fetchData(entityType: Entity.self, key: key)
+        guard let context = self.context else { return nil }
+        
+        let filter = filteredDataRequest(entityType: Entity.self, key: key)
+        
+        do {
+            let data = try context.fetch(filter)
+            return data.first
+        } catch {
+            return nil
+        }
     }
     
     func update(key: String, value: [Element]) {
-        guard let fetchedData = fetchData(entityType: Entity.self, key: key) else { return }
+        guard let fetchedData = read(key: key) else { return }
         
-        setValue(at: fetchedData, key: key, and: value)
+        setValue(at: fetchedData, key: key, data: value)
         save()
     }
     
@@ -59,7 +68,7 @@ final class CoreDataManager<Entity: NSManagedObject & KeyProtocol , Element>: Da
         }
     }
     
-    private func setValue(at target: Entity, key: String, and data: [Element]) {
+    private func setValue(at target: Entity, key: String, data: [Element]) {
         guard let data = data.first else { return }
         let contents = data
         
@@ -94,18 +103,5 @@ final class CoreDataManager<Entity: NSManagedObject & KeyProtocol , Element>: Da
         }
         
         return fetchRequest
-    }
-    
-    private func fetchData<T: NSManagedObject>(entityType: T.Type, key: String) -> T? {
-        guard let context = self.context else { return nil }
-        
-        let filter = filteredDataRequest(entityType: entityType, key: key)
-        
-        do {
-            let data = try context.fetch(filter)
-            return data.first
-        } catch {
-            return nil
-        }
     }
 }
