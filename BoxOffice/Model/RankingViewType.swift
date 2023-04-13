@@ -7,7 +7,7 @@
 
 import Foundation
 
-enum RankingViewType {
+enum RankingViewType: Hashable {
     case list, icon
     
     var anotherTitle: String {

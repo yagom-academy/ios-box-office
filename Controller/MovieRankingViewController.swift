@@ -8,7 +8,6 @@
 import UIKit
 
 final class MovieRankingViewController: UIViewController {
-    
     // MARK: Propertie
     private var rankingViewType: RankingViewType = .list
     private var dataManager: RankingManager?
@@ -25,8 +24,7 @@ final class MovieRankingViewController: UIViewController {
     private var collectionView: UICollectionView?
     
     // MARK: DataSource Properties
-    private var dataSource: UICollectionViewDiffableDataSource<APIType, InfoObject>?
-    private var snapshot = NSDiffableDataSourceSnapshot<APIType, InfoObject>()
+    private var dataSource: UICollectionViewDiffableDataSource<RankingViewType, InfoObject>?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -48,7 +46,7 @@ final class MovieRankingViewController: UIViewController {
                 DispatchQueue.main.async {
                     self?.stopLoadingView()
                     self?.collectionView?.refreshControl?.endRefreshing()
-                    self?.applySnapshot()
+                    self?.applySnapshot(section: self?.rankingViewType)
                 }
             case .failure(let error):
                 self?.presentErrorAlert(error: error, title: "박스오피스")
@@ -82,21 +80,20 @@ final class MovieRankingViewController: UIViewController {
                                       message: nil,
                                       preferredStyle: .actionSheet)
         let alertAction = UIAlertAction(title: rankingViewType.anotherTitle, style: .default, handler: { [weak self] _ in
+            self?.deleteSnapshot(by: self?.rankingViewType)
             switch self?.rankingViewType {
             case .list:
                 guard let iconLayout = self?.makeCollectionViewIconLayout() else { return }
                 self?.rankingViewType = .icon
-                self?.createIconDataSource()
                 self?.changeCollectionViewLayout(layout: iconLayout)
             case .icon:
                 guard let listLayout = self?.makeCollectionViewListLayout() else { return }
                 self?.rankingViewType = .list
-                self?.createListDataSource()
                 self?.changeCollectionViewLayout(layout: listLayout)
             default:
                 return
             }
-            self?.applySnapshot()
+            self?.applySnapshot(section: self?.rankingViewType)
         })
         let cancelAction = UIAlertAction(title: "취소", style: .cancel)
         
@@ -163,15 +160,25 @@ extension MovieRankingViewController {
         collectionView?.setCollectionViewLayout(layout, animated: true)
     }
         
-    private func applySnapshot() {
-        guard let dataManager = dataManager else { return }
+    private func applySnapshot(section: RankingViewType?) {
+        guard let dataManager = dataManager,
+              let section = section else { return }
         
-        var snapshot = NSDiffableDataSourceSnapshot<APIType, InfoObject>()
+        var snapshot = NSDiffableDataSourceSnapshot<RankingViewType, InfoObject>()
     
-        snapshot.appendSections([dataManager.apiType])
+        snapshot.appendSections([section])
         snapshot.appendItems(dataManager.movieItems)
         
         dataSource?.apply(snapshot, animatingDifferences: true)
+    }
+    
+    private func deleteSnapshot(by section: RankingViewType?) {
+        guard var snapshot = dataSource?.snapshot(),
+              let section = section else { return }
+        
+        snapshot.deleteSections([section])
+        
+        dataSource?.apply(snapshot)
     }
     
     private func configureUI() {
@@ -185,7 +192,7 @@ extension MovieRankingViewController {
         configureNavigationItems()
         configureRefreshController()
         createToolbar()
-        createListDataSource()
+        createDataSource()
     }
     
     private func configureCollectionViewLayout() {
@@ -195,8 +202,6 @@ extension MovieRankingViewController {
         
         collectionView.translatesAutoresizingMaskIntoConstraints = false
         collectionView.delegate = self
-        collectionView.register(MovieRankingListCell.self, forCellWithReuseIdentifier: MovieRankingListCell.identifier)
-        collectionView.register(MovieRankingIconCell.self, forCellWithReuseIdentifier: MovieRankingIconCell.identifier)
         
         NSLayoutConstraint.activate([
             collectionView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
@@ -232,31 +237,30 @@ extension MovieRankingViewController {
         setToolbarItems([flexibleItem, barButtonItem, flexibleItem], animated: true)
     }
     
-    private func createListDataSource() {
-        guard let collectionView = collectionView else { return }
+    private func createDataSource() {
+        guard let collectionView = self.collectionView else { return }
         
-        dataSource = UICollectionViewDiffableDataSource<APIType, InfoObject>(collectionView: collectionView, cellProvider: { collectionView, indexPath, itemIdentifier in
-            guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: MovieRankingListCell.identifier, for: indexPath) as? MovieRankingListCell else { return UICollectionViewListCell() }
+        let listCellRegistration = UICollectionView.CellRegistration<MovieRankingListCell, InfoObject> { cell, indexPath, item in
             
-            let uiModel = CellUIModel(data: itemIdentifier)
+            let uiModel = CellUIModel(data: item)
             
             cell.updateLabelText(for: uiModel)
+        }
+        
+        let iconCellRegistration = UICollectionView.CellRegistration<MovieRankingIconCell, InfoObject> { cell, indexPath, item in
             
-            return cell
-        })
-    }
-    
-    private func createIconDataSource() {
-        guard let collectionView = collectionView else { return }
-
-        dataSource = UICollectionViewDiffableDataSource<APIType, InfoObject>(collectionView: collectionView, cellProvider: { collectionView, indexPath, itemIdentifier in
-            guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: MovieRankingIconCell.identifier, for: indexPath) as? MovieRankingIconCell else { return UICollectionViewCell() }
-
-            let uiModel = CellUIModel(data: itemIdentifier)
-
+            let uiModel = CellUIModel(data: item)
+            
             cell.updateLabelText(for: uiModel)
-
-            return cell
+        }
+        
+        dataSource = UICollectionViewDiffableDataSource<RankingViewType, InfoObject>(collectionView: collectionView, cellProvider: { [self] collectionView, indexPath, itemIdentifier in
+            switch self.rankingViewType {
+            case .icon:
+                return collectionView.dequeueConfiguredReusableCell(using: iconCellRegistration, for: indexPath, item: itemIdentifier)
+            case .list:
+                return collectionView.dequeueConfiguredReusableCell(using: listCellRegistration, for: indexPath, item: itemIdentifier)
+            }
         })
     }
 }
