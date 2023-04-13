@@ -104,7 +104,7 @@ final class BoxOfficeViewController: UIViewController {
     }
     
     @objc private func presentScreenMode() {
-        let alert = AlertManager.shared.showScreenMode(layout: layoutType.rawValue) { [weak self] in
+        let alert = AlertManager.shared.showScreenMode(layout: layoutType) { [weak self] in
             self?.updateLayout()
         }
         present(alert, animated: true)
@@ -323,9 +323,4 @@ extension BoxOfficeViewController: DateChangeable {
         updateNavigationTitle(form: "yyyy-MM-dd", date: selectedDate)
         fetchDailyBoxOffice(from: selectedDate)
     }
-}
-
-fileprivate enum LayoutType: String {
-    case list = "리스트"
-    case grid = "아이콘"
 }
