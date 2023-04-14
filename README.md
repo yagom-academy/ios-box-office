@@ -1,23 +1,30 @@
 # 박스오피스 II
-> 영화진흥위원회, Daum 검색 OPEN API를 이용하여 박스오피스 목록을 조회하고 영화 상세 정보를 확인할 수 있는 앱입니다. CalendarView에서 목록 조회 날짜를 선택할 수 있고 사용자 선택에 따라 박스오피스 순위를 목록/아이콘의 형태로 볼 수 있습니다.
+> 영화진흥위원회, Daum 검색 OPEN API를 이용하여 박스오피스 목록을 조회하고 영화 상세 정보를 확인할 수 있는 앱입니다. 
+> * CalendarView에서 목록 조회 날짜를 선택할 수 있습니다.
+> * 사용자 선택에 따라 박스오피스 순위 CollectionView를 목록/아이콘의 형태로 볼 수 있습니다.
+> * 주요 개념: `URLSession`, `NSCache`, `UICollectionView`, `Modern CollectionView Implementation` ,`UICalendarView`, `AutoLayout`
 > 
 > 프로젝트 기간: 2023.04.03 ~ 2023.04.14
 
+
 ## ⭐️ 팀원
 | Rowan | 무리 |
-| :--------: |  :--------: | 
+| :--------: |  :--------: |
 | <Img src = "https://i.imgur.com/S1hlffJ.jpg" width="200" height="200"/>      |<Img src ="https://i.imgur.com/SqON3ag.jpg" width="200" height="200"/>
-| [Github Profile](https://github.com/Kyeongjun2) |[Github Profile](https://github.com/parkmuri)
+| [Github Profile](https://github.com/Kyeongjun2) |[Github Profile](https://github.com/parkmuri) 
 
+</br>
 
 ## 📝 목차
 1. [타임라인](#-타임라인)
 2. [프로젝트 구조](#-프로젝트-구조)
-3. [실행화면](#-실행화면) 
-4. [트러블 슈팅](#-트러블-슈팅) 
+3. [실행화면](#-실행화면)
+4. [트러블 슈팅](#-트러블-슈팅)
 5. [핵심경험](#-핵심경험)
-6. [참고 링크](#-참고-링크)
+6. [팀 회고](#-팀-회고)
+7. [참고 링크](#-참고-링크)
 
+</br>
 
 # 📆 타임라인 
 - 2023.04.03 : CalendarViewController 및 Navigation에 BarButtonItem 생성
@@ -25,13 +32,18 @@
 - 2023.04.05 : 중복된 박스오피스 검색 날짜 변경 후 캘린더에 SelectedDate 반영, 중복되는 코드 줄이기 위한 TextMaker 구현, ListCell default configuration에 autoShrink 적용
 - 2023.04.06 : CollectionViewMode타입 생성 및 iconMode에 사용할 DailyBoxOfficeIconCell, CompositionalLayout 정의
 - 2023.04.07 : CollectionViewMode에 따른 레이아웃 전환 구현
+- 2023.04.10 : CalendarViewController 프로퍼티 주입받게 수정 및 접근제어 설정, DailyBoxOfficeIconCell stackView, Label 프로퍼티 설정
+- 2023.04.11 : NSCacheManager 타입 생성 및 APIProvider loadImage메서드 추가, MovieDetailsViewController의 loadPosterImage 분리
+- 2023.04.12 : NetWorkError case 추가, NSCache countLimit 설정
+- 2023.04.13 : MovieDataUpdatable protocol 정의, DailyBoxOfficeViewController 메서드 기능 분리, 코드 컨벤션 정리
+- 2023.04.14 : collectionView mode에 따른 layout변경시 animation 개선
 
-<br/>
+</br>
 
 
 # 🌳 프로젝트 구조
 ## UML
-<img src="https://i.imgur.com/hiSZdnQ.png" width="100%">
+<img src="https://i.imgur.com/AipaIBT.png" width="100%">
 
 ## File Tree
 
@@ -45,10 +57,13 @@
 │   │   └── ResponseModel
 │   │       ├── DailyBoxOffice
 │   │       ├── MovieDetails
-│   │       └── SearchedImage
+│   │       └── DaumSearchResult
 │   ├── View
 │   │   ├── CategoryStackView
-│   │   └── DailyBoxOfficeCell
+│   │   ├── DailyBoxOfficeIconCell
+│   │   ├── DailyBoxOfficeListCell
+│   │   └── Protocol
+│   │       └── MovieDataUpdatable
 │   └── Controller
 │   │   ├── CalendarViewController
 │   │   ├── DailyBoxOfficeViewController
@@ -57,8 +72,9 @@
 │   │       └── CalendarViewControllerDelegate
 │   ├── Network
 │   │   ├── APIProvider
+│   │   ├── CacheManager
 │   │   ├── DaumImageAPI
-│   │   ├── EndPoint
+│   │   ├── Endpoint
 │   │   ├── KobisAPI
 │   │   ├── Error
 │   │   │   └── NetworkError
@@ -72,14 +88,14 @@
 │   ├── Storyboard
 │   │   └── Main
 │   └── Utility
-│       ├── AlertController.swift
-│       ├── CollectionViewModeManager.swift
-│       ├── LoadingIndicator.swift
+│       ├── AlertController
+│       ├── CollectionViewModeManager
+│       ├── LoadingIndicator
 │       └── Extension
-│           ├── extension+CALayer.swift
-│           ├── extension+Collection.swift
-│           ├── extension+DateFormatter.swift
-│           └── extension+String.swift
+│           ├── extension+CALayer
+│           ├── extension+Collection
+│           ├── extension+DateFormatter
+│           └── extension+String
 └── BoxOfficeTests
     ├── APIProviderTests
     │   ├── APIProviderTests
@@ -90,12 +106,11 @@
 
 </details>
 
-   
 # 📱 실행화면
 
-|모드 변경|날짜 변경|
-|:---:|:---:|
-|<img src="https://i.imgur.com/flx2O9i.gif" width="300">|<img src="https://i.imgur.com/TYxlMyi.gif" width="300">|
+|모드 변경|날짜 변경|캐시 저장|
+|:---:|:---:|:---:|
+|<img src="https://i.imgur.com/zLCkFe4.gif" width="300">|<img src="https://i.imgur.com/5Odr31m.gif" width="300">|<img src="https://i.imgur.com/jmeWql8.gif" width="300">|
 
 <br/>
 
@@ -136,8 +151,6 @@ private func configureCalendarView() {
 }
 ```
 
-
-
 </br>
 
 ## 2️⃣ RefreshControl의 indicator
@@ -157,6 +170,127 @@ private func loadDailyBoxOffice() {
                 self.collectionView.refreshControl?.endRefreshing()
             }
     //...
+}
+```
+
+</br>
+
+## 3️⃣ reloadData()의 중복된 호출
+### 🔍 문제점
+`changeCollectionViewMode()`메서드를 통하여 현재 뷰 모드에 따라 새로운 뷰를 호출해주는 `setCollectionViewLayout`을 설정해주었습니다.
+직접 실행해보니, 아이콘모드에서 리스트모드로 넘어갈 때 화면에 보이지 않던 9번 항목의 레이아웃이 의도하지 않은 모양으로 나타났습니다🥲
+
+**코드**
+```swift
+func changeCollectionViewMode() {
+    switch collectionViewMode {
+    case .icon:
+        collectionViewMode = .list
+    case .list:
+        collectionViewMode = .icon
+    }
+    
+    collectionView.reloadData()
+    collectionView.setCollectionViewLayout(collectionViewLayout(), animated: true)
+}
+```
+**실행화면 - 리스트모드로 넘어올 때 9번 항목 레이아웃 오류**
+<img src="https://i.imgur.com/RVUInJC.gif" width="300">
+
+### ⚒️ 해결방안
+#### 1. reloadData()를 두 번 호출해주는 방법
+해당 문제를 해결하기위하여 `setCollectionViewLayout()`의 completion을 활용하여 후행클로저에서 `reloadData()`를 다시한번 호출해주는 방법으로 위의 오류를 해결할 수 있었습니다.
+```swift
+func changeCollectionViewMode() {
+    // ...
+    collectionView.reloadData()
+    collectionView.setCollectionViewLayout(collectionViewLayout(), animated: true) { _ in
+        self.collectionView.reloadData()
+    }
+}
+```
+하지만 이 방법으로 진행할 시, `reloadData()`메서드가 두 번 호출되며 코스트가 비싸질 것 같다고 생각이들었습니다.
+
+#### 2. 분기처리를 이용하여 reloadData()를 호출해주는 방법
+분기처리를 통하여 listLayout일 경우 animation효과를 지연시키고 `reloadData()`를 호출하게하여 위의 오류를 해결하며 적절한 상황에서 `reloadData()`를 호출할 수 있었습니다.
+
+```swift
+func changeCollectionViewMode() {
+    // ...
+    if collectionViewMode == .list {
+        collectionView.setCollectionViewLayout(collectionViewLayout(), animated: false) { _ in
+            UIView.animate(withDuration: 0.3) {
+                self.collectionView.reloadData()
+            }
+        }
+    } else {
+        collectionView.reloadData()
+        collectionView.setCollectionViewLayout(collectionViewLayout(), animated: true)
+    }
+}
+```
+
+</br>
+
+## 4️⃣ Image Networking
+### 🔍 문제점
+MovieDetailsViewController 프로퍼티 posterView의 이미지를 다음 순서의 네트워크 통신을 통해 채워넣고 있습니다.
+
+1. 다음 검색 API를 활용해 가장 상위의 검색 결과의 이미지 URL을 fetch
+2. fetch한 URL을 통해 Image Data Load
+
+이번 프로젝트의 네트워크는 `URLSession` 객체를 통해 이루어집니다. dataTask 메서드는 비동기적으로 동작하므로 아래와 같은 순서로 `fetchPosterImageURL`, `loadPosterImage` 메서드를 호출하게 되면 URL fetch가 완료되지 않은 상태로 image load를 시작하게 된다는 문제가 있었습니다.
+
+```swift
+final class MovieDetailsViewController: UIViewController {
+
+    override func viewDidLoad() {
+        fetchPosterImageURL()
+        loadPosterImage()
+    }
+    
+    // ...
+}
+```
+
+### ⚒️ 해결방안
+URL fetch 작업을 기다렸다가 작업이 완료되었을 때 `loadPosterImage`를 호출할 수 있도록 Property Observer를 활용하여 해결하였습니다.
+
+```swift
+final class MovieDetailsViewController: UIViewController {
+    
+    private var movieImageURL: URL? {
+        didSet {
+            loadPosterImage()
+        }
+    }
+    
+    private func fetchPosterImageURL() {
+        // ...
+        apiProvider.startLoad(decodingType: DaumSearchResult.self) { result in
+            switch result {
+            case .success(let searchedResult):
+                guard let document = searchedResult.documents.first,
+                      let url = URL(string: document.imageURL) else { return }
+                self.movieImageURL = url
+        
+        // ...    
+    }
+    
+    private func loadPosterImage() {
+        guard let movieImageURL else { return }
+        
+        let apiProvider = APIProvider()
+        LoadingIndicator.showLoading(in: posterView)
+        apiProvider.loadImage(url: movieImageURL) { result in
+            switch result {
+            case .success(let image):
+                DispatchQueue.main.async {
+                    self.posterView.image = image
+        // ...
+    }
+                                             
+    // ...
 }
 ```
 
@@ -375,8 +509,52 @@ private func configureDataSource() {
 ```
 
 </details>
+
+<details>
+<summary><big>✅ NSCache 활용</big></summary>
     
-----
+NSCache를 활용해 URL에서 받아온 image에 캐싱을 적용했습니다.
+- 캐시 정책은 화면에 보여지는 DailyBoxOffice 영화 정보가 상위 10개만 나타나므로 이미지 캐시의 count를 10으로 설정하여 캐시된 이미지가 10개를 초과하면 먼저 캐시된 이미지를 삭제하도록 설정하였습니다.
+- NSCache는 in-memory 캐싱만 가능하기 때문에 잔존 기한은 앱이 실행 중인 동안입니다. 앱을 종료하면 캐시가 삭제되도록 의도했습니다.
+    
+```swift!
+final class CacheManager {
+    static let shared = CacheManager()
+    private let storage = NSCache<NSString, UIImage>()
+    
+    private init() {
+        storage.countLimit = 10
+    }
+    
+    func store(image: UIImage, urlString: String) {
+        let key = NSString(string: urlString)
+        self.storage.setObject(image, forKey: key)
+    }
+    
+    func cachedImage(urlString: String) -> UIImage? {
+        let cachedKey = NSString(string: urlString)
+        if let cachedImage = storage.object(forKey: cachedKey) {
+            return cachedImage
+        }
+        return nil
+    }
+}
+```
+    
+</details>
+ 
+---
+# 🥹 팀 회고 
+### 우리팀이 잘한 점
+- 저번 주 보다는 깃허브와 많이 친해졌다.
+- 유동적인 시간약속으로 개인일정을 소화할 수 있었다. ~~배려에 감사드립니다🙇‍♂️~~ 👍
+    
+### 우리팀이 노력할 점
+- 컨디션관리 잘하기!
+- 리뷰 일정 협의 미리 계획해보기
+    
+---
+    
 
 </br>
 
@@ -392,4 +570,5 @@ private func configureDataSource() {
 * [🍎 apple developer 공식문서 - setCollectionViewLayout](https://developer.apple.com/documentation/uikit/uicollectionview/1618017-setcollectionviewlayout)
 * [🍎 apple developer 공식문서 - UINavigationController(Configuring custom toolbars)](https://developer.apple.com/documentation/uikit/uinavigationcontroller#1654748)
 * [🍎 apple developer 공식문서 - toolbarItems](https://developer.apple.com/documentation/uikit/uiviewcontroller/1621867-toolbaritems)
+* [🍎 apple developer 공식문서 - NSCache](https://developer.apple.com/documentation/foundation/nscache)
 * [🍎 WWDC - 2019 Advances in UI Data Sources](https://developer.apple.com/videos/play/wwdc2019/220)
