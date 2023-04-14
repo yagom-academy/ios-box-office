@@ -105,11 +105,11 @@ final class BoxOfficeIconCell: UICollectionViewCell {
         layer.cornerRadius = 5
     }
     
-    private func configureRankLabel(data: DailyBoxOfficeItem){
+    private func configureRankLabel(data: DailyBoxOfficeItem) {
         rankLabel.text = data.rank
     }
     
-    private func configureRankInfoLabel(data: DailyBoxOfficeItem){
+    private func configureRankInfoLabel(data: DailyBoxOfficeItem) {
         let oldAndNew = data.rankOldAndNew
         
         if oldAndNew == .new {
@@ -132,11 +132,11 @@ final class BoxOfficeIconCell: UICollectionViewCell {
         }
     }
     
-    private func configureMovieNameLabel(data: DailyBoxOfficeItem){
+    private func configureMovieNameLabel(data: DailyBoxOfficeItem) {
         movieNameLabel.text = data.movieName
     }
     
-    private func configureAudienceCountLabel(data: DailyBoxOfficeItem){
+    private func configureAudienceCountLabel(data: DailyBoxOfficeItem) {
         let numberFormatter = NumberFormatter()
         numberFormatter.numberStyle = .decimal
         

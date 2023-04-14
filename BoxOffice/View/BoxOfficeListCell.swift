@@ -148,11 +148,11 @@ final class BoxOfficeListCell: UICollectionViewCell {
         layer.drawBorder(color: .systemGray5, width: 1)
     }
     
-    private func configureRankLabel(data: DailyBoxOfficeItem){
+    private func configureRankLabel(data: DailyBoxOfficeItem) {
         rankLabel.text = data.rank
     }
     
-    private func configureRankInfoLabel(data: DailyBoxOfficeItem){
+    private func configureRankInfoLabel(data: DailyBoxOfficeItem) {
         let oldAndNew = data.rankOldAndNew
         
         if oldAndNew == .new {
@@ -175,11 +175,11 @@ final class BoxOfficeListCell: UICollectionViewCell {
         }
     }
     
-    private func configureMovieNameLabel(data: DailyBoxOfficeItem){
+    private func configureMovieNameLabel(data: DailyBoxOfficeItem) {
         movieNameLabel.text = data.movieName
     }
     
-    private func configureAudienceCountLabel(data: DailyBoxOfficeItem){
+    private func configureAudienceCountLabel(data: DailyBoxOfficeItem) {
         let numberFormatter = NumberFormatter()
         numberFormatter.numberStyle = .decimal
         
