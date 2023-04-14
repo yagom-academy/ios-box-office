@@ -81,9 +81,9 @@ final class MovieDetailViewController: UIViewController {
         
         NSLayoutConstraint.activate([
             scrollView.topAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.topAnchor),
-            scrollView.leadingAnchor.constraint(equalTo: self.view.leadingAnchor),
-            scrollView.trailingAnchor.constraint(equalTo: self.view.trailingAnchor),
-            scrollView.bottomAnchor.constraint(equalTo: self.view.bottomAnchor),
+            scrollView.leadingAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.leadingAnchor),
+            scrollView.trailingAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.trailingAnchor),
+            scrollView.bottomAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.bottomAnchor),
             
             contentView.leadingAnchor.constraint(equalTo: self.scrollView.contentLayoutGuide.leadingAnchor),
             contentView.trailingAnchor.constraint(equalTo: self.scrollView.contentLayoutGuide.trailingAnchor),
