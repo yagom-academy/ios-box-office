@@ -199,6 +199,8 @@ json의 담긴 데이터를 가져오기 위해 jsonDecoder를 사용하여 데�
             XCTFail("The loadJsonData was not supposed to throw an Error")
         }
 ```
+<br/>
+<br/>
 
 ### 2️⃣ URL Endpoint관리
 > URL을 생성해주는 객체뿐만 아니라 URLRequest를 만들어내는 객체를 정의했습니다.
@@ -358,6 +360,9 @@ boxOfficeProvider.fetchData(.searchImage(movieName: "메이플스토리"), type:
 }
 ```
 
+<br/>
+<br/>
+
 ### 3️⃣ Cell 재사용 문제
 tableView와 마찬가지로 collectionView에서도 cell을 재사용하여 UI를 그려주게 됩니다. 따라서 스크롤을 움직여서 몇몇의 cell이 안보이게 한 후 다시 그려주는 작업을 수행하게 하면 cell의 속성 값이 그대로 남아 적용되는 것을 확인하였습니다.
 
@@ -377,6 +382,9 @@ rankIncrementLabel.text = nil
 rankIncrementLabel.textColor = .black
 ```
 
+
+<br/>
+<br/>
 
 ### 4️⃣ UICollectionViewListCell, ContentConfiguration의 사용
 요구사항의 뷰를 보고 테이블 뷰로 구현할 지, 컬렉션 뷰로 구현할 지, CollectionListCell을 이용해서 구현할 지 고민했습니다.
@@ -477,7 +485,8 @@ BoxOfficeListCell에서는 데이터를 주입하고, BoxOfficeContentConfigurat
 
 이와 같이 역할을 분리함으로써 상태에 따른 모든 코드를 같은 객체에 정의하는 것을 피했습니다.
 
-<br>
+<br/>
+<br/>
 
 ### 5️⃣ ClipsToBound사용을 통한 이미지 뷰 짤리는 현상 해결
 이미지 뷰를 오토레이아웃해서 `width`의 값을 루트 view의 0.9배율로 설정해주었는데 정해준 width를 넘어가는 일이 발생했었습니다.
