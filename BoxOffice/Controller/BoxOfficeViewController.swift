@@ -29,8 +29,6 @@ final class BoxOfficeViewController: UIViewController {
 
     private lazy var collectionView = UICollectionView(frame: .zero,
                                                        collectionViewLayout: UICollectionViewFlowLayout())
-    private var collectionViewLeadingConstraint: NSLayoutConstraint?
-    private var collectionViewTrailingConstraint: NSLayoutConstraint?
     
     private let dateFormatterWithHyphen = {
         let formatter = DateFormatter()
@@ -132,23 +130,6 @@ final class BoxOfficeViewController: UIViewController {
 // MARK: - BoxOfficeListCell 등록 및 DataSource 설정
 
 extension BoxOfficeViewController {
-    private func switchLayout() {
-        collectionViewLeadingConstraint?.isActive = false
-        collectionViewTrailingConstraint?.isActive = false
-        
-        switch currentLayoutMode {
-        case .list:
-            collectionViewLeadingConstraint = collectionView.leadingAnchor.constraint(equalTo: view.leadingAnchor)
-            collectionViewTrailingConstraint = collectionView.trailingAnchor.constraint(equalTo: view.trailingAnchor)
-        case .icon:
-            collectionViewLeadingConstraint = collectionView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 10)
-            collectionViewTrailingConstraint = collectionView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -10)
-        }
-        
-        collectionViewLeadingConstraint?.isActive = true
-        collectionViewTrailingConstraint?.isActive = true
-    }
-    
     private func configureCollectionView() {
         collectionView.dataSource = self
         collectionView.delegate = self
@@ -161,17 +142,14 @@ extension BoxOfficeViewController {
         NSLayoutConstraint.activate([
             collectionView.topAnchor.constraint(equalTo: view.topAnchor),
             collectionView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
+            collectionView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            collectionView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
             
             loadingView.leadingAnchor.constraint(equalTo: self.collectionView.leadingAnchor),
             loadingView.trailingAnchor.constraint(equalTo: self.collectionView.trailingAnchor),
             loadingView.bottomAnchor.constraint(equalTo: self.collectionView.bottomAnchor),
             loadingView.topAnchor.constraint(equalTo: self.collectionView.topAnchor),
         ])
-        
-        collectionViewLeadingConstraint = collectionView.leadingAnchor.constraint(equalTo: view.leadingAnchor)
-        collectionViewTrailingConstraint = collectionView.trailingAnchor.constraint(equalTo: view.trailingAnchor)
-        collectionViewLeadingConstraint?.isActive = true
-        collectionViewTrailingConstraint?.isActive = true
         
         collectionView.register(BoxOfficeListCell.self, forCellWithReuseIdentifier: BoxOfficeListCell.identifier)
         collectionView.register(BoxOfficeIconCell.self, forCellWithReuseIdentifier: BoxOfficeIconCell.identifier)
@@ -241,7 +219,7 @@ extension BoxOfficeViewController: UICollectionViewDelegateFlowLayout {
             let padding: CGFloat = 20
             let collectionViewSize = collectionView.frame.size.width - padding
             
-            return CGSize(width: collectionViewSize / 2, height: collectionViewSize / 2)
+            return CGSize(width: collectionViewSize / 2.1, height: collectionViewSize / 2.1)
         }
     }
     
@@ -259,6 +237,10 @@ extension BoxOfficeViewController: UICollectionViewDelegateFlowLayout {
         
         collectionView.deselectItem(at: indexPath, animated: true)
         navigationController?.pushViewController(movieInfoViewController, animated: true)
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {
+        return UIEdgeInsets(top: 0, left: 10, bottom: 0, right: 10)
     }
 }
 
@@ -305,7 +287,6 @@ extension BoxOfficeViewController {
     
     private func switchCurrentLayoutMode() {
         DispatchQueue.main.async { [weak self] in
-            self?.switchLayout()
             self?.collectionView.reloadData()
         }
         
