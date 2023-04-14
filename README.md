@@ -1,6 +1,6 @@
 # 박스 오피스 🎥
 
-> 소개: API를 사용하여 데이터들을 표시하는 어플
+> 소개: 영화진흥위원회 API를 사용하여 영화정보들을 알려주는 어플
 
 </br>
 
@@ -48,7 +48,11 @@
 |23.04.04 (화)| CalendarViewController 구현<br>날짜 선택 navigation item button 구현<br> DataChangeable delegate 구현 |
 |23.04.05 (수)| ToolBar 버튼 구현<br>화면 모드변경 클릭 시 actionsheet생성<br>BoxOfficeGridCell 구현<br>|
 |23.04.06 (목)| 화면 모드 변경 기능 구현<br> 메인화면 DynamicType 적용 |
-|23.04.07 (금)| 영화 상세정보 화면 DynamicType 적용|
+|23.04.07 (금)| 영화 상세정보 화면 DynamicType 적용 |
+|23.04.10 (월)| colletionView 안 보이던 오류 수정 |
+|23.04.11 (화)| URLCacheManger 구현 |
+|23.04.13 (목)| URLCache 정책 설정 및 구현 |
+|23.04.14 (금)| 영화 상세정보 화면 오토레이아웃 수정 |
 
 </details>
 <br>
@@ -82,8 +86,9 @@ BoxOffic
 │   │   │   └── SearchedMovieImageDTO.swift
 │   │   ├── DailyBoxOffice.swift
 │   │   ├── MovieDetailInformation.swift
-│   │   └── MovieDetailInformationItem.swift
-│   │   └── Alertmangaer.swift
+│   │   ├── MovieDetailInformationItem.swift
+│   │   ├── Alertmangaer.swift
+│   │   └── LayoutType.swift
 │   ├── Network
 │   │   ├── BoxOfficeAPI.swift
 │   │   ├── BoxOfficeProvider.swift
@@ -92,7 +97,8 @@ BoxOffic
 │   │   ├── HttpMethod.swift
 │   │   ├── Requestable.swift
 │   │   ├── URLSessionDataTaskProtocol.swift
-│   │   └── URLSessionProtocol.swift
+│   │   ├── URLSessionProtocol.swift
+│   │   └── URLCacheManager.swift
 │   ├── Resources
 │   │   ├── Assets.xcassets
 │   │   │   └── box_office_sample.dataset
@@ -148,7 +154,25 @@ BoxOffic
 | :--------: |:---:| :---: |
 | ![](https://i.imgur.com/1wQ5Z8R.gif) | ![](https://i.imgur.com/OiNHjKa.gif) | ![](https://i.imgur.com/bF8khC8.gif) |
 
+
+| 화면 모드 전환 | 아이콘 클릭 | 캐시 후 속도 향상 |
+| :--------: | :--------: | :--------: |
+| ![](https://i.imgur.com/QRCoB3R.gif) | ![](https://i.imgur.com/APhSgfo.gif) | ![](https://i.imgur.com/HHRl8cA.gif) |
+
+
+| 가로화면 1 <br/> 일일 박스 오피스 |
+| :--------: |
+| <img src="https://i.imgur.com/1cC6Jzv.gif" width="500" height="250"> |
+
+| 가로화면 2 <br/> 영화 상세 정보 |
+| :---: |
+| <img src="https://i.imgur.com/VtOFUY9.gif" width="500" height="250"> |
+
+
+
+
 </br>
+
 
 ## 5. 트러블 슈팅
 
@@ -474,19 +498,170 @@ BoxOfficeListCell에서는 데이터를 주입하고, BoxOfficeContentConfigurat
 
 <br>
 
+### 6️⃣ 하나의 DataSource 내에 두 개의 셀을 등록함으로써 두 개의 레이아웃 구성
+토글 버튼을 통해 리스트 형식의 레이아웃을 그리드 형식으로 변환해야 했습니다.
+
+처음에는 리스트 형식의 셀과 그리드 형식의 셀이 다르기 때문에 토글버튼을 통해 레이아웃이 변경될 때 데이터소스에 새로운 셀을 등록시켜야 한다고 생각했습니다.
+```swift
+private func updateLayout() {
+    self.layoutType = self.layoutType == .list ? .grid : .list
+    self.configureDataSource(for: self.layoutType)
+    self.collectionView.setCollectionViewLayout(self.createLayout(for: self.layoutType),
+                                                animated: false)
+    self.dataSource.apply(self.snapshot, animatingDifferences: true)
+}
+
+private func configureDataSource(for layout: LayoutType = .list) {
+    let listCellRegistration = UICollectionView.CellRegistration<BoxOfficeListCell, BoxOfficeItem> {
+        (cell, indexPath, item) in
+        cell.item = item
+    }
+
+    let gridRegistration = UICollectionView.CellRegistration<BoxOfficeGridCell, BoxOfficeItem> {
+        (cell, indexPath, item) in
+        cell.configure(boxOfficeItem: item)
+    }
+
+    dataSource = UICollectionViewDiffableDataSource<Section, BoxOfficeItem.ID>(collectionView: collectionView) {
+        (collectionView: UICollectionView, indexPath: IndexPath, identifier: BoxOfficeItem.ID) -> UICollectionViewCell? in
+
+        let boxOfficeItem = self.boxOfficeItems.filter { $0.id == identifier }.first
+        switch layout {
+        case .list:
+            let cell = collectionView.dequeueConfiguredReusableCell(using: listCellRegistration,
+                                                                    for: indexPath,
+                                                                    item: boxOfficeItem)
+            return cell
+        case .grid:
+            let cell = collectionView.dequeueConfiguredReusableCell(using: gridRegistration,
+                                                                    for: indexPath,
+                                                                    item: boxOfficeItem)
+            return cell
+        }
+    }
+}
+```
+이를 구현하기 위해 레이아웃 타입을 변경한 후에 변경된 레이아웃 타입을 기반으로 셀이 구성되고 이를 데이터소스에서 등록하는 함수를 호출했습니다.
+
+하지만 토글이 되더라도 셀에 사용되는 데이터는 같은데 데이터소스 인스턴스가 새롭게 생성되고 할당되는 것이 비효율적인 비용이라고 생각했습니다. 
+
+이 고민을 하면서 컬렉션 뷰에는 cell을 새롭게 구성할 수 있는 `reloadData`가 있는 것을 알게되었습니다.
+
+이 메서드는 현재 컬렉션 뷰의 보여지는 셀을 제거한 후에 dataSource 객체의 현재 상태에 따라 재생성하는 메서드입니다.
+
+레이아웃타입을 변경한 후 이 메서드를 직접 호출함으로써 현재 데이터소스의 레이아웃 타입 상태변경으로 인해 셀을 새롭게 등록해서 변경해주었습니다. 
+
+이후 컬렉션뷰의 `setCollectionViewLayout`을 사용함으로써 토글버튼에 따라 레이아웃이 변경되도록 만들었습니다.
+```swift
+private func updateLayout() {
+    self.layoutType = self.layoutType == .list ? .grid : .list
+    self.collectionView.reloadData()
+    self.collectionView.setCollectionViewLayout(self.createLayout(for: self.layoutType),
+                                                animated: true)
+}
+```
+
+### 7️⃣ URLCache를 통한 네트워크 데이터 응답 캐시
+네트워크에 여러번 접근하는 비용을 줄이기 위해 어떤 종류의 캐시를 이용해야 현재 상황에 알맞은 지에 대한 고민이 있었습니다.
+
+관련된 캐시방법으로는 `NSCache`와 `URLCache`가 존재했는데요 `NSCache`대신 `URLCache`를 사용한 이유는 다음과 같았습니다.
+
+NSCache는 in-memory에서 데이터를 가져오기 때문에 on-disk를 사용하는 URLCache보다 빠르다는 장점이 있습니다.
+하지만 NSCache는 비휘발성이기에 앱을 종료하고 다시 들어온다면 네트워크와의 연결을 재시도해야합니다. 또한 in-memory는 메모리 청크에 할당하기 때문에 메모리에 많은 데이터들이 올라와있는 상황이라면 성능이 저하될 수 있습니다.
+
+반면에 URLCache는 in-memory와 on-disk방식 둘 다 사용할 수 있고 on-disk의 경우 디스크를 사용하기 때문에 메모리 청크를 할당하지않습니다. 또한 디스크의 크기를 정할 수 있다는 점에서 유연합니다.
+
+그리고 네트워크를 통해 받아온 데이터의 크기는 약 6000바이트로 상당히 크기에 NSCache로 구현한 경우 메모리가 금방 초과되어 제거될 가능성이 높다고 생각했습니다. 따라서 on-disk방식의 URLCache를 사용하는 것으로 결정했습니다.
+
+`URLCache.shared`에 중복해서 접근하기 보다는 `URLCacheManager`라는 싱글톤 객체를 만들어 디스크 용량부터 정책까지 커스텀 된 타입을 정의해서 관리했습니다. 
+이를 통해 가독성과 활용성을 향상시켰습니다.
+
+#### 
+```swift
+struct URLCacheManager {
+    static let shared = URLCacheManager()
+    private var urlCache: URLCache
+    
+    private init() {
+        urlCache = URLCache(memoryCapacity: 0, diskCapacity: 100 * 1024 * 1024)
+    }
+    
+    func cachedResponse(for request: URLRequest) -> CachedURLResponse? {
+        guard let response = urlCache.cachedResponse(for: request) else {
+            return nil
+        }
+        
+        return response
+    }
+    
+    func createCachedResponse(response: URLResponse?, data: Data) throws -> CachedURLResponse {
+        guard let response else {
+            throw NetworkError.invalidResponseError
+        }
+        
+        return CachedURLResponse(response: response,
+                                 data: data,
+                                 storagePolicy: .allowed)
+    }
+    
+    func storeCachedResponse(for cachedResponse: CachedURLResponse, request: URLRequest) {
+        urlCache.storeCachedResponse(cachedResponse, for: request)
+    }
+}
+```
+
+### 8️⃣ Query 순서 보장
+처음 구현할 때 저희는 query의 순서를 고려하지 않고 forEach문을 사용하여 query를 추가하였습니다.
+```swift
+self.queries.forEach { queryItem in
+    let queryItem = URLQueryItem(name: queryItem.key, value: queryItem.value)
+    queriesItem.append(queryItem)
+}
+```
+위에 코드로 인해 쿼리의 순서가 무작위로 더해져 cache를 할때 cache를 저장하는 값이 달라져 같은 데이터임에도 다른 캐시를 저장할때가 있었습니다. 이러한 문제점을 해결하고자 저희는 sorted메서드를 사용하여 순서를 보장하도록 만들어 동일한 캐시를 저장할 수 있게 하였습니다.
+```swift
+self.queries.sorted(by:<).forEach { queryItem in
+    let queryItem = URLQueryItem(name: queryItem.key, value: queryItem.value)
+    queriesItem.append(queryItem)
+}
+```
+
+<br/>
+
+<details>
+    <summary><big>팀 회고</big></big></summary>
+
+### 잘한 점
+- 특정 주제에 대해 계속 파고들면서 얘기를 나눠, 더 깊은 이해를 가졌다.(ex. 캐시정책은 무엇이고 iOS에서는 어떻게 사용되면서 만료된 데이터들은 어떤 시점에 제거해주는 게 효율적일까)
+- 서로의 의견을 존중해주고 적극적으로 코드에 녹여냈다.
+- 서로의 개인적인 시간을 잘 이해해줬다.
+
+
+### 아쉬운 점
+- rebase를 진행하면서 commit이 한 사람에게 몰린 branch가 존재한다.
+- 다이나믹 타입을 적용하면서 해결하지 못한 부분이 존재하고 이 부분에 대해 원인을 정확하게 파악하지 못했다.
+
+</details>
+
+<br/>
+
 ## 6. 참고 링크
 - [Apple Docs - URLSession](https://developer.apple.com/documentation/foundation/urlsession)
 - [Apple Article - Fetching Website Data into Memory](https://developer.apple.com/documentation/foundation/url_loading_system/fetching_website_data_into_memory)
+- [Apple Docs - UICollectionViewListCell](https://developer.apple.com/documentation/uikit/uicollectionviewlistcell)
+- [Apple Docs - contentConfiguration](https://developer.apple.com/documentation/uikit/uitableviewcell/3601057-contentconfiguration)
+- [Apple Docs - reloadData](https://developer.apple.com/documentation/uikit/uicollectionview/1618078-reloaddata)
+- [Apple Docs - ClipsToBound](https://developer.apple.com/documentation/uikit/uiview/1622415-clipstobounds)
+- [Apple Docs - ImageView ContentMode](https://developer.apple.com/documentation/uikit/uiview/contentmode)
+- [Apple Docs - URLCache](https://developer.apple.com/documentation/foundation/urlcache)
+- [Apple Docs - NSCache](https://developer.apple.com/documentation/foundation/nscache)
+- [WWDC - Modern cell configuration](https://developer.apple.com/videos/play/wwdc2020/10027/)
+- [To NSCache or not to NSCache, what is the URLCache](https://medium.com/@master13sust/to-nscache-or-not-to-nscache-what-is-the-urlcache-35a0c3b02598)
 - [Closure](https://docs.swift.org/swift-book/documentation/the-swift-programming-language/closures/)
 - [우아한 형제들 - iOS Networking and Testing](https://techblog.woowahan.com/2704/)
 - [네트워크와 무관한 URLSession Unit Test](https://wody.tistory.com/10)
 - [mock 이용한 URLSession Unit Test](https://sujinnaljin.medium.com/swift-mock-%EC%9D%84-%EC%9D%B4%EC%9A%A9%ED%95%9C-network-unit-test-%ED%95%98%EA%B8%B0-a69570defb41)
 - [info.plist api키 가리기](https://velog.io/@loopbackseal/Swift-Plist%EB%A5%BC-%ED%99%9C%EC%9A%A9%ED%95%B4%EC%84%9C-API-key%EB%AF%BC%EA%B0%90%EC%A0%95%EB%B3%B4-%EA%B0%80%EB%A6%AC%EA%B8%B0)
-- [Apple Docs - UICollectionViewListCell](https://developer.apple.com/documentation/uikit/uicollectionviewlistcell)
-- [Apple Docs - contentConfiguration](https://developer.apple.com/documentation/uikit/uitableviewcell/3601057-contentconfiguration)
-- [WWDC - Modern cell configuration](https://developer.apple.com/videos/play/wwdc2020/10027/)
 - [UICollectionView List with Custom Cell and Custom Configuration](https://swiftsenpai.com/development/uicollectionview-list-custom-cell/)
 - [Moya github](https://github.com/Moya/Moya)
-- [Apple Docs - ClipsToBound](https://developer.apple.com/documentation/uikit/uiview/1622415-clipstobounds)
-- [Apple Docs - ImageView ContentMode](https://developer.apple.com/documentation/uikit/uiview/contentmode)
 ---
