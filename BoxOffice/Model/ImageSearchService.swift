@@ -12,29 +12,25 @@ class ImageSearchService {
     private var searchedImage: ImageSearch?
     
     func fetchSearchedImage(boxOfficeService: BoxOfficeService, completion: @escaping (Data) -> Void) {
-    
+        
         guard let movieName = boxOfficeService.movieDetail?.movieInformationResult.movieInformation.movieName else { return }
-
+        
         var imageSearchEndpoint = ImageSearchEndpoint()
         imageSearchEndpoint.insertImageQueryValue(imageName: movieName)
         
         provider.loadBoxOfficeAPI(endpoint: imageSearchEndpoint, parser: Parser<ImageSearch>()) {
             parsedData in
-           
+            
             guard let url = URL(string: parsedData.imageDatas[0].imageURL) else { return }
-            self.loadImageURL(url: url) { data in
+            self.loadImageFromURL(url: url) { data in
                 completion(data)
             }
-
         }
     }
     
-    func loadImageURL(url: URL, completion: @escaping (Data) -> Void){ // Renaming 필요
-    
+    func loadImageFromURL(url: URL, completion: @escaping (Data) -> Void){
         var urlRequest = URLRequest(url: url)
-        
         urlRequest.httpMethod = "GET"
-        
         urlRequest.cachePolicy = .returnCacheDataElseLoad
         
         let dataTask = URLSession.shared.dataTask(with: urlRequest) { data, response, error in
@@ -62,8 +58,17 @@ class ImageSearchService {
         }
     }
     
+    func removeCacheAfter30min() {
+        DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + 1800) {
+            URLCache.shared.removeAllCachedResponses()
+            print("캐시 지워짐")
+        }
+    }
+    
     func removeCache() {
-        print("캐시 지워짐")
-        URLCache.shared.removeAllCachedResponses()
+        DispatchQueue.main.async() {
+            URLCache.shared.removeAllCachedResponses()
+            print("캐시 지워짐")
+        }
     }
 }

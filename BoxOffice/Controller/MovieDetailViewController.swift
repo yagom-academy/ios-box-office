@@ -24,7 +24,6 @@ class MovieDetailViewController: UIViewController {
         view = movieDetailView
         setActivityIndicator()
         fetchMoiveDetail()
-        
         }
     
     private func setActivityIndicator() {

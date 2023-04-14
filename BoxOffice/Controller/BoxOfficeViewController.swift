@@ -15,6 +15,7 @@ final class BoxOfficeViewController: UIViewController {
     let boxOfficeService = BoxOfficeService()
     private var provider = Provider()
     private var isCurrentListLayout: Bool = true
+    private let imageSearchService = ImageSearchService()
     let calendarViewController = CalendarViewController()
     var choosenDate: String = "" {
         didSet {
@@ -28,9 +29,11 @@ final class BoxOfficeViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        imageSearchService.removeCacheAfter30min()
         fetchDailyBoxOffice()
         setUpView()
         setCalendarViewDelegate()
+        
     }
     
     private func fetchDailyBoxOffice() {
