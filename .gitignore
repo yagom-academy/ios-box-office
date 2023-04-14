@@ -4,3 +4,4 @@
 *.xcbkptlist
 .DS_Store
 BoxOffice/Model/SecretKey.swift
+BoxOffice/Models/SecretKey.swift

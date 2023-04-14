@@ -62,7 +62,7 @@ final class MovieIconCell: UICollectionViewCell {
     
     func updateCell(with item: ListItem) {
         rankingLabel.text = "\(item.rank)"
-        titleLabel.text = "\(item.movieName)"
+        titleLabel.text = "\(item.movieTitle)"
         if let rankIntensity = Int(item.rankIntensity) {
             stateLabel.attributedText = createStateLabel(rankOldandNew: item.rankOldandNew, rankIntensity: rankIntensity)
         }

@@ -11,7 +11,7 @@ final class JSONConverter {
     
     static let shared = JSONConverter()
 
-    func decodeData<T: Decodable>(_ data: Data, T: T.Type) throws -> T {
+    func decodeData<T: Decodable>(_ data: Data, _ T: T.Type) throws -> T {
         let decoder = JSONDecoder()
         
         do {

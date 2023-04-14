@@ -10,7 +10,7 @@ import UIKit
 final class DetailMovieInfoViewController: UIViewController {
     
     private let movieCode: String
-    private let movieName: String
+    private let movieTitle: String
     private let provider = APIProvider.shared
     
     private let mainStackView: UIStackView = {
@@ -44,14 +44,14 @@ final class DetailMovieInfoViewController: UIViewController {
         return indicatorView
     }()
     
-    init(movieCode: String, movieName: String) {
+    init(movieCode: String, movieTitle: String) {
         self.movieCode = movieCode
-        self.movieName = movieName
+        self.movieTitle = movieTitle
         super.init(nibName: nil, bundle: nil)
-        title = movieName
+        title = movieTitle
         view.backgroundColor = .white
         fetchMovieDetailData()
-        fetchImageForMovie(movieName: movieName)
+        fetchImageforMovie(name: movieTitle)
         setupViews()
     }
     
@@ -65,9 +65,8 @@ final class DetailMovieInfoViewController: UIViewController {
             switch requestResult {
             case .success(let data):
                 do {
-                    let movieInfo: MovieInfoItem = try JSONConverter.shared.decodeData(data, T: MovieInfoItem.self)
+                    let movieInfo: MovieInfoItem = try JSONConverter.shared.decodeData(data, MovieInfoItem.self)
                     let movieInfoItem = movieInfo.movieInfoResult.movieInfo
-                    DEBUG_LOG(movieInfo)
                     DispatchQueue.main.async {
                         self.updateStackView(movieInfoItem)
                     }
@@ -82,35 +81,45 @@ final class DetailMovieInfoViewController: UIViewController {
         }
     }
     
-    private func fetchImageForMovie(movieName: String) {
-        let query = ImageAPI.imageQuery(movieName)
+    private func fetchImageforMovie(name: String) {
+        let query = ImageAPI.imageQuery(movieTitle)
         let imageAPI = ImageAPI.imageSearchQuery(query: query)
-        startIndicator()
         
-        provider.performImageRequest(api: imageAPI, completionHandler: { [weak self] requestResult in
-            guard let self = self else { return }
+        provider.performImageRequest(api: imageAPI) { [weak self] requestResult in
+            guard let self else { return }
             switch requestResult {
             case .success(let data):
                 do {
-                    let imageSearchResult: ImageSearchResult = try JSONConverter.shared.decodeData(data, T: ImageSearchResult.self)
-                    let imageInfo = imageSearchResult.documents.first
-                    
-                    DispatchQueue.main.async {
-                        if let imageInfo = imageInfo, let url = URL(string: imageInfo.imageUrl) {
-                            self.imageView.load(url: url, originalWidth: imageInfo.width)
+                    let imageSearchResult: ImageSearchResult = try JSONConverter.shared.decodeData(data, ImageSearchResult.self)
+                    if let imageInfo = imageSearchResult.documents.first,
+                       let url = URL(string: imageInfo.imageUrl) {
+                        DispatchQueue.main.async {
+                            self.loadImage(url: url, originalWidth: imageInfo.width)
                             self.stopIndicator()
                         }
                     }
+                } catch let error as NetworkError {
+                    DEBUG_LOG(error.description)
                 } catch {
-                    self.stopIndicator()
                     DEBUG_LOG("Unexpected error: \(error)")
                 }
-                
             case .failure(let error):
-                self.stopIndicator()
                 DEBUG_LOG(error)
             }
-        })
+        }
+    }
+    
+    private func loadImage(url: URL, originalWidth: Int = 0) {
+        ImageManager.shared.fetchImage(imageURL: url) { [weak self] data in
+            guard let self else { return }
+            DispatchQueue.main.async {
+            let viewWidth = self.imageView.frame.width
+            let scale = CGFloat(originalWidth) / CGFloat(viewWidth)
+            
+            let image = UIImage(data: data, scale: scale)
+                self.imageView.image = image
+            }
+        }
     }
     
     private func updateStackView(_ item: MovieInfo) {
@@ -175,16 +184,6 @@ final class DetailMovieInfoViewController: UIViewController {
     private func stopIndicator() {
         indicatorView.stopAnimating()
         indicatorView.isHidden = true
-    }
-    
-    private func formatDate(_ dateString: String) -> String {
-        let dateFormatter = DateFormatter()
-        dateFormatter.dateFormat = "yyyyMMdd"
-        if let date = dateFormatter.date(from: dateString) {
-            dateFormatter.dateFormat = "yyyy-MM-dd"
-            return dateFormatter.string(from: date)
-        }
-        return dateString
     }
         
 }

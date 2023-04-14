@@ -24,7 +24,7 @@ struct DailyBoxOffice: Decodable, CustomStringConvertible {
     let rankIntensity: String
     let rankOldAndNew: RankOldAndNew
     let movieCode: String
-    let movieName: String
+    let movieTitle: String
     let openDate: String
     let audienceCount: String
     let audienceChange: String
@@ -34,7 +34,7 @@ struct DailyBoxOffice: Decodable, CustomStringConvertible {
         case rnum, rank, rankOldAndNew
         case rankIntensity = "rankInten"
         case movieCode = "movieCd"
-        case movieName = "movieNm"
+        case movieTitle = "movieNm"
         case openDate = "openDt"
         case audienceCount = "audiCnt"
         case audienceChange = "audiChange"
@@ -42,7 +42,7 @@ struct DailyBoxOffice: Decodable, CustomStringConvertible {
     }
     
     var description: String {
-        return "순위: \(rank), 영화 제목: \(movieName)"
+        return "순위: \(rank), 영화 제목: \(movieTitle)"
     }
     
 }

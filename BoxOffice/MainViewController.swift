@@ -1,5 +1,5 @@
 //
-//  ViewController.swift
+//  MainViewController.swift
 //  BoxOffice
 //
 //  Created by Seoyeon Hong on 2023/03/22.
@@ -7,7 +7,7 @@
 
 import UIKit
 
-final class ViewController: UIViewController {
+final class MainViewController: UIViewController {
     
     private var collectionView: UICollectionView!
     private var dataSource: UICollectionViewDiffableDataSource<ListSection, ListItem>!
@@ -170,7 +170,7 @@ final class ViewController: UIViewController {
             switch requestResult {
             case .success(let data):
                 do {
-                    let boxOfficeItem: BoxOfficeItem = try JSONConverter.shared.decodeData(data, T: BoxOfficeItem.self)
+                    let boxOfficeItem: BoxOfficeItem = try JSONConverter.shared.decodeData(data, BoxOfficeItem.self)
                     let dailyBoxOffices = boxOfficeItem.boxOfficeResult.dailyBoxOfficeList
                     var movieRanking = [ListItem]()
                     for dailyBoxOffice in dailyBoxOffices {
@@ -178,7 +178,7 @@ final class ViewController: UIViewController {
                             rank: dailyBoxOffice.rank,
                             rankIntensity: dailyBoxOffice.rankIntensity,
                             rankOldandNew: dailyBoxOffice.rankOldAndNew.rawValue,
-                            movieName: dailyBoxOffice.movieName,
+                            movieTitle: dailyBoxOffice.movieTitle,
                             audienceCount: dailyBoxOffice.audienceCount,
                             audienceAcc: dailyBoxOffice.audienceAcc,
                             movieCode: dailyBoxOffice.movieCode
@@ -247,12 +247,13 @@ final class ViewController: UIViewController {
                                                    animated: false)
             currentViewOption = .list
         }
-        collectionView.reloadData()
+        
+        dataSource.applySnapshotUsingReloadData(dataSource.snapshot())
     }
     
 }
 
-extension ViewController: DateSelectionDelegate {
+extension MainViewController: DateSelectionDelegate {
     
     func dateSelection(_ date: Date) {
         currentDate = date
@@ -261,16 +262,16 @@ extension ViewController: DateSelectionDelegate {
     
 }
 
-extension ViewController: UICollectionViewDelegate {
+extension MainViewController: UICollectionViewDelegate {
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         
         guard let movieCode = dataSource.itemIdentifier(for: indexPath)?.movieCode,
-              let movieName = dataSource.itemIdentifier(for: indexPath)?.movieName else {
+              let movieTitle = dataSource.itemIdentifier(for: indexPath)?.movieTitle else {
             collectionView.deselectItem(at: indexPath, animated: true)
             return
         }
-        let viewController = DetailMovieInfoViewController(movieCode: movieCode, movieName: movieName)
+        let viewController = DetailMovieInfoViewController(movieCode: movieCode, movieTitle: movieTitle)
         navigationController?.pushViewController(viewController, animated: true)
         
         collectionView.deselectItem(at: indexPath, animated: true)

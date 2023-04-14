@@ -10,8 +10,8 @@ import Foundation
 enum ImageAPI {
     case imageSearchQuery(query: String)
     
-    static func imageQuery(_ movieName: String) -> String {
-        return "\(movieName) 영화 포스터"
+    static func imageQuery(_ movieTitle: String) -> String {
+        return "\(movieTitle) 영화 포스터"
     }
 }
 

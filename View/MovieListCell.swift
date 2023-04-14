@@ -78,7 +78,7 @@ final class MovieListCell: UICollectionViewListCell {
         if let rankIntensity = Int(item.rankIntensity) {
             stateLabel.attributedText = createStateLabel(rankOldandNew: item.rankOldandNew, rankIntensity: rankIntensity)
         }
-        titleLabel.text = "\(item.movieName)"
+        titleLabel.text = "\(item.movieTitle)"
         subtitleLabel.text = "오늘 \(Int(item.audienceCount)?.decimalString ?? "0") / 총 \(Int(item.audienceAcc)?.decimalString ?? "0")"
     }
     
