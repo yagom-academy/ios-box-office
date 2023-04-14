@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct DailyBoxOfficeItem: Codable, Hashable {
+struct DailyBoxOfficeItem: Codable {
     let rank: String
     let rankingIntensity: String
     let rankOldAndNew: RankOldAndNew
@@ -15,8 +15,6 @@ struct DailyBoxOfficeItem: Codable, Hashable {
     let movieName: String
     let audienceCount: String
     let audienceAccumulation: String
-    
-    let identifier = UUID()
     
     private enum CodingKeys: String, CodingKey {
         case rank

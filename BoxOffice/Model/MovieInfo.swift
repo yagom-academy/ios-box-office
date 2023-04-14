@@ -8,16 +8,16 @@
 import Foundation
 
 struct MovieInfo: Codable {
-    let movieCode: String //
-    let movieName: String //
-    let showTime: String //
-    let productionYear: String //
-    let openDate: String //
-    let nations: [Nation] //
-    let genres: [Genre] //
-    let directors: [Director] //
-    let actors: [Actor] //
-    let audits: [Audit] //
+    let movieCode: String
+    let movieName: String
+    let showTime: String
+    let productionYear: String
+    let openDate: String
+    let nations: [Nation]
+    let genres: [Genre]
+    let directors: [Director]
+    let actors: [Actor]
+    let audits: [Audit]
 
     private enum CodingKeys: String, CodingKey {
         case movieCode = "movieCd"
@@ -36,25 +36,17 @@ struct MovieInfo: Codable {
 // MARK: - Actor
 struct Actor: Codable {
     let name: String
-    let englishName: String
-    let castName: String
-    let castEnglishName: String
     
     private enum CodingKeys: String, CodingKey {
         case name = "peopleNm"
-        case englishName = "peopleNmEn"
-        case castName = "cast"
-        case castEnglishName = "castEn"
     }
 }
 
 // MARK: - Audit
 struct Audit: Codable {
-    let auditNumber: String
     let watchGradeName: String
     
     private enum CodingKeys: String, CodingKey {
-        case auditNumber = "auditNo"
         case watchGradeName = "watchGradeNm"
     }
 }
@@ -62,11 +54,9 @@ struct Audit: Codable {
 // MARK: - Director
 struct Director: Codable {
     let name: String
-    let englishName: String
     
     private enum CodingKeys: String, CodingKey {
         case name = "peopleNm"
-        case englishName = "peopleNmEn"
     }
 }
 
