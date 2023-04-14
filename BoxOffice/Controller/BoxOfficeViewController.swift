@@ -29,11 +29,16 @@ final class BoxOfficeViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        setURLCache()
         imageSearchService.removeCacheAfter30min()
         fetchDailyBoxOffice()
         setUpView()
         setCalendarViewDelegate()
         
+    }
+    
+    private func setURLCache() {
+        URLCache.shared = .init(memoryCapacity: 300 * 1024 * 1024, diskCapacity: 300 * 1024 * 1024, directory: FileManager.default.urls(for: .cachesDirectory, in: .userDomainMask)[0])
     }
     
     private func fetchDailyBoxOffice() {
