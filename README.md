@@ -9,8 +9,10 @@
 2. [타임라인](#2-타임라인)
 3. [프로젝트 구조](#3-프로젝트-구조)
 4. [실행화면](#4-실행-화면)
-5. [트러블슈팅](#5-트러블-슈팅)
-6. [참고링크](#6-참고-링크)
+5. [핵심경험](#5-핵심-경험)
+6. [트러블슈팅](#6-트러블-슈팅)
+7. [팀회고](#7-팀-회고)
+8. [참고링크](#8-참고-링크)
 
 <br>
 
@@ -168,13 +170,19 @@ BoxOffic
 | :---: |
 | <img src="https://i.imgur.com/VtOFUY9.gif" width="500" height="250"> |
 
+<br/>
 
 
+## 5. 핵심 경험
+- ✅ Modern CollectionView, Cell 활용
+- ✅ URLCache 활용
+- ✅ 비동기 통신 TestDouble 활용
+- ✅ API, Endpoint 관리
 
 </br>
 
 
-## 5. 트러블 슈팅
+## 6. 트러블 슈팅
 
 ### 1️⃣ parsing한 데이터 유닛테스트
 json의 담긴 데이터를 가져오기 위해 jsonDecoder를 사용하여 데이터를 파싱하였습니다. 정확한 비교를 하기 위해서는 예상한 데이터들과 파싱한 데이터들을 하나하나 비교해야하는데 그렇게 하는 것은 데이터의 양이 너무 많아 테스트 하는 코드가 기존의 코드보다 길어진다는 것과 코드가 길어지면서 휴먼에러가 발생한다는 문제가 발생하였습니다.
@@ -641,6 +649,7 @@ self.queries.sorted(by:<).forEach { queryItem in
 
 <br/>
 
+## 7. 팀 회고
 <details>
     <summary><big>팀 회고</big></big></summary>
 
@@ -658,7 +667,7 @@ self.queries.sorted(by:<).forEach { queryItem in
 
 <br/>
 
-## 6. 참고 링크
+## 8. 참고 링크
 - [Apple Docs - URLSession](https://developer.apple.com/documentation/foundation/urlsession)
 - [Apple Article - Fetching Website Data into Memory](https://developer.apple.com/documentation/foundation/url_loading_system/fetching_website_data_into_memory)
 - [Apple Docs - UICollectionViewListCell](https://developer.apple.com/documentation/uikit/uicollectionviewlistcell)
