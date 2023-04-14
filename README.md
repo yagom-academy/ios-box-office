@@ -204,17 +204,19 @@ extension EndPoint: DailyBoxOfficeProtocol {
 }      
 ```
 
-그러나 이렇게 구현하면 문제점은 viewController에서 너무 많은 정보를 받아야 한다는 문제가 있었습니다.
+그러나 이렇게 구현하면 문제점은 ViewController에서 너무 많은 정보를 받아야 한다는 문제가 있었습니다.
 
 ### ⚒️ 해결방안
 
-viewController에서 endPoint 인스턴스를 만들면 모든 정보가 이미 담아지도록 구현하였습니다.
-BoxOfficeEndPoint 타입을 구현하고 extension으로 케이스마다 구현되는 URL을 만들고, URLRequest를 반환하도록 구현하였습니다.
+ViewController에서 endPoint 인스턴스를 만들면 모든 정보가 이미 담아지도록 구현하였습니다.
+BoxOfficeEndPoint 타입을 구현하고 extension으로 케이스마다 구현되는 URL을 만들고, URLRequest를 반환하도록 구현하였습니다. 또한 httpMethod를 매개변수로 받게되면 ViewController에서 선택해야하는데, ViewController가 알아야할 필요가 없다고 생각하여 httpMethod를 매개변수에서 삭제하였습니다.
+    
 ```swift
 enum BoxOfficeEndPoint {
-    case DailyBoxOffice(tagetDate: String, httpMethod: HttpMethod)
-    case MovieInformation(movieCode: String, httpMethod: HttpMethod)
-    case MoviePosterImage(query: String, httpMethod: HttpMethod)
+    case DailyBoxOffice(tagetDate: String)
+    case MovieInformation(movieCode: String)
+    case MoviePosterImage(query: String)
+}
     ...
 }
 ```
@@ -467,12 +469,12 @@ private func createMovieListLayout() -> UICollectionViewLayout {
 
 `NSCollectionLayoutEnvironment` 프로토콜에 접근하여 더 유연한 레이아웃을 잡을 수 있는데, [공식 문서](https://developer.apple.com/documentation/uikit/uicollectionviewcompositionallayoutsectionprovider) 에 따르면 `UICollectionViewCompositionalLayout`의 `init`을 통해 해당 프로토콜에 접근이 가능합니다. 이번 프로젝트에서는 해당 프로토콜에 접근하는 방법을 적용해보지 않았습니다.
                                                                          
-## 5️⃣ View에 보여지는 Label.text를 넣어주는 역할 VC로 분리
+## 5️⃣ View에 보여지는 Label.text를 넣어주는 역할 ViewController로 분리
 
 ### 🔍 문제점
     
-저희가 진행하는 프로젝트는 MVC 패턴으로 구성되어 있습니다. 기존 코드에서는 View에 보여지는 Label의 값을 넣어주는 코드가 View에 있었고, 상황에 따라 변경되는 로직도 View에 구현하였습니다. 그러나 View에서는 화면에 보여지는 것만 담당하기 때문에 로직과 관련된 기능은 View Controller 에서 하는 것이 적절하다고 판단하였습니다. 
-따라서 View Controller에서 Label을 구현하고 String을 반환하는 메서드를 만들어 View의 Label을 셋팅하는 메서드에 넣어주도록 리팩토링 하였습니다.
+저희가 진행하는 프로젝트는 MVC 패턴으로 구성되어 있습니다. 기존 코드에서는 View에 보여지는 Label의 값을 넣어주는 코드가 View에 있었고, 상황에 따라 변경되는 로직도 View에 구현하였습니다. 그러나 View에서는 화면에 보여지는 것만 담당하기 때문에 로직과 관련된 기능은 ViewController 에서 하는 것이 적절하다고 판단하였습니다. 
+따라서 ViewController에서 Label을 구현하고 String을 반환하는 메서드를 만들어 View의 Label을 셋팅하는 메서드에 넣어주도록 리팩토링 하였습니다.
 
 ### ⚒️ 해결방안
 **DailyBoxOfficeListCollectionViewCell**
@@ -487,7 +489,7 @@ func setupLabels(name: String, audienceInformation: String, rank: String, rankMa
         audienceVarianceLabel.text = audienceVariance
     }
 
-// VC에서 넘겨주는 코드
+// ViewController에서 넘겨주는 코드
 private func setupDataSource() {
         movieDataSource = DataSource(collectionView: collectionView) { [weak self] collectionView, indexPath, itemIdentifier in
         ...
@@ -527,7 +529,7 @@ func setupDescriptionLabels(...) {
         ....
 }
 
-// VC에서 넘겨주는 코드
+// ViewController에서 넘겨주는 코드
  private func fetchMovieInformation() {
         networkManager.request(endPoint: boxOfficeEndPoint, returnType: MovieInformation.self) { [weak self] in
             ...
@@ -538,9 +540,9 @@ func setupDescriptionLabels(...) {
 }
 ```
 
-## 6️⃣ VC에서 두 종류의 셀 타입 처리
-하나의 VC에서 두 가지 타입의 셀을 처리하는 로직이 필요했습니다.
-VC에서 동일한 코드로 상황에 따라 두 타입을 다루기 위해, 두 셀을 프로토콜로 추상화하는 방법을 적용했습니다.
+## 6️⃣ ViewController에서 두 종류의 셀 타입 처리
+하나의 ViewController에서 두 가지 타입의 셀을 처리하는 로직이 필요했습니다.
+ViewController에서 동일한 코드로 상황에 따라 두 타입을 다루기 위해, 두 셀을 프로토콜로 추상화하는 방법을 적용했습니다.
 ``` swift
 protocol LabelSetter {
     func configureLabels( ... )
@@ -568,9 +570,9 @@ final class DailyBoxOfficeViewController {
 위와 같이 구현하여 셀 타입이 다를 경우 분기하여 `dequeueReusableCell`를 처리하는게 아닌, 동일한 코드로 `LabelSetter`타입으로 dequeue할 수 있었습니다.
 
 ### 🔍 문제점
-그러나 리뷰어의 의견을 듣고 tableView나 collectionView에서 cell을 구현할 때, 정형화된 형태가 있는데, 그 부분을 다르게 접근하게 되면 왜 그렇게 했는지 명확한 이유가 있어야 한다고 생각하였습니다.
+그러나 리뷰어의 의견을 듣고 TableView나 CollectionView에서 Cell을 구현할 때, 정형화된 형태가 있는데, 그 부분을 다르게 접근하게 되면 왜 그렇게 했는지 명확한 이유가 있어야 한다고 생각하였습니다.
 
-`LabelSetter` 프로토콜은 두개의 cell이 지켜야하는 약속을 담았다는 느낌보다 위의 코드가 작동하도록 끼워맞춘 느낌이 더 강했다고 생각합니다. 또한 프로토콜로 타입캐스팅을 하고 return 할때 cell을 UICollectionCell로 한번 더 타입캐스팅 하는 과정 자체가 어색하다고 느껴졌습니다.
+`LabelSetter` 프로토콜은 두개의 Cell이 지켜야하는 약속을 담았다는 느낌보다 위의 코드가 작동하도록 끼워맞춘 느낌이 더 강했다고 생각합니다. 또한 프로토콜로 타입캐스팅을 하고 return 할때 Cell을 UICollectionCell로 한번 더 타입캐스팅 하는 과정 자체가 어색하다고 느껴졌습니다.
 
 ### ⚒️ 해결방안
 따라서 코드를 중복으로 사용하더라도 직관적인 정형화된 형태로 수정하였습니다.
@@ -703,7 +705,7 @@ protocol DataManager {
 ## 8️⃣ Cell Identifier 관리
 
 ### 🔍 문제점    
-dataSource가 cell에 데이터를 주거나, dequeueReusableCell을 호출할 때 cell의 Identifier가 필요한데 처음 접근한 방법은 cell안에 타입 프로퍼티로 자신의 identifier를 들고 있게 하여 필요한 부분에서 가져다 사용하는 식으로 구현을 하였습니다.
+DataSource가 Cell에 데이터를 주거나, dequeueReusableCell을 호출할 때 Cell의 Identifier가 필요한데 처음 접근한 방법은 Cell안에 타입 프로퍼티로 자신의 identifier를 들고 있게 하여 필요한 부분에서 가져다 사용하는 식으로 구현을 하였습니다.
 ```swift
 final class DailyBoxOfficeListCollectionViewCell: UICollectionViewCell {
     static let reuseIdentifier = "DailyBoxOfficeListCollectionViewCell"
@@ -711,7 +713,7 @@ final class DailyBoxOfficeListCollectionViewCell: UICollectionViewCell {
 }
 ```
 
-이렇게 직접 String 값을 주게 되면 여러 cell을 관리할 때, 휴먼에러가 발생할 수 있고 관리하기 어렵다고 생각하여 리팩토링 하였습니다.
+이렇게 직접 String 값을 주게 되면 여러 Cell을 관리할 때, 휴먼에러가 발생할 수 있고 관리하기 어렵다고 생각하여 리팩토링 하였습니다.
 
 ### ⚒️ 해결방안   
 따라서 `String(describing:)`을 활용하여 자신의 타입을 받도록 하였습니다.
@@ -1063,7 +1065,50 @@ func application(_ application: UIApplication, didFinishLaunchingWithOptions lau
     ...
 }
 ```
+## 6️⃣ Transformer
 
+
+`transformable` 타입은 CoreData에 저장되려면 `transformer`를 통해 변환되어 인코딩, 디코딩 과정을 거쳐 데이터를 저장 및 가져오기를 할 수 있습니다. 이때 지정해주어야 하는 `transformer`는 아래와 같이 구현할 수 있습니다.
+
+
+```swift
+final class MovieAttributeTransformer: NSSecureUnarchiveFromDataTransformer {
+    override class var allowedTopLevelClasses: [AnyClass] {
+        [Movies.self]
+    }
+    
+    static func register() {
+        let className = String(describing: MovieAttributeTransformer.self)
+        let name = NSValueTransformerName(className)
+        let transformer = MovieAttributeTransformer()
+        
+        ValueTransformer.setValueTransformer(transformer, forName: name)
+    }
+}
+```
+
+- `NSSecureUnarchiveFromDataTransformer`: 
+CoreData에서 기본적으로 저장 가능한 타입 외에, 사용자 정의 타입을 저장하고자 할 때 디코딩, 인코딩이 가능하게 하기 위해 사용됨.
+
+- `allowedTopLevelClasses`: 
+이 프로퍼티에 저장된 타입은 디코딩, 인코딩이 가능하게(transformable)됨.
+`NSSecureUnarchiveFromDataTransformer`의 `allowedTopLevelClasses`에 지정된 타입은 `NSSecureCoding`을 채택한 타입만 허용되도록 해 보안을 강화할 수 있음.
+
+- `register()`:
+attribute에 적용된 transformer는 코어 데이터의 persistentContainer가 초기화되기 전에 앱에 먼저 등록이 되어야함.
+따라서 AppDelegate에서 다음과 같이 등록함.
+(가장 먼저 등록해주지 않으면 오류가 발생하므로 메서드 상단에 구현해주어야 한다.)
+
+```swift
+class AppDelegate: UIResponder, UIApplicationDelegate {
+      func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
+         MovieAttributeTransformer.register()
+         ...
+     }
+}
+```
+            
+         
 </details>
 
 <details>
