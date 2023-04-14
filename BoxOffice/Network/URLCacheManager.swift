@@ -30,9 +30,6 @@ struct URLCacheManager {
         
         return CachedURLResponse(response: response,
                                  data: data,
-                                 userInfo: ["expirationDate": Calendar.current.date(byAdding: .day,
-                                                                                    value: 1,
-                                                                                    to: Date()) ?? Date()],
                                  storagePolicy: .allowed)
     }
     
