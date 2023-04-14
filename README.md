@@ -560,6 +560,8 @@ private func updateLayout() {
                                                 animated: true)
 }
 ```
+<br/>
+<br/>
 
 ### 7️⃣ URLCache를 통한 네트워크 데이터 응답 캐시
 네트워크에 여러번 접근하는 비용을 줄이기 위해 어떤 종류의 캐시를 이용해야 현재 상황에 알맞은 지에 대한 고민이 있었습니다.
@@ -609,6 +611,8 @@ struct URLCacheManager {
     }
 }
 ```
+<br/>
+<br/>
 
 ### 8️⃣ Query 순서 보장
 처음 구현할 때 저희는 query의 순서를 고려하지 않고 forEach문을 사용하여 query를 추가하였습니다.
