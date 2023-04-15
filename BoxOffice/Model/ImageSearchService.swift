@@ -12,9 +12,9 @@ class ImageSearchService {
     private var searchedImage: ImageSearch?
     
     func fetchSearchedImage(boxOfficeService: BoxOfficeService, completion: @escaping (Data) -> Void) {
-    
+        
         guard let movieName = boxOfficeService.movieDetail?.movieInformationResult.movieInformation.movieName else { return }
-
+        
         var imageSearchEndpoint = ImageSearchEndpoint()
         imageSearchEndpoint.insertImageQueryValue(imageName: movieName)
         
@@ -22,9 +22,53 @@ class ImageSearchService {
             parsedData in
             
             guard let url = URL(string: parsedData.imageDatas[0].imageURL) else { return }
-            guard let data = try? Data(contentsOf: url) else { return }
-
-            completion(data)
+            self.loadImageFromURL(url: url) { data in
+                completion(data)
+            }
+        }
+    }
+    
+    func loadImageFromURL(url: URL, completion: @escaping (Data) -> Void){
+        var urlRequest = URLRequest(url: url)
+        urlRequest.httpMethod = "GET"
+        urlRequest.cachePolicy = .returnCacheDataElseLoad
+        
+        let dataTask = URLSession.shared.dataTask(with: urlRequest) { data, response, error in
+            guard error == nil else { return }
+            
+            guard let httpURLResponse = response as? HTTPURLResponse, (200...299).contains(httpURLResponse.statusCode) else { return }
+            
+            guard let validData = data else { return }
+            
+            let cacheURLResponse = CachedURLResponse(response: httpURLResponse, data: validData, storagePolicy: .allowedInMemoryOnly)
+            
+            URLCache.shared.storeCachedResponse(cacheURLResponse, for: urlRequest)
+            
+            completion(validData)
+        }
+        
+        URLCache.shared.getCachedResponse(for: dataTask) { cachedResponse in
+            if let cachedResponse = cachedResponse {
+                print("캐시 정상 작동")
+                completion(cachedResponse.data)
+            } else {
+                print("캐시 데이터 없음")
+                dataTask.resume()
+            }
+        }
+    }
+    
+    func removeCacheAfter30min() {
+        DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + 1800) {
+            URLCache.shared.removeAllCachedResponses()
+            print("캐시 지워짐")
+        }
+    }
+    
+    func removeCache() {
+        DispatchQueue.main.async() {
+            URLCache.shared.removeAllCachedResponses()
+            print("캐시 지워짐")
         }
     }
 }
