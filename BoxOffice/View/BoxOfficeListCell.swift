@@ -1,5 +1,5 @@
 //
-//  BoxOfficeCell.swift
+//  BoxOfficeListCell.swift
 //  BoxOffice
 //
 //  Created by Christy, Hyemory on 2023/03/31.
@@ -7,11 +7,13 @@
 
 import UIKit
 
-final class BoxOfficeCell: UICollectionViewCell {
+final class BoxOfficeListCell: UICollectionViewCell {
     private let rankLabel = {
         let label = UILabel()
         
+        label.numberOfLines = 0
         label.font = .preferredFont(forTextStyle: .title1)
+        label.adjustsFontForContentSizeCategory = true
         
         return label
     }()
@@ -19,7 +21,9 @@ final class BoxOfficeCell: UICollectionViewCell {
     private let rankInfoLabel = {
         let label = UILabel()
         
+        label.numberOfLines = 0
         label.font = .preferredFont(forTextStyle: .caption1)
+        label.adjustsFontForContentSizeCategory = true
         
         return label
     }()
@@ -27,8 +31,9 @@ final class BoxOfficeCell: UICollectionViewCell {
     private let movieNameLabel = {
         let label = UILabel()
         
-        label.numberOfLines = 1
+        label.numberOfLines = 0
         label.font = .preferredFont(forTextStyle: .body)
+        label.adjustsFontForContentSizeCategory = true
         
         return label
     }()
@@ -36,7 +41,9 @@ final class BoxOfficeCell: UICollectionViewCell {
     private let audienceCountLabel = {
         let label = UILabel()
         
+        label.numberOfLines = 0
         label.font = .preferredFont(forTextStyle: .callout)
+        label.adjustsFontForContentSizeCategory = true
         
         return label
     }()
@@ -141,11 +148,11 @@ final class BoxOfficeCell: UICollectionViewCell {
         layer.drawBorder(color: .systemGray5, width: 1)
     }
     
-    private func configureRankLabel(data: DailyBoxOfficeItem){
+    private func configureRankLabel(data: DailyBoxOfficeItem) {
         rankLabel.text = data.rank
     }
     
-    private func configureRankInfoLabel(data: DailyBoxOfficeItem){
+    private func configureRankInfoLabel(data: DailyBoxOfficeItem) {
         let oldAndNew = data.rankOldAndNew
         
         if oldAndNew == .new {
@@ -168,11 +175,11 @@ final class BoxOfficeCell: UICollectionViewCell {
         }
     }
     
-    private func configureMovieNameLabel(data: DailyBoxOfficeItem){
+    private func configureMovieNameLabel(data: DailyBoxOfficeItem) {
         movieNameLabel.text = data.movieName
     }
     
-    private func configureAudienceCountLabel(data: DailyBoxOfficeItem){
+    private func configureAudienceCountLabel(data: DailyBoxOfficeItem) {
         let numberFormatter = NumberFormatter()
         numberFormatter.numberStyle = .decimal
         
@@ -184,39 +191,6 @@ final class BoxOfficeCell: UICollectionViewCell {
         configureRankInfoLabel(data: boxOfficeItem)
         configureMovieNameLabel(data: boxOfficeItem)
         configureAudienceCountLabel(data: boxOfficeItem)
-    }
-    
-    enum RankInfo {
-        case new
-        case noChange
-        case increase(Int)
-        case decrease(Int)
-        
-        var description: String {
-            switch self {
-            case .new:
-                return "신작"
-            case .noChange:
-                return "-"
-            case .increase(let variance):
-                return "▲\(variance)"
-            case .decrease(let variance):
-                return "▼\(variance * -1)"
-            }
-        }
-        
-        var fontColor: UIColor {
-            switch self {
-            case .new:
-                return .systemRed
-            case .noChange:
-                return .black
-            case .increase:
-                return .systemRed
-            case .decrease:
-                return .systemBlue
-            }
-        }
     }
 }
 

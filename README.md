@@ -9,6 +9,7 @@
 4. [실행화면](#4-실행화면)
 5. [트러블 슈팅](#5-트러블-슈팅)
 6. [Reference](#6-reference)
+7. [팀 회고](#7-팀-회고)
 
 <br/>
 
@@ -48,12 +49,22 @@
 | 23.04.05 (수) | Calendar View 구현 |
 | 23.04.06 (목) | Collection View, 상세페이지 리팩토링 |
 | 23.04.07 (금) | Calendar View 코드 리팩토링 |
+| 23.04.10 (월) | 코드 개선 및 collection view 메서드 학습 |
+| 23.04.11 (화) | 화면 레이아웃 모드 구현 |
+| 23.04.12 (수) | 휴식 |
+| 23.04.13 (목) | 화면 레이아웃 구현에 따른 레이아웃 오류 수정 |
+| 23.04.14 (금) | 프로젝트 회고 |
 
 <br>
 
 ## 3. 프로젝트 구조
 ### 폴더 구조
    
+
+<details>
+<summary> 폴더 구조 보기 (클릭) </summary>
+<div markdown="1">
+
 ```swift
 ├── BoxOffice
 │   ├── Controller
@@ -93,7 +104,17 @@
 └── README.md
 ```
 
+</div>
+</details>
+
+  
+
 </br>
+
+### UML
+
+<img height="1080px" src="https://raw.githubusercontent.com/yagom-academy/ios-box-office/267c50d64cf2c4fd888da76d6976cfc761977c7e/images/Class%20Diagram.png">
+
 
 ## 4. 실행화면
 
@@ -101,9 +122,15 @@
 | :--------: | :--------: |
 | <img src="https://i.imgur.com/QlboZ9K.gif"> | <img src="https://i.imgur.com/8GbhgYR.gif"> |
 
-| 날짜 변경 화면 |  새로고침 화면  |
+| 날짜 변경 화면 | 새로고침 화면 |
 | :--------: | :--------: |
 | <img src="https://i.imgur.com/uv8B9W3.gif"> | <img src="https://i.imgur.com/b0mFteM.gif"> |
+
+| 모드 변경 화면 | Dynamic Type 화면 |
+| :--------: | :--------: |
+| <img src="https://i.imgur.com/jogXWcI.gif"> | <img src="https://i.imgur.com/HJ9OhyJ.gif"> |
+
+
 
 
 <br/>
@@ -416,6 +443,45 @@ extension BoxOfficeViewController: DateUpdatableDelegate {
     }
 }
 ```
+
+<br/>
+
+### 8️⃣ 레이아웃 제약 중복 적용 문제
+
+#### 🔒 문제점 <br/>
+
+화면모드를 2번 이상 전환하면 레이아웃 제약이 알맞게 적용되지 않는 오류가 있었습니다.
+
+![](https://i.imgur.com/lRGVdc1.gif)
+
+아래는 확인된 레이아웃 오류입니다.
+
+![](https://i.imgur.com/62ImP51.png)
+
+#### 🔑 해결 방법 <br/>
+
+모드 전환 시 레이아웃 제약이 중첩되어 발생하는 문제였습니다.
+현재는 변경이 필요한 레이아웃 제약을 전역 변수로 두고, 변경될 Anchor의 제약 초기화 후 새로 제약을 설정하도록 수정하니 원하는 대로 레이아웃이 적용되었습니다.
+
+``` swift
+private func switchLayout() {
+    collectionViewLeadingConstraint?.isActive = false
+    collectionViewTrailingConstraint?.isActive = false
+
+    switch currentLayoutMode {
+    case .list:
+        collectionViewLeadingConstraint = collectionView.leadingAnchor.constraint(equalTo: view.leadingAnchor)
+        collectionViewTrailingConstraint = collectionView.trailingAnchor.constraint(equalTo: view.trailingAnchor)
+    case .icon:
+        collectionViewLeadingConstraint = collectionView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 10)
+        collectionViewTrailingConstraint = collectionView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -10)
+    }
+
+    collectionViewLeadingConstraint?.isActive = true
+    collectionViewTrailingConstraint?.isActive = true
+}
+```
+
 <br/>
 
 ## 6. Reference
@@ -430,3 +496,21 @@ extension BoxOfficeViewController: DateUpdatableDelegate {
 - [blog - Refresh 구현하기](https://bicycleforthemind.tistory.com/39)
 - [Alamofire - ParameterEncoding](https://github.com/Alamofire/Alamofire/blob/master/Source/ParameterEncoding.swift)
 - [Alamofire - ParameterEncoder](https://github.com/Alamofire/Alamofire/blob/master/Source/ParameterEncoder.swift)
+
+<br/>
+
+## 7. 팀 회고
+
+<details>
+<summary> 팀 회고 내용 보기 (클릭) </summary>
+
+### 우리팀이 잘한 점
+- 항상 긍적적인 자세로 시도함
+- 서로 어려운 내용에 대한 고민을 솔직하게 털어놓고 함께 해결하면서 편하게 프로젝트를 진행함
+    
+### 팀원 서로 칭찬하기
+크리스티 -> 혜모리 : 항상 긍정적으로 상황을 바라고 프로젝트를 진행했습니다. 편안한 분위기로 스텝을 진행할 수 있도록 배려해 주시고 모르는 부분에 있어 함께 고민해 주셨습니다. 이런 장기 프로젝트를 `혜모리`와 함께할 수 있어서 너무나 행복했습니다.
+
+혜모리 -> 크리스티 : 내용을 이해하고 수용하는 능력이 대단하십니다. 항상 즐겁고 편안하게 프로젝트를 임하셔서 덩달아 즐거운 시간이 되었습니다. 고민을 얘기해도 항상 잘 들어주셔서 문제 해결이 원할하고 행복했던 시간이었습니다.
+    
+</details>

@@ -163,8 +163,8 @@ final class MovieInfoViewController: UIViewController {
             contentScrollView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
             contentScrollView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor),
             
-            loadingView.leftAnchor.constraint(equalTo: contentScrollView.leftAnchor),
-            loadingView.rightAnchor.constraint(equalTo: contentScrollView.rightAnchor),
+            loadingView.leadingAnchor.constraint(equalTo: contentScrollView.leadingAnchor),
+            loadingView.trailingAnchor.constraint(equalTo: contentScrollView.trailingAnchor),
             loadingView.bottomAnchor.constraint(equalTo: contentScrollView.bottomAnchor),
             loadingView.topAnchor.constraint(equalTo: contentScrollView.topAnchor),
         ])

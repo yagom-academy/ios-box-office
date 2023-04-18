@@ -39,8 +39,8 @@ final class LoadingView: UIView {
         self.addSubview(activityIndicatorView)
         
         NSLayoutConstraint.activate([
-            backgroundView.leftAnchor.constraint(equalTo: self.leftAnchor),
-            backgroundView.rightAnchor.constraint(equalTo: self.rightAnchor),
+            backgroundView.leadingAnchor.constraint(equalTo: self.leadingAnchor),
+            backgroundView.trailingAnchor.constraint(equalTo: self.trailingAnchor),
             backgroundView.bottomAnchor.constraint(equalTo: self.bottomAnchor),
             backgroundView.topAnchor.constraint(equalTo: self.topAnchor),
             

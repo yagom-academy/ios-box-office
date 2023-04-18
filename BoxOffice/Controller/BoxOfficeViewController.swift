@@ -8,9 +8,25 @@
 import UIKit
 
 final class BoxOfficeViewController: UIViewController {
+    enum LayoutMode {
+        case list
+        case icon
+        
+        var title: String {
+            switch self {
+            case .list:
+                return "리스트"
+            case .icon:
+                return "아이콘"
+            }
+        }
+    }
+    
     private var boxOffice: BoxOffice?
     private let networkManager = NetworkManager()
+    private var currentLayoutMode = LayoutMode.list
     private var isReceivingBoxOffice = false
+
     private lazy var collectionView = UICollectionView(frame: .zero,
                                                        collectionViewLayout: UICollectionViewFlowLayout())
     
@@ -61,6 +77,8 @@ final class BoxOfficeViewController: UIViewController {
         navigationItem.title = Date().showYesterdayDate(formatter: dateFormatterWithHyphen)
         navigationItem.rightBarButtonItem = navigationRightButton
         navigationItem.backBarButtonItem = backBarButtonItem
+        
+        configureToolBarButton()
     }
     
     @objc private func selectSearchDate() {
@@ -127,13 +145,14 @@ extension BoxOfficeViewController {
             collectionView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
             collectionView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
             
-            loadingView.leftAnchor.constraint(equalTo: self.collectionView.leftAnchor),
-            loadingView.rightAnchor.constraint(equalTo: self.collectionView.rightAnchor),
+            loadingView.leadingAnchor.constraint(equalTo: self.collectionView.leadingAnchor),
+            loadingView.trailingAnchor.constraint(equalTo: self.collectionView.trailingAnchor),
             loadingView.bottomAnchor.constraint(equalTo: self.collectionView.bottomAnchor),
             loadingView.topAnchor.constraint(equalTo: self.collectionView.topAnchor),
         ])
         
-        collectionView.register(BoxOfficeCell.self, forCellWithReuseIdentifier: BoxOfficeCell.identifier)
+        collectionView.register(BoxOfficeListCell.self, forCellWithReuseIdentifier: BoxOfficeListCell.identifier)
+        collectionView.register(BoxOfficeIconCell.self, forCellWithReuseIdentifier: BoxOfficeIconCell.identifier)
     }
 }
 
@@ -169,12 +188,22 @@ extension BoxOfficeViewController: UICollectionViewDataSource {
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: BoxOfficeCell.identifier, for: indexPath) as? BoxOfficeCell,
-              let boxOfficeItem = boxOffice?.result.dailyBoxOfficeList[safe: indexPath.item] else { return UICollectionViewCell() }
-
-        cell.configure(with: boxOfficeItem)
-        
-        return cell
+        switch currentLayoutMode {
+        case .list:
+            guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: BoxOfficeListCell.identifier, for: indexPath) as? BoxOfficeListCell,
+                  let boxOfficeItem = boxOffice?.result.dailyBoxOfficeList[safe: indexPath.item] else { return UICollectionViewCell() }
+            
+            cell.configure(with: boxOfficeItem)
+            
+            return cell
+        case .icon:
+            guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: BoxOfficeIconCell.identifier, for: indexPath) as? BoxOfficeIconCell,
+                  let boxOfficeItem = boxOffice?.result.dailyBoxOfficeList[safe: indexPath.item] else { return UICollectionViewCell() }
+            
+            cell.configure(with: boxOfficeItem)
+            
+            return cell
+        }
     }
 }
 
@@ -182,11 +211,25 @@ extension BoxOfficeViewController: UICollectionViewDataSource {
 
 extension BoxOfficeViewController: UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        return CGSize(width: view.bounds.width, height: view.bounds.height / 12)
+        
+        switch currentLayoutMode {
+        case .list:
+            return CGSize(width: view.bounds.width, height: view.bounds.height / 12)
+        case .icon:
+            let padding: CGFloat = 20
+            let collectionViewSize = collectionView.frame.size.width - padding
+            
+            return CGSize(width: collectionViewSize / 2.1, height: collectionViewSize / 2.1)
+        }
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
-        return 0
+        switch currentLayoutMode {
+        case .list:
+            return 0
+        case .icon:
+            return 10
+        }
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
@@ -194,6 +237,10 @@ extension BoxOfficeViewController: UICollectionViewDelegateFlowLayout {
         
         collectionView.deselectItem(at: indexPath, animated: true)
         navigationController?.pushViewController(movieInfoViewController, animated: true)
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {
+        return UIEdgeInsets(top: 0, left: 10, bottom: 0, right: 10)
     }
 }
 
@@ -206,5 +253,43 @@ extension BoxOfficeViewController: DateUpdatableDelegate {
         guard let targetDate = navigationItem.title?.removeHyphen() else { return }
         
         fetchBoxOffice(targetDate: targetDate)
+    }
+}
+
+// MARK: - Tool Bar
+extension BoxOfficeViewController {
+    private func configureToolBarButton() {
+        let toolBarButton = UIBarButtonItem(title: "화면 모드 변경",
+                                            style: .plain,
+                                            target: self,
+                                            action: #selector(changeLayoutMode))
+        let flexibleSpace = UIBarButtonItem(barButtonSystemItem: .flexibleSpace,
+                                            target: nil,
+                                            action: nil)
+        
+        navigationController?.isToolbarHidden = false
+        toolbarItems = [flexibleSpace, toolBarButton, flexibleSpace]
+    }
+    
+    @objc private func changeLayoutMode() {
+        let alert = UIAlertController(title: "화면모드변경", message: nil, preferredStyle: .actionSheet)
+        let modeTitle = currentLayoutMode.title
+        let modeAction = UIAlertAction(title: modeTitle, style: .default) { [weak self] _ in
+            self?.switchCurrentLayoutMode()
+        }
+        let cancelAction = UIAlertAction(title: "취소", style: .cancel)
+        
+        alert.addAction(modeAction)
+        alert.addAction(cancelAction)
+        
+        present(alert, animated: true)
+    }
+    
+    private func switchCurrentLayoutMode() {
+        DispatchQueue.main.async { [weak self] in
+            self?.collectionView.reloadData()
+        }
+        
+        currentLayoutMode = currentLayoutMode == .list ? .icon : .list
     }
 }
