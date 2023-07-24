@@ -12,9 +12,15 @@ struct BoxOffice: Codable {
 }
 
 struct BoxOfficeResult: Codable {
-    let boxofficeType: String
+    let boxOfficeType: String
     let showRange: String
     let dailyBoxOfficeList: [DailyBoxOfficeList]
+    
+    enum CodingKeys: String, CodingKey {
+        case boxOfficeType = "boxofficeType"
+        case showRange
+        case dailyBoxOfficeList
+    }
 }
 
 struct DailyBoxOfficeList: Codable {

@@ -32,7 +32,7 @@ final class BoxOfficeDataTransferObjectTests: XCTestCase {
         
         //when
         let boxOffice = try? JSONDecoder().decode(BoxOffice.self, from: dataAsset.data)
-        let result = boxOffice?.boxOfficeResult.boxofficeType
+        let result = boxOffice?.boxOfficeResult.boxOfficeType
         
         //then
         XCTAssertEqual(result, expectation)
