@@ -7,23 +7,23 @@
 
 import Foundation
 
-struct BoxOffice: Codable {
+struct BoxOffice: Decodable {
     let boxOfficeResult: BoxOfficeResult
 }
 
-struct BoxOfficeResult: Codable {
+struct BoxOfficeResult: Decodable {
     let boxOfficeType: String
     let showRange: String
     let dailyBoxOfficeList: [DailyBoxOfficeList]
     
-    enum CodingKeys: String, CodingKey {
+    private enum CodingKeys: String, CodingKey {
         case boxOfficeType = "boxofficeType"
         case showRange
         case dailyBoxOfficeList
     }
 }
 
-struct DailyBoxOfficeList: Codable {
+struct DailyBoxOfficeList: Decodable {
     let number: String
     let rank, rankIntensity: String
     let rankOldAndNew: String
@@ -34,7 +34,7 @@ struct DailyBoxOfficeList: Codable {
     let screenCount: String
     let showCount: String
     
-    enum CodingKeys: String, CodingKey {
+    private enum CodingKeys: String, CodingKey {
         case number = "rnum"
         case rank
         case rankIntensity = "rankInten"
