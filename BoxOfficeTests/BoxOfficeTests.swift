@@ -23,7 +23,7 @@ final class BoxOfficeTests: XCTestCase {
             return
         }
         
-        self.sut = sut
+//        self.sut = sut
     }
 
     override func tearDownWithError() throws {
