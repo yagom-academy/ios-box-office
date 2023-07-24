@@ -27,7 +27,7 @@ struct DailyBoxOffice: Decodable {
     let scrnCnt: String
     let showCnt: String
     
-    enum CodingKeys: String, CodingKey {
+    private enum CodingKeys: String, CodingKey {
         case boxofficeType = "boxOfficeType"
         case showRange
         case rnum = "rawNumber"
