@@ -2,32 +2,52 @@
 //  MovingInfo.swift
 //  BoxOffice
 //
-//  Created by 박종화 on 2023/07/24.
+//  Created by redmango, Jusbug on 2023/07/24.
 //
 
 import Foundation
 
+struct BoxOffice: Decodable {
+    let boxofficeType: String
+    let showRange: String
+    let dailyBoxOfficeList: String
+}
+
 struct MovieInfo: Decodable {
-    let rnum: Int
-    let rank: Int
-    let rankInten: Int
+    let rankNumber: String
+    let rank: String
+    let rankInten: String
     let rankOldAndNew: String
-    let movieCd: Int
-    let movieNm: String
-    let openDt: String
-    let salesAmt: Int
-    let salseShare: Double
-    let salesInten: Int
-    let salesChange: Double
-    let saelsAcc: Int
-    let audiCnt: Int
-    let audiInten: Int
-    let audiChange: Int
-    let audiAcc: Int
-    let scrnCnt: Int
-    let showCnt: Int
-    
+    let movieCode: String
+    let movieName: String
+    let openDate: String
+    let salesAmt: String
+    let salesShare: String
+    let salesInten: String
+    let salesChange: String
+    let salesAcc: String
+    let audiCnt: String
+    let audiInten: String
+    let audiChange: String
+    let audiAcc: String
+    let scrnCnt: String
+    let showCnt: String
+
     private enum CodingKeys: String, CodingKey {
+        case rank
+        case rankInten
+        case rankOldAndNew
+        case salesAmt
+        case salesShare
+        case salesInten
+        case salesChange
+        case salesAcc
+        case audiCnt
+        case audiInten
+        case audiChange
+        case audiAcc
+        case scrnCnt
+        case showCnt
         case rankNumber = "rnum"
         case movieCode = "movieCd"
         case movieName = "movieNm"
