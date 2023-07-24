@@ -12,9 +12,15 @@ struct BoxOffice: Decodable {
 }
 
 struct BoxOfficeInfo: Decodable {
-    let boxofficeType: String
+    let boxOfficeType: String
     let showRange: String
     let dailyBoxOfficeList: [MovieInfo]
+    
+    private enum CodingKeys: String, CodingKey {
+        case boxOfficeType = "boxofficeType"
+        case showRange
+        case dailyBoxOfficeList
+    }
 }
 
 struct MovieInfo: Decodable {
@@ -36,7 +42,7 @@ struct MovieInfo: Decodable {
     let audiAcc: String
     let scrnCnt: String
     let showCnt: String
-
+    
     private enum CodingKeys: String, CodingKey {
         case rank
         case rankInten
