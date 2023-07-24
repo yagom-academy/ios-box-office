@@ -2,7 +2,7 @@
 //  BoxOfficeResult.swift
 //  BoxOffice
 //
-//  Created by minsup, moon on 2023/07/24.
+//  Created by EtialMoon, Minsup on 2023/07/24.
 //
 
 struct BoxOfficeResult: Decodable {
@@ -11,7 +11,7 @@ struct BoxOfficeResult: Decodable {
     let boxOfficeItems: [BoxOfficeItem]
     
     enum CodingKeys: String, CodingKey {
-        case boxOfficeType
+        case boxOfficeType = "boxofficeType"
         case dateRange = "showRange"
         case boxOfficeItems = "dailyBoxOfficeList"
     }
