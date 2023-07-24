@@ -5,8 +5,6 @@
 //  Created by kyungmin, Erick on 2023/07/24.
 //
 
-import Foundation
-
 struct BoxOffice: Decodable {
     let boxOfficeResult: BoxOfficeResult
 }
