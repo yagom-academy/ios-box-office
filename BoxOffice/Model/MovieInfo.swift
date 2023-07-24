@@ -8,9 +8,13 @@
 import Foundation
 
 struct BoxOffice: Decodable {
+    let boxOfficeResult: BoxOfficeInfo
+}
+
+struct BoxOfficeInfo: Decodable {
     let boxofficeType: String
     let showRange: String
-    let dailyBoxOfficeList: String
+    let dailyBoxOfficeList: [MovieInfo]
 }
 
 struct MovieInfo: Decodable {

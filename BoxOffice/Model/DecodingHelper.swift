@@ -9,7 +9,7 @@ import Foundation
 
 struct DecodingHelper {
     
-    func decode() -> MovieInfo? {
+    func decode() -> BoxOffice? {
         let decoder = JSONDecoder()
         
         guard let path = Bundle.main.path(forResource: "box_office_sample", ofType: "json") else {
@@ -22,7 +22,7 @@ struct DecodingHelper {
             return nil
         }
         
-        guard let result = try? decoder.decode(MovieInfo.self, from: data) else {
+        guard let result = try? decoder.decode(BoxOffice.self, from: data) else {
             print("해당 파일을 변환하는데 실패했습니다.")
             return nil
         }
