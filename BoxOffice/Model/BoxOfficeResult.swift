@@ -5,12 +5,12 @@
 //  Created by Zion, Hemg on 2023/07/24.
 //
 
-struct BoxOfficeResult: Decodable {
+struct BoxOfficeResult: Decodable, Equatable {
     let boxOfficeType: String
     let showRange: String
     let dailyBoxOfficeList: [DailyBoxOffice]
 
-    struct DailyBoxOffice: Decodable {
+    struct DailyBoxOffice: Decodable, Equatable {
         let number: String
         let rank: String
         let rankInten: String
@@ -43,7 +43,7 @@ struct BoxOfficeResult: Decodable {
             case audienceInten = "audiInten"
             case audienceChange = "audiChange"
             case audienceAccumulate = "audiAcc"
-            case screenCount = "scrCnt"
+            case screenCount = "scrnCnt"
             case showCount = "showCnt"
         }
     }
