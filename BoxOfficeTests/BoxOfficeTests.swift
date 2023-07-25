@@ -12,7 +12,13 @@ final class BoxOfficeTests: XCTestCase {
     var sut: BoxOfficeEntity!
 
     override func setUpWithError() throws {
-        sut = DecodingManager.shared.decode()
+        guard let path = Bundle.main.path(forResource: "box_office_sample", ofType: "json"),
+              let jsonString = try? String(contentsOfFile: path) else {
+            return
+        }
+        let data = jsonString.data(using: .utf8)
+        
+        sut = DecodingManager.shared.decode(data)
     }
 
     override func tearDownWithError() throws {
