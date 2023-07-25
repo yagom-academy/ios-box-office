@@ -17,6 +17,7 @@
 		CBC61F902A6EA4C200FDAD18 /* BoxOfficeResult.swift in Sources */ = {isa = PBXBuildFile; fileRef = CBC61F8F2A6EA4C200FDAD18 /* BoxOfficeResult.swift */; };
 		CBC61F982A6F54F900FDAD18 /* BoxOfficeTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = CBC61F972A6F54F900FDAD18 /* BoxOfficeTests.swift */; };
 		CBEF1EE12A6F8909005459DD /* BoxOffice.swift in Sources */ = {isa = PBXBuildFile; fileRef = CBEF1EE02A6F8909005459DD /* BoxOffice.swift */; };
+		D277169E2A6FFFAC005C0045 /* JSONDecoderError.swift in Sources */ = {isa = PBXBuildFile; fileRef = D277169D2A6FFFAC005C0045 /* JSONDecoderError.swift */; };
 		D2E159472A6EA6EC00052F8B /* DailyBoxOffice.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2E159462A6EA6EC00052F8B /* DailyBoxOffice.swift */; };
 		D2E159652A6F560300052F8B /* JSONDecoder+.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2E159642A6F560300052F8B /* JSONDecoder+.swift */; };
 /* End PBXBuildFile section */
@@ -46,6 +47,7 @@
 		CBC61F952A6F54F900FDAD18 /* BoxOfficeTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = BoxOfficeTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		CBC61F972A6F54F900FDAD18 /* BoxOfficeTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BoxOfficeTests.swift; sourceTree = "<group>"; };
 		CBEF1EE02A6F8909005459DD /* BoxOffice.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BoxOffice.swift; sourceTree = "<group>"; };
+		D277169D2A6FFFAC005C0045 /* JSONDecoderError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JSONDecoderError.swift; sourceTree = "<group>"; };
 		D2E159462A6EA6EC00052F8B /* DailyBoxOffice.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DailyBoxOffice.swift; sourceTree = "<group>"; };
 		D2E159642A6F560300052F8B /* JSONDecoder+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "JSONDecoder+.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -95,6 +97,7 @@
 				CBC61F8D2A6EA42D00FDAD18 /* DTO */,
 				CBC61F8E2A6EA46400FDAD18 /* Resource */,
 				D2E159632A6F55E900052F8B /* Extension */,
+				D277169C2A6FFF92005C0045 /* Error */,
 				63DF20F42970E1A0005DF7D1 /* Main.storyboard */,
 				63DF20F92970E1A1005DF7D1 /* LaunchScreen.storyboard */,
 			);
@@ -144,6 +147,14 @@
 				CB4CFDD22A6FA25200288EFA /* BoxOfficeResultTests.swift */,
 			);
 			path = BoxOfficeTests;
+			sourceTree = "<group>";
+		};
+		D277169C2A6FFF92005C0045 /* Error */ = {
+			isa = PBXGroup;
+			children = (
+				D277169D2A6FFFAC005C0045 /* JSONDecoderError.swift */,
+			);
+			path = Error;
 			sourceTree = "<group>";
 		};
 		D2E159632A6F55E900052F8B /* Extension */ = {
@@ -258,6 +269,7 @@
 				CBC61F902A6EA4C200FDAD18 /* BoxOfficeResult.swift in Sources */,
 				D2E159472A6EA6EC00052F8B /* DailyBoxOffice.swift in Sources */,
 				CBEF1EE12A6F8909005459DD /* BoxOffice.swift in Sources */,
+				D277169E2A6FFFAC005C0045 /* JSONDecoderError.swift in Sources */,
 				63DF20F32970E1A0005DF7D1 /* ViewController.swift in Sources */,
 				63DF20EF2970E1A0005DF7D1 /* AppDelegate.swift in Sources */,
 				D2E159652A6F560300052F8B /* JSONDecoder+.swift in Sources */,

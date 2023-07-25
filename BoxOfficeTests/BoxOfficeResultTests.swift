@@ -9,7 +9,7 @@ import XCTest
 @testable import BoxOffice
 
 final class BoxOfficeResultTests: XCTestCase {
-    var sut: BoxOfficeResult!
+    var sut: BoxOfficeResult?
     
     override func setUpWithError() throws {
         try super.setUpWithError()
@@ -33,7 +33,7 @@ final class BoxOfficeResultTests: XCTestCase {
     
     func test_boxOfficeType이_일별_박스오피스를_반환한다() {
         // Given
-        let result = sut.boxOfficeType
+        let result = sut?.boxOfficeType
         
         // When
         let expectedResult: String = "일별 박스오피스"
@@ -44,7 +44,7 @@ final class BoxOfficeResultTests: XCTestCase {
     
     func test_dailyBoxOfficeList의_값이_있다() {
         // Given
-        let result = sut.dailyBoxOfficeList.isEmpty
+        let result = sut?.dailyBoxOfficeList.isEmpty
         
         // When
         let expectedResult = false
