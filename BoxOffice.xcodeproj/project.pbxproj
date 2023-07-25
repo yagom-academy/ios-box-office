@@ -16,7 +16,6 @@
 		CB4CFDD32A6FA25200288EFA /* BoxOfficeResultTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB4CFDD22A6FA25200288EFA /* BoxOfficeResultTests.swift */; };
 		CBC61F902A6EA4C200FDAD18 /* BoxOfficeResult.swift in Sources */ = {isa = PBXBuildFile; fileRef = CBC61F8F2A6EA4C200FDAD18 /* BoxOfficeResult.swift */; };
 		CBC61F982A6F54F900FDAD18 /* BoxOfficeTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = CBC61F972A6F54F900FDAD18 /* BoxOfficeTests.swift */; };
-		CBC61F9F2A6F558100FDAD18 /* DailyBoxOfficeTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = CBC61F9E2A6F558100FDAD18 /* DailyBoxOfficeTests.swift */; };
 		CBEF1EE12A6F8909005459DD /* BoxOffice.swift in Sources */ = {isa = PBXBuildFile; fileRef = CBEF1EE02A6F8909005459DD /* BoxOffice.swift */; };
 		D2E159472A6EA6EC00052F8B /* DailyBoxOffice.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2E159462A6EA6EC00052F8B /* DailyBoxOffice.swift */; };
 		D2E159652A6F560300052F8B /* JSONDecoder+.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2E159642A6F560300052F8B /* JSONDecoder+.swift */; };
@@ -46,7 +45,6 @@
 		CBC61F8F2A6EA4C200FDAD18 /* BoxOfficeResult.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BoxOfficeResult.swift; sourceTree = "<group>"; };
 		CBC61F952A6F54F900FDAD18 /* BoxOfficeTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = BoxOfficeTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		CBC61F972A6F54F900FDAD18 /* BoxOfficeTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BoxOfficeTests.swift; sourceTree = "<group>"; };
-		CBC61F9E2A6F558100FDAD18 /* DailyBoxOfficeTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DailyBoxOfficeTests.swift; sourceTree = "<group>"; };
 		CBEF1EE02A6F8909005459DD /* BoxOffice.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BoxOffice.swift; sourceTree = "<group>"; };
 		D2E159462A6EA6EC00052F8B /* DailyBoxOffice.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DailyBoxOffice.swift; sourceTree = "<group>"; };
 		D2E159642A6F560300052F8B /* JSONDecoder+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "JSONDecoder+.swift"; sourceTree = "<group>"; };
@@ -144,7 +142,6 @@
 				CB4CFDD12A6FA16900288EFA /* BoxOfficeTestPlan.xctestplan */,
 				CBC61F972A6F54F900FDAD18 /* BoxOfficeTests.swift */,
 				CB4CFDD22A6FA25200288EFA /* BoxOfficeResultTests.swift */,
-				CBC61F9E2A6F558100FDAD18 /* DailyBoxOfficeTests.swift */,
 			);
 			path = BoxOfficeTests;
 			sourceTree = "<group>";
@@ -274,7 +271,6 @@
 			files = (
 				CB4CFDD32A6FA25200288EFA /* BoxOfficeResultTests.swift in Sources */,
 				CBC61F982A6F54F900FDAD18 /* BoxOfficeTests.swift in Sources */,
-				CBC61F9F2A6F558100FDAD18 /* DailyBoxOfficeTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -41,4 +41,15 @@ final class BoxOfficeResultTests: XCTestCase {
         // Then
         XCTAssertEqual(result, expectedResult)
     }
+    
+    func test_dailyBoxOfficeList의_값이_있다() {
+        // Given
+        let result = sut.dailyBoxOfficeList.isEmpty
+        
+        // When
+        let expectedResult = false
+        
+        // Then
+        XCTAssertEqual(result, expectedResult)
+    }
 }
