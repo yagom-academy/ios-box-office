@@ -13,8 +13,17 @@ final class BoxOfficeResultTests: XCTestCase {
     
     override func setUpWithError() throws {
         try super.setUpWithError()
-        guard let boxOffice: BoxOffice = JSONDecoder.decode(fileName: "box_office_sample") else { return }
-        sut = boxOffice.boxOfficeResult
+        
+        do {
+            let boxOffice: BoxOffice = try JSONDecoder.decode(fileName: "box_office_sample")
+            sut = boxOffice.boxOfficeResult
+        } catch JSONDecoderError.notFoundedAssetFileName {
+            XCTFail("JSON 파일을 부르는데 실패하였습니다.")
+        } catch JSONDecoderError.failureDataDecoding {
+            XCTFail("디코딩에 실패하였습니다.")
+        } catch {
+            XCTFail("알 수 없는 에러가 발생했습니다.")
+        }
     }
 
     override func tearDownWithError() throws {
