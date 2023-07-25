@@ -8,8 +8,8 @@
 import XCTest
 @testable import BoxOffice
 
-extension BoxOfficeItemInformation: Equatable {
-    public static func == (lhs: BoxOfficeItemInformation, rhs: BoxOfficeItemInformation) -> Bool {
+extension BoxOfficeItem: Equatable {
+    public static func == (lhs: BoxOfficeItem, rhs: BoxOfficeItem) -> Bool {
         return lhs.movieCode == rhs.movieCode
     }
 }
@@ -44,10 +44,10 @@ final class JsonDecodeTests: XCTestCase {
 
     func test_boxOfficeSample_디코딩하면_1번_아이템의_rankOldAndNew에서_new를_반환한다() {
         //given
-        let result = sut.boxOfficeResult.dailyBoxOfficeList.first?.rankOldAndNew
+        let result = sut.boxOfficeResult.dailyBoxOfficeList.first?.rankExistence
         
         //when
-        let expectation = BoxOfficeItemInformation.RankOldAndNew.new
+        let expectation = BoxOfficeItem.RankExistence.new
         
         //then
         XCTAssertEqual(result, expectation)
@@ -82,7 +82,7 @@ final class JsonDecodeTests: XCTestCase {
         guard let jsonData = json.data(using: .utf8) else {
             return
         }
-        let expectation = try JSONDecoder().decode(BoxOfficeItemInformation.self, from: jsonData)
+        let expectation = try JSONDecoder().decode(BoxOfficeItem.self, from: jsonData)
         
         //then
         XCTAssertEqual(result, expectation)

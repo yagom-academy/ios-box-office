@@ -5,11 +5,11 @@
 //  Created by hoon, mint on 2023/07/25.
 //
 
-struct BoxOfficeItemInformation: Decodable {
+struct BoxOfficeItem: Decodable {
     let number: String
     let rank: String
     let rankVariation: String
-    let rankOldAndNew: RankOldAndNew
+    let rankExistence: RankExistence
     let movieCode: String
     let movieName: String
     let openDate: String
@@ -25,7 +25,7 @@ struct BoxOfficeItemInformation: Decodable {
     let screenCount: String
     let showCount: String
     
-    enum RankOldAndNew: String, Decodable {
+    enum RankExistence: String, Decodable {
         case old = "OLD"
         case new = "NEW"
     }
@@ -34,7 +34,7 @@ struct BoxOfficeItemInformation: Decodable {
         case number = "rnum"
         case rank
         case rankVariation = "rankInten"
-        case rankOldAndNew
+        case rankExistence = "rankOldAndNew"
         case movieCode = "movieCd"
         case movieName = "movieNm"
         case openDate = "openDt"
