@@ -6,47 +6,43 @@
 //
 
 struct DailyBoxOffice: Decodable {
-    let boxofficeType: String
-    let showRange: String
-    let rnum: String
+    let rawNumber: String
     let rank: String
-    let rankInten: String
+    let rankIntensification: String
     let rankOldAndNew: String
-    let movieCd: String
-    let movieNm: String
-    let openDt: String
-    let salesAmt: String
+    let movieCode: String
+    let movieNumber: String
+    let openDate: String
+    let saleAmount: String
     let salesShare: String
-    let salesInten: String
+    let salesIntensification: String
     let salesChange: String
-    let salesAcc: String
-    let audiCnt: String
-    let audiInten: String
-    let audiChange: String
-    let audiAcc: String
-    let scrnCnt: String
-    let showCnt: String
+    let salesAccumulation: String
+    let audienceCount: String
+    let audienceIntensification: String
+    let audienceIntensificationChange: String
+    let audienceAccumulation: String
+    let screenCount: String
+    let showPlayCount: String
     
     private enum CodingKeys: String, CodingKey {
-        case boxofficeType = "boxOfficeType"
-        case showRange
-        case rnum = "rawNumber"
+        case rawNumber = "rnum"
         case rank
-        case rankInten = "rankIntensification"
+        case rankIntensification = "rankInten"
         case rankOldAndNew
-        case movieCd = "movieCode"
-        case movieNm = "movieNumber"
-        case openDt = "openDate"
-        case salesAmt = "saleAmount"
+        case movieCode = "movieCd"
+        case movieNumber = "movieNm"
+        case openDate = "openDt"
+        case saleAmount = "salesAmt"
         case salesShare
-        case salesInten = "salesIntensification"
+        case salesIntensification = "salesInten"
         case salesChange
-        case salesAcc = "salesAccumulation"
-        case audiCnt = "audienceCount"
-        case audiInten = "audienceIntensification"
-        case audiChange = "audienceIntensificationChange"
-        case audiAcc = "audienceAccumulation"
-        case scrnCnt = "screenCount"
-        case showCnt = "showPlayCount"
+        case salesAccumulation = "salesAcc"
+        case audienceCount = "audiCnt"
+        case audienceIntensification = "audiInten"
+        case audienceIntensificationChange = "audiChange"
+        case audienceAccumulation = "audiAcc"
+        case screenCount = "scrnCnt"
+        case showPlayCount = "showCnt"
     }
 }
