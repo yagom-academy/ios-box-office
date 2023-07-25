@@ -7,13 +7,4 @@
 
 import XCTest
 
-final class BoxOfficeTests: XCTestCase {
-
-    override func setUpWithError() throws {
-        
-    }
-
-    override func tearDownWithError() throws {
-      
-    }
-}
+final class BoxOfficeTests: XCTestCase { }
