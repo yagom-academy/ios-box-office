@@ -40,6 +40,7 @@
 		63DF20F72970E1A1005DF7D1 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		63DF20FA2970E1A1005DF7D1 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		63DF20FC2970E1A1005DF7D1 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		CB4CFDD12A6FA16900288EFA /* BoxOfficeTestPlan.xctestplan */ = {isa = PBXFileReference; lastKnownFileType = text; path = BoxOfficeTestPlan.xctestplan; sourceTree = "<group>"; };
 		CBC61F8F2A6EA4C200FDAD18 /* BoxOfficeResult.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BoxOfficeResult.swift; sourceTree = "<group>"; };
 		CBC61F952A6F54F900FDAD18 /* BoxOfficeTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = BoxOfficeTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		CBC61F972A6F54F900FDAD18 /* BoxOfficeTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BoxOfficeTests.swift; sourceTree = "<group>"; };
@@ -138,6 +139,7 @@
 		CBC61F962A6F54F900FDAD18 /* BoxOfficeTests */ = {
 			isa = PBXGroup;
 			children = (
+				CB4CFDD12A6FA16900288EFA /* BoxOfficeTestPlan.xctestplan */,
 				CBC61F972A6F54F900FDAD18 /* BoxOfficeTests.swift */,
 				CBC61F9E2A6F558100FDAD18 /* DailyBoxOfficeTests.swift */,
 			);
