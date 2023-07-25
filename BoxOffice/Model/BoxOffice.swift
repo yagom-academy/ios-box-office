@@ -1,5 +1,5 @@
 //
-//  BoxOfficeModel.swift
+//  BoxOffice.swift
 //  BoxOffice
 //
 //  Created by Kobe, yyss99 on 2023/07/25.
