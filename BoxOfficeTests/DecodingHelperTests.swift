@@ -9,11 +9,11 @@ import XCTest
 @testable import BoxOffice
 
 final class DecodingHelperTests: XCTestCase {
-    var sut: DecodingHelper!
+    var sut: JSONDecodingHelper<BoxOffice>!
     
     override func setUpWithError() throws {
         try super.setUpWithError()
-        sut = DecodingHelper()
+        sut = JSONDecodingHelper()
     }
 
     override func tearDownWithError() throws {
@@ -23,7 +23,7 @@ final class DecodingHelperTests: XCTestCase {
 
     func test_decode_dailyBoxOfficeList의_첫번째로_들어온_객체의_rank값은_1이다() {
         //given
-        let input = sut.decode()
+        let input = try? sut.runDecoding(from: "box_office_sample")
         let expectation = "1"
         
         //when
