@@ -29,7 +29,7 @@
       shouldUseLaunchSchemeArgsEnv = "YES">
       <TestPlans>
          <TestPlanReference
-            reference = "container:BoxOffice.xctestplan"
+            reference = "container:BoxOfficeTests/TestPlan.xctestplan"
             default = "YES">
          </TestPlanReference>
       </TestPlans>

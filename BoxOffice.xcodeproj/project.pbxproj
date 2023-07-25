@@ -15,8 +15,9 @@
 		63DF20FB2970E1A1005DF7D1 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 63DF20F92970E1A1005DF7D1 /* LaunchScreen.storyboard */; };
 		78A3C4FF2A6F5C7B00CC78E5 /* BoxOfficeItemInformation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78A3C4FE2A6F5C7B00CC78E5 /* BoxOfficeItemInformation.swift */; };
 		924EFF102A6EC2E7002764D5 /* JsonDecodeTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 924EFF0F2A6EC2E7002764D5 /* JsonDecodeTests.swift */; };
-		924EFF182A6EC382002764D5 /* box_office_sample.json in Resources */ = {isa = PBXBuildFile; fileRef = 924EFF172A6EC382002764D5 /* box_office_sample.json */; };
 		924EFF1F2A6EC607002764D5 /* BoxOfficeResult.swift in Sources */ = {isa = PBXBuildFile; fileRef = 924EFF1E2A6EC607002764D5 /* BoxOfficeResult.swift */; };
+		924EFF212A6F68C3002764D5 /* DailyBoxOffice.swift in Sources */ = {isa = PBXBuildFile; fileRef = 924EFF202A6F68C3002764D5 /* DailyBoxOffice.swift */; };
+		92FE87E52A6F7443000510A3 /* Json.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 92FE87E42A6F7443000510A3 /* Json.xcassets */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -41,9 +42,10 @@
 		78A3C4FE2A6F5C7B00CC78E5 /* BoxOfficeItemInformation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BoxOfficeItemInformation.swift; sourceTree = "<group>"; };
 		924EFF0D2A6EC2E7002764D5 /* BoxOfficeTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = BoxOfficeTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		924EFF0F2A6EC2E7002764D5 /* JsonDecodeTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JsonDecodeTests.swift; sourceTree = "<group>"; };
-		924EFF172A6EC382002764D5 /* box_office_sample.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = box_office_sample.json; sourceTree = "<group>"; };
-		924EFF192A6EC460002764D5 /* BoxOffice.xctestplan */ = {isa = PBXFileReference; lastKnownFileType = text; path = BoxOffice.xctestplan; sourceTree = "<group>"; };
 		924EFF1E2A6EC607002764D5 /* BoxOfficeResult.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BoxOfficeResult.swift; sourceTree = "<group>"; };
+		924EFF202A6F68C3002764D5 /* DailyBoxOffice.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DailyBoxOffice.swift; sourceTree = "<group>"; };
+		92FE87E32A6F71A3000510A3 /* TestPlan.xctestplan */ = {isa = PBXFileReference; lastKnownFileType = text; path = TestPlan.xctestplan; sourceTree = "<group>"; };
+		92FE87E42A6F7443000510A3 /* Json.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = Json.xcassets; path = BoxOfficeTests/Json.xcassets; sourceTree = SOURCE_ROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -98,26 +100,17 @@
 		924EFF0E2A6EC2E7002764D5 /* BoxOfficeTests */ = {
 			isa = PBXGroup;
 			children = (
-				924EFF192A6EC460002764D5 /* BoxOffice.xctestplan */,
-				924EFF162A6EC2FE002764D5 /* Json.xcassets */,
+				92FE87E32A6F71A3000510A3 /* TestPlan.xctestplan */,
 				924EFF0F2A6EC2E7002764D5 /* JsonDecodeTests.swift */,
+				92FE87E42A6F7443000510A3 /* Json.xcassets */,
 			);
 			path = BoxOfficeTests;
-			sourceTree = "<group>";
-		};
-		924EFF162A6EC2FE002764D5 /* Json.xcassets */ = {
-			isa = PBXGroup;
-			children = (
-				924EFF172A6EC382002764D5 /* box_office_sample.json */,
-			);
-			path = Json.xcassets;
 			sourceTree = "<group>";
 		};
 		924EFF1A2A6EC573002764D5 /* Model */ = {
 			isa = PBXGroup;
 			children = (
-				924EFF1E2A6EC607002764D5 /* BoxOfficeResult.swift */,
-				78A3C4FE2A6F5C7B00CC78E5 /* BoxOfficeItemInformation.swift */,
+				924EFF222A6F6985002764D5 /* BoxOfficeData */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -146,6 +139,16 @@
 				63DF20F02970E1A0005DF7D1 /* SceneDelegate.swift */,
 			);
 			path = Application;
+			sourceTree = "<group>";
+		};
+		924EFF222A6F6985002764D5 /* BoxOfficeData */ = {
+			isa = PBXGroup;
+			children = (
+				924EFF202A6F68C3002764D5 /* DailyBoxOffice.swift */,
+				924EFF1E2A6EC607002764D5 /* BoxOfficeResult.swift */,
+				78A3C4FE2A6F5C7B00CC78E5 /* BoxOfficeItemInformation.swift */,
+			);
+			path = BoxOfficeData;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -239,7 +242,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				924EFF182A6EC382002764D5 /* box_office_sample.json in Resources */,
+				92FE87E52A6F7443000510A3 /* Json.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -255,6 +258,7 @@
 				63DF20EF2970E1A0005DF7D1 /* AppDelegate.swift in Sources */,
 				63DF20F12970E1A0005DF7D1 /* SceneDelegate.swift in Sources */,
 				78A3C4FF2A6F5C7B00CC78E5 /* BoxOfficeItemInformation.swift in Sources */,
+				924EFF212A6F68C3002764D5 /* DailyBoxOffice.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
