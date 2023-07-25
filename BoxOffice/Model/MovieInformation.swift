@@ -5,7 +5,7 @@
 //  Created by Zion, Hemg on 2023/07/24.
 //
 
-struct MovieInformation: Decodable, Equatable {
+struct MovieInformation: Decodable {
     let number: String
     let rank: String
     let rankInten: String

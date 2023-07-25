@@ -8,6 +8,12 @@
 import XCTest
 @testable import BoxOffice
 
+extension MovieInformation: Equatable {
+    public static func == (lhs: MovieInformation, rhs: MovieInformation) -> Bool {
+        return lhs.movieCode == rhs.movieCode
+    }
+}
+
 final class BoxOfficeTests: XCTestCase {
     
     private var sut: BoxOfficeResult.DailyBoxOffice!
