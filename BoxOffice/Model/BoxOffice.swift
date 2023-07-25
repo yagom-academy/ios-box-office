@@ -27,7 +27,7 @@ struct DailyBoxOfficeList: Decodable {
 	let rankIntensity: String
 	let rankOldAndNew: String
 	let movieCode: String
-	let movieNumber: String
+	let movieName: String
 	let openDate: String
 	let salesAmount: String
 	let salesShare: String
@@ -47,7 +47,7 @@ struct DailyBoxOfficeList: Decodable {
         case rankIntensity = "rankInten"
         case rankOldAndNew
         case movieCode = "movieCd"
-        case movieNumber = "movieNm"
+        case movieName = "movieNm"
         case openDate = "openDt"
         case salesAmount = "salesAmt"
         case salesShare
