@@ -8,7 +8,7 @@
 struct BoxOfficeResult: Decodable, Equatable {
     let daily: DailyBoxOffice
     
-    enum CodingKeys: String, CodingKey {
+    private enum CodingKeys: String, CodingKey {
         case daily = "boxOfficeResult"
     }
     

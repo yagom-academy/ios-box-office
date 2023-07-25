@@ -10,25 +10,14 @@ import XCTest
 
 final class BoxOfficeTests: XCTestCase {
     
-    var sut: BoxOfficeResult.DailyBoxOffice!
+    private var sut: BoxOfficeResult.DailyBoxOffice!
     
     override func setUpWithError() throws {
         let decoder = JSONDecoder()
+        let asset = NSDataAsset(name: "box_office_sample")!
+        let boxOfficeResult = try! decoder.decode(BoxOfficeResult.self, from: asset.data)
         
-        guard let asset = NSDataAsset(name: "box_office_sample") else {
-            print("asset 변환 실패")
-            return
-        }
-        
-        do {
-            let sut = try decoder.decode(BoxOfficeResult.self, from: asset.data)
-            
-            self.sut = sut.daily
-        } catch {
-            guard let error = error as? DecodingError else { return }
-            
-            print(error)
-        }
+        sut = boxOfficeResult.daily
     }
     
     override func tearDownWithError() throws {

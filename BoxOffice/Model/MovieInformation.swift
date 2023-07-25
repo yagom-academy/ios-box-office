@@ -25,7 +25,7 @@ struct MovieInformation: Decodable, Equatable {
     let screenCount: String
     let showCount: String
     
-    enum CodingKeys: String, CodingKey {
+    private enum CodingKeys: String, CodingKey {
         case number = "rnum"
         case rank, rankInten, rankOldAndNew
         case movieCode = "movieCd"

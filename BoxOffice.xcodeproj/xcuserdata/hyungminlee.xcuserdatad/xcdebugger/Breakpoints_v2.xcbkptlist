@@ -7,7 +7,23 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            uuid = "85B7353B-D5C1-4500-9050-AAF5DBADB0B9"
+            uuid = "31F2045C-14A5-4B76-BA0D-98E9A65D632D"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "BoxOfficeTests/BoxOfficeTests.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "29"
+            endingLineNumber = "29"
+            landmarkName = "test_&#xb514;&#xcf54;&#xb529;&#xacb0;&#xacfc;&#xac12;_&#xd655;&#xc778;()"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "68C7F7F7-38FB-4A16-B06D-590A56629D3D"
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
@@ -18,21 +34,69 @@
             endingLineNumber = "16"
             landmarkName = "setUpWithError()"
             landmarkType = "7">
+            <Locations>
+               <Location
+                  uuid = "68C7F7F7-38FB-4A16-B06D-590A56629D3D - d3391c8883250c7e"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "BoxOfficeTests.BoxOfficeTests.setUpWithError() throws -&gt; ()"
+                  moduleName = "BoxOfficeTests"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/hyungminlee/Desktop/Project/ios-box-office/BoxOfficeTests/BoxOfficeTests.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "16"
+                  endingLineNumber = "16"
+                  offsetFromSymbolStart = "200">
+               </Location>
+               <Location
+                  uuid = "68C7F7F7-38FB-4A16-B06D-590A56629D3D - d3391c8883250c7e"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "BoxOfficeTests.BoxOfficeTests.setUpWithError() throws -&gt; ()"
+                  moduleName = "BoxOfficeTests"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/hyungminlee/Desktop/Project/ios-box-office/BoxOfficeTests/BoxOfficeTests.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "16"
+                  endingLineNumber = "16"
+                  offsetFromSymbolStart = "104">
+               </Location>
+            </Locations>
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            uuid = "DC9B4AE9-58F8-4B8B-8F39-C17D8D2530C4"
+            uuid = "5A8D9E15-7B78-462B-A1F8-119C95DAA57D"
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "BoxOfficeTests/BoxOfficeTests.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "28"
-            endingLineNumber = "28"
-            landmarkName = "setUpWithError()"
+            startingLineNumber = "73"
+            endingLineNumber = "73"
+            landmarkName = "test_&#xb514;&#xcf54;&#xb529;&#xacb0;&#xacfc;&#xac12;_&#xd655;&#xc778;()"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "9311DFEA-0643-400F-BC29-A8F68936FBE4"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "BoxOfficeTests/BoxOfficeTests.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "24"
+            endingLineNumber = "24"
+            landmarkName = "tearDownWithError()"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
