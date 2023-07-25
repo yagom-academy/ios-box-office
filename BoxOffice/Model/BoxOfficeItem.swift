@@ -5,7 +5,7 @@
 //  Created by EtialMoon, Minsup on 2023/07/24.
 //
 
-struct BoxOfficeItem: Decodable {
+struct BoxOfficeItem: Decodable, Equatable {
     let rankNumber: String
     let rank: String
     let amountOfRankChange: String
