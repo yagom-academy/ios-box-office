@@ -1,1 +1,9 @@
 .DS_Store
+
+# Xcode build settings
+.xcworkspace/
+.xcodeproj/
+xcuserdata/
+
+# Xcode scheme management
+xcschememanagement.plist
