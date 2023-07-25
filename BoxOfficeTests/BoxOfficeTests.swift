@@ -10,9 +10,9 @@ import XCTest
 
 final class BoxOfficeTests: XCTestCase {
     var sut: BoxOffice!
+    
     override func setUpWithError() throws {
         try super.setUpWithError()
-        sut = JSONDecoder.decode(fileName: "box_office_sample")
     }
 
     override func tearDownWithError() throws {
@@ -20,12 +20,16 @@ final class BoxOfficeTests: XCTestCase {
         try super.tearDownWithError()
     }
     
-    func test_box_office_sample을_Decode하면_BoxOfficeResult_인스턴스가_존재한다() {
+    func test_box_office_sample_json_파일을_디코딩_할_수_있다() {
         // Given
+        guard let result: BoxOffice = JSONDecoder.decode(fileName: "box_office_sample") else {
+            XCTFail("파일명 'box_office_sample'로 JSON 디코딩 할 수 없습니다.")
+            return
+        }
         
         // When
         
         // Then
-        XCTAssertNotNil(sut.boxOfficeResult)
+        XCTAssertNotNil(result)
     }
 }
