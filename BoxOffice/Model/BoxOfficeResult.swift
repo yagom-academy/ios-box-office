@@ -16,7 +16,3 @@ struct BoxOfficeResult: Decodable {
         case dailyBoxOfficeList
     }
 }
-
-struct BoxOfficeItemInformation: Decodable {
-    
-}
