@@ -23,12 +23,21 @@ struct BoxOfficeResult: Decodable {
 
 struct DailyBoxOfficeList: Decodable {
     let number: String
-    let rank, rankIntensity: String
+    let rank: String
+    let rankIntensity: String
     let rankOldAndNew: String
-    let movieCode, movieName: String
+    let movieCode: String
+    let movieName: String
     let openDate: String
-    let salesAmount, salesShare, salseIntensity, salesChange, salesAccumulation: String
-    let audienceCount, audienceIntensity, audienceChange, audienceAccumulation: String
+    let salesAmount: String
+    let salesShare: String
+    let salseIntensity: String
+    let salesChange: String
+    let salesAccumulation: String
+    let audienceCount: String
+    let audienceIntensity: String
+    let audienceChange: String
+    let audienceAccumulation: String
     let screenCount: String
     let showCount: String
     
