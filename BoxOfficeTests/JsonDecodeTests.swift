@@ -8,14 +8,8 @@
 import XCTest
 @testable import BoxOffice
 
-extension BoxOfficeItem: Equatable {
-    public static func == (lhs: BoxOfficeItem, rhs: BoxOfficeItem) -> Bool {
-        return lhs.movieCode == rhs.movieCode
-    }
-}
-
 final class JsonDecodeTests: XCTestCase {
-    var sut: DailyBoxOffice!
+    var sut: BoxOfficeData!
 
     override func setUpWithError() throws {
         try super.setUpWithError()
@@ -23,7 +17,7 @@ final class JsonDecodeTests: XCTestCase {
         guard let json = NSDataAsset(name: "box_office_sample", bundle: bundle) else {
             return
         }
-        sut = try JSONDecoder().decode(DailyBoxOffice.self, from: json.data)
+        sut = try JSONDecoder().decode(BoxOfficeData.self, from: json.data)
     }
 
     override func tearDownWithError() throws {
@@ -36,7 +30,7 @@ final class JsonDecodeTests: XCTestCase {
         let result = sut.boxOfficeResult.boxOfficeType
         
         //when
-        let expectation = "일별 박스오피스"
+        let expectation = BoxOfficeResult.BoxOfficeType.dailyBoxOffice
         
         //then
         XCTAssertEqual(result, expectation)
@@ -79,10 +73,7 @@ final class JsonDecodeTests: XCTestCase {
             """
         
         //when
-        guard let jsonData = json.data(using: .utf8) else {
-            return
-        }
-        let expectation = try JSONDecoder().decode(BoxOfficeItem.self, from: jsonData)
+        let expectation = try JSONDecoder().decode(BoxOfficeItem.self, from: json.data(using: .utf8)!)
         
         //then
         XCTAssertEqual(result, expectation)

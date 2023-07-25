@@ -1,11 +1,32 @@
 //
-//  BoxOfficeItemInformation.swift
+//  BoxOfficeData.swift
 //  BoxOffice
 //
 //  Created by hoon, mint on 2023/07/25.
 //
 
-struct BoxOfficeItem: Decodable {
+struct BoxOfficeData: Decodable {
+    let boxOfficeResult: BoxOfficeResult
+}
+
+struct BoxOfficeResult: Decodable {
+    let boxOfficeType: BoxOfficeType
+    let Duration: String
+    let dailyBoxOfficeList: [BoxOfficeItem]
+    
+    enum BoxOfficeType: String, Decodable {
+        case dailyBoxOffice = "일별 박스오피스"
+        case weeklyBoxOffice = "주간/주말 박스오피스"
+    }
+    
+    private enum CodingKeys: String, CodingKey {
+        case boxOfficeType = "boxofficeType"
+        case Duration = "showRange"
+        case dailyBoxOfficeList
+    }
+}
+
+struct BoxOfficeItem: Decodable, Equatable {
     let number: String
     let rank: String
     let rankVariation: String
@@ -30,7 +51,7 @@ struct BoxOfficeItem: Decodable {
         case new = "NEW"
     }
     
-    enum CodingKeys: String, CodingKey {
+    private enum CodingKeys: String, CodingKey {
         case number = "rnum"
         case rank
         case rankVariation = "rankInten"
