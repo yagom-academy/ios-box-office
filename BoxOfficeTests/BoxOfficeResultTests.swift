@@ -10,12 +10,14 @@ import XCTest
 
 final class BoxOfficeResultTests: XCTestCase {
     var sut: BoxOfficeResult?
+    var assetFileName: String = "box_office_sample"
     
     override func setUpWithError() throws {
         try super.setUpWithError()
+        assetFileName = "box_office_sample"
         
         do {
-            let boxOffice: BoxOffice = try JSONDecoder.decode(fileName: "box_office_sample")
+            let boxOffice: BoxOffice = try JSONDecoder.decode(fileName: assetFileName)
             sut = boxOffice.boxOfficeResult
         } catch JSONDecoderError.notFoundedAssetFileName {
             XCTFail("JSON 파일을 부르는데 실패하였습니다.")
@@ -35,9 +37,49 @@ final class BoxOfficeResultTests: XCTestCase {
         // Given
 
         // When
-
+        
         // Then
         XCTAssertNotNil(sut)
+    }
+    
+    func test_box_office_sample과_일치하는_파일이_없어_Decode할_수_없다() {
+        // Given
+        assetFileName = "wrong_file_name"
+        
+        do {
+            // When
+            let boxOffice: BoxOffice = try JSONDecoder.decode(fileName: assetFileName)
+        } catch let error as JSONDecoderError {
+            switch error {
+            case .notFoundedAssetFileName:
+                // Then
+                XCTAssertEqual(error, JSONDecoderError.notFoundedAssetFileName)
+            case .failureDataDecoding:
+                XCTFail("디코딩에 실패하였습니다.")
+            }
+        } catch {
+            XCTFail("알 수 없는 에러가 발생했습니다.")
+        }
+    }
+    
+    func test_box_office_sample를_이용하여_Decode가_실패한다() {
+        // Given
+        assetFileName = "box_office_sample"
+        
+        do {
+            // When
+            let boxOfficeResult: BoxOfficeResult = try JSONDecoder.decode(fileName: assetFileName)
+        } catch let error as JSONDecoderError {
+            switch error {
+            case .notFoundedAssetFileName:
+                XCTFail("JSON 파일을 부르는데 실패하였습니다.")
+            case .failureDataDecoding:
+                // Then
+                XCTAssertEqual(error, JSONDecoderError.failureDataDecoding)
+            }
+        } catch {
+            XCTFail("알 수 없는 에러가 발생했습니다.")
+        }
     }
     
     func test_boxOfficeType이_일별_박스오피스를_반환한다() {
