@@ -1,0 +1,24 @@
+{
+  "configurations" : [
+    {
+      "id" : "0CFD4D00-CFBD-4587-8E38-B278E43B981B",
+      "name" : "Configuration 1",
+      "options" : {
+
+      }
+    }
+  ],
+  "defaultOptions" : {
+
+  },
+  "testTargets" : [
+    {
+      "target" : {
+        "containerPath" : "container:BoxOffice.xcodeproj",
+        "identifier" : "924EFF0C2A6EC2E7002764D5",
+        "name" : "BoxOfficeTests"
+      }
+    }
+  ],
+  "version" : 1
+}
