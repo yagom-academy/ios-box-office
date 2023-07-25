@@ -2,7 +2,7 @@
 //  JSONDecoder+.swift
 //  BoxOffice
 //
-//  Created by Serana, BMO on 2023/07/25.
+//  Created by Serena, BMO on 2023/07/25.
 //
 
 import UIKit

@@ -2,7 +2,7 @@
 //  BoxOfficeResult.swift
 //  BoxOffice
 //
-//  Created by Serana, BMO on 2023/07/24.
+//  Created by Serena, BMO on 2023/07/24.
 //
 
 struct BoxOfficeResult: Decodable {
