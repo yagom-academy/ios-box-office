@@ -22,7 +22,7 @@ struct JSONDecodingHelper<T:Decodable> {
         let decoder = JSONDecoder()
 
         guard let result = try? decoder.decode(T.self, from: data) else {
-            throw JSONDecodingError.unableDecodeData
+            throw JSONDecodingError.undecodableData
         }
         
         return result
@@ -40,7 +40,7 @@ struct JSONDecodingHelper<T:Decodable> {
     private func getJsonData(path: String) throws -> Data {
         guard let data = try? String(contentsOfFile: path).data(using: .utf8) else {
             print("해당 파일을 읽어 올 수 없습니다.")
-            throw JSONDecodingError.unableReadData
+            throw JSONDecodingError.unreadableData
         }
         
         return data
@@ -49,17 +49,17 @@ struct JSONDecodingHelper<T:Decodable> {
 
 enum JSONDecodingError: LocalizedError {
     case missingFile
-    case unableReadData
-    case unableDecodeData
+    case unreadableData
+    case undecodableData
     
     var errorDescription: String? {
         switch self {
             
         case .missingFile:
             return "해당 파일을 찾을 수 없습니다"
-        case .unableReadData:
+        case .unreadableData:
             return "해당 파일을 읽어 올 수 없습니다."
-        case .unableDecodeData:
+        case .undecodableData:
             return "해당 파일을 변환하는데 실패했습니다."
         }
     }
