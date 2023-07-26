@@ -25,6 +25,16 @@ struct APIManager {
                 return
             }
             
+            guard let httpResponse = response as? HTTPURLResponse else {
+                print("Response Error")
+                return
+            }
+            
+            guard (200..<300).contains(httpResponse.statusCode) else {
+                print("Server Error: \(httpResponse.statusCode)")
+                return
+            }
+            
         }
     }
 }
