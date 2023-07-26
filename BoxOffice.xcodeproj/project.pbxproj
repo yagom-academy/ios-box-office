@@ -82,9 +82,7 @@
 				9C30BD2D2A70C9F8000DB5B2 /* Model */,
 				9C30BD2C2A70C9F5000DB5B2 /* View */,
 				9C30BD2F2A70C9FC000DB5B2 /* Controller */,
-				63DF20F42970E1A0005DF7D1 /* Main.storyboard */,
 				63DF20F72970E1A1005DF7D1 /* Assets.xcassets */,
-				63DF20F92970E1A1005DF7D1 /* LaunchScreen.storyboard */,
 				63DF20FC2970E1A1005DF7D1 /* Info.plist */,
 			);
 			path = BoxOffice;
@@ -101,6 +99,8 @@
 		9C30BD2C2A70C9F5000DB5B2 /* View */ = {
 			isa = PBXGroup;
 			children = (
+				63DF20F42970E1A0005DF7D1 /* Main.storyboard */,
+				63DF20F92970E1A1005DF7D1 /* LaunchScreen.storyboard */,
 			);
 			path = View;
 			sourceTree = "<group>";
