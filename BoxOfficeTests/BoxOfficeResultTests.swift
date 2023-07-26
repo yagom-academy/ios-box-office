@@ -103,4 +103,26 @@ final class BoxOfficeResultTests: XCTestCase {
         // Then
         XCTAssertEqual(result, expectedResult)
     }
+    
+    func test_dailyBoxOfficeList_첫번째_배열의_영화_제목이_경관의_피_이다() {
+        // Given
+        let result = sut?.dailyBoxOfficeList.first?.movieName
+        
+        // When
+        let expectedResult = "경관의 피"
+        
+        // Then
+        XCTAssertEqual(result, expectedResult)
+    }
+    
+    func test_dailyBoxOfficeList_첫번째_배열의_영화_코드가_20199882_이다() {
+        // Given
+        let result = sut?.dailyBoxOfficeList.first?.movieCode
+        
+        // When
+        let expectedResult = "20199882"
+        
+        // Then
+        XCTAssertEqual(result, expectedResult)
+    }
 }
