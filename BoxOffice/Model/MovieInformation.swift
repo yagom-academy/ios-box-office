@@ -25,7 +25,7 @@ struct MovieInformation: Decodable {
     let screenCount: String
     let showCount: String
     
-    enum CodingKeys: String, CodingKey, CaseIterable {
+    enum CodingKeys: String, CodingKey {
         case rowNumber = "rnum"
         case rank
         case rankChangeValue = "rankInten"
