@@ -26,12 +26,8 @@ struct NetworkManager {
             }
             
             guard let response = response as? HTTPURLResponse,
-                  (200..<300).contains(response.statusCode) else {
-                completion(nil)
-                return
-            }
-            
-            guard let data else {
+                  (200..<300).contains(response.statusCode),
+                  let data else {
                 completion(nil)
                 return
             }
