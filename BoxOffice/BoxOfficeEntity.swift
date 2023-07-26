@@ -43,3 +43,5 @@ struct BoxOfficeEntity: Decodable {
     
     let boxOfficeResult: BoxOfficeResult
 }
+
+
