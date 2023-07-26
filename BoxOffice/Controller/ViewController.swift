@@ -7,10 +7,15 @@
 
 import UIKit
 
-class ViewController: UIViewController {
-
+final class ViewController: UIViewController {
+    var apiProtocol: APIProtocol = GetDataAPI()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
+    }
+    
+    func requestAPI(completion: @escaping (Result<[MovieInfo], Error>) -> ()) {
+        apiProtocol.callAPIServer(completion: completion)
     }
 }
 
