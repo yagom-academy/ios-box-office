@@ -8,6 +8,7 @@ import Foundation
 
 struct NetworkingManager {
     let session = URLSession.shared
+    var delegate: NetworkingDelegate?
     
     func load(_ urlString: String) {
         guard let url = URL(string: urlString) else {
@@ -28,9 +29,10 @@ struct NetworkingManager {
             
             if let mimeType = httpResponse.mimeType,
                mimeType == "application/json",
-               let data = data,
-               let string = String(data: data, encoding: .utf8) {
-                print(string) // 뷰 컨트롤러에 전달하는 부분 필요
+               let rawData = data,
+               let string = String(data: rawData, encoding: .utf8),
+               let data = string.data(using: .utf8) {
+                delegate?.setReceivedData(data)
             }
         }
         task.resume()
