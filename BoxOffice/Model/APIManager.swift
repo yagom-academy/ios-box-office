@@ -17,6 +17,14 @@ struct APIManager {
             return
         }
         
-        var request = URLRequest(url: correctUrl)
+        let request = URLRequest(url: correctUrl)
+        
+        session.dataTask(with: request) { data, response, error in
+            guard error == nil else {
+                print("error: \(String(describing: error))")
+                return
+            }
+            
+        }
     }
 }
