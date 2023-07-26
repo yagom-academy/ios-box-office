@@ -41,4 +41,14 @@ struct NetworkManager {
         
         task.resume()
     }
+    
+    func decodeJSON<T: Decodable>(data: Data) -> T? {
+        do {
+            let decodedData = try JSONDecoder().decode(T.self, from: data)
+            
+            return decodedData
+        } catch {
+            return nil
+        }
+    }
 }
