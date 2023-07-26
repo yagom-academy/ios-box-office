@@ -32,4 +32,15 @@ final class DecodingHelperTests: XCTestCase {
         //then
         XCTAssertEqual(expectation, result)
     }
+    func test_decode_dailyBoxOfficeList의_0() {
+        //given
+        let input = try? sut.parse(from: "wrong_fileName")
+        let expectation: String? = nil
+        
+        //when
+        let result = input?.boxOfficeResult.dailyBoxOfficeList[0].movieCode
+        
+        //then
+        XCTAssertEqual(expectation, result)
+    }
 }
