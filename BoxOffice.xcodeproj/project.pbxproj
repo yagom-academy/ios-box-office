@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		45174D5B2A70B113009EEA9F /* Movie.swift in Sources */ = {isa = PBXBuildFile; fileRef = 45174D5A2A70B113009EEA9F /* Movie.swift */; };
 		63DF20EF2970E1A0005DF7D1 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63DF20EE2970E1A0005DF7D1 /* AppDelegate.swift */; };
 		63DF20F12970E1A0005DF7D1 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63DF20F02970E1A0005DF7D1 /* SceneDelegate.swift */; };
 		63DF20F32970E1A0005DF7D1 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63DF20F22970E1A0005DF7D1 /* ViewController.swift */; };
@@ -28,6 +29,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		45174D5A2A70B113009EEA9F /* Movie.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Movie.swift; sourceTree = "<group>"; };
 		63DF20EB2970E1A0005DF7D1 /* BoxOffice.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = BoxOffice.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		63DF20EE2970E1A0005DF7D1 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		63DF20F02970E1A0005DF7D1 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -60,6 +62,15 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		45174D592A70B0DF009EEA9F /* DTO */ = {
+			isa = PBXGroup;
+			children = (
+				CD1AFC202A6E77C2001C50A7 /* BoxOffice.swift */,
+				45174D5A2A70B113009EEA9F /* Movie.swift */,
+			);
+			path = DTO;
+			sourceTree = "<group>";
+		};
 		63DF20E22970E1A0005DF7D1 = {
 			isa = PBXGroup;
 			children = (
@@ -110,7 +121,7 @@
 		CD1AFC1D2A6E7780001C50A7 /* Model */ = {
 			isa = PBXGroup;
 			children = (
-				CD1AFC202A6E77C2001C50A7 /* BoxOffice.swift */,
+				45174D592A70B0DF009EEA9F /* DTO */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -247,6 +258,7 @@
 				63DF20EF2970E1A0005DF7D1 /* AppDelegate.swift in Sources */,
 				63DF20F12970E1A0005DF7D1 /* SceneDelegate.swift in Sources */,
 				CD1AFC212A6E77C2001C50A7 /* BoxOffice.swift in Sources */,
+				45174D5B2A70B113009EEA9F /* Movie.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
