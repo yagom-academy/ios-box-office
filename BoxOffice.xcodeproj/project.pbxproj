@@ -19,6 +19,8 @@
 		9C30BD352A70CDF3000DB5B2 /* MovieInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C30BD342A70CDF3000DB5B2 /* MovieInfo.swift */; };
 		9C30BD382A70CECF000DB5B2 /* APIProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C30BD372A70CECF000DB5B2 /* APIProtocol.swift */; };
 		9C30BD3A2A70D149000DB5B2 /* GetDataAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C30BD392A70D149000DB5B2 /* GetDataAPI.swift */; };
+		9C30BD3C2A70D502000DB5B2 /* DataNamespace.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C30BD3B2A70D502000DB5B2 /* DataNamespace.swift */; };
+		9C30BD3E2A70D64B000DB5B2 /* DataManaging.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C30BD3D2A70D64B000DB5B2 /* DataManaging.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -47,6 +49,8 @@
 		9C30BD342A70CDF3000DB5B2 /* MovieInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MovieInfo.swift; sourceTree = "<group>"; };
 		9C30BD372A70CECF000DB5B2 /* APIProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIProtocol.swift; sourceTree = "<group>"; };
 		9C30BD392A70D149000DB5B2 /* GetDataAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GetDataAPI.swift; sourceTree = "<group>"; };
+		9C30BD3B2A70D502000DB5B2 /* DataNamespace.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataNamespace.swift; sourceTree = "<group>"; };
+		9C30BD3D2A70D64B000DB5B2 /* DataManaging.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataManaging.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -123,6 +127,7 @@
 				9C30BD322A70CD75000DB5B2 /* BoxOfficeResult.swift */,
 				9C30BD342A70CDF3000DB5B2 /* MovieInfo.swift */,
 				9C30BD392A70D149000DB5B2 /* GetDataAPI.swift */,
+				9C30BD3B2A70D502000DB5B2 /* DataNamespace.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -148,6 +153,7 @@
 			isa = PBXGroup;
 			children = (
 				9C30BD372A70CECF000DB5B2 /* APIProtocol.swift */,
+				9C30BD3D2A70D64B000DB5B2 /* DataManaging.swift */,
 			);
 			path = Protocol;
 			sourceTree = "<group>";
@@ -256,8 +262,10 @@
 				63DF20F32970E1A0005DF7D1 /* ViewController.swift in Sources */,
 				9C30BD382A70CECF000DB5B2 /* APIProtocol.swift in Sources */,
 				9C30BD332A70CD75000DB5B2 /* BoxOfficeResult.swift in Sources */,
+				9C30BD3E2A70D64B000DB5B2 /* DataManaging.swift in Sources */,
 				63DF20EF2970E1A0005DF7D1 /* AppDelegate.swift in Sources */,
 				63DF20F12970E1A0005DF7D1 /* SceneDelegate.swift in Sources */,
+				9C30BD3C2A70D502000DB5B2 /* DataNamespace.swift in Sources */,
 				9C30BD352A70CDF3000DB5B2 /* MovieInfo.swift in Sources */,
 				9C30BD312A70CCB6000DB5B2 /* DailyBoxOffice.swift in Sources */,
 				9C30BD3A2A70D149000DB5B2 /* GetDataAPI.swift in Sources */,
