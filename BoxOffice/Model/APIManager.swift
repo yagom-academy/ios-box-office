@@ -34,11 +34,20 @@ struct APIManager {
                 print("Server Error: \(httpResponse.statusCode)")
                 return
             }
-            
+        
             guard let safeData = data else {
                 print("None of Data")
                 return
             }
-        }
+            
+            if safeData == data {
+                do {
+                    let decoder = JSONDecoder()
+                    let decodedData = try decoder.decode(BoxOffice.self, from: safeData)
+                } catch {
+                    print ("Decoding Error")
+                }
+            }
+        }.resume()
     }
 }
