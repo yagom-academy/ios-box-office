@@ -9,9 +9,9 @@ import UIKit
 
 class ViewController: UIViewController {
     var networkManager: NetworkingManager = NetworkingManager()
-    let url = "http://kobis.or.kr/kobisopenapi/webservice/rest/boxoffice/searchDailyBoxOfficeList.json?key=%@&targetDt=20120101"
+    let url = "http://www.kobis.or.kr/kobisopenapi/webservice/rest/movie/searchMovieInfo.json?key=%@&movieCd=20124079"
     
-    var receivedData: BoxOfficeEntity?
+    var receivedData: MovieDetailEntity?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -26,7 +26,7 @@ class ViewController: UIViewController {
 
 extension ViewController: NetworkingDelegate {
     func setReceivedData(_ data: Data) {
-        guard let newData: BoxOfficeEntity = DecodingManager.shared.decode(data) else {
+        guard let newData: MovieDetailEntity = DecodingManager.shared.decode(data) else {
             return
         }
         
