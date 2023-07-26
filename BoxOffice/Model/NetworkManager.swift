@@ -15,10 +15,30 @@ struct NetworkManager {
         urlComponents.path = path
         urlComponents.queryItems = queryItems
         
-        guard let url = urlComponents.url else {
-            return nil
+        return urlComponents.url ?? nil
+    }
+    
+    func startLoad(_ url: URL, completion: @escaping (Data?) -> Void) {
+        let task = URLSession.shared.dataTask(with: url) { data, response, error in
+            guard error == nil else {
+                completion(nil)
+                return
+            }
+            
+            guard let response = response as? HTTPURLResponse,
+                  (200..<300).contains(response.statusCode) else {
+                completion(nil)
+                return
+            }
+            
+            guard let data else {
+                completion(nil)
+                return
+            }
+            
+            completion(data)
         }
         
-        return url
+        task.resume()
     }
 }
