@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Bucket
+   uuid = "CCFCE68C-A567-4A03-8D4E-709F696A800C"
+   type = "1"
+   version = "2.0">
+   <Breakpoints>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "BFD1803D-4B76-474B-BBA1-79570ABAD12F"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "BoxOffice/Model/DecodingHelper.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "24"
+            endingLineNumber = "24"
+            landmarkName = "getJsonFile(by:)"
+            landmarkType = "7">
+            <Locations>
+               <Location
+                  uuid = "BFD1803D-4B76-474B-BBA1-79570ABAD12F - d38a4ee2cc600f1c"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "BoxOffice.DecodingHelper.decode() -&gt; Swift.Optional&lt;BoxOffice.MovieInfo&gt;"
+                  moduleName = "BoxOffice"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/redmango1446/Desktop/yagom/ios-box-office/BoxOffice/Model/DecodingHelper.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "25"
+                  endingLineNumber = "25"
+                  offsetFromSymbolStart = "884">
+               </Location>
+               <Location
+                  uuid = "BFD1803D-4B76-474B-BBA1-79570ABAD12F - 638e9246fa865d35"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "BoxOffice.DecodingHelper.decode() -&gt; Swift.Optional&lt;BoxOffice.BoxOffice&gt;"
+                  moduleName = "BoxOffice"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/redmango1446/Desktop/yagom/ios-box-office/BoxOffice/Model/DecodingHelper.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "25"
+                  endingLineNumber = "25"
+                  offsetFromSymbolStart = "1136">
+               </Location>
+            </Locations>
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "6818C56E-F5F7-4393-81A6-AFD1C11028E7"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "BoxOffice/Model/DecodingHelper.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "29"
+            endingLineNumber = "29"
+            landmarkName = "getJsonData(path:)"
+            landmarkType = "7">
+            <Locations>
+               <Location
+                  uuid = "6818C56E-F5F7-4393-81A6-AFD1C11028E7 - d38a4ee2cc600fb9"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "BoxOffice.DecodingHelper.decode() -&gt; Swift.Optional&lt;BoxOffice.MovieInfo&gt;"
+                  moduleName = "BoxOffice"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/redmango1446/Desktop/yagom/ios-box-office/BoxOffice/Model/DecodingHelper.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "30"
+                  endingLineNumber = "30"
+                  offsetFromSymbolStart = "2328">
+               </Location>
+               <Location
+                  uuid = "6818C56E-F5F7-4393-81A6-AFD1C11028E7 - 638e9246fa865d90"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "BoxOffice.DecodingHelper.decode() -&gt; Swift.Optional&lt;BoxOffice.BoxOffice&gt;"
+                  moduleName = "BoxOffice"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/redmango1446/Desktop/yagom/ios-box-office/BoxOffice/Model/DecodingHelper.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "30"
+                  endingLineNumber = "30"
+                  offsetFromSymbolStart = "1548">
+               </Location>
+            </Locations>
+         </BreakpointContent>
+      </BreakpointProxy>
+   </Breakpoints>
+</Bucket>
