@@ -9,17 +9,16 @@ import UIKit
 
 final class DecodingManager {
     static let shared = DecodingManager()
+    let decoder = JSONDecoder()
     
     private init() {}
     
-    func decode(_ data: Data?) -> BoxOfficeEntity? {
-        let decoder = JSONDecoder()
-        
-        if let data = data,
-           let boxoffice = try? decoder.decode(BoxOfficeEntity.self, from: data) {
-            return boxoffice
+    func decode<T: Decodable>(_ data: Data?) -> T? {
+        guard let data = data,
+              let decodedData = try? decoder.decode(T.self, from: data) else {
+            return nil
         }
         
-        return nil
+        return decodedData
     }
 }

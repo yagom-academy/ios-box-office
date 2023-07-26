@@ -12,6 +12,7 @@ final class BoxOfficeTests: XCTestCase {
     var sut: BoxOfficeEntity!
 
     override func setUpWithError() throws {
+        try super.setUpWithError()
         guard let path = Bundle.main.path(forResource: "box_office_sample", ofType: "json"),
               let jsonString = try? String(contentsOfFile: path) else {
             return
@@ -22,6 +23,7 @@ final class BoxOfficeTests: XCTestCase {
     }
 
     override func tearDownWithError() throws {
+        try super.tearDownWithError()
         sut = nil
     }
     
