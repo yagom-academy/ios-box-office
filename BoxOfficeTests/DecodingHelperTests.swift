@@ -21,7 +21,7 @@ final class DecodingHelperTests: XCTestCase {
         try super.tearDownWithError()
     }
 
-    func test_decode_dailyBoxOfficeList의_첫번째로_들어온_객체의_rank값은_1이다() {
+    func test_prase_dailyBoxOfficeList의_첫번째로_들어온_객체의_rank값은_1이다() {
         //given
         let input = try? sut.parse(from: "box_office_sample")
         let expectation = "1"
@@ -32,7 +32,7 @@ final class DecodingHelperTests: XCTestCase {
         //then
         XCTAssertEqual(expectation, result)
     }
-    func test_decode_dailyBoxOfficeList의_0() {
+    func test_parse_잘못된파일이름으로_파싱하면_가져오는데이터가_nil값을_갖는다() {
         //given
         let input = try? sut.parse(from: "wrong_fileName")
         let expectation: String? = nil
