@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct DecodingHelper<T:Decodable> {
+struct JSONDecodingHelper<T:Decodable> {
     
     func parse(from fileName: String) throws -> T {
         let path = try getJsonFile(by: fileName)

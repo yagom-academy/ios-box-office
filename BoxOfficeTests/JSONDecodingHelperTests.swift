@@ -8,12 +8,12 @@
 import XCTest
 @testable import BoxOffice
 
-final class DecodingHelperTests: XCTestCase {
-    var sut: DecodingHelper<BoxOffice>!
+final class JSONDecodingHelperTests: XCTestCase {
+    var sut: JSONDecodingHelper<BoxOffice>!
     
     override func setUpWithError() throws {
         try super.setUpWithError()
-        sut = DecodingHelper()
+        sut = JSONDecodingHelper()
     }
 
     override func tearDownWithError() throws {
