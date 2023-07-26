@@ -18,13 +18,19 @@ struct NetworkingManager {
         let task = session.dataTask(with: url) { data, response, error in
             // 연결 에러
             if error != nil {
-                print(error!) // 에러처리 필요
+                print(BoxOfficeError.connectionFailure.description)
+                return
             }
             
             // 서버 에러
-            guard let httpResponse = response as? HTTPURLResponse,
-                  (200...299).contains(httpResponse.statusCode) else {
-                return // 에러처리 필요
+            guard let httpResponse = response as? HTTPURLResponse else {
+                print(BoxOfficeError.notHttpUrlResponse.description)
+                return
+            }
+            
+            guard (200...299).contains(httpResponse.statusCode) else {
+                print(BoxOfficeError.invalidResponse(statusCode: httpResponse.statusCode).description)
+                return
             }
             
             if let mimeType = httpResponse.mimeType,
