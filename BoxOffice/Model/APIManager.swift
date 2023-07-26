@@ -35,6 +35,10 @@ struct APIManager {
                 return
             }
             
+            guard let safeData = data else {
+                print("None of Data")
+                return
+            }
         }
     }
 }
