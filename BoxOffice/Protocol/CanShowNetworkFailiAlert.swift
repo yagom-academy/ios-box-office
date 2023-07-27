@@ -8,11 +8,15 @@
 import UIKit
 
 protocol CanShowNetworkFailAlert where Self: UIViewController {
-    func showNetworkFailAlert()
+    func showNetworkFailAlert(message: String)
 }
 
 extension CanShowNetworkFailAlert {
-    func showNetworkFailAlert() {
-        
+    func showNetworkFailAlert(message: String) {
+        let alert = UIAlertController(title: nil, message: message, preferredStyle: .alert)
+        let confirmAction: UIAlertAction = UIAlertAction(title: "확인", style: .default)
+       
+        alert.addAction(confirmAction)
+        present(alert, animated: true)
     }
 }
