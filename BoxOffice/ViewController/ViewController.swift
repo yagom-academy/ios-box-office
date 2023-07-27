@@ -11,7 +11,14 @@ class ViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        // Do any additional setup after loading the view.
+        
+        let networkManager = NetworkManager()
+        
+        func printBoxOffice(_ boxOffice: BoxOffice) {
+            print(boxOffice)
+        }
+        
+        networkManager.loadData(printBoxOffice)
     }
 
 
