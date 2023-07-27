@@ -8,22 +8,30 @@
 import Foundation
 
 struct MovieService {
-    func fetchData() {
-        guard let url = APIConstants().receiveDailyBoxOfficeURL() else { return }
+    func fetchData(serviceType: ServiceType) {
+        guard let url = APIConstants().receiveURL(serviceType: serviceType) else { return }
         
         let task = URLSession.shared.dataTask(with: url) { data, response, error in
-            if let error = error {
+            if let _ = error {
                 return
             }
             
             guard let httpResponse = response as? HTTPURLResponse,
-                        (200...299).contains(httpResponse.statusCode) else {
-                        return
-                    }
+                  (200...299).contains(httpResponse.statusCode) else {
+                return
+            }
             
-            if let data = data,
-               let decodedData = try? JSONDecoder().decode(BoxOffice.self, from: data) {
-                print(decodedData)
+            switch serviceType {
+            case .dailyBoxOffice:
+                if let data = data,
+                   let decodedData = try? JSONDecoder().decode(BoxOffice.self, from: data) {
+                    print(decodedData)
+                }
+            case .movieDetailInformation:
+                if let data = data,
+                   let decodedData = try? JSONDecoder().decode(MovieDetailInformation.self, from: data) {
+                    print(decodedData)
+                }
             }
         }
         
