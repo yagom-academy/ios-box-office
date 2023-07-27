@@ -35,7 +35,10 @@ final class Networking {
         
         dataTask.resume()
     }
-    
+}
+
+// MARK: - Private
+extension Networking {
     private static func decodeResponseData<T: Decodable>(_ responseData: Data, _ completionHandler: (APIResult<T>) -> Void) {
         do {
             let jsonDecoder = JSONDecoder()

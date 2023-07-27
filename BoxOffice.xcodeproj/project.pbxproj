@@ -103,8 +103,7 @@
 		5B3D40D12A6E670E00A91662 /* Model */ = {
 			isa = PBXGroup;
 			children = (
-				5B3D40D22A6E67DD00A91662 /* BoxOfficeResult.swift */,
-				63FFA9392A727BD700D88A81 /* MovieDetailInformation.swift */,
+				5B86189C2A729AEB001A0B3B /* Entity */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -125,6 +124,15 @@
 				5B86189A2A728D68001A0B3B /* CanShowNetworkFailiAlert.swift */,
 			);
 			path = Protocol;
+			sourceTree = "<group>";
+		};
+		5B86189C2A729AEB001A0B3B /* Entity */ = {
+			isa = PBXGroup;
+			children = (
+				5B3D40D22A6E67DD00A91662 /* BoxOfficeResult.swift */,
+				63FFA9392A727BD700D88A81 /* MovieDetailInformation.swift */,
+			);
+			path = Entity;
 			sourceTree = "<group>";
 		};
 		6332DA642A6E6C6B000E3B38 /* BoxOfficeTests */ = {
