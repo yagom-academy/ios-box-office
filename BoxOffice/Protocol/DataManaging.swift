@@ -10,5 +10,5 @@ import Foundation
 protocol DataManaging {
     func decodeJSON() -> [MovieInfo]?
     func loadData(named name: String) -> Data?
-    func decodeData<MovieData: Decodable>(_ type: MovieData.Type, from data: Data) -> MovieData?
+    func decodeData<Element: Decodable>(_ type: Element.Type, from data: Data) -> Element?
 }
