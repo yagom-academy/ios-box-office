@@ -9,10 +9,10 @@ import XCTest
 
 @testable import BoxOffice
 
-final class TestGetDataAPI: APIProtocol {
+final class TestMovieDataAPI: MovieDataFetchable {
     var model:[MovieInfo] = []
 
-    func callAPIServer(completion: @escaping (Result<[MovieInfo], Error>) -> ()) {
+    func fetchMovieData(completion: @escaping (Result<[MovieInfo], Error>) -> ()) {
         completion(.success(model))
     }
 }
@@ -39,13 +39,13 @@ struct TestDataManager: DataManaging {
 
 final class BoxOfficeTests: XCTestCase {
     var viewController: ViewController!
-    var testClass: TestGetDataAPI!
+    var testClass: TestMovieDataAPI!
     var testData: TestDataManager!
 
     override func setUp() {
         super.setUp()
         viewController = (UIStoryboard(name: "Main", bundle: .main).instantiateViewController(withIdentifier: "main") as! ViewController)
-        testClass = TestGetDataAPI()
+        testClass = TestMovieDataAPI()
         viewController.apiProtocol = testClass
         testData = TestDataManager()
     }
