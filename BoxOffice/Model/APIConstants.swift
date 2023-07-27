@@ -8,12 +8,12 @@
 import Foundation
 
 struct APIConstants {
-    private var targetDate = URLQueryItem(name: "targetDt", value: nil)
-    private var itemPerPage = URLQueryItem(name: "itemPerPage", value: nil)
-    private var multiMovie = URLQueryItem(name: "multiMovieYn", value: nil)
-    private var nationCode = URLQueryItem(name: "repNationCd", value: nil)
-    private var wideAreaCode = URLQueryItem(name: "wideAreaCd", value: nil)
-    private var movieCode = URLQueryItem(name: "movieCd", value: nil)
+    private var dailyBoxOfficeQueryItem: [String: String?] = ["targetDt": "20230105",
+                                                              "itemPerPage": nil,
+                                                              "multiMovieYn": nil,
+                                                              "repNationCd": nil,
+                                                              "wideAreaCd": nil]
+    private var movieDetailIntormationQueryItem: [String: String?] = ["movieCd": nil]
     
     private let baseURL: URLComponents = {
         var components = URLComponents()
@@ -29,14 +29,15 @@ struct APIConstants {
     
     func receiveDailyBoxOfficeURL() -> URL? {
         var components = baseURL
-        let queryItems = [targetDate, itemPerPage, multiMovie, nationCode, wideAreaCode]
 
         components.path.append("/boxoffice/searchDailyBoxOfficeList.json")
         
-        queryItems.forEach { queryItem in
-            if let _ = queryItem.value {
-                components.queryItems?.append(queryItem)
-            }
+        dailyBoxOfficeQueryItem.forEach { item in
+            guard let _ = item.value else { return }
+
+            let queryItem = URLQueryItem(name: item.key, value: item.value)
+            
+            components.queryItems?.append(queryItem)
         }
         
         return components.url
@@ -44,38 +45,17 @@ struct APIConstants {
     
     func receiveMovieDetailInfomationURL() -> URL? {
         var components = baseURL
-        let queryItem = movieCode
 
         components.path.append("/movie/searchMovieInfo.json")
         
-        if let _ = queryItem.value {
+        movieDetailIntormationQueryItem.forEach { item in
+            guard let _ = item.value else { return }
+
+            let queryItem = URLQueryItem(name: item.key, value: item.value)
+            
             components.queryItems?.append(queryItem)
         }
         
         return components.url
-    }
-    
-    mutating func changeTargetDate(_ targetDate: String?) {
-        self.targetDate.value = targetDate
-    }
-    
-    mutating func changeItemPerPage(_ itemPerPage: String?) {
-        self.itemPerPage.value = itemPerPage
-    }
-    
-    mutating func changeMultiMovie(_ multiMovie: String?) {
-        self.multiMovie.value = multiMovie
-    }
-    
-    mutating func changeNationCode(_ nationCode: String?) {
-        self.nationCode.value = nationCode
-    }
-    
-    mutating func changeWideAreaCode(_ wideAreaCode: String?) {
-        self.wideAreaCode.value = wideAreaCode
-    }
-    
-    mutating func changeMovieCode(_ movieCode: String?) {
-        self.movieCode.value = movieCode
     }
 }

@@ -8,7 +8,9 @@
 import Foundation
 
 struct MovieService {
-    func fetchData(url: URL) {
+    func fetchData() {
+        guard let url = APIConstants().receiveDailyBoxOfficeURL() else { return }
+        
         let task = URLSession.shared.dataTask(with: url) { data, response, error in
             if let error = error {
                 return
@@ -19,8 +21,9 @@ struct MovieService {
                         return
                     }
             
-            if let data = data {
-                let decodedData = try? JSONDecoder().decode(BoxOffice.self, from: data)
+            if let data = data,
+               let decodedData = try? JSONDecoder().decode(BoxOffice.self, from: data) {
+                print(decodedData)
             }
         }
         
