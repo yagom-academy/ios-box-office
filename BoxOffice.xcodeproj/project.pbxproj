@@ -21,6 +21,7 @@
 		DCB682F72A70E58A005D1510 /* DetailInformation.swift in Sources */ = {isa = PBXBuildFile; fileRef = DCB682F62A70E58A005D1510 /* DetailInformation.swift */; };
 		DCB682F92A70E603005D1510 /* MovieDetailInformationResult.swift in Sources */ = {isa = PBXBuildFile; fileRef = DCB682F82A70E603005D1510 /* MovieDetailInformationResult.swift */; };
 		DCB682FB2A70E838005D1510 /* MovieDetailInformation.swift in Sources */ = {isa = PBXBuildFile; fileRef = DCB682FA2A70E838005D1510 /* MovieDetailInformation.swift */; };
+		DCB6831F2A727B99005D1510 /* MovieService.swift in Sources */ = {isa = PBXBuildFile; fileRef = DCB6831E2A727B99005D1510 /* MovieService.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -51,6 +52,7 @@
 		DCB682F62A70E58A005D1510 /* DetailInformation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailInformation.swift; sourceTree = "<group>"; };
 		DCB682F82A70E603005D1510 /* MovieDetailInformationResult.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MovieDetailInformationResult.swift; sourceTree = "<group>"; };
 		DCB682FA2A70E838005D1510 /* MovieDetailInformation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MovieDetailInformation.swift; sourceTree = "<group>"; };
+		DCB6831E2A727B99005D1510 /* MovieService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MovieService.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -89,6 +91,7 @@
 			children = (
 				4416820B2A70F2C200720ACF /* DataModel */,
 				4416820C2A70F4EC00720ACF /* APIConstants.swift */,
+				DCB6831E2A727B99005D1510 /* MovieService.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -269,6 +272,7 @@
 				63DF20F12970E1A0005DF7D1 /* SceneDelegate.swift in Sources */,
 				DCB682F92A70E603005D1510 /* MovieDetailInformationResult.swift in Sources */,
 				44CBACAD2A6E7DB800FDBAAE /* DailyBoxOffice.swift in Sources */,
+				DCB6831F2A727B99005D1510 /* MovieService.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
