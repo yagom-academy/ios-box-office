@@ -5,7 +5,7 @@
 //  Created by kyungmin, Erick on 2023/07/26.
 //
 
-struct movie: Decodable {
+struct Movie: Decodable {
     let movieInfoResult: MovieInfoResult
 }
 
