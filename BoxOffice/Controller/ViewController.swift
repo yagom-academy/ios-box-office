@@ -9,8 +9,6 @@ import UIKit
 
 class ViewController: UIViewController, URLSessionDelegate {
     var networkingManager: NetworkingManager?
-    let url = "http://www.kobis.or.kr/kobisopenapi/webservice/rest/movie/searchMovieInfo.json?key=%@&movieCd=20124079"
-    
     var receivedData: MovieDetailEntity?
 
     override func viewDidLoad() {
@@ -31,7 +29,7 @@ class ViewController: UIViewController, URLSessionDelegate {
     
     private func loadData() {
         if let keyPath = Bundle.main.infoDictionary?["API_KEY"] as? String {
-            networkingManager?.load(String(format: url, keyPath)) { [weak self] (result: Result<Data, BoxOfficeError>) in
+            networkingManager?.load(String(format: URLNamespace.movieDetail, keyPath, "20124079")) { [weak self] (result: Result<Data, BoxOfficeError>) in
                 switch result {
                 case .success(let data):
                     guard let decodedData: MovieDetailEntity = DecodingManager.shared.decode(data) else {
