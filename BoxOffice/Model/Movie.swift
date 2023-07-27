@@ -15,13 +15,13 @@ struct movieInfoResult: Decodable {
 }
 
 struct MovieInfo: Decodable {
-    let movieCd: String
+    let movieCode: String
     let movieNm: String
     let movieNmEn: String
     let movieNmOg: String
-    let showTm: String
+    let showTime: String
     let prdtYear: String
-    let openDt: String
+    let openDate: String
     let prdtStatNm: String
     let typeNm: String
     let nations: [Nations]
@@ -32,6 +32,26 @@ struct MovieInfo: Decodable {
     let companys: [Companys]
     let audits: [Audits]
     let staffs: [Staffs]
+    
+    private enum CodingKeys: String, CodingKey {
+        case movieCode = "movieCd"
+        case movieNm
+        case movieNmEn
+        case movieNmOg
+        case showTime = "showTm"
+        case prdtYear
+        case openDate = "openDt"
+        case prdtStatNm
+        case typeNm
+        case nations
+        case genres
+        case directors
+        case actors
+        case showTypes
+        case companys
+        case audits
+        case staffs
+    }
 }
 
 struct Nations: Decodable {
@@ -49,9 +69,16 @@ struct Directors: Decodable {
 
 struct Actors: Decodable {
     let peopleNm: String
-    let peopleNmEn: String
-    let cast: String
-    let castEn: String
+    let poepleNmEn: String
+    let castNm: String
+    let castNmEn: String
+    
+    private enum CodingKeys: String, CodingKey {
+        case peopleNm
+        case poepleNmEn
+        case castNm = "cast"
+        case castNmEn = "castEn"
+    }
 }
 
 struct ShowTypes: Decodable {
@@ -64,11 +91,23 @@ struct Companys: Decodable {
     let companyNm: String
     let companyNmEn: String
     let companyPartNm: String
+    
+    private enum CodingKeys: String, CodingKey {
+        case companyCd = "companyCode"
+        case companyNm
+        case companyNmEn
+        case companyPartNm
+    }
 }
 
 struct Audits: Decodable {
-    let auditNo: String
+    let auditNumber: String
     let watchGradeNm: String
+    
+    private enum CodingKeys: String, CodingKey {
+        case auditNumber = "auditNo"
+        case watchGradeNm
+    }
 }
 
 struct Staffs: Decodable {
