@@ -8,20 +8,37 @@
 import Foundation
 
 struct NetworkManager {
-    func getDailyBoxOffice() {
-        guard let url = URL(string: "http://kobis.or.kr/kobisopenapi/webservice/rest/boxoffice/searchDailyBoxOfficeList.json?key=f5eef3421c602c6cb7ea224104795888&targetDt=20120101") else { return }
-        var request = URLRequest(url: url,timeoutInterval: Double.infinity)
+    func loadData() {
+        var components = URLComponents(string: "http://kobis.or.kr/kobisopenapi/webservice/rest/boxoffice/searchDailyBoxOfficeList.json")
+        let key = URLQueryItem(name: "key", value: "f5eef3421c602c6cb7ea224104795888")
+        let targetDt = URLQueryItem(name: "targetDt", value: "20230101")
+        components?.queryItems = [key, targetDt]
+        let urlSession = URLSession(configuration: .default)
+        guard let url = components?.url else { return }
         
-        request.httpMethod = "GET"
-        
-        let task = URLSession.shared.dataTask(with: request) { data, response, error in
-          guard let data = data else {
-            print(String(describing: error))
-            return
-          }
-          print(String(data: data, encoding: .utf8)!)
+        let task = urlSession.dataTask(with: url) { data, response, error in
+            if let error = error {
+                print("error 발생")
+                return
+            }
+            guard let httpResponse = response as? HTTPURLResponse,
+                  (200...299).contains(httpResponse.statusCode) else {
+                print("httpResponse error 발생")
+                return
+            }
+            if let mimeType = httpResponse.mimeType,
+               mimeType == "application/json",
+               let data = data {
+                let jsonDecoder = JSONDecoder()
+                do {
+                    let boxOffice = try jsonDecoder.decode(BoxOffice.self, from: data)
+                } catch let error as JSONDecoderError {
+                    print("JSONDecoder 에러 : \(error)")
+                } catch {
+                    print("알 수 없는 에러 발생")
+                }
+            }
         }
-        
         task.resume()
     }
 }
