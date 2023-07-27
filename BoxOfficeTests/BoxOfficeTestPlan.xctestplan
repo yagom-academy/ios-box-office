@@ -1,0 +1,24 @@
+{
+  "configurations" : [
+    {
+      "id" : "35903A0F-95BC-4A88-86D8-748E06811944",
+      "name" : "Configuration 1",
+      "options" : {
+
+      }
+    }
+  ],
+  "defaultOptions" : {
+    "testTimeoutsEnabled" : true
+  },
+  "testTargets" : [
+    {
+      "target" : {
+        "containerPath" : "container:BoxOffice.xcodeproj",
+        "identifier" : "BAA6E4AB2A6F8F6B000569E2",
+        "name" : "BoxOfficeTests"
+      }
+    }
+  ],
+  "version" : 1
+}
