@@ -8,11 +8,28 @@
 import UIKit
 
 final class MainViewController: UIViewController, CanShowNetworkFailAlert {
+    
+    private lazy var checkButton: UIButton = {
+        let button = UIButton()
+        button.setTitle("확인", for: .normal)
+        
+        return button
+    }()
+    
+    private lazy var backButton: UIButton = {
+        let button = UIButton()
+        button.setTitle("뒤로", for: .normal)
+        
+        return button
+    }()
+        
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
         view.backgroundColor = .systemBackground
     }
+    
 }
 
 // MARK: - NetworkRequests
