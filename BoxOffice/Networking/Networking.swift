@@ -30,20 +30,21 @@ final class Networking {
                 return
             }
             
-            do {
-                let jsonDecoder = JSONDecoder()
-                let decodingData = try jsonDecoder.decode(T.self, from: data)
-                
-                completionHandler(.success(.init(data: decodingData)))
-            } catch {
-                guard let error = error as? DecodingError else { return }
-                
-                print(error)
-                completionHandler(.fauilure(.decodingFail))
-            }
+            decodeResponseData(data, completionHandler)
         }
         
         dataTask.resume()
+    }
+    
+    private static func decodeResponseData<T: Decodable>(_ responseData: Data, _ completionHandler: (APIResult<T>) -> Void) {
+        do {
+            let jsonDecoder = JSONDecoder()
+            let decodingData = try jsonDecoder.decode(T.self, from: responseData)
+            
+            completionHandler(.success(.init(data: decodingData)))
+        } catch {
+            completionHandler(.fauilure(.decodingFail))
+        }
     }
     
     private static func setUpRequestURL(_ baseURL: URL,_ request: APIRequest) -> URL? {
