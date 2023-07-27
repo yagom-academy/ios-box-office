@@ -107,6 +107,15 @@
 			path = BoxOffice;
 			sourceTree = "<group>";
 		};
+		D00857C62A72713F007F1B92 /* DTO */ = {
+			isa = PBXGroup;
+			children = (
+				D06DF2802A6E73B40074F9EF /* BoxOffice.swift */,
+				5DDFC3272A72628700135954 /* Movie.swift */,
+			);
+			path = DTO;
+			sourceTree = "<group>";
+		};
 		D06DF27C2A6E73430074F9EF /* Resources */ = {
 			isa = PBXGroup;
 			children = (
@@ -129,9 +138,8 @@
 		D06DF27E2A6E73710074F9EF /* Model */ = {
 			isa = PBXGroup;
 			children = (
+				D00857C62A72713F007F1B92 /* DTO */,
 				D06DF27A2A6E733B0074F9EF /* JSONDecodingHelper.swift */,
-				D06DF2802A6E73B40074F9EF /* BoxOffice.swift */,
-				5DDFC3272A72628700135954 /* Movie.swift */,
 				D040BE3C2A713E86007F2095 /* APIManager.swift */,
 			);
 			path = Model;
