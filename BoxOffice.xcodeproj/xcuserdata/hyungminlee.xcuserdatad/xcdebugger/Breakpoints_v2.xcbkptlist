@@ -100,5 +100,53 @@
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "8CBA7188-E498-4C38-84EC-264015276E61"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "BoxOffice/Networking/Networking.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "35"
+            endingLineNumber = "35"
+            landmarkName = "dataTask(_:_:)"
+            landmarkType = "7">
+            <Locations>
+               <Location
+                  uuid = "8CBA7188-E498-4C38-84EC-264015276E61 - cbc70c49b6e371dc"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "static BoxOffice.Networking.dataTask&lt;&#x3c4;_0_0 where &#x3c4;_0_0: Swift.Decodable&gt;(BoxOffice.APIRequest, (BoxOffice.APIResult&lt;&#x3c4;_0_0&gt;) -&gt; ()) -&gt; ()"
+                  moduleName = "BoxOffice"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/hyungminlee/Desktop/Project/ios-box-office/BoxOffice/Networking/Networking.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "36"
+                  endingLineNumber = "36"
+                  offsetFromSymbolStart = "896">
+               </Location>
+               <Location
+                  uuid = "8CBA7188-E498-4C38-84EC-264015276E61 - f202eadbe445a099"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "closure #1 @Sendable (Swift.Optional&lt;Foundation.Data&gt;, Swift.Optional&lt;__C.NSURLResponse&gt;, Swift.Optional&lt;Swift.Error&gt;) -&gt; () in static BoxOffice.Networking.dataTask&lt;&#x3c4;_0_0 where &#x3c4;_0_0: Swift.Decodable&gt;(BoxOffice.APIRequest, (BoxOffice.APIResult&lt;&#x3c4;_0_0&gt;) -&gt; ()) -&gt; ()"
+                  moduleName = "BoxOffice"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/hyungminlee/Desktop/Project/ios-box-office/BoxOffice/Networking/Networking.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "35"
+                  endingLineNumber = "35"
+                  offsetFromSymbolStart = "2396">
+               </Location>
+            </Locations>
+         </BreakpointContent>
+      </BreakpointProxy>
    </Breakpoints>
 </Bucket>
