@@ -22,7 +22,7 @@ final class BoxOfficeDataTransferObjectTests: XCTestCase {
         XCTAssertNotNil(result)
     }
     
-    func test_BoxOffice_DTO객체가_Parsing에_성공하여_boxofficeType이_일별_박스오피스를_반환() {
+    func test_BoxOffice_DTO객체가_Parsing에_성공하여_boxofficeType이_일별_박스오피스를_반환합니다() {
         //given
         guard let dataAsset = NSDataAsset(name: "box_office_sample") else {
             return
@@ -38,7 +38,7 @@ final class BoxOfficeDataTransferObjectTests: XCTestCase {
         XCTAssertEqual(result, expectation)
     }
     
-    func test_BoxOffice_DTO객체가_Parsing에_성공하여_dailyBoxOfficeList안에_첫번째_요소의_movieName이_경관의_피를_반환() {
+    func test_BoxOffice_DTO객체가_Parsing에_성공하여_dailyBoxOfficeList안에_첫번째_요소의_movieName이_경관의_피를_반환합니다() {
         //given
         guard let dataAsset = NSDataAsset(name: "box_office_sample") else {
             return
