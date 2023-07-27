@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		45174D5B2A70B113009EEA9F /* Movie.swift in Sources */ = {isa = PBXBuildFile; fileRef = 45174D5A2A70B113009EEA9F /* Movie.swift */; };
+		45174D652A70F583009EEA9F /* NetworkManagerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 45174D642A70F583009EEA9F /* NetworkManagerTests.swift */; };
 		45174D6D2A70F68E009EEA9F /* URLSessionProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 45174D6C2A70F68E009EEA9F /* URLSessionProtocol.swift */; };
 		45174D6F2A70F6CF009EEA9F /* StubURLSession.swift in Sources */ = {isa = PBXBuildFile; fileRef = 45174D6E2A70F6CF009EEA9F /* StubURLSession.swift */; };
 		45174D722A71F101009EEA9F /* URLSession+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 45174D712A71F101009EEA9F /* URLSession+.swift */; };
@@ -44,6 +45,8 @@
 
 /* Begin PBXFileReference section */
 		45174D5A2A70B113009EEA9F /* Movie.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Movie.swift; sourceTree = "<group>"; };
+		45174D622A70F583009EEA9F /* NetworkManagerTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = NetworkManagerTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		45174D642A70F583009EEA9F /* NetworkManagerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkManagerTests.swift; sourceTree = "<group>"; };
 		45174D6C2A70F68E009EEA9F /* URLSessionProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = URLSessionProtocol.swift; sourceTree = "<group>"; };
 		45174D6E2A70F6CF009EEA9F /* StubURLSession.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StubURLSession.swift; sourceTree = "<group>"; };
 		45174D712A71F101009EEA9F /* URLSession+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "URLSession+.swift"; sourceTree = "<group>"; };
@@ -99,6 +102,14 @@
 			path = DTO;
 			sourceTree = "<group>";
 		};
+		45174D632A70F583009EEA9F /* NetworkManagerTests */ = {
+			isa = PBXGroup;
+			children = (
+				45174D642A70F583009EEA9F /* NetworkManagerTests.swift */,
+			);
+			path = NetworkManagerTests;
+			sourceTree = "<group>";
+		};
 		45174D6B2A70F5B3009EEA9F /* TestDouble */ = {
 			isa = PBXGroup;
 			children = (
@@ -122,6 +133,7 @@
 				CD1AFC2F2A6E8758001C50A7 /* BoxOffice.xctestplan */,
 				63DF20ED2970E1A0005DF7D1 /* BoxOffice */,
 				CD1AFC272A6E86B8001C50A7 /* BoxOfficeDataTransferObjectTests */,
+				45174D632A70F583009EEA9F /* NetworkManagerTests */,
 				63DF20EC2970E1A0005DF7D1 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -131,6 +143,7 @@
 			children = (
 				63DF20EB2970E1A0005DF7D1 /* BoxOffice.app */,
 				CD1AFC262A6E86B8001C50A7 /* BoxOfficeDataTransferObjectTests.xctest */,
+				45174D622A70F583009EEA9F /* NetworkManagerTests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -215,6 +228,24 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
+		45174D612A70F582009EEA9F /* NetworkManagerTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 45174D682A70F583009EEA9F /* Build configuration list for PBXNativeTarget "NetworkManagerTests" */;
+			buildPhases = (
+				45174D5E2A70F582009EEA9F /* Sources */,
+				45174D5F2A70F582009EEA9F /* Frameworks */,
+				45174D602A70F582009EEA9F /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				45174D672A70F583009EEA9F /* PBXTargetDependency */,
+			);
+			name = NetworkManagerTests;
+			productName = NetworkManagerTests;
+			productReference = 45174D622A70F583009EEA9F /* NetworkManagerTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
 		63DF20EA2970E1A0005DF7D1 /* BoxOffice */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = 63DF20FF2970E1A1005DF7D1 /* Build configuration list for PBXNativeTarget "BoxOffice" */;
@@ -260,6 +291,10 @@
 				LastSwiftUpdateCheck = 1430;
 				LastUpgradeCheck = 1420;
 				TargetAttributes = {
+					45174D612A70F582009EEA9F = {
+						CreatedOnToolsVersion = 14.3.1;
+						TestTargetID = 63DF20EA2970E1A0005DF7D1;
+					};
 					63DF20EA2970E1A0005DF7D1 = {
 						CreatedOnToolsVersion = 14.2;
 					};
@@ -284,6 +319,7 @@
 			targets = (
 				63DF20EA2970E1A0005DF7D1 /* BoxOffice */,
 				CD1AFC252A6E86B8001C50A7 /* BoxOfficeDataTransferObjectTests */,
+				45174D612A70F582009EEA9F /* NetworkManagerTests */,
 			);
 		};
 /* End PBXProject section */
@@ -316,6 +352,14 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
+		45174D5E2A70F582009EEA9F /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				45174D652A70F583009EEA9F /* NetworkManagerTests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		63DF20E72970E1A0005DF7D1 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -378,6 +422,48 @@
 /* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
+		45174D692A70F583009EEA9F /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				GENERATE_INFOPLIST_FILE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 16.4;
+				MACOSX_DEPLOYMENT_TARGET = 13.0;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.hyeonsu.NetworkManagerTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = auto;
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator macosx";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/BoxOffice.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/BoxOffice";
+			};
+			name = Debug;
+		};
+		45174D6A2A70F583009EEA9F /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				GENERATE_INFOPLIST_FILE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 16.4;
+				MACOSX_DEPLOYMENT_TARGET = 13.0;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.hyeonsu.NetworkManagerTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = auto;
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator macosx";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/BoxOffice.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/BoxOffice";
+			};
+			name = Release;
+		};
 		63DF20FD2970E1A1005DF7D1 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -593,6 +679,15 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
+		45174D682A70F583009EEA9F /* Build configuration list for PBXNativeTarget "NetworkManagerTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				45174D692A70F583009EEA9F /* Debug */,
+				45174D6A2A70F583009EEA9F /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
 		63DF20E62970E1A0005DF7D1 /* Build configuration list for PBXProject "BoxOffice" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (

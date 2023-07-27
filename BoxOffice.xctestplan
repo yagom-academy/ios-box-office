@@ -23,6 +23,13 @@
         "identifier" : "CD1AFC252A6E86B8001C50A7",
         "name" : "BoxOfficeDataTransferObjectTests"
       }
+    },
+    {
+      "target" : {
+        "containerPath" : "container:BoxOffice.xcodeproj",
+        "identifier" : "45174D612A70F582009EEA9F",
+        "name" : "NetworkManagerTests"
+      }
     }
   ],
   "version" : 1
