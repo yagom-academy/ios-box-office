@@ -7,7 +7,7 @@
 
 import UIKit
 
-final class MainViewController: UIViewController {
+final class MainViewController: UIViewController, CanShowNetworkFailAlert {
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -16,7 +16,10 @@ final class MainViewController: UIViewController {
         requestMovieDailyInformation()
         requestMovieDetailInformation()
     }
+}
 
+// MARK: - NetworkRequests
+extension MainViewController {
     private func requestMovieDetailInformation() {
         let queryItems: [String: Any] = [
             "key": NetworkKey.boxOffice,
@@ -53,4 +56,3 @@ final class MainViewController: UIViewController {
         }
     }
 }
-
