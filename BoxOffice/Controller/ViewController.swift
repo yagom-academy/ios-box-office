@@ -8,14 +8,14 @@
 import UIKit
 
 final class ViewController: UIViewController {
-    var apiProtocol: APIProtocol = MovieDataFetchable()
+    var apiProtocol: MovieDataFetchable = MovieDataAPI()
     
     override func viewDidLoad() {
         super.viewDidLoad()
     }
     
     func requestAPI(completion: @escaping (Result<[MovieInfo], Error>) -> ()) {
-        apiProtocol.callAPIServer(completion: completion)
+        apiProtocol.fetchMovieData(completion: completion)
     }
 }
 
