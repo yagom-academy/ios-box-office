@@ -1,5 +1,5 @@
 //
-//  MovingInfo.swift
+//  BoxOffice.swift
 //  BoxOffice
 //
 //  Created by redmango, Jusbug on 2023/07/24.
@@ -14,7 +14,7 @@ struct BoxOffice: Decodable {
 struct BoxOfficeInfo: Decodable {
     let boxOfficeType: String
     let showRange: String
-    let dailyBoxOfficeList: [MovieInfo]
+    let dailyBoxOfficeList: [dailyBoxOffice]
     
     private enum CodingKeys: String, CodingKey {
         case boxOfficeType = "boxofficeType"
@@ -23,7 +23,7 @@ struct BoxOfficeInfo: Decodable {
     }
 }
 
-struct MovieInfo: Decodable {
+struct dailyBoxOffice: Decodable {
     let rankNumber: String
     let rank: String
     let rankInten: String
