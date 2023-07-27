@@ -8,6 +8,9 @@
 
 /* Begin PBXBuildFile section */
 		45174D5B2A70B113009EEA9F /* Movie.swift in Sources */ = {isa = PBXBuildFile; fileRef = 45174D5A2A70B113009EEA9F /* Movie.swift */; };
+		45174D6D2A70F68E009EEA9F /* URLSessionProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 45174D6C2A70F68E009EEA9F /* URLSessionProtocol.swift */; };
+		45174D6F2A70F6CF009EEA9F /* StubURLSession.swift in Sources */ = {isa = PBXBuildFile; fileRef = 45174D6E2A70F6CF009EEA9F /* StubURLSession.swift */; };
+		45174D722A71F101009EEA9F /* URLSession+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 45174D712A71F101009EEA9F /* URLSession+.swift */; };
 		63DF20EF2970E1A0005DF7D1 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63DF20EE2970E1A0005DF7D1 /* AppDelegate.swift */; };
 		63DF20F12970E1A0005DF7D1 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63DF20F02970E1A0005DF7D1 /* SceneDelegate.swift */; };
 		63DF20F32970E1A0005DF7D1 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63DF20F22970E1A0005DF7D1 /* ViewController.swift */; };
@@ -23,6 +26,13 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
+		45174D662A70F583009EEA9F /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 63DF20E32970E1A0005DF7D1 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 63DF20EA2970E1A0005DF7D1;
+			remoteInfo = BoxOffice;
+		};
 		CD1AFC2A2A6E86B8001C50A7 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 63DF20E32970E1A0005DF7D1 /* Project object */;
@@ -34,6 +44,9 @@
 
 /* Begin PBXFileReference section */
 		45174D5A2A70B113009EEA9F /* Movie.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Movie.swift; sourceTree = "<group>"; };
+		45174D6C2A70F68E009EEA9F /* URLSessionProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = URLSessionProtocol.swift; sourceTree = "<group>"; };
+		45174D6E2A70F6CF009EEA9F /* StubURLSession.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StubURLSession.swift; sourceTree = "<group>"; };
+		45174D712A71F101009EEA9F /* URLSession+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "URLSession+.swift"; sourceTree = "<group>"; };
 		63DF20EB2970E1A0005DF7D1 /* BoxOffice.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = BoxOffice.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		63DF20EE2970E1A0005DF7D1 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		63DF20F02970E1A0005DF7D1 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -53,6 +66,13 @@
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
+		45174D5F2A70F582009EEA9F /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		63DF20E82970E1A0005DF7D1 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -77,6 +97,23 @@
 				45174D5A2A70B113009EEA9F /* Movie.swift */,
 			);
 			path = DTO;
+			sourceTree = "<group>";
+		};
+		45174D6B2A70F5B3009EEA9F /* TestDouble */ = {
+			isa = PBXGroup;
+			children = (
+				45174D6C2A70F68E009EEA9F /* URLSessionProtocol.swift */,
+				45174D6E2A70F6CF009EEA9F /* StubURLSession.swift */,
+			);
+			path = TestDouble;
+			sourceTree = "<group>";
+		};
+		45174D702A71F0EF009EEA9F /* Extension */ = {
+			isa = PBXGroup;
+			children = (
+				45174D712A71F101009EEA9F /* URLSession+.swift */,
+			);
+			path = Extension;
 			sourceTree = "<group>";
 		};
 		63DF20E22970E1A0005DF7D1 = {
@@ -130,6 +167,8 @@
 		CD1AFC1D2A6E7780001C50A7 /* Model */ = {
 			isa = PBXGroup;
 			children = (
+				45174D702A71F0EF009EEA9F /* Extension */,
+				45174D6B2A70F5B3009EEA9F /* TestDouble */,
 				45174D592A70B0DF009EEA9F /* DTO */,
 				CDDD7B022A70B8C700F471C8 /* NetworkManager.swift */,
 			);
@@ -250,6 +289,13 @@
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
+		45174D602A70F582009EEA9F /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		63DF20E92970E1A0005DF7D1 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -274,7 +320,9 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				45174D6D2A70F68E009EEA9F /* URLSessionProtocol.swift in Sources */,
 				63DF20F32970E1A0005DF7D1 /* ViewController.swift in Sources */,
+				45174D722A71F101009EEA9F /* URLSession+.swift in Sources */,
 				63DF20EF2970E1A0005DF7D1 /* AppDelegate.swift in Sources */,
 				63DF20F12970E1A0005DF7D1 /* SceneDelegate.swift in Sources */,
 				CDDD7B082A70C0F400F471C8 /* Host.swift in Sources */,
@@ -283,6 +331,7 @@
 				CDDD7B032A70B8C700F471C8 /* NetworkManager.swift in Sources */,
 				CDDD7B0A2A70C0FF00F471C8 /* Path.swift in Sources */,
 				45174D5B2A70B113009EEA9F /* Movie.swift in Sources */,
+				45174D6F2A70F6CF009EEA9F /* StubURLSession.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -297,6 +346,11 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
+		45174D672A70F583009EEA9F /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 63DF20EA2970E1A0005DF7D1 /* BoxOffice */;
+			targetProxy = 45174D662A70F583009EEA9F /* PBXContainerItemProxy */;
+		};
 		CD1AFC2B2A6E86B8001C50A7 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = 63DF20EA2970E1A0005DF7D1 /* BoxOffice */;

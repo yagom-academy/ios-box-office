@@ -8,6 +8,8 @@
 import Foundation
 
 struct NetworkManager {
+    var urlSession: URLSessionProtocol
+    
     func configuredURL(scheme: String, host: String, path: String, queryItems: [URLQueryItem]) -> URL? {
         var urlComponents = URLComponents()
         urlComponents.scheme = scheme
@@ -19,7 +21,7 @@ struct NetworkManager {
     }
     
     func startLoad(_ url: URL, completion: @escaping (Data?) -> Void) {
-        let task = URLSession.shared.dataTask(with: url) { data, response, error in
+        let task = urlSession.dataTask(with: url) { data, response, error in
             guard error == nil else {
                 completion(nil)
                 return
