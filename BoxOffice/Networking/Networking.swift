@@ -9,17 +9,24 @@ import Foundation
 
 final class Networking {
     static func dataTask<T: Decodable>(_ request: APIRequest, _ completionHandler: @escaping (APIResult<T>) -> Void) {
-        guard let baseURL = URL(string: request.baseURL) else { return }
-        guard let requestURL = setUpRequestURL(baseURL, request) else { return }
+        guard let baseURL = URL(string: request.baseURL), let requestURL = setUpRequestURL(baseURL, request) else {
+            completionHandler(.fauilure(.invalidURL))
+            return
+        }
         
         let dataTask = URLSession.shared.dataTask(with: requestURL) { data, response, error in
             if error != nil {
-                completionHandler(.fauilure(.fail))
+                completionHandler(.fauilure(.requestFail))
                 return
             }
             
-            guard let httpResponse = response as? HTTPURLResponse, (200...299).contains(httpResponse.statusCode), let data = data else {
-                completionHandler(.fauilure(.fail))
+            guard let httpResponse = response as? HTTPURLResponse, (200...299).contains(httpResponse.statusCode) else {
+                completionHandler(.fauilure(.invalidHTTPStatusCode))
+                return
+            }
+            
+            guard let data = data else {
+                completionHandler(.fauilure(.invalidData))
                 return
             }
             
@@ -32,7 +39,7 @@ final class Networking {
                 guard let error = error as? DecodingError else { return }
                 
                 print(error)
-                completionHandler(.fauilure(.fail))
+                completionHandler(.fauilure(.decodingFail))
             }
         }
         
