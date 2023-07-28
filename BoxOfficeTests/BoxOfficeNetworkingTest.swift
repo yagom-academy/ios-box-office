@@ -8,7 +8,7 @@
 import XCTest
 @testable import BoxOffice
 
-final class BoxOfficeNetworkTest: XCTestCase {
+final class BoxOfficeNetworkingTest: XCTestCase {
     var sut: NetworkingManager!
 
     override func setUpWithError() throws {

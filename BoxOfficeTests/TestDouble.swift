@@ -19,7 +19,7 @@ struct DummyResponse {
     }
 }
 
-class StubURLSession: URLSessionProtocol {
+final class StubURLSession: URLSessionProtocol {
     var dummyResponse: DummyResponse?
     
     init(_ dummy: DummyResponse) {
@@ -33,7 +33,7 @@ class StubURLSession: URLSessionProtocol {
     }
 }
 
-class StubURLSessionDataTask: URLSessionDataTask {
+final class StubURLSessionDataTask: URLSessionDataTask {
     var dummyResponse: DummyResponse?
     
     init(_ dummy: DummyResponse?) {
