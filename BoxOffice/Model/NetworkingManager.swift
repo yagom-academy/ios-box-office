@@ -7,9 +7,9 @@
 import Foundation
 
 struct NetworkingManager {
-    let session: URLSession
+    let session: URLSessionProtocol
     
-    init(_ session: URLSession) {
+    init(_ session: URLSessionProtocol) {
         self.session = session
     }
     

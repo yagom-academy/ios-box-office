@@ -1,0 +1,46 @@
+//
+//  TestDouble.swift
+//  BoxOfficeTests
+//
+//  Created by Yetti, Maxhyunm on 2023/07/28.
+//
+
+import Foundation
+@testable import BoxOffice
+
+struct DummyResponse {
+    let data: Data?
+    let response: URLResponse?
+    let error: Error?
+    var completionHandler: CompletionHandler? = nil
+    
+    func completion() {
+        completionHandler?(data, response, error)
+    }
+}
+
+class StubURLSession: URLSessionProtocol {
+    var dummyResponse: DummyResponse?
+    
+    init(_ dummy: DummyResponse) {
+        self.dummyResponse = dummy
+    }
+    
+    func dataTask(with url: URL, completionHandler: @escaping completionHandler) -> URLSessionDataTask {
+        dummyResponse?.completionHandler = completionHandler
+        
+        return StubURLSessionDataTask(dummyResponse)
+    }
+}
+
+class StubURLSessionDataTask: URLSessionDataTask {
+    var dummyResponse: DummyResponse?
+    
+    init(_ dummy: DummyResponse) {
+        self.dummyResponse = dummy
+    }
+    
+    override func resume() {
+        dummyResponse?.completion()
+    }
+}
