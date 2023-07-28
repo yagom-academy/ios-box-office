@@ -26,7 +26,7 @@ class StubURLSession: URLSessionProtocol {
         self.dummyResponse = dummy
     }
     
-    func dataTask(with url: URL, completionHandler: @escaping completionHandler) -> URLSessionDataTask {
+    func dataTask(with url: URL, completionHandler: @escaping CompletionHandler) -> URLSessionDataTask {
         dummyResponse?.completionHandler = completionHandler
         
         return StubURLSessionDataTask(dummyResponse)
@@ -36,7 +36,7 @@ class StubURLSession: URLSessionProtocol {
 class StubURLSessionDataTask: URLSessionDataTask {
     var dummyResponse: DummyResponse?
     
-    init(_ dummy: DummyResponse) {
+    init(_ dummy: DummyResponse?) {
         self.dummyResponse = dummy
     }
     

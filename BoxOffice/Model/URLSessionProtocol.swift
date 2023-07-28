@@ -13,5 +13,4 @@ protocol URLSessionProtocol {
     func dataTask(with url: URL, completionHandler: @escaping CompletionHandler) -> URLSessionDataTask
 }
 
-
 extension URLSession: URLSessionProtocol {}
