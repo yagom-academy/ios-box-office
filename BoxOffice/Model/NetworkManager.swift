@@ -10,21 +10,12 @@ import Foundation
 struct NetworkManager {
     var urlSession: URLSessionProtocol
     
-    func configuredURL(scheme: String, host: String, path: String, queryItems: [URLQueryItem]) -> Result<URL, NetworkError> {
-        var urlComponents = URLComponents()
-        urlComponents.scheme = scheme
-        urlComponents.host = host
-        urlComponents.path = path
-        urlComponents.queryItems = queryItems
-        
-        guard let url = urlComponents.url else {
-            return .failure(NetworkError.invalidURL)
+    func startLoad(_ url: URL?, completion: @escaping (Result<Data, NetworkError>) -> Void) {
+        guard let url else {
+            completion(.failure(.invalidURL))
+            return
         }
         
-        return .success(url)
-    }
-    
-    func startLoad(_ url: URL, completion: @escaping (Result<Data?, NetworkError>) -> Void) {
         let task = urlSession.dataTask(with: url) { data, response, error in
             guard error == nil else {
                 completion(.failure(.networkFailed))
