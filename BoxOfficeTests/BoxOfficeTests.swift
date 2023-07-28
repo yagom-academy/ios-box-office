@@ -9,69 +9,64 @@ import XCTest
 
 @testable import BoxOffice
 
-final class TestMovieDataAPI: MovieDataFetchable {
-    var model:[MovieInfo] = []
-
-    func fetchMovieData(completion: @escaping (Result<[MovieInfo], Error>) -> ()) {
-        completion(.success(model))
-    }
-}
-
-struct TestDataManager: DataManaging {
-    private let decoder: JSONDecoder = JSONDecoder()
-
-    func decodeJSON() -> [MovieInfo]? {
-        guard let itemsData = loadData(named: DataNamespace.item),
-              let decodedItems = decodeData(DailyBoxOffice.self, from: itemsData)
-        else { return nil }
-        
-        return decodedItems.boxOfficeResult.movies
-    }
-
-    func loadData(named name: String) -> Data? {
-        return NSDataAsset(name: name)?.data
-    }
-
-    func decodeData<MovieData: Decodable>(_ type: MovieData.Type, from data: Data) -> MovieData? {
-        return try? decoder.decode(type, from: data)
-    }
-}
-
 final class BoxOfficeTests: XCTestCase {
-    var viewController: ViewController!
-    var testClass: TestMovieDataAPI!
-    var testData: TestDataManager!
-
+    var dataManager: DataManager!
+    
     override func setUp() {
         super.setUp()
-        viewController = (UIStoryboard(name: "Main", bundle: .main).instantiateViewController(withIdentifier: "main") as! ViewController)
-        testClass = TestMovieDataAPI()
-        viewController.apiProtocol = testClass
-        testData = TestDataManager()
+        dataManager = DataManager()
     }
 
-    func test_API서버와의_통신으로_가져온_데이터가_5초안에_불러오고_Decoding이_잘되었는가() {
-        // given
-        guard let model = testData.decodeJSON() else { return }
-        let expectation = XCTestExpectation(description: "wait")
-        testClass.model = model
+    override func tearDownWithError() throws {
+        super.tearDown()
+        dataManager = nil
+    }
+    
+    
+    func test_decodeJSON메소드가_제대로_동작해서_반환된_배열의_count는_10이다() {
+        // Given
+        guard let decodedMovies = dataManager.decodeJSON() else { return }
+
+        // When
+        let result = 10
+
+        // Then
+        XCTAssertNotNil(decodedMovies)
+        XCTAssertEqual(decodedMovies.count, result)
+    }
+    
+    func test_decodeData메소드가_제대로_동작해서_디코딩된_데이터의_첫번째_영화_이름은_경관의_피이다() {
+        // Given
+        guard let itemsData = dataManager.loadData(named: DataNamespace.item) else { return }
+
+        // When
+        guard let decodedMovies: DailyBoxOffice = dataManager.decodeData(DailyBoxOffice.self, from: itemsData) else { return }
+        // Then
+        XCTAssertNotNil(decodedMovies)
+        XCTAssertEqual(decodedMovies.boxOfficeResult.movies[0].name, "경관의 피")
+    }
+    
+    func test_decodeData메소드가_제대로_동작해서_첫번째_영화의_rank_값은_1이다()
+    {
+        // Given
+        guard let itemsData = dataManager.loadData(named: DataNamespace.item) else { return }
+
+        // When
+        guard let decodedMovies: DailyBoxOffice = dataManager.decodeData(DailyBoxOffice.self, from: itemsData) else { return }
+
+        // Then
+        XCTAssertEqual(decodedMovies.boxOfficeResult.movies[0].rank, "1")
+    }
+
+    func test_LoadData메소드가_올바른_이름의_파일을_로드하여_로드된_데이터가_Nil이_아니다() {
+        // Given
+        let name = DataNamespace.item
         
-        let result = "경관의 피"
+        // When
+        let loadedData = dataManager.loadData(named: name)
         
-        // when
-        viewController.requestAPI { result in
-            switch result {
-            case .success(let model):
-                print("성공: \(model)")
-                expectation.fulfill()
-            case .failure(let error):
-                print("실패: \(error.localizedDescription)")
-            }
-        }
-        wait(for: [expectation], timeout: 5.0)
-        
-        // then
-        XCTAssertEqual(result, model[0].name)
+        // Then
+        XCTAssertNotNil(loadedData)
     }
 }
 
