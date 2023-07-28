@@ -101,6 +101,7 @@
 		63DF20ED2970E1A0005DF7D1 /* BoxOffice */ = {
 			isa = PBXGroup;
 			children = (
+				D00857D42A736331007F1B92 /* App */,
 				D06DF27F2A6E737D0074F9EF /* Controller */,
 				D06DF27E2A6E73710074F9EF /* Model */,
 				D06DF27D2A6E735D0074F9EF /* View */,
@@ -118,10 +119,27 @@
 			path = DTO;
 			sourceTree = "<group>";
 		};
-		D06DF27C2A6E73430074F9EF /* Resources */ = {
+		D00857D42A736331007F1B92 /* App */ = {
+			isa = PBXGroup;
+			children = (
+				63DF20F02970E1A0005DF7D1 /* SceneDelegate.swift */,
+				63DF20EE2970E1A0005DF7D1 /* AppDelegate.swift */,
+			);
+			path = App;
+			sourceTree = "<group>";
+		};
+		D00857D52A73634C007F1B92 /* JSON */ = {
 			isa = PBXGroup;
 			children = (
 				5D4FAAA02A6E88D2001FA74A /* box_office_sample.json */,
+			);
+			path = JSON;
+			sourceTree = "<group>";
+		};
+		D06DF27C2A6E73430074F9EF /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				D00857D52A73634C007F1B92 /* JSON */,
 				63DF20F72970E1A1005DF7D1 /* Assets.xcassets */,
 				63DF20FC2970E1A1005DF7D1 /* Info.plist */,
 			);
@@ -152,8 +170,6 @@
 			isa = PBXGroup;
 			children = (
 				63DF20F22970E1A0005DF7D1 /* ViewController.swift */,
-				63DF20EE2970E1A0005DF7D1 /* AppDelegate.swift */,
-				63DF20F02970E1A0005DF7D1 /* SceneDelegate.swift */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
