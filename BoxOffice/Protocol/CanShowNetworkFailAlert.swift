@@ -1,5 +1,5 @@
 //
-//  CanShowNetworkFailiAlert.swift
+//  CanShowNetworkFailAlert.swift
 //  BoxOffice
 //
 //  Created by Zion, Hemg on 2023/07/27.

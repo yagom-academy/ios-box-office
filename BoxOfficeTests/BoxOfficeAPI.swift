@@ -5,7 +5,7 @@
 //  Created by Zion on 2023/07/28.
 //
 
-import Foundation
+import UIKit
 
 enum BoxOfficeAPI {
     case daily
@@ -14,9 +14,9 @@ enum BoxOfficeAPI {
     var sampleData: Data {
         switch self {
         case .daily:
-            return Data()
+            return (NSDataAsset(name: "Daily")?.data)!
         case .movieDetailInformation:
-            return Data()
+            return (NSDataAsset(name: "MovieDetailInfromation")?.data)!
         }
     }
 }

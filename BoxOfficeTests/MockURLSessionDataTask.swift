@@ -6,15 +6,12 @@
 //
 
 import Foundation
+@testable import BoxOffice
 
 final class MockURLSessionDataTask: URLSessionDataTask {
-    let data: Data
-    
-    init(data: Data) {
-        self.data = data
-    }
+    var resumeDidCall: (() -> Void)!
     
     override func resume() {
-        
+        resumeDidCall()
     }
 }

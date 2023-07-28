@@ -75,7 +75,7 @@ extension MainViewController {
             switch result {
             case .success(let result):
                 print(result)
-            case .fauilure(let error):
+            case .failure(let error):
                 DispatchQueue.main.async {
                     self.showNetworkFailAlert(message: error.description, retryFunction: self.fetchMovieDetailInformation)
                 }
@@ -95,7 +95,7 @@ extension MainViewController {
             switch result {
             case .success(let result):
                 print(result)
-            case .fauilure(let error):
+            case .failure(let error):
                 DispatchQueue.main.async {
                     self.showNetworkFailAlert(message: error.description, retryFunction: self.fetchMovieDailyInformation)
                 }

@@ -13,7 +13,7 @@ struct APIRequest {
 
 enum APIResult<T> {
     case success(APIResponse<T>)
-    case fauilure(APIError)
+    case failure(APIError)
 }
 
 struct APIResponse<T> {

@@ -1,5 +1,5 @@
 //
-//  Networking.swift
+//  URLSessionProvider.swift
 //  BoxOffice
 //
 //  Created by Zion, Hemg on 2023/07/27.
@@ -10,23 +10,23 @@ import Foundation
 final class URLSessionProvider {
     static func requestData<T: Decodable>(_ request: APIRequest, _ session: URLSessionProtocol = URLSession.shared , _ completionHandler: @escaping (APIResult<T>) -> Void) {
         guard let baseURL = URL(string: request.baseURL), let requestURL = setUpRequestURL(baseURL, request) else {
-            completionHandler(.fauilure(.invalidURL))
+            completionHandler(.failure(.invalidURL))
             return
         }
         
         let dataTask = session.dataTask(with: requestURL) { data, response, error in
             if error != nil {
-                completionHandler(.fauilure(.requestFail))
+                completionHandler(.failure(.requestFail))
                 return
             }
             
             guard let httpResponse = response as? HTTPURLResponse, (200...299).contains(httpResponse.statusCode) else {
-                completionHandler(.fauilure(.invalidHTTPStatusCode))
+                completionHandler(.failure(.invalidHTTPStatusCode))
                 return
             }
             
             guard let data = data else {
-                completionHandler(.fauilure(.invalidData))
+                completionHandler(.failure(.invalidData))
                 return
             }
             
@@ -46,7 +46,7 @@ extension URLSessionProvider {
             
             completionHandler(.success(.init(data: decodingData)))
         } catch {
-            completionHandler(.fauilure(.decodingFail))
+            completionHandler(.failure(.decodingFail))
         }
     }
     
