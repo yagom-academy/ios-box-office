@@ -79,11 +79,11 @@ Neste Type을 활용하여 여러 단계로 중첩된 형태의 json을 파싱�
 <a id="5."></a></br>
 ## 트러블슈팅
 ### 1️⃣ dataTask 메서드로 받아온 데이터 처리
-**🚨 문제점**
+**🚨 문제점**</br>
 `NetworkingManager`의 `load()` 메서드를 호출한 위치에서 `dataTask`를 통해 받아 온 데이터를 해당 클로저 밖에서 활용할 수 있는 방법에 대해 고민이 있었습니다.
 처음에는 두 타입을 델리게이트로 연결하여 전달하는 등의 방법을 생각했습니다. 하지만 데이터 처리를 위해 네트워킹을 사용하는 모든 타입을 델리게이트로 연결하는 것은 권장되는 방식도 아니고, 효율적이지 못한 것 같았습니다.
 
-**💡 해결 방법**
+**💡 해결 방법**</br>
 `@escaping` 클로저와 `Result`타입을 활용하여 해결하였습니다. `Result`는 성공/실패 두 가지 가능성에 대한 데이터타입을 따로 지정해줄 수 있어 `CompletionHandler`에 활용하기에 적절하다고 판단했습니다.
 ```swift
 func load(_ urlString: String, completion: @escaping (Result<Data, BoxOfficeError>) -> Void) {
@@ -100,24 +100,24 @@ func load(_ urlString: String, completion: @escaping (Result<Data, BoxOfficeErro
 ```
 
 ### 2️⃣ Test Double 생성
-**🚨 문제점**
-인터넷 연결이 없는 상태에서 네트워크 통신을 테스트하기 위해 `Test Double`을 생성하였습니다. 이 과정에서 테스트용 `Stub Session`과 실제 `Session` 사이에 호환이 가능하도록 하기 위해 `URLSessionProtocol`을 구현하였는데, `URLSession`에서 이를 상속하려 하니 아래와 같은 경고가 발생하였습니다.
-<img src="https://hackmd.io/_uploads/BJeZG3lin.png" width="1000">
+**🚨 문제점** </br>
+인터넷 연결이 없는 상태에서 네트워크 통신을 테스트하기 위해 `Test Double`을 생성하였습니다. 이 과정에서 테스트용 `Stub Session`과 실제 `Session` 사이에 호환이 가능하도록 하기 위해 `URLSessionProtocol`을 구현하였는데, `URLSession`에서 이를 상속하려 하니 아래와 같은 경고가 발생하였습니다.</br>
+<img src="https://hackmd.io/_uploads/BJeZG3lin.png" width="1000"></br>
 
-**💡 해결 방법**
-`CompletionHandler typealias`에 `@Sendable`을 채택하여 해결하였습니다.
+**💡 해결 방법**</br>
+`CompletionHandler typealias`에 `@Sendable`을 채택하여 해결하였습니다.</br>
 ```swift
 typealias CompletionHandler = @Sendable (Data?, URLResponse?, Error?) -> Void
 ```
 
 ### 3️⃣ ATS를 통한 네트워크 설정
-**🚨 문제점**
-API를 받아와야 하는 도메인이 `https`가 아닌 `http`를 활용하고 있어 네트워크 연결시에 오류가 발생하였습니다.
-<img src="https://hackmd.io/_uploads/BkwWly-jn.png">
+**🚨 문제점**</br>
+API를 받아와야 하는 도메인이 `https`가 아닌 `http`를 활용하고 있어 네트워크 연결시에 오류가 발생하였습니다.</br>
+<img src="https://hackmd.io/_uploads/BkwWly-jn.png"></br>
 
-**💡 해결 방법**
-해당 도메인 및 하위 도메인 정보를 ATS에 `Exception Domains`로 추가하여 정상적으로 네트워킹이 가능하도록 구현하였습니다.
-<img src="https://hackmd.io/_uploads/Hkj4Tsgjh.png">
+**💡 해결 방법**</br>
+해당 도메인 및 하위 도메인 정보를 ATS에 `Exception Domains`로 추가하여 정상적으로 네트워킹이 가능하도록 구현하였습니다.</br>
+<img src="https://hackmd.io/_uploads/Hkj4Tsgjh.png"></br>
 
 
 
