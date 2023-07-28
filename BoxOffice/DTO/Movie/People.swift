@@ -2,7 +2,7 @@
 //  People.swift
 //  BoxOffice
 //
-//  Created by Hyun A Song on 2023/07/28.
+//  Created by Serena, BMO on 2023/07/28.
 //
 
 struct People: Decodable {
