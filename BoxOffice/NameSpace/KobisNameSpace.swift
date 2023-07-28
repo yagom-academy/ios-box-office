@@ -10,7 +10,8 @@ enum KobisNameSpace {
     static let keyValue: String = "f5eef3421c602c6cb7ea224104795888"
     static let targetDt: String = "targetDt"
     static let movieCd: String = "movieCd"
-    static let baseUrl: String = "http://www.kobis.or.kr/kobisopenapi/webservice/rest"
-    static let detailMovieInfoUrl: String = baseUrl + "/movie/searchMovieInfo.json"
-    static let dailyBoxOfficeUrl: String = baseUrl + "/boxoffice/searchDailyBoxOfficeList.json"
+    static let scheme: String = "http"
+    static let host: String = "www.kobis.or.kr"
+    static let detailMovieInfoPath: String = "/kobisopenapi/webservice/rest/movie/searchMovieInfo.json"
+    static let dailyBoxOfficePath: String = "/kobisopenapi/webservice/rest/boxoffice/searchDailyBoxOfficeList.json"
 }

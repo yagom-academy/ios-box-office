@@ -14,26 +14,34 @@ struct NetworkManager {
         dateFormatter.dateFormat = CustomDateFormatStyle.yyyyMMdd
         let formattedYesterday = dateFormatter.string(from: yesterday)
         
-        var components = URLComponents(string: KobisNameSpace.dailyBoxOfficeUrl)
+        var components = URLComponents()
+        components.scheme = KobisNameSpace.scheme
+        components.host = KobisNameSpace.host
+        components.path = KobisNameSpace.dailyBoxOfficePath
+        
         let key = URLQueryItem(name: KobisNameSpace.key,
                                value: KobisNameSpace.keyValue)
         let targetDt = URLQueryItem(name: KobisNameSpace.targetDt,
                                     value: formattedYesterday)
         
-        components?.queryItems = [key, targetDt]
+        components.queryItems = [key, targetDt]
         
         loadData(components, BoxOffice.self, completion)
     }
     
     
     func loadMovieDetailData(movieCd: String, _ completion: @escaping (Movie) -> Void) {
-        var components = URLComponents(string: KobisNameSpace.detailMovieInfoUrl)
+        var components = URLComponents()
+        components.scheme = KobisNameSpace.scheme
+        components.host = KobisNameSpace.host
+        components.path = KobisNameSpace.detailMovieInfoPath
+        
         let key = URLQueryItem(name: KobisNameSpace.key,
                                value: KobisNameSpace.keyValue)
         let movieCd = URLQueryItem(name: KobisNameSpace.movieCd,
                                    value: movieCd)
         
-        components?.queryItems = [key, movieCd]
+        components.queryItems = [key, movieCd]
         
         loadData(components, Movie.self, completion)
     }
