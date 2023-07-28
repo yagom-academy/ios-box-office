@@ -11,7 +11,7 @@ struct NetworkManager {
     func loadDailyBoxOfficeData(_ completion: @escaping (BoxOffice) -> Void) {
         let yesterday = Date() - (24 * 60 * 60)
         let dateFormatter = DateFormatter()
-        dateFormatter.dateFormat = NetworkManagerNameSpace.dateFormat
+        dateFormatter.dateFormat = CustomDateFormatStyle.yyyyMMdd
         let formattedYesterday = dateFormatter.string(from: yesterday)
         
         var components = URLComponents(string: KobisNameSpace.dailyBoxOfficeUrl)
@@ -61,7 +61,7 @@ extension NetworkManager {
             }
             
             if let mimeType = httpResponse.mimeType,
-               mimeType == "application/json",
+               mimeType == MimeType.jsonFormat,
                let data {
                 let jsonDecoder = JSONDecoder()
                 do {
@@ -77,8 +77,4 @@ extension NetworkManager {
         
         task.resume()
     }
-}
-
-private enum NetworkManagerNameSpace {
-    static let dateFormat: String = "yyyyMMdd"
 }
