@@ -6,5 +6,5 @@
 //
 
 struct BoxOffice: Decodable {
-    let boxOfficeResult: DailyBoxOffice
+    let boxOfficeResult: BoxOfficeResult
 }

@@ -7,36 +7,27 @@
 
 enum ServiceType {
     case dailyBoxOffice
-    case movieDetailInformation
+    case detailInformation
     
     var urlPath: String {
         switch self {
         case .dailyBoxOffice:
             return "/boxoffice/searchDailyBoxOfficeList.json"
-        case .movieDetailInformation:
+        case .detailInformation:
             return "/movie/searchMovieInfo.json"
-        }
-    }
-    
-    var type: Any {
-        switch self {
-        case .dailyBoxOffice:
-            return BoxOffice.self
-        case .movieDetailInformation:
-            return MovieDetailInformation.self
         }
     }
     
     var queryItem: [String: String?] {
         switch self {
         case .dailyBoxOffice:
-            return ["targetDt": "20230105",
+            return ["targetDt": "20230101",
                     "itemPerPage": nil,
                     "multiMovieYn": nil,
                     "repNationCd": nil,
                     "wideAreaCd": nil]
-        case .movieDetailInformation:
-            return ["movieCd": nil]
+        case .detailInformation:
+            return ["movieCd": "20124079"]
         }
     }
 }

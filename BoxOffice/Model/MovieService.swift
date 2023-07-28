@@ -23,18 +23,21 @@ struct MovieService {
             
             switch serviceType {
             case .dailyBoxOffice:
-                if let data = data,
-                   let decodedData = try? JSONDecoder().decode(BoxOffice.self, from: data) {
-                    print(decodedData)
-                }
-            case .movieDetailInformation:
-                if let data = data,
-                   let decodedData = try? JSONDecoder().decode(MovieDetailInformation.self, from: data) {
-                    print(decodedData)
-                }
+                let _ = decodeJSON(data: data, type: BoxOffice.self)
+            case .detailInformation:
+                let _ = decodeJSON(data: data, type: DetailInformation.self)
             }
         }
         
         task.resume()
+    }
+    
+    func decodeJSON<T: Decodable> (data: Data?, type: T.Type) -> T? {
+        if let data = data,
+           let decodedData = try? JSONDecoder().decode(type, from: data) {
+            return decodedData
+        }
+        
+        return nil
     }
 }
