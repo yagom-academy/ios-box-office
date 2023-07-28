@@ -14,7 +14,7 @@ class ViewController: UIViewController {
         
         Task {
             do {
-                let information = try await NetworkManager.getMovieInformation(code: "20210672")
+                let information: BoxOffice = try await NetworkManager.fetchData(fetchType: .boxOffice(date: "20230727"))
                 print(information)
             } catch {
                 print(error)
