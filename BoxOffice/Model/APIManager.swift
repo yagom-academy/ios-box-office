@@ -2,17 +2,16 @@
 //  APIManager.swift
 //  BoxOffice
 //
-//  Created by 박종화 on 2023/07/26.
+//  Created by redmango, Jusbug on 2023/07/26.
 //
 
 import Foundation
 
 struct APIManager {
     let session = URLSession.shared
-    let urlString = "https://kobis.or.kr/kobisopenapi/webservice/rest/boxoffice/searchDailyBoxOfficeList.json?key=f5eef3421c602c6cb7ea224104795888&targetDt=202a30725"
     
-    func fetchData() {
-        guard let correctUrl = URL(string: urlString) else {
+    func fetchData(service: Service) {
+        guard let correctUrl = URL(string: service.rawValue) else {
             print("Wrong URL")
             return
         }
