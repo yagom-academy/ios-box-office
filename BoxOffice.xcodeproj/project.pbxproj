@@ -151,6 +151,7 @@
 		63C263922A73755700DB2261 /* Util */ = {
 			isa = PBXGroup;
 			children = (
+				63DF20FC2970E1A1005DF7D1 /* Info.plist */,
 				63C263932A73758A00DB2261 /* Extension */,
 			);
 			path = Util;
@@ -186,7 +187,6 @@
 		63DF20ED2970E1A0005DF7D1 /* BoxOffice */ = {
 			isa = PBXGroup;
 			children = (
-				63DF20FC2970E1A1005DF7D1 /* Info.plist */,
 				5B8618992A728D55001A0B3B /* Protocol */,
 				5B5344D22A7282A400B2EFD3 /* Networking */,
 				5B3D40D12A6E670E00A91662 /* Model */,

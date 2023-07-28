@@ -7,8 +7,8 @@
 
 import Foundation
 
-final class Networking {
-    static func dataTask<T: Decodable>(_ request: APIRequest, _ session: URLSessionProtocol = URLSession.shared , _ completionHandler: @escaping (APIResult<T>) -> Void) {
+final class URLSessionProvider {
+    static func requestData<T: Decodable>(_ request: APIRequest, _ session: URLSessionProtocol = URLSession.shared , _ completionHandler: @escaping (APIResult<T>) -> Void) {
         guard let baseURL = URL(string: request.baseURL), let requestURL = setUpRequestURL(baseURL, request) else {
             completionHandler(.fauilure(.invalidURL))
             return
@@ -38,7 +38,7 @@ final class Networking {
 }
 
 // MARK: - Private
-extension Networking {
+extension URLSessionProvider {
     private static func decodeResponseData<T: Decodable>(_ responseData: Data, _ completionHandler: (APIResult<T>) -> Void) {
         do {
             let jsonDecoder = JSONDecoder()

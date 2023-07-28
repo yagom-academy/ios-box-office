@@ -63,7 +63,7 @@ final class MainViewController: UIViewController, CanShowNetworkFailAlert {
 
 // MARK: - NetworkRequests
 extension MainViewController {
-    private func requestMovieDetailInformation() {
+    private func fetchMovieDetailInformation() {
         let queryItems: [String: Any] = [
             "key": NetworkKey.boxOffice,
             "movieCd": "20218541"
@@ -71,19 +71,19 @@ extension MainViewController {
         
         let request = APIRequest(baseURL: BaseURL.boxOffice, path: BoxOfficeURLPath.movieDetail, queryItems: queryItems)
         
-        Networking.dataTask(request) { (result: APIResult<MovieDetailResult>) in
+        URLSessionProvider.requestData(request) { (result: APIResult<MovieDetailResult>) in
             switch result {
             case .success(let result):
                 print(result)
             case .fauilure(let error):
                 DispatchQueue.main.async {
-                    self.showNetworkFailAlert(message: error.description, retryFunction: self.requestMovieDetailInformation)
+                    self.showNetworkFailAlert(message: error.description, retryFunction: self.fetchMovieDetailInformation)
                 }
             }
         }
     }
     
-    private func requestMovieDailyInformation() {
+    private func fetchMovieDailyInformation() {
         let queryItems: [String: Any] = [
             "key": NetworkKey.boxOffice,
             "targetDt": "20230720"
@@ -91,13 +91,13 @@ extension MainViewController {
 
         let request = APIRequest(baseURL: BaseURL.boxOffice, path: BoxOfficeURLPath.daily, queryItems: queryItems)
 
-        Networking.dataTask(request) { (result: APIResult<BoxOfficeResult>) in
+        URLSessionProvider.requestData(request) { (result: APIResult<BoxOfficeResult>) in
             switch result {
             case .success(let result):
                 print(result)
             case .fauilure(let error):
                 DispatchQueue.main.async {
-                    self.showNetworkFailAlert(message: error.description, retryFunction: self.requestMovieDailyInformation)
+                    self.showNetworkFailAlert(message: error.description, retryFunction: self.fetchMovieDailyInformation)
                 }
             }
         }
@@ -107,10 +107,10 @@ extension MainViewController {
 // MARK: - Button Action
 extension MainViewController {
     @objc private func didTappedRequestMovieDetailInformationButton() {
-        requestMovieDetailInformation()
+        fetchMovieDetailInformation()
     }
     
     @objc private func didTappedRequestMovieDailyInformationButton() {
-        requestMovieDailyInformation()
+        fetchMovieDailyInformation()
     }
 }
