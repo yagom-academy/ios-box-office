@@ -13,6 +13,7 @@ final class MainViewController: UIViewController, CanShowNetworkFailAlert {
         
         button.setTitle("영화 개별 상세 조회", for: .normal)
         button.setTitleColor(.black, for: .normal)
+        button.backgroundColor = .yellow
         button.addTarget(self, action: #selector(didTappedRequestMovieDetailInformationButton), for: .touchUpInside)
         return button
     }()
@@ -22,6 +23,7 @@ final class MainViewController: UIViewController, CanShowNetworkFailAlert {
         
         button.setTitle("오늘의 일일 박스오피스 조회", for: .normal)
         button.setTitleColor(.black, for: .normal)
+        button.backgroundColor = .orange
         button.addTarget(self, action: #selector(didTappedRequestMovieDailyInformationButton), for: .touchUpInside)
         return button
     }()
