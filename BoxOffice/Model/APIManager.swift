@@ -10,15 +10,13 @@ import Foundation
 struct APIManager {
     let session = URLSession.shared
     
-    func fetchData(service: Service) {
-        guard let correctUrl = URL(string: service.rawValue) else {
+    func fetchData(service: Service, completion: @escaping (Data?) -> Void) {
+        guard let url = URL(string: service.rawValue) else {
             print("Wrong URL")
             return
         }
         
-        let request = URLRequest(url: correctUrl)
-        
-        session.dataTask(with: request) { data, response, error in
+        session.dataTask(with: url) { data, response, error in
             guard error == nil else {
                 print("error: \(String(describing: error))")
                 return
@@ -38,6 +36,8 @@ struct APIManager {
                 print("None of Data")
                 return
             }
+            
+            completion(safeData)
             
             if safeData == data {
                 do {
