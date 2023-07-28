@@ -12,6 +12,7 @@
 		45174D6D2A70F68E009EEA9F /* URLSessionProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 45174D6C2A70F68E009EEA9F /* URLSessionProtocol.swift */; };
 		45174D6F2A70F6CF009EEA9F /* StubURLSession.swift in Sources */ = {isa = PBXBuildFile; fileRef = 45174D6E2A70F6CF009EEA9F /* StubURLSession.swift */; };
 		45174D722A71F101009EEA9F /* URLSession+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 45174D712A71F101009EEA9F /* URLSession+.swift */; };
+		4541D5932A735D4500E6D276 /* NetworkError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4541D5922A735D4500E6D276 /* NetworkError.swift */; };
 		63DF20EF2970E1A0005DF7D1 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63DF20EE2970E1A0005DF7D1 /* AppDelegate.swift */; };
 		63DF20F12970E1A0005DF7D1 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63DF20F02970E1A0005DF7D1 /* SceneDelegate.swift */; };
 		63DF20F32970E1A0005DF7D1 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63DF20F22970E1A0005DF7D1 /* ViewController.swift */; };
@@ -50,6 +51,7 @@
 		45174D6C2A70F68E009EEA9F /* URLSessionProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = URLSessionProtocol.swift; sourceTree = "<group>"; };
 		45174D6E2A70F6CF009EEA9F /* StubURLSession.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StubURLSession.swift; sourceTree = "<group>"; };
 		45174D712A71F101009EEA9F /* URLSession+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "URLSession+.swift"; sourceTree = "<group>"; };
+		4541D5922A735D4500E6D276 /* NetworkError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkError.swift; sourceTree = "<group>"; };
 		63DF20EB2970E1A0005DF7D1 /* BoxOffice.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = BoxOffice.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		63DF20EE2970E1A0005DF7D1 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		63DF20F02970E1A0005DF7D1 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -127,6 +129,14 @@
 			path = Extension;
 			sourceTree = "<group>";
 		};
+		4541D5912A735D2B00E6D276 /* Error */ = {
+			isa = PBXGroup;
+			children = (
+				4541D5922A735D4500E6D276 /* NetworkError.swift */,
+			);
+			path = Error;
+			sourceTree = "<group>";
+		};
 		63DF20E22970E1A0005DF7D1 = {
 			isa = PBXGroup;
 			children = (
@@ -180,6 +190,7 @@
 		CD1AFC1D2A6E7780001C50A7 /* Model */ = {
 			isa = PBXGroup;
 			children = (
+				4541D5912A735D2B00E6D276 /* Error */,
 				45174D702A71F0EF009EEA9F /* Extension */,
 				45174D6B2A70F5B3009EEA9F /* TestDouble */,
 				45174D592A70B0DF009EEA9F /* DTO */,
@@ -374,6 +385,7 @@
 				CDDD7B062A70C0EA00F471C8 /* Scheme.swift in Sources */,
 				CDDD7B032A70B8C700F471C8 /* NetworkManager.swift in Sources */,
 				CDDD7B0A2A70C0FF00F471C8 /* Path.swift in Sources */,
+				4541D5932A735D4500E6D276 /* NetworkError.swift in Sources */,
 				45174D5B2A70B113009EEA9F /* Movie.swift in Sources */,
 				45174D6F2A70F6CF009EEA9F /* StubURLSession.swift in Sources */,
 			);
