@@ -7,7 +7,7 @@
 
 import Foundation
 
-typealias CompletionHandler = (Data?, URLResponse?, Error?) -> Void
+typealias CompletionHandler = @Sendable (Data?, URLResponse?, Error?) -> Void
 
 protocol URLSessionProtocol {
     func dataTask(with url: URL, completionHandler: @escaping CompletionHandler) -> URLSessionDataTask
