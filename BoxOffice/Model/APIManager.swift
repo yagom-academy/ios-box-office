@@ -16,7 +16,7 @@ struct APIManager {
             return
         }
         
-        session.dataTask(with: url) { data, response, error in
+        let dataTask = session.dataTask(with: url) { data, response, error in
             guard error == nil else {
                 print("error: \(String(describing: error))")
                 return
@@ -31,7 +31,7 @@ struct APIManager {
                 print("Server Error: \(httpResponse.statusCode)")
                 return
             }
-        
+            
             guard let safeData = data else {
                 print("None of Data")
                 return
@@ -39,14 +39,20 @@ struct APIManager {
             
             completion(safeData)
             
-            if safeData == data {
-                do {
-                    let decoder = JSONDecoder()
-                    let decodedData = try decoder.decode(BoxOffice.self, from: safeData)
-                } catch {
-                    print ("Decoding Error")
-                }
-            }
-        }.resume()
+        }
+        
+        dataTask.resume()
+    }
+    
+    func decodeJSON<T: Decodable>(service: Service, data: Data) -> T? {
+        do {
+            let decoder = JSONDecoder()
+            let decodedData = try decoder.decode(T.self, from: data)
+            print("decodedData: \(decodedData)")
+            return decodedData
+        } catch {
+            print ("Decoding Error")
+            return nil
+        }
     }
 }
