@@ -18,20 +18,21 @@ final class BoxOfficeTests: XCTestCase {
     }
 
     override func tearDownWithError() throws {
-        try super.tearDownWithError()
+        super.tearDown()
         dataManager = nil
     }
     
+    
     func test_decodeJSON메소드가_제대로_동작해서_반환된_배열의_count는_10이다() {
         // Given
-        guard let decodedMovies = dataManager.decodeJSON() else { return }
+        guard let decodedMovies: DailyBoxOffice = dataManager.decodeJSON(DailyBoxOffice.self) else { return }
 
         // When
         let result = 10
 
         // Then
         XCTAssertNotNil(decodedMovies)
-        XCTAssertEqual(decodedMovies.count, result)
+        XCTAssertEqual(decodedMovies.boxOfficeResult.movies.count, result)
     }
     
     func test_decodeData메소드가_제대로_동작해서_디코딩된_데이터의_첫번째_영화_이름은_경관의_피이다() {
@@ -68,4 +69,3 @@ final class BoxOfficeTests: XCTestCase {
         XCTAssertNotNil(loadedData)
     }
 }
-

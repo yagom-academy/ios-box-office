@@ -10,12 +10,12 @@ import UIKit
 struct DataManager: DataManaging {
     private let decoder: JSONDecoder = JSONDecoder()
 
-    func decodeJSON() -> [MovieInfo]? {
+    func decodeJSON<Element: Decodable>(_ type: Element.Type) -> Element? {
         guard let itemsData = loadData(named: DataNamespace.item),
-              let decodedItems = decodeData(DailyBoxOffice.self, from: itemsData)
+              let decodedItems = decodeData(Element.self, from: itemsData)
         else { return nil }
-        
-        return decodedItems.boxOfficeResult.movies
+
+        return decodedItems
     }
 
     func loadData(named name: String) -> Data? {
