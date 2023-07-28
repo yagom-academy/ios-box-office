@@ -39,6 +39,16 @@ struct APIManager {
             
             completion(safeData)
             
+            switch service {
+            case .dailyBoxOffice:
+                if let decodedData: BoxOffice = self.decodeJSON(service: service, data: safeData) {
+                    print(decodedData)
+                }
+            case .movieDetailInfo:
+                if let decodedData: Movie = self.decodeJSON(service: service, data: safeData) {
+                    print(decodedData)
+                }
+            }
         }
         
         dataTask.resume()
@@ -56,3 +66,4 @@ struct APIManager {
         }
     }
 }
+`
