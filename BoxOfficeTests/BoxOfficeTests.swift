@@ -18,7 +18,7 @@ final class BoxOfficeTests: XCTestCase {
     }
 
     override func tearDownWithError() throws {
-        super.tearDown()
+        try super.tearDownWithError()
         dataManager = nil
     }
     
