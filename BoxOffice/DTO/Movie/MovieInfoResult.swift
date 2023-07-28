@@ -7,5 +7,5 @@
 
 struct MovieInfoResult: Decodable {
     let movieInfo: MovieInfo
-    let source: Source
+    let source: String
 }
