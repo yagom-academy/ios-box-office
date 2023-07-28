@@ -28,6 +28,16 @@ final class MainViewController: UIViewController, CanShowNetworkFailAlert {
         return button
     }()
     
+    private lazy var networkRequestFailureButton: UIButton = {
+        let button = UIButton()
+        
+        button.setTitle("네트워크 요청 실패 버튼", for: .normal)
+        button.setTitleColor(.black, for: .normal)
+        button.backgroundColor = .red
+        button.addTarget(self, action: #selector(didTappedNetworkRequestFailureButton), for: .touchUpInside)
+        return button
+    }()
+    
     private let stackView: UIStackView = {
        let stackView = UIStackView()
         
@@ -51,7 +61,7 @@ final class MainViewController: UIViewController, CanShowNetworkFailAlert {
     }
     
     private func configureUI() {
-        [requestMovieDetailInformationButton, requestMovieDailyInformationButton].forEach { stackView.addArrangedSubview($0) }
+        [requestMovieDetailInformationButton, requestMovieDailyInformationButton, networkRequestFailureButton].forEach { stackView.addArrangedSubview($0) }
         view.addSubview(stackView)
     }
     
@@ -114,5 +124,32 @@ extension MainViewController {
     
     @objc private func didTappedRequestMovieDailyInformationButton() {
         fetchMovieDailyInformation()
+    }
+}
+
+// MARK: - Test NetworkFailureButton
+extension MainViewController {
+    @objc private func didTappedNetworkRequestFailureButton() {
+        fetchMovieDailyInformationForTest()
+    }
+    
+    private func fetchMovieDailyInformationForTest() {
+        let queryItems: [String: Any] = [
+            "key": NetworkKey.boxOffice,
+            "targetDt": ""
+        ]
+
+        let request = APIRequest(baseURL: BaseURL.boxOffice, path: BoxOfficeURLPath.daily, queryItems: queryItems)
+
+        URLSessionProvider.requestData(request) { (result: APIResult<BoxOfficeResult>) in
+            switch result {
+            case .success(let result):
+                print(result)
+            case .failure(let error):
+                DispatchQueue.main.async {
+                    self.showNetworkFailAlert(message: error.description, retryFunction: self.fetchMovieDailyInformationForTest)
+                }
+            }
+        }
     }
 }
