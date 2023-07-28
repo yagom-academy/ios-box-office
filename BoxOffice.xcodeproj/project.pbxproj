@@ -95,13 +95,13 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		45174D592A70B0DF009EEA9F /* DTO */ = {
+		45174D592A70B0DF009EEA9F /* Entity */ = {
 			isa = PBXGroup;
 			children = (
 				CD1AFC202A6E77C2001C50A7 /* BoxOffice.swift */,
 				45174D5A2A70B113009EEA9F /* Movie.swift */,
 			);
-			path = DTO;
+			path = Entity;
 			sourceTree = "<group>";
 		};
 		45174D632A70F583009EEA9F /* NetworkManagerTests */ = {
@@ -166,6 +166,8 @@
 				CD1AFC1D2A6E7780001C50A7 /* Model */,
 				CD1AFC1C2A6E777A001C50A7 /* Controller */,
 				CD1AFC1B2A6E776F001C50A7 /* View */,
+				45174D702A71F0EF009EEA9F /* Extension */,
+				4541D5912A735D2B00E6D276 /* Error */,
 				CDDD7B042A70C0A000F471C8 /* Util */,
 				CD1AFC1F2A6E778C001C50A7 /* Resource */,
 			);
@@ -191,10 +193,8 @@
 		CD1AFC1D2A6E7780001C50A7 /* Model */ = {
 			isa = PBXGroup;
 			children = (
-				4541D5912A735D2B00E6D276 /* Error */,
-				45174D702A71F0EF009EEA9F /* Extension */,
 				45174D6B2A70F5B3009EEA9F /* TestDouble */,
-				45174D592A70B0DF009EEA9F /* DTO */,
+				45174D592A70B0DF009EEA9F /* Entity */,
 				CDDD7B022A70B8C700F471C8 /* NetworkManager.swift */,
 				4541D5942A735E4500E6D276 /* DataManager.swift */,
 			);

@@ -10,7 +10,7 @@ import Foundation
 struct NetworkManager {
     var urlSession: URLSessionProtocol
     
-    func startLoad(_ url: URL?, completion: @escaping (Result<Data, NetworkError>) -> Void) {
+    func getData(from url: URL?, completion: @escaping (Result<Data, NetworkError>) -> Void) {
         guard let url else {
             completion(.failure(.invalidURL))
             return

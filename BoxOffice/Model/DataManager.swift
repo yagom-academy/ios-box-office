@@ -7,14 +7,14 @@
 
 import Foundation
 
-struct DataManager {
-    func decodeJSON<T: Decodable>(data: Data) -> T? {
+enum DataManager {
+    static func decodeJSON<T: Decodable>(data: Data) throws -> T {
         do {
             let decodedData = try JSONDecoder().decode(T.self, from: data)
             
             return decodedData
         } catch {
-            return nil
+            throw DataError.decodeJSONFailed
         }
     }
 }
