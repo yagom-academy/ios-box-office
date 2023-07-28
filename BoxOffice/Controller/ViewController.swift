@@ -8,7 +8,8 @@
 import UIKit
 
 final class ViewController: UIViewController {
-    var apiProtocol: MovieDataFetchable = MovieDataAPI()
+    private let apiProtocol: MovieDataFetchable = MovieDataAPI()
+    private let dataManager = DataManager()
     
     override func viewDidLoad() {
         super.viewDidLoad()
