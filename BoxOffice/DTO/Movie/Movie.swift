@@ -6,5 +6,9 @@
 //
 
 struct Movie: Decodable {
-    let movieInfoResult: MovieInfoResult
+    let movieInformationResult: MovieInfoResult
+    
+    private enum CodingKeys: String, CodingKey {
+        case movieInformationResult = "movieInfoResult"
+    }
 }

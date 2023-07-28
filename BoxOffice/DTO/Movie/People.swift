@@ -6,9 +6,17 @@
 //
 
 struct People: Decodable {
-    let peopleNm: String
-    let peopleNmEn: String?
+    let peopleName: String
+    let peopleEnglishNm: String?
     let cast: String?
-    let castEn: String?
-    let staffRoleNm: String?
+    let castEnglish: String?
+    let staffRoleName: String?
+    
+    private enum CodingKeys: String, CodingKey {
+        case peopleName = "peopleNm"
+        case peopleEnglishNm = "peopleNmEn"
+        case cast
+        case castEnglish = "castEn"
+        case staffRoleName = "staffRoleNm"
+    }
 }

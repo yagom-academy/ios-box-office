@@ -6,5 +6,9 @@
 //
 
 struct Nation: Decodable {
-    let nationNm: String
+    let nationName: String // 국가 이름
+    
+    private enum CodingKeys: String, CodingKey {
+        case nationName = "nationNm"
+    }
 }

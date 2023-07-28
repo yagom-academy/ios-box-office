@@ -6,5 +6,9 @@
 //
 
 struct Genre: Decodable {
-    let genreNm: String
+    let genreName: String // 장르 이름
+    
+    private enum CodingKeys: String, CodingKey {
+        case genreName = "genreNm"
+    }
 }
