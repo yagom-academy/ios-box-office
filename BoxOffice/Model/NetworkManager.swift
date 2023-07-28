@@ -10,43 +10,41 @@ import Foundation
 struct NetworkManager {
     var urlSession: URLSessionProtocol
     
-    func configuredURL(scheme: String, host: String, path: String, queryItems: [URLQueryItem]) -> URL? {
+    func configuredURL(scheme: String, host: String, path: String, queryItems: [URLQueryItem]) -> Result<URL, NetworkError> {
         var urlComponents = URLComponents()
         urlComponents.scheme = scheme
         urlComponents.host = host
         urlComponents.path = path
         urlComponents.queryItems = queryItems
         
-        return urlComponents.url ?? nil
+        guard let url = urlComponents.url else {
+            return .failure(NetworkError.invalidURL)
+        }
+        
+        return .success(url)
     }
     
-    func startLoad(_ url: URL, completion: @escaping (Data?) -> Void) {
+    func startLoad(_ url: URL, completion: @escaping (Result<Data?, NetworkError>) -> Void) {
         let task = urlSession.dataTask(with: url) { data, response, error in
             guard error == nil else {
-                completion(nil)
+                completion(.failure(.networkFailed))
                 return
             }
             
             guard let response = response as? HTTPURLResponse,
-                  (200..<300).contains(response.statusCode),
-                  let data else {
-                completion(nil)
+                  (200..<300).contains(response.statusCode) else {
+                completion(.failure(.requestFailed))
                 return
             }
             
-            completion(data)
+            guard let data else {
+                completion(.failure(.dataFailed))
+                return
+            }
+            
+            completion(.success(data))
         }
         
         task.resume()
-    }
-    
-    func decodeJSON<T: Decodable>(data: Data) -> T? {
-        do {
-            let decodedData = try JSONDecoder().decode(T.self, from: data)
-            
-            return decodedData
-        } catch {
-            return nil
-        }
     }
 }
