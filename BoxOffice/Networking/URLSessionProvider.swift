@@ -8,13 +8,13 @@
 import Foundation
 
 final class URLSessionProvider {
-    static func requestData<T: Decodable>(_ request: APIRequest, _ session: URLSessionProtocol = URLSession.shared , _ completionHandler: @escaping (APIResult<T>) -> Void) {
+    static func requestData<T: Decodable>(_ request: APIRequest, _ completionHandler: @escaping (APIResult<T>) -> Void) {
         guard let baseURL = URL(string: request.baseURL), let requestURL = setUpRequestURL(baseURL, request) else {
             completionHandler(.failure(.invalidURL))
             return
         }
         
-        let dataTask = session.dataTask(with: requestURL) { data, response, error in
+        let dataTask = URLSession.shared.dataTask(with: requestURL) { data, response, error in
             if error != nil {
                 completionHandler(.failure(.requestFail))
                 return

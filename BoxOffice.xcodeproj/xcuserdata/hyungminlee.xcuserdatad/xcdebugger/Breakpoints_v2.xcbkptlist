@@ -256,54 +256,6 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            uuid = "47B3AC0D-E737-48A2-8EE7-BE8169444385"
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "BoxOffice/Networking/URLSessionProvider.swift"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "17"
-            endingLineNumber = "17"
-            landmarkName = "requestData(_:_:_:)"
-            landmarkType = "7">
-            <Locations>
-               <Location
-                  uuid = "47B3AC0D-E737-48A2-8EE7-BE8169444385 - 677305eaa978b091"
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "static BoxOffice.URLSessionProvider.requestData&lt;&#x3c4;_0_0 where &#x3c4;_0_0: Swift.Decodable&gt;(BoxOffice.APIRequest, BoxOffice.URLSessionProtocol, (BoxOffice.APIResult&lt;&#x3c4;_0_0&gt;) -&gt; ()) -&gt; ()"
-                  moduleName = "BoxOffice"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/hyungminlee/Desktop/Project/ios-box-office/BoxOffice/Networking/URLSessionProvider.swift"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "17"
-                  endingLineNumber = "17"
-                  offsetFromSymbolStart = "592">
-               </Location>
-               <Location
-                  uuid = "47B3AC0D-E737-48A2-8EE7-BE8169444385 - 9345bfec1a18616f"
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "closure #1 @Sendable (Swift.Optional&lt;Foundation.Data&gt;, Swift.Optional&lt;__C.NSURLResponse&gt;, Swift.Optional&lt;Swift.Error&gt;) -&gt; () in static BoxOffice.URLSessionProvider.requestData&lt;&#x3c4;_0_0 where &#x3c4;_0_0: Swift.Decodable&gt;(BoxOffice.APIRequest, BoxOffice.URLSessionProtocol, (BoxOffice.APIResult&lt;&#x3c4;_0_0&gt;) -&gt; ()) -&gt; ()"
-                  moduleName = "BoxOffice"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/hyungminlee/Desktop/Project/ios-box-office/BoxOffice/Networking/URLSessionProvider.swift"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "18"
-                  endingLineNumber = "18"
-                  offsetFromSymbolStart = "224">
-               </Location>
-            </Locations>
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
             uuid = "3408436A-6D44-4F6A-9C99-36C19D6ED46B"
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
