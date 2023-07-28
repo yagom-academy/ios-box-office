@@ -18,10 +18,9 @@ final class BoxOfficeTests: XCTestCase {
     }
 
     override func tearDownWithError() throws {
-        super.tearDown()
+        try super.tearDownWithError()
         dataManager = nil
     }
-    
     
     func test_decodeJSON메소드가_제대로_동작해서_반환된_배열의_count는_10이다() {
         // Given
