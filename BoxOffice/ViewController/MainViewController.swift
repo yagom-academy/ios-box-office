@@ -7,7 +7,7 @@
 
 import UIKit
 
-final class MainViewController: UIViewController, CanShowNetworkFailAlert {
+final class MainViewController: UIViewController, CanShowNetworkRequestFailureAlert {
     private lazy var requestMovieDetailInformationButton: UIButton = {
         let button = UIButton()
         
@@ -127,7 +127,7 @@ extension MainViewController {
     }
 }
 
-// MARK: - Test NetworkFailureButton
+// MARK: - Test Button Action
 extension MainViewController {
     @objc private func didTappedNetworkRequestFailureButton() {
         fetchMovieDailyInformationForTest()
