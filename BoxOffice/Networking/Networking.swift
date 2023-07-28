@@ -2,19 +2,19 @@
 //  Networking.swift
 //  BoxOffice
 //
-//  Created by Hyungmin Lee on 2023/07/27.
+//  Created by Zion, Hemg on 2023/07/27.
 //
 
 import Foundation
 
 final class Networking {
-    static func dataTask<T: Decodable>(_ request: APIRequest, _ completionHandler: @escaping (APIResult<T>) -> Void) {
+    static func dataTask<T: Decodable>(_ request: APIRequest, _ session: URLSessionProtocol = URLSession.shared , _ completionHandler: @escaping (APIResult<T>) -> Void) {
         guard let baseURL = URL(string: request.baseURL), let requestURL = setUpRequestURL(baseURL, request) else {
             completionHandler(.fauilure(.invalidURL))
             return
         }
         
-        let dataTask = URLSession.shared.dataTask(with: requestURL) { data, response, error in
+        let dataTask = session.dataTask(with: requestURL) { data, response, error in
             if error != nil {
                 completionHandler(.fauilure(.requestFail))
                 return
