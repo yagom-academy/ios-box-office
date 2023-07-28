@@ -11,8 +11,8 @@ struct BoxOfficeResult: Decodable {
     let movies: [MovieInfo]
 
     private enum CodingKeys: String, CodingKey {
-        case boxOfficeType
-        case dateRange = "showRange" 
+        case boxOfficeType = "boxofficeType"
+        case dateRange = "showRange"
         case movies = "dailyBoxOfficeList"
     }
 }

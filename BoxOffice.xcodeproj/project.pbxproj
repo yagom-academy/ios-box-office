@@ -53,6 +53,7 @@
 		9C30BD3B2A70D502000DB5B2 /* DataNamespace.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataNamespace.swift; sourceTree = "<group>"; };
 		9C30BD3D2A70D64B000DB5B2 /* DataManaging.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataManaging.swift; sourceTree = "<group>"; };
 		9CF8A6042A738BB700CB6911 /* DataManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataManager.swift; sourceTree = "<group>"; };
+		9CF8A6172A742DF100CB6911 /* BoxOffice.xctestplan */ = {isa = PBXFileReference; lastKnownFileType = text; path = BoxOffice.xctestplan; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -76,6 +77,7 @@
 		63DF20E22970E1A0005DF7D1 = {
 			isa = PBXGroup;
 			children = (
+				9CF8A6172A742DF100CB6911 /* BoxOffice.xctestplan */,
 				63DF20ED2970E1A0005DF7D1 /* BoxOffice */,
 				9C30BD242A70C969000DB5B2 /* BoxOfficeTests */,
 				63DF20EC2970E1A0005DF7D1 /* Products */,
