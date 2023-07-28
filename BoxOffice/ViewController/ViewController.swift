@@ -8,19 +8,28 @@
 import UIKit
 
 class ViewController: UIViewController {
-
+    var boxOffice: BoxOffice?
+    var movie: Movie?
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
         let networkManager = NetworkManager()
         
-        func printBoxOffice(_ boxOffice: BoxOffice) {
-            print(boxOffice)
-        }
+        networkManager.loadDailyBoxOfficeData(fetchBoxOffice)
         
-        networkManager.loadData(printBoxOffice)
+        func fetchBoxOffice(_ boxOffice: BoxOffice) {
+            print(boxOffice)
+            self.boxOffice = boxOffice
+            if let movieCode = boxOffice.boxOfficeResult.dailyBoxOfficeList.first?.movieCode {
+                networkManager.loadMovieDetailData(movieCd: movieCode, fetchMovie)
+            }
+        }
+    
+        func fetchMovie(_ movie: Movie) {
+            print(movie)
+            self.movie = movie
+        }
     }
-
-
 }
 
