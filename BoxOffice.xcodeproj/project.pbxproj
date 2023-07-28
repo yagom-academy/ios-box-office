@@ -43,6 +43,7 @@
 		3B8F5F9B2A71032C00D1A7F6 /* BoxOfficeError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BoxOfficeError.swift; sourceTree = "<group>"; };
 		3B8F5F9D2A72186D00D1A7F6 /* URLNamespace.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = URLNamespace.swift; sourceTree = "<group>"; };
 		3B8F5FD32A73556200D1A7F6 /* BoxOfficeNetworkingTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BoxOfficeNetworkingTest.swift; sourceTree = "<group>"; };
+		3B8F5FD52A73741C00D1A7F6 /* BoxOffice.xctestplan */ = {isa = PBXFileReference; lastKnownFileType = text; path = BoxOffice.xctestplan; sourceTree = "<group>"; };
 		3BF7147C2A6E75C6006F274D /* BoxOfficeTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = BoxOfficeTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		3BF7147E2A6E75C6006F274D /* BoxOfficeDecodingTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BoxOfficeDecodingTests.swift; sourceTree = "<group>"; };
 		3BF714852A6E78E3006F274D /* DecodingManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DecodingManager.swift; sourceTree = "<group>"; };
@@ -125,6 +126,7 @@
 		3BF7147D2A6E75C6006F274D /* BoxOfficeTests */ = {
 			isa = PBXGroup;
 			children = (
+				3B8F5FD52A73741C00D1A7F6 /* BoxOffice.xctestplan */,
 				3B8F5FD32A73556200D1A7F6 /* BoxOfficeNetworkingTest.swift */,
 				3BF7147E2A6E75C6006F274D /* BoxOfficeDecodingTests.swift */,
 				BAAC6F4B2A734E7100AD34ED /* TestDouble.swift */,
