@@ -146,13 +146,6 @@
 			path = BoxOfficeTests;
 			sourceTree = "<group>";
 		};
-		63C263922A73755700DB2261 /* Util */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = Util;
-			sourceTree = "<group>";
-		};
 		63DF20E22970E1A0005DF7D1 = {
 			isa = PBXGroup;
 			children = (
@@ -175,7 +168,6 @@
 			isa = PBXGroup;
 			children = (
 				63DF20FC2970E1A1005DF7D1 /* Info.plist */,
-				63C263922A73755700DB2261 /* Util */,
 				5B8618992A728D55001A0B3B /* Protocol */,
 				5B5344D22A7282A400B2EFD3 /* Networking */,
 				5B3D40D12A6E670E00A91662 /* Model */,
