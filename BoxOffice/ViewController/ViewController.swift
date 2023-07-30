@@ -7,10 +7,10 @@
 
 import UIKit
 
-class ViewController: UIViewController {
-    let boxOfficeService = BoxOfficeService()
-    var boxOffice: BoxOffice?
-    var movie: Movie?
+final class ViewController: UIViewController {
+    private let boxOfficeService = BoxOfficeService()
+    private var boxOffice: BoxOffice?
+    private var movie: Movie?
     
     override func viewDidLoad() {
         super.viewDidLoad()
