@@ -8,7 +8,11 @@
 import Foundation
 
 struct NetworkManager {
-    var urlSession: URLSessionProtocol
+    private let urlSession: URLSessionProtocol
+    
+    init(urlSession: URLSessionProtocol) {
+        self.urlSession = urlSession
+    }
     
     func getData(from url: URL?, completion: @escaping (Result<Data, NetworkError>) -> Void) {
         guard let url else {
