@@ -16,6 +16,7 @@
 		CB31F7C62A738376001E9B21 /* CustomDateFormatStyle.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB31F7C52A738376001E9B21 /* CustomDateFormatStyle.swift */; };
 		CB31F7C82A738397001E9B21 /* MimeType.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB31F7C72A738397001E9B21 /* MimeType.swift */; };
 		CB4CFDD32A6FA25200288EFA /* BoxOfficeResultTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB4CFDD22A6FA25200288EFA /* BoxOfficeResultTests.swift */; };
+		CB5BF5A22A76AEC400FBB9D9 /* BoxOfficeService.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB5BF5A12A76AEC400FBB9D9 /* BoxOfficeService.swift */; };
 		CBC61F902A6EA4C200FDAD18 /* BoxOfficeResult.swift in Sources */ = {isa = PBXBuildFile; fileRef = CBC61F8F2A6EA4C200FDAD18 /* BoxOfficeResult.swift */; };
 		CBC61F982A6F54F900FDAD18 /* BoxOfficeTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = CBC61F972A6F54F900FDAD18 /* BoxOfficeTests.swift */; };
 		CBEF1EE12A6F8909005459DD /* BoxOffice.swift in Sources */ = {isa = PBXBuildFile; fileRef = CBEF1EE02A6F8909005459DD /* BoxOffice.swift */; };
@@ -59,6 +60,7 @@
 		CB31F7C72A738397001E9B21 /* MimeType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MimeType.swift; sourceTree = "<group>"; };
 		CB4CFDD12A6FA16900288EFA /* BoxOfficeTestPlan.xctestplan */ = {isa = PBXFileReference; lastKnownFileType = text; path = BoxOfficeTestPlan.xctestplan; sourceTree = "<group>"; };
 		CB4CFDD22A6FA25200288EFA /* BoxOfficeResultTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BoxOfficeResultTests.swift; sourceTree = "<group>"; };
+		CB5BF5A12A76AEC400FBB9D9 /* BoxOfficeService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BoxOfficeService.swift; sourceTree = "<group>"; };
 		CBC61F8F2A6EA4C200FDAD18 /* BoxOfficeResult.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BoxOfficeResult.swift; sourceTree = "<group>"; };
 		CBC61F952A6F54F900FDAD18 /* BoxOfficeTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = BoxOfficeTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		CBC61F972A6F54F900FDAD18 /* BoxOfficeTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BoxOfficeTests.swift; sourceTree = "<group>"; };
@@ -122,9 +124,11 @@
 				63DF20FC2970E1A1005DF7D1 /* Info.plist */,
 				CBC61F8B2A6EA40900FDAD18 /* App */,
 				CBC61F8C2A6EA41B00FDAD18 /* ViewController */,
+				CB5BF5A02A76AEB200FBB9D9 /* Service */,
 				D266DEC32A72931600DBB07F /* Model */,
 				CBC61F8D2A6EA42D00FDAD18 /* DTO */,
 				D236E1B02A7356D3003D0F7A /* NameSpace */,
+				CB5BF5A32A76AF7B00FBB9D9 /* Util */,
 				CBC61F8E2A6EA46400FDAD18 /* Resource */,
 				D2E159632A6F55E900052F8B /* Extension */,
 				D277169C2A6FFF92005C0045 /* Error */,
@@ -132,6 +136,22 @@
 				63DF20F92970E1A1005DF7D1 /* LaunchScreen.storyboard */,
 			);
 			path = BoxOffice;
+			sourceTree = "<group>";
+		};
+		CB5BF5A02A76AEB200FBB9D9 /* Service */ = {
+			isa = PBXGroup;
+			children = (
+				CB5BF5A12A76AEC400FBB9D9 /* BoxOfficeService.swift */,
+			);
+			path = Service;
+			sourceTree = "<group>";
+		};
+		CB5BF5A32A76AF7B00FBB9D9 /* Util */ = {
+			isa = PBXGroup;
+			children = (
+				D266DEC12A72269200DBB07F /* NetworkManager.swift */,
+			);
+			path = Util;
 			sourceTree = "<group>";
 		};
 		CBC61F8B2A6EA40900FDAD18 /* App */ = {
@@ -217,7 +237,6 @@
 		D266DEC32A72931600DBB07F /* Model */ = {
 			isa = PBXGroup;
 			children = (
-				D266DEC12A72269200DBB07F /* NetworkManager.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -362,6 +381,7 @@
 				63DF20F12970E1A0005DF7D1 /* SceneDelegate.swift in Sources */,
 				D236E1AD2A734BFB003D0F7A /* People.swift in Sources */,
 				D236E1A72A734721003D0F7A /* Company.swift in Sources */,
+				CB5BF5A22A76AEC400FBB9D9 /* BoxOfficeService.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
