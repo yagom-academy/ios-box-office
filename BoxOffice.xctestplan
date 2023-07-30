@@ -1,0 +1,29 @@
+{
+  "configurations" : [
+    {
+      "id" : "2D54B6CD-02F5-4930-91C7-1CF297FD87C8",
+      "name" : "Test Scheme Action",
+      "options" : {
+
+      }
+    }
+  ],
+  "defaultOptions" : {
+    "targetForVariableExpansion" : {
+      "containerPath" : "container:BoxOffice.xcodeproj",
+      "identifier" : "63DF20EA2970E1A0005DF7D1",
+      "name" : "BoxOffice"
+    }
+  },
+  "testTargets" : [
+    {
+      "parallelizable" : true,
+      "target" : {
+        "containerPath" : "container:BoxOffice.xcodeproj",
+        "identifier" : "9C30BD222A70C969000DB5B2",
+        "name" : "BoxOfficeTests"
+      }
+    }
+  ],
+  "version" : 1
+}
