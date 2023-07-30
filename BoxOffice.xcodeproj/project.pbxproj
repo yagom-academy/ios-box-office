@@ -126,7 +126,6 @@
 				CBC61F8C2A6EA41B00FDAD18 /* ViewController */,
 				CB5BF5A02A76AEB200FBB9D9 /* Service */,
 				D266DEC32A72931600DBB07F /* Model */,
-				CBC61F8D2A6EA42D00FDAD18 /* DTO */,
 				D236E1B02A7356D3003D0F7A /* NameSpace */,
 				CB5BF5A32A76AF7B00FBB9D9 /* Util */,
 				CBC61F8E2A6EA46400FDAD18 /* Resource */,
@@ -237,6 +236,7 @@
 		D266DEC32A72931600DBB07F /* Model */ = {
 			isa = PBXGroup;
 			children = (
+				CBC61F8D2A6EA42D00FDAD18 /* DTO */,
 			);
 			path = Model;
 			sourceTree = "<group>";
