@@ -39,7 +39,7 @@ final class StubURLSessionDataTask: URLSessionDataTask {
     }
 
     override func resume() {
-        DispatchQueue.global().async { [self] in
+        DispatchQueue.global().async {
             Thread.sleep(forTimeInterval: 2)
             self.dummyData?.completion()
         }
