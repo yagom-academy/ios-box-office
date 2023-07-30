@@ -20,12 +20,8 @@ struct DummyData {
 
 final class StubURLSession: URLSessionProtocol {
     var dummyData: DummyData?
-
-    init() {
-        self.dummyData = nil
-    }
     
-    init(dummy: DummyData) {
+    init(dummy: DummyData?) {
         self.dummyData = dummy
     }
 
@@ -43,6 +39,9 @@ final class StubURLSessionDataTask: URLSessionDataTask {
     }
 
     override func resume() {
-        dummyData?.completion()
+        DispatchQueue.global().async { [self] in
+            Thread.sleep(forTimeInterval: 2)
+            self.dummyData?.completion()
+        }
     }
 }
