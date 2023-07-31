@@ -5,19 +5,24 @@
 //  Created by EtialMoon, Minsup on 2023/07/31.
 //
 
+
+
 import SwiftUI
 
-final class BoxOfficeCollectionViewCell: UICollectionViewCell {
+final class BoxOfficeCollectionViewCell: UICollectionViewCell, Reusable {
     private let rankLabel: UILabel = {
         let label = UILabel()
         label.text = "1"
         label.font = UIFont.preferredFont(for: .largeTitle, weight: .semibold)
+        label.adjustsFontForContentSizeCategory = true
         return label
     }()
     
     private let rankVariationLabel: UILabel = {
         let label = UILabel()
         label.text = "▼1"
+        label.font = UIFont.preferredFont(forTextStyle: .body)
+        label.adjustsFontForContentSizeCategory = true
         return label
     }()
     
@@ -25,16 +30,19 @@ final class BoxOfficeCollectionViewCell: UICollectionViewCell {
         let label = UILabel()
         label.text = "경관의 피"
         label.font = UIFont.preferredFont(forTextStyle: .title2)
+        label.adjustsFontForContentSizeCategory = true
         return label
     }()
     
     private let audienceNumberLabel: UILabel = {
         let label = UILabel()
         label.text = "오늘 64,050 / 총 69,228"
+        label.font = UIFont.preferredFont(forTextStyle: .body)
+        label.adjustsFontForContentSizeCategory = true
         return label
     }()
-
-    override func prepareForReuse() {
+    
+    func configureCell() {
         addSubviews()
         setUpConstraints()
     }
@@ -92,7 +100,7 @@ extension BoxOfficeCollectionViewCell {
 }
 
 // MARK: - Preview
-struct PreView: PreviewProvider {
+struct BoxOfficeCollectionViewCellPreview: PreviewProvider {
     static var previews: some View {
         UIViewPreview {
             BoxOfficeCollectionViewCell()

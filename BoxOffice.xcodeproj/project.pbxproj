@@ -9,10 +9,12 @@
 /* Begin PBXBuildFile section */
 		1F8EB8B82A72A90E00CDA730 /* NetworkError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F8EB8B72A72A90E00CDA730 /* NetworkError.swift */; };
 		1F8EB8BA2A72A92500CDA730 /* DecodingError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F8EB8B92A72A92500CDA730 /* DecodingError.swift */; };
+		1FA7D6F92A77E1C600D7B5F6 /* ViewControllerPreview.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FA7D6F82A77E1C600D7B5F6 /* ViewControllerPreview.swift */; };
+		1FA7D6FC2A77E44900D7B5F6 /* Reusable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FA7D6FB2A77E44900D7B5F6 /* Reusable.swift */; };
 		1FABE3752A6E998D0020C5EC /* BoxOfficeResult.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FABE3742A6E998D0020C5EC /* BoxOfficeResult.swift */; };
 		1FABE37D2A6E9CF20020C5EC /* BoxOfficeTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FABE37C2A6E9CF20020C5EC /* BoxOfficeTests.swift */; };
 		1FABE3842A6EA7FC0020C5EC /* BoxOffice.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FABE3832A6EA7FC0020C5EC /* BoxOffice.swift */; };
-		2847528D2A77CD07000C1756 /* BoxOfficeCollectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2847528C2A77CD07000C1756 /* BoxOfficeCollectionView.swift */; };
+		2847528D2A77CD07000C1756 /* BoxOfficeCollectionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2847528C2A77CD07000C1756 /* BoxOfficeCollectionViewController.swift */; };
 		2847528F2A77CD4E000C1756 /* BoxOfficeCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2847528E2A77CD4E000C1756 /* BoxOfficeCollectionViewCell.swift */; };
 		284752922A77D0BA000C1756 /* UIViewPreview.swift in Sources */ = {isa = PBXBuildFile; fileRef = 284752912A77D0BA000C1756 /* UIViewPreview.swift */; };
 		284752952A77DF66000C1756 /* UIFont+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 284752942A77DF66000C1756 /* UIFont+.swift */; };
@@ -23,7 +25,6 @@
 		28E04BB22A6FE60800C18A07 /* NetworkManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28E04BB12A6FE60800C18A07 /* NetworkManager.swift */; };
 		63DF20EF2970E1A0005DF7D1 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63DF20EE2970E1A0005DF7D1 /* AppDelegate.swift */; };
 		63DF20F12970E1A0005DF7D1 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63DF20F02970E1A0005DF7D1 /* SceneDelegate.swift */; };
-		63DF20F32970E1A0005DF7D1 /* MainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63DF20F22970E1A0005DF7D1 /* MainViewController.swift */; };
 		63DF20F82970E1A1005DF7D1 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 63DF20F72970E1A1005DF7D1 /* Assets.xcassets */; };
 		63DF20FB2970E1A1005DF7D1 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 63DF20F92970E1A1005DF7D1 /* LaunchScreen.storyboard */; };
 /* End PBXBuildFile section */
@@ -41,11 +42,13 @@
 /* Begin PBXFileReference section */
 		1F8EB8B72A72A90E00CDA730 /* NetworkError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkError.swift; sourceTree = "<group>"; };
 		1F8EB8B92A72A92500CDA730 /* DecodingError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DecodingError.swift; sourceTree = "<group>"; };
+		1FA7D6F82A77E1C600D7B5F6 /* ViewControllerPreview.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewControllerPreview.swift; sourceTree = "<group>"; };
+		1FA7D6FB2A77E44900D7B5F6 /* Reusable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Reusable.swift; sourceTree = "<group>"; };
 		1FABE3742A6E998D0020C5EC /* BoxOfficeResult.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BoxOfficeResult.swift; sourceTree = "<group>"; };
 		1FABE37A2A6E9CF20020C5EC /* BoxOfficeTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = BoxOfficeTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		1FABE37C2A6E9CF20020C5EC /* BoxOfficeTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BoxOfficeTests.swift; sourceTree = "<group>"; };
 		1FABE3832A6EA7FC0020C5EC /* BoxOffice.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BoxOffice.swift; sourceTree = "<group>"; };
-		2847528C2A77CD07000C1756 /* BoxOfficeCollectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BoxOfficeCollectionView.swift; sourceTree = "<group>"; };
+		2847528C2A77CD07000C1756 /* BoxOfficeCollectionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BoxOfficeCollectionViewController.swift; sourceTree = "<group>"; };
 		2847528E2A77CD4E000C1756 /* BoxOfficeCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BoxOfficeCollectionViewCell.swift; sourceTree = "<group>"; };
 		284752912A77D0BA000C1756 /* UIViewPreview.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIViewPreview.swift; sourceTree = "<group>"; };
 		284752942A77DF66000C1756 /* UIFont+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIFont+.swift"; sourceTree = "<group>"; };
@@ -57,7 +60,6 @@
 		63DF20EB2970E1A0005DF7D1 /* BoxOffice.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = BoxOffice.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		63DF20EE2970E1A0005DF7D1 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		63DF20F02970E1A0005DF7D1 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
-		63DF20F22970E1A0005DF7D1 /* MainViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainViewController.swift; sourceTree = "<group>"; };
 		63DF20F72970E1A1005DF7D1 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		63DF20FA2970E1A1005DF7D1 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		63DF20FC2970E1A1005DF7D1 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -107,6 +109,14 @@
 			path = Error;
 			sourceTree = "<group>";
 		};
+		1FA7D6FA2A77E43C00D7B5F6 /* Protocol */ = {
+			isa = PBXGroup;
+			children = (
+				1FA7D6FB2A77E44900D7B5F6 /* Reusable.swift */,
+			);
+			path = Protocol;
+			sourceTree = "<group>";
+		};
 		1FABE36F2A6E89EE0020C5EC /* Appication */ = {
 			isa = PBXGroup;
 			children = (
@@ -119,7 +129,7 @@
 		1FABE3712A6E8A050020C5EC /* Controller */ = {
 			isa = PBXGroup;
 			children = (
-				63DF20F22970E1A0005DF7D1 /* MainViewController.swift */,
+				2847528C2A77CD07000C1756 /* BoxOfficeCollectionViewController.swift */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -127,10 +137,10 @@
 		1FABE3722A6E8A3C0020C5EC /* View */ = {
 			isa = PBXGroup;
 			children = (
+				1FA7D6FA2A77E43C00D7B5F6 /* Protocol */,
 				284752932A77DF4B000C1756 /* Extension */,
 				284752902A77D097000C1756 /* Preview */,
 				63DF20F92970E1A1005DF7D1 /* LaunchScreen.storyboard */,
-				2847528C2A77CD07000C1756 /* BoxOfficeCollectionView.swift */,
 				2847528E2A77CD4E000C1756 /* BoxOfficeCollectionViewCell.swift */,
 			);
 			path = View;
@@ -157,6 +167,7 @@
 			isa = PBXGroup;
 			children = (
 				284752912A77D0BA000C1756 /* UIViewPreview.swift */,
+				1FA7D6F82A77E1C600D7B5F6 /* ViewControllerPreview.swift */,
 			);
 			path = Preview;
 			sourceTree = "<group>";
@@ -337,20 +348,21 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				1FA7D6FC2A77E44900D7B5F6 /* Reusable.swift in Sources */,
 				284895342A6E8C2600A2214F /* BoxOfficeItem.swift in Sources */,
 				1F8EB8B82A72A90E00CDA730 /* NetworkError.swift in Sources */,
 				1FABE3752A6E998D0020C5EC /* BoxOfficeResult.swift in Sources */,
 				1F8EB8BA2A72A92500CDA730 /* DecodingError.swift in Sources */,
 				28A988692A72B9FC00526C08 /* MovieResult.swift in Sources */,
 				28A988672A72B22A00526C08 /* Movie.swift in Sources */,
-				63DF20F32970E1A0005DF7D1 /* MainViewController.swift in Sources */,
 				28A9886B2A72BA1C00526C08 /* MovieInformation.swift in Sources */,
 				284752922A77D0BA000C1756 /* UIViewPreview.swift in Sources */,
+				1FA7D6F92A77E1C600D7B5F6 /* ViewControllerPreview.swift in Sources */,
 				284752952A77DF66000C1756 /* UIFont+.swift in Sources */,
 				28E04BB22A6FE60800C18A07 /* NetworkManager.swift in Sources */,
 				63DF20EF2970E1A0005DF7D1 /* AppDelegate.swift in Sources */,
 				63DF20F12970E1A0005DF7D1 /* SceneDelegate.swift in Sources */,
-				2847528D2A77CD07000C1756 /* BoxOfficeCollectionView.swift in Sources */,
+				2847528D2A77CD07000C1756 /* BoxOfficeCollectionViewController.swift in Sources */,
 				1FABE3842A6EA7FC0020C5EC /* BoxOffice.swift in Sources */,
 				2847528F2A77CD4E000C1756 /* BoxOfficeCollectionViewCell.swift in Sources */,
 			);
@@ -539,7 +551,7 @@
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
-				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -566,7 +578,7 @@
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
-				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
