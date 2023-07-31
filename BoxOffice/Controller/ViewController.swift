@@ -11,6 +11,7 @@ class ViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
+//        var a = NetworkManager().fetchData(serviceType: .dailyBoxOffice)
     }
 
 

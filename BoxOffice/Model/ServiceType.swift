@@ -2,7 +2,7 @@
 //  ServiceType.swift
 //  BoxOffice
 //
-//  Created by MARY on 2023/07/27.
+//  Created by Idinaloq, MARY on 2023/07/27.
 //
 
 enum ServiceType {
