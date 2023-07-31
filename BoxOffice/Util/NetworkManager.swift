@@ -37,8 +37,10 @@ struct NetworkManager {
                     completion(.success(result))
                 } catch let error as JSONDecoderError {
                     print("JSONDecoder 에러 : \(error)")
+                    completion(.failure(NetworkManagerError.failureJsonDecode))
                 } catch {
                     print("알 수 없는 에러 발생")
+                    completion(.failure(NetworkManagerError.unknown))
                 }
             }
         }
