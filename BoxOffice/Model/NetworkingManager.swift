@@ -17,7 +17,7 @@ struct NetworkingManager {
         guard let url = URL(string: urlString) else {
             return
         }
-        
+
         let task = session.dataTask(with: url) { data, response, error in
             if error != nil {
                 completion(.failure(BoxOfficeError.connectionFailure))
@@ -34,9 +34,7 @@ struct NetworkingManager {
                 return
             }
             
-            if let mimeType = httpResponse.mimeType,
-               mimeType == "application/json",
-               let rawData = data,
+            if let rawData = data,
                let string = String(data: rawData, encoding: .utf8),
                let data = string.data(using: .utf8) {
                 completion(.success(data))
