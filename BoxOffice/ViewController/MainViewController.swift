@@ -83,7 +83,7 @@ extension MainViewController {
         
         let request = APIRequest(baseURL: BaseURL.boxOffice, path: BoxOfficeURLPath.movieDetail, queryItems: queryItems)
         
-        URLSessionProvider.requestData(request) { (result: APIResult<MovieDetailResult>) in
+        URLSessionProvider.requestData(request) { (result: Result<APIResponse<MovieDetailResult>, APIError>) in
             switch result {
             case .success(let result):
                 print(result)
@@ -103,7 +103,7 @@ extension MainViewController {
 
         let request = APIRequest(baseURL: BaseURL.boxOffice, path: BoxOfficeURLPath.daily, queryItems: queryItems)
 
-        URLSessionProvider.requestData(request) { (result: APIResult<BoxOfficeResult>) in
+        URLSessionProvider.requestData(request) { (result: Result<APIResponse<BoxOfficeResult>, APIError>) in
             switch result {
             case .success(let result):
                 print(result)
@@ -141,7 +141,7 @@ extension MainViewController {
 
         let request = APIRequest(baseURL: BaseURL.boxOffice, path: BoxOfficeURLPath.daily, queryItems: queryItems)
 
-        URLSessionProvider.requestData(request) { (result: APIResult<BoxOfficeResult>) in
+        URLSessionProvider.requestData(request) { (result: Result<APIResponse<BoxOfficeResult>, APIError>) in
             switch result {
             case .success(let result):
                 print(result)

@@ -8,7 +8,7 @@
 import Foundation
 
 final class URLSessionProvider {
-    static func requestData<T: Decodable>(_ request: APIRequest, _ completionHandler: @escaping (APIResult<T>) -> Void) {
+    static func requestData<T: Decodable>(_ request: APIRequest, _ completionHandler: @escaping (Result<APIResponse<T>, APIError>) -> Void) {
         guard let baseURL = URL(string: request.baseURL), let requestURL = setUpRequestURL(baseURL, request) else {
             completionHandler(.failure(.invalidURL))
             return
@@ -39,7 +39,7 @@ final class URLSessionProvider {
 
 // MARK: - Private
 extension URLSessionProvider {
-    private static func decodeResponseData<T: Decodable>(_ responseData: Data, _ completionHandler: (APIResult<T>) -> Void) {
+    private static func decodeResponseData<T: Decodable>(_ responseData: Data, _ completionHandler: (Result<APIResponse<T>, APIError>) -> Void) {
         do {
             let jsonDecoder = JSONDecoder()
             let decodingData = try jsonDecoder.decode(T.self, from: responseData)

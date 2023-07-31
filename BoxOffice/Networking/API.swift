@@ -11,16 +11,11 @@ struct APIRequest {
     let queryItems: [String: Any]?
 }
 
-enum APIResult<T> {
-    case success(APIResponse<T>)
-    case failure(APIError)
-}
-
 struct APIResponse<T> {
     let data: T
 }
 
-enum APIError {
+enum APIError: Error {
     case invalidURL
     case requestFail
     case invalidData
