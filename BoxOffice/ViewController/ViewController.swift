@@ -22,17 +22,27 @@ final class ViewController: UIViewController {
         boxOfficeService.loadDailyBoxOfficeData(fetchBoxOffice)
     }
     
-    private func fetchBoxOffice(_ boxOffice: BoxOffice) {
-        print(boxOffice)
-        self.boxOffice = boxOffice
-        if let movieCode = boxOffice.boxOfficeResult.dailyBoxOfficeList.first?.movieCode {
-            boxOfficeService.loadMovieDetailData(movieCd: movieCode, fetchMovie)
+    private func fetchBoxOffice(_ result: Result<BoxOffice, NetworkManagerError>) {
+        switch result {
+        case .success(let boxOffice):
+            print(boxOffice)
+            self.boxOffice = boxOffice
+            if let movieCode = boxOffice.boxOfficeResult.dailyBoxOfficeList.first?.movieCode {
+                boxOfficeService.loadMovieDetailData(movieCd: movieCode, fetchMovie)
+            }
+        case .failure(let error):
+            print(error)
         }
     }
 
-    private func fetchMovie(_ movie: Movie) {
-        print(movie)
-        self.movie = movie
+    private func fetchMovie(_ result: Result<Movie, NetworkManagerError>) {
+        switch result {
+        case .success(let movie):
+            print(movie)
+            self.movie = movie
+        case .failure(let error):
+            print(error)
+        }
     }
 }
 

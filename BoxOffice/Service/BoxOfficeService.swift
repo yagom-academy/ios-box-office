@@ -8,7 +8,7 @@
 import Foundation
 
 struct BoxOfficeService {
-    func loadDailyBoxOfficeData(_ completion: @escaping (BoxOffice) -> Void) {
+    func loadDailyBoxOfficeData(_ completion: @escaping (Result<BoxOffice, NetworkManagerError>) -> Void) {
         let yesterday = Date() - (24 * 60 * 60)
         let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = CustomDateFormatStyle.yyyyMMdd
@@ -26,11 +26,18 @@ struct BoxOfficeService {
         
         components.queryItems = [key, targetDt]
         
-        NetworkManager.loadData(components, BoxOffice.self, completion)
+        NetworkManager.loadData(components, BoxOffice.self) { result in
+            switch result {
+            case .success(let data):
+                completion(.success(data))
+            case .failure(let error):
+                completion(.failure(error)) 
+            }
+        }
     }
     
     
-    func loadMovieDetailData(movieCd: String, _ completion: @escaping (Movie) -> Void) {
+    func loadMovieDetailData(movieCd: String, _ completion: @escaping (Result<Movie, NetworkManagerError>) -> Void) {
         var components = URLComponents()
         components.scheme = KobisNameSpace.scheme
         components.host = KobisNameSpace.host
@@ -43,6 +50,13 @@ struct BoxOfficeService {
         
         components.queryItems = [key, movieCd]
         
-        NetworkManager.loadData(components, Movie.self, completion)
+        NetworkManager.loadData(components, Movie.self) { result in
+            switch result {
+            case .success(let data):
+                completion(.success(data))
+            case .failure(let error):
+                completion(.failure(error))
+            }
+        }
     }
 }

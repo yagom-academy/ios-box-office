@@ -8,23 +8,23 @@
 import Foundation
 
 struct NetworkManager {
-    static func loadData<T: Decodable>(_ components: URLComponents?, _ dataType: T.Type, _ completion: @escaping (_ dataType: T) -> Void) {
+    static func loadData<T: Decodable>(_ components: URLComponents?, _ dataType: T.Type, _ completion: @escaping (Result<T, NetworkManagerError>) -> Void) {
         let urlSession = URLSession(configuration: .default)
         
         guard let url = components?.url else {
-            print("url이 없습니다.")
+            completion(.failure(NetworkManagerError.notExistedUrl))
             return
         }
         
         let task = urlSession.dataTask(with: url) { data, response, error in
-            if let error {
-                print("error 발생: \(error)")
+            if error != nil {
+                completion(.failure(NetworkManagerError.cannotLoadFromNetwork))
                 return
             }
             
             guard let httpResponse = response as? HTTPURLResponse,
                   (200...299).contains(httpResponse.statusCode) else {
-                print("httpResponse error 발생")
+                completion(.failure(NetworkManagerError.failureHttpResponse))
                 return
             }
             
@@ -34,7 +34,7 @@ struct NetworkManager {
                 let jsonDecoder = JSONDecoder()
                 do {
                     let result: T = try jsonDecoder.decode(T.self, from: data)
-                    completion(result)
+                    completion(.success(result))
                 } catch let error as JSONDecoderError {
                     print("JSONDecoder 에러 : \(error)")
                 } catch {
