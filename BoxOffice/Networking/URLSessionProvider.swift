@@ -7,14 +7,16 @@
 
 import Foundation
 
-enum URLSessionProvider {
-    static func requestData<T: Decodable>(_ request: APIRequest, _ completionHandler: @escaping (Result<APIResponse<T>, APIError>) -> Void) {
+final class URLSessionProvider {
+    private var dataTask: URLSessionDataTask?
+    
+    func requestData<T: Decodable>(_ request: APIRequest, _ completionHandler: @escaping (Result<APIResponse<T>, APIError>) -> Void) {
         guard let requestURL = setUpRequestURL(request.baseURL, request) else {
             completionHandler(.failure(.invalidURL))
             return
         }
         
-        let dataTask = URLSession.shared.dataTask(with: requestURL) { data, response, error in
+        dataTask = URLSession.shared.dataTask(with: requestURL) { data, response, error in
             if error != nil {
                 completionHandler(.failure(.requestFail))
                 return
@@ -30,16 +32,16 @@ enum URLSessionProvider {
                 return
             }
             
-            decodeResponseData(data, completionHandler)
+            self.decodeResponseData(data, completionHandler)
         }
         
-        dataTask.resume()
+        self.dataTask?.resume()
     }
 }
 
 // MARK: - Private
 extension URLSessionProvider {
-    private static func decodeResponseData<T: Decodable>(_ responseData: Data, _ completionHandler: (Result<APIResponse<T>, APIError>) -> Void) {
+    private func decodeResponseData<T: Decodable>(_ responseData: Data, _ completionHandler: (Result<APIResponse<T>, APIError>) -> Void) {
         do {
             let jsonDecoder = JSONDecoder()
             let decodingData = try jsonDecoder.decode(T.self, from: responseData)
@@ -50,9 +52,9 @@ extension URLSessionProvider {
         }
     }
     
-    private static func setUpRequestURL(_ baseURL: String,_ request: APIRequest) -> URL? {
+    private func setUpRequestURL(_ baseURL: String,_ request: APIRequest) -> URL? {
         guard var urlComponents = URLComponents(string: baseURL) else { return nil }
-    
+        
         if let path = request.path {
             urlComponents.path += path
         }

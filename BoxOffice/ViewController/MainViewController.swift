@@ -8,6 +8,8 @@
 import UIKit
 
 final class MainViewController: UIViewController, CanShowNetworkRequestFailureAlert {
+    private let sessionProvider: URLSessionProvider
+    
     private lazy var requestMovieDetailInformationButton: UIButton = {
         let button = UIButton()
         
@@ -47,7 +49,17 @@ final class MainViewController: UIViewController, CanShowNetworkRequestFailureAl
         stackView.translatesAutoresizingMaskIntoConstraints = false
         return stackView
     }()
+    
+    init(_ sessionProvider: URLSessionProvider) {
+        self.sessionProvider = sessionProvider
         
+        super.init(nibName: nil, bundle: nil)
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -83,7 +95,7 @@ extension MainViewController {
         
         let request = APIRequest(baseURL: BaseURL.boxOffice, path: BoxOfficeURLPath.movieDetail, queryItems: queryItems)
         
-        URLSessionProvider.requestData(request) { (result: Result<APIResponse<MovieDetailResult>, APIError>) in
+        sessionProvider.requestData(request) { (result: Result<APIResponse<MovieDetailResult>, APIError>) in
             switch result {
             case .success(let result):
                 print(result)
@@ -103,7 +115,7 @@ extension MainViewController {
 
         let request = APIRequest(baseURL: BaseURL.boxOffice, path: BoxOfficeURLPath.daily, queryItems: queryItems)
 
-        URLSessionProvider.requestData(request) { (result: Result<APIResponse<BoxOfficeResult>, APIError>) in
+        sessionProvider.requestData(request) { (result: Result<APIResponse<BoxOfficeResult>, APIError>) in
             switch result {
             case .success(let result):
                 print(result)
@@ -141,7 +153,7 @@ extension MainViewController {
 
         let request = APIRequest(baseURL: BaseURL.boxOffice, path: BoxOfficeURLPath.daily, queryItems: queryItems)
 
-        URLSessionProvider.requestData(request) { (result: Result<APIResponse<BoxOfficeResult>, APIError>) in
+        sessionProvider.requestData(request) { (result: Result<APIResponse<BoxOfficeResult>, APIError>) in
             switch result {
             case .success(let result):
                 print(result)
