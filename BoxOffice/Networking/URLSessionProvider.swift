@@ -20,7 +20,7 @@ enum URLSessionProvider {
                 return
             }
             
-            guard let httpResponse = response as? HTTPURLResponse, (200...299).contains(httpResponse.statusCode) else {
+            guard let httpResponse = response as? HTTPURLResponse, (200...299) ~= httpResponse.statusCode else {
                 completionHandler(.failure(.invalidHTTPStatusCode))
                 return
             }
