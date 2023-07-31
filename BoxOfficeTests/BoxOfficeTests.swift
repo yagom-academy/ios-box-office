@@ -15,7 +15,6 @@ extension MovieInformation: Equatable {
 }
 
 final class BoxOfficeTests: XCTestCase {
-    
     private var sut: BoxOfficeResult.DailyBoxOffice!
     
     override func setUpWithError() throws {
@@ -78,10 +77,4 @@ final class BoxOfficeTests: XCTestCase {
         XCTAssertEqual(firstExpectation, first)
         XCTAssertEqual(lastExpectation, last)
     }
-    
-    
-    
-    
-    
-    
 }
