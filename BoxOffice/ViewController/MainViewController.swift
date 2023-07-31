@@ -8,7 +8,7 @@
 import UIKit
 
 final class MainViewController: UIViewController, CanShowNetworkRequestFailureAlert {
-    private let sessionProvider: URLSessionProvider
+    private let usecase: MainViewControllerUseCase
     
     private lazy var requestMovieDetailInformationButton: UIButton = {
         let button = UIButton()
@@ -50,8 +50,8 @@ final class MainViewController: UIViewController, CanShowNetworkRequestFailureAl
         return stackView
     }()
     
-    init(_ sessionProvider: URLSessionProvider) {
-        self.sessionProvider = sessionProvider
+    init(_ usecase: MainViewControllerUseCase) {
+        self.usecase = usecase
         
         super.init(nibName: nil, bundle: nil)
     }
@@ -85,83 +85,25 @@ final class MainViewController: UIViewController, CanShowNetworkRequestFailureAl
     }
 }
 
-// MARK: - NetworkRequests
-extension MainViewController {
-    private func fetchMovieDetailInformation() {
-        let queryItems: [String: Any] = [
-            "key": APIKey.boxOffice,
-            "movieCd": "20218541"
-        ]
-        
-        let request = APIRequest(baseURL: BaseURL.boxOffice, path: BoxOfficeURLPath.movieDetail, queryItems: queryItems)
-        
-        sessionProvider.requestData(request) { (result: Result<APIResponse<MovieDetailResult>, APIError>) in
-            switch result {
-            case .success(let result):
-                print(result)
-            case .failure(let error):
-                DispatchQueue.main.async {
-                    self.showNetworkFailAlert(message: error.errorDescription, retryFunction: self.fetchMovieDetailInformation)
-                }
-            }
-        }
-    }
+// MARK: - MainViewControllerUseCaseDelegate
+extension MainViewController: MainViewControllerUseCaseDelegate {
     
-    private func fetchMovieDailyInformation() {
-        let queryItems: [String: Any] = [
-            "key": APIKey.boxOffice,
-            "targetDt": "20230720"
-        ]
-
-        let request = APIRequest(baseURL: BaseURL.boxOffice, path: BoxOfficeURLPath.daily, queryItems: queryItems)
-
-        sessionProvider.requestData(request) { (result: Result<APIResponse<BoxOfficeResult>, APIError>) in
-            switch result {
-            case .success(let result):
-                print(result)
-            case .failure(let error):
-                DispatchQueue.main.async {
-                    self.showNetworkFailAlert(message: error.errorDescription, retryFunction: self.fetchMovieDailyInformation)
-                }
-            }
-        }
-    }
 }
 
 // MARK: - Button Action
 extension MainViewController {
     @objc private func didTappedRequestMovieDetailInformationButton() {
-        fetchMovieDetailInformation()
+        usecase.fetchMovieDetailInformation()
     }
     
     @objc private func didTappedRequestMovieDailyInformationButton() {
-        fetchMovieDailyInformation()
+        usecase.fetchDailyBoxOffice()
     }
 }
 
 // MARK: - Test Button Action
 extension MainViewController {
     @objc private func didTappedNetworkRequestFailureButton() {
-        fetchMovieDailyInformationForTest()
-    }
-    
-    private func fetchMovieDailyInformationForTest() {
-        let queryItems: [String: Any] = [
-            "key": APIKey.boxOffice,
-            "targetDt": ""
-        ]
-
-        let request = APIRequest(baseURL: BaseURL.boxOffice, path: BoxOfficeURLPath.daily, queryItems: queryItems)
-
-        sessionProvider.requestData(request) { (result: Result<APIResponse<BoxOfficeResult>, APIError>) in
-            switch result {
-            case .success(let result):
-                print(result)
-            case .failure(let error):
-                DispatchQueue.main.async {
-                    self.showNetworkFailAlert(message: error.errorDescription, retryFunction: self.fetchMovieDailyInformationForTest)
-                }
-            }
-        }
+        usecase.fetchDailyBoxOfficeForTest()
     }
 }

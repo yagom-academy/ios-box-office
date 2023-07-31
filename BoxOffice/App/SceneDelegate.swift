@@ -12,9 +12,12 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 
     func scene(_ scene: UIScene, willConnectTo session: UISceneSession, options connectionOptions: UIScene.ConnectionOptions) {
         guard let windowScene = (scene as? UIWindowScene) else { return }
-        let sessionProvider = URLSessionProvider()
-        let mainViewController = MainViewController(sessionProvider)
         
+        let sessionProvider: URLSessionProvider = URLSessionProviderImpl()
+        var usecase: MainViewControllerUseCase = MainViewControllerUseCaseImpl(sessionProvider)
+        let mainViewController = MainViewController(usecase)
+        
+        usecase.delegate = mainViewController
         window = UIWindow(windowScene: windowScene)
         window?.rootViewController = mainViewController
         window?.makeKeyAndVisible()
