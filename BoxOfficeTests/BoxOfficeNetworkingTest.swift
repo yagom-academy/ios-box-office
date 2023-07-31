@@ -54,7 +54,7 @@ final class BoxOfficeNetworkingTest: XCTestCase {
                     XCTFail("테스트 실패")
                     return
                 }
-                XCTAssertEqual(expectation, decodedData.movieInformationResult.movieInformation.movieName)
+                XCTAssertEqual(expectation, decodedData.movieDetailData.movieInformation.movieName)
             case .failure:
                 XCTFail("테스트 실패")
             }

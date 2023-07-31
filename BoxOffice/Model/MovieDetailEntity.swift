@@ -6,15 +6,15 @@
 //
 
 struct MovieDetailEntity: Decodable {
-    let movieInformationResult: MovieInformationResult
+    let movieDetailData: MovieDetailData
     
     enum CodingKeys: String, CodingKey {
-        case movieInformationResult = "movieInfoResult"
+        case movieDetailData = "movieInfoResult"
     }
 }
 
 extension MovieDetailEntity {
-    struct MovieInformationResult: Decodable {
+    struct MovieDetailData: Decodable {
         
         let movieInformation: MovieInformation
         let source: String
@@ -26,7 +26,7 @@ extension MovieDetailEntity {
     }
 }
 
-extension MovieDetailEntity.MovieInformationResult {
+extension MovieDetailEntity.MovieDetailData {
     struct MovieInformation: Decodable {
         let movieCode: String
         let movieName: String
@@ -63,7 +63,7 @@ extension MovieDetailEntity.MovieInformationResult {
     }
 }
 
-extension MovieDetailEntity.MovieInformationResult.MovieInformation {
+extension MovieDetailEntity.MovieDetailData.MovieInformation {
     struct Nation: Decodable {
         let name: String
         
