@@ -77,7 +77,6 @@
 		63DF20E22970E1A0005DF7D1 = {
 			isa = PBXGroup;
 			children = (
-				9CF8A6172A742DF100CB6911 /* BoxOffice.xctestplan */,
 				63DF20ED2970E1A0005DF7D1 /* BoxOffice */,
 				9C30BD242A70C969000DB5B2 /* BoxOfficeTests */,
 				63DF20EC2970E1A0005DF7D1 /* Products */,
@@ -111,6 +110,7 @@
 		9C30BD242A70C969000DB5B2 /* BoxOfficeTests */ = {
 			isa = PBXGroup;
 			children = (
+				9CF8A6172A742DF100CB6911 /* BoxOffice.xctestplan */,
 				9C30BD252A70C969000DB5B2 /* BoxOfficeTests.swift */,
 			);
 			path = BoxOfficeTests;
