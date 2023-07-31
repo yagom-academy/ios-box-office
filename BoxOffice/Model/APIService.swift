@@ -5,7 +5,7 @@
 //  Created by redmango, Jusbug on 2023/07/28.
 //
 
-enum APIService: String {
+enum APIService {
     case dailyBoxOffice
     case movieDetailInfo
     

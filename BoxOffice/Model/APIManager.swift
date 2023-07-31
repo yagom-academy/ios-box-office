@@ -8,11 +8,11 @@
 import Foundation
 
 struct APIManager {
-    func fetchData(service: APIService, completion: @escaping (Result<Data, APIError>?) -> Void) {
+    func fetchData(service: APIService, completion: @escaping (Result<Data, Error>?) -> Void) {
         let session = URLSession.shared
         let jsonDecoder = JSONDecoder()
         
-        guard let url = URL(string: service.rawValue) else {
+        guard let url = URL(string: service.url) else {
             print("Wrong URL")
             completion(.failure(APIError.wrongURL))
             return
@@ -26,19 +26,19 @@ struct APIManager {
             
             guard let httpResponse = response as? HTTPURLResponse else {
                 print("Response Error")
-                completion(.failure(.responseError))
+                completion(.failure(APIError.responseError))
                 return
             }
             
             guard (200..<300).contains(httpResponse.statusCode) else {
                 print("Server Error: \(httpResponse.statusCode)")
-                completion(.failure(.serverError))
+                completion(.failure(APIError.serverError))
                 return
             }
             
             guard let safeData = data else {
                 print("No Data")
-                completion(.failure(.noData))
+                completion(.failure(APIError.noData))
                 return
             }
             
