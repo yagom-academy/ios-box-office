@@ -14,8 +14,9 @@ protocol MainViewControllerUseCase {
 }
 
 protocol MainViewControllerUseCaseDelegate: AnyObject {
-    func completeFetchMovieDetailInformation(_ movieInformationDTOList: [MovieInformationDTO])
+    func completeFetchDailyBoxOfficeInformation(_ movieInformationDTOList: [MovieInformationDTO])
     func failFetchMovieDetailInformation(_ errorDescription: String?)
+    func completeFetchMovieDetailInformation(_ movieDetailResult: MovieDetailResult)
 }
 
 final class MainViewControllerUseCaseImpl: MainViewControllerUseCase {
@@ -40,7 +41,7 @@ final class MainViewControllerUseCaseImpl: MainViewControllerUseCase {
             case .success(let result):
                 let movieInformationDTOList = self.setUpMovieInformationDTOList(result.data.daily.dailyBoxOfficeList)
                 
-                self.delegate?.completeFetchMovieDetailInformation(movieInformationDTOList)
+                self.delegate?.completeFetchDailyBoxOfficeInformation(movieInformationDTOList)
             case .failure(let error):
                 self.delegate?.failFetchMovieDetailInformation(error.errorDescription)
             }
@@ -58,7 +59,7 @@ final class MainViewControllerUseCaseImpl: MainViewControllerUseCase {
         sessionProvider.requestData(requestURL) { (result: Result<APIResponse<MovieDetailResult>, APIError>) in
             switch result {
             case .success(let result):
-                print(result)
+                self.delegate?.completeFetchMovieDetailInformation(result.data)
             case .failure(let error):
                 print(error)
             }

@@ -87,7 +87,7 @@ final class MainViewController: UIViewController, CanShowNetworkRequestFailureAl
 
 // MARK: - MainViewControllerUseCaseDelegate
 extension MainViewController: MainViewControllerUseCaseDelegate {
-    func completeFetchMovieDetailInformation(_ movieInformationDTOList: [MovieInformationDTO]) {
+    func completeFetchDailyBoxOfficeInformation(_ movieInformationDTOList: [MovieInformationDTO]) {
         print(movieInformationDTOList)
     }
     
@@ -96,6 +96,11 @@ extension MainViewController: MainViewControllerUseCaseDelegate {
             self.showNetworkFailAlert(message: errorDescription, retryFunction: self.fetchDailyBoxOfficeForTest)
         }
     }
+    
+    func completeFetchMovieDetailInformation(_ movieDetailResult: MovieDetailResult) {
+        print(movieDetailResult)
+    }
+    
 }
 
 // MARK: - Button Action
