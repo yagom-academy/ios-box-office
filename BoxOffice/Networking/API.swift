@@ -5,6 +5,8 @@
 //  Created by Hyungmin Lee on 2023/07/27.
 //
 
+import Foundation
+
 struct APIRequest {
     let baseURL: String
     let path: String?
@@ -15,14 +17,15 @@ struct APIResponse<T> {
     let data: T
 }
 
-enum APIError: Error {
+enum APIError: LocalizedError {
     case invalidURL
     case requestFail
     case invalidData
     case decodingFail
     case invalidHTTPStatusCode
     
-    var description: String {
+    
+    var errorDescription: String? {
         switch self {
         case .invalidURL:
             return "유효하지 않은 URL입니다."

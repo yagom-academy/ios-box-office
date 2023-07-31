@@ -89,7 +89,7 @@ extension MainViewController {
                 print(result)
             case .failure(let error):
                 DispatchQueue.main.async {
-                    self.showNetworkFailAlert(message: error.description, retryFunction: self.fetchMovieDetailInformation)
+                    self.showNetworkFailAlert(message: error.errorDescription, retryFunction: self.fetchMovieDetailInformation)
                 }
             }
         }
@@ -109,7 +109,7 @@ extension MainViewController {
                 print(result)
             case .failure(let error):
                 DispatchQueue.main.async {
-                    self.showNetworkFailAlert(message: error.description, retryFunction: self.fetchMovieDailyInformation)
+                    self.showNetworkFailAlert(message: error.errorDescription, retryFunction: self.fetchMovieDailyInformation)
                 }
             }
         }
@@ -147,7 +147,7 @@ extension MainViewController {
                 print(result)
             case .failure(let error):
                 DispatchQueue.main.async {
-                    self.showNetworkFailAlert(message: error.description, retryFunction: self.fetchMovieDailyInformationForTest)
+                    self.showNetworkFailAlert(message: error.errorDescription, retryFunction: self.fetchMovieDailyInformationForTest)
                 }
             }
         }
