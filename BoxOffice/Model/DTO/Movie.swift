@@ -6,10 +6,10 @@
 //
 
 struct Movie: Decodable {
-    let movieInfoResult: movieInfoResult
+    let movieInfoResult: MovieInfoResult
 }
 
-struct movieInfoResult: Decodable {
+struct MovieInfoResult: Decodable {
     let movieInfo: MovieInfo
     let source: String
 }

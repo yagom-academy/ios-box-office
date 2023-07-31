@@ -14,7 +14,7 @@ struct BoxOffice: Decodable {
 struct BoxOfficeInfo: Decodable {
     let boxOfficeType: String
     let showRange: String
-    let dailyBoxOfficeList: [dailyBoxOffice]
+    let dailyBoxOfficeList: [DailyBoxOffice]
     
     private enum CodingKeys: String, CodingKey {
         case boxOfficeType = "boxofficeType"
@@ -23,7 +23,7 @@ struct BoxOfficeInfo: Decodable {
     }
 }
 
-struct dailyBoxOffice: Decodable {
+struct DailyBoxOffice: Decodable {
     let rankNumber: String
     let rank: String
     let rankInten: String
