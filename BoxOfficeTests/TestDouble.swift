@@ -12,7 +12,7 @@ struct DummyResponse {
     let data: Data?
     let response: URLResponse?
     let error: Error?
-    var completionHandler: CompletionHandler? = nil
+    var completionHandler: NetworkingCompletionHandler? = nil
     
     func completion() {
         completionHandler?(data, response, error)
@@ -26,7 +26,7 @@ final class StubURLSession: URLSessionProtocol {
         self.dummyResponse = dummy
     }
     
-    func dataTask(with url: URL, completionHandler: @escaping CompletionHandler) -> URLSessionDataTask {
+    func dataTask(with url: URL, completionHandler: @escaping NetworkingCompletionHandler) -> URLSessionDataTask {
         dummyResponse?.completionHandler = completionHandler
         
         return StubURLSessionDataTask(dummyResponse)

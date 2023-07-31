@@ -13,24 +13,24 @@ struct NetworkingManager {
         self.session = session
     }
     
-    func load(_ urlString: String, completion: @escaping (Result<Data, BoxOfficeError>) -> Void) {
+    func load(_ urlString: String, completion: @escaping (Result<Data, NetworkingError>) -> Void) {
         guard let url = URL(string: urlString) else {
             return
         }
 
         let task = session.dataTask(with: url) { data, response, error in
             if error != nil {
-                completion(.failure(BoxOfficeError.connectionFailure))
+                completion(.failure(NetworkingError.connectionFailure))
                 return
             }
             
             guard let httpResponse = response as? HTTPURLResponse else {
-                completion(.failure(BoxOfficeError.notHttpUrlResponse))
+                completion(.failure(NetworkingError.notHttpUrlResponse))
                 return
             }
             
             guard (200...299).contains(httpResponse.statusCode) else {
-                completion(.failure(BoxOfficeError.invalidResponse(statusCode: httpResponse.statusCode)))
+                completion(.failure(NetworkingError.invalidResponse(statusCode: httpResponse.statusCode)))
                 return
             }
             

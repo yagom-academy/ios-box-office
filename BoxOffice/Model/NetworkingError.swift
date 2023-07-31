@@ -5,7 +5,7 @@
 //  Created by Yetti, Maxhyunm on 2023/07/26.
 //
 
-enum BoxOfficeError: Error {
+enum NetworkingError: Error {
     case connectionFailure
     case notHttpUrlResponse
     case invalidResponse(statusCode: Int)

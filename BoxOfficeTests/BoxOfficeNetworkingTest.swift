@@ -47,7 +47,7 @@ final class BoxOfficeNetworkingTest: XCTestCase {
         let expectation = "광해, 왕이 된 남자"
         
         // when & then
-        sut.load("https://www.naver.com/") { (result: Result<Data, BoxOfficeError>) in
+        sut.load("https://www.naver.com/") { (result: Result<Data, NetworkingError>) in
             switch result {
             case .success(let data):
                 guard let decodedData: MovieDetailEntity = DecodingManager.shared.decode(data) else {
@@ -68,7 +68,7 @@ final class BoxOfficeNetworkingTest: XCTestCase {
         let expectation = "서버 응답 오류입니다. Status Code: 400"
         
         // when & then
-        sut.load("https://www.naver.com/") { (result: Result<Data, BoxOfficeError>) in
+        sut.load("https://www.naver.com/") { (result: Result<Data, NetworkingError>) in
             switch result {
             case .success:
                 XCTFail("테스트 실패")

@@ -9,7 +9,7 @@
 /* Begin PBXBuildFile section */
 		3B8F5F982A70F5A300D1A7F6 /* PrivateData.xcconfig in Resources */ = {isa = PBXBuildFile; fileRef = 3B8F5F972A70F5A300D1A7F6 /* PrivateData.xcconfig */; };
 		3B8F5F9A2A70F69400D1A7F6 /* NetworkingManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B8F5F992A70F69400D1A7F6 /* NetworkingManager.swift */; };
-		3B8F5F9C2A71032C00D1A7F6 /* BoxOfficeError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B8F5F9B2A71032C00D1A7F6 /* BoxOfficeError.swift */; };
+		3B8F5F9C2A71032C00D1A7F6 /* NetworkingError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B8F5F9B2A71032C00D1A7F6 /* NetworkingError.swift */; };
 		3B8F5F9E2A72186D00D1A7F6 /* URLNamespace.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B8F5F9D2A72186D00D1A7F6 /* URLNamespace.swift */; };
 		3B8F5FD42A73556200D1A7F6 /* BoxOfficeNetworkingTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B8F5FD32A73556200D1A7F6 /* BoxOfficeNetworkingTest.swift */; };
 		3BF7147F2A6E75C6006F274D /* BoxOfficeDecodingTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BF7147E2A6E75C6006F274D /* BoxOfficeDecodingTests.swift */; };
@@ -40,7 +40,7 @@
 /* Begin PBXFileReference section */
 		3B8F5F972A70F5A300D1A7F6 /* PrivateData.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = PrivateData.xcconfig; sourceTree = "<group>"; };
 		3B8F5F992A70F69400D1A7F6 /* NetworkingManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkingManager.swift; sourceTree = "<group>"; };
-		3B8F5F9B2A71032C00D1A7F6 /* BoxOfficeError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BoxOfficeError.swift; sourceTree = "<group>"; };
+		3B8F5F9B2A71032C00D1A7F6 /* NetworkingError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkingError.swift; sourceTree = "<group>"; };
 		3B8F5F9D2A72186D00D1A7F6 /* URLNamespace.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = URLNamespace.swift; sourceTree = "<group>"; };
 		3B8F5FD32A73556200D1A7F6 /* BoxOfficeNetworkingTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BoxOfficeNetworkingTest.swift; sourceTree = "<group>"; };
 		3B8F5FD52A73741C00D1A7F6 /* BoxOffice.xctestplan */ = {isa = PBXFileReference; lastKnownFileType = text; path = BoxOffice.xctestplan; sourceTree = "<group>"; };
@@ -108,7 +108,7 @@
 				BAAC6F352A710D8100AD34ED /* MovieDetailEntity.swift */,
 				3BF714852A6E78E3006F274D /* DecodingManager.swift */,
 				3B8F5F992A70F69400D1A7F6 /* NetworkingManager.swift */,
-				3B8F5F9B2A71032C00D1A7F6 /* BoxOfficeError.swift */,
+				3B8F5F9B2A71032C00D1A7F6 /* NetworkingError.swift */,
 				BAAC6F492A734D1B00AD34ED /* URLSessionProtocol.swift */,
 			);
 			path = Model;
@@ -285,7 +285,7 @@
 				BAAC6F362A710D8100AD34ED /* MovieDetailEntity.swift in Sources */,
 				3BF714862A6E78E3006F274D /* DecodingManager.swift in Sources */,
 				3B8F5F9E2A72186D00D1A7F6 /* URLNamespace.swift in Sources */,
-				3B8F5F9C2A71032C00D1A7F6 /* BoxOfficeError.swift in Sources */,
+				3B8F5F9C2A71032C00D1A7F6 /* NetworkingError.swift in Sources */,
 				63DF20F12970E1A0005DF7D1 /* SceneDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
