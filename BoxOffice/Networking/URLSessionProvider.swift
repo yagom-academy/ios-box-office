@@ -7,7 +7,7 @@
 
 import Foundation
 
-final class URLSessionProvider {
+enum URLSessionProvider {
     static func requestData<T: Decodable>(_ request: APIRequest, _ completionHandler: @escaping (Result<APIResponse<T>, APIError>) -> Void) {
         guard let requestURL = setUpRequestURL(request.baseURL, request) else {
             completionHandler(.failure(.invalidURL))
