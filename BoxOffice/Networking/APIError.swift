@@ -1,21 +1,11 @@
 //
-//  API.swift
+//  APIError.swift
 //  BoxOffice
 //
 //  Created by Hyungmin Lee on 2023/07/27.
 //
 
 import Foundation
-
-struct APIRequest {
-    let baseURL: String
-    let path: String?
-    let queryItems: [String: Any]?
-}
-
-struct APIResponse<T> {
-    let data: T
-}
 
 enum APIError: LocalizedError {
     case invalidURL

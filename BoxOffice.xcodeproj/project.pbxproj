@@ -11,7 +11,7 @@
 		5B43CA662A77C20C00283B9F /* Keys.plist in Resources */ = {isa = PBXBuildFile; fileRef = 5B43CA652A77C20C00283B9F /* Keys.plist */; };
 		5B43CA682A77C2F400283B9F /* APIKey.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B43CA672A77C2F400283B9F /* APIKey.swift */; };
 		5B5344D42A7282B400B2EFD3 /* URLSessionProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B5344D32A7282B400B2EFD3 /* URLSessionProvider.swift */; };
-		5B5344D62A7282C900B2EFD3 /* API.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B5344D52A7282C900B2EFD3 /* API.swift */; };
+		5B5344D62A7282C900B2EFD3 /* APIError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B5344D52A7282C900B2EFD3 /* APIError.swift */; };
 		5B5344D82A72864C00B2EFD3 /* BaseURL.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B5344D72A72864C00B2EFD3 /* BaseURL.swift */; };
 		5B86189B2A728D68001A0B3B /* CanShowNetworkRequestFailureAlert.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B86189A2A728D68001A0B3B /* CanShowNetworkRequestFailureAlert.swift */; };
 		5BE0FBA62A77D6A6002F6E88 /* MainViewControllerUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BE0FBA52A77D6A6002F6E88 /* MainViewControllerUseCase.swift */; };
@@ -51,7 +51,7 @@
 		5B43CA652A77C20C00283B9F /* Keys.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Keys.plist; sourceTree = "<group>"; };
 		5B43CA672A77C2F400283B9F /* APIKey.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIKey.swift; sourceTree = "<group>"; };
 		5B5344D32A7282B400B2EFD3 /* URLSessionProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = URLSessionProvider.swift; sourceTree = "<group>"; };
-		5B5344D52A7282C900B2EFD3 /* API.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = API.swift; sourceTree = "<group>"; };
+		5B5344D52A7282C900B2EFD3 /* APIError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIError.swift; sourceTree = "<group>"; };
 		5B5344D72A72864C00B2EFD3 /* BaseURL.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseURL.swift; sourceTree = "<group>"; };
 		5B86189A2A728D68001A0B3B /* CanShowNetworkRequestFailureAlert.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CanShowNetworkRequestFailureAlert.swift; sourceTree = "<group>"; };
 		5BE0FBA52A77D6A6002F6E88 /* MainViewControllerUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainViewControllerUseCase.swift; sourceTree = "<group>"; };
@@ -143,7 +143,7 @@
 			isa = PBXGroup;
 			children = (
 				5B5344D32A7282B400B2EFD3 /* URLSessionProvider.swift */,
-				5B5344D52A7282C900B2EFD3 /* API.swift */,
+				5B5344D52A7282C900B2EFD3 /* APIError.swift */,
 				5B5344D72A72864C00B2EFD3 /* BaseURL.swift */,
 				5B43CA672A77C2F400283B9F /* APIKey.swift */,
 			);
@@ -367,7 +367,7 @@
 				63D8ADC72A77AF32005E5B13 /* Company.swift in Sources */,
 				63D8ADC52A77AF12005E5B13 /* ShowType.swift in Sources */,
 				63D8ADBB2A77AE5E005E5B13 /* Nation.swift in Sources */,
-				5B5344D62A7282C900B2EFD3 /* API.swift in Sources */,
+				5B5344D62A7282C900B2EFD3 /* APIError.swift in Sources */,
 				63C263992A737B1B00DB2261 /* MovieInformation.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

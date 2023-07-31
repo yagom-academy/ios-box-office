@@ -36,10 +36,10 @@ final class MainViewControllerUseCaseImpl: MainViewControllerUseCase {
 
         let requestURL = setUpRequestURL(BaseURL.boxOffice, BoxOfficeURLPath.daily, queryItems)
 
-        sessionProvider.requestData(requestURL) { (result: Result<APIResponse<BoxOfficeResult>, APIError>) in
+        sessionProvider.requestData(requestURL) { (result: Result<BoxOfficeResult, APIError>) in
             switch result {
             case .success(let result):
-                let movieInformationDTOList = self.setUpMovieInformationDTOList(result.data.daily.dailyBoxOfficeList)
+                let movieInformationDTOList = self.setUpMovieInformationDTOList(result.daily.dailyBoxOfficeList)
                 
                 self.delegate?.completeFetchDailyBoxOfficeInformation(movieInformationDTOList)
             case .failure(let error):
@@ -56,10 +56,10 @@ final class MainViewControllerUseCaseImpl: MainViewControllerUseCase {
         
         let requestURL = setUpRequestURL(BaseURL.boxOffice, BoxOfficeURLPath.movieDetail, queryItems)
         
-        sessionProvider.requestData(requestURL) { (result: Result<APIResponse<MovieDetailResult>, APIError>) in
+        sessionProvider.requestData(requestURL) { (result: Result<MovieDetailResult, APIError>) in
             switch result {
             case .success(let result):
-                self.delegate?.completeFetchMovieDetailInformation(result.data)
+                self.delegate?.completeFetchMovieDetailInformation(result)
             case .failure(let error):
                 print(error)
             }
