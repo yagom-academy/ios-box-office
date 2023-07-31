@@ -54,7 +54,7 @@ extension URLSessionProvider {
         guard var urlComponents = URLComponents(string: baseURL) else { return nil }
     
         if let path = request.path {
-            urlComponents.path = path
+            urlComponents.path += path
         }
         
         if let queryItems = request.queryItems {
