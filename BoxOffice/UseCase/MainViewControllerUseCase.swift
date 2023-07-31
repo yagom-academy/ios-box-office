@@ -15,7 +15,7 @@ protocol MainViewControllerUseCase {
 }
 
 protocol MainViewControllerUseCaseDelegate: AnyObject {
-    func completeFetchMovieDetailInformation(_ dto: [MovieInformationDTO])
+    func completeFetchMovieDetailInformation(_ movieInformationDTOList: [MovieInformationDTO])
 }
 
 final class MainViewControllerUseCaseImpl: MainViewControllerUseCase {
@@ -95,7 +95,7 @@ extension MainViewControllerUseCaseImpl {
     }
     
     private func setUpMovieInformationDTOList(_ dailyBoxOfficeMovieInformationList: [MovieInformation]) -> [MovieInformationDTO] {
-        var movieInformationList = [MovieInformationDTO]()
+        var movieInformationDTOList = [MovieInformationDTO]()
         
         dailyBoxOfficeMovieInformationList.forEach {
             let movieInformationDTO = MovieInformationDTO(rank: $0.rank,
@@ -105,9 +105,9 @@ extension MainViewControllerUseCaseImpl {
                                                           audienceCount: $0.audienceCount,
                                                           audienceAccumulate: $0.audienceAccumulate)
             
-            movieInformationList.append(movieInformationDTO)
+            movieInformationDTOList.append(movieInformationDTO)
         }
         
-        return movieInformationList
+        return movieInformationDTOList
     }
 }
