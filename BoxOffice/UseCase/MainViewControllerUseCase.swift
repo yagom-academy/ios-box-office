@@ -15,7 +15,7 @@ protocol MainViewControllerUseCase {
 }
 
 protocol MainViewControllerUseCaseDelegate: AnyObject {
-    
+    func completeFetchMovieDetailInformation(_ dto: [MovieInformationDTO])
 }
 
 final class MainViewControllerUseCaseImpl: MainViewControllerUseCase {
@@ -37,7 +37,9 @@ final class MainViewControllerUseCaseImpl: MainViewControllerUseCase {
         sessionProvider.requestData(requestURL) { (result: Result<APIResponse<BoxOfficeResult>, APIError>) in
             switch result {
             case .success(let result):
-                print(result)
+                let movieInformationDTOList = self.setUpMovieInformationDTOList(result.data.daily.dailyBoxOfficeList)
+                
+                self.delegate?.completeFetchMovieDetailInformation(movieInformationDTOList)
             case .failure(let error):
                 print(error)
             }
@@ -90,5 +92,22 @@ extension MainViewControllerUseCaseImpl {
         urlComponents.queryItems = queryItems.map { URLQueryItem(name: $0.key, value: "\($0.value)") }
         
         return urlComponents.url
+    }
+    
+    private func setUpMovieInformationDTOList(_ dailyBoxOfficeMovieInformationList: [MovieInformation]) -> [MovieInformationDTO] {
+        var movieInformationList = [MovieInformationDTO]()
+        
+        dailyBoxOfficeMovieInformationList.forEach {
+            let movieInformationDTO = MovieInformationDTO(rank: $0.rank,
+                                                          rankInten: $0.rankInten,
+                                                          OldAndNew: $0.rankOldAndNew,
+                                                          movieName: $0.movieName,
+                                                          audienceCount: $0.audienceCount,
+                                                          audienceAccumulate: $0.audienceAccumulate)
+            
+            movieInformationList.append(movieInformationDTO)
+        }
+        
+        return movieInformationList
     }
 }

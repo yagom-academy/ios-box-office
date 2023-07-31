@@ -87,7 +87,9 @@ final class MainViewController: UIViewController, CanShowNetworkRequestFailureAl
 
 // MARK: - MainViewControllerUseCaseDelegate
 extension MainViewController: MainViewControllerUseCaseDelegate {
-    
+    func completeFetchMovieDetailInformation(_ dto: [MovieInformationDTO]) {
+        print(dto)
+    }
 }
 
 // MARK: - Button Action
