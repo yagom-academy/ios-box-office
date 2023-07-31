@@ -5,15 +5,15 @@
 //  Created by Hyungmin Lee on 2023/07/27.
 //
 
-struct NetworkKey {
+enum NetworkKey {
     static let boxOffice = "a38f2bee3ae1dc5696060047ce83c935"
 }
 
-struct BaseURL {
-    static let boxOffice = "http://www.kobis.or.kr"
+enum BaseURL {
+    static let boxOffice = "http://www.kobis.or.kr/kobisopenapi/webservice/rest"
 }
 
-struct BoxOfficeURLPath {
-    static let daily = "/kobisopenapi/webservice/rest/boxoffice/searchDailyBoxOfficeList.json"
-    static let movieDetail = "/kobisopenapi/webservice/rest/movie/searchMovieInfo.json"
+enum BoxOfficeURLPath {
+    static let daily = "/boxoffice/searchDailyBoxOfficeList.json"
+    static let movieDetail = "/movie/searchMovieInfo.json"
 }

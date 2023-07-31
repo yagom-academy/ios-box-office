@@ -9,7 +9,7 @@ import Foundation
 
 final class URLSessionProvider {
     static func requestData<T: Decodable>(_ request: APIRequest, _ completionHandler: @escaping (Result<APIResponse<T>, APIError>) -> Void) {
-        guard let baseURL = URL(string: request.baseURL), let requestURL = setUpRequestURL(baseURL, request) else {
+        guard let requestURL = setUpRequestURL(request.baseURL, request) else {
             completionHandler(.failure(.invalidURL))
             return
         }
@@ -50,12 +50,9 @@ extension URLSessionProvider {
         }
     }
     
-    private static func setUpRequestURL(_ baseURL: URL,_ request: APIRequest) -> URL? {
-        var urlComponents = URLComponents()
-        
-        urlComponents.scheme = baseURL.scheme
-        urlComponents.host = baseURL.host
-        
+    private static func setUpRequestURL(_ baseURL: String,_ request: APIRequest) -> URL? {
+        guard var urlComponents = URLComponents(string: baseURL) else { return nil }
+    
         if let path = request.path {
             urlComponents.path = path
         }
