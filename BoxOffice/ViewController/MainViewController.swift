@@ -7,6 +7,13 @@
 
 import UIKit
 
+protocol MainViewControllerUseCaseDelegate: AnyObject {
+    func completeFetchDailyBoxOfficeInformation(_ movieInformationDTOList: [MovieInformationDTO])
+    func completeFetchMovieDetailInformation(_ movieDetailResult: MovieDetailResult)
+    func failFetchDailyBoxOfficeInformation(_ errorDescription: String?)
+    func failFetchMovieDetailInformaion(_ errorDescription: String?)
+}
+
 final class MainViewController: UIViewController, CanShowNetworkRequestFailureAlert {
     private let usecase: MainViewControllerUseCase
     
@@ -91,16 +98,19 @@ extension MainViewController: MainViewControllerUseCaseDelegate {
         print(movieInformationDTOList)
     }
     
-    func failFetchMovieDetailInformation(_ errorDescription: String?) {
+    func completeFetchMovieDetailInformation(_ movieDetailResult: MovieDetailResult) {
+        print(movieDetailResult)
+    }
+    
+    func failFetchDailyBoxOfficeInformation(_ errorDescription: String?) {
         DispatchQueue.main.async {
             self.showNetworkFailAlert(message: errorDescription, retryFunction: self.fetchDailyBoxOfficeForTest)
         }
     }
     
-    func completeFetchMovieDetailInformation(_ movieDetailResult: MovieDetailResult) {
-        print(movieDetailResult)
+    func failFetchMovieDetailInformaion(_ errorDescription: String?) {
+        print("\(errorDescription ?? "")")
     }
-    
 }
 
 // MARK: - Button Action
