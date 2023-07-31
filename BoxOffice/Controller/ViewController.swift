@@ -12,7 +12,7 @@ class ViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        guard let url = APIConstants().receiveURL(serviceType: .dailyBoxOffice) else { return }
+        guard let url = KobisOpenAPI().receiveURL(serviceType: .dailyBoxOffice) else { return }
                 
         NetworkManager.fetchData(url: url) { result in
             switch result {
