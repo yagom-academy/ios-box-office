@@ -1,5 +1,5 @@
 //
-//  NetworkKey.swift
+//  APIKey.swift
 //  BoxOffice
 //
 //  Created by Hyungmin Lee on 2023/07/31.
@@ -7,7 +7,7 @@
 
 import Foundation
 
-enum NetworkKey {
+enum APIKey {
     static var boxOffice: String =  {
         var boxOfficeAPIKey = ""
         

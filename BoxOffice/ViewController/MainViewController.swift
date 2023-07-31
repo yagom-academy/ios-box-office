@@ -77,7 +77,7 @@ final class MainViewController: UIViewController, CanShowNetworkRequestFailureAl
 extension MainViewController {
     private func fetchMovieDetailInformation() {
         let queryItems: [String: Any] = [
-            "key": NetworkKey.boxOffice,
+            "key": APIKey.boxOffice,
             "movieCd": "20218541"
         ]
         
@@ -97,7 +97,7 @@ extension MainViewController {
     
     private func fetchMovieDailyInformation() {
         let queryItems: [String: Any] = [
-            "key": NetworkKey.boxOffice,
+            "key": APIKey.boxOffice,
             "targetDt": "20230720"
         ]
 
@@ -135,7 +135,7 @@ extension MainViewController {
     
     private func fetchMovieDailyInformationForTest() {
         let queryItems: [String: Any] = [
-            "key": NetworkKey.boxOffice,
+            "key": APIKey.boxOffice,
             "targetDt": ""
         ]
 
