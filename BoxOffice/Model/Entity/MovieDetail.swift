@@ -18,7 +18,7 @@ struct MovieDetail: Decodable {
     let nations: [Nation]
     let genres: [Genre]
     let directors: [Director]
-    let actors: [Actor]
+    let actors: [MovieActor]
     let showTypes: [ShowType]
     let companys: [Company]
     let audits: [Audit]
