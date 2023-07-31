@@ -8,7 +8,7 @@
 import Foundation
 
 struct APIManager {
-    func fetchData(service: Service, completion: @escaping (Data?) -> Void) {
+    func fetchData(service: APIService, completion: @escaping (Data?) -> Void) {
         let session = URLSession.shared
         let jsonDecoder = JSONDecoder()
         
