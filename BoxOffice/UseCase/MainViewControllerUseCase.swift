@@ -9,13 +9,13 @@ import Foundation
 
 protocol MainViewControllerUseCase {
     var delegate: MainViewControllerUseCaseDelegate? { get set }
-    func fetchDailyBoxOffice()
+    func fetchDailyBoxOffice(isTest: Bool)
     func fetchMovieDetailInformation()
-    func fetchDailyBoxOfficeForTest()
 }
 
 protocol MainViewControllerUseCaseDelegate: AnyObject {
     func completeFetchMovieDetailInformation(_ movieInformationDTOList: [MovieInformationDTO])
+    func failFetchMovieDetailInformation(_ errorDescription: String?)
 }
 
 final class MainViewControllerUseCaseImpl: MainViewControllerUseCase {
@@ -26,10 +26,11 @@ final class MainViewControllerUseCaseImpl: MainViewControllerUseCase {
         self.sessionProvider = sessionProvider
     }
     
-    func fetchDailyBoxOffice() {
+    func fetchDailyBoxOffice(isTest: Bool) {
+        let targetDt = isTest ? "" : "20230720"
         let queryItems: [String: Any] = [
             "key": APIKey.boxOffice,
-            "targetDt": "20230720"
+            "targetDt": targetDt
         ]
 
         let requestURL = setUpRequestURL(BaseURL.boxOffice, BoxOfficeURLPath.daily, queryItems)
@@ -41,7 +42,7 @@ final class MainViewControllerUseCaseImpl: MainViewControllerUseCase {
                 
                 self.delegate?.completeFetchMovieDetailInformation(movieInformationDTOList)
             case .failure(let error):
-                print(error)
+                self.delegate?.failFetchMovieDetailInformation(error.errorDescription)
             }
         }
     }
@@ -55,24 +56,6 @@ final class MainViewControllerUseCaseImpl: MainViewControllerUseCase {
         let requestURL = setUpRequestURL(BaseURL.boxOffice, BoxOfficeURLPath.movieDetail, queryItems)
         
         sessionProvider.requestData(requestURL) { (result: Result<APIResponse<MovieDetailResult>, APIError>) in
-            switch result {
-            case .success(let result):
-                print(result)
-            case .failure(let error):
-                print(error)
-            }
-        }
-    }
-    
-    func fetchDailyBoxOfficeForTest() {
-        let queryItems: [String: Any] = [
-            "key": APIKey.boxOffice,
-            "targetDt": ""
-        ]
-
-        let requestURL = setUpRequestURL(BaseURL.boxOffice, BoxOfficeURLPath.daily, queryItems)
-
-        sessionProvider.requestData(requestURL) { (result: Result<APIResponse<BoxOfficeResult>, APIError>) in
             switch result {
             case .success(let result):
                 print(result)

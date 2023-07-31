@@ -90,6 +90,12 @@ extension MainViewController: MainViewControllerUseCaseDelegate {
     func completeFetchMovieDetailInformation(_ movieInformationDTOList: [MovieInformationDTO]) {
         print(movieInformationDTOList)
     }
+    
+    func failFetchMovieDetailInformation(_ errorDescription: String?) {
+        DispatchQueue.main.async {
+            self.showNetworkFailAlert(message: errorDescription, retryFunction: self.fetchDailyBoxOfficeForTest)
+        }
+    }
 }
 
 // MARK: - Button Action
@@ -99,13 +105,17 @@ extension MainViewController {
     }
     
     @objc private func didTappedRequestMovieDailyInformationButton() {
-        usecase.fetchDailyBoxOffice()
+        usecase.fetchDailyBoxOffice(isTest: false)
     }
 }
 
 // MARK: - Test Button Action
 extension MainViewController {
+    private func fetchDailyBoxOfficeForTest() {
+        usecase.fetchDailyBoxOffice(isTest: true)
+    }
+    
     @objc private func didTappedNetworkRequestFailureButton() {
-        usecase.fetchDailyBoxOfficeForTest()
+        fetchDailyBoxOfficeForTest()
     }
 }
