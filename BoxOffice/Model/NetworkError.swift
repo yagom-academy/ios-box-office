@@ -8,7 +8,6 @@
 import Foundation
 
 enum NetworkError {
-    case urlIsNil
     case requestFail
     case responseFail
     case statusCodeNotSuccess
@@ -18,8 +17,6 @@ enum NetworkError {
 extension NetworkError: LocalizedError {
     var errorDescription: String? {
         switch self {
-        case .urlIsNil:
-            return "url이 Nil 입니다."
         case .requestFail:
             return "데이터 요청에 실패했습니다."
         case .responseFail:

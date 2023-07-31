@@ -7,34 +7,32 @@
 
 import Foundation
 
-struct NetworkManager {
-    func fetchData(serviceType: ServiceType) {
-        guard let url = APIConstants().receiveURL(serviceType: serviceType) else { return }
-        
+enum NetworkManager {
+    typealias NetworkResult = (Result<Data, NetworkError>) -> Void
+    
+    static func fetchData(url: URL, completion: @escaping NetworkResult) {
         let task = URLSession.shared.dataTask(with: url) { data, response, error in
             if let _ = error {
+                completion(.failure(.requestFail))
                 return
             }
             
             guard let httpResponse = response as? HTTPURLResponse else {
+                completion(.failure(.responseFail))
                 return
             }
             
             guard (200...299).contains(httpResponse.statusCode) else {
+                completion(.failure(.statusCodeNotSuccess))
                 return
             }
             
             guard let data = data else {
+                completion(.failure(.dataIsNil))
                 return
             }
             
-//            switch serviceType {
-//            case .dailyBoxOffice:
-//                let a = JSONDecoder().decode(data, type: BoxOffice.self)
-//                print(a)
-//            case .detailInformation:
-//                let _ = JSONDecoder().decode(data, type: DetailInformation.self)
-//            }
+            completion(.success(data))
         }
         
         task.resume()
