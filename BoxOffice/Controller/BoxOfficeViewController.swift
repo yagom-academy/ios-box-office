@@ -16,16 +16,29 @@ final class BoxOfficeViewController: UIViewController {
         
         return collectionView
     }()
+    
+    private let activityIndicator: UIActivityIndicatorView = {
+        let activityIndicator = UIActivityIndicatorView(style: .large)
+        activityIndicator.translatesAutoresizingMaskIntoConstraints = false
+        activityIndicator.startAnimating()
+        
+        return activityIndicator
+    }()
 
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        setupNavigationBar()
         setupCollectionView()
         setupRefreshControl()
+        loadBoxOfficeData()
+        
         configureUI()
         setupConstraint()
-        setupNavigationBar()
-        loadBoxOfficeData()
+    }
+    
+    private func setupNavigationBar() {
+        
     }
     
     private func setupCollectionView() {
@@ -50,6 +63,11 @@ final class BoxOfficeViewController: UIViewController {
             
             DispatchQueue.main.async {
                 self.collectionView.reloadData()
+                self.activityIndicator.stopAnimating()
+            }
+        }
+    }
+    
     @objc private func reloadBoxOfficeData(refresh: UIRefreshControl) {
         boxOfficeManager.fetchBoxOffice { error in
             if let error {
@@ -99,20 +117,27 @@ extension BoxOfficeViewController {
     private func configureUI() {
         view.backgroundColor = .systemBackground
         view.addSubview(collectionView)
+        view.addSubview(activityIndicator)
     }
     
     private func setupConstraint() {
-        let safaArea = view.safeAreaLayoutGuide
-        
+        setupCollectionViewConstraint()
+        setupActivityIndicatorConstraint()
+    }
+    
+    private func setupCollectionViewConstraint() {
         NSLayoutConstraint.activate([
-            collectionView.leadingAnchor.constraint(equalTo: safaArea.leadingAnchor),
-            collectionView.trailingAnchor.constraint(equalTo: safaArea.trailingAnchor),
-            collectionView.topAnchor.constraint(equalTo: safaArea.topAnchor),
-            collectionView.bottomAnchor.constraint(equalTo: safaArea.bottomAnchor)
+            collectionView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor),
+            collectionView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor),
+            collectionView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
+            collectionView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor)
         ])
     }
     
-    private func setupNavigationBar() {
-        
+    private func setupActivityIndicatorConstraint() {
+        NSLayoutConstraint.activate([
+            activityIndicator.centerXAnchor.constraint(equalTo: view.safeAreaLayoutGuide.centerXAnchor),
+            activityIndicator.centerYAnchor.constraint(equalTo: view.safeAreaLayoutGuide.centerYAnchor),
+        ])
     }
 }
