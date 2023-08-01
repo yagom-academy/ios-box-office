@@ -17,7 +17,7 @@ extension NetworkConfigurable {
         var urlQureyItems: [URLQueryItem] = []
         
         guard var urlComponents = URLComponents(string: baseURL) else {
-            throw URLRequestError.convertURL
+            throw NetworkConfigurableError.urlComponents
         }
         
         queryItems?.forEach {
@@ -27,7 +27,7 @@ extension NetworkConfigurable {
         urlComponents.queryItems = urlQureyItems
         
         guard let url = urlComponents.url else {
-            throw URLRequestError.convertURL
+            throw NetworkConfigurableError.url
         }
         
         let requestURL = URLRequest(url: url)
@@ -37,7 +37,7 @@ extension NetworkConfigurable {
     
     public func generateURL(paths: [String]?, isFullPath: Bool) throws -> URL {
         guard let url = URL(string: baseURL) else {
-            throw URLRequestError.convertURL
+            throw NetworkConfigurableError.url
         }
         
         var baseURL = url.absoluteString
@@ -47,7 +47,7 @@ extension NetworkConfigurable {
         }
         
         guard var urlComponents = URLComponents(string: baseURL) else {
-            throw URLRequestError.convertURL
+            throw NetworkConfigurableError.urlComponents
         }
         
         var urlQureyItems: [URLQueryItem] = []
@@ -61,7 +61,7 @@ extension NetworkConfigurable {
         let fullPathURL = isFullPath ? URL(string: baseURL) : urlComponents.url
         
         guard let urlResult = fullPathURL else {
-            throw URLRequestError.convertURL
+            throw NetworkConfigurableError.urlResult
         }
         
         return urlResult
