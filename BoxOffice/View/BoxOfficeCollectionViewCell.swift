@@ -91,7 +91,9 @@ extension BoxOfficeCollectionViewCell {
         movieTitleLabel.text = dailyBoxOfficeData?.movieTitle
         audienceCountLabel.text = dailyBoxOfficeData?.dailyAndTotalAudience
         
-        rankChangeLabel.asColor(targetString: "▲", color: .systemRed)
+        let rankStateColor = dailyBoxOfficeData.rankStateColor
+        
+        rankChangeLabel.asColor(targetString: rankStateColor.targetString, color: rankStateColor.color)
     }
 }
 
