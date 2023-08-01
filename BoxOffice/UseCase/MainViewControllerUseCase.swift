@@ -28,7 +28,7 @@ final class MainViewControllerUseCaseImpl: MainViewControllerUseCase {
             switch result {
             case .success(let result):
                 let movieInformationDTOList = self.setUpMovieInformationDTOList(result.daily.dailyBoxOfficeList)
-
+                
                 self.delegate?.completeFetchDailyBoxOfficeInformation(movieInformationDTOList)
             case .failure(let error):
                 self.delegate?.failFetchDailyBoxOfficeInformation(error.errorDescription)
@@ -51,15 +51,6 @@ final class MainViewControllerUseCaseImpl: MainViewControllerUseCase {
 
 //MARK: - Private
 extension MainViewControllerUseCaseImpl {
-    private func setUpRequestURL(_ baseURL: String,_ path: String, _ queryItems: [String: Any]) -> URL? {
-        guard var urlComponents = URLComponents(string: baseURL) else { return nil }
-        
-        urlComponents.path += path
-        urlComponents.queryItems = queryItems.map { URLQueryItem(name: $0.key, value: "\($0.value)") }
-        
-        return urlComponents.url
-    }
-    
     private func setUpMovieInformationDTOList(_ dailyBoxOfficeMovieInformationList: [MovieInformation]) -> [MovieInformationDTO] {
         var movieInformationDTOList = [MovieInformationDTO]()
         

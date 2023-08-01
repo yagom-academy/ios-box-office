@@ -24,9 +24,9 @@ final class BoxOfficeRepositoryImpl: BoxOfficeRepository {
             "key": APIKey.boxOffice,
             "targetDt": targetDate
         ]
-
+        
         let requestURL = setUpRequestURL(BaseURL.boxOffice, BoxOfficeURLPath.daily, queryItems)
-
+        
         sessionProvider.requestData(requestURL) { (result: Result<BoxOfficeResult, APIError>) in
             completionHandler(result)
         }
@@ -37,9 +37,9 @@ final class BoxOfficeRepositoryImpl: BoxOfficeRepository {
             "key": APIKey.boxOffice,
             "movieCd": movieCode
         ]
-
+        
         let requestURL = setUpRequestURL(BaseURL.boxOffice, BoxOfficeURLPath.movieDetail, queryItems)
-
+        
         sessionProvider.requestData(requestURL) { (result: Result<MovieDetailResult, APIError>) in
             completionHandler(result)
         }

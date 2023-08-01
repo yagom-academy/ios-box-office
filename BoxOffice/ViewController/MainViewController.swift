@@ -48,7 +48,7 @@ final class MainViewController: UIViewController, CanShowNetworkRequestFailureAl
     }()
     
     private let stackView: UIStackView = {
-       let stackView = UIStackView()
+        let stackView = UIStackView()
         
         stackView.axis = .vertical
         stackView.distribution = .fillEqually

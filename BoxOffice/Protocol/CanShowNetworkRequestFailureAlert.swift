@@ -18,7 +18,7 @@ extension CanShowNetworkRequestFailureAlert {
         let retryAction = UIAlertAction(title: "다시 시도", style: .default) { _ in
             retryFunction()
         }
-       
+        
         alert.addAction(retryAction)
         alert.addAction(confirmAction)
         present(alert, animated: true)
