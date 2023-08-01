@@ -2,7 +2,7 @@
 //  Bundle+.swift
 //  BoxOffice
 //
-//  Created by Minseong Kang on 2023/08/01.
+//  Created by Kobe, yyss99 on 2023/08/01.
 //
 
 import Foundation
