@@ -21,6 +21,7 @@ final class BoxOfficeViewController: UIViewController {
         super.viewDidLoad()
         
         setupCollectionView()
+        setupRefreshControl()
         configureUI()
         setupConstraint()
         setupNavigationBar()
@@ -33,6 +34,13 @@ final class BoxOfficeViewController: UIViewController {
         collectionView.register(BoxOfficeCollectionViewCell.self, forCellWithReuseIdentifier: "cell")
     }
     
+    private func setupRefreshControl() {
+        let refreshControl = UIRefreshControl()
+        refreshControl.addTarget(self, action: #selector(reloadBoxOfficeData(refresh:)), for: .valueChanged)
+        
+        collectionView.refreshControl = refreshControl
+    }
+    
     private func loadBoxOfficeData() {
         boxOfficeManager.fetchBoxOffice { error in
             if let error {
@@ -42,6 +50,16 @@ final class BoxOfficeViewController: UIViewController {
             
             DispatchQueue.main.async {
                 self.collectionView.reloadData()
+    @objc private func reloadBoxOfficeData(refresh: UIRefreshControl) {
+        boxOfficeManager.fetchBoxOffice { error in
+            if let error {
+                print(error.localizedDescription)
+                return
+            }
+            
+            DispatchQueue.main.async {
+                self.collectionView.reloadData()
+                refresh.endRefreshing()
             }
         }
     }
