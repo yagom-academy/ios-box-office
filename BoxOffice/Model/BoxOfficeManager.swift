@@ -22,15 +22,7 @@ final class BoxOfficeManager {
     }
     
     func fetchBoxOffice(completion: @escaping (Error?) -> Void) {
-        let formatter: DateFormatter = {
-            let formatter = DateFormatter()
-            formatter.dateFormat = "yyyyMMdd"
-            
-            return formatter
-        }()
-        
-        let yesterdayDate = formatter.string(from: Date(timeIntervalSinceNow: -86400))
-        
+        let yesterdayDate = DateManager.bringDate(before: 1)
         let keyItem = URLQueryItem(name: "key", value: kobisKey)
         let targetDateItem = URLQueryItem(name: "targetDt", value: yesterdayDate)
         let url = URL.makeKobisURL(Path.boxOffice, [keyItem, targetDateItem])
