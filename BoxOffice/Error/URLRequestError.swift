@@ -1,5 +1,5 @@
 //
-//  MakeURLRequestError.swift
+//  URLRequestError.swift
 //  BoxOffice
 //
 //  Created by Kobe, yyss99 on 2023/07/28.
@@ -7,7 +7,7 @@
 
 import Foundation
 
-enum MakeURLRequestError: LocalizedError {
+enum URLRequestError: LocalizedError {
     case convertURL
     
     var errorDescription: String? {

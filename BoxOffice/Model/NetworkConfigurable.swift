@@ -9,7 +9,7 @@ import Foundation
 
 public protocol NetworkConfigurable {
     var baseURL: String { get }
-    var queryItems: [String: String] { get }
+    var queryItems: [String: String]? { get }
 }
 
 extension NetworkConfigurable {
@@ -17,18 +17,19 @@ extension NetworkConfigurable {
         var urlQureyItems: [URLQueryItem] = []
         
         guard var urlComponents = URLComponents(string: baseURL) else {
-            throw MakeURLRequestError.convertURL
+            throw URLRequestError.convertURL
         }
         
-        queryItems.forEach {
+        queryItems?.forEach {
             urlQureyItems.append(URLQueryItem(name: $0.key, value: $0.value))
         }
         
         urlComponents.queryItems = urlQureyItems
         
         guard let url = urlComponents.url else {
-            throw MakeURLRequestError.convertURL
+            throw URLRequestError.convertURL
         }
+        
         let requestURL = URLRequest(url: url)
         
         return requestURL
