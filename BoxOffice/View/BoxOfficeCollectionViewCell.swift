@@ -87,7 +87,13 @@ extension BoxOfficeCollectionViewCell {
         rankLabel.text = dailyBoxOfficeData.rank
         rankChangeLabel.text = dailyBoxOfficeData.rankIntensity
         movieTitleLabel.text = dailyBoxOfficeData.movieName
-        audienceCountLabel.text = dailyBoxOfficeData.audienceCount
+        
+        guard let decimalAudienceCount = FormatManager.bringDecimalString(dailyBoxOfficeData.audienceCount),
+              let decimalaudienceAccumulation = FormatManager.bringDecimalString(dailyBoxOfficeData.audienceAccumulation) else {
+            return
+        }
+        
+        audienceCountLabel.text = "오늘 \(decimalAudienceCount) / 총 \(decimalaudienceAccumulation)"
     }
 }
 
