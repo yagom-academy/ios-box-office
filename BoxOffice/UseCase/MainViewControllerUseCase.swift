@@ -14,27 +14,21 @@ protocol MainViewControllerUseCase {
 }
 
 final class MainViewControllerUseCaseImpl: MainViewControllerUseCase {
-    private let sessionProvider: URLSessionProvider
+    private let boxOfficeRepository: BoxOfficeRepository
     weak var delegate: MainViewControllerUseCaseDelegate?
     
-    init(_ sessionProvider: URLSessionProvider) {
-        self.sessionProvider = sessionProvider
+    init(boxOfficeRepository: BoxOfficeRepository) {
+        self.boxOfficeRepository = boxOfficeRepository
     }
     
     func fetchDailyBoxOffice(isTest: Bool) {
-        let targetDt = isTest ? "" : "20230720"
-        let queryItems: [String: Any] = [
-            "key": APIKey.boxOffice,
-            "targetDt": targetDt
-        ]
-
-        let requestURL = setUpRequestURL(BaseURL.boxOffice, BoxOfficeURLPath.daily, queryItems)
-
-        sessionProvider.requestData(requestURL) { (result: Result<BoxOfficeResult, APIError>) in
+        let targetDate = isTest ? "" : "20230720"
+        
+        boxOfficeRepository.fetchDailyBoxOffice(targetDate) { result in
             switch result {
             case .success(let result):
                 let movieInformationDTOList = self.setUpMovieInformationDTOList(result.daily.dailyBoxOfficeList)
-                
+
                 self.delegate?.completeFetchDailyBoxOfficeInformation(movieInformationDTOList)
             case .failure(let error):
                 self.delegate?.failFetchDailyBoxOfficeInformation(error.errorDescription)
@@ -43,14 +37,8 @@ final class MainViewControllerUseCaseImpl: MainViewControllerUseCase {
     }
     
     func fetchMovieDetailInformation() {
-        let queryItems: [String: Any] = [
-            "key": APIKey.boxOffice,
-            "movieCd": "20218541"
-        ]
-        
-        let requestURL = setUpRequestURL(BaseURL.boxOffice, BoxOfficeURLPath.movieDetail, queryItems)
-        
-        sessionProvider.requestData(requestURL) { (result: Result<MovieDetailResult, APIError>) in
+        let movieCode = "20218541"
+        boxOfficeRepository.fetchMovieDetailInformation(movieCode) { result in
             switch result {
             case .success(let result):
                 self.delegate?.completeFetchMovieDetailInformation(result)
