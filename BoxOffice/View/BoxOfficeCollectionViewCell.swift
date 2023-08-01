@@ -8,6 +8,8 @@
 import UIKit
 
 final class BoxOfficeCollectionViewCell: UICollectionViewCell {
+    static let identifier = "BoxOfficeCollectionViewCellID"
+    
     private let rankStackView: UIStackView = {
         let stackView = UIStackView()
         stackView.translatesAutoresizingMaskIntoConstraints = false
