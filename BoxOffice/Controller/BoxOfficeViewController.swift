@@ -38,13 +38,13 @@ final class BoxOfficeViewController: UIViewController {
     }
     
     private func setupNavigation() {
-        self.navigationItem.title = DateManager.bringDate(before: 1, with: DateManager.navigationDateFormat)
+        self.navigationItem.title = FormatManager.bringDateString(before: 1, with: FormatManager.navigationDateFormat)
     }
     
     private func setupCollectionView() {
         collectionView.dataSource = self
         collectionView.delegate = self
-        collectionView.register(BoxOfficeCollectionViewCell.self, forCellWithReuseIdentifier: "cell")
+        collectionView.register(BoxOfficeCollectionViewCell.self, forCellWithReuseIdentifier: BoxOfficeCollectionViewCell.identifier)
     }
     
     private func setupRefreshControl() {
@@ -90,7 +90,7 @@ extension BoxOfficeViewController: UICollectionViewDataSource {
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "cell", for: indexPath) as? BoxOfficeCollectionViewCell else {
+        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: BoxOfficeCollectionViewCell.identifier, for: indexPath) as? BoxOfficeCollectionViewCell else {
             return BoxOfficeCollectionViewCell()
         }
         

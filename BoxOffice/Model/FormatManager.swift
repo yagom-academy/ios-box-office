@@ -7,14 +7,21 @@
 
 import Foundation
 
-enum DateManager {
+enum FormatManager {
     private static let dateFormatter: DateFormatter = {
         let formatter = DateFormatter()
         
         return formatter
     }()
     
-    static func bringDate(before day: Int, with dateFomat: String) -> String? {
+    private static let numberFormatter: NumberFormatter = {
+        let formatter = NumberFormatter()
+        formatter.numberStyle = .decimal
+        
+        return formatter
+    }()
+    
+    static func bringDateString(before day: Int, with dateFomat: String) -> String? {
         let currentDate = Date()
         let calendar = Calendar.current
         
@@ -26,10 +33,16 @@ enum DateManager {
         
         return dateFormatter.string(from: purposeDay)
     }
+    
+    static func bringDecimalString(_ data: String) -> String? {
+        let numberData = Int(data)
+        
+        return numberFormatter.string(for: numberData)
+    }
 }
 
 // MARK: Format
-extension DateManager {
+extension FormatManager {
     static let dateFormat = "yyyyMMdd"
     static let navigationDateFormat = "yyyy-MM-dd"
 }
