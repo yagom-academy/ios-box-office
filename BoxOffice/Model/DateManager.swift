@@ -10,12 +10,11 @@ import Foundation
 enum DateManager {
     private static let dateFormatter: DateFormatter = {
         let formatter = DateFormatter()
-        formatter.dateFormat = "yyyyMMdd"
         
         return formatter
     }()
     
-    static func bringDate(before day: Int) -> String? {
+    static func bringDate(before day: Int, with dateFomat: String) -> String? {
         let currentDate = Date()
         let calendar = Calendar.current
         
@@ -23,6 +22,14 @@ enum DateManager {
             return nil
         }
         
+        dateFormatter.dateFormat = dateFomat
+        
         return dateFormatter.string(from: purposeDay)
     }
+}
+
+// MARK: Format
+extension DateManager {
+    static let dateFormat = "yyyyMMdd"
+    static let navigationDateFormat = "yyyy-MM-dd"
 }
