@@ -1,0 +1,12 @@
+{
+  "data" : [
+    {
+      "filename" : "movie_detail_sample.json",
+      "idiom" : "universal"
+    }
+  ],
+  "info" : {
+    "author" : "xcode",
+    "version" : 1
+  }
+}

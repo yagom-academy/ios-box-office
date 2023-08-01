@@ -8,7 +8,7 @@
 import XCTest
 @testable import BoxOffice
 
-final class BoxOfficeTests: XCTestCase {
+final class BoxOfficeDecodingTests: XCTestCase {
     var sut: BoxOfficeEntity!
 
     override func setUpWithError() throws {
