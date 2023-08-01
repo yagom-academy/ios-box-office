@@ -34,4 +34,36 @@ extension NetworkConfigurable {
         
         return requestURL
     }
+    
+    public func generateURL(paths: [String]?, isFullPath: Bool) throws -> URL {
+        guard let url = URL(string: baseURL) else {
+            throw URLRequestError.convertURL
+        }
+        
+        var baseURL = url.absoluteString
+        
+        paths?.forEach {
+            baseURL += $0
+        }
+        
+        guard var urlComponents = URLComponents(string: baseURL) else {
+            throw URLRequestError.convertURL
+        }
+        
+        var urlQureyItems: [URLQueryItem] = []
+        
+        queryItems?.forEach {
+            urlQureyItems.append(URLQueryItem(name: $0.key, value: $0.value))
+        }
+        
+        urlComponents.queryItems = !urlQureyItems.isEmpty ? urlQureyItems : nil
+        
+        let fullPathURL = isFullPath ? URL(string: baseURL) : urlComponents.url
+        
+        guard let urlResult = fullPathURL else {
+            throw URLRequestError.convertURL
+        }
+        
+        return urlResult
+    }
 }
