@@ -7,8 +7,8 @@
 
 import UIKit
 
-class BoxOfficeViewController: UIViewController {
-    let collectionView: UICollectionView = {
+final class BoxOfficeViewController: UIViewController {
+    private let collectionView: UICollectionView = {
         let layout = UICollectionViewFlowLayout()
         let collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
         collectionView.translatesAutoresizingMaskIntoConstraints = false
@@ -25,7 +25,7 @@ class BoxOfficeViewController: UIViewController {
         setupNavigationBar()
     }
     
-    func setupCollectionView() {
+    private func setupCollectionView() {
         collectionView.dataSource = self
         collectionView.delegate = self
         collectionView.register(BoxOfficeCollectionViewCell.self, forCellWithReuseIdentifier: "cell")
@@ -56,12 +56,12 @@ extension BoxOfficeViewController: UICollectionViewDelegateFlowLayout {
 
 // MARK: setup UI
 extension BoxOfficeViewController {
-    func configureUI() {
+    private func configureUI() {
         view.backgroundColor = .systemBackground
         view.addSubview(collectionView)
     }
     
-    func setupConstraint() {
+    private func setupConstraint() {
         let safaArea = view.safeAreaLayoutGuide
         
         NSLayoutConstraint.activate([
@@ -72,7 +72,7 @@ extension BoxOfficeViewController {
         ])
     }
     
-    func setupNavigationBar() {
+    private func setupNavigationBar() {
         
     }
 }
