@@ -86,7 +86,7 @@ final class BoxOfficeViewController: UIViewController {
 // MARK: UICollectionViewDataSource
 extension BoxOfficeViewController: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return boxOfficeManager.boxOfficeList.count
+        return boxOfficeManager.dailyBoxOfficeDatas.count
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
@@ -94,11 +94,11 @@ extension BoxOfficeViewController: UICollectionViewDataSource {
             return BoxOfficeCollectionViewCell()
         }
         
-        let boxOfficeList = boxOfficeManager.boxOfficeList
+        let dailyBoxOfficeDatas = boxOfficeManager.dailyBoxOfficeDatas
         
-        if !boxOfficeList.isEmpty {
-            let dailyBoxOfficeList = boxOfficeList[indexPath.item]
-            cell.setupBoxOfficeData(dailyBoxOfficeList)
+        if !dailyBoxOfficeDatas.isEmpty {
+            let dailyBoxOfficeData = dailyBoxOfficeDatas[indexPath.item]
+            cell.setupBoxOfficeData(dailyBoxOfficeData)
         }
         
         return cell

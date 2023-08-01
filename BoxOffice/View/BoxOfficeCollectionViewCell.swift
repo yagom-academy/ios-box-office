@@ -83,13 +83,15 @@ final class BoxOfficeCollectionViewCell: UICollectionViewCell {
 
 // MARK: setup Data
 extension BoxOfficeCollectionViewCell {
-    func setupBoxOfficeData(_ dailyBoxOfficeData: DailyBoxOfficeList) {
-        let dailyBoxOfficeData = dailyBoxOfficeData.makedDailyBoxOfficeData()
+    func setupBoxOfficeData(_ dailyBoxOfficeData: DailyBoxOfficeData?) {
+        guard let dailyBoxOfficeData else {
+            return
+        }
         
-        rankLabel.text = dailyBoxOfficeData?.rank
-        rankChangeLabel.text = dailyBoxOfficeData?.rankState
-        movieTitleLabel.text = dailyBoxOfficeData?.movieTitle
-        audienceCountLabel.text = dailyBoxOfficeData?.dailyAndTotalAudience
+        rankLabel.text = dailyBoxOfficeData.rank
+        rankChangeLabel.text = dailyBoxOfficeData.rankState
+        movieTitleLabel.text = dailyBoxOfficeData.movieTitle
+        audienceCountLabel.text = dailyBoxOfficeData.dailyAndTotalAudience
         
         let rankStateColor = dailyBoxOfficeData.rankStateColor
         
