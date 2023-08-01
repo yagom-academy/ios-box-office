@@ -7,8 +7,8 @@
 
 import UIKit
 
-class BoxOfficeCollectionViewCell: UICollectionViewCell {
-    let rankStackView: UIStackView = {
+final class BoxOfficeCollectionViewCell: UICollectionViewCell {
+    private let rankStackView: UIStackView = {
         let stackView = UIStackView()
         stackView.translatesAutoresizingMaskIntoConstraints = false
         stackView.axis = .vertical
@@ -16,7 +16,7 @@ class BoxOfficeCollectionViewCell: UICollectionViewCell {
         return stackView
     }()
     
-    let rankLabel: UILabel = {
+    private let rankLabel: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
         label.font = UIFont.preferredFont(forTextStyle: .largeTitle)
@@ -25,7 +25,7 @@ class BoxOfficeCollectionViewCell: UICollectionViewCell {
         return label
     }()
     
-    let rankChangeLabel: UILabel = {
+    private let rankChangeLabel: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
         label.font = UIFont.preferredFont(forTextStyle: .body)
@@ -34,7 +34,7 @@ class BoxOfficeCollectionViewCell: UICollectionViewCell {
         return label
     }()
     
-    let movieInfomationStackView: UIStackView = {
+    private let movieInfomationStackView: UIStackView = {
         let stackView = UIStackView()
         stackView.translatesAutoresizingMaskIntoConstraints = false
         stackView.axis = .vertical
@@ -42,7 +42,7 @@ class BoxOfficeCollectionViewCell: UICollectionViewCell {
         return stackView
     }()
     
-    let movieTitleLabel: UILabel = {
+    private let movieTitleLabel: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
         label.font = UIFont.preferredFont(forTextStyle: .title3)
@@ -50,7 +50,7 @@ class BoxOfficeCollectionViewCell: UICollectionViewCell {
         return label
     }()
     
-    let audienceCountLabel: UILabel = {
+    private let audienceCountLabel: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
         label.font = UIFont.preferredFont(forTextStyle: .body)
@@ -58,7 +58,7 @@ class BoxOfficeCollectionViewCell: UICollectionViewCell {
         return label
     }()
     
-    let forwardImageView: UIImageView = {
+    private let forwardImageView: UIImageView = {
         let imageView = UIImageView()
         imageView.translatesAutoresizingMaskIntoConstraints = false
         imageView.image = UIImage(systemName: "chevron.forward")
@@ -80,7 +80,7 @@ class BoxOfficeCollectionViewCell: UICollectionViewCell {
 }
 
 extension BoxOfficeCollectionViewCell {
-    func configureUI() {
+    private func configureUI() {
         rankStackView.addArrangedSubview(rankLabel)
         rankStackView.addArrangedSubview(rankChangeLabel)
         movieInfomationStackView.addArrangedSubview(movieTitleLabel)
@@ -91,13 +91,13 @@ extension BoxOfficeCollectionViewCell {
         contentView.addSubview(forwardImageView)
     }
     
-    func setupConstraint() {
+    private func setupConstraint() {
         setupRankStackVeiwConstraint()
         setupMovieInfomationStackViewConstraint()
         setupForwardImageViewConstraint()
     }
     
-    func setupRankStackVeiwConstraint() {
+    private func setupRankStackVeiwConstraint() {
         NSLayoutConstraint.activate([
             rankStackView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 32),
             rankStackView.centerYAnchor.constraint(equalTo: contentView.centerYAnchor),
@@ -105,14 +105,14 @@ extension BoxOfficeCollectionViewCell {
         ])
     }
     
-    func setupMovieInfomationStackViewConstraint() {
+    private func setupMovieInfomationStackViewConstraint() {
         NSLayoutConstraint.activate([
             movieInfomationStackView.leadingAnchor.constraint(equalTo: rankStackView.trailingAnchor, constant: 32),
             movieInfomationStackView.centerYAnchor.constraint(equalTo: contentView.centerYAnchor)
         ])
     }
     
-    func setupForwardImageViewConstraint() {
+    private func setupForwardImageViewConstraint() {
         NSLayoutConstraint.activate([
             forwardImageView.leadingAnchor.constraint(greaterThanOrEqualTo: movieInfomationStackView.trailingAnchor, constant: 32),
             forwardImageView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -16),
