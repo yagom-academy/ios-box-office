@@ -7,20 +7,12 @@
 
 import Foundation
 
-struct NetworkManager {
-    func makeURLRequest(baseURL: String, queryItems: [URLQueryItem]) throws -> URLRequest {
-        guard var baseURL = URL(string: baseURL) else {
-            throw MakeURLRequestError.convertURL
-        }
-        
-        baseURL.append(queryItems: queryItems)
-        
-        let requestURL = URLRequest(url: baseURL)
-        
-        return requestURL
-    }
-    
-    func getBoxOfficeData(requestURL: URLRequest, sessionConfiguration: URLSessionConfiguration, completionHandler: @escaping (BoxOffice) -> Void) {
+public protocol gettable {
+    func getBoxOfficeData<T: Decodable>(requestURL: URLRequest, completionHandler: @escaping (T) -> Void)
+}
+
+struct NetworkManager: gettable {
+    func getBoxOfficeData<T: Decodable>(requestURL: URLRequest, completionHandler: @escaping (T) -> Void) {
         let task = URLSession.shared.dataTask(with: requestURL) { data, response, error in
             guard error == nil else {
                 return
@@ -37,8 +29,8 @@ struct NetworkManager {
             }
             
             do {
-                let boxOfficeData = try JSONDecoder().decode(BoxOffice.self, from: data)
-                completionHandler(boxOfficeData)
+                let receivedData = try JSONDecoder().decode(T.self, from: data)
+                completionHandler(receivedData)
             } catch let error {
                 print(error.localizedDescription)
             }
