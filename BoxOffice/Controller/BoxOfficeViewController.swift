@@ -28,7 +28,7 @@ final class BoxOfficeViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        setupNavigationBar()
+        setupNavigation()
         setupCollectionView()
         setupRefreshControl()
         loadBoxOfficeData()
@@ -37,8 +37,8 @@ final class BoxOfficeViewController: UIViewController {
         setupConstraint()
     }
     
-    private func setupNavigationBar() {
-        
+    private func setupNavigation() {
+        self.navigationItem.title = DateManager.bringDate(before: 1, with: DateManager.navigationDateFormat)
     }
     
     private func setupCollectionView() {
