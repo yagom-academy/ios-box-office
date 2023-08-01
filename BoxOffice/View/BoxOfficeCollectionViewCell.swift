@@ -79,6 +79,7 @@ final class BoxOfficeCollectionViewCell: UICollectionViewCell {
     }
 }
 
+// MARK: setup Data
 extension BoxOfficeCollectionViewCell {
     func setupBoxOfficeData(_ dailyBoxOfficeData: DailyBoxOfficeList) {
         rankLabel.text = dailyBoxOfficeData.rank
@@ -88,6 +89,7 @@ extension BoxOfficeCollectionViewCell {
     }
 }
 
+// MARK: setup UI
 extension BoxOfficeCollectionViewCell {
     private func configureUI() {
         rankStackView.addArrangedSubview(rankLabel)
