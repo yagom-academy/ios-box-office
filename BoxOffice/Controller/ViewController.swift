@@ -12,7 +12,10 @@ class ViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        guard let url = KobisOpenAPI().receiveURL(serviceType: .dailyBoxOffice) else { return }
+        var a = KobisOpenAPI(serviceType: .dailyBoxOffice)
+        a.updateQueryItem(key1: .targetDate, value: "20210101")
+        
+        guard let url = a.receiveURL() else { return }
                 
         NetworkManager.fetchData(url: url) { result in
             switch result {

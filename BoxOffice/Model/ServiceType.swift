@@ -18,16 +18,5 @@ enum ServiceType {
         }
     }
     
-    var queryItem: [String: String?] {
-        switch self {
-        case .dailyBoxOffice:
-            return ["targetDt": "20230101",
-                    "itemPerPage": nil,
-                    "multiMovieYn": nil,
-                    "repNationCd": nil,
-                    "wideAreaCd": nil]
-        case .detailInformation:
-            return ["movieCd": "20124079"]
-        }
-    }
+
 }
