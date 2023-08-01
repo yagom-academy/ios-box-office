@@ -50,12 +50,19 @@ final class BoxOfficeViewController: UIViewController {
 // MARK: UICollectionViewDataSource
 extension BoxOfficeViewController: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return 0
+        return boxOfficeManager.boxOfficeList.count
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "cell", for: indexPath) as? BoxOfficeCollectionViewCell else {
             return BoxOfficeCollectionViewCell()
+        }
+        
+        let boxOfficeList = boxOfficeManager.boxOfficeList
+        
+        if !boxOfficeList.isEmpty {
+            let dailyBoxOfficeList = boxOfficeList[indexPath.item]
+            cell.setupBoxOfficeData(dailyBoxOfficeList)
         }
         
         return cell
