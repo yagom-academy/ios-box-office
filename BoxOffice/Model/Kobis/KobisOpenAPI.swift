@@ -20,7 +20,7 @@ struct KobisOpenAPI {
         return components
     }()
     
-    func receiveURL(serviceType: KobisServiceType, queryItems: [String: String]) -> URL? {
+    func receiveURL(serviceType: KobisServiceType, queryItems: [String: String]) throws -> URL {
         var components: URLComponents = baseURL
         
         components.path.append(serviceType.urlPath)
@@ -31,7 +31,11 @@ struct KobisOpenAPI {
             components.queryItems?.append(queryItem)
         }
         
-        return components.url
+        guard let url = components.url else {
+            throw URLError.urlIsNil
+        }
+        
+        return url
     }
     
     private enum APIKey {
