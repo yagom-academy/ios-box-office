@@ -2,7 +2,7 @@
 //  URL+.swift
 //  BoxOffice
 //
-//  Created by kyungmin on 2023/07/28.
+//  Created by kyungmin, Erick on 2023/07/28.
 //
 
 import Foundation
