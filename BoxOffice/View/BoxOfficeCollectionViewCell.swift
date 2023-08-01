@@ -100,7 +100,8 @@ extension BoxOfficeCollectionViewCell {
     func setupRankStackVeiwConstraint() {
         NSLayoutConstraint.activate([
             rankStackView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 32),
-            rankStackView.centerYAnchor.constraint(equalTo: contentView.centerYAnchor)
+            rankStackView.centerYAnchor.constraint(equalTo: contentView.centerYAnchor),
+            rankStackView.widthAnchor.constraint(equalToConstant: 40)
         ])
     }
     
@@ -113,6 +114,7 @@ extension BoxOfficeCollectionViewCell {
     
     func setupForwardImageViewConstraint() {
         NSLayoutConstraint.activate([
+            forwardImageView.leadingAnchor.constraint(greaterThanOrEqualTo: movieInfomationStackView.trailingAnchor, constant: 32),
             forwardImageView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -16),
             forwardImageView.centerYAnchor.constraint(equalTo: contentView.centerYAnchor),
             forwardImageView.widthAnchor.constraint(equalToConstant: 12),
