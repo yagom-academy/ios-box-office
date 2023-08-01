@@ -80,6 +80,15 @@ final class BoxOfficeCollectionViewCell: UICollectionViewCell {
 }
 
 extension BoxOfficeCollectionViewCell {
+    func setupBoxOfficeData(_ dailyBoxOfficeData: DailyBoxOfficeList) {
+        rankLabel.text = dailyBoxOfficeData.rank
+        rankChangeLabel.text = dailyBoxOfficeData.rankIntensity
+        movieTitleLabel.text = dailyBoxOfficeData.movieName
+        audienceCountLabel.text = dailyBoxOfficeData.audienceCount
+    }
+}
+
+extension BoxOfficeCollectionViewCell {
     private func configureUI() {
         rankStackView.addArrangedSubview(rankLabel)
         rankStackView.addArrangedSubview(rankChangeLabel)
