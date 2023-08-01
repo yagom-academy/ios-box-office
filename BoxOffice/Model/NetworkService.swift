@@ -1,5 +1,5 @@
 //
-//  NetworkManager.swift
+//  NetworkService.swift
 //  BoxOffice
 //
 //  Created by Idinaloq, MARY on 2023/07/27.
@@ -7,8 +7,7 @@
 
 import Foundation
 
-class NetworkManager {
-    
+class NetworkService {
     typealias NetworkResult = (Result<Data, NetworkError>) -> Void
     
     let session: URLSessionProtocol
@@ -18,7 +17,7 @@ class NetworkManager {
     }
 
     func fetchData(url: URL, completion: @escaping NetworkResult) {
-        let task = session.dataTask(with: url) { data, response, error in
+        let task: URLSessionDataTask  = session.dataTask(with: url) { data, response, error in
             if let _ = error {
                 completion(.failure(.requestFail))
                 return

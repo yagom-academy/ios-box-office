@@ -12,12 +12,12 @@ class ViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        var dailyBoxOffice = KobisOpenAPI(serviceType: .dailyBoxOffice)
-        dailyBoxOffice.updateQueryItem(key: .targetDate, value: "20230101")
+        let dailyBoxOffice: KobisOpenAPI = KobisOpenAPI()
+        let url: URL? = dailyBoxOffice.receiveURL(serviceType: .dailyBoxOffice, queryItems: ["targetDt": "20230501"])
         
-        guard let url = dailyBoxOffice.receiveURL() else { return }
+        guard let url = url else { return }
                 
-        NetworkManager().fetchData(url: url) { result in
+        NetworkService().fetchData(url: url) { result in
             switch result {
             case .success(let data):
                 do {
