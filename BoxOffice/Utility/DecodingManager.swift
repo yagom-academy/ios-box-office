@@ -21,4 +21,14 @@ struct DecodingManager {
         
         return decodedData
     }
+    
+    static func decodeJSON<Value: Decodable>(type: Value.Type, data: Data) throws -> Value {
+        let decoder = JSONDecoder()
+
+        guard let decodedData: Value = try? decoder.decode(type, from: data) else {
+            throw DataError.failedDecoding
+        }
+        
+        return decodedData
+    }
 }
