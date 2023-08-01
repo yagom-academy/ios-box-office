@@ -24,34 +24,42 @@ struct APIManager {
                 return
             }
             
-            guard let httpResponse = response as? HTTPURLResponse else {
-                print("Response Error")
-                completion(.failure(APIError.responseError))
-                return
-            }
-            
-            guard (200..<300).contains(httpResponse.statusCode) else {
-                print("Server Error: \(httpResponse.statusCode)")
-                completion(.failure(APIError.serverError))
-                return
-            }
-            
-            guard let safeData = data else {
-                print("No Data")
-                completion(.failure(APIError.noData))
-                return
-            }
-            
-            completion(.success(safeData))
-            
-            switch service {
-            case .dailyBoxOffice:
-                if let decodedData: BoxOffice = jsonDecoder.decodeJSON(data: safeData) {
-                    print(decodedData)
+            if let error = error {
+                completion(.failure(error))
+            } else {
+                guard let httpResponse = response as? HTTPURLResponse else {
+                    print("Response Error")
+                    completion(.failure(APIError.responseError))
+                    return
                 }
-            case .movieDetailInfo:
-                if let decodedData: Movie = jsonDecoder.decodeJSON(data: safeData) {
-                    print(decodedData)
+                
+                guard (200..<300).contains(httpResponse.statusCode) else {
+                    print("Server Error: \(httpResponse.statusCode)")
+                    completion(.failure(APIError.serverError))
+                    return
+                }
+                
+                guard let safeData = data else {
+                    print("No Data")
+                    completion(.failure(APIError.noData))
+                    return
+                }
+                
+                completion(.success(safeData))
+                
+                switch service {
+                case .dailyBoxOffice:
+                    if let decodedData: BoxOffice = jsonDecoder.decodeJSON(data: safeData) {
+                        print(decodedData)
+                    } else {
+                        print("Decoding Error")
+                    }
+                case .movieDetailInfo:
+                    if let decodedData: Movie = jsonDecoder.decodeJSON(data: safeData) {
+                        print(decodedData)
+                    } else {
+                        print("Decoding Error")
+                    }
                 }
             }
         }

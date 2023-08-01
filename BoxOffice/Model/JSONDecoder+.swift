@@ -11,10 +11,8 @@ extension JSONDecoder {
     func decodeJSON<T: Decodable>(data: Data) -> T? {
         do {
             let decodedData = try self.decode(T.self, from: data)
-            print("decodedData: \(decodedData)")
             return decodedData
         } catch {
-            print ("Decoding Error")
             return nil
         }
     }
