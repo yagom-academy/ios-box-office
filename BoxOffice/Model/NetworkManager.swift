@@ -7,11 +7,18 @@
 
 import Foundation
 
-enum NetworkManager {
+class NetworkManager {
+    
     typealias NetworkResult = (Result<Data, NetworkError>) -> Void
     
-    static func fetchData(url: URL, completion: @escaping NetworkResult) {
-        let task = URLSession.shared.dataTask(with: url) { data, response, error in
+    let session: URLSessionProtocol
+    
+    init(session: URLSessionProtocol = URLSession.shared) {
+        self.session = session
+    }
+
+    func fetchData(url: URL, completion: @escaping NetworkResult) {
+        let task = session.dataTask(with: url) { data, response, error in
             if let _ = error {
                 completion(.failure(.requestFail))
                 return

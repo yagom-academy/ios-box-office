@@ -13,11 +13,11 @@ class ViewController: UIViewController {
         super.viewDidLoad()
         
         var dailyBoxOffice = KobisOpenAPI(serviceType: .dailyBoxOffice)
-        dailyBoxOffice.updateQueryItem(key: .targetDate, value: "20210101")
+        dailyBoxOffice.updateQueryItem(key: .targetDate, value: "20230101")
         
         guard let url = dailyBoxOffice.receiveURL() else { return }
                 
-        NetworkManager.fetchData(url: url) { result in
+        NetworkManager().fetchData(url: url) { result in
             switch result {
             case .success(let data):
                 do {
