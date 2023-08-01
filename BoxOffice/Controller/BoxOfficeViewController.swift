@@ -8,6 +8,7 @@
 import UIKit
 
 final class BoxOfficeViewController: UIViewController {
+    private let boxOfficeManager = BoxOfficeManager()
     private let collectionView: UICollectionView = {
         let layout = UICollectionViewFlowLayout()
         let collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
@@ -23,12 +24,26 @@ final class BoxOfficeViewController: UIViewController {
         configureUI()
         setupConstraint()
         setupNavigationBar()
+        loadBoxOfficeData()
     }
     
     private func setupCollectionView() {
         collectionView.dataSource = self
         collectionView.delegate = self
         collectionView.register(BoxOfficeCollectionViewCell.self, forCellWithReuseIdentifier: "cell")
+    }
+    
+    private func loadBoxOfficeData() {
+        boxOfficeManager.fetchBoxOffice { error in
+            if let error {
+                print(error.localizedDescription)
+                return
+            }
+            
+            DispatchQueue.main.async {
+                self.collectionView.reloadData()
+            }
+        }
     }
 }
 
