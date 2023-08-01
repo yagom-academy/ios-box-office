@@ -23,7 +23,7 @@ enum NetworkManager {
             }
             
             guard (200...299).contains(httpResponse.statusCode) else {
-                completion(.failure(.statusCodeNotSuccess))
+                completion(.failure(.statusCodeNotSuccess(httpResponse.statusCode)))
                 return
             }
             

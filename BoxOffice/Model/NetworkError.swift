@@ -10,7 +10,7 @@ import Foundation
 enum NetworkError {
     case requestFail
     case responseFail
-    case statusCodeNotSuccess
+    case statusCodeNotSuccess(Int)
     case dataIsNil
 }
 
@@ -21,8 +21,8 @@ extension NetworkError: LocalizedError {
             return "데이터 요청에 실패했습니다."
         case .responseFail:
             return "응답이 없습니다."
-        case .statusCodeNotSuccess:
-            return "statusCode가 successful이 아닙니다."
+        case .statusCodeNotSuccess(let statusCode):
+            return "statusCode가 successful이 아닙니다. [Code: \(statusCode)]"
         case .dataIsNil:
             return "data가 Nil 입니다."
         }

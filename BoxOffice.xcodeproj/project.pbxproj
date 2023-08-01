@@ -8,7 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		4416820D2A70F4EC00720ACF /* KobisOpenAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4416820C2A70F4EC00720ACF /* KobisOpenAPI.swift */; };
-		441682372A72AC3900720ACF /* ServiceType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 441682362A72AC3900720ACF /* ServiceType.swift */; };
+		441682372A72AC3900720ACF /* KobisServiceType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 441682362A72AC3900720ACF /* KobisServiceType.swift */; };
 		44CBACAD2A6E7DB800FDBAAE /* BoxOfficeResult.swift in Sources */ = {isa = PBXBuildFile; fileRef = 44CBACAC2A6E7DB800FDBAAE /* BoxOfficeResult.swift */; };
 		63DF20EF2970E1A0005DF7D1 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63DF20EE2970E1A0005DF7D1 /* AppDelegate.swift */; };
 		63DF20F12970E1A0005DF7D1 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63DF20F02970E1A0005DF7D1 /* SceneDelegate.swift */; };
@@ -38,7 +38,7 @@
 
 /* Begin PBXFileReference section */
 		4416820C2A70F4EC00720ACF /* KobisOpenAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KobisOpenAPI.swift; sourceTree = "<group>"; };
-		441682362A72AC3900720ACF /* ServiceType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ServiceType.swift; sourceTree = "<group>"; };
+		441682362A72AC3900720ACF /* KobisServiceType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KobisServiceType.swift; sourceTree = "<group>"; };
 		44CBACAC2A6E7DB800FDBAAE /* BoxOfficeResult.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BoxOfficeResult.swift; sourceTree = "<group>"; };
 		63DF20EB2970E1A0005DF7D1 /* BoxOffice.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = BoxOffice.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		63DF20EE2970E1A0005DF7D1 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -86,13 +86,21 @@
 			path = DataTransfetObject;
 			sourceTree = "<group>";
 		};
+		441F4E482A78E906003192F2 /* Kobis */ = {
+			isa = PBXGroup;
+			children = (
+				4416820C2A70F4EC00720ACF /* KobisOpenAPI.swift */,
+				441682362A72AC3900720ACF /* KobisServiceType.swift */,
+			);
+			path = Kobis;
+			sourceTree = "<group>";
+		};
 		44CBACA82A6E7CC100FDBAAE /* Model */ = {
 			isa = PBXGroup;
 			children = (
+				441F4E482A78E906003192F2 /* Kobis */,
 				4416820B2A70F2C200720ACF /* DataTransfetObject */,
-				4416820C2A70F4EC00720ACF /* KobisOpenAPI.swift */,
 				DCB6831E2A727B99005D1510 /* NetworkManager.swift */,
-				441682362A72AC3900720ACF /* ServiceType.swift */,
 				DCB683212A77BE77005D1510 /* NetworkError.swift */,
 			);
 			path = Model;
@@ -297,7 +305,7 @@
 				DC2EA3952A6E99F3009B9408 /* DailyBoxOffice.swift in Sources */,
 				63DF20EF2970E1A0005DF7D1 /* AppDelegate.swift in Sources */,
 				DC2EA3932A6E9942009B9408 /* BoxOffice.swift in Sources */,
-				441682372A72AC3900720ACF /* ServiceType.swift in Sources */,
+				441682372A72AC3900720ACF /* KobisServiceType.swift in Sources */,
 				DCB682F72A70E58A005D1510 /* DetailInformation.swift in Sources */,
 				DCB682FB2A70E838005D1510 /* MovieInformation.swift in Sources */,
 				4416820D2A70F4EC00720ACF /* KobisOpenAPI.swift in Sources */,

@@ -1,22 +1,20 @@
 //
-//  ServiceType.swift
+//  KobisServiceType.swift
 //  BoxOffice
 //
 //  Created by Idinaloq, MARY on 2023/07/27.
 //
 
-enum ServiceType {
+enum KobisServiceType {
     case dailyBoxOffice
-    case detailInformation
+    case movieInformation
     
     var urlPath: String {
         switch self {
         case .dailyBoxOffice:
             return "/boxoffice/searchDailyBoxOfficeList.json"
-        case .detailInformation:
+        case .movieInformation:
             return "/movie/searchMovieInfo.json"
         }
     }
-    
-
 }

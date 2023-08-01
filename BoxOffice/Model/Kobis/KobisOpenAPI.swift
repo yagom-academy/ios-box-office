@@ -9,15 +9,15 @@ import Foundation
 
 struct KobisOpenAPI {
     var queryItems: [String: String] = [:]
-    var kobisType: ServiceType
+    var serviceType: KobisServiceType
     
-    init(serviceType: ServiceType) {
-        self.kobisType = serviceType
+    init(serviceType: KobisServiceType) {
+        self.serviceType = serviceType
     }
     
     let baseURL: URLComponents = {
         var components = URLComponents()
-        let queryItem = URLQueryItem(name: QueryItem.key, value: QueryItem.value)
+        let queryItem = URLQueryItem(name: APIKey.key, value: APIKey.value)
         
         components.scheme = Components.scheme
         components.host = Components.host
@@ -30,7 +30,7 @@ struct KobisOpenAPI {
     func receiveURL() -> URL? {
         var components = baseURL
         
-        components.path.append(kobisType.urlPath)
+        components.path.append(serviceType.urlPath)
         
         queryItems.forEach { item in
             let queryItem = URLQueryItem(name: item.key, value: item.value)
@@ -41,17 +41,17 @@ struct KobisOpenAPI {
         return components.url
     }
     
-    mutating func updateQueryItem(key1: DailyQuery, value: String)
+    mutating func updateQueryItem(key: DailyBoxOfficeQueryKey, value: String)
     {
-        queryItems.updateValue(value, forKey: key1.description)
+        queryItems.updateValue(value, forKey: key.description)
     }
     
-    mutating func updateQueryItem(key1: DetailQuery, value: String)
+    mutating func updateQueryItem(key: MovieInformationQueryKey, value: String)
     {
-        queryItems.updateValue(value, forKey: key1.description)
+        queryItems.updateValue(value, forKey: key.description)
     }
     
-    private enum QueryItem {
+    private enum APIKey {
         static let key: String = "key"
         static let value: String = "c824c74a1ff9ed62089a9a0bcc0d3211"
     }
@@ -62,7 +62,7 @@ struct KobisOpenAPI {
         static let path: String = "/kobisopenapi/webservice/rest"
     }
     
-    enum DailyQuery: CaseIterable, CustomStringConvertible {
+    enum DailyBoxOfficeQueryKey: CustomStringConvertible {
         case targetDate
         case itemPerPage
         case multiMovie
@@ -85,7 +85,7 @@ struct KobisOpenAPI {
         }
     }
     
-    enum DetailQuery: CaseIterable, CustomStringConvertible {
+    enum MovieInformationQueryKey: CustomStringConvertible {
         case movieCode
         
         var description: String {
