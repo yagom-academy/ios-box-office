@@ -19,9 +19,44 @@ class BoxOfficeViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        setupCollectionView()
         configureUI()
         setupConstraint()
         setupNavigationBar()
+    }
+    
+    func setupCollectionView() {
+        collectionView.dataSource = self
+        collectionView.delegate = self
+        collectionView.register(BoxOfficeCollectionViewCell.self, forCellWithReuseIdentifier: "cell")
+    }
+}
+
+extension BoxOfficeViewController: UICollectionViewDataSource {
+    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        return 0
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "cell", for: indexPath) as? BoxOfficeCollectionViewCell else {
+            return BoxOfficeCollectionViewCell()
+        }
+        
+        return cell
+    }
+}
+
+extension BoxOfficeViewController: UICollectionViewDelegateFlowLayout {
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+        return CGSize(width: collectionView.frame.width, height: collectionView.frame.width / 5)
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
+        return 0
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumInteritemSpacingForSectionAt section: Int) -> CGFloat {
+        return 0
     }
 }
 

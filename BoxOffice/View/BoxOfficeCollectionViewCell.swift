@@ -19,7 +19,8 @@ class BoxOfficeCollectionViewCell: UICollectionViewCell {
     let rankLabel: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
-        label.font = UIFont.preferredFont(forTextStyle: .title1)
+        label.font = UIFont.preferredFont(forTextStyle: .largeTitle)
+        label.textAlignment = .center
         
         return label
     }()
@@ -28,6 +29,7 @@ class BoxOfficeCollectionViewCell: UICollectionViewCell {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
         label.font = UIFont.preferredFont(forTextStyle: .body)
+        label.textAlignment = .center
         
         return label
     }()
@@ -60,6 +62,7 @@ class BoxOfficeCollectionViewCell: UICollectionViewCell {
         let imageView = UIImageView()
         imageView.translatesAutoresizingMaskIntoConstraints = false
         imageView.image = UIImage(systemName: "chevron.forward")
+        imageView.tintColor = .systemGray
         
         return imageView
     }()
@@ -96,22 +99,24 @@ extension BoxOfficeCollectionViewCell {
     
     func setupRankStackVeiwConstraint() {
         NSLayoutConstraint.activate([
-            rankStackView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 16),
+            rankStackView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 32),
             rankStackView.centerYAnchor.constraint(equalTo: contentView.centerYAnchor)
         ])
     }
     
     func setupMovieInfomationStackViewConstraint() {
         NSLayoutConstraint.activate([
-            movieInfomationStackView.leadingAnchor.constraint(equalTo: rankStackView.trailingAnchor, constant: 16),
+            movieInfomationStackView.leadingAnchor.constraint(equalTo: rankStackView.trailingAnchor, constant: 32),
             movieInfomationStackView.centerYAnchor.constraint(equalTo: contentView.centerYAnchor)
         ])
     }
     
     func setupForwardImageViewConstraint() {
         NSLayoutConstraint.activate([
-            forwardImageView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: 8),
-            forwardImageView.centerYAnchor.constraint(equalTo: contentView.centerYAnchor)
+            forwardImageView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -16),
+            forwardImageView.centerYAnchor.constraint(equalTo: contentView.centerYAnchor),
+            forwardImageView.widthAnchor.constraint(equalToConstant: 12),
+            forwardImageView.heightAnchor.constraint(equalToConstant: 16)
         ])
     }
 }
