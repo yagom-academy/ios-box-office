@@ -9,8 +9,8 @@ import Foundation
 
 protocol MainViewControllerUseCase {
     var delegate: MainViewControllerUseCaseDelegate? { get set }
-    func fetchDailyBoxOffice(isTest: Bool)
-    func fetchMovieDetailInformation()
+    func fetchDailyBoxOffice(targetDate: String)
+    func fetchMovieDetailInformation(movieCode: String)
 }
 
 final class MainViewControllerUseCaseImpl: MainViewControllerUseCase {
@@ -21,9 +21,7 @@ final class MainViewControllerUseCaseImpl: MainViewControllerUseCase {
         self.boxOfficeRepository = boxOfficeRepository
     }
     
-    func fetchDailyBoxOffice(isTest: Bool) {
-        let targetDate = isTest ? "" : "20230720"
-        
+    func fetchDailyBoxOffice(targetDate: String) {
         boxOfficeRepository.fetchDailyBoxOffice(targetDate) { result in
             switch result {
             case .success(let result):
@@ -36,8 +34,7 @@ final class MainViewControllerUseCaseImpl: MainViewControllerUseCase {
         }
     }
     
-    func fetchMovieDetailInformation() {
-        let movieCode = "20218541"
+    func fetchMovieDetailInformation(movieCode: String) {
         boxOfficeRepository.fetchMovieDetailInformation(movieCode) { result in
             switch result {
             case .success(let result):

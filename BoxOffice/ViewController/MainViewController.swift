@@ -116,18 +116,22 @@ extension MainViewController: MainViewControllerUseCaseDelegate {
 // MARK: - Button Action
 extension MainViewController {
     @objc private func didTappedRequestMovieDetailInformationButton() {
-        usecase.fetchMovieDetailInformation()
+        let movieCode = "20228543"
+        
+        usecase.fetchMovieDetailInformation(movieCode: movieCode)
     }
     
     @objc private func didTappedRequestMovieDailyInformationButton() {
-        usecase.fetchDailyBoxOffice(isTest: false)
+        let tagerDate = "20230723"
+        
+        usecase.fetchDailyBoxOffice(targetDate: tagerDate)
     }
 }
 
 // MARK: - Test Button Action
 extension MainViewController {
     private func fetchDailyBoxOfficeForTest() {
-        usecase.fetchDailyBoxOffice(isTest: true)
+        usecase.fetchDailyBoxOffice(targetDate: "")
     }
     
     @objc private func didTappedNetworkRequestFailureButton() {
