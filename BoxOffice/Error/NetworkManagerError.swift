@@ -11,5 +11,4 @@ enum NetworkManagerError: Error {
     case failureHttpResponse
     case failureJsonDecode
     case unknown
-
 }
