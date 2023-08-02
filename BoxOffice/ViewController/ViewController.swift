@@ -15,7 +15,13 @@ final class ViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        configurateBackgroundColor()
+        
         loadDailyBoxOfficeData()
+    }
+    
+    private func configurateBackgroundColor() {
+        view.backgroundColor = .systemBackground
     }
     
     private func loadDailyBoxOfficeData() {
