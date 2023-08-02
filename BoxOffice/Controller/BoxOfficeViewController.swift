@@ -10,6 +10,7 @@ import UIKit
 @available(iOS 14.0, *)
 final class BoxOfficeViewController: UIViewController, URLSessionDelegate {
     private var networkingManager: NetworkingManager?
+    private var refreshControl = UIRefreshControl()
     private var dataSource: UICollectionViewDiffableDataSource<Section, BoxOfficeEntity.BoxOfficeResult.DailyBoxOffice>?
     
     private let collectionView: UICollectionView = {
@@ -54,6 +55,9 @@ final class BoxOfficeViewController: UIViewController, URLSessionDelegate {
     private func configureUI() {
         let safeArea = view.safeAreaLayoutGuide
         collectionView.register(BoxOfficeRankingCell.self, forCellWithReuseIdentifier: "cell")
+        collectionView.refreshControl = refreshControl
+        refreshControl.addTarget(self, action: #selector(refresh), for: .valueChanged)
+        
         view.backgroundColor = .systemBackground
         view.addSubview(collectionView)
         view.addSubview(indicatorView)
@@ -113,6 +117,11 @@ final class BoxOfficeViewController: UIViewController, URLSessionDelegate {
                 print(error.description)
             }
         }
+    }
+    
+    @objc private func refresh() {
+        fetchData()
+        refreshControl.endRefreshing()
     }
     
     private func setUpNetwork() {
