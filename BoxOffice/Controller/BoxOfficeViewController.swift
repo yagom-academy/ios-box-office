@@ -111,3 +111,4 @@ enum Section {
     case boxOffice
     case movieDetail
 }
+

@@ -59,7 +59,7 @@ class BoxOfficeRankingCell: UICollectionViewListCell {
         fatalError("init(coder:) has not been implemented")
     }
     
-    func configureUI() {
+    private func configureUI() {
         stackView.addArrangedSubview(movieNameLabel)
         stackView.addArrangedSubview(audienceLabel)
         contentView.addSubview(rankLabel)
@@ -81,10 +81,17 @@ class BoxOfficeRankingCell: UICollectionViewListCell {
         ])
     }
     
-    func setUpLabelText(_ data: BoxOfficeEntity.BoxOfficeResult.DailyBoxOffice) {
+    private func setUpLabelText(_ data: BoxOfficeEntity.BoxOfficeResult.DailyBoxOffice) {
         rankLabel.text = "\(data.rank)"
         rankIntensityLabel.text = "\(data.rankIntensity)"
         movieNameLabel.text = data.movieName
-        audienceLabel.text = "오늘 \(data.audienceCount) / 총 \(data.audienceAccumulate)"
+        audienceLabel.text = "오늘 \(numberFormatter(data.audienceCount)) / 총 \(numberFormatter(data.audienceAccumulate))"
+    }
+    
+    private func numberFormatter(_ data: String) -> String {
+        let intData = Int(data) ?? 0
+        let numberFormatter = NumberFormatter()
+        numberFormatter.numberStyle = .decimal
+        return numberFormatter.string(for: NSNumber(value: intData)) ?? data
     }
 }
