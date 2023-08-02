@@ -17,12 +17,12 @@ final class ViewController: UIViewController {
         let layout = UICollectionViewFlowLayout()
         layout.scrollDirection = .vertical
         layout.itemSize = CGSize(width: view.frame.width, height: 63)
-        layout.minimumLineSpacing = 1
+        layout.minimumLineSpacing = -1
         
         let collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
         collectionView.translatesAutoresizingMaskIntoConstraints = false
         collectionView.register(BoxOfficeCell.self, forCellWithReuseIdentifier: BoxOfficeCell.identifier)
-        collectionView.backgroundColor = .init(displayP3Red: 0.9, green: 0.9, blue: 0.9, alpha: 0.5)
+        collectionView.backgroundColor = .systemBackground
         
         return collectionView
     }()
