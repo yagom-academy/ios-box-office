@@ -5,11 +5,9 @@
 //  Created by EtialMoon, Minsup on 2023/07/31.
 //
 
-
-
 import SwiftUI
 
-final class BoxOfficeCollectionViewCell: UICollectionViewCell, Reusable {
+final class BoxOfficeCollectionViewCell: UICollectionViewListCell, Reusable {
     private let rankLabel: UILabel = {
         let label = UILabel()
         label.text = "1"
@@ -28,7 +26,8 @@ final class BoxOfficeCollectionViewCell: UICollectionViewCell, Reusable {
     
     private let movieNameLabel: UILabel = {
         let label = UILabel()
-        label.text = "경관의 피"
+        label.text = "경관의 피asdfasdfasdfasdfaasdffeqwef\nasdf"
+        label.numberOfLines = 0
         label.font = UIFont.preferredFont(forTextStyle: .title2)
         label.adjustsFontForContentSizeCategory = true
         return label
@@ -54,6 +53,8 @@ extension BoxOfficeCollectionViewCell {
         [rankLabel, rankVariationLabel, movieNameLabel, audienceNumberLabel].forEach {
             addSubview($0)
         }
+        
+        accessories = [.disclosureIndicator()]
     }
 }
 
@@ -64,6 +65,11 @@ extension BoxOfficeCollectionViewCell {
         rankVariationLabelConstraints()
         movieNameLabelConstraints()
         audienceNumberLabelConstraints()
+        separatorConstraints()
+    }
+    
+    private func separatorConstraints() {
+        separatorLayoutGuide.leadingAnchor.constraint(equalTo: leadingAnchor).isActive = true
     }
     
     private func rankLabelConstraints() {
@@ -78,7 +84,8 @@ extension BoxOfficeCollectionViewCell {
         rankVariationLabel.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([
             rankVariationLabel.topAnchor.constraint(equalTo: rankLabel.bottomAnchor),
-            rankVariationLabel.centerXAnchor.constraint(equalTo: rankLabel.centerXAnchor)
+            rankVariationLabel.centerXAnchor.constraint(equalTo: rankLabel.centerXAnchor),
+            rankVariationLabel.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -12)
         ])
     }
     
@@ -86,7 +93,9 @@ extension BoxOfficeCollectionViewCell {
         movieNameLabel.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([
             movieNameLabel.leadingAnchor.constraint(equalTo: rankLabel.trailingAnchor, constant: 24),
-            movieNameLabel.centerYAnchor.constraint(equalTo: rankLabel.centerYAnchor)
+            movieNameLabel.trailingAnchor.constraint(equalTo: trailingAnchor),
+            movieNameLabel.centerYAnchor.constraint(equalTo: rankLabel.centerYAnchor),
+            movieNameLabel.topAnchor.constraint(greaterThanOrEqualTo: topAnchor, constant: 8)
         ])
     }
     
@@ -94,7 +103,8 @@ extension BoxOfficeCollectionViewCell {
         audienceNumberLabel.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([
             audienceNumberLabel.leadingAnchor.constraint(equalTo: movieNameLabel.leadingAnchor),
-            audienceNumberLabel.topAnchor.constraint(equalTo: movieNameLabel.bottomAnchor, constant: 4)
+            audienceNumberLabel.topAnchor.constraint(equalTo: movieNameLabel.bottomAnchor, constant: 4),
+            audienceNumberLabel.bottomAnchor.constraint(lessThanOrEqualTo: bottomAnchor, constant: -8)
         ])
     }
 }
