@@ -7,10 +7,11 @@
 
 import UIKit
 
-class ViewController: UIViewController {
-
+class MainViewController: UIViewController {
     
     @IBOutlet weak var collectionView: UICollectionView!
+    
+    var boxOffice: BoxOffice?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -18,15 +19,30 @@ class ViewController: UIViewController {
         collectionView.dataSource = self
         collectionView.delegate = self
         registerCustomCell()
+        callAPIManager()
     }
     
     func registerCustomCell() {
         collectionView.register(UINib(nibName: "CollectionViewCell", bundle: nil),
                                 forCellWithReuseIdentifier: "cell")
     }
+    
+    func callAPIManager() {
+        APIManager().fetchData(service: .dailyBoxOffice) { [weak self] result in
+            let jsonDecoder = JSONDecoder()
+            switch result {
+            case .success(let data):
+                if let decodedData: BoxOffice = jsonDecoder.decodeJSON(data: data) {
+                    self?.boxOffice = decodedData
+                }
+            case .failure(let error):
+                print(error)
+            }
+        }
+    }
 }
 
-extension ViewController: UICollectionViewDataSource {
+extension MainViewController: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return 10
     }
@@ -38,6 +54,6 @@ extension ViewController: UICollectionViewDataSource {
     }
 }
 
-extension ViewController: UICollectionViewDelegate {
+extension MainViewController: UICollectionViewDelegate {
     
 }
