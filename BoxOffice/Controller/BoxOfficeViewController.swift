@@ -20,9 +20,30 @@ final class BoxOfficeViewController: UIViewController, URLSessionDelegate {
         
         return view
     }()
+    
+    private let indicatorView: UIActivityIndicatorView = {
+        let indicatorView = UIActivityIndicatorView()
+        indicatorView.style = .large
+        indicatorView.translatesAutoresizingMaskIntoConstraints = false
+        
+        return indicatorView
+    }()
+    
+    private var isLoading: Bool = true {
+        willSet(newValue) {
+            if newValue == true {
+                indicatorView.isHidden = false
+                indicatorView.startAnimating()
+            } else {
+                indicatorView.isHidden = true
+                indicatorView.stopAnimating()
+            }
+        }
+    }
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        isLoading = true
         setUpDate()
         configureUI()
         setUpNetwork()
@@ -35,12 +56,15 @@ final class BoxOfficeViewController: UIViewController, URLSessionDelegate {
         collectionView.register(BoxOfficeRankingCell.self, forCellWithReuseIdentifier: "cell")
         view.backgroundColor = .systemBackground
         view.addSubview(collectionView)
+        view.addSubview(indicatorView)
         
         NSLayoutConstraint.activate([
             collectionView.topAnchor.constraint(equalTo: safeArea.topAnchor),
-            collectionView.leftAnchor.constraint(equalTo: safeArea.leftAnchor),
-            collectionView.rightAnchor.constraint(equalTo: safeArea.rightAnchor),
-            collectionView.bottomAnchor.constraint(equalTo: safeArea.bottomAnchor)
+            collectionView.leadingAnchor.constraint(equalTo: safeArea.leadingAnchor),
+            collectionView.trailingAnchor.constraint(equalTo: safeArea.trailingAnchor),
+            collectionView.bottomAnchor.constraint(equalTo: safeArea.bottomAnchor),
+            indicatorView.centerXAnchor.constraint(equalTo: safeArea.centerXAnchor),
+            indicatorView.centerYAnchor.constraint(equalTo: safeArea.centerYAnchor)
         ])
     }
     
@@ -80,6 +104,10 @@ final class BoxOfficeViewController: UIViewController, URLSessionDelegate {
                 }
                 
                 self?.setUpDataSnapshot(decodedData.boxOfficeResult.dailyBoxOfficeList)
+                
+                DispatchQueue.main.async {
+                    self?.isLoading = false
+                }
                 
             case .failure(let error):
                 print(error.description)
