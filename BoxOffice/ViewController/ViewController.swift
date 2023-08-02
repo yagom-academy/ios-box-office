@@ -61,3 +61,23 @@ final class ViewController: UIViewController {
         }
     }
 }
+
+// MARK: - CollectionView DataSource
+extension ViewController: UICollectionViewDataSource {
+    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        boxOffice?.boxOfficeResult.dailyBoxOfficeList.count ?? 0
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: BoxOfficeCell.identifier, for: indexPath) as? BoxOfficeCell else {
+            return UICollectionViewCell()
+        }
+
+        return cell
+    }
+}
+
+// MARK: CollectionView Delegate
+extension ViewController: UICollectionViewDelegate {
+
+}
