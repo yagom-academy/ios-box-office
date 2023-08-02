@@ -179,6 +179,7 @@
 				CD1AFC1B2A6E776F001C50A7 /* View */,
 				45174D702A71F0EF009EEA9F /* Extension */,
 				4541D5912A735D2B00E6D276 /* Error */,
+				CDCCAEA12A79E420008811C3 /* NetWork */,
 				CDDD7B042A70C0A000F471C8 /* Util */,
 				CD1AFC1F2A6E778C001C50A7 /* Resource */,
 			);
@@ -207,7 +208,6 @@
 				45174D6B2A70F5B3009EEA9F /* TestDouble */,
 				45174D592A70B0DF009EEA9F /* Entity */,
 				CD23029A2A78B6D6003B654C /* FormatManager.swift */,
-				CDDD7B022A70B8C700F471C8 /* NetworkManager.swift */,
 				452A30C22A789A980011C739 /* BoxOfficeManager.swift */,
 			);
 			path = Model;
@@ -246,6 +246,14 @@
 				CD23029D2A78F2E5003B654C /* DailyBoxOfficeData.swift */,
 			);
 			path = DTO;
+			sourceTree = "<group>";
+		};
+		CDCCAEA12A79E420008811C3 /* NetWork */ = {
+			isa = PBXGroup;
+			children = (
+				CDDD7B022A70B8C700F471C8 /* NetworkManager.swift */,
+			);
+			path = NetWork;
 			sourceTree = "<group>";
 		};
 		CDDD7B042A70C0A000F471C8 /* Util */ = {
