@@ -43,9 +43,10 @@
 - 제네릭 DecodeJSON() 메서드 생성
 
 ### 2023.07.31.(월)
-
+- APIError 타입 구현
+- Result 타입으로 completion의 작업 완료를 분기처리
 ### 2023.08.01.(화)
-
+- if let 으로 completion(error)처리
 ### 2023.08.02.(수)
 
 ### 2023.08.03.(목)
@@ -158,6 +159,25 @@ var request = URLRequest(url: url)
 
 <br>
 
+### **<의존도 이슈>**
+
+🤯 **문제상황** 
+`APIManager` 타입에는 API 서버와 통신하여 데이터를 가져올 수 있도록 `session`을 생성하여 `DataTask`를 수행하고 `Completion Handler`로 비동기적으로 처리를 해주는 `fetchData()` 메서드가 있습니다. 기존에는 completion의 작업 완료 이후에 해당 메서드 안에서 바로 Decode를 해주었으나 `APIManger`라는 타입의 핵심 기능과는 다소 거리가 있고 한 타입에 여러 기능을 갖고 있게 되면 의존성이 지나치게 되어 `DIP`원칙에도 어긋나고 유지보수 측면에서도 어려움이 생길 수 있다고 생각했습니다.
+
+🔥 **해결방법**
+디코딩을 처리해주는 기능은 `JSONDecoder`타입으로 `APIManager`타입과 따로 분리하고 `decodeJSON()`메서드로 구현하며 확장성을 높임과 동시에 결합도를 낮추도록 하였습니다.
+```Swift
+extension JSONDecoder {
+    func decodeJSON<T: Decodable>(data: Data) -> T? {
+        do {
+            let decodedData = try self.decode(T.self, from: data)
+            return decodedData
+        } catch {
+            return nil
+        }
+    }
+}
+```
 
 ## 😀 미해결 문제
 ### **<>**
