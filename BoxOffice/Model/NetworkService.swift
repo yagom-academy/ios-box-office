@@ -7,10 +7,10 @@
 
 import Foundation
 
-class NetworkService {
+final class NetworkService {
     typealias NetworkResult = (Result<Data, NetworkError>) -> Void
     
-    let session: URLSessionProtocol
+    private let session: URLSessionProtocol
     
     init(session: URLSessionProtocol = URLSession.shared) {
         self.session = session
