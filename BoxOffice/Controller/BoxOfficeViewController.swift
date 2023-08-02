@@ -8,19 +8,9 @@
 import UIKit
 
 @available(iOS 14.0, *)
-final class BoxOfficeViewController: UIViewController {
-    private lazy var dataSource: UICollectionViewDiffableDataSource<Section, BoxOfficeEntity.BoxOfficeResult.DailyBoxOffice> = {
-        let dataSource = UICollectionViewDiffableDataSource<Section, BoxOfficeEntity.BoxOfficeResult.DailyBoxOffice>(collectionView: self.collectionView) { (collectionView, indexPath, data) -> UICollectionViewCell? in
-            guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "cell", for: indexPath) as? BoxOfficeRankingCell else {
-                return UICollectionViewCell()
-            }
-            cell.setUpLabelText(data)
-            cell.accessories = [.outlineDisclosure(options: .init(tintColor: .systemGray))]
-            return cell
-        }
-        
-        return dataSource
-    }()
+final class BoxOfficeViewController: UIViewController, URLSessionDelegate {
+    private var networkingManager: NetworkingManager?
+    private var dataSource: UICollectionViewDiffableDataSource<Section, BoxOfficeEntity.BoxOfficeResult.DailyBoxOffice>?
     
     private let collectionView: UICollectionView = {
         let configuration = UICollectionLayoutListConfiguration(appearance: .plain)
@@ -34,11 +24,14 @@ final class BoxOfficeViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         configureUI()
+        setUpNetwork()
+        setUpDataSource()
+        fetchData()
     }
     
     private func configureUI() {
         let safeArea = view.safeAreaLayoutGuide
-        
+        collectionView.register(BoxOfficeRankingCell.self, forCellWithReuseIdentifier: "cell")
         view.backgroundColor = .systemBackground
         view.addSubview(collectionView)
         
@@ -54,7 +47,44 @@ final class BoxOfficeViewController: UIViewController {
         var snapshot = NSDiffableDataSourceSnapshot<Section, BoxOfficeEntity.BoxOfficeResult.DailyBoxOffice>()
         snapshot.appendSections([.boxOffice])
         snapshot.appendItems(data)
-        dataSource.apply(snapshot)
+        dataSource?.apply(snapshot)
+    }
+    
+    private func fetchData() {
+        let url = String(format: URLNamespace.boxOffice, URLNamespace.apiKey, "20230801")
+        
+        networkingManager?.load(url) { [weak self] (result: Result<Data, NetworkingError>) in
+            switch result {
+            case .success(let data):
+                guard let decodedData: BoxOfficeEntity = DecodingManager.shared.decode(data) else {
+                    return
+                }
+                
+                self?.setUpDataSnapshot(decodedData.boxOfficeResult.dailyBoxOfficeList)
+                
+            case .failure(let error):
+                print(error.description)
+            }
+        }
+    }
+    
+    private func setUpNetwork() {
+        let configuration = URLSessionConfiguration.default
+        configuration.waitsForConnectivity = true
+        let session = URLSession(configuration: configuration, delegate: self, delegateQueue: nil)
+        networkingManager = NetworkingManager(session)
+    }
+    
+    private func setUpDataSource() {
+        dataSource = UICollectionViewDiffableDataSource<Section, BoxOfficeEntity.BoxOfficeResult.DailyBoxOffice>(collectionView: self.collectionView) { (collectionView, indexPath, data) -> UICollectionViewCell? in
+            guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "cell", for: indexPath) as? BoxOfficeRankingCell else {
+                return UICollectionViewCell()
+            }
+            cell.setUpLabelText(data)
+            cell.accessories = [.outlineDisclosure(options: .init(tintColor: .systemGray))]
+            
+            return cell
+        }
     }
 }
 
