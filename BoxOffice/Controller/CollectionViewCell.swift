@@ -20,7 +20,7 @@ class CollectionViewCell: UICollectionViewCell {
     
     func configureFont() {
         rankNumberLabel.font = UIFont.systemFont(ofSize: 30)
-        rankInfoLabel.font = UIFont.systemFont(ofSize: 10)
+        rankInfoLabel.font = UIFont.systemFont(ofSize: 15)
         audiNumberLabel.font = UIFont.systemFont(ofSize: 15)
     }
     

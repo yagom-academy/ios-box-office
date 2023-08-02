@@ -8,7 +8,6 @@
 
 /* Begin PBXBuildFile section */
 		5D4FAA982A6E8604001FA74A /* BoxOfficeTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5D4FAA972A6E8604001FA74A /* BoxOfficeTests.swift */; };
-		5D4FAA9F2A6E8624001FA74A /* JSONDecodingHelperTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5D4FAA9E2A6E8624001FA74A /* JSONDecodingHelperTests.swift */; };
 		5D4FAAA12A6E88D3001FA74A /* box_office_sample.json in Resources */ = {isa = PBXBuildFile; fileRef = 5D4FAAA02A6E88D2001FA74A /* box_office_sample.json */; };
 		5DDFC3282A72628700135954 /* Movie.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5DDFC3272A72628700135954 /* Movie.swift */; };
 		5DDFC32A2A735C0100135954 /* APIService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5DDFC3292A735C0100135954 /* APIService.swift */; };
@@ -39,7 +38,6 @@
 /* Begin PBXFileReference section */
 		5D4FAA952A6E8604001FA74A /* BoxOfficeTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = BoxOfficeTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		5D4FAA972A6E8604001FA74A /* BoxOfficeTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BoxOfficeTests.swift; sourceTree = "<group>"; };
-		5D4FAA9E2A6E8624001FA74A /* JSONDecodingHelperTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JSONDecodingHelperTests.swift; sourceTree = "<group>"; };
 		5D4FAAA02A6E88D2001FA74A /* box_office_sample.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = box_office_sample.json; sourceTree = "<group>"; };
 		5DDFC3272A72628700135954 /* Movie.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Movie.swift; sourceTree = "<group>"; };
 		5DDFC3292A735C0100135954 /* APIService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIService.swift; sourceTree = "<group>"; };
@@ -80,7 +78,6 @@
 		5D4FAA962A6E8604001FA74A /* BoxOfficeTests */ = {
 			isa = PBXGroup;
 			children = (
-				5D4FAA9E2A6E8624001FA74A /* JSONDecodingHelperTests.swift */,
 				5D4FAA972A6E8604001FA74A /* BoxOfficeTests.swift */,
 			);
 			path = BoxOfficeTests;
@@ -286,7 +283,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				5D4FAA9F2A6E8624001FA74A /* JSONDecodingHelperTests.swift in Sources */,
 				5D4FAA982A6E8604001FA74A /* BoxOfficeTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
