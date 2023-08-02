@@ -80,4 +80,11 @@ class BoxOfficeRankingCell: UICollectionViewListCell {
             stackView.centerYAnchor.constraint(equalTo: contentView.centerYAnchor)
         ])
     }
+    
+    func setUpLabelText(_ data: BoxOfficeEntity.BoxOfficeResult.DailyBoxOffice) {
+        rankLabel.text = data.rank
+        rankIntensityLabel.text = data.rankIntensity
+        movieNameLabel.text = data.movieName
+        audienceLabel.text = "오늘 \(data.audienceCount) / 총 \(data.audienceAccumulate)"
+    }
 }

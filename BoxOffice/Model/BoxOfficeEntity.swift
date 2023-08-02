@@ -22,7 +22,7 @@ extension BoxOfficeEntity {
 }
 
 extension BoxOfficeEntity.BoxOfficeResult {
-    struct DailyBoxOffice: Decodable {
+    struct DailyBoxOffice: Decodable, Hashable {
         let resultNumber, rank, rankIntensity, rankOldAndNew, movieCode,
             movieName, openDate, salesAmount, salesShare, salesIntensity,
             salesChange, salesAccumulate, audienceCount, audienceIntensity,
