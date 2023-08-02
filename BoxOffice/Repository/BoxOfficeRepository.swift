@@ -14,9 +14,11 @@ protocol BoxOfficeRepository {
 
 final class BoxOfficeRepositoryImpl: BoxOfficeRepository {
     private let sessionProvider: URLSessionProvider
+    private let decoder: JSONDecoder
     
-    init(sessionProvider: URLSessionProvider) {
+    init(sessionProvider: URLSessionProvider, decoder: JSONDecoder = JSONDecoder()) {
         self.sessionProvider = sessionProvider
+        self.decoder = decoder
     }
     
     func fetchDailyBoxOffice(_ targetDate: String, _ completionHandler: @escaping (Result<BoxOfficeResult, APIError>) -> Void) {
@@ -27,8 +29,13 @@ final class BoxOfficeRepositoryImpl: BoxOfficeRepository {
         
         let requestURL = setUpRequestURL(BaseURL.boxOffice, BoxOfficeURLPath.daily, queryItems)
         
-        sessionProvider.requestData(requestURL) { (result: Result<BoxOfficeResult, APIError>) in
-            completionHandler(result)
+        sessionProvider.requestData(requestURL) { result in
+            switch result {
+            case .success(let data):
+                self.decoder.decodeResponseData(data, completionHandler)
+            case .failure(let error):
+                completionHandler(.failure(error))
+            }
         }
     }
     
@@ -40,8 +47,13 @@ final class BoxOfficeRepositoryImpl: BoxOfficeRepository {
         
         let requestURL = setUpRequestURL(BaseURL.boxOffice, BoxOfficeURLPath.movieDetail, queryItems)
         
-        sessionProvider.requestData(requestURL) { (result: Result<MovieDetailResult, APIError>) in
-            completionHandler(result)
+        sessionProvider.requestData(requestURL) { result in
+            switch result {
+            case .success(let data):
+                self.decoder.decodeResponseData(data, completionHandler)
+            case .failure(let error):
+                completionHandler(.failure(error))
+            }
         }
     }
 }
