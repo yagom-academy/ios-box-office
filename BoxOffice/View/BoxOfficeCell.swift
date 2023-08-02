@@ -25,7 +25,7 @@ final class BoxOfficeCell: UICollectionViewCell {
         let stackView = UIStackView()
         stackView.translatesAutoresizingMaskIntoConstraints = false
         stackView.axis = .horizontal
-        stackView.spacing = 8
+//        stackView.spacing = 8
         stackView.backgroundColor = .systemBackground
         
         return stackView
@@ -67,6 +67,13 @@ final class BoxOfficeCell: UICollectionViewCell {
         
         return label
     }()
+    
+    private let disclosureIndicatorLabel: UILabel = {
+        var label = UILabel()
+        label.text = "〉"
+        label.textColor = UIColor(displayP3Red: 0.8, green: 0.8, blue: 0.8, alpha: 1)
+        return label
+    }()
 }
 
 // MARK: - Constraints
@@ -83,6 +90,7 @@ extension BoxOfficeCell {
         
         informationStackView.addArrangedSubview(rankStackView)
         informationStackView.addArrangedSubview(detailLabel)
+        informationStackView.addArrangedSubview(disclosureIndicatorLabel)
         
         rankStackView.addArrangedSubview(rankLabel)
         rankStackView.addArrangedSubview(rankInformationLabel)
@@ -93,6 +101,7 @@ extension BoxOfficeCell {
         setUpInformationStackViewConstraints()
         setUpRankStackViewConstraints()
         setUpDetailLabelConstraints()
+        setUpDisclosureIndicatorImageConstraints()
     }
     
     private func setUpSeparatorLineViewConstraints() {
@@ -125,7 +134,15 @@ extension BoxOfficeCell {
         NSLayoutConstraint.activate([
             detailLabel.leadingAnchor.constraint(equalTo: informationStackView.trailingAnchor, constant: 4),
             detailLabel.centerYAnchor.constraint(equalTo: separatorLineView.centerYAnchor),
-            detailLabel.trailingAnchor.constraint(equalTo: separatorLineView.trailingAnchor, constant: -8)
+            detailLabel.trailingAnchor.constraint(equalTo: disclosureIndicatorLabel.leadingAnchor)
+        ])
+    }
+    
+    private func setUpDisclosureIndicatorImageConstraints() {
+        NSLayoutConstraint.activate([
+            disclosureIndicatorLabel.widthAnchor.constraint(equalTo: separatorLineView.widthAnchor, multiplier: 0.08),
+            disclosureIndicatorLabel.centerYAnchor.constraint(equalTo: detailLabel.centerYAnchor),
+            disclosureIndicatorLabel.trailingAnchor.constraint(equalTo: separatorLineView.trailingAnchor, constant: 8)
         ])
     }
 }
