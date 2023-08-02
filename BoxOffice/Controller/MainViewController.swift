@@ -18,6 +18,9 @@ class MainViewController: UIViewController {
         collectionView.delegate = self
         registerCustomCell()
         callAPIManager()
+        
+        collectionView.refreshControl = UIRefreshControl()
+        collectionView.refreshControl?.addTarget(self, action: #selector(updateCollectionView), for: .valueChanged)
     }
     
     private func registerCustomCell() {
@@ -25,10 +28,12 @@ class MainViewController: UIViewController {
                                 forCellWithReuseIdentifier: "cell")
     }
     
-    private func updateCollectionView() {
-        DispatchQueue.main.async {
+    @objc private func updateCollectionView() {
+        DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
             self.collectionView.reloadData()
+            self.collectionView.refreshControl?.endRefreshing()
         }
+        
     }
     
     private func callAPIManager() {
