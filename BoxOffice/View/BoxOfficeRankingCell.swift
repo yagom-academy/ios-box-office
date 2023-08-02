@@ -81,9 +81,9 @@ class BoxOfficeRankingCell: UICollectionViewListCell {
         ])
     }
     
-    private func setUpLabelText(_ data: BoxOfficeEntity.BoxOfficeResult.DailyBoxOffice) {
+    func setUpLabelText(_ data: BoxOfficeEntity.BoxOfficeResult.DailyBoxOffice) {
         rankLabel.text = "\(data.rank)"
-        rankIntensityLabel.text = "\(data.rankIntensity)"
+        rankIntensityLabel.attributedText = setUpRankIntensity(data.rankIntensity, isNew: data.rankOldAndNew == "NEW")
         movieNameLabel.text = data.movieName
         audienceLabel.text = "오늘 \(numberFormatter(data.audienceCount)) / 총 \(numberFormatter(data.audienceAccumulate))"
     }
@@ -93,5 +93,31 @@ class BoxOfficeRankingCell: UICollectionViewListCell {
         let numberFormatter = NumberFormatter()
         numberFormatter.numberStyle = .decimal
         return numberFormatter.string(for: NSNumber(value: intData)) ?? data
+    }
+    
+    private func setUpRankIntensity(_ rankIntensity: String, isNew: Bool) -> NSMutableAttributedString {
+        var fixedIntensity = ""
+        let intRankIntensity = Int(rankIntensity) ?? 0
+        
+        guard !isNew else {
+            rankIntensityLabel.textColor = .systemRed
+            return  NSMutableAttributedString(string: "신작")
+        }
+
+        if intRankIntensity == 0 {
+            fixedIntensity = "-"
+        } else if intRankIntensity > 0 {
+            fixedIntensity = "▲\(rankIntensity)"
+        } else {
+            fixedIntensity = "▼\(intRankIntensity * -1)"
+        }
+        
+        let attributedString = NSMutableAttributedString(string: fixedIntensity)
+        
+        attributedString.addAttribute(.foregroundColor, value: UIColor.systemRed, range: (fixedIntensity as NSString).range(of: "-"))
+        attributedString.addAttribute(.foregroundColor, value: UIColor.systemRed, range: (fixedIntensity as NSString).range(of: "▲"))
+        attributedString.addAttribute(.foregroundColor, value: UIColor.systemBlue, range: (fixedIntensity as NSString).range(of: "▼"))
+        
+        return attributedString
     }
 }

@@ -45,7 +45,7 @@ final class BoxOfficeViewController: UIViewController, URLSessionDelegate {
     }
     
     private func setUpDate() {
-        guard let yesterday = Calendar.current.date(byAdding: .day, value: -1, to: Date()) else {
+        guard let yesterday = Calendar.current.date(byAdding: .day, value: -2, to: Date()) else {
             return
         }
         
