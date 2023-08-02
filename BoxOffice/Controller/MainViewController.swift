@@ -10,6 +10,7 @@ import UIKit
 class MainViewController: UIViewController {
     @IBOutlet weak var collectionView: UICollectionView!
     var boxOffice: BoxOffice?
+    var dateProvider = DateProvider()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -25,7 +26,10 @@ class MainViewController: UIViewController {
     }
     
     private func configureTitle() {
-        self.navigationItem.title = "the Date"
+        guard let yesterday = dateProvider.updateYesterday(.viewTitle) else {
+            return
+        }
+        self.navigationItem.title = "\(yesterday)"
     }
     
     private func registerCustomCell() {

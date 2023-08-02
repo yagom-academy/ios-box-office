@@ -28,7 +28,7 @@ enum APIService {
     
     func configureURLSession(key: String, path: String) -> URL? {
         let dateProvider = DateProvider()
-        let targetDate = dateProvider.updateYesterday()
+        let targetDate = dateProvider.updateYesterday(.urlDate)
         var urlComponents = URLComponents()
         
         urlComponents.scheme = "https"
