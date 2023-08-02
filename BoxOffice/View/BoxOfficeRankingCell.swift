@@ -67,17 +67,20 @@ class BoxOfficeRankingCell: UICollectionViewListCell {
         contentView.addSubview(stackView)
         
         NSLayoutConstraint.activate([
-            rankLabel.topAnchor.constraint(equalTo: contentView.topAnchor),
+            rankLabel.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 10),
             rankLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
+            rankLabel.widthAnchor.constraint(equalTo: contentView.widthAnchor, multiplier: 0.3),
             
             rankIntensityLabel.widthAnchor.constraint(equalTo: rankLabel.widthAnchor),
             rankIntensityLabel.topAnchor.constraint(equalTo: rankLabel.bottomAnchor),
             rankIntensityLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
-            rankIntensityLabel.bottomAnchor.constraint(equalTo: contentView.bottomAnchor),
+            rankIntensityLabel.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -10),
             
             stackView.leadingAnchor.constraint(equalTo: rankLabel.trailingAnchor),
-            stackView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
-            stackView.centerYAnchor.constraint(equalTo: contentView.centerYAnchor)
+            stackView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -20),
+            stackView.centerYAnchor.constraint(equalTo: contentView.centerYAnchor),
+            
+            self.separatorLayoutGuide.leadingAnchor.constraint(equalTo: rankLabel.leadingAnchor)
         ])
     }
     
