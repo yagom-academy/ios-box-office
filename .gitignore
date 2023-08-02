@@ -4,7 +4,6 @@
 .xcworkspace/
 .xcodeproj/
 xcuserdata/
-*.xcconfig
 
 # Xcode scheme management
 xcschememanagement.plist

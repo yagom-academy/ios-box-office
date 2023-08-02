@@ -78,6 +78,7 @@
 		CD24DE732A77AF2C0076442B /* BoxOfficeCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BoxOfficeCollectionViewCell.swift; sourceTree = "<group>"; };
 		CD8564402A736C1500B5EFF8 /* URL+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "URL+.swift"; sourceTree = "<group>"; };
 		CDCCAEA22A79E44B008811C3 /* DataManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataManager.swift; sourceTree = "<group>"; };
+		CDCCAEA42A79ED04008811C3 /* API_KEY.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = API_KEY.xcconfig; sourceTree = "<group>"; };
 		CDDD7B022A70B8C700F471C8 /* NetworkManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkManager.swift; sourceTree = "<group>"; };
 		CDDD7B092A70C0FF00F471C8 /* Path.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Path.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -234,6 +235,7 @@
 				63DF20F72970E1A1005DF7D1 /* Assets.xcassets */,
 				63DF20F92970E1A1005DF7D1 /* LaunchScreen.storyboard */,
 				63DF20FC2970E1A1005DF7D1 /* Info.plist */,
+				CDCCAEA42A79ED04008811C3 /* API_KEY.xcconfig */,
 			);
 			path = Resource;
 			sourceTree = "<group>";
