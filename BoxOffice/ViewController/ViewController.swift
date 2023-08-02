@@ -12,6 +12,16 @@ final class ViewController: UIViewController {
     private var boxOffice: BoxOffice?
     private var movie: Movie?
     
+    // MARK: - CollecionView Configuratoin
+    private lazy var collectionView: UICollectionView = {
+        let layout = UICollectionViewFlowLayout()
+        layout.scrollDirection = .vertical
+        layout.itemSize = CGSize(width: view.frame.width, height: 100)
+        let collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
+        collectionView.register(BoxOfficeCell.self, forCellWithReuseIdentifier: BoxOfficeCell.identifier)
+        return collectionView
+    }()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -51,4 +61,3 @@ final class ViewController: UIViewController {
         }
     }
 }
-
