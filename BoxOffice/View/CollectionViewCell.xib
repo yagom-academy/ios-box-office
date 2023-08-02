@@ -65,7 +65,7 @@
                 </subviews>
             </view>
             <viewLayoutGuide key="safeArea" id="0yV-ca-rU4"/>
-            <color key="backgroundColor" systemColor="systemGreenColor"/>
+            <color key="backgroundColor" systemColor="systemBackgroundColor"/>
             <size key="customSize" width="610" height="146"/>
             <connections>
                 <outlet property="audiNumberLabel" destination="J3E-7H-nhy" id="zVT-q3-7dC"/>
@@ -77,8 +77,8 @@
         </collectionViewCell>
     </objects>
     <resources>
-        <systemColor name="systemGreenColor">
-            <color red="0.20392156862745098" green="0.7803921568627451" blue="0.34901960784313724" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        <systemColor name="systemBackgroundColor">
+            <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
         </systemColor>
     </resources>
 </document>

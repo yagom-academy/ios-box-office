@@ -18,9 +18,14 @@ class MainViewController: UIViewController {
         collectionView.delegate = self
         registerCustomCell()
         callAPIManager()
+        configureTitle()
         
         collectionView.refreshControl = UIRefreshControl()
         collectionView.refreshControl?.addTarget(self, action: #selector(updateCollectionView), for: .valueChanged)
+    }
+    
+    private func configureTitle() {
+        self.navigationItem.title = "the Date"
     }
     
     private func registerCustomCell() {
@@ -73,5 +78,9 @@ extension MainViewController: UICollectionViewDataSource {
 }
 
 extension MainViewController: UICollectionViewDelegate {
-    
+    func collectionView(_ collectionView: UICollectionView, didDeselectItemAt indexPath: IndexPath) {
+        guard let pushMovieDetailVC = self.storyboard?.instantiateViewController(withIdentifier: "MovieDetailViewController") else { return }
+        
+        self.navigationController?.pushViewController(pushMovieDetailVC, animated: true)
+    }
 }
