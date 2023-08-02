@@ -17,20 +17,23 @@ enum DataManager {
             
             let dailyAndTotalAudience = "오늘 \(decimalAudienceCount) / 총 \(decimalaudienceAccumulation)"
             var rankState = ""
+            var rankStateColor: RankStateColor
             
             if $0.rankOldAndNew == "NEW" {
                 rankState = "신작"
+                rankStateColor = ("신작", .systemRed)
             } else if $0.rankIntensity == "0" {
                 rankState = "0"
+                rankStateColor = ("0", .black)
             } else if $0.rankIntensity.contains("-") {
-                var rankIntensity = $0.rankIntensity
-                rankIntensity.removeFirst()
-                rankState = "▼" + rankIntensity
+                rankState = $0.rankIntensity.replacingOccurrences(of: "-", with: "▼")
+                rankStateColor = ("▼", .systemBlue)
             } else {
                 rankState = "▲" + $0.rankIntensity
+                rankStateColor = ("▲", .systemRed)
             }
             
-            return DailyBoxOfficeData(rank: $0.rank, rankState: rankState, movieTitle: $0.movieName, dailyAndTotalAudience: dailyAndTotalAudience)
+            return DailyBoxOfficeData(rank: $0.rank, rankState: rankState, movieTitle: $0.movieName, dailyAndTotalAudience: dailyAndTotalAudience, rankStateColor: rankStateColor)
         }
     }
 }

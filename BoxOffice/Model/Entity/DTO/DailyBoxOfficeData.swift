@@ -14,14 +14,5 @@ struct DailyBoxOfficeData {
     let rankState: String
     let movieTitle: String
     let dailyAndTotalAudience: String
-    
-    var rankStateColor: RankStateColor {
-        if rankState == "신작" {
-            return ("신작", .systemRed)
-        } else if rankState.contains("▼") {
-            return ("▼", .systemBlue)
-        } else {
-            return ("▲", .systemRed)
-        }
-    }
+    let rankStateColor: RankStateColor
 }
