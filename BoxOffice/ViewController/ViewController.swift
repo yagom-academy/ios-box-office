@@ -12,28 +12,47 @@ final class ViewController: UIViewController {
     private var boxOffice: BoxOffice?
     private var movie: Movie?
     
-    // MARK: - CollecionView Configuratoin
+    // MARK: - CollectionView Configuration
     private lazy var collectionView: UICollectionView = {
         let layout = UICollectionViewFlowLayout()
         layout.scrollDirection = .vertical
         layout.itemSize = CGSize(width: view.frame.width, height: 100)
+        
         let collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
         collectionView.register(BoxOfficeCell.self, forCellWithReuseIdentifier: BoxOfficeCell.identifier)
+        
         return collectionView
     }()
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        configurateBackgroundColor()
+        configureBackgroundColor()
+        configureCollectionView()
+        setUpCollectionViewConstraints()
         
         loadDailyBoxOfficeData()
     }
     
-    private func configurateBackgroundColor() {
+    // MARK: - UI Configuration
+    private func configureBackgroundColor() {
         view.backgroundColor = .systemBackground
     }
     
+    private func configureCollectionView() {
+        view.addSubview(collectionView)
+    }
+    
+    private func setUpCollectionViewConstraints() {
+        NSLayoutConstraint.activate([
+            collectionView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor),
+            collectionView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor),
+            collectionView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
+            collectionView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor)
+        ])
+    }
+    
+    // MARK: - Load Data
     private func loadDailyBoxOfficeData() {
         boxOfficeService.loadDailyBoxOfficeData(fetchBoxOffice)
     }
