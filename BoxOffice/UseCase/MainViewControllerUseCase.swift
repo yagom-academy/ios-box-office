@@ -49,17 +49,13 @@ final class MainViewControllerUseCaseImpl: MainViewControllerUseCase {
 //MARK: - Private
 extension MainViewControllerUseCaseImpl {
     private func setUpMovieInformationDTOList(_ dailyBoxOfficeMovieInformationList: [MovieInformation]) -> [MovieInformationDTO] {
-        var movieInformationDTOList = [MovieInformationDTO]()
-        
-        dailyBoxOfficeMovieInformationList.forEach {
-            let movieInformationDTO = MovieInformationDTO(rank: $0.rank,
-                                                          rankInten: $0.rankInten,
-                                                          OldAndNew: $0.rankOldAndNew,
-                                                          movieName: $0.movieName,
-                                                          audienceCount: $0.audienceCount,
-                                                          audienceAccumulate: $0.audienceAccumulate)
-            
-            movieInformationDTOList.append(movieInformationDTO)
+        let movieInformationDTOList = dailyBoxOfficeMovieInformationList.map { movieInformation in
+            MovieInformationDTO(rank: movieInformation.rank,
+                                rankInten: movieInformation.rankInten,
+                                OldAndNew: movieInformation.rankOldAndNew,
+                                movieName: movieInformation.movieName,
+                                audienceCount: movieInformation.audienceCount,
+                                audienceAccumulate: movieInformation.audienceAccumulate)
         }
         
         return movieInformationDTOList

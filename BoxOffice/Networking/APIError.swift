@@ -14,7 +14,6 @@ enum APIError: LocalizedError {
     case decodingFail
     case invalidHTTPStatusCode
     
-    
     var errorDescription: String? {
         switch self {
         case .invalidURL:
