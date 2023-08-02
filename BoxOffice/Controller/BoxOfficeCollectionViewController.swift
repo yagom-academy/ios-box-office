@@ -8,26 +8,36 @@
 import SwiftUI
 
 class BoxOfficeCollectionViewController: UICollectionViewController {
-    let navigationBarDateFormatter: DateFormatter = {
-        let dateFormatter = DateFormatter()
-        dateFormatter.dateFormat = "YYYY-MM-dd"
-        return dateFormatter
-    }()
-    let boxOfficeDateFormatter: DateFormatter = {
-        let dateFormatter = DateFormatter()
-        dateFormatter.dateFormat = "YYYYMMdd"
-        return dateFormatter
-    }()
+    var boxOfficeItems: [BoxOfficeItem] = []
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        configureNavigation()
         registerCell()
         configureCompositionalLayout()
-        navigationItem.title = getYesterday(dateFormatter: navigationBarDateFormatter)
+        fetchBoxOfficeitems()
+    }
+    
+    private func fetchBoxOfficeitems() {
+        Task {
+            do {
+                let boxOffice: BoxOffice = try await NetworkManager.fetchData(fetchType: .boxOffice(date: Date.yesterday.networkFormat))
+                self.boxOfficeItems = boxOffice.boxOfficeResult.boxOfficeItems
+                
+                collectionView.reloadData()
+            } catch {
+                //TODO: 알럿띄우기
+            }
+            
+        }
     }
     
     private func registerCell() {
         collectionView.register(BoxOfficeCollectionViewCell.self, forCellWithReuseIdentifier: BoxOfficeCollectionViewCell.identifier)
+    }
+    
+    private func configureNavigation() {
+        navigationItem.title = Date.yesterday.navigationFormat
     }
     
     private func configureCompositionalLayout() {
@@ -36,26 +46,6 @@ class BoxOfficeCollectionViewController: UICollectionViewController {
         
         collectionView.collectionViewLayout = layout
     }
-    
-    func getYesterday(dateFormatter: DateFormatter) -> String {
-        let today = Date()
-        let todayYear = Calendar.current.dateComponents([.year], from: today)
-        let todayMonth = Calendar.current.dateComponents([.month], from: today)
-        let todayDay = Calendar.current.dateComponents([.day], from: today)
-        
-        guard let year = todayYear.year,
-              let month = todayMonth.month,
-              let day = todayDay.day else {
-            return "날짜를 알 수 없습니다."
-        }
-        
-        let yesterdayComponents = DateComponents(year: year, month: month, day: day - 1)
-        guard let yesterday = Calendar.current.date(from: yesterdayComponents) else {
-            return "날짜를 알 수 없습니다."
-        }
-        
-        return dateFormatter.string(from: yesterday)
-    }
 }
 
 // MARK: - DataSource
@@ -63,19 +53,14 @@ extension BoxOfficeCollectionViewController {
     override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: BoxOfficeCollectionViewCell.identifier, for: indexPath) as! BoxOfficeCollectionViewCell
         
-        cell.configureCell()
+        let boxOfficeItem = boxOfficeItems[indexPath.row]
+        
+        cell.configureCell(boxOfficeItem: boxOfficeItem)
         
         return cell
     }
     
     override func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return 10
-    }
-}
-
-// MARK: - Preview
-struct BoxOfficeCollectionViewPreview: PreviewProvider {
-    static var previews: some View {
-        BoxOfficeCollectionViewController().toPreview()
+        return boxOfficeItems.count
     }
 }
