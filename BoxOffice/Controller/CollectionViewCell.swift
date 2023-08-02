@@ -48,18 +48,15 @@ class CollectionViewCell: UICollectionViewCell {
         if dailyBoxOffice.rankOldAndNew == "NEW" {
             rankInfoLabel.textColor = .red
             rankInfoLabel.text = "신작"
-        }
-        
-        if dailyBoxOffice.rankInten == "0" {
+        } else if let rankInten = Int(dailyBoxOffice.rankInten),
+                  let arrow = Arrow(rawValue: rankInten > 0 ? "▲" : "▼") {
+            let rankIntenString = "\(arrow.rawValue)\(abs(rankInten))"
+            let attributedString = NSMutableAttributedString(string: rankIntenString)
+            let range = (rankIntenString as NSString).range(of: arrow.rawValue)
+            attributedString.addAttribute(.foregroundColor, value: arrow.color, range: range)
+            rankInfoLabel.attributedText = attributedString
+        } else {
             rankInfoLabel.text = "-"
-        } else if let rankInten = Int(dailyBoxOffice.rankInten) {
-            if let arrow = Arrow(rawValue: rankInten > 0 ? "▲" : "▼") {
-                let rankIntenString = "\(arrow.rawValue)\(abs(rankInten))"
-                let attributedString = NSMutableAttributedString(string: rankIntenString)
-                let range = (rankIntenString as NSString).range(of: arrow.rawValue)
-                attributedString.addAttribute(.foregroundColor, value: arrow.color, range: range)
-                rankInfoLabel.attributedText = attributedString
-            }
         }
     }
 }
