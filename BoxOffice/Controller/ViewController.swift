@@ -9,12 +9,21 @@ import UIKit
 
 class ViewController: UIViewController {
 
+    
+    @IBOutlet weak var collectionView: UICollectionView!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        collectionView.dataSource = self
+        collectionView.delegate = self
+        registerCustomCell()
     }
-
-
+    
+    func registerCustomCell() {
+        collectionView.register(UINib(nibName: "CollectionViewCell", bundle: nil),
+                                forCellWithReuseIdentifier: "cell")
+    }
 }
 
 extension ViewController: UICollectionViewDataSource {
