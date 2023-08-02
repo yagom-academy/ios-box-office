@@ -13,9 +13,9 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     func scene(_ scene: UIScene, willConnectTo session: UISceneSession, options connectionOptions: UIScene.ConnectionOptions) {
         guard let windowScene = (scene as? UIWindowScene) else { return }
         
-        let sessionProvider: URLSessionProvider = URLSessionProviderImpl()
-        let boxOfficeRepository: BoxOfficeRepository = BoxOfficeRepositoryImpl(sessionProvider: sessionProvider)
-        var usecase: MainViewControllerUseCase = MainViewControllerUseCaseImpl(boxOfficeRepository: boxOfficeRepository)
+        let sessionProvider: URLSessionProvider = URLSessionProviderImplementation()
+        let boxOfficeRepository: BoxOfficeRepository = BoxOfficeRepositoryImplementation(sessionProvider: sessionProvider)
+        var usecase: MainViewControllerUseCase = MainViewControllerUseCaseImplementation(boxOfficeRepository: boxOfficeRepository)
         let mainViewController = MainViewController(usecase)
         
         usecase.delegate = mainViewController

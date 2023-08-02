@@ -13,7 +13,7 @@ protocol MainViewControllerUseCase {
     func fetchMovieDetailInformation(movieCode: String)
 }
 
-final class MainViewControllerUseCaseImpl: MainViewControllerUseCase {
+final class MainViewControllerUseCaseImplementation: MainViewControllerUseCase {
     private let boxOfficeRepository: BoxOfficeRepository
     weak var delegate: MainViewControllerUseCaseDelegate?
     
@@ -47,7 +47,7 @@ final class MainViewControllerUseCaseImpl: MainViewControllerUseCase {
 }
 
 //MARK: - Private
-extension MainViewControllerUseCaseImpl {
+extension MainViewControllerUseCaseImplementation {
     private func setUpMovieInformationDTOList(_ dailyBoxOfficeMovieInformationList: [MovieInformation]) -> [MovieInformationDTO] {
         let movieInformationDTOList = dailyBoxOfficeMovieInformationList.map { movieInformation in
             MovieInformationDTO(rank: movieInformation.rank,

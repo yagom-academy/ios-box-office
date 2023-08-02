@@ -11,7 +11,7 @@ protocol URLSessionProvider {
     func requestData(_ requestURL: URL?, _ completionHandler: @escaping (Result<Data, APIError>) -> Void)
 }
 
-final class URLSessionProviderImpl: URLSessionProvider {
+final class URLSessionProviderImplementation: URLSessionProvider {
     private var dataTask: URLSessionDataTask?
 
     func requestData(_ requestURL: URL?, _ completionHandler: @escaping (Result<Data, APIError>) -> Void) {

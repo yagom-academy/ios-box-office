@@ -12,7 +12,7 @@ protocol BoxOfficeRepository {
     func fetchMovieDetailInformation(_ movieCode: String, _ completionHandler: @escaping (Result<MovieDetailResult, APIError>) -> Void)
 }
 
-final class BoxOfficeRepositoryImpl: BoxOfficeRepository {
+final class BoxOfficeRepositoryImplementation: BoxOfficeRepository {
     private let sessionProvider: URLSessionProvider
     private let decoder: JSONDecoder
     
@@ -59,7 +59,7 @@ final class BoxOfficeRepositoryImpl: BoxOfficeRepository {
 }
 
 //MARK: - Private
-extension BoxOfficeRepositoryImpl {
+extension BoxOfficeRepositoryImplementation {
     private func setUpRequestURL(_ baseURL: String,_ path: String, _ queryItems: [String: Any]) -> URL? {
         guard var urlComponents = URLComponents(string: baseURL) else { return nil }
         
