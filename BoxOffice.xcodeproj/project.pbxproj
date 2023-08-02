@@ -15,6 +15,7 @@
 		452A30C32A789A980011C739 /* BoxOfficeManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 452A30C22A789A980011C739 /* BoxOfficeManager.swift */; };
 		4541D5932A735D4500E6D276 /* NetworkError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4541D5922A735D4500E6D276 /* NetworkError.swift */; };
 		4541D5972A73953A00E6D276 /* DataError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4541D5962A73953A00E6D276 /* DataError.swift */; };
+		4597F7EC2A79EA1500254BC4 /* UIAlertController+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4597F7EB2A79EA1500254BC4 /* UIAlertController+.swift */; };
 		63DF20EF2970E1A0005DF7D1 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63DF20EE2970E1A0005DF7D1 /* AppDelegate.swift */; };
 		63DF20F12970E1A0005DF7D1 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63DF20F02970E1A0005DF7D1 /* SceneDelegate.swift */; };
 		63DF20F32970E1A0005DF7D1 /* BoxOfficeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63DF20F22970E1A0005DF7D1 /* BoxOfficeViewController.swift */; };
@@ -59,6 +60,7 @@
 		452A30C22A789A980011C739 /* BoxOfficeManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BoxOfficeManager.swift; sourceTree = "<group>"; };
 		4541D5922A735D4500E6D276 /* NetworkError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkError.swift; sourceTree = "<group>"; };
 		4541D5962A73953A00E6D276 /* DataError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataError.swift; sourceTree = "<group>"; };
+		4597F7EB2A79EA1500254BC4 /* UIAlertController+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIAlertController+.swift"; sourceTree = "<group>"; };
 		63DF20EB2970E1A0005DF7D1 /* BoxOffice.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = BoxOffice.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		63DF20EE2970E1A0005DF7D1 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		63DF20F02970E1A0005DF7D1 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -138,6 +140,7 @@
 				45174D712A71F101009EEA9F /* URLSession+.swift */,
 				CD8564402A736C1500B5EFF8 /* URL+.swift */,
 				CD23029F2A78FC19003B654C /* UILabel+.swift */,
+				4597F7EB2A79EA1500254BC4 /* UIAlertController+.swift */,
 			);
 			path = Extension;
 			sourceTree = "<group>";
@@ -409,6 +412,7 @@
 				CD23029E2A78F2E5003B654C /* DailyBoxOfficeData.swift in Sources */,
 				45174D6D2A70F68E009EEA9F /* URLSessionProtocol.swift in Sources */,
 				452A30C32A789A980011C739 /* BoxOfficeManager.swift in Sources */,
+				4597F7EC2A79EA1500254BC4 /* UIAlertController+.swift in Sources */,
 				63DF20F32970E1A0005DF7D1 /* BoxOfficeViewController.swift in Sources */,
 				45174D722A71F101009EEA9F /* URLSession+.swift in Sources */,
 				4541D5972A73953A00E6D276 /* DataError.swift in Sources */,
