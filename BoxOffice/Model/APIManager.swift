@@ -10,9 +10,8 @@ import Foundation
 struct APIManager {
     func fetchData(service: APIService, completion: @escaping (Result<Data, Error>) -> Void) {
         let session = URLSession.shared
-        let jsonDecoder = JSONDecoder()
         
-        guard let url = URL(string: service.url) else {
+        guard let url = service.url else {
             print("Wrong URL")
             completion(.failure(APIError.wrongURL))
             return
