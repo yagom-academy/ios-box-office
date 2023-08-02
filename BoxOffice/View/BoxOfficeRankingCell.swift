@@ -2,7 +2,7 @@
 //  BoxOfficeRankingCell.swift
 //  BoxOffice
 //
-//  Created by 예찬 on 2023/08/02.
+//  Created by Yetti, Maxhyunm on 2023/08/02.
 //
 
 import UIKit
@@ -52,14 +52,14 @@ class BoxOfficeRankingCell: UICollectionViewListCell {
     
     override init(frame: CGRect) {
         super.init(frame: frame)
-        configureUI()
+        setUpUI()
     }
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
     
-    private func configureUI() {
+    private func setUpUI() {
         stackView.addArrangedSubview(movieNameLabel)
         stackView.addArrangedSubview(audienceLabel)
         contentView.addSubview(rankLabel)
@@ -85,16 +85,21 @@ class BoxOfficeRankingCell: UICollectionViewListCell {
     }
     
     func setUpLabelText(_ data: BoxOfficeEntity.BoxOfficeResult.DailyBoxOffice) {
-        rankLabel.text = "\(data.rank)"
+        rankLabel.text = data.rank
         rankIntensityLabel.attributedText = setUpRankIntensity(data.rankIntensity, isNew: data.rankOldAndNew == "NEW")
         movieNameLabel.text = data.movieName
-        audienceLabel.text = "오늘 \(numberFormatter(data.audienceCount)) / 총 \(numberFormatter(data.audienceAccumulate))"
+        audienceLabel.text = "오늘 \(formatDecimalNumber(data.audienceCount)) / 총 \(formatDecimalNumber(data.audienceAccumulate))"
     }
     
-    private func numberFormatter(_ data: String) -> String {
-        let intData = Int(data) ?? 0
+    private func formatDecimalNumber(_ data: String) -> String {
+        guard let intData = Int(data) else {
+            return data
+        }
+        
         let numberFormatter = NumberFormatter()
+        
         numberFormatter.numberStyle = .decimal
+        
         return numberFormatter.string(for: NSNumber(value: intData)) ?? data
     }
     

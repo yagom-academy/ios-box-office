@@ -10,7 +10,6 @@ enum NetworkingError: Error {
     case notHttpUrlResponse
     case invalidResponse(statusCode: Int)
     
-    
     var description: String {
         switch self {
         case .connectionFailure:

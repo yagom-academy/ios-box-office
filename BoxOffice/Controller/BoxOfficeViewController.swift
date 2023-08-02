@@ -11,7 +11,8 @@ import UIKit
 final class BoxOfficeViewController: UIViewController, URLSessionDelegate {
     private var networkingManager: NetworkingManager?
     private var refreshControl = UIRefreshControl()
-    private var dataSource: UICollectionViewDiffableDataSource<Section, BoxOfficeEntity.BoxOfficeResult.DailyBoxOffice>?
+    private var dataSource: UICollectionViewDiffableDataSource<NetworkNamespace, BoxOfficeEntity.BoxOfficeResult.DailyBoxOffice>?
+    private let cellIdentifier = "BoxOfficeCell"
     
     private let collectionView: UICollectionView = {
         let configuration = UICollectionLayoutListConfiguration(appearance: .plain)
@@ -41,22 +42,23 @@ final class BoxOfficeViewController: UIViewController, URLSessionDelegate {
             }
         }
     }
-
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         isLoading = true
+        setUpUI()
         setUpDate()
-        configureUI()
-        setUpNetwork()
+        setUpCollectionView()
         setUpDataSource()
+        setUpNetwork()
         fetchData()
     }
-    
-    private func configureUI() {
+}
+
+@available(iOS 14.0, *)
+extension BoxOfficeViewController {
+    private func setUpUI() {
         let safeArea = view.safeAreaLayoutGuide
-        collectionView.register(BoxOfficeRankingCell.self, forCellWithReuseIdentifier: "cell")
-        collectionView.refreshControl = refreshControl
-        refreshControl.addTarget(self, action: #selector(refresh), for: .valueChanged)
         
         view.backgroundColor = .systemBackground
         view.addSubview(collectionView)
@@ -67,6 +69,7 @@ final class BoxOfficeViewController: UIViewController, URLSessionDelegate {
             collectionView.leadingAnchor.constraint(equalTo: safeArea.leadingAnchor),
             collectionView.trailingAnchor.constraint(equalTo: safeArea.trailingAnchor),
             collectionView.bottomAnchor.constraint(equalTo: safeArea.bottomAnchor),
+            
             indicatorView.centerXAnchor.constraint(equalTo: safeArea.centerXAnchor),
             indicatorView.centerYAnchor.constraint(equalTo: safeArea.centerYAnchor)
         ])
@@ -80,17 +83,61 @@ final class BoxOfficeViewController: UIViewController, URLSessionDelegate {
         let dateFormatter: DateFormatter = {
             let formatter = DateFormatter()
             formatter.dateFormat = "YYYY-MM-dd"
+            
             return formatter
         }()
         
         self.title = dateFormatter.string(from: yesterday)
     }
+}
+
+@available(iOS 14.0, *)
+extension BoxOfficeViewController {
+    private func setUpCollectionView() {
+        collectionView.register(BoxOfficeRankingCell.self, forCellWithReuseIdentifier: cellIdentifier)
+        collectionView.refreshControl = refreshControl
+        
+        refreshControl.addTarget(self, action: #selector(refresh), for: .valueChanged)
+    }
+    
+    private func setUpDataSource() {
+        dataSource = UICollectionViewDiffableDataSource<NetworkNamespace, BoxOfficeEntity.BoxOfficeResult.DailyBoxOffice>(collectionView: self.collectionView) { (collectionView, indexPath, data) -> UICollectionViewCell? in
+            guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: self.cellIdentifier, for: indexPath) as? BoxOfficeRankingCell else {
+                return UICollectionViewCell()
+            }
+            
+            cell.setUpLabelText(data)
+            cell.accessories = [.outlineDisclosure(options: .init(tintColor: .systemGray))]
+            
+            return cell
+        }
+    }
     
     private func setUpDataSnapshot(_ data: [BoxOfficeEntity.BoxOfficeResult.DailyBoxOffice]) {
-        var snapshot = NSDiffableDataSourceSnapshot<Section, BoxOfficeEntity.BoxOfficeResult.DailyBoxOffice>()
+        var snapshot = NSDiffableDataSourceSnapshot<NetworkNamespace, BoxOfficeEntity.BoxOfficeResult.DailyBoxOffice>()
+        
         snapshot.appendSections([.boxOffice])
         snapshot.appendItems(data)
         dataSource?.apply(snapshot)
+    }
+    
+    @objc private func refresh() {
+        fetchData()
+        refreshControl.endRefreshing()
+    }
+}
+
+@available(iOS 14.0, *)
+extension BoxOfficeViewController {
+    private func setUpNetwork() {
+        let session: URLSession = {
+            let configuration = URLSessionConfiguration.default
+            configuration.waitsForConnectivity = true
+            
+            return URLSession(configuration: configuration, delegate: self, delegateQueue: nil)
+        }()
+        
+        networkingManager = NetworkingManager(session)
     }
     
     private func fetchData() {
@@ -98,7 +145,7 @@ final class BoxOfficeViewController: UIViewController, URLSessionDelegate {
             return
         }
         
-        let url = String(format: URLNamespace.boxOffice, URLNamespace.apiKey, date)
+        let url = String(format: NetworkNamespace.boxOffice.url, NetworkNamespace.apiKey, date)
         
         networkingManager?.load(url) { [weak self] (result: Result<Data, NetworkingError>) in
             switch result {
@@ -118,34 +165,4 @@ final class BoxOfficeViewController: UIViewController, URLSessionDelegate {
             }
         }
     }
-    
-    @objc private func refresh() {
-        fetchData()
-        refreshControl.endRefreshing()
-    }
-    
-    private func setUpNetwork() {
-        let configuration = URLSessionConfiguration.default
-        configuration.waitsForConnectivity = true
-        let session = URLSession(configuration: configuration, delegate: self, delegateQueue: nil)
-        networkingManager = NetworkingManager(session)
-    }
-    
-    private func setUpDataSource() {
-        dataSource = UICollectionViewDiffableDataSource<Section, BoxOfficeEntity.BoxOfficeResult.DailyBoxOffice>(collectionView: self.collectionView) { (collectionView, indexPath, data) -> UICollectionViewCell? in
-            guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "cell", for: indexPath) as? BoxOfficeRankingCell else {
-                return UICollectionViewCell()
-            }
-            cell.setUpLabelText(data)
-            cell.accessories = [.outlineDisclosure(options: .init(tintColor: .systemGray))]
-            
-            return cell
-        }
-    }
 }
-
-enum Section {
-    case boxOffice
-    case movieDetail
-}
-
