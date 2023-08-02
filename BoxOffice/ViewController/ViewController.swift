@@ -16,16 +16,22 @@ final class ViewController: UIViewController {
     private lazy var collectionView: UICollectionView = {
         let layout = UICollectionViewFlowLayout()
         layout.scrollDirection = .vertical
-        layout.itemSize = CGSize(width: view.frame.width, height: 100)
+        layout.itemSize = CGSize(width: view.frame.width, height: 63)
+        layout.minimumLineSpacing = 1
         
         let collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
+        collectionView.translatesAutoresizingMaskIntoConstraints = false
         collectionView.register(BoxOfficeCell.self, forCellWithReuseIdentifier: BoxOfficeCell.identifier)
+        collectionView.backgroundColor = .init(displayP3Red: 0.9, green: 0.9, blue: 0.9, alpha: 0.5)
         
         return collectionView
     }()
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        collectionView.delegate = self
+        collectionView.dataSource = self
         
         configureBackgroundColor()
         configureCollectionView()
@@ -84,13 +90,14 @@ final class ViewController: UIViewController {
 // MARK: - CollectionView DataSource
 extension ViewController: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        boxOffice?.boxOfficeResult.dailyBoxOfficeList.count ?? 0
+        return 20
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: BoxOfficeCell.identifier, for: indexPath) as? BoxOfficeCell else {
             return UICollectionViewCell()
         }
+        cell.configureCell()
 
         return cell
     }
