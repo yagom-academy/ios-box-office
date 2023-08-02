@@ -11,7 +11,7 @@ final class BoxOfficeManager {
     private var boxOffice: BoxOffice? = nil
     private var movie: Movie? = nil
     private let networkManager = NetworkManager(urlSession: URLSession.shared)
-    private let kobisKey = Bundle.main.object(forInfoDictionaryKey: "KOBIS_API_KEY") as? String
+    private let kobisKey = Bundle.main.object(forInfoDictionaryKey: NameSpace.kobisKey) as? String
     
     var dailyBoxOfficeDatas: [DailyBoxOfficeData?] {
         guard let boxOffice else {
@@ -27,8 +27,8 @@ final class BoxOfficeManager {
     
     func fetchBoxOffice(completion: @escaping (Error?) -> Void) {
         let yesterdayDate = FormatManager.bringDateString(before: 1, with: FormatManager.dateFormat)
-        let keyItem = URLQueryItem(name: "key", value: kobisKey)
-        let targetDateItem = URLQueryItem(name: "targetDt", value: yesterdayDate)
+        let keyItem = URLQueryItem(name: NameSpace.key, value: kobisKey)
+        let targetDateItem = URLQueryItem(name: NameSpace.targetDate, value: yesterdayDate)
         let url = URL.makeKobisURL(Path.boxOffice, [keyItem, targetDateItem])
         
         networkManager.getData(from: url) { result in
@@ -48,8 +48,8 @@ final class BoxOfficeManager {
     }
     
     func getMovie(_ movieCode: String, completion: @escaping (Error?) -> Void) {
-        let keyItem = URLQueryItem(name: "key", value: kobisKey)
-        let movieCodeItem = URLQueryItem(name: "movieCd", value: movieCode)
+        let keyItem = URLQueryItem(name: NameSpace.key, value: kobisKey)
+        let movieCodeItem = URLQueryItem(name: NameSpace.movieCode, value: movieCode)
         let url = URL.makeKobisURL(Path.movie, [keyItem, movieCodeItem])
         
         networkManager.getData(from: url) { result in
@@ -66,5 +66,15 @@ final class BoxOfficeManager {
                 completion(error)
             }
         }
+    }
+}
+
+// MARK: Name Space
+extension BoxOfficeManager {
+    enum NameSpace {
+        static let kobisKey = "KOBIS_API_KEY"
+        static let key = "key"
+        static let targetDate = "targetDt"
+        static let movieCode = "movieCd"
     }
 }

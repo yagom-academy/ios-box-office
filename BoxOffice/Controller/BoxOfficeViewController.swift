@@ -59,7 +59,7 @@ final class BoxOfficeViewController: UIViewController {
             if let error {
                 print(error.localizedDescription)
                 
-                let alert = UIAlertController.makedBasicAlert("실패", "데이터 로드에 실패했습니다.", actionTitle: "확인", actionType: .default)
+                let alert = UIAlertController.makedBasicAlert(NameSpace.fail, NameSpace.loadDataFail, actionTitle: NameSpace.check, actionType: .default)
                 
                 DispatchQueue.main.async {
                     self.activityIndicator.stopAnimating()
@@ -81,7 +81,7 @@ final class BoxOfficeViewController: UIViewController {
             if let error {
                 print(error.localizedDescription)
                 
-                let alert = UIAlertController.makedBasicAlert("실패", "데이터 로드에 실패했습니다.", actionTitle: "확인", actionType: .default)
+                let alert = UIAlertController.makedBasicAlert(NameSpace.fail, NameSpace.loadDataFail, actionTitle: NameSpace.check, actionType: .default)
                 
                 DispatchQueue.main.async {
                     refresh.endRefreshing()
@@ -155,5 +155,14 @@ extension BoxOfficeViewController {
             activityIndicator.centerXAnchor.constraint(equalTo: view.safeAreaLayoutGuide.centerXAnchor),
             activityIndicator.centerYAnchor.constraint(equalTo: view.safeAreaLayoutGuide.centerYAnchor),
         ])
+    }
+}
+
+// MARK: Name Space
+extension BoxOfficeViewController {
+    enum NameSpace {
+        static let fail = "실패"
+        static let loadDataFail = "데이터 로드에 실패했습니다."
+        static let check = "확인"
     }
 }
