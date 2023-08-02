@@ -14,15 +14,11 @@ final class BoxOfficeManager {
     private let kobisKey = Bundle.main.object(forInfoDictionaryKey: "KOBIS_API_KEY") as? String
     
     var dailyBoxOfficeDatas: [DailyBoxOfficeData?] {
-        guard let dailyBoxOfficeLists = boxOffice?.boxOfficeResult.dailyBoxOfficeList else {
+        guard let boxOffice else {
             return []
         }
         
-        let dailyBoxOfficeDatas = dailyBoxOfficeLists.map {
-            $0.makedDailyBoxOfficeData()
-        }
-        
-        return dailyBoxOfficeDatas
+        return DataManager.boxOfficeTransferDailyBoxOfficeData(boxOffice: boxOffice)
     }
     
     var movieInformation: MovieInfo? {

@@ -62,30 +62,3 @@ struct DailyBoxOfficeList: Decodable {
         case showCount = "showCnt"
     }
 }
-
-// MARK: Make DTO
-extension DailyBoxOfficeList {
-    func makedDailyBoxOfficeData() -> DailyBoxOfficeData? {
-        guard let decimalAudienceCount = FormatManager.bringDecimalString(audienceCount),
-              let decimalaudienceAccumulation = FormatManager.bringDecimalString(audienceAccumulation) else {
-            return nil
-        }
-        
-        let dailyAndTotalAudience = "오늘 \(decimalAudienceCount) / 총 \(decimalaudienceAccumulation)"
-        var rankState = ""
-        
-        if rankOldAndNew == "NEW" {
-            rankState = "신작"
-        } else if rankIntensity == "0" {
-            rankState = "0"
-        } else if rankIntensity.contains("-") {
-            var rankIntensity = rankIntensity
-            rankIntensity.removeFirst()
-            rankState = "▼" + rankIntensity
-        } else {
-            rankState = "▲" + rankIntensity
-        }
-        
-        return DailyBoxOfficeData(rank: rank, rankState: rankState, movieTitle: movieName, dailyAndTotalAudience: dailyAndTotalAudience)
-    }
-}
