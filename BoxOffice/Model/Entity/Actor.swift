@@ -5,7 +5,7 @@
 //  Created by Zion, Hemg on 2023/07/31.
 //
 
-struct MovieActor: People, Decodable {
+struct MovieActor: Decodable {
     let peopleName: String
     let peopleNameEnglish: String
     let cast: String

@@ -5,7 +5,7 @@
 //  Created by Zion, Hemg on 2023/07/31.
 //
 
-struct Director: People, Decodable {
+struct Director: Decodable {
     let peopleName: String
     let peopleNameEnglish: String
     
