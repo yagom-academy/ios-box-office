@@ -82,8 +82,8 @@ class BoxOfficeRankingCell: UICollectionViewListCell {
     }
     
     func setUpLabelText(_ data: BoxOfficeEntity.BoxOfficeResult.DailyBoxOffice) {
-        rankLabel.text = data.rank
-        rankIntensityLabel.text = data.rankIntensity
+        rankLabel.text = "\(data.rank)"
+        rankIntensityLabel.text = "\(data.rankIntensity)"
         movieNameLabel.text = data.movieName
         audienceLabel.text = "오늘 \(data.audienceCount) / 총 \(data.audienceAccumulate)"
     }

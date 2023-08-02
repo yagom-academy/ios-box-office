@@ -23,6 +23,7 @@ final class BoxOfficeViewController: UIViewController, URLSessionDelegate {
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        setUpDate()
         configureUI()
         setUpNetwork()
         setUpDataSource()
@@ -43,6 +44,20 @@ final class BoxOfficeViewController: UIViewController, URLSessionDelegate {
         ])
     }
     
+    private func setUpDate() {
+        guard let yesterday = Calendar.current.date(byAdding: .day, value: -1, to: Date()) else {
+            return
+        }
+        
+        let dateFormatter: DateFormatter = {
+            let formatter = DateFormatter()
+            formatter.dateFormat = "YYYY-MM-dd"
+            return formatter
+        }()
+        
+        self.title = dateFormatter.string(from: yesterday)
+    }
+    
     private func setUpDataSnapshot(_ data: [BoxOfficeEntity.BoxOfficeResult.DailyBoxOffice]) {
         var snapshot = NSDiffableDataSourceSnapshot<Section, BoxOfficeEntity.BoxOfficeResult.DailyBoxOffice>()
         snapshot.appendSections([.boxOffice])
@@ -51,7 +66,11 @@ final class BoxOfficeViewController: UIViewController, URLSessionDelegate {
     }
     
     private func fetchData() {
-        let url = String(format: URLNamespace.boxOffice, URLNamespace.apiKey, "20230801")
+        guard let date = self.title?.replacingOccurrences(of: "-", with: "") else {
+            return
+        }
+        
+        let url = String(format: URLNamespace.boxOffice, URLNamespace.apiKey, date)
         
         networkingManager?.load(url) { [weak self] (result: Result<Data, NetworkingError>) in
             switch result {
