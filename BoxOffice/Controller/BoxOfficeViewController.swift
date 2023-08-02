@@ -58,6 +58,14 @@ final class BoxOfficeViewController: UIViewController {
         boxOfficeManager.fetchBoxOffice { error in
             if let error {
                 print(error.localizedDescription)
+                
+                let alert = UIAlertController.makedBasicAlert("실패", "데이터 로드에 실패했습니다.", actionTitle: "확인", actionType: .default)
+                
+                DispatchQueue.main.async {
+                    self.activityIndicator.stopAnimating()
+                    self.present(alert, animated: true)
+                }
+                
                 return
             }
             
@@ -72,6 +80,14 @@ final class BoxOfficeViewController: UIViewController {
         boxOfficeManager.fetchBoxOffice { error in
             if let error {
                 print(error.localizedDescription)
+                
+                let alert = UIAlertController.makedBasicAlert("실패", "데이터 로드에 실패했습니다.", actionTitle: "확인", actionType: .default)
+                
+                DispatchQueue.main.async {
+                    refresh.endRefreshing()
+                    self.present(alert, animated: true)
+                }
+                
                 return
             }
             
