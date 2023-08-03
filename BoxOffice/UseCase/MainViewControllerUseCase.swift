@@ -10,7 +10,6 @@ import Foundation
 protocol MainViewControllerUseCase {
     var delegate: MainViewControllerUseCaseDelegate? { get set }
     func fetchDailyBoxOffice(targetDate: String)
-    func fetchMovieDetailInformation(movieCode: String)
 }
 
 final class MainViewControllerUseCaseImplementation: MainViewControllerUseCase {
@@ -30,17 +29,6 @@ final class MainViewControllerUseCaseImplementation: MainViewControllerUseCase {
                 self.delegate?.completeFetchDailyBoxOfficeInformation(movieInformationDTOList)
             case .failure(let error):
                 self.delegate?.failFetchDailyBoxOfficeInformation(error.errorDescription)
-            }
-        }
-    }
-    
-    func fetchMovieDetailInformation(movieCode: String) {
-        boxOfficeRepository.fetchMovieDetailInformation(movieCode) { result in
-            switch result {
-            case .success(let result):
-                self.delegate?.completeFetchMovieDetailInformation(result)
-            case .failure(let error):
-                self.delegate?.failFetchMovieDetailInformaion(error.errorDescription)
             }
         }
     }
