@@ -89,6 +89,8 @@ final class BoxOfficeCollectionViewCell: UICollectionViewCell {
     }
     
     override func prepareForReuse() {
+        super.prepareForReuse()
+        
         rankChangeLabel.attributedText = nil
     }
 }
