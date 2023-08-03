@@ -7,7 +7,8 @@
 
 import UIKit
 
-class CollectionViewCell: UICollectionViewCell {
+@available(iOS 14.0, *)
+class CollectionViewListCell: UICollectionViewListCell {
     
     @IBOutlet weak var rankNumberLabel: UILabel!
     @IBOutlet weak var rankInfoLabel: UILabel!
@@ -63,7 +64,8 @@ class CollectionViewCell: UICollectionViewCell {
     }
 }
 
-extension CollectionViewCell {
+@available(iOS 14.0, *)
+extension CollectionViewListCell {
     enum Arrow: String {
         case upArrow = "▲"
         case downArrow = "▼"

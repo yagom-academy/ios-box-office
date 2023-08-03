@@ -39,7 +39,7 @@ class MainViewController: UIViewController {
     }
     
     private func registerCustomCell() {
-        collectionView.register(UINib(nibName: "CollectionViewCell", bundle: nil),
+        collectionView.register(UINib(nibName: "CollectionViewListCell", bundle: nil),
                                 forCellWithReuseIdentifier: "cell")
     }
     
@@ -73,18 +73,20 @@ class MainViewController: UIViewController {
     }
 }
 
+@available(iOS 14.0, *)
 extension MainViewController: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return boxOffice?.boxOfficeResult.dailyBoxOfficeList.count ?? 0
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "cell", for: indexPath) as? CollectionViewCell else { return UICollectionViewCell() }
+        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "cell", for: indexPath) as? CollectionViewListCell else { return UICollectionViewListCell() }
         
         if let boxOfficeData = boxOffice {
             let dailyBoxOffice = boxOfficeData.boxOfficeResult.dailyBoxOfficeList[indexPath.item]
             cell.configureLabels(with: dailyBoxOffice)
             cell.configureFont()
+            cell.accessories = [.disclosureIndicator()]
         }
         
         return cell
