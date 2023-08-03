@@ -79,6 +79,10 @@ final class BoxOfficeCollectionViewCell: UICollectionViewCell {
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
+    
+    override func prepareForReuse() {
+        rankChangeLabel.attributedText = nil
+    }
 }
 
 // MARK: setup Data
