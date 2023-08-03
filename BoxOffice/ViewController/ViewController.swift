@@ -12,50 +12,19 @@ final class ViewController: UIViewController {
     private var boxOffice: BoxOffice?
     private var movie: Movie?
     
-    // MARK: - CollectionView Configuration
-    private lazy var collectionView: UICollectionView = {
-        let layout = UICollectionViewFlowLayout()
-        layout.scrollDirection = .vertical
-        layout.itemSize = CGSize(width: view.frame.width, height: 63)
-        layout.minimumLineSpacing = -1
-        
-        let collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
-        collectionView.translatesAutoresizingMaskIntoConstraints = false
-        collectionView.register(BoxOfficeCell.self, forCellWithReuseIdentifier: BoxOfficeCell.identifier)
-        collectionView.backgroundColor = .systemBackground
-        
-        return collectionView
-    }()
+    private var dataSource: UICollectionViewDiffableDataSource<Section, DailyBoxOffice>? = nil
+    private var collectionView: UICollectionView? = nil
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        collectionView.delegate = self
-        collectionView.dataSource = self
-        
         configureBackgroundColor()
-        configureCollectionView()
-        setUpCollectionViewConstraints()
-        
         loadDailyBoxOfficeData()
     }
     
     // MARK: - UI Configuration
     private func configureBackgroundColor() {
         view.backgroundColor = .systemBackground
-    }
-    
-    private func configureCollectionView() {
-        view.addSubview(collectionView)
-    }
-    
-    private func setUpCollectionViewConstraints() {
-        NSLayoutConstraint.activate([
-            collectionView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor),
-            collectionView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor),
-            collectionView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
-            collectionView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor)
-        ])
     }
     
     // MARK: - Load Data
@@ -85,25 +54,46 @@ final class ViewController: UIViewController {
             print(error)
         }
     }
-}
-
-// MARK: - CollectionView DataSource
-extension ViewController: UICollectionViewDataSource {
-    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return 20
+    
+    // MARK: - Configure CollectionView UI
+    private func createLayout() -> UICollectionViewLayout {
+        let config = UICollectionLayoutListConfiguration(appearance: .plain)
+        let layout = UICollectionViewCompositionalLayout.list(using: config)
+        
+        return layout
+        
     }
     
-    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: BoxOfficeCell.identifier, for: indexPath) as? BoxOfficeCell else {
-            return UICollectionViewCell()
+    private func configureHierarchy() {
+        collectionView = UICollectionView(frame: view.bounds, collectionViewLayout: createLayout())
+        collectionView?.autoresizingMask = [.flexibleWidth, .flexibleHeight]
+        collectionView?.delegate = self
+        view.addSubview(collectionView ?? UICollectionView())
+    }
+    
+    private func configureDataSource() {
+        guard let collectionView else { return }
+        
+        let cellRegistration = UICollectionView.CellRegistration<BoxOfficeCell, DailyBoxOffice> { (cell, indexPath, dailyBoxOffice) in
+            cell.rankLabel.text = dailyBoxOffice.rank
+            cell.accessories = [.disclosureIndicator()]
         }
-        cell.configureCell()
-
-        return cell
+        
+        dataSource = UICollectionViewDiffableDataSource<Section, DailyBoxOffice>(collectionView: collectionView) { collectionView, indexPath, itemIdentifier in
+            return collectionView.dequeueConfiguredReusableCell(using: cellRegistration, for: indexPath, item: itemIdentifier)
+        }
+        
+        // initial data
+        var snapshot = NSDiffableDataSourceSnapshot<Section, DailyBoxOffice>()
+        snapshot.appendSections([.dailyBoxOffice])
+        snapshot.appendItems(boxOffice?.boxOfficeResult.dailyBoxOfficeList ?? [])
+        dataSource?.apply(snapshot, animatingDifferences: false)
     }
 }
 
 // MARK: CollectionView Delegate
 extension ViewController: UICollectionViewDelegate {
-
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        collectionView.deselectItem(at: indexPath, animated: true)
+    }
 }
