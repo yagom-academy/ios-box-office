@@ -13,22 +13,23 @@ class BoxOfficeCollectionViewController: UICollectionViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         configureNavigation()
-        registerCell()
         configureCompositionalLayout()
-        fetchBoxOfficeitems()
+        configureRefreshControl()
+        registerCell()
+        
+        Task {
+            await fetchBoxOfficeItems()
+        }
     }
     
-    private func fetchBoxOfficeitems() {
-        Task {
-            do {
-                let boxOffice: BoxOffice = try await NetworkManager.fetchData(fetchType: .boxOffice(date: Date.yesterday.networkFormat))
-                self.boxOfficeItems = boxOffice.boxOfficeResult.boxOfficeItems
-                
-                collectionView.reloadData()
-            } catch {
-                //TODO: 알럿띄우기
-            }
+    private func fetchBoxOfficeItems() async {
+        do {
+            let boxOffice: BoxOffice = try await NetworkManager.fetchData(fetchType: .boxOffice(date: Date.yesterday.networkFormat))
+            self.boxOfficeItems = boxOffice.boxOfficeResult.boxOfficeItems
             
+            collectionView.reloadData()
+        } catch {
+            //TODO: 알럿띄우기
         }
     }
     
@@ -45,6 +46,18 @@ class BoxOfficeCollectionViewController: UICollectionViewController {
         let layout = UICollectionViewCompositionalLayout.list(using: config)
         
         collectionView.collectionViewLayout = layout
+    }
+    
+    private func configureRefreshControl() {
+        collectionView.refreshControl = UIRefreshControl()
+        collectionView.refreshControl?.addTarget(self, action: #selector(handleRefreshControl), for: .valueChanged)
+    }
+    
+    @objc private func handleRefreshControl() {
+        Task {
+            await fetchBoxOfficeItems()
+            collectionView.refreshControl?.endRefreshing()
+        }
     }
 }
 
