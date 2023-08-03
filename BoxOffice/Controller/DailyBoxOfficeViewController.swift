@@ -8,9 +8,42 @@
 import UIKit
 
 final class DailyBoxOfficeViewController: UIViewController {
+    private var kobisOpenAPI: KobisOpenAPI = KobisOpenAPI()
+    private var networkService: NetworkService = NetworkService()
+    private var myData: BoxOffice?
+    
+    private func abc() {
+        do {
+            let url: URL = try kobisOpenAPI.receiveURL(serviceType: .dailyBoxOffice, queryItems: ["targetDt": Date().getYesterdayDate(format: "yyyyMMdd")])
+            networking(url: url)
+        } catch {
+            print(error.localizedDescription)
+        }
+    }
+    
+    private func networking(url: URL) {
+        NetworkService().fetchData(url: url) { result in
+            switch result {
+            case .success(let data):
+                do {
+                    let decodedData = try JSONDecoder().decode(BoxOffice.self, from: data)
+                    self.myData = decodedData
+                    DispatchQueue.main.async {
+                        self.collectionView.reloadData()
+                    }
+                } catch let error as DecodingError {
+                    print(error)
+                } catch {
+                    print(error)
+                }
+            case .failure(let error):
+                print(error)
+            }
+        }
+    }
+    
     let collectionView: UICollectionView = {
         let layout: UICollectionViewFlowLayout = UICollectionViewFlowLayout()
-//        layout.minimumLineSpacing = 30
         let collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
         collectionView.translatesAutoresizingMaskIntoConstraints = false
         
@@ -19,6 +52,7 @@ final class DailyBoxOfficeViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        abc()
         
         configureNavigationItem()
         setupCollectionView()
@@ -27,7 +61,7 @@ final class DailyBoxOfficeViewController: UIViewController {
     }
     
     private func configureNavigationItem() {
-        navigationItem.title = "2020-01-01"
+        navigationItem.title = Date().getYesterdayDate(format: "yyyy-MM-dd")
     }
     
     private func setupCollectionView() {
@@ -62,10 +96,23 @@ extension DailyBoxOfficeViewController: UICollectionViewDataSource, UICollection
             return UICollectionViewCell()
         }
         
-        cell.titleLabel.text = "제목"
-        cell.visitorLabel.text = "방문자"
-        cell.rankLabel.text = "1"
-        cell.rankChangeValueLabel.text = "신작"
+        guard let data = myData else {
+            return cell
+        }
+        let audienceCount = data.boxOfficeResult.dailyBoxOfficeList[indexPath.item].audienceCount
+        let audienceAccumulate = data.boxOfficeResult.dailyBoxOfficeList[indexPath.item].audienceAccumulate
+        
+        cell.titleLabel.text = data.boxOfficeResult.dailyBoxOfficeList[indexPath.item].movieName
+        cell.rankLabel.text = data.boxOfficeResult.dailyBoxOfficeList[indexPath.item].rank
+        cell.visitorLabel.text = "오늘 \(audienceCount) / 총 \(audienceAccumulate)"
+        
+        if data.boxOfficeResult.dailyBoxOfficeList[indexPath.item].rankOldAndNew == "NEW" {
+            cell.rankChangeValueLabel.text = "신작"
+        } else {
+            cell.rankChangeValueLabel.text = data.boxOfficeResult.dailyBoxOfficeList[indexPath.item].rankChangeValue
+        }
+        
+        
         
         return cell
     }
