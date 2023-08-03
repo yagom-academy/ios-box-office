@@ -20,7 +20,6 @@ final class BoxOfficeViewController: UIViewController {
     private lazy var activityIndicator: UIActivityIndicatorView = {
         let activityIndicator = UIActivityIndicatorView(style: .large)
         activityIndicator.center = view.center
-        activityIndicator.startAnimating()
         
         return activityIndicator
     }()
@@ -31,6 +30,7 @@ final class BoxOfficeViewController: UIViewController {
         setupNavigation()
         setupCollectionView()
         setupRefreshControl()
+        activityIndicator.startAnimating()
         loadBoxOfficeData()
         
         configureUI()
