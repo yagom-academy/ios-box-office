@@ -17,10 +17,9 @@ final class BoxOfficeViewController: UIViewController {
         return collectionView
     }()
     
-    private let activityIndicator: UIActivityIndicatorView = {
+    private lazy var activityIndicator: UIActivityIndicatorView = {
         let activityIndicator = UIActivityIndicatorView(style: .large)
-        activityIndicator.translatesAutoresizingMaskIntoConstraints = false
-        activityIndicator.startAnimating()
+        activityIndicator.center = view.center
         
         return activityIndicator
     }()
@@ -78,6 +77,7 @@ final class BoxOfficeViewController: UIViewController {
     
     @objc private func reloadBoxOfficeData(refresh: UIRefreshControl) {
         boxOfficeManager.fetchBoxOffice { error in
+        activityIndicator.startAnimating()
         boxOfficeManager.fetchBoxOffice { [weak self] error in
             if let error {
                 print(error.localizedDescription)
@@ -138,23 +138,11 @@ extension BoxOfficeViewController {
     }
     
     private func setupConstraint() {
-        setupCollectionViewConstraint()
-        setupActivityIndicatorConstraint()
-    }
-    
-    private func setupCollectionViewConstraint() {
         NSLayoutConstraint.activate([
             collectionView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor),
             collectionView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor),
             collectionView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
             collectionView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor)
-        ])
-    }
-    
-    private func setupActivityIndicatorConstraint() {
-        NSLayoutConstraint.activate([
-            activityIndicator.centerXAnchor.constraint(equalTo: view.safeAreaLayoutGuide.centerXAnchor),
-            activityIndicator.centerYAnchor.constraint(equalTo: view.safeAreaLayoutGuide.centerYAnchor),
         ])
     }
 }
