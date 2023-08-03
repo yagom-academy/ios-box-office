@@ -14,6 +14,9 @@ final class MainCollectionViewCell: UICollectionViewCell {
         let label = UILabel()
         
         label.textColor = .black
+        label.font = .boldSystemFont(ofSize: 25)
+        label.textAlignment = .center
+        label.setContentHuggingPriority(.init(1), for: .vertical)
         return label
     }()
     
@@ -21,6 +24,8 @@ final class MainCollectionViewCell: UICollectionViewCell {
         let label = UILabel()
         
         label.textColor = .black
+        label.font = .systemFont(ofSize: 15)
+        label.textAlignment = .center
         return label
     }()
     
@@ -28,6 +33,9 @@ final class MainCollectionViewCell: UICollectionViewCell {
         let label = UILabel()
         
         label.textColor = .black
+        label.font = .systemFont(ofSize: 20)
+        label.numberOfLines = 0
+        label.setContentHuggingPriority(.init(1), for: .vertical)
         return label
     }()
     
@@ -35,6 +43,7 @@ final class MainCollectionViewCell: UICollectionViewCell {
         let label = UILabel()
         
         label.textColor = .black
+        label.font = .systemFont(ofSize: 15)
         return label
     }()
     
@@ -58,7 +67,7 @@ final class MainCollectionViewCell: UICollectionViewCell {
     private let movieInformationStackView: UIStackView = {
         let stackView = UIStackView()
         
-        stackView.spacing = 25
+        stackView.spacing = 30
         stackView.axis = .horizontal
         stackView.translatesAutoresizingMaskIntoConstraints = false
         return stackView
@@ -84,16 +93,16 @@ final class MainCollectionViewCell: UICollectionViewCell {
 
     private func setUpConstraints() {
         NSLayoutConstraint.activate([
-            movieInformationStackView.topAnchor.constraint(equalTo: contentView.topAnchor),
-            movieInformationStackView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor),
-            movieInformationStackView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 25),
-            movieInformationStackView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor)
+            movieInformationStackView.topAnchor.constraint(equalTo: topAnchor, constant: 5),
+            movieInformationStackView.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -5),
+            movieInformationStackView.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 30),
+            movieInformationStackView.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -20)
         ])
     }
     
     func setUpContent(_ movieInformation: MovieInformationDTO) {
         rankLabel.text = movieInformation.rank
-        rankIntenLabel.text = movieInformation.rankInten
+        rankIntenLabel.text = movieInformation.OldAndNew == "NEW" ? "신작" : movieInformation.rankInten
         movieNameLabel.text = movieInformation.movieName
         audienceCountLabel.text = movieInformation.audienceCount
     }

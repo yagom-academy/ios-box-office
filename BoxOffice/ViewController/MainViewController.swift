@@ -21,6 +21,7 @@ final class MainViewController: UIViewController, CanShowNetworkRequestFailureAl
     
     private let compositinalLayout: UICollectionViewCompositionalLayout = {
         var listConfiguration = UICollectionLayoutListConfiguration(appearance: .plain)
+        
         listConfiguration.separatorConfiguration.bottomSeparatorInsets = .init(top: 0, leading: 0, bottom: 0, trailing: 0)
         
         let compositionalLayout = UICollectionViewCompositionalLayout.list(using: listConfiguration)
@@ -29,6 +30,7 @@ final class MainViewController: UIViewController, CanShowNetworkRequestFailureAl
     
     private lazy var collectionView: UICollectionView = {
         let collectionView = UICollectionView(frame: .zero, collectionViewLayout: compositinalLayout)
+        
         collectionView.translatesAutoresizingMaskIntoConstraints = false
         collectionView.register(MainCollectionViewCell.self, forCellWithReuseIdentifier: MainCollectionViewCell.reuseIdentifier)
         return collectionView
@@ -58,7 +60,7 @@ final class MainViewController: UIViewController, CanShowNetworkRequestFailureAl
     private func setUpViewController() {
         view.backgroundColor = .systemBackground
         collectionView.dataSource = diffableDataSource
-        usecase.fetchDailyBoxOffice(targetDate: "20230105")
+        usecase.fetchDailyBoxOffice(targetDate: "20230315")
     }
     
     private func configureUI() {
