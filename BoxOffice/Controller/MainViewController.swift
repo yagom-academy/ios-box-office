@@ -7,6 +7,7 @@
 
 import UIKit
 
+@available(iOS 14.0, *)
 class MainViewController: UIViewController {
     @IBOutlet weak var collectionView: UICollectionView!
     @IBOutlet weak var loadingActivityView: UIActivityIndicatorView!
@@ -30,8 +31,7 @@ class MainViewController: UIViewController {
     }
     
     private func configureTitle() {
-        var dateProvider = DateProvider()
-        
+        let dateProvider = DateProvider()
         guard let yesterday = dateProvider.updateYesterday(.viewTitle) else {
             return
         }
@@ -94,6 +94,7 @@ extension MainViewController: UICollectionViewDataSource {
     }
 }
 
+@available(iOS 14.0, *)
 extension MainViewController: UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, didDeselectItemAt indexPath: IndexPath) {
         guard let pushMovieDetailVC = self.storyboard?.instantiateViewController(withIdentifier: "MovieDetailViewController") else { return }
