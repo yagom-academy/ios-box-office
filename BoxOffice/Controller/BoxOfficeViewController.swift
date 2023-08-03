@@ -59,9 +59,9 @@ final class BoxOfficeViewController: UIViewController {
             if let error {
                 print(error.localizedDescription)
                 
-                let alert = UIAlertController.makedBasicAlert(NameSpace.fail, NameSpace.loadDataFail, actionTitle: NameSpace.check, actionType: .default)
-                
                 DispatchQueue.main.async {
+                    let alert = UIAlertController.makedBasicAlert(NameSpace.fail, NameSpace.loadDataFail, actionTitle: NameSpace.check, actionType: .default)
+                    
                     self?.collectionView.refreshControl?.endRefreshing()
                     self?.activityIndicator.stopAnimating()
                     self?.present(alert, animated: true)
