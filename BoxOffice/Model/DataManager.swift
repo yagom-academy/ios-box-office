@@ -36,7 +36,7 @@ enum DataManager {
     }
 }
 
-extension DataManager {
+private extension DataManager {
     enum NameSpace {
         static let dailyAndTotalAudience = "오늘 %@ / 총 %@"
         static let empty = ""

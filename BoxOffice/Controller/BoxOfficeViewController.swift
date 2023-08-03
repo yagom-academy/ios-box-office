@@ -105,14 +105,14 @@ extension BoxOfficeViewController: UICollectionViewDelegateFlowLayout {
 }
 
 // MARK: setup UI
-extension BoxOfficeViewController {
-    private func configureUI() {
+private extension BoxOfficeViewController {
+    func configureUI() {
         view.backgroundColor = .systemBackground
         view.addSubview(collectionView)
         view.addSubview(activityIndicator)
     }
     
-    private func setupConstraint() {
+    func setupConstraint() {
         NSLayoutConstraint.activate([
             collectionView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor),
             collectionView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor),
@@ -123,7 +123,7 @@ extension BoxOfficeViewController {
 }
 
 // MARK: Name Space
-extension BoxOfficeViewController {
+private extension BoxOfficeViewController {
     enum NameSpace {
         static let fail = "실패"
         static let loadDataFail = "데이터 로드에 실패했습니다."

@@ -70,7 +70,7 @@ final class BoxOfficeManager {
 }
 
 // MARK: Name Space
-extension BoxOfficeManager {
+private extension BoxOfficeManager {
     enum NameSpace {
         static let kobisKey = "KOBIS_API_KEY"
         static let key = "key"
