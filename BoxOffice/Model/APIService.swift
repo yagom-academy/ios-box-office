@@ -14,13 +14,13 @@ enum APIService {
     var url: URL? {
         switch self {
         case .dailyBoxOffice:
+            let key = Bundle.main.apiKey
             let path = "/kobisopenapi/webservice/rest/boxoffice/searchDailyBoxOfficeList.json"
-            let key = "9edeb739e275f3013ffb896c2ff41cfe"
             
             return configureURLSession(key: key, path: path)
         case .movieDetailInfo:
+            let key = Bundle.main.apiKey
             let path = "/kobisopenapi/webservice/rest/movie/searchMovieInfo.json"
-            let key = "9edeb739e275f3013ffb896c2ff41cfe"
             
             return configureURLSession(key: key, path: path)
         }
