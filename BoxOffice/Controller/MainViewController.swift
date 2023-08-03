@@ -9,11 +9,16 @@ import UIKit
 
 class MainViewController: UIViewController {
     @IBOutlet weak var collectionView: UICollectionView!
+    @IBOutlet weak var loadingActivityView: UIActivityIndicatorView!
+    
     var boxOffice: BoxOffice?
     var dateProvider = DateProvider()
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        collectionView.isHidden = true
+        loadingActivityView.startAnimating()
         
         collectionView.dataSource = self
         collectionView.delegate = self
@@ -24,6 +29,7 @@ class MainViewController: UIViewController {
         collectionView.refreshControl = UIRefreshControl()
         collectionView.refreshControl?.addTarget(self, action: #selector(updateCollectionView), for: .valueChanged)
     }
+    
     
     private func configureTitle() {
         guard let yesterday = dateProvider.updateYesterday(.viewTitle) else {
@@ -38,6 +44,10 @@ class MainViewController: UIViewController {
     }
     
     @objc private func updateCollectionView() {
+        collectionView.isHidden = false
+        loadingActivityView.stopAnimating()
+        loadingActivityView.isHidden = true
+        
         DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
             self.collectionView.reloadData()
             self.collectionView.refreshControl?.endRefreshing()
