@@ -95,11 +95,7 @@ final class BoxOfficeCollectionViewCell: UICollectionViewCell {
 
 // MARK: setup Data
 extension BoxOfficeCollectionViewCell {
-    func setupBoxOfficeData(_ dailyBoxOfficeData: DailyBoxOfficeData?) {
-        guard let dailyBoxOfficeData else {
-            return
-        }
-        
+    func setupBoxOfficeData(_ dailyBoxOfficeData: DailyBoxOfficeData) {
         rankLabel.text = dailyBoxOfficeData.rank
         rankChangeLabel.text = dailyBoxOfficeData.rankState
         movieTitleLabel.text = dailyBoxOfficeData.movieTitle

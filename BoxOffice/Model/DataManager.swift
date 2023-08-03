@@ -8,14 +8,12 @@
 import Foundation
 
 enum DataManager {
-    static func boxOfficeTransferDailyBoxOfficeData(boxOffice: BoxOffice) -> [DailyBoxOfficeData?] {
+    static func boxOfficeTransferDailyBoxOfficeData(boxOffice: BoxOffice) -> [DailyBoxOfficeData] {
         return boxOffice.boxOfficeResult.dailyBoxOfficeList.map {
-            guard let decimalAudienceCount = FormatManager.bringDecimalString($0.audienceCount),
-                  let decimalaudienceAccumulation = FormatManager.bringDecimalString($0.audienceAccumulation) else {
-                return nil
-            }
-            
+            let decimalAudienceCount = NumberFormatter().bringDecimalString($0.audienceCount)
+            let decimalaudienceAccumulation = NumberFormatter().bringDecimalString($0.audienceAccumulation)
             let dailyAndTotalAudience = String(format: NameSpace.dailyAndTotalAudience, decimalAudienceCount, decimalaudienceAccumulation)
+            
             var rankState = NameSpace.empty
             var rankStateColor: RankStateColor
             

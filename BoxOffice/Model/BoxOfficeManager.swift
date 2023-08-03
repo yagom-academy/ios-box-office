@@ -13,7 +13,7 @@ final class BoxOfficeManager {
     private let networkManager = NetworkManager(urlSession: URLSession.shared)
     private let kobisKey = Bundle.main.object(forInfoDictionaryKey: NameSpace.kobisKey) as? String
     
-    var dailyBoxOfficeDatas: [DailyBoxOfficeData?] {
+    var dailyBoxOfficeDatas: [DailyBoxOfficeData] {
         guard let boxOffice else {
             return []
         }
@@ -26,7 +26,7 @@ final class BoxOfficeManager {
     }
     
     func fetchBoxOffice(completion: @escaping (Error?) -> Void) {
-        let yesterdayDate = FormatManager.bringDateString(before: 1, with: FormatManager.dateFormat)
+        let yesterdayDate = DateFormatter().bringDateString(before: 1, with: DateFormatter.FormatCase.attached)
         let keyItem = URLQueryItem(name: NameSpace.key, value: kobisKey)
         let targetDateItem = URLQueryItem(name: NameSpace.targetDate, value: yesterdayDate)
         let url = URL.makeKobisURL(Path.boxOffice, [keyItem, targetDateItem])
