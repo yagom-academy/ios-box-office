@@ -78,6 +78,7 @@ final class BoxOfficeViewController: UIViewController {
     
     @objc private func reloadBoxOfficeData(refresh: UIRefreshControl) {
         boxOfficeManager.fetchBoxOffice { error in
+        boxOfficeManager.fetchBoxOffice { [weak self] error in
             if let error {
                 print(error.localizedDescription)
                 

@@ -31,12 +31,12 @@ final class BoxOfficeManager {
         let targetDateItem = URLQueryItem(name: NameSpace.targetDate, value: yesterdayDate)
         let url = URL.makeKobisURL(Path.boxOffice, [keyItem, targetDateItem])
         
-        networkManager.getData(from: url) { result in
+        networkManager.getData(from: url) { [weak self] result in
             switch result {
             case .success(let data):
                 do {
                     let boxOffice = try JSONDecoder().decode(BoxOffice.self, from: data)
-                    self.boxOffice = boxOffice
+                    self?.boxOffice = boxOffice
                     completion(nil)
                 } catch {
                     completion(DataError.decodeJSONFailed)
@@ -52,12 +52,12 @@ final class BoxOfficeManager {
         let movieCodeItem = URLQueryItem(name: NameSpace.movieCode, value: movieCode)
         let url = URL.makeKobisURL(Path.movie, [keyItem, movieCodeItem])
         
-        networkManager.getData(from: url) { result in
+        networkManager.getData(from: url) { [weak self] result in
             switch result {
             case .success(let data):
                 do {
                     let movie = try JSONDecoder().decode(Movie.self, from: data)
-                    self.movie = movie
+                    self?.movie = movie
                     completion(nil)
                 } catch {
                     completion(DataError.decodeJSONFailed)
