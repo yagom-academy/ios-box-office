@@ -8,7 +8,7 @@
 import UIKit
 
 class DailyBoxOfficeCollectionViewCell: UICollectionViewCell {
-    let cellIdentifier: String = "DailyBoxOfficeCollectionViewCell"
+    static let identifier: String = "DailyBoxOfficeCollectionViewCell"
     
     let titleLabel: UILabel = {
         let label: UILabel = UILabel()
@@ -27,6 +27,7 @@ class DailyBoxOfficeCollectionViewCell: UICollectionViewCell {
     let rankLabel: UILabel = {
         let label: UILabel = UILabel()
         label.font = .preferredFont(forTextStyle: .title1)
+        label.textAlignment = .center
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
@@ -34,6 +35,7 @@ class DailyBoxOfficeCollectionViewCell: UICollectionViewCell {
     let rankChangeValueLabel: UILabel = {
         let label: UILabel = UILabel()
         label.font = .preferredFont(forTextStyle: .title3)
+        label.textAlignment = .center
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
@@ -109,13 +111,12 @@ class DailyBoxOfficeCollectionViewCell: UICollectionViewCell {
             rankStackView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 8),
             rankStackView.trailingAnchor.constraint(equalTo: movieStackView.leadingAnchor),
             rankStackView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -8),
+            rankStackView.widthAnchor.constraint(equalTo: contentView.widthAnchor, multiplier: 0.2),
             
             movieStackView.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 8),
             movieStackView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -8),
             movieStackView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -8)
-            
         ])
     }
-    
 }
 
