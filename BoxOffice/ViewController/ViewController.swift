@@ -37,6 +37,12 @@ final class ViewController: UIViewController {
         case .success(let boxOffice):
             print(boxOffice)
             self.boxOffice = boxOffice
+            
+            DispatchQueue.main.async {
+                self.configureHierarchy()
+                self.configureDataSource()
+            }
+            
             if let movieCode = boxOffice.boxOfficeResult.dailyBoxOfficeList.first?.movieCode {
                 boxOfficeService.loadMovieDetailData(movieCd: movieCode, fetchMovie)
             }
@@ -44,7 +50,7 @@ final class ViewController: UIViewController {
             print(error)
         }
     }
-
+    
     private func fetchMovie(_ result: Result<Movie, NetworkManagerError>) {
         switch result {
         case .success(let movie):
@@ -76,6 +82,8 @@ final class ViewController: UIViewController {
         
         let cellRegistration = UICollectionView.CellRegistration<BoxOfficeCell, DailyBoxOffice> { (cell, indexPath, dailyBoxOffice) in
             cell.rankLabel.text = dailyBoxOffice.rank
+            cell.rankInformationLabel.attributedText = self.changeRankInformation(in: dailyBoxOffice)
+            cell.detailLabel.text = self.makeDetailLabelText(in: dailyBoxOffice)
             cell.accessories = [.disclosureIndicator()]
         }
         
@@ -83,7 +91,6 @@ final class ViewController: UIViewController {
             return collectionView.dequeueConfiguredReusableCell(using: cellRegistration, for: indexPath, item: itemIdentifier)
         }
         
-        // initial data
         var snapshot = NSDiffableDataSourceSnapshot<Section, DailyBoxOffice>()
         snapshot.appendSections([.dailyBoxOffice])
         snapshot.appendItems(boxOffice?.boxOfficeResult.dailyBoxOfficeList ?? [])
@@ -91,9 +98,36 @@ final class ViewController: UIViewController {
     }
 }
 
-// MARK: CollectionView Delegate
+// MARK: - CollectionView Delegate
 extension ViewController: UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         collectionView.deselectItem(at: indexPath, animated: true)
+    }
+}
+
+// MARK: - Formatting Functions
+extension ViewController {
+    private func changeRankInformation(in dailyBoxOffice: DailyBoxOffice) -> NSMutableAttributedString {
+        if dailyBoxOffice.rankOldAndNew == "NEW" {
+            return NSMutableAttributedString(string: "신작")
+        } else if dailyBoxOffice.rankIntensification.contains("-") {
+            let rankIntensification = dailyBoxOffice.rankIntensification.replacingOccurrences(of: "-", with: "▼")
+            
+            return rankIntensification.addAttributeFontForKeyword(keyword: "▼", color: .blue)
+        } else {
+            let rankIntensification = "▲\(dailyBoxOffice.rankIntensification)"
+            
+            return rankIntensification.addAttributeFontForKeyword(keyword: "▲", color: .red)
+        }
+    }
+    
+    private func makeDetailLabelText(in dailyBoxOffice: DailyBoxOffice) -> String {
+        let formatter = NumberFormatter()
+        formatter.numberStyle = .decimal
+        
+        let audienceCount = formatter.string(for: Int(dailyBoxOffice.audienceCount)) ?? "0"
+        let audienceAccumulation = formatter.string(for: Int(dailyBoxOffice.audienceAccumulation)) ?? "0"
+        
+        return "\(dailyBoxOffice.movieName)\n오늘: \(audienceCount) / 총: \(audienceAccumulation)"
     }
 }
