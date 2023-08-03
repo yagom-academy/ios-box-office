@@ -33,7 +33,13 @@ class BoxOfficeCollectionViewController: UICollectionViewController {
             
             collectionView.reloadData()
         } catch {
-            //TODO: 알럿띄우기
+            let alert = UIAlertController(
+                title: "에러",
+                message: "\(error.localizedDescription)",
+                preferredStyle: .alert
+            )
+            alert.addAction(UIAlertAction(title: "OK", style: .default))
+            self.present(alert, animated: true, completion: nil)
         }
     }
     

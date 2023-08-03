@@ -60,7 +60,6 @@ final class BoxOfficeCollectionViewCell: UICollectionViewListCell, Reusable {
             let attribute: [NSAttributedString.Key: Any] = [.foregroundColor: UIColor.red]
             
             return NSMutableAttributedString(string: text, attributes: attribute)
-            
         }
         
         else if amountOfRankChange == "0" && boxOfficeItem.rankOldAndNew == "OLD" {
