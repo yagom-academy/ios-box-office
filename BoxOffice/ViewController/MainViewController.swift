@@ -30,6 +30,7 @@ final class MainViewController: UIViewController, CanShowNetworkRequestFailureAl
     private lazy var collectionView: UICollectionView = {
         let collectionView = UICollectionView(frame: .zero, collectionViewLayout: compositinalLayout)
         collectionView.translatesAutoresizingMaskIntoConstraints = false
+        collectionView.register(MainCollectionViewCell.self, forCellWithReuseIdentifier: MainCollectionViewCell.reuseIdentifier)
         return collectionView
     }()
     
