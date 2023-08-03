@@ -9,16 +9,20 @@ import SwiftUI
 
 class BoxOfficeCollectionViewController: UICollectionViewController {
     var boxOfficeItems: [BoxOfficeItem] = []
+    let indicator = UIActivityIndicatorView()
     
     override func viewDidLoad() {
         super.viewDidLoad()
         configureNavigation()
         configureCompositionalLayout()
+        configureIndicator()
         configureRefreshControl()
         registerCell()
         
         Task {
+            indicator.startAnimating()
             await fetchBoxOfficeItems()
+            indicator.stopAnimating()
         }
     }
     
@@ -46,6 +50,22 @@ class BoxOfficeCollectionViewController: UICollectionViewController {
         let layout = UICollectionViewCompositionalLayout.list(using: config)
         
         collectionView.collectionViewLayout = layout
+    }
+}
+
+// MARK: - Refresh and indicator
+
+extension BoxOfficeCollectionViewController {
+    private func configureIndicator() {
+        indicator.translatesAutoresizingMaskIntoConstraints = false
+        view.addSubview(indicator)
+        
+        NSLayoutConstraint.activate([
+            indicator.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
+            indicator.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor),
+            indicator.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor),
+            indicator.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor),
+        ])
     }
     
     private func configureRefreshControl() {
