@@ -20,10 +20,11 @@ final class BoxOfficeViewController: UIViewController {
     private lazy var activityIndicator: UIActivityIndicatorView = {
         let activityIndicator = UIActivityIndicatorView(style: .large)
         activityIndicator.center = view.center
+        activityIndicator.startAnimating()
         
         return activityIndicator
     }()
-
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -54,7 +55,6 @@ final class BoxOfficeViewController: UIViewController {
     }
     
     @objc private func loadBoxOfficeData() {
-        activityIndicator.startAnimating()
         boxOfficeManager.fetchBoxOffice { [weak self] error in
             if let error {
                 print(error.localizedDescription)
