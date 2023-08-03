@@ -35,7 +35,7 @@ final class ViewController: UIViewController {
     }
     
     // MARK: - Load Data
-    private func loadDailyBoxOfficeData() {
+    @objc private func loadDailyBoxOfficeData() {
         boxOfficeService.loadDailyBoxOfficeData(fetchBoxOffice)
     }
     
@@ -87,6 +87,10 @@ final class ViewController: UIViewController {
         collectionView = UICollectionView(frame: view.bounds, collectionViewLayout: createLayout())
         collectionView?.autoresizingMask = [.flexibleWidth, .flexibleHeight]
         collectionView?.delegate = self
+        collectionView?.refreshControl = UIRefreshControl()
+        collectionView?.refreshControl?.addTarget(self, action: #selector(loadDailyBoxOfficeData), for: .valueChanged)
+        collectionView?.refreshControl?.transform = CGAffineTransformMakeScale(0.6, 0.6);
+
         view.addSubview(collectionView ?? UICollectionView())
     }
     
