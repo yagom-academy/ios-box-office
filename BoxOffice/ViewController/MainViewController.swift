@@ -7,6 +7,10 @@
 
 import UIKit
 
+enum Section {
+    case main
+}
+
 protocol MainViewControllerUseCaseDelegate: AnyObject {
     func completeFetchDailyBoxOfficeInformation(_ movieInformationDTOList: [MovieInformationDTO])
     func failFetchDailyBoxOfficeInformation(_ errorDescription: String?)
@@ -14,6 +18,22 @@ protocol MainViewControllerUseCaseDelegate: AnyObject {
 
 final class MainViewController: UIViewController, CanShowNetworkRequestFailureAlert {
     private let usecase: MainViewControllerUseCase
+    
+    private let compositinalLayout: UICollectionViewCompositionalLayout = {
+        var listConfiguration = UICollectionLayoutListConfiguration(appearance: .plain)
+        listConfiguration.separatorConfiguration.bottomSeparatorInsets = .init(top: 0, leading: 0, bottom: 0, trailing: 0)
+        
+        let compositionalLayout = UICollectionViewCompositionalLayout.list(using: listConfiguration)
+        return compositionalLayout
+    }()
+    
+    private lazy var collectionView: UICollectionView = {
+        let collectionView = UICollectionView(frame: .zero, collectionViewLayout: compositinalLayout)
+        collectionView.translatesAutoresizingMaskIntoConstraints = false
+        return collectionView
+    }()
+    
+    private var diffableDataSource: UICollectionViewDiffableDataSource<Section, MovieInformationDTO>?
     
     init(_ usecase: MainViewControllerUseCase) {
         self.usecase = usecase
@@ -30,20 +50,29 @@ final class MainViewController: UIViewController, CanShowNetworkRequestFailureAl
         
         configureUI()
         setUpConstraints()
-        setUpBackgroundColor()
+        setUpViewController()
+        setUpDiffableDataSource()
     }
     
-    private func setUpBackgroundColor() {
+    private func setUpViewController() {
         view.backgroundColor = .systemBackground
+        collectionView.dataSource = diffableDataSource
     }
     
     private func configureUI() {
+        view.addSubview(collectionView)
     }
     
     private func setUpConstraints() {
         NSLayoutConstraint.activate([
-            
+            collectionView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor),
+            collectionView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor),
+            collectionView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
+            collectionView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor)
         ])
+    }
+    
+    private func setUpDiffableDataSource() {
     }
 }
 

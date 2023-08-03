@@ -5,7 +5,7 @@
 //  Created by Hyungmin Lee on 2023/07/31.
 //
 
-struct MovieInformationDTO {
+struct MovieInformationDTO: Hashable {
     let rank: String
     let rankInten: String
     let OldAndNew: String
