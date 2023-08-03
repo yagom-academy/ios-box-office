@@ -90,12 +90,8 @@ extension BoxOfficeViewController: UICollectionViewDataSource {
             return BoxOfficeCollectionViewCell()
         }
         
-        let dailyBoxOfficeDatas = boxOfficeManager.dailyBoxOfficeDatas
-        
-        if !dailyBoxOfficeDatas.isEmpty {
-            let dailyBoxOfficeData = dailyBoxOfficeDatas[indexPath.item]
-            cell.setupBoxOfficeData(dailyBoxOfficeData)
-        }
+        let dailyBoxOfficeData = boxOfficeManager.dailyBoxOfficeDatas[indexPath.item]
+        cell.setupBoxOfficeData(dailyBoxOfficeData)
         
         return cell
     }
