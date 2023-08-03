@@ -12,7 +12,6 @@ class MainViewController: UIViewController {
     @IBOutlet weak var loadingActivityView: UIActivityIndicatorView!
     
     var boxOffice: BoxOffice?
-    var dateProvider = DateProvider()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -30,11 +29,13 @@ class MainViewController: UIViewController {
         collectionView.refreshControl?.addTarget(self, action: #selector(updateCollectionView), for: .valueChanged)
     }
     
-    
     private func configureTitle() {
+        var dateProvider = DateProvider()
+        
         guard let yesterday = dateProvider.updateYesterday(.viewTitle) else {
             return
         }
+        
         self.navigationItem.title = "\(yesterday)"
     }
     
