@@ -48,35 +48,12 @@ final class BoxOfficeViewController: UIViewController {
     
     private func setupRefreshControl() {
         let refreshControl = UIRefreshControl()
-        refreshControl.addTarget(self, action: #selector(reloadBoxOfficeData(refresh:)), for: .valueChanged)
+        refreshControl.addTarget(self, action: #selector(loadBoxOfficeData), for: .valueChanged)
         
         collectionView.refreshControl = refreshControl
     }
     
-    private func loadBoxOfficeData() {
-        boxOfficeManager.fetchBoxOffice { error in
-            if let error {
-                print(error.localizedDescription)
-                
-                let alert = UIAlertController.makedBasicAlert(NameSpace.fail, NameSpace.loadDataFail, actionTitle: NameSpace.check, actionType: .default)
-                
-                DispatchQueue.main.async {
-                    self.activityIndicator.stopAnimating()
-                    self.present(alert, animated: true)
-                }
-                
-                return
-            }
-            
-            DispatchQueue.main.async {
-                self.collectionView.reloadData()
-                self.activityIndicator.stopAnimating()
-            }
-        }
-    }
-    
-    @objc private func reloadBoxOfficeData(refresh: UIRefreshControl) {
-        boxOfficeManager.fetchBoxOffice { error in
+    @objc private func loadBoxOfficeData() {
         activityIndicator.startAnimating()
         boxOfficeManager.fetchBoxOffice { [weak self] error in
             if let error {
@@ -85,16 +62,18 @@ final class BoxOfficeViewController: UIViewController {
                 let alert = UIAlertController.makedBasicAlert(NameSpace.fail, NameSpace.loadDataFail, actionTitle: NameSpace.check, actionType: .default)
                 
                 DispatchQueue.main.async {
-                    refresh.endRefreshing()
-                    self.present(alert, animated: true)
+                    self?.collectionView.refreshControl?.endRefreshing()
+                    self?.activityIndicator.stopAnimating()
+                    self?.present(alert, animated: true)
                 }
                 
                 return
             }
             
             DispatchQueue.main.async {
-                self.collectionView.reloadData()
-                refresh.endRefreshing()
+                self?.collectionView.reloadData()
+                self?.collectionView.refreshControl?.endRefreshing()
+                self?.activityIndicator.stopAnimating()
             }
         }
     }
