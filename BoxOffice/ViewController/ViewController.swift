@@ -11,6 +11,7 @@ final class ViewController: UIViewController {
     private let boxOfficeService = BoxOfficeService()
     private var boxOffice: BoxOffice?
     private var movie: Movie?
+    private let activityIndicatorView = UIActivityIndicatorView(style: .medium)
     
     private var dataSource: UICollectionViewDiffableDataSource<Section, DailyBoxOffice>? = nil
     private var collectionView: UICollectionView? = nil
@@ -18,6 +19,7 @@ final class ViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        showLoadingView()
         setTitle()
         configureBackgroundColor()
         loadDailyBoxOfficeData()
@@ -67,6 +69,12 @@ final class ViewController: UIViewController {
     }
     
     // MARK: - Configure CollectionView UI
+    private func showLoadingView() {
+        view.addSubview(activityIndicatorView)
+        activityIndicatorView.center = view.center
+        activityIndicatorView.startAnimating()
+    }
+    
     private func createLayout() -> UICollectionViewLayout {
         let config = UICollectionLayoutListConfiguration(appearance: .plain)
         let layout = UICollectionViewCompositionalLayout.list(using: config)
