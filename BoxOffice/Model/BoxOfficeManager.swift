@@ -8,18 +8,10 @@
 import Foundation
 
 final class BoxOfficeManager {
-    private var boxOffice: BoxOffice? = nil
+    private(set) var dailyBoxOfficeDatas: [DailyBoxOfficeData] = []
     private var movie: Movie? = nil
     private let networkManager = NetworkManager(urlSession: URLSession.shared)
     private let kobisKey = Bundle.main.object(forInfoDictionaryKey: NameSpace.kobisKey) as? String
-    
-    var dailyBoxOfficeDatas: [DailyBoxOfficeData] {
-        guard let boxOffice else {
-            return []
-        }
-        
-        return DataManager.boxOfficeTransferDailyBoxOfficeData(boxOffice: boxOffice)
-    }
     
     var movieInformation: MovieInfo? {
         return movie?.movieInfoResult.movieInfo
@@ -36,7 +28,7 @@ final class BoxOfficeManager {
             case .success(let data):
                 do {
                     let boxOffice = try JSONDecoder().decode(BoxOffice.self, from: data)
-                    self?.boxOffice = boxOffice
+                    self?.dailyBoxOfficeDatas = DataManager.boxOfficeTransferDailyBoxOfficeData(boxOffice: boxOffice)
                     completion(nil)
                 } catch {
                     completion(DataError.decodeJSONFailed)
