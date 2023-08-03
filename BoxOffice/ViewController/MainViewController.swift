@@ -80,6 +80,7 @@ final class MainViewController: UIViewController, CanShowNetworkRequestFailureAl
                 return UICollectionViewCell()
             }
             
+            cell.setUpContent(movieInformation)
             return cell
         })
         

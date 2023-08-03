@@ -90,4 +90,11 @@ final class MainCollectionViewCell: UICollectionViewCell {
             movieInformationStackView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor)
         ])
     }
+    
+    func setUpContent(_ movieInformation: MovieInformationDTO) {
+        rankLabel.text = movieInformation.rank
+        rankIntenLabel.text = movieInformation.rankInten
+        movieNameLabel.text = movieInformation.movieName
+        audienceCountLabel.text = movieInformation.audienceCount
+    }
 }
