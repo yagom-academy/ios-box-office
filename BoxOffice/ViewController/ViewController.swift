@@ -15,6 +15,7 @@ final class ViewController: UIViewController {
     
     private var dataSource: UICollectionViewDiffableDataSource<Section, DailyBoxOffice>? = nil
     private var collectionView: UICollectionView? = nil
+    private let refresher = UIRefreshControl()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -45,9 +46,20 @@ final class ViewController: UIViewController {
             print(boxOffice)
             self.boxOffice = boxOffice
             
-            DispatchQueue.main.async {
-                self.configureHierarchy()
-                self.configureDataSource()
+            if self.collectionView == nil {
+                DispatchQueue.main.async {
+                    self.configureHierarchy()
+                    self.configureDataSource()
+                }
+            } else {
+                var snapshot = NSDiffableDataSourceSnapshot<Section, DailyBoxOffice>()
+                snapshot.appendSections([.dailyBoxOffice])
+                snapshot.appendItems(boxOffice.boxOfficeResult.dailyBoxOfficeList)
+                dataSource?.apply(snapshot, animatingDifferences: false)
+                
+                DispatchQueue.main.async {
+                    self.refresher.endRefreshing()
+                }
             }
             
             if let movieCode = boxOffice.boxOfficeResult.dailyBoxOfficeList.first?.movieCode {
@@ -84,10 +96,10 @@ final class ViewController: UIViewController {
     }
     
     private func configureHierarchy() {
-        collectionView = UICollectionView(frame: view.bounds, collectionViewLayout: createLayout())
+        collectionView = UICollectionView(frame: view.safeAreaLayoutGuide.layoutFrame, collectionViewLayout: createLayout())
         collectionView?.autoresizingMask = [.flexibleWidth, .flexibleHeight]
         collectionView?.delegate = self
-        collectionView?.refreshControl = UIRefreshControl()
+        collectionView?.refreshControl = refresher
         collectionView?.refreshControl?.addTarget(self, action: #selector(loadDailyBoxOfficeData), for: .valueChanged)
         collectionView?.refreshControl?.transform = CGAffineTransformMakeScale(0.6, 0.6);
 
