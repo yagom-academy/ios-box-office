@@ -33,6 +33,7 @@
 		D266DEC22A72269200DBB07F /* NetworkManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = D266DEC12A72269200DBB07F /* NetworkManager.swift */; };
 		D277169E2A6FFFAC005C0045 /* JSONDecoderError.swift in Sources */ = {isa = PBXBuildFile; fileRef = D277169D2A6FFFAC005C0045 /* JSONDecoderError.swift */; };
 		D2A6AE482A73AA0100CE5903 /* NetworkManagerError.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2A6AE472A73AA0100CE5903 /* NetworkManagerError.swift */; };
+		D2D027CA2A7BD57800456444 /* String+.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2D027C92A7BD57800456444 /* String+.swift */; };
 		D2E159472A6EA6EC00052F8B /* DailyBoxOffice.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2E159462A6EA6EC00052F8B /* DailyBoxOffice.swift */; };
 		D2E159652A6F560300052F8B /* JSONDecoder+.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2E159642A6F560300052F8B /* JSONDecoder+.swift */; };
 /* End PBXBuildFile section */
@@ -78,6 +79,7 @@
 		D266DEC12A72269200DBB07F /* NetworkManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkManager.swift; sourceTree = "<group>"; };
 		D277169D2A6FFFAC005C0045 /* JSONDecoderError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JSONDecoderError.swift; sourceTree = "<group>"; };
 		D2A6AE472A73AA0100CE5903 /* NetworkManagerError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkManagerError.swift; sourceTree = "<group>"; };
+		D2D027C92A7BD57800456444 /* String+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "String+.swift"; sourceTree = "<group>"; };
 		D2E159462A6EA6EC00052F8B /* DailyBoxOffice.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DailyBoxOffice.swift; sourceTree = "<group>"; };
 		D2E159642A6F560300052F8B /* JSONDecoder+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "JSONDecoder+.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -262,6 +264,7 @@
 			isa = PBXGroup;
 			children = (
 				D2E159642A6F560300052F8B /* JSONDecoder+.swift */,
+				D2D027C92A7BD57800456444 /* String+.swift */,
 			);
 			path = Extension;
 			sourceTree = "<group>";
@@ -375,6 +378,7 @@
 				CB31F7C62A738376001E9B21 /* CustomDateFormatStyle.swift in Sources */,
 				D236E1952A7342FD003D0F7A /* Movie.swift in Sources */,
 				D236E19F2A7346C0003D0F7A /* Genre.swift in Sources */,
+				D2D027CA2A7BD57800456444 /* String+.swift in Sources */,
 				CB31F7C82A738397001E9B21 /* MimeType.swift in Sources */,
 				D2A6AE482A73AA0100CE5903 /* NetworkManagerError.swift in Sources */,
 				D277169E2A6FFFAC005C0045 /* JSONDecoderError.swift in Sources */,
