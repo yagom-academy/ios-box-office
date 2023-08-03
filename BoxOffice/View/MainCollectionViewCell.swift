@@ -64,10 +64,22 @@ final class MainCollectionViewCell: UICollectionViewCell {
         return stackView
     }()
     
+    override init(frame: CGRect) {
+        super.init(frame: frame)
+        
+        configureUI()
+        setUpConstraints()
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
     private func configureUI() {
         [rankLabel, rankIntenLabel].forEach { rankStackView.addArrangedSubview($0) }
         [movieNameLabel, audienceCountLabel].forEach { movieDescriptionStackView.addArrangedSubview($0) }
         [rankStackView, movieDescriptionStackView].forEach { movieInformationStackView.addArrangedSubview($0) }
+        addSubview(movieInformationStackView)
     }
 
     private func setUpConstraints() {

@@ -58,6 +58,7 @@ final class MainViewController: UIViewController, CanShowNetworkRequestFailureAl
     private func setUpViewController() {
         view.backgroundColor = .systemBackground
         collectionView.dataSource = diffableDataSource
+        usecase.fetchDailyBoxOffice(targetDate: "20230105")
     }
     
     private func configureUI() {
@@ -74,13 +75,29 @@ final class MainViewController: UIViewController, CanShowNetworkRequestFailureAl
     }
     
     private func setUpDiffableDataSource() {
+        diffableDataSource = UICollectionViewDiffableDataSource<Section, MovieInformationDTO>(collectionView: collectionView, cellProvider: { collectionView, indexPath, movieInformation in
+            guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: MainCollectionViewCell.reuseIdentifier, for: indexPath) as? MainCollectionViewCell else {
+                return UICollectionViewCell()
+            }
+            
+            return cell
+        })
+        
+        guard var snapShot = diffableDataSource?.snapshot() else { return }
+        snapShot.appendSections([.main])
+        diffableDataSource?.apply(snapShot)
     }
 }
 
 // MARK: - MainViewControllerUseCaseDelegate
 extension MainViewController: MainViewControllerUseCaseDelegate {
     func completeFetchDailyBoxOfficeInformation(_ movieInformationDTOList: [MovieInformationDTO]) {
-        print(movieInformationDTOList)
+        guard var snapShot = diffableDataSource?.snapshot() else { return }
+        
+        snapShot.appendItems(movieInformationDTOList)
+        DispatchQueue.main.async {
+            self.diffableDataSource?.apply(snapShot)
+        }
     }
     
     func failFetchDailyBoxOfficeInformation(_ errorDescription: String?) {
