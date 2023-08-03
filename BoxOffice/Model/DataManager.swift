@@ -23,8 +23,8 @@ enum DataManager {
                 rankState = NameSpace.newMovie
                 rankStateColor = (NameSpace.newMovie, .systemRed)
             } else if $0.rankIntensity == NameSpace.zero {
-                rankState = NameSpace.zero
-                rankStateColor = (NameSpace.zero, .black)
+                rankState = NameSpace.minus
+                rankStateColor = (NameSpace.minus, .black)
             } else if $0.rankIntensity.contains(NameSpace.minus) {
                 rankState = $0.rankIntensity.replacingOccurrences(of: NameSpace.minus, with: NameSpace.downTriangle)
                 rankStateColor = (NameSpace.downTriangle, .systemBlue)
