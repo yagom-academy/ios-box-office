@@ -18,11 +18,16 @@ final class ViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        setTitle()
         configureBackgroundColor()
         loadDailyBoxOfficeData()
     }
     
     // MARK: - UI Configuration
+    private func setTitle() {
+        self.title = boxOfficeService.formattedYesterdayWithHyphen
+    }
+    
     private func configureBackgroundColor() {
         view.backgroundColor = .systemBackground
     }
