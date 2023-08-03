@@ -126,7 +126,7 @@ extension ViewController: UICollectionViewDelegate {
 extension ViewController {
     private func changeRankInformation(in dailyBoxOffice: DailyBoxOffice) -> NSMutableAttributedString {
         if dailyBoxOffice.rankOldAndNew == "NEW" {
-            return NSMutableAttributedString(string: "신작")
+            return "신작".addAttributeFontForKeyword(keyword: "신작", color: .red)
         } else if dailyBoxOffice.rankIntensification.contains("-") {
             let rankIntensification = dailyBoxOffice.rankIntensification.replacingOccurrences(of: "-", with: "▼")
             
