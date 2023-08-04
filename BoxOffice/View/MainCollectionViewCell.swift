@@ -86,9 +86,13 @@ final class MainCollectionViewCell: UICollectionViewCell {
     
     func setUpContent(_ movieInformation: MovieInformationDTO) {
         rankLabel.text = movieInformation.rank
-        rankIntenLabel.attributedText = rankIntenLabelText(movieInformation.OldAndNew, movieInformation.rankInten)
+        rankIntenLabel.attributedText = movieInformation.conventedRankIntenSybolAndText()
         movieNameLabel.text = movieInformation.movieName
-        audienceCountLabel.text = "오늘 \(decimalFormattedNumber(text: movieInformation.audienceCount)) / 총 \(decimalFormattedNumber(text: movieInformation.audienceAccumulate))"
+        
+        let audienceCount = movieInformation.convertDecimalFormattedString(text: movieInformation.audienceCount)
+        let audienceAccumulateCount = movieInformation.convertDecimalFormattedString(text: movieInformation.audienceAccumulate)
+        
+        audienceCountLabel.text = "오늘 \(audienceCount) / 총 \(audienceAccumulateCount)"
     }
 }
 
@@ -108,39 +112,5 @@ extension MainCollectionViewCell {
             movieInformationStackView.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 30),
             movieInformationStackView.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -20)
         ])
-    }
-    
-    private func addAttributeString(text: String, keyword: String, color: UIColor) -> NSMutableAttributedString {
-        let attributeString = NSMutableAttributedString(string: text)
-        
-        attributeString.addAttribute(.foregroundColor, value: color , range: (text as NSString).range(of: keyword))
-        return attributeString
-    }
-    
-    private func rankIntenLabelText(_ oldAndNew: String, _ rankInten: String) -> NSMutableAttributedString {
-        if oldAndNew == "NEW" {
-            return addAttributeString(text: "신작", keyword: "신작", color: .red)
-        }
-        
-        if rankInten == "0" {
-            return addAttributeString(text: "-", keyword: "-", color: .black)
-        } else {
-            let isRankUp = Int(rankInten) ?? 0 > 0
-            let symbol = isRankUp ? "▲" : "▼"
-            let symbolColor: UIColor = isRankUp ? .red : .blue
-            let inten = isRankUp == false ? rankInten.replacingOccurrences(of: "-", with: "") : rankInten
-            let text = "\(symbol)\(inten)"
-            
-            return addAttributeString(text: text, keyword: symbol, color: symbolColor)
-        }
-    }
-    
-    private func decimalFormattedNumber(text: String) -> String {
-        let numberFormatter = NumberFormatter()
-        let numbers = Int(text) ?? 0
-        
-        numberFormatter.numberStyle = .decimal
-        let result = numberFormatter.string(from: NSNumber(value: numbers)) ?? ""
-        return result
     }
 }
