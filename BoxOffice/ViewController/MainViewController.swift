@@ -137,7 +137,7 @@ extension MainViewController: MainViewControllerUseCaseDelegate {
     func failFetchDailyBoxOfficeInformation(_ errorDescription: String?) {
         DispatchQueue.main.async {
             self.refreshControl.endRefreshing()
-//            self.showNetworkFailAlert(message: errorDescription, retryFunction: self.fetchDailyBoxOfficeForTest)
+            self.showNetworkFailAlert(message: errorDescription, retryFunction: self.setUpViewControllerContents)
         }
     }
 }
