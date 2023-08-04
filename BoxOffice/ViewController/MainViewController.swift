@@ -55,6 +55,7 @@ final class MainViewController: UIViewController, CanShowNetworkRequestFailureAl
     private lazy var collectionView: UICollectionView = {
         let collectionView = UICollectionView(frame: .zero, collectionViewLayout: compositinalLayout)
         
+        collectionView.dataSource = diffableDataSource
         collectionView.refreshControl = refreshControl
         collectionView.translatesAutoresizingMaskIntoConstraints = false
         collectionView.register(MainCollectionViewCell.self, forCellWithReuseIdentifier: MainCollectionViewCell.reuseIdentifier)
@@ -86,7 +87,6 @@ final class MainViewController: UIViewController, CanShowNetworkRequestFailureAl
     private func setUpViewController() {
         view.backgroundColor = .systemBackground
         navigationItem.title = yesterdayDate
-        collectionView.dataSource = diffableDataSource
     }
     
     @objc private func setUpViewControllerContents() {
