@@ -62,7 +62,7 @@ final class BoxOfficeViewController: UIViewController {
                     
                     self?.collectionView.refreshControl?.endRefreshing()
                     self?.activityIndicator.stopAnimating()
-                    self?.present(alert, animated: true)
+                    self?.present(alert, animated: false)
                 }
                 
                 return
