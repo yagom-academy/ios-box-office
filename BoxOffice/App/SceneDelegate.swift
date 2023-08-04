@@ -17,10 +17,11 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         let boxOfficeRepository: BoxOfficeRepository = BoxOfficeRepositoryImplementation(sessionProvider: sessionProvider)
         var usecase: MainViewControllerUseCase = MainViewControllerUseCaseImplementation(boxOfficeRepository: boxOfficeRepository)
         let mainViewController = MainViewController(usecase)
+        let navigationController = UINavigationController(rootViewController: mainViewController)
         
         usecase.delegate = mainViewController
         window = UIWindow(windowScene: windowScene)
-        window?.rootViewController = mainViewController
+        window?.rootViewController = navigationController
         window?.makeKeyAndVisible()
     }
 

@@ -19,6 +19,14 @@ protocol MainViewControllerUseCaseDelegate: AnyObject {
 final class MainViewController: UIViewController, CanShowNetworkRequestFailureAlert {
     private let usecase: MainViewControllerUseCase
     
+    private let yesterdayDate: String = {
+        let yesterday = Date() - (24 * 60 * 60)
+        let formatter = DateFormatter()
+        
+        formatter.dateFormat = "yyyy-MM-dd"
+        return formatter.string(from: yesterday)
+    }()
+    
     private let compositinalLayout: UICollectionViewCompositionalLayout = {
         var listConfiguration = UICollectionLayoutListConfiguration(appearance: .plain)
         
@@ -59,8 +67,9 @@ final class MainViewController: UIViewController, CanShowNetworkRequestFailureAl
     
     private func setUpViewController() {
         view.backgroundColor = .systemBackground
+        navigationItem.title = yesterdayDate
         collectionView.dataSource = diffableDataSource
-        usecase.fetchDailyBoxOffice(targetDate: "20230315")
+        usecase.fetchDailyBoxOffice(targetDate: yesterdayDate.replacingOccurrences(of: "-", with: ""))
     }
     
     private func configureUI() {
