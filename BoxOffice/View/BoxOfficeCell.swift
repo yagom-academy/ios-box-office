@@ -41,7 +41,6 @@ final class BoxOfficeCell: UICollectionViewListCell {
     
     let rankLabel: UILabel = {
         let label = UILabel()
-        label.text = "1"
         label.font = UIFont.preferredFont(forTextStyle: .title1)
         
         return label
@@ -49,7 +48,6 @@ final class BoxOfficeCell: UICollectionViewListCell {
     
     let rankInformationLabel: UILabel = {
         let label = UILabel()
-        label.text = "▼▲1"
         label.font = UIFont.preferredFont(forTextStyle: .body)
         
         return label
@@ -58,7 +56,6 @@ final class BoxOfficeCell: UICollectionViewListCell {
     // MARK: - Movie Name, Audience Information
     let detailLabel: UILabel = {
         let label = UILabel()
-        label.text = "TestTitle\nMoviewDetail"
         label.font = UIFont.preferredFont(forTextStyle: .title2)
         label.numberOfLines = 0
         label.font = UIFont.preferredFont(forTextStyle: .body)
