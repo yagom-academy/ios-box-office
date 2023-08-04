@@ -14,7 +14,7 @@ struct NetworkManager {
         self.urlSession = urlSession
     }
     
-    func getData(from url: URL?, completion: @escaping (Result<Data, NetworkError>) -> Void) {
+    func requestData(from url: URL?, completion: @escaping (Result<Data, NetworkError>) -> Void) {
         guard let url else {
             completion(.failure(.invalidURL))
             return

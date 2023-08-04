@@ -13,7 +13,7 @@ enum NetworkError: LocalizedError {
     case networkFailed
     case dataFailed
     
-    public var localizedDescription: String {
+    public var errorDescription: String? {
         switch self {
         case .invalidURL:
             return "유효하지 않은 URL입니다."

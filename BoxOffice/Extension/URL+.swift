@@ -2,13 +2,13 @@
 //  URL+.swift
 //  BoxOffice
 //
-//  Created by kyungmin on 2023/07/28.
+//  Created by kyungmin, Erick on 2023/07/28.
 //
 
 import Foundation
 
 extension URL {
-    static func makeKobisURL(_ path: String, _ items: [URLQueryItem]) -> URL? {
+    static func kobisURL(_ path: String, _ items: [URLQueryItem]) -> URL? {
         var urlComponents = URLComponents()
         urlComponents.scheme = Scheme.http
         urlComponents.host = Host.kobis
@@ -19,12 +19,12 @@ extension URL {
     }
 }
 
-private extension URL {
-    enum Scheme {
+extension URL {
+    private enum Scheme {
         static let http = "http"
     }
 
-    enum Host {
+    private enum Host {
         static let kobis = "www.kobis.or.kr"
     }
 }

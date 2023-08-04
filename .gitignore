@@ -4,7 +4,9 @@
 .xcworkspace/
 .xcodeproj/
 xcuserdata/
-*.xcconfig
 
 # Xcode scheme management
 xcschememanagement.plist
+
+# API_KEY
+BoxOffice/Resource/API_KEY.xcconfig
