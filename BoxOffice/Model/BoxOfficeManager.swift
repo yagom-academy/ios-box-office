@@ -24,12 +24,16 @@ final class BoxOfficeManager {
         let url = URL.makeKobisURL(Path.boxOffice, [keyItem, targetDateItem])
         
         networkManager.getData(from: url) { [weak self] result in
+            guard let self else {
+                return
+            }
+            
             switch result {
             case .success(let data):
                 do {
                     let boxOffice = try JSONDecoder().decode(BoxOffice.self, from: data)
-                    self?.dailyBoxOfficeDatas = DataManager.boxOfficeTransferDailyBoxOfficeData(boxOffice: boxOffice)
                     completion(nil)
+                    self.dailyBoxOfficeDatas = DataManager.boxOfficeTransferDailyBoxOfficeData(boxOffice: boxOffice)
                 } catch {
                     completion(DataError.decodeJSONFailed)
                 }
@@ -45,12 +49,16 @@ final class BoxOfficeManager {
         let url = URL.makeKobisURL(Path.movie, [keyItem, movieCodeItem])
         
         networkManager.getData(from: url) { [weak self] result in
+            guard let self else {
+                return
+            }
+            
             switch result {
             case .success(let data):
                 do {
                     let movie = try JSONDecoder().decode(Movie.self, from: data)
-                    self?.movie = movie
                     completion(nil)
+                    self.movie = movie
                 } catch {
                     completion(DataError.decodeJSONFailed)
                 }
