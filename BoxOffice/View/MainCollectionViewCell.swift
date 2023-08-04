@@ -72,7 +72,7 @@ final class MainCollectionViewCell: UICollectionViewCell {
         stackView.translatesAutoresizingMaskIntoConstraints = false
         return stackView
     }()
-    
+        
     override init(frame: CGRect) {
         super.init(frame: frame)
         
@@ -88,7 +88,7 @@ final class MainCollectionViewCell: UICollectionViewCell {
         rankLabel.text = movieInformation.rank
         rankIntenLabel.attributedText = rankIntenLabelText(movieInformation.OldAndNew, movieInformation.rankInten)
         movieNameLabel.text = movieInformation.movieName
-        audienceCountLabel.text = movieInformation.audienceCount
+        audienceCountLabel.text = "오늘 \(decimalFormattedNumber(text: movieInformation.audienceCount)) / 총 \(decimalFormattedNumber(text: movieInformation.audienceAccumulate))"
     }
 }
 
@@ -133,5 +133,14 @@ extension MainCollectionViewCell {
             
             return addAttributeString(text: text, keyword: symbol, color: symbolColor)
         }
+    }
+    
+    private func decimalFormattedNumber(text: String) -> String {
+        let numberFormatter = NumberFormatter()
+        let numbers = Int(text) ?? 0
+        
+        numberFormatter.numberStyle = .decimal
+        let result = numberFormatter.string(from: NSNumber(value: numbers)) ?? ""
+        return result
     }
 }
