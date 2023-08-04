@@ -7,7 +7,7 @@
 
 import UIKit
 
-final class MainCollectionViewCell: UICollectionViewCell {
+final class MainCollectionViewCell: UICollectionViewListCell {
     static let reuseIdentifier = "cell"
     
     private let rankLabel: UILabel = {
@@ -52,6 +52,7 @@ final class MainCollectionViewCell: UICollectionViewCell {
         
         stackView.axis = .vertical
         stackView.spacing = 3
+        stackView.translatesAutoresizingMaskIntoConstraints = false
         return stackView
     }()
     
@@ -61,23 +62,16 @@ final class MainCollectionViewCell: UICollectionViewCell {
         stackView.axis = .vertical
         stackView.spacing = 3
         stackView.alignment = .leading
-        return stackView
-    }()
-    
-    private let movieInformationStackView: UIStackView = {
-        let stackView = UIStackView()
-        
-        stackView.spacing = 30
-        stackView.axis = .horizontal
         stackView.translatesAutoresizingMaskIntoConstraints = false
         return stackView
     }()
-        
+
     override init(frame: CGRect) {
         super.init(frame: frame)
         
         configureUI()
         setUpConstraints()
+        setUpAccessory()
     }
     
     required init?(coder: NSCoder) {
@@ -101,16 +95,31 @@ extension MainCollectionViewCell {
     private func configureUI() {
         [rankLabel, rankIntenLabel].forEach { rankStackView.addArrangedSubview($0) }
         [movieNameLabel, audienceCountLabel].forEach { movieDescriptionStackView.addArrangedSubview($0) }
-        [rankStackView, movieDescriptionStackView].forEach { movieInformationStackView.addArrangedSubview($0) }
-        addSubview(movieInformationStackView)
+        [rankStackView, movieDescriptionStackView].forEach { addSubview($0) }
     }
     
     private func setUpConstraints() {
+        setUpRankStackViewConstraint()
+        setUpMovieDescriptionStackViewConstraint()
+    }
+    
+    private func setUpAccessory() {
+        accessories = [.disclosureIndicator()]
+    }
+    
+    private func setUpRankStackViewConstraint() {
         NSLayoutConstraint.activate([
-            movieInformationStackView.topAnchor.constraint(equalTo: topAnchor, constant: 5),
-            movieInformationStackView.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -5),
-            movieInformationStackView.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 30),
-            movieInformationStackView.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -20)
+            rankStackView.centerXAnchor.constraint(equalTo: leadingAnchor, constant: 40),
+            rankStackView.centerYAnchor.constraint(equalTo: centerYAnchor)
+        ])
+    }
+    
+    private func setUpMovieDescriptionStackViewConstraint() {
+        NSLayoutConstraint.activate([
+            movieDescriptionStackView.topAnchor.constraint(equalTo: topAnchor, constant: 10),
+            movieDescriptionStackView.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -10),
+            movieDescriptionStackView.leadingAnchor.constraint(equalTo: rankStackView.trailingAnchor, constant: 30),
+            movieDescriptionStackView.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -40)
         ])
     }
 }
