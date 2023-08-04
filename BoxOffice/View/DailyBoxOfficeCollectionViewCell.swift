@@ -2,12 +2,12 @@
 //  DailyBoxOfficeCollectionViewCell.swift
 //  BoxOffice
 //
-//  Created by JSB on 2023/08/03.
+//  Created by Idinaloq, MARY on 2023/08/03.
 //
 
 import UIKit
 
-class DailyBoxOfficeCollectionViewCell: UICollectionViewCell {
+final class DailyBoxOfficeCollectionViewCell: UICollectionViewListCell {
     static let identifier: String = "DailyBoxOfficeCollectionViewCell"
     
     let titleLabel: UILabel = {
@@ -85,6 +85,8 @@ class DailyBoxOfficeCollectionViewCell: UICollectionViewCell {
         dailyBoxOfficeStackView.addSubview(movieStackView)
         
         contentView.addSubview(dailyBoxOfficeStackView)
+        self.layer.addSeparator()
+        self.accessories = [.disclosureIndicator()]
     }
     
     private func setUpAutolayout() {
@@ -119,4 +121,3 @@ class DailyBoxOfficeCollectionViewCell: UICollectionViewCell {
         ])
     }
 }
-

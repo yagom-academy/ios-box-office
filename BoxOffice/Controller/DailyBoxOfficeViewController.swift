@@ -136,21 +136,39 @@ extension DailyBoxOfficeViewController: UICollectionViewDataSource, UICollection
             return cell
         }
         
-        let audienceCount = data.boxOfficeResult.dailyBoxOfficeList[indexPath.item].audienceCount
-        let audienceAccumulate = data.boxOfficeResult.dailyBoxOfficeList[indexPath.item].audienceAccumulate
+        let movieName: String = data.boxOfficeResult.dailyBoxOfficeList[indexPath.item].movieName
+        let rank: String = data.boxOfficeResult.dailyBoxOfficeList[indexPath.item].rank
+        let audienceCount: String = data.boxOfficeResult.dailyBoxOfficeList[indexPath.item].audienceCount
+        let audienceAccumulate: String = data.boxOfficeResult.dailyBoxOfficeList[indexPath.item].audienceAccumulate
+        let rankChangeValue: String = data.boxOfficeResult.dailyBoxOfficeList[indexPath.item].rankChangeValue
+        let rankOldAndNew: String = data.boxOfficeResult.dailyBoxOfficeList[indexPath.item].rankOldAndNew
         
-        cell.titleLabel.text = data.boxOfficeResult.dailyBoxOfficeList[indexPath.item].movieName
-        cell.rankLabel.text = data.boxOfficeResult.dailyBoxOfficeList[indexPath.item].rank
-        cell.visitorLabel.text = "오늘 \(audienceCount) / 총 \(audienceAccumulate)"
+        cell.titleLabel.text = movieName
+        cell.rankLabel.text = rank
+        cell.visitorLabel.text = "오늘 \(audienceCount.decimalStyleFormatter()) / 총 \(audienceAccumulate.decimalStyleFormatter())"
         
-        
-        if data.boxOfficeResult.dailyBoxOfficeList[indexPath.item].rankOldAndNew == "NEW" {
+        switch (rankOldAndNew, rankChangeValue.first) {
+        case ("NEW", _):
             cell.rankChangeValueLabel.text = "신작"
-        } else {
-            cell.rankChangeValueLabel.text = data.boxOfficeResult.dailyBoxOfficeList[indexPath.item].rankChangeValue
+            cell.rankChangeValueLabel.textColor = .systemPink
+        case ("OLD", "0"):
+            cell.rankChangeValueLabel.text = "-"
+        case ("OLD", "-"):
+            cell.rankChangeValueLabel.attributedText = setEmojiColor(text: "▼\(rankChangeValue.dropFirst())")
+        case ("OLD", _):
+            cell.rankChangeValueLabel.attributedText = setEmojiColor(text: "▲\(rankChangeValue)")
+        case (_, _):
+            cell.rankChangeValueLabel.text = "Error"
         }
         
         return cell
+    }
+    
+    private func setEmojiColor(text: String) -> NSAttributedString {
+        let attributeString = NSMutableAttributedString(string: text)
+        attributeString.addAttribute(.foregroundColor, value: UIColor.systemBlue, range: (text as NSString).range(of: "▼"))
+        attributeString.addAttribute(.foregroundColor, value: UIColor.systemRed, range: (text as NSString).range(of: "▲"))
+        return attributeString
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
