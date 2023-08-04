@@ -55,10 +55,8 @@ final class BoxOfficeViewController: UIViewController {
     }
     
     @objc private func loadBoxOfficeData() {
-        boxOfficeManager.fetchBoxOffice { [weak self] error in
-            if let error {
-                print(error.localizedDescription)
-                
+        boxOfficeManager.fetchBoxOffice { [weak self] result in
+            if result == false {
                 DispatchQueue.main.async {
                     let alert = UIAlertController.makedBasicAlert(NameSpace.fail, NameSpace.loadDataFail, actionTitle: NameSpace.check, actionType: .default)
                     

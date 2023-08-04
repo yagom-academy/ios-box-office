@@ -17,7 +17,7 @@ final class BoxOfficeManager {
         return movie?.movieInfoResult.movieInfo
     }
     
-    func fetchBoxOffice(completion: @escaping (Error?) -> Void) {
+    func fetchBoxOffice(completion: @escaping (Bool) -> Void) {
         let yesterdayDate = DateFormatter().bringDateString(before: 1, with: DateFormatter.FormatCase.attached)
         let keyItem = URLQueryItem(name: NameSpace.key, value: kobisKey)
         let targetDateItem = URLQueryItem(name: NameSpace.targetDate, value: yesterdayDate)
@@ -32,18 +32,20 @@ final class BoxOfficeManager {
             case .success(let data):
                 do {
                     let boxOffice = try JSONDecoder().decode(BoxOffice.self, from: data)
-                    completion(nil)
                     self.dailyBoxOfficeDatas = DataManager.boxOfficeTransferDailyBoxOfficeData(boxOffice: boxOffice)
+                    completion(true)
                 } catch {
-                    completion(DataError.decodeJSONFailed)
+                    print(DataError.decodeJSONFailed.localizedDescription)
+                    completion(false)
                 }
             case .failure(let error):
-                completion(error)
+                print(error.localizedDescription)
+                completion(false)
             }
         }
     }
     
-    func getMovie(_ movieCode: String, completion: @escaping (Error?) -> Void) {
+    func fetchMovie(_ movieCode: String, completion: @escaping (Bool) -> Void) {
         let keyItem = URLQueryItem(name: NameSpace.key, value: kobisKey)
         let movieCodeItem = URLQueryItem(name: NameSpace.movieCode, value: movieCode)
         let url = URL.makeKobisURL(Path.movie, [keyItem, movieCodeItem])
@@ -57,13 +59,15 @@ final class BoxOfficeManager {
             case .success(let data):
                 do {
                     let movie = try JSONDecoder().decode(Movie.self, from: data)
-                    completion(nil)
                     self.movie = movie
+                    completion(true)
                 } catch {
-                    completion(DataError.decodeJSONFailed)
+                    print(DataError.decodeJSONFailed.localizedDescription)
+                    completion(false)
                 }
             case .failure(let error):
-                completion(error)
+                print(error.localizedDescription)
+                completion(false)
             }
         }
     }
