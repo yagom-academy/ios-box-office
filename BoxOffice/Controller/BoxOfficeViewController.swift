@@ -7,7 +7,6 @@
 
 import UIKit
 
-@available(iOS 14.0, *)
 final class BoxOfficeViewController: UIViewController, URLSessionDelegate {
     private var networkingManager: NetworkingManager?
     private var refreshControl = UIRefreshControl()
@@ -17,7 +16,7 @@ final class BoxOfficeViewController: UIViewController, URLSessionDelegate {
     private let collectionView: UICollectionView = {
         let configuration = UICollectionLayoutListConfiguration(appearance: .plain)
         let layout = UICollectionViewCompositionalLayout.list(using: configuration)
-        let view = UICollectionView(frame: .init(), collectionViewLayout: layout)
+        let view = UICollectionView(frame: .zero, collectionViewLayout: layout)
         view.translatesAutoresizingMaskIntoConstraints = false
         
         return view
@@ -55,7 +54,6 @@ final class BoxOfficeViewController: UIViewController, URLSessionDelegate {
     }
 }
 
-@available(iOS 14.0, *)
 extension BoxOfficeViewController {
     private func setUpUI() {
         let safeArea = view.safeAreaLayoutGuide
@@ -76,10 +74,6 @@ extension BoxOfficeViewController {
     }
     
     private func setUpDate() {
-        guard let yesterday = Calendar.current.date(byAdding: .day, value: -1, to: Date()) else {
-            return
-        }
-        
         let dateFormatter: DateFormatter = {
             let formatter = DateFormatter()
             formatter.dateFormat = "YYYY-MM-dd"
@@ -87,11 +81,14 @@ extension BoxOfficeViewController {
             return formatter
         }()
         
+        guard let yesterday = Calendar.current.date(byAdding: .day, value: -1, to: Date()) else {
+            return
+        }
+        
         self.title = dateFormatter.string(from: yesterday)
     }
 }
 
-@available(iOS 14.0, *)
 extension BoxOfficeViewController {
     private func setUpCollectionView() {
         collectionView.register(BoxOfficeRankingCell.self, forCellWithReuseIdentifier: cellIdentifier)
@@ -127,7 +124,6 @@ extension BoxOfficeViewController {
     }
 }
 
-@available(iOS 14.0, *)
 extension BoxOfficeViewController {
     private func setUpNetwork() {
         let session: URLSession = {

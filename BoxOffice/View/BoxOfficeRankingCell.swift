@@ -7,9 +7,8 @@
 
 import UIKit
 
-@available(iOS 14.0, *)
-class BoxOfficeRankingCell: UICollectionViewListCell {
-    let rankLabel: UILabel = {
+final class BoxOfficeRankingCell: UICollectionViewListCell {
+    private let rankLabel: UILabel = {
         let label = UILabel()
         label.textAlignment = .center
         label.font = .preferredFont(forTextStyle: .largeTitle)
@@ -18,7 +17,7 @@ class BoxOfficeRankingCell: UICollectionViewListCell {
         return label
     }()
     
-    let rankIntensityLabel: UILabel = {
+    private let rankIntensityLabel: UILabel = {
         let label = UILabel()
         label.textAlignment = .center
         label.font = .preferredFont(forTextStyle: .callout)
@@ -27,7 +26,7 @@ class BoxOfficeRankingCell: UICollectionViewListCell {
         return label
     }()
     
-    let movieNameLabel: UILabel = {
+    private let movieNameLabel: UILabel = {
         let label = UILabel()
         label.font = .preferredFont(forTextStyle: .title3)
         label.translatesAutoresizingMaskIntoConstraints = false
@@ -35,14 +34,14 @@ class BoxOfficeRankingCell: UICollectionViewListCell {
         return label
     }()
     
-    let audienceLabel: UILabel = {
+    private let audienceLabel: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
         
         return label
     }()
     
-    let stackView: UIStackView = {
+    private let stackView: UIStackView = {
         let stackView = UIStackView()
         stackView.axis = .vertical
         stackView.translatesAutoresizingMaskIntoConstraints = false
@@ -88,19 +87,7 @@ class BoxOfficeRankingCell: UICollectionViewListCell {
         rankLabel.text = data.rank
         rankIntensityLabel.attributedText = setUpRankIntensity(data.rankIntensity, isNew: data.rankOldAndNew == "NEW")
         movieNameLabel.text = data.movieName
-        audienceLabel.text = "오늘 \(formatDecimalNumber(data.audienceCount)) / 총 \(formatDecimalNumber(data.audienceAccumulate))"
-    }
-    
-    private func formatDecimalNumber(_ data: String) -> String {
-        guard let intData = Int(data) else {
-            return data
-        }
-        
-        let numberFormatter = NumberFormatter()
-        
-        numberFormatter.numberStyle = .decimal
-        
-        return numberFormatter.string(for: NSNumber(value: intData)) ?? data
+        audienceLabel.text = "오늘 \(data.audienceCount.formatToDecimalNumber()) / 총 \(data.audienceAccumulate.formatToDecimalNumber())"
     }
     
     private func setUpRankIntensity(_ rankIntensity: String, isNew: Bool) -> NSMutableAttributedString {
