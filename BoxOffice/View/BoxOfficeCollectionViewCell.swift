@@ -13,6 +13,7 @@ final class BoxOfficeCollectionViewCell: UICollectionViewListCell, Reusable {
         label.font = UIFont.preferredFont(for: .largeTitle, weight: .semibold)
         label.adjustsFontForContentSizeCategory = true
         label.textAlignment = .center
+        label.adjustsFontSizeToFitWidth = true
         return label
     }()
     
@@ -33,6 +34,7 @@ final class BoxOfficeCollectionViewCell: UICollectionViewListCell, Reusable {
     
     private let audienceNumberLabel: UILabel = {
         let label = UILabel()
+        label.numberOfLines = 0
         label.font = UIFont.preferredFont(forTextStyle: .body)
         label.adjustsFontForContentSizeCategory = true
         return label
@@ -124,7 +126,7 @@ extension BoxOfficeCollectionViewCell {
             rankLabel.topAnchor.constraint(equalTo: topAnchor, constant: 12),
             rankLabel.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 24),
             rankLabel.widthAnchor.constraint(equalToConstant: 40)
-        ])        
+        ])
     }
     
     private func rankVariationLabelConstraints() {
@@ -150,8 +152,9 @@ extension BoxOfficeCollectionViewCell {
         audienceNumberLabel.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([
             audienceNumberLabel.leadingAnchor.constraint(equalTo: movieNameLabel.leadingAnchor),
+            audienceNumberLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
             audienceNumberLabel.topAnchor.constraint(equalTo: movieNameLabel.bottomAnchor, constant: 4),
-            audienceNumberLabel.bottomAnchor.constraint(lessThanOrEqualTo: contentView.bottomAnchor, constant: -8)
+            audienceNumberLabel.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -8)
         ])
     }
 }
