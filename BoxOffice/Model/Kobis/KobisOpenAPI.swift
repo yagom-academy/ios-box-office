@@ -8,7 +8,7 @@
 import Foundation
 
 struct KobisOpenAPI {
-    let baseURL: URLComponents = {
+    private let baseURL: URLComponents = {
         var components: URLComponents = URLComponents()
         let queryItem: URLQueryItem = URLQueryItem(name: APIKey.key, value: APIKey.value)
         

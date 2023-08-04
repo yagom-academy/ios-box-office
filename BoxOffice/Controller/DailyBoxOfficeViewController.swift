@@ -11,37 +11,17 @@ final class DailyBoxOfficeViewController: UIViewController {
     private var kobisOpenAPI: KobisOpenAPI = KobisOpenAPI()
     private var networkService: NetworkService = NetworkService()
     private var myData: BoxOffice?
+    private lazy var refresh: UIRefreshControl = {
+        let refreshControl = UIRefreshControl()
+        refreshControl.addTarget(self, action: #selector(refreshCollectionView), for: .valueChanged)
+        return refreshControl
+    }()
     
-    private func abc() {
-        do {
-            let url: URL = try kobisOpenAPI.receiveURL(serviceType: .dailyBoxOffice, queryItems: ["targetDt": Date().getYesterdayDate(format: "yyyyMMdd")])
-            networking(url: url)
-        } catch {
-            print(error.localizedDescription)
-        }
+    @objc func refreshCollectionView() {
+        executeAsync()
+        refresh.endRefreshing()
     }
-    
-    private func networking(url: URL) {
-        NetworkService().fetchData(url: url) { result in
-            switch result {
-            case .success(let data):
-                do {
-                    let decodedData = try JSONDecoder().decode(BoxOffice.self, from: data)
-                    self.myData = decodedData
-                    DispatchQueue.main.async {
-                        self.collectionView.reloadData()
-                    }
-                } catch let error as DecodingError {
-                    print(error)
-                } catch {
-                    print(error)
-                }
-            case .failure(let error):
-                print(error)
-            }
-        }
-    }
-    
+        
     let collectionView: UICollectionView = {
         let layout: UICollectionViewFlowLayout = UICollectionViewFlowLayout()
         let collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
@@ -52,12 +32,53 @@ final class DailyBoxOfficeViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        abc()
-        
+
+        executeAsync()
         configureNavigationItem()
         setupCollectionView()
         configureView()
         setUpAutolayout()
+    }
+       
+    private func executeAsync() {
+        guard let url = receiveURL() else { return }
+        
+        NetworkService().fetchData(url: url) { result in
+            switch result {
+            case .success(let data):
+                self.decodeData(data)
+                self.reloadCollectionView()
+            case .failure(let error):
+                print(error)
+            }
+        }
+    }
+    
+    private func receiveURL() -> URL? {
+        do {
+            let url = try kobisOpenAPI.receiveURL(serviceType: .dailyBoxOffice, queryItems: ["targetDt": Date().getYesterdayDate(format: "yyyyMMdd")])
+            return url
+        } catch {
+            print(error.localizedDescription)
+            return nil
+        }
+    }
+    
+    private func decodeData(_ data: Data) {
+        do {
+            let decodedData = try JSONDecoder().decode(BoxOffice.self, from: data)
+            myData = decodedData
+        } catch let error as DecodingError {
+            print(error)
+        } catch {
+            print(error)
+        }
+    }
+    
+    private func reloadCollectionView() {
+        DispatchQueue.main.async {
+            self.collectionView.reloadData()
+        }
     }
     
     private func configureNavigationItem() {
@@ -69,6 +90,7 @@ final class DailyBoxOfficeViewController: UIViewController {
         collectionView.delegate = self
         collectionView.register(DailyBoxOfficeCollectionViewCell.self,
                                 forCellWithReuseIdentifier: DailyBoxOfficeCollectionViewCell.identifier)
+        collectionView.refreshControl = refresh
     }
     
     private func configureView() {
@@ -111,8 +133,6 @@ extension DailyBoxOfficeViewController: UICollectionViewDataSource, UICollection
         } else {
             cell.rankChangeValueLabel.text = data.boxOfficeResult.dailyBoxOfficeList[indexPath.item].rankChangeValue
         }
-        
-        
         
         return cell
     }

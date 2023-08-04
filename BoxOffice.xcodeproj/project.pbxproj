@@ -85,13 +85,13 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		4416820B2A70F2C200720ACF /* DataTransfetObject */ = {
+		4416820B2A70F2C200720ACF /* DataTransferObject */ = {
 			isa = PBXGroup;
 			children = (
 				DCB683272A77D998005D1510 /* DailyBoxOffice */,
 				DCB683282A77D9B3005D1510 /* MovieInformation */,
 			);
-			path = DataTransfetObject;
+			path = DataTransferObject;
 			sourceTree = "<group>";
 		};
 		441F4E482A78E906003192F2 /* Kobis */ = {
@@ -107,7 +107,7 @@
 			isa = PBXGroup;
 			children = (
 				441F4E482A78E906003192F2 /* Kobis */,
-				4416820B2A70F2C200720ACF /* DataTransfetObject */,
+				4416820B2A70F2C200720ACF /* DataTransferObject */,
 				DCB6831E2A727B99005D1510 /* NetworkService.swift */,
 				DCB683212A77BE77005D1510 /* NetworkError.swift */,
 				DCB6832A2A792F19005D1510 /* URLSessionProtocol.swift */,
