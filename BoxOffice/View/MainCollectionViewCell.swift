@@ -90,7 +90,7 @@ final class MainCollectionViewCell: UICollectionViewCell {
         [rankStackView, movieDescriptionStackView].forEach { movieInformationStackView.addArrangedSubview($0) }
         addSubview(movieInformationStackView)
     }
-
+    
     private func setUpConstraints() {
         NSLayoutConstraint.activate([
             movieInformationStackView.topAnchor.constraint(equalTo: topAnchor, constant: 5),
@@ -98,6 +98,13 @@ final class MainCollectionViewCell: UICollectionViewCell {
             movieInformationStackView.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 30),
             movieInformationStackView.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -20)
         ])
+    }
+    
+    private func addAttributeString(text: String, keyword: String, color: UIColor) -> NSMutableAttributedString {
+        let attributeString = NSMutableAttributedString(string: text)
+        
+        attributeString.addAttribute(.foregroundColor, value: UIColor.red , range: (text as NSString).range(of: keyword))
+        return attributeString
     }
     
     func setUpContent(_ movieInformation: MovieInformationDTO) {
