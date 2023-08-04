@@ -27,6 +27,22 @@ final class MainViewController: UIViewController, CanShowNetworkRequestFailureAl
         return formatter.string(from: yesterday)
     }()
     
+    private lazy var acitivityIndicatorView: UIActivityIndicatorView = {
+        let activityIndicatorView = UIActivityIndicatorView()
+        
+        activityIndicatorView.center = view.center
+        activityIndicatorView.style = .large
+        activityIndicatorView.startAnimating()
+        return activityIndicatorView
+    }()
+    
+    private lazy var refreshControl: UIRefreshControl = {
+        let refreshControl = UIRefreshControl()
+        
+        refreshControl.addTarget(self, action: #selector(setUpViewControllerContents), for: .valueChanged)
+        return refreshControl
+    }()
+    
     private let compositinalLayout: UICollectionViewCompositionalLayout = {
         var listConfiguration = UICollectionLayoutListConfiguration(appearance: .plain)
         
@@ -39,6 +55,7 @@ final class MainViewController: UIViewController, CanShowNetworkRequestFailureAl
     private lazy var collectionView: UICollectionView = {
         let collectionView = UICollectionView(frame: .zero, collectionViewLayout: compositinalLayout)
         
+        collectionView.refreshControl = refreshControl
         collectionView.translatesAutoresizingMaskIntoConstraints = false
         collectionView.register(MainCollectionViewCell.self, forCellWithReuseIdentifier: MainCollectionViewCell.reuseIdentifier)
         return collectionView
@@ -62,6 +79,7 @@ final class MainViewController: UIViewController, CanShowNetworkRequestFailureAl
         configureUI()
         setUpConstraints()
         setUpViewController()
+        setUpViewControllerContents()
         setUpDiffableDataSource()
     }
     
@@ -69,11 +87,16 @@ final class MainViewController: UIViewController, CanShowNetworkRequestFailureAl
         view.backgroundColor = .systemBackground
         navigationItem.title = yesterdayDate
         collectionView.dataSource = diffableDataSource
-        usecase.fetchDailyBoxOffice(targetDate: yesterdayDate.replacingOccurrences(of: "-", with: ""))
+    }
+    
+    @objc private func setUpViewControllerContents() {
+        let targetDate = yesterdayDate.replacingOccurrences(of: "-", with: "")
+        
+        usecase.fetchDailyBoxOffice(targetDate: targetDate)
     }
     
     private func configureUI() {
-        view.addSubview(collectionView)
+        [collectionView, acitivityIndicatorView].forEach { view.addSubview($0) }
     }
     
     private func setUpConstraints() {
@@ -94,26 +117,26 @@ final class MainViewController: UIViewController, CanShowNetworkRequestFailureAl
             cell.setUpContent(movieInformation)
             return cell
         })
-        
-        guard var snapShot = diffableDataSource?.snapshot() else { return }
-        snapShot.appendSections([.main])
-        diffableDataSource?.apply(snapShot)
     }
 }
 
 // MARK: - MainViewControllerUseCaseDelegate
 extension MainViewController: MainViewControllerUseCaseDelegate {
     func completeFetchDailyBoxOfficeInformation(_ movieInformationDTOList: [MovieInformationDTO]) {
-        guard var snapShot = diffableDataSource?.snapshot() else { return }
+        var snapShot = NSDiffableDataSourceSnapshot<Section, MovieInformationDTO>()
         
+        snapShot.appendSections([.main])
         snapShot.appendItems(movieInformationDTOList)
         DispatchQueue.main.async {
             self.diffableDataSource?.apply(snapShot)
+            self.refreshControl.endRefreshing()
+            self.acitivityIndicatorView.stopAnimating()
         }
     }
     
     func failFetchDailyBoxOfficeInformation(_ errorDescription: String?) {
         DispatchQueue.main.async {
+            self.refreshControl.endRefreshing()
 //            self.showNetworkFailAlert(message: errorDescription, retryFunction: self.fetchDailyBoxOfficeForTest)
         }
     }
