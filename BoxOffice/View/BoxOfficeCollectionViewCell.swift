@@ -103,13 +103,13 @@ final class BoxOfficeCollectionViewCell: UICollectionViewCell {
 
 // MARK: setup Data
 extension BoxOfficeCollectionViewCell {
-    func setupBoxOfficeData(_ dailyBoxOfficeData: DailyBoxOffice) {
-        rankLabel.text = dailyBoxOfficeData.rank
-        rankChangeLabel.text = dailyBoxOfficeData.rankState
-        movieTitleLabel.text = dailyBoxOfficeData.movieTitle
-        audienceCountLabel.text = dailyBoxOfficeData.dailyAndTotalAudience
+    func setupLabels(_ dailyBoxOffice: DailyBoxOffice) {
+        rankLabel.text = dailyBoxOffice.rank
+        rankChangeLabel.text = dailyBoxOffice.rankState
+        movieTitleLabel.text = dailyBoxOffice.movieTitle
+        audienceCountLabel.text = dailyBoxOffice.dailyAndTotalAudience
         
-        let rankStateColor = dailyBoxOfficeData.rankStateColor
+        let rankStateColor = dailyBoxOffice.rankStateColor
         
         rankChangeLabel.convertColor(target: rankStateColor.targetString, as: rankStateColor.color)
     }
