@@ -2,7 +2,7 @@
 //  URLError.swift
 //  BoxOffice
 //
-//  Created by MARY on 2023/08/01.
+//  Created by Idinaloq, MARY on 2023/08/01.
 //
 
 import Foundation
