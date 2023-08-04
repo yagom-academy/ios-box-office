@@ -21,6 +21,6 @@ extension CanShowNetworkRequestFailureAlert {
         
         alert.addAction(retryAction)
         alert.addAction(confirmAction)
-        present(alert, animated: true)
+        present(alert, animated: false)
     }
 }
