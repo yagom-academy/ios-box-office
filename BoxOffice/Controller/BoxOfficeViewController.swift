@@ -9,14 +9,8 @@ import UIKit
 
 final class BoxOfficeViewController: UIViewController {
     private let boxOfficeManager = BoxOfficeManager()
-    private let collectionView: UICollectionView = {
-        let layout = UICollectionViewFlowLayout()
-        let collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
-        collectionView.translatesAutoresizingMaskIntoConstraints = false
-        
-        return collectionView
-    }()
-    
+    private var collectionView: UICollectionView!
+    private var dailyBoxOfficeDataSource: UICollectionViewDiffableDataSource<Section, DailyBoxOffice>!
     private lazy var activityIndicator: UIActivityIndicatorView = {
         let activityIndicator = UIActivityIndicatorView(style: .large)
         activityIndicator.center = view.center
@@ -29,6 +23,7 @@ final class BoxOfficeViewController: UIViewController {
         
         setupNavigation()
         setupCollectionView()
+        setupDataSource()
         setupRefreshControl()
         activityIndicator.startAnimating()
         loadBoxOfficeData()
@@ -42,9 +37,10 @@ final class BoxOfficeViewController: UIViewController {
     }
     
     private func setupCollectionView() {
-        collectionView.dataSource = self
-        collectionView.delegate = self
+        collectionView = UICollectionView(frame: .zero, collectionViewLayout: verticalLayout())
+        collectionView.translatesAutoresizingMaskIntoConstraints = false
         collectionView.register(BoxOfficeCollectionViewCell.self, forCellWithReuseIdentifier: BoxOfficeCollectionViewCell.identifier)
+        collectionView.dataSource = dailyBoxOfficeDataSource
     }
     
     private func setupRefreshControl() {
@@ -69,7 +65,7 @@ final class BoxOfficeViewController: UIViewController {
             }
             
             DispatchQueue.main.async {
-                self?.collectionView.reloadData()
+                self?.applySnapshot()
                 self?.collectionView.refreshControl?.endRefreshing()
                 self?.activityIndicator.stopAnimating()
             }
@@ -77,28 +73,42 @@ final class BoxOfficeViewController: UIViewController {
     }
 }
 
-// MARK: UICollectionViewDataSource
-extension BoxOfficeViewController: UICollectionViewDataSource {
-    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return boxOfficeManager.dailyBoxOffices.count
-    }
-    
-    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: BoxOfficeCollectionViewCell.identifier, for: indexPath) as? BoxOfficeCollectionViewCell else {
-            return BoxOfficeCollectionViewCell()
-        }
+// MARK: CollectionView Layout
+extension BoxOfficeViewController {
+    private func verticalLayout() -> UICollectionViewCompositionalLayout {
+        let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0), heightDimension: .fractionalHeight(0.1))
+        let item = NSCollectionLayoutItem(layoutSize: itemSize)
+        let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0), heightDimension: .fractionalHeight(1.2))
+        let group = NSCollectionLayoutGroup.vertical(layoutSize: groupSize, subitems: [item])
+        let section = NSCollectionLayoutSection(group: group)
         
-        let dailyBoxOffice = boxOfficeManager.dailyBoxOffices[indexPath.item]
-        cell.setupLabels(dailyBoxOffice)
-        
-        return cell
+        return UICollectionViewCompositionalLayout(section: section)
     }
 }
 
-// MARK: UICollectionViewDelegateFlowLayout
-extension BoxOfficeViewController: UICollectionViewDelegateFlowLayout {
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        return CGSize(width: collectionView.frame.width, height: collectionView.frame.width / 5)
+// MARK: CollectionView DataSource
+extension BoxOfficeViewController {
+    private func setupDataSource() {
+        dailyBoxOfficeDataSource = UICollectionViewDiffableDataSource<Section, DailyBoxOffice>(collectionView: collectionView) { collectionView, indexPath, dailyBoxOffice in
+            guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: BoxOfficeCollectionViewCell.identifier, for: indexPath) as? BoxOfficeCollectionViewCell else {
+                return UICollectionViewCell()
+            }
+            
+            cell.setupLabels(dailyBoxOffice)
+            
+            return cell
+        }
+    }
+}
+
+// MARK: CollectionView Snapshot
+extension BoxOfficeViewController {
+    private func applySnapshot() {
+        var snapshot = NSDiffableDataSourceSnapshot<Section, DailyBoxOffice>()
+        snapshot.appendSections([.main])
+        snapshot.appendItems(boxOfficeManager.dailyBoxOffices, toSection: .main)
+        
+        dailyBoxOfficeDataSource.apply(snapshot, animatingDifferences: true)
     }
 }
 
@@ -126,5 +136,12 @@ extension BoxOfficeViewController {
         static let fail = "실패"
         static let loadDataFail = "데이터 로드에 실패했습니다."
         static let check = "확인"
+    }
+}
+
+// MARK: CollectionView Section
+extension BoxOfficeViewController {
+    private enum Section {
+        case main
     }
 }
