@@ -8,10 +8,11 @@
 import UIKit
 
 final class ViewController: UIViewController {
+    private let activityIndicatorView = UIActivityIndicatorView(style: .medium)
+    
     private let boxOfficeService = BoxOfficeService()
     private var boxOffice: BoxOffice?
     private var movie: Movie?
-    private let activityIndicatorView = UIActivityIndicatorView(style: .medium)
     
     private var dataSource: UICollectionViewDiffableDataSource<Section, DailyBoxOffice>? = nil
     private var collectionView: UICollectionView? = nil
@@ -27,6 +28,13 @@ final class ViewController: UIViewController {
     }
     
     // MARK: - UI Configuration
+    private func showLoadingView() {
+        view.addSubview(activityIndicatorView)
+        
+        activityIndicatorView.center = view.center
+        activityIndicatorView.startAnimating()
+    }
+    
     private func setTitle() {
         self.title = boxOfficeService.formattedYesterdayWithHyphen
     }
@@ -43,7 +51,6 @@ final class ViewController: UIViewController {
     private func fetchBoxOffice(_ result: Result<BoxOffice, NetworkManagerError>) {
         switch result {
         case .success(let boxOffice):
-            print(boxOffice)
             self.boxOffice = boxOffice
             
             if self.collectionView == nil {
@@ -66,7 +73,13 @@ final class ViewController: UIViewController {
                 boxOfficeService.loadMovieDetailData(movieCd: movieCode, fetchMovie)
             }
         case .failure(let error):
-            print(error)
+            DispatchQueue.main.async {
+                let alert = UIAlertController(title: "Error 발생", message: "박스오피스 로드에 실패하였습니다.", preferredStyle: .alert)
+                alert.addAction(UIAlertAction(title: NSLocalizedString("확인", comment: "close"), style: .default, handler: { _ in
+                    NSLog(error.localizedDescription)
+                }))
+                self.present(alert, animated: true, completion: nil)
+            }
         }
     }
     
@@ -76,17 +89,19 @@ final class ViewController: UIViewController {
             print(movie)
             self.movie = movie
         case .failure(let error):
-            print(error)
+            DispatchQueue.main.async {
+                let alert = UIAlertController(title: "Error 발생", message: "영화 상세 정보 로드에 실패하였습니다.", preferredStyle: .alert)
+                alert.addAction(UIAlertAction(title: NSLocalizedString("확인", comment: "close"), style: .default, handler: { _ in
+                    NSLog(error.localizedDescription)
+                }))
+                self.present(alert, animated: true, completion: nil)
+            }
         }
     }
-    
-    // MARK: - Configure CollectionView UI
-    private func showLoadingView() {
-        view.addSubview(activityIndicatorView)
-        activityIndicatorView.center = view.center
-        activityIndicatorView.startAnimating()
-    }
-    
+}
+
+// MARK: - Configure CollectionView UI
+extension ViewController {
     private func createLayout() -> UICollectionViewLayout {
         let config = UICollectionLayoutListConfiguration(appearance: .plain)
         let layout = UICollectionViewCompositionalLayout.list(using: config)
@@ -102,7 +117,7 @@ final class ViewController: UIViewController {
         collectionView?.refreshControl = refresher
         collectionView?.refreshControl?.addTarget(self, action: #selector(loadDailyBoxOfficeData), for: .valueChanged)
         collectionView?.refreshControl?.transform = CGAffineTransformMakeScale(0.6, 0.6);
-
+        
         view.addSubview(collectionView ?? UICollectionView())
     }
     
