@@ -107,7 +107,7 @@ extension BoxOfficeCell {
     private func setUpInformationStackViewConstraints() {
         NSLayoutConstraint.activate([
             informationStackView.leadingAnchor.constraint(equalTo: leadingAnchor),
-            informationStackView.trailingAnchor.constraint(equalTo: trailingAnchor),
+            informationStackView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
             informationStackView.topAnchor.constraint(equalTo: topAnchor, constant: 8),
             informationStackView.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -8)
         ])
