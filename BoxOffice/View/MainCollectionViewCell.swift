@@ -84,6 +84,16 @@ final class MainCollectionViewCell: UICollectionViewCell {
         fatalError("init(coder:) has not been implemented")
     }
     
+    func setUpContent(_ movieInformation: MovieInformationDTO) {
+        rankLabel.text = movieInformation.rank
+        rankIntenLabel.attributedText = rankIntenLabelText(movieInformation.OldAndNew, movieInformation.rankInten)
+        movieNameLabel.text = movieInformation.movieName
+        audienceCountLabel.text = movieInformation.audienceCount
+    }
+}
+
+// MARK: - Private
+extension MainCollectionViewCell {
     private func configureUI() {
         [rankLabel, rankIntenLabel].forEach { rankStackView.addArrangedSubview($0) }
         [movieNameLabel, audienceCountLabel].forEach { movieDescriptionStackView.addArrangedSubview($0) }
@@ -103,14 +113,25 @@ final class MainCollectionViewCell: UICollectionViewCell {
     private func addAttributeString(text: String, keyword: String, color: UIColor) -> NSMutableAttributedString {
         let attributeString = NSMutableAttributedString(string: text)
         
-        attributeString.addAttribute(.foregroundColor, value: UIColor.red , range: (text as NSString).range(of: keyword))
+        attributeString.addAttribute(.foregroundColor, value: color , range: (text as NSString).range(of: keyword))
         return attributeString
     }
     
-    func setUpContent(_ movieInformation: MovieInformationDTO) {
-        rankLabel.text = movieInformation.rank
-        rankIntenLabel.text = movieInformation.OldAndNew == "NEW" ? "신작" : movieInformation.rankInten
-        movieNameLabel.text = movieInformation.movieName
-        audienceCountLabel.text = movieInformation.audienceCount
+    private func rankIntenLabelText(_ oldAndNew: String, _ rankInten: String) -> NSMutableAttributedString {
+        if oldAndNew == "NEW" {
+            return addAttributeString(text: "신작", keyword: "신작", color: .red)
+        }
+        
+        if rankInten == "0" {
+            return addAttributeString(text: "-", keyword: "-", color: .black)
+        } else {
+            let isRankUp = Int(rankInten) ?? 0 > 0
+            let symbol = isRankUp ? "▲" : "▼"
+            let symbolColor: UIColor = isRankUp ? .red : .blue
+            let inten = isRankUp == false ? rankInten.replacingOccurrences(of: "-", with: "") : rankInten
+            let text = "\(symbol)\(inten)"
+            
+            return addAttributeString(text: text, keyword: symbol, color: symbolColor)
+        }
     }
 }
