@@ -65,7 +65,7 @@ final class MainCollectionViewCell: UICollectionViewListCell {
         stackView.translatesAutoresizingMaskIntoConstraints = false
         return stackView
     }()
-
+    
     override init(frame: CGRect) {
         super.init(frame: frame)
         

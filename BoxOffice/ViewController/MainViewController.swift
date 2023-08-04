@@ -27,7 +27,7 @@ final class MainViewController: UIViewController, CanShowNetworkRequestFailureAl
         return formatter.string(from: yesterday)
     }()
     
-    private lazy var acitivityIndicatorView: UIActivityIndicatorView = {
+    private lazy var activityIndicatorView: UIActivityIndicatorView = {
         let activityIndicatorView = UIActivityIndicatorView()
         
         activityIndicatorView.center = view.center
@@ -43,7 +43,7 @@ final class MainViewController: UIViewController, CanShowNetworkRequestFailureAl
         return refreshControl
     }()
     
-    private let compositinalLayout: UICollectionViewCompositionalLayout = {
+    private let compositionalLayout: UICollectionViewCompositionalLayout = {
         var listConfiguration = UICollectionLayoutListConfiguration(appearance: .plain)
         
         listConfiguration.separatorConfiguration.bottomSeparatorInsets = .init(top: 0, leading: 0, bottom: 0, trailing: 0)
@@ -53,7 +53,7 @@ final class MainViewController: UIViewController, CanShowNetworkRequestFailureAl
     }()
     
     private lazy var collectionView: UICollectionView = {
-        let collectionView = UICollectionView(frame: .zero, collectionViewLayout: compositinalLayout)
+        let collectionView = UICollectionView(frame: .zero, collectionViewLayout: compositionalLayout)
         
         collectionView.dataSource = diffableDataSource
         collectionView.refreshControl = refreshControl
@@ -96,7 +96,7 @@ final class MainViewController: UIViewController, CanShowNetworkRequestFailureAl
     }
     
     private func configureUI() {
-        [collectionView, acitivityIndicatorView].forEach { view.addSubview($0) }
+        [collectionView, activityIndicatorView].forEach { view.addSubview($0) }
     }
     
     private func setUpConstraints() {
@@ -130,7 +130,7 @@ extension MainViewController: MainViewControllerUseCaseDelegate {
         DispatchQueue.main.async {
             self.diffableDataSource?.apply(snapShot)
             self.refreshControl.endRefreshing()
-            self.acitivityIndicatorView.stopAnimating()
+            self.activityIndicatorView.stopAnimating()
         }
     }
     
