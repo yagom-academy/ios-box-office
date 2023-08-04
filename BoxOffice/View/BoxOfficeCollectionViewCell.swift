@@ -116,8 +116,8 @@ extension BoxOfficeCollectionViewCell {
 }
 
 // MARK: setup UI
-private extension BoxOfficeCollectionViewCell {
-    func configureUI() {
+extension BoxOfficeCollectionViewCell {
+    private func configureUI() {
         rankStackView.addArrangedSubview(rankLabel)
         rankStackView.addArrangedSubview(rankChangeLabel)
         movieInfomationStackView.addArrangedSubview(movieTitleLabel)
@@ -129,14 +129,14 @@ private extension BoxOfficeCollectionViewCell {
         contentView.addSubview(forwardImageView)
     }
     
-    func setupConstraint() {
+    private func setupConstraint() {
         setupSeperatorVeiwConstraint()
         setupRankStackVeiwConstraint()
         setupMovieInfomationStackViewConstraint()
         setupForwardImageViewConstraint()
     }
     
-    func setupSeperatorVeiwConstraint() {
+    private func setupSeperatorVeiwConstraint() {
         NSLayoutConstraint.activate([
             seperatorView.widthAnchor.constraint(equalTo: contentView.widthAnchor),
             seperatorView.heightAnchor.constraint(equalToConstant: 0.5),
@@ -145,7 +145,7 @@ private extension BoxOfficeCollectionViewCell {
         ])
     }
     
-    func setupRankStackVeiwConstraint() {
+    private func setupRankStackVeiwConstraint() {
         NSLayoutConstraint.activate([
             rankStackView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 32),
             rankStackView.centerYAnchor.constraint(equalTo: contentView.centerYAnchor),
@@ -153,14 +153,14 @@ private extension BoxOfficeCollectionViewCell {
         ])
     }
     
-    func setupMovieInfomationStackViewConstraint() {
+    private func setupMovieInfomationStackViewConstraint() {
         NSLayoutConstraint.activate([
             movieInfomationStackView.leadingAnchor.constraint(equalTo: rankStackView.trailingAnchor, constant: 32),
             movieInfomationStackView.centerYAnchor.constraint(equalTo: contentView.centerYAnchor)
         ])
     }
     
-    func setupForwardImageViewConstraint() {
+    private func setupForwardImageViewConstraint() {
         NSLayoutConstraint.activate([
             forwardImageView.leadingAnchor.constraint(greaterThanOrEqualTo: movieInfomationStackView.trailingAnchor, constant: 32),
             forwardImageView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -16),

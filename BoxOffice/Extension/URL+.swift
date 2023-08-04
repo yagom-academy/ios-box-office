@@ -19,12 +19,12 @@ extension URL {
     }
 }
 
-private extension URL {
-    enum Scheme {
+extension URL {
+    private enum Scheme {
         static let http = "http"
     }
 
-    enum Host {
+    private enum Host {
         static let kobis = "www.kobis.or.kr"
     }
 }
