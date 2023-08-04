@@ -74,12 +74,21 @@
 
 </div>
 </details>
+
 <a id="3."></a>
 
 ## 3. 시각화 구조
 
 ### 📐 Diagram
+
+<details>
+<summary>UML</summary>
+<div markdown="1">
+
 ![](https://hackmd.io/_uploads/B1WvCGqoh.png)
+
+</div>
+</details>
 
 ### 🌲 File Tree
 
