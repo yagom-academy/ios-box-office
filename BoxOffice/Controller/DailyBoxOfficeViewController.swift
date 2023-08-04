@@ -21,7 +21,7 @@ final class DailyBoxOfficeViewController: UIViewController {
         executeAsync()
         refresh.endRefreshing()
     }
-        
+    
     let collectionView: UICollectionView = {
         let layout: UICollectionViewFlowLayout = UICollectionViewFlowLayout()
         let collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
@@ -30,16 +30,28 @@ final class DailyBoxOfficeViewController: UIViewController {
         return collectionView
     }()
     
+    private lazy var activityIndicator: UIActivityIndicatorView = {
+        let activityIndicator = UIActivityIndicatorView()
+        activityIndicator.center = self.view.center
+        activityIndicator.color = .systemRed
+        activityIndicator.hidesWhenStopped = true
+        activityIndicator.style = UIActivityIndicatorView.Style.large
+        activityIndicator.startAnimating()
+        activityIndicator.layer.zPosition = 1
+        return activityIndicator
+        
+    }()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        
         executeAsync()
         configureNavigationItem()
         setupCollectionView()
         configureView()
         setUpAutolayout()
     }
-       
+    
     private func executeAsync() {
         guard let url = receiveURL() else { return }
         
@@ -77,6 +89,7 @@ final class DailyBoxOfficeViewController: UIViewController {
     
     private func reloadCollectionView() {
         DispatchQueue.main.async {
+            self.activityIndicator.stopAnimating()
             self.collectionView.reloadData()
         }
     }
@@ -94,6 +107,7 @@ final class DailyBoxOfficeViewController: UIViewController {
     }
     
     private func configureView() {
+        view.addSubview(activityIndicator)
         view.addSubview(collectionView)
         view.backgroundColor = .systemBackground
     }
@@ -121,12 +135,14 @@ extension DailyBoxOfficeViewController: UICollectionViewDataSource, UICollection
         guard let data = myData else {
             return cell
         }
+        
         let audienceCount = data.boxOfficeResult.dailyBoxOfficeList[indexPath.item].audienceCount
         let audienceAccumulate = data.boxOfficeResult.dailyBoxOfficeList[indexPath.item].audienceAccumulate
         
         cell.titleLabel.text = data.boxOfficeResult.dailyBoxOfficeList[indexPath.item].movieName
         cell.rankLabel.text = data.boxOfficeResult.dailyBoxOfficeList[indexPath.item].rank
         cell.visitorLabel.text = "오늘 \(audienceCount) / 총 \(audienceAccumulate)"
+        
         
         if data.boxOfficeResult.dailyBoxOfficeList[indexPath.item].rankOldAndNew == "NEW" {
             cell.rankChangeValueLabel.text = "신작"
