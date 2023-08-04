@@ -35,6 +35,7 @@ final class BoxOfficeCell: UICollectionViewListCell {
         let stackView = UIStackView()
         stackView.axis = .vertical
         stackView.alignment = .center
+        stackView.spacing = 4
         
         return stackView
     }()
@@ -42,6 +43,8 @@ final class BoxOfficeCell: UICollectionViewListCell {
     let rankLabel: UILabel = {
         let label = UILabel()
         label.font = UIFont.preferredFont(forTextStyle: .title1)
+        label.adjustsFontForContentSizeCategory = true
+        label.adjustsFontSizeToFitWidth = true
         
         return label
     }()
@@ -49,6 +52,8 @@ final class BoxOfficeCell: UICollectionViewListCell {
     let rankInformationLabel: UILabel = {
         let label = UILabel()
         label.font = UIFont.preferredFont(forTextStyle: .body)
+        label.adjustsFontForContentSizeCategory = true
+        label.adjustsFontSizeToFitWidth = true
         
         return label
     }()
@@ -59,6 +64,8 @@ final class BoxOfficeCell: UICollectionViewListCell {
         label.font = UIFont.preferredFont(forTextStyle: .title2)
         label.numberOfLines = 0
         label.font = UIFont.preferredFont(forTextStyle: .body)
+        label.adjustsFontForContentSizeCategory = true
+        label.adjustsFontSizeToFitWidth = true
         
         return label
     }()
