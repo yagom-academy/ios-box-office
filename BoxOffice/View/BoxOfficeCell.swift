@@ -67,6 +67,7 @@ final class BoxOfficeCell: UICollectionViewListCell {
         super.init(frame: frame)
         configureCell()
     }
+    
     required init?(coder: NSCoder) {
         fatalError("not implemnted")
     }
@@ -74,7 +75,7 @@ final class BoxOfficeCell: UICollectionViewListCell {
 
 // MARK: - Constraints
 extension BoxOfficeCell {
-    func configureCell() {
+    private func configureCell() {
         configureUI()
         setUpConstraints()
     }
