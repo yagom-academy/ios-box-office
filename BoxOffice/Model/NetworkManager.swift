@@ -7,11 +7,11 @@
 
 import Foundation
 
-public protocol gettable {
+public protocol Gettable {
     func getBoxOfficeData<T: Decodable>(requestURL: URLRequest, completionHandler: @escaping (T) -> Void)
 }
 
-struct NetworkManager: gettable {
+struct NetworkManager: Gettable {
     func getBoxOfficeData<T: Decodable>(requestURL: URLRequest, completionHandler: @escaping (T) -> Void) {
         let task = URLSession.shared.dataTask(with: requestURL) { data, response, error in
             guard error == nil else {
@@ -31,7 +31,9 @@ struct NetworkManager: gettable {
             do {
                 let receivedData = try JSONDecoder().decode(T.self, from: data)
                 completionHandler(receivedData)
-            } catch let error {
+            } catch let error as NetworkManagerError {
+                print(error.localizedDescription)
+            } catch {
                 print(error.localizedDescription)
             }
         }
