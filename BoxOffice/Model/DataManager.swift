@@ -8,10 +8,10 @@
 import Foundation
 
 enum DataManager {
-    static func boxOfficeTransferDailyBoxOfficeData(boxOffice: BoxOffice) -> [DailyBoxOfficeData] {
+    static func boxOfficeTransferDailyBoxOfficeData(boxOffice: BoxOffice) -> [DailyBoxOffice] {
         return boxOffice.boxOfficeResult.dailyBoxOfficeList.map {
-            let decimalAudienceCount = NumberFormatter().bringDecimalString($0.audienceCount)
-            let decimalaudienceAccumulation = NumberFormatter().bringDecimalString($0.audienceAccumulation)
+            let decimalAudienceCount = NumberFormatter().decimalString($0.audienceCount)
+            let decimalaudienceAccumulation = NumberFormatter().decimalString($0.audienceAccumulation)
             let dailyAndTotalAudience = String(format: NameSpace.dailyAndTotalAudience, decimalAudienceCount, decimalaudienceAccumulation)
             
             var rankState = NameSpace.empty
@@ -31,7 +31,7 @@ enum DataManager {
                 rankStateColor = (NameSpace.upTriangle, .systemRed)
             }
             
-            return DailyBoxOfficeData(rank: $0.rank, rankState: rankState, movieTitle: $0.movieName, dailyAndTotalAudience: dailyAndTotalAudience, rankStateColor: rankStateColor)
+            return DailyBoxOffice(rank: $0.rank, rankState: rankState, movieTitle: $0.movieName, dailyAndTotalAudience: dailyAndTotalAudience, rankStateColor: rankStateColor)
         }
     }
 }

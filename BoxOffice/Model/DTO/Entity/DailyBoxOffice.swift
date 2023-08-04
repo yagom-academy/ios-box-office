@@ -9,7 +9,7 @@ import UIKit
 
 typealias RankStateColor = (targetString: String, color: UIColor)
 
-struct DailyBoxOfficeData {
+struct DailyBoxOffice {
     let rank: String
     let rankState: String
     let movieTitle: String

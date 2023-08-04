@@ -8,10 +8,13 @@
 import UIKit
 
 extension UILabel {
-    func asColor(targetString: String, color: UIColor) {
-        let fullText = text ?? ""
-        let attributedString = NSMutableAttributedString(string: fullText)
-        let range = (fullText as NSString).range(of: targetString)
+    func convertColor(target: String, as color: UIColor) {
+        guard let text else {
+            return
+        }
+        
+        let attributedString = NSMutableAttributedString(string: text)
+        let range = (text as NSString).range(of: target)
         attributedString.addAttribute(.foregroundColor, value: color, range: range)
         attributedText = attributedString
     }

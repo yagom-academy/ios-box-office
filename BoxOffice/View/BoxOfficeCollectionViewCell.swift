@@ -8,7 +8,7 @@
 import UIKit
 
 final class BoxOfficeCollectionViewCell: UICollectionViewCell {
-    static let identifier = "BoxOfficeCollectionViewCellID"
+    static let identifier = String(describing: BoxOfficeCollectionViewCell.self)
     
     private let seperatorView: UIView = {
         let view = UIView()
@@ -103,7 +103,7 @@ final class BoxOfficeCollectionViewCell: UICollectionViewCell {
 
 // MARK: setup Data
 extension BoxOfficeCollectionViewCell {
-    func setupBoxOfficeData(_ dailyBoxOfficeData: DailyBoxOfficeData) {
+    func setupBoxOfficeData(_ dailyBoxOfficeData: DailyBoxOffice) {
         rankLabel.text = dailyBoxOfficeData.rank
         rankChangeLabel.text = dailyBoxOfficeData.rankState
         movieTitleLabel.text = dailyBoxOfficeData.movieTitle
@@ -111,7 +111,7 @@ extension BoxOfficeCollectionViewCell {
         
         let rankStateColor = dailyBoxOfficeData.rankStateColor
         
-        rankChangeLabel.asColor(targetString: rankStateColor.targetString, color: rankStateColor.color)
+        rankChangeLabel.convertColor(target: rankStateColor.targetString, as: rankStateColor.color)
     }
 }
 

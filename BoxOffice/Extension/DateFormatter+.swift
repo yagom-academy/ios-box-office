@@ -8,7 +8,7 @@
 import Foundation
 
 extension DateFormatter {
-    func bringDateString(before day: Int, with dateFomat: String) -> String? {
+    func dateString(before day: Int, with dateFomat: String) -> String? {
         let currentDate = Date()
         let calendar = Calendar.current
         

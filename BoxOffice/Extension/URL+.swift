@@ -8,7 +8,7 @@
 import Foundation
 
 extension URL {
-    static func makeKobisURL(_ path: String, _ items: [URLQueryItem]) -> URL? {
+    static func kobisURL(_ path: String, _ items: [URLQueryItem]) -> URL? {
         var urlComponents = URLComponents()
         urlComponents.scheme = Scheme.http
         urlComponents.host = Host.kobis

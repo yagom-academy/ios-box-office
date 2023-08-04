@@ -8,7 +8,7 @@
 import Foundation
 
 final class BoxOfficeManager {
-    private(set) var dailyBoxOfficeDatas: [DailyBoxOfficeData] = []
+    private(set) var dailyBoxOffices: [DailyBoxOffice] = []
     private var movie: Movie? = nil
     private let networkManager = NetworkManager(urlSession: URLSession.shared)
     private let kobisKey = Bundle.main.object(forInfoDictionaryKey: NameSpace.kobisKey) as? String
@@ -18,12 +18,12 @@ final class BoxOfficeManager {
     }
     
     func fetchBoxOffice(completion: @escaping (Bool) -> Void) {
-        let yesterdayDate = DateFormatter().bringDateString(before: 1, with: DateFormatter.FormatCase.attached)
+        let yesterdayDate = DateFormatter().dateString(before: 1, with: DateFormatter.FormatCase.attached)
         let keyItem = URLQueryItem(name: NameSpace.key, value: kobisKey)
         let targetDateItem = URLQueryItem(name: NameSpace.targetDate, value: yesterdayDate)
-        let url = URL.makeKobisURL(Path.boxOffice, [keyItem, targetDateItem])
+        let url = URL.kobisURL(Path.boxOffice, [keyItem, targetDateItem])
         
-        networkManager.getData(from: url) { [weak self] result in
+        networkManager.requestData(from: url) { [weak self] result in
             guard let self else {
                 return
             }
@@ -32,7 +32,7 @@ final class BoxOfficeManager {
             case .success(let data):
                 do {
                     let boxOffice = try JSONDecoder().decode(BoxOffice.self, from: data)
-                    self.dailyBoxOfficeDatas = DataManager.boxOfficeTransferDailyBoxOfficeData(boxOffice: boxOffice)
+                    self.dailyBoxOffices = DataManager.boxOfficeTransferDailyBoxOfficeData(boxOffice: boxOffice)
                     completion(true)
                 } catch {
                     print(DataError.decodeJSONFailed.localizedDescription)
@@ -48,9 +48,9 @@ final class BoxOfficeManager {
     func fetchMovie(_ movieCode: String, completion: @escaping (Bool) -> Void) {
         let keyItem = URLQueryItem(name: NameSpace.key, value: kobisKey)
         let movieCodeItem = URLQueryItem(name: NameSpace.movieCode, value: movieCode)
-        let url = URL.makeKobisURL(Path.movie, [keyItem, movieCodeItem])
+        let url = URL.kobisURL(Path.movie, [keyItem, movieCodeItem])
         
-        networkManager.getData(from: url) { [weak self] result in
+        networkManager.requestData(from: url) { [weak self] result in
             guard let self else {
                 return
             }

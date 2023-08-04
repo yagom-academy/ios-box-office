@@ -38,7 +38,7 @@ final class BoxOfficeViewController: UIViewController {
     }
     
     private func setupNavigation() {
-        self.navigationItem.title = DateFormatter().bringDateString(before: 1, with: DateFormatter.FormatCase.hyphen)
+        self.navigationItem.title = DateFormatter().dateString(before: 1, with: DateFormatter.FormatCase.hyphen)
     }
     
     private func setupCollectionView() {
@@ -58,7 +58,7 @@ final class BoxOfficeViewController: UIViewController {
         boxOfficeManager.fetchBoxOffice { [weak self] result in
             if result == false {
                 DispatchQueue.main.async {
-                    let alert = UIAlertController.makedBasicAlert(NameSpace.fail, NameSpace.loadDataFail, actionTitle: NameSpace.check, actionType: .default)
+                    let alert = UIAlertController.errorAlert(NameSpace.fail, NameSpace.loadDataFail, actionTitle: NameSpace.check, actionType: .default)
                     
                     self?.collectionView.refreshControl?.endRefreshing()
                     self?.activityIndicator.stopAnimating()
@@ -80,7 +80,7 @@ final class BoxOfficeViewController: UIViewController {
 // MARK: UICollectionViewDataSource
 extension BoxOfficeViewController: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return boxOfficeManager.dailyBoxOfficeDatas.count
+        return boxOfficeManager.dailyBoxOffices.count
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
@@ -88,7 +88,7 @@ extension BoxOfficeViewController: UICollectionViewDataSource {
             return BoxOfficeCollectionViewCell()
         }
         
-        let dailyBoxOfficeData = boxOfficeManager.dailyBoxOfficeDatas[indexPath.item]
+        let dailyBoxOfficeData = boxOfficeManager.dailyBoxOffices[indexPath.item]
         cell.setupBoxOfficeData(dailyBoxOfficeData)
         
         return cell
