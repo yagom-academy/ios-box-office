@@ -8,6 +8,8 @@
 import UIKit
 
 final class BoxOfficeRankingCell: UICollectionViewListCell {
+    static let cellIdentifier = "BoxOfficeCell"
+    
     private let rankLabel: UILabel = {
         let label = UILabel()
         label.textAlignment = .center
@@ -59,6 +61,8 @@ final class BoxOfficeRankingCell: UICollectionViewListCell {
     }
     
     private func setUpUI() {
+        self.accessories = [.outlineDisclosure(options: .init(tintColor: .systemGray))]
+        
         stackView.addArrangedSubview(movieNameLabel)
         stackView.addArrangedSubview(audienceLabel)
         contentView.addSubview(rankLabel)

@@ -19,7 +19,7 @@ final class BoxOfficeDecodingTests: XCTestCase {
         }
         let data = jsonString.data(using: .utf8)
         
-        sut = DecodingManager.shared.decode(data)
+        sut = try DecodingManager.shared.decode(data)
     }
 
     override func tearDownWithError() throws {

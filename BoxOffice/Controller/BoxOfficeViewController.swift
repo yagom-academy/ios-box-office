@@ -11,14 +11,14 @@ final class BoxOfficeViewController: UIViewController, URLSessionDelegate {
     private var networkingManager: NetworkingManager?
     private var refreshControl = UIRefreshControl()
     private var dataSource: UICollectionViewDiffableDataSource<NetworkNamespace, BoxOfficeEntity.BoxOfficeResult.DailyBoxOffice>?
-    private let cellIdentifier = "BoxOfficeCell"
     
     private let collectionView: UICollectionView = {
         let configuration = UICollectionLayoutListConfiguration(appearance: .plain)
         let layout = UICollectionViewCompositionalLayout.list(using: configuration)
         let view = UICollectionView(frame: .zero, collectionViewLayout: layout)
         view.translatesAutoresizingMaskIntoConstraints = false
-        
+        view.register(BoxOfficeRankingCell.self, forCellWithReuseIdentifier: BoxOfficeRankingCell.cellIdentifier)
+
         return view
     }()
     
@@ -50,7 +50,7 @@ final class BoxOfficeViewController: UIViewController, URLSessionDelegate {
         setUpCollectionView()
         setUpDataSource()
         setUpNetwork()
-        fetchData()
+        passFetchedData()
     }
 }
 
@@ -74,37 +74,27 @@ extension BoxOfficeViewController {
     }
     
     private func setUpDate() {
-        let dateFormatter: DateFormatter = {
-            let formatter = DateFormatter()
-            formatter.dateFormat = "YYYY-MM-dd"
-            
-            return formatter
-        }()
-        
         guard let yesterday = Calendar.current.date(byAdding: .day, value: -1, to: Date()) else {
             return
         }
         
-        self.title = dateFormatter.string(from: yesterday)
+        self.title = DateFormatter().formatToString(from: yesterday, with: "YYYY-MM-dd")
     }
 }
 
 extension BoxOfficeViewController {
     private func setUpCollectionView() {
-        collectionView.register(BoxOfficeRankingCell.self, forCellWithReuseIdentifier: cellIdentifier)
         collectionView.refreshControl = refreshControl
-        
         refreshControl.addTarget(self, action: #selector(refresh), for: .valueChanged)
     }
     
     private func setUpDataSource() {
         dataSource = UICollectionViewDiffableDataSource<NetworkNamespace, BoxOfficeEntity.BoxOfficeResult.DailyBoxOffice>(collectionView: self.collectionView) { (collectionView, indexPath, data) -> UICollectionViewCell? in
-            guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: self.cellIdentifier, for: indexPath) as? BoxOfficeRankingCell else {
+            guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: BoxOfficeRankingCell.cellIdentifier, for: indexPath) as? BoxOfficeRankingCell else {
                 return UICollectionViewCell()
             }
             
             cell.setUpLabelText(data)
-            cell.accessories = [.outlineDisclosure(options: .init(tintColor: .systemGray))]
             
             return cell
         }
@@ -119,8 +109,7 @@ extension BoxOfficeViewController {
     }
     
     @objc private func refresh() {
-        fetchData()
-        refreshControl.endRefreshing()
+        passFetchedData()
     }
 }
 
@@ -136,7 +125,7 @@ extension BoxOfficeViewController {
         networkingManager = NetworkingManager(session)
     }
     
-    private func fetchData() {
+    private func passFetchedData() {
         guard let date = self.title?.replacingOccurrences(of: "-", with: "") else {
             return
         }
@@ -146,18 +135,21 @@ extension BoxOfficeViewController {
         networkingManager?.load(url) { [weak self] (result: Result<Data, NetworkingError>) in
             switch result {
             case .success(let data):
-                guard let decodedData: BoxOfficeEntity = DecodingManager.shared.decode(data) else {
-                    return
+                do {
+                    guard let decodedData: BoxOfficeEntity = try DecodingManager.shared.decode(data) else {
+                        break
+                    }
+                    self?.setUpDataSnapshot(decodedData.boxOfficeResult.dailyBoxOfficeList)
+                } catch {
+                    print(DecodingError.decodingFailure.description)
                 }
-                
-                self?.setUpDataSnapshot(decodedData.boxOfficeResult.dailyBoxOfficeList)
-                
-                DispatchQueue.main.async {
-                    self?.isLoading = false
-                }
-                
             case .failure(let error):
                 print(error.description)
+            }
+            
+            DispatchQueue.main.async {
+                self?.isLoading = false
+                self?.refreshControl.endRefreshing()
             }
         }
     }
