@@ -27,7 +27,35 @@ final class MovieDetailViewController: UIViewController {
         self.view = movieDetailView
         view.backgroundColor = .systemBackground
     }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
+    }
+    
+    private func setupNavigation() {
+        self.navigationItem.title = boxOfficeManager.movieInformation?.movieTitle
+    }
+    
+    @objc private func loadMovieInformationData() {
+        boxOfficeManager.fetchMovie(movieCode) { [weak self] result in
+            if result == false {
+                DispatchQueue.main.async {
+                    let alert = UIAlertController.errorAlert(NameSpace.fail, NameSpace.loadDataFail, actionTitle: NameSpace.check, actionType: .default)
+                    
+                    self?.present(alert, animated: false)
+                }
+                
+                return
+            }
+        }
+    }
+}
+
+// MARK: Name Space
+extension MovieDetailViewController {
+    private enum NameSpace {
+        static let fail = "실패"
+        static let loadDataFail = "데이터 로드에 실패했습니다."
+        static let check = "확인"
     }
 }
