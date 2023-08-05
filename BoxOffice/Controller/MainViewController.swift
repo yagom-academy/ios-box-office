@@ -11,23 +11,34 @@ import UIKit
 class MainViewController: UIViewController {
     @IBOutlet weak var collectionView: UICollectionView!
     @IBOutlet weak var loadingActivityView: UIActivityIndicatorView!
-    
     var boxOffice: BoxOffice?
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        collectionView.isHidden = true
-        loadingActivityView.startAnimating()
-        
-        collectionView.dataSource = self
-        collectionView.delegate = self
+        showLodingView()
+        assignDataSourceAndDelegate()
         registerCustomCell()
         callAPIManager()
         configureTitle()
-        
-        collectionView.refreshControl = UIRefreshControl()
-        collectionView.refreshControl?.addTarget(self, action: #selector(updateCollectionView), for: .valueChanged)
+        initRefresh()
+    }
+    
+    private func showLodingView() {
+        collectionView.isHidden = true
+        loadingActivityView.startAnimating()
+    }
+    
+    private func assignDataSourceAndDelegate() {
+        collectionView.dataSource = self
+        collectionView.delegate = self
+    }
+    
+    private func initRefresh() {
+        let refreshControl = UIRefreshControl()
+        refreshControl.addTarget(self, action: #selector(updateCollectionView), for: .valueChanged)
+        refreshControl.backgroundColor = UIColor.clear
+        refreshControl.attributedTitle = NSAttributedString(string: "Loading...", attributes: [NSAttributedString.Key.foregroundColor: UIColor.systemGray, NSAttributedString.Key.font : UIFont.boldSystemFont(ofSize: 20)])
+        self.collectionView.refreshControl = refreshControl
     }
     
     private func configureTitle() {
@@ -45,15 +56,13 @@ class MainViewController: UIViewController {
     }
     
     @objc private func updateCollectionView() {
-        collectionView.isHidden = false
-        loadingActivityView.stopAnimating()
-        loadingActivityView.isHidden = true
-        
         DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
             self.collectionView.reloadData()
             self.collectionView.refreshControl?.endRefreshing()
+            self.collectionView.isHidden = false
+            self.loadingActivityView.stopAnimating()
+            self.loadingActivityView.isHidden = true
         }
-        
     }
     
     private func callAPIManager() {
