@@ -8,7 +8,7 @@
 import UIKit
 
 final class BoxOfficeViewController: UIViewController {
-    private let boxOfficeManager = BoxOfficeManager()
+    private let boxOfficeManager: BoxOfficeManager
     private var collectionView: UICollectionView!
     private var dailyBoxOfficeDataSource: UICollectionViewDiffableDataSource<Section, DailyBoxOffice>!
     private lazy var activityIndicator: UIActivityIndicatorView = {
@@ -17,6 +17,16 @@ final class BoxOfficeViewController: UIViewController {
         
         return activityIndicator
     }()
+    
+    init(boxOfficeManager: BoxOfficeManager) {
+        self.boxOfficeManager = boxOfficeManager
+
+        super.init(nibName: nil, bundle: nil)
+    }
+
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -106,7 +116,7 @@ extension BoxOfficeViewController {
 extension BoxOfficeViewController: UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         let movieCode = boxOfficeManager.dailyBoxOffices[indexPath.item].movieCode
-        let movieDetailViewController = MovieDetailViewController(movieCode: movieCode)
+        let movieDetailViewController = MovieDetailViewController(boxOfficeManager: boxOfficeManager, movieCode: movieCode)
         
         navigationController?.pushViewController(movieDetailViewController, animated: true)
     }
