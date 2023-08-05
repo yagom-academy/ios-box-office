@@ -13,10 +13,10 @@ final class DecodingManager {
     
     private init() {}
     
-    func decode<T: Decodable>(_ data: Data?) -> T? {
+    func decode<T: Decodable>(_ data: Data?) throws -> T {
         guard let data = data,
               let decodedData = try? decoder.decode(T.self, from: data) else {
-            return nil
+            throw DecodingError.decodingFailure
         }
         
         return decodedData

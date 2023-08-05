@@ -50,11 +50,15 @@ final class BoxOfficeNetworkingTest: XCTestCase {
         sut.load("https://www.naver.com/") { (result: Result<Data, NetworkingError>) in
             switch result {
             case .success(let data):
-                guard let decodedData: MovieDetailEntity = DecodingManager.shared.decode(data) else {
+                do {
+                    guard let decodedData: MovieDetailEntity = try DecodingManager.shared.decode(data) else {
+                        XCTFail("테스트 실패")
+                        return
+                    }
+                    XCTAssertEqual(expectation, decodedData.movieDetailData.movieInformation.movieName)
+                } catch {
                     XCTFail("테스트 실패")
-                    return
                 }
-                XCTAssertEqual(expectation, decodedData.movieDetailData.movieInformation.movieName)
             case .failure:
                 XCTFail("테스트 실패")
             }

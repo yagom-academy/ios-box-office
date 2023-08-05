@@ -4,6 +4,7 @@
 //
 //  Created by Yetti, Maxhyunm on 2023/07/26.
 //
+
 import Foundation
 
 struct NetworkingManager {

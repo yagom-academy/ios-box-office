@@ -10,7 +10,6 @@ enum NetworkingError: Error {
     case notHttpUrlResponse
     case invalidResponse(statusCode: Int)
     
-    
     var description: String {
         switch self {
         case .connectionFailure:
@@ -19,6 +18,17 @@ enum NetworkingError: Error {
             return "잘못된 응답입니다."
         case .invalidResponse(statusCode: let statusCode):
             return "서버 응답 오류입니다. Status Code: \(statusCode)"
+        }
+    }
+}
+
+enum DecodingError: Error {
+    case decodingFailure
+    
+    var description: String {
+        switch self {
+        case .decodingFailure:
+            return "디코딩 오류입니다."
         }
     }
 }
