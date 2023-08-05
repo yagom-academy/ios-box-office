@@ -41,6 +41,7 @@ final class BoxOfficeViewController: UIViewController {
         collectionView.translatesAutoresizingMaskIntoConstraints = false
         collectionView.register(BoxOfficeCollectionViewCell.self, forCellWithReuseIdentifier: BoxOfficeCollectionViewCell.identifier)
         collectionView.dataSource = dailyBoxOfficeDataSource
+        collectionView.delegate = self
     }
     
     private func setupRefreshControl() {
@@ -98,6 +99,16 @@ extension BoxOfficeViewController {
             
             return cell
         }
+    }
+}
+
+// MARK: CollectionView Delegate
+extension BoxOfficeViewController: UICollectionViewDelegate {
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        let movieCode = boxOfficeManager.dailyBoxOffices[indexPath.item].movieCode
+        let movieDetailViewController = MovieDetailViewController(movieCode: movieCode)
+        
+        navigationController?.pushViewController(movieDetailViewController, animated: true)
     }
 }
 
