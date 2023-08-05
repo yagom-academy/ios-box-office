@@ -18,15 +18,15 @@ struct MovieInformation {
 }
 
 extension MovieInformation {
-    enum PropertyName: String, CaseIterable {
-        case movieTitle = "영화제목"
-        case director = "감독"
-        case productionYear = "제작년도"
-        case openDate = "개봉일"
-        case showTime = "상영시간"
-        case watchGradeName = "관람등급"
-        case nationName = "제작국가"
-        case genreName = "장르"
-        case actors = "배우"
+    enum PropertyName {
+        static let movieTitle = "영화제목"
+        static let director = "감독"
+        static let productionYear = "제작년도"
+        static let openDate = "개봉일"
+        static let showTime = "상영시간"
+        static let watchGradeName = "관람등급"
+        static let nationName = "제작국가"
+        static let genreName = "장르"
+        static let actors = "배우"
     }
 }
