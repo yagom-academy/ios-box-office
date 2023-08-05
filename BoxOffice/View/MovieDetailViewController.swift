@@ -60,6 +60,22 @@ final class MovieDetailViewController: UIViewController {
                 self.movieDetailView.setupMovieInformationStackView(movieInformation: movieInformation)
             }
         }
+        
+        boxOfficeManager.fetchPosterImage(movieName) { result in
+            if result == false {
+                DispatchQueue.main.async {
+                    let alert = UIAlertController.errorAlert(NameSpace.fail, NameSpace.loadDataFail, actionTitle: NameSpace.check, actionType: .default)
+                    
+                    self.present(alert, animated: false)
+                }
+                
+                return
+            }
+            
+            DispatchQueue.main.async {
+                self.movieDetailView.setupPosterImageView(image: self.boxOfficeManager.posterImage)
+            }
+        }
     }
 }
 

@@ -65,6 +65,10 @@ extension MovieDetailView {
         movieInformationStackView.addArrangedSubview(informationStackView(title: MovieInformation.PropertyName.actors, information: movieInformation.actors))
     }
     
+    func setupPosterImageView(image: UIImage?) {
+        posterImageView.image = image
+    }
+    
     private func informationStackView(title: String, information: String) -> UIStackView {
         let stackView = UIStackView()
         stackView.axis = .horizontal
