@@ -7,7 +7,6 @@
 
 import UIKit
 
-@available(iOS 14.0, *)
 class CollectionViewListCell: UICollectionViewListCell {
     
     @IBOutlet weak var rankNumberLabel: UILabel!
@@ -64,7 +63,6 @@ class CollectionViewListCell: UICollectionViewListCell {
     }
 }
 
-@available(iOS 14.0, *)
 extension CollectionViewListCell {
     enum Arrow: String {
         case upArrow = "▲"

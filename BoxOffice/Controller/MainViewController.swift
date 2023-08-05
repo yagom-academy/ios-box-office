@@ -7,7 +7,6 @@
 
 import UIKit
 
-@available(iOS 14.0, *)
 class MainViewController: UIViewController {
     @IBOutlet weak var collectionView: UICollectionView!
     @IBOutlet weak var loadingActivityView: UIActivityIndicatorView!
@@ -83,7 +82,6 @@ class MainViewController: UIViewController {
     }
 }
 
-@available(iOS 14.0, *)
 extension MainViewController: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return boxOffice?.boxOfficeResult.dailyBoxOfficeList.count ?? 0
@@ -103,7 +101,6 @@ extension MainViewController: UICollectionViewDataSource {
     }
 }
 
-@available(iOS 14.0, *)
 extension MainViewController: UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, didDeselectItemAt indexPath: IndexPath) {
         guard let pushMovieDetailVC = self.storyboard?.instantiateViewController(withIdentifier: "MovieDetailViewController") else { return }
