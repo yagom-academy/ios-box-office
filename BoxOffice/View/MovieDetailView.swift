@@ -33,8 +33,9 @@ final class MovieDetailView: UIView {
     
     private let movieInformationStackView: UIStackView = {
         let stackView = UIStackView()
+        stackView.translatesAutoresizingMaskIntoConstraints = false
         stackView.axis = .vertical
-        stackView.spacing = 4
+        stackView.spacing = 8
         stackView.alignment = .fill
         stackView.distribution = .fill
         
@@ -67,11 +68,19 @@ extension MovieDetailView {
     private func informationStackView(title: String, information: String) -> UIStackView {
         let stackView = UIStackView()
         stackView.axis = .horizontal
+        stackView.spacing = 4
         
         let titleLabel = UILabel()
+        let titleLabelConstraint = titleLabel.widthAnchor.constraint(equalToConstant: self.frame.width * 0.2)
+        titleLabelConstraint.isActive = true
+        titleLabel.font = UIFont.preferredFont(forTextStyle: .headline)
+        titleLabel.textAlignment = .center
         titleLabel.text = title
         
         let informationLabel = UILabel()
+        titleLabel.font = UIFont.preferredFont(forTextStyle: .body)
+        informationLabel.textAlignment = .left
+        informationLabel.numberOfLines = 0
         informationLabel.text = information
         
         stackView.addArrangedSubview(titleLabel)
