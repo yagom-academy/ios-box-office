@@ -33,6 +33,7 @@
 		CDDD7B032A70B8C700F471C8 /* NetworkManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = CDDD7B022A70B8C700F471C8 /* NetworkManager.swift */; };
 		CDDD7B0A2A70C0FF00F471C8 /* Path.swift in Sources */ = {isa = PBXBuildFile; fileRef = CDDD7B092A70C0FF00F471C8 /* Path.swift */; };
 		CDEC11FF2A7E27F2000EC8FC /* MovieDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CDEC11FE2A7E27F2000EC8FC /* MovieDetailView.swift */; };
+		CDEC12012A7E2AE6000EC8FC /* MovieDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CDEC12002A7E2AE6000EC8FC /* MovieDetailViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -85,6 +86,7 @@
 		CDDD7B022A70B8C700F471C8 /* NetworkManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkManager.swift; sourceTree = "<group>"; };
 		CDDD7B092A70C0FF00F471C8 /* Path.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Path.swift; sourceTree = "<group>"; };
 		CDEC11FE2A7E27F2000EC8FC /* MovieDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MovieDetailView.swift; sourceTree = "<group>"; };
+		CDEC12002A7E2AE6000EC8FC /* MovieDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = MovieDetailViewController.swift; path = BoxOffice/View/MovieDetailViewController.swift; sourceTree = SOURCE_ROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -211,6 +213,7 @@
 			isa = PBXGroup;
 			children = (
 				63DF20F22970E1A0005DF7D1 /* BoxOfficeViewController.swift */,
+				CDEC12002A7E2AE6000EC8FC /* MovieDetailViewController.swift */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -423,6 +426,7 @@
 				452A30C32A789A980011C739 /* BoxOfficeManager.swift in Sources */,
 				4597F7EC2A79EA1500254BC4 /* UIAlertController+.swift in Sources */,
 				63DF20F32970E1A0005DF7D1 /* BoxOfficeViewController.swift in Sources */,
+				CDEC12012A7E2AE6000EC8FC /* MovieDetailViewController.swift in Sources */,
 				450323E62A7B3D06003135D2 /* NumberFormatter+.swift in Sources */,
 				45174D722A71F101009EEA9F /* URLSession+.swift in Sources */,
 				4541D5972A73953A00E6D276 /* DataError.swift in Sources */,
