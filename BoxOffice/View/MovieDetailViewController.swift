@@ -9,10 +9,12 @@ import UIKit
 
 final class MovieDetailViewController: UIViewController {
     private let boxOfficeManager: BoxOfficeManager
+    private let movieName: String
     private let movieCode: String
     private let movieDetailView = MovieDetailView()
     
-    init(boxOfficeManager: BoxOfficeManager, movieCode: String) {
+    init(boxOfficeManager: BoxOfficeManager, movieName: String, movieCode: String) {
+        self.movieName = movieName
         self.movieCode = movieCode
         self.boxOfficeManager = boxOfficeManager
         

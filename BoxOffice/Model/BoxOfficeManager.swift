@@ -5,13 +5,15 @@
 //  Created by kyungmin, Erick on 2023/08/01.
 //
 
-import Foundation
+import UIKit
 
 final class BoxOfficeManager {
     private(set) var dailyBoxOffices: [DailyBoxOffice] = []
     private(set) var movieInformation: MovieInformation? = nil
+    private(set) var posterImage: UIImage? = nil
     private let networkManager = NetworkManager(urlSession: URLSession.shared)
     private let kobisKey = Bundle.main.object(forInfoDictionaryKey: NameSpace.kobisKey) as? String
+    private let kakaoKey = Bundle.main.object(forInfoDictionaryKey: NameSpace.kakaoKey) as? String
     
     func fetchBoxOffice(completion: @escaping (Bool) -> Void) {
         let yesterdayDate = DateFormatter().dateString(before: 1, with: DateFormatter.FormatCase.attached)
@@ -67,12 +69,53 @@ final class BoxOfficeManager {
             }
         }
     }
+    
+    func fetchPosterImage(_ movieName: String, completion: @escaping (Bool) -> Void) {
+        let queryItem = URLQueryItem(name: "query", value: movieName + "포스터")
+        guard let url = URL.kakaoURL(Path.searchImage, [queryItem]) else {
+            completion(false)
+            return
+        }
+        
+        var urlRequest = URLRequest(url: url)
+        urlRequest.setValue(kakaoKey, forHTTPHeaderField: "Authorization")
+        
+        
+        networkManager.requestData(from: urlRequest) { [weak self] result in
+            guard let self else {
+                return
+            }
+            
+            switch result {
+            case .success(let data):
+                do {
+                    let posterImage = try JSONDecoder().decode(PosterImage.self, from: data)
+                    guard let url = posterImage.documents.first?.imageURL,
+                          let url = URL(string: url) else {
+                        completion(false)
+                        return
+                    }
+                    
+                    let imageData = try Data(contentsOf: url)
+                    self.posterImage = UIImage(data: imageData)
+                    completion(true)
+                } catch {
+                    print(DataError.decodeJSONFailed.localizedDescription)
+                    completion(false)
+                }
+            case .failure(let error):
+                print(error.localizedDescription)
+                completion(false)
+            }
+        }
+    }
 }
 
 // MARK: Name Space
 extension BoxOfficeManager {
     private enum NameSpace {
         static let kobisKey = "KOBIS_API_KEY"
+        static let kakaoKey = "KAKAO_API_KEY"
         static let key = "key"
         static let targetDate = "targetDt"
         static let movieCode = "movieCd"
