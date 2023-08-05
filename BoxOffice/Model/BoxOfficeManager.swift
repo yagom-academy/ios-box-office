@@ -9,13 +9,9 @@ import Foundation
 
 final class BoxOfficeManager {
     private(set) var dailyBoxOffices: [DailyBoxOffice] = []
-    private var movie: Movie? = nil
+    private(set) var movieInformation: MovieInformation? = nil
     private let networkManager = NetworkManager(urlSession: URLSession.shared)
     private let kobisKey = Bundle.main.object(forInfoDictionaryKey: NameSpace.kobisKey) as? String
-    
-    var movieInformation: MovieInfo? {
-        return movie?.movieInfoResult.movieInfo
-    }
     
     func fetchBoxOffice(completion: @escaping (Bool) -> Void) {
         let yesterdayDate = DateFormatter().dateString(before: 1, with: DateFormatter.FormatCase.attached)
@@ -59,7 +55,7 @@ final class BoxOfficeManager {
             case .success(let data):
                 do {
                     let movie = try JSONDecoder().decode(Movie.self, from: data)
-                    self.movie = movie
+                    self.movieInformation = DataManager.movieTransferMoiveInformation(movie: movie)
                     completion(true)
                 } catch {
                     print(DataError.decodeJSONFailed.localizedDescription)
