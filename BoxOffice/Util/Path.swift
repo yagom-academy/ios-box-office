@@ -8,4 +8,5 @@
 enum Path {
     static let boxOffice = "/kobisopenapi/webservice/rest/boxoffice/searchDailyBoxOfficeList.json"
     static let movie = "/kobisopenapi/webservice/rest/movie/searchMovieInfo.json"
+    static let searchImage = "/v2/search/image"
 }
