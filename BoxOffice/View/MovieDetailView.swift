@@ -54,6 +54,16 @@ final class MovieDetailView: UIView {
 
 // MARK: add MovieDetailStackVeiw
 extension MovieDetailView {
+    func setupMovieInformationStackView(movieInformation: MovieInformation) {
+        movieInformationStackView.addArrangedSubview(informationStackView(title: MovieInformation.PropertyName.movieTitle, information: movieInformation.movieTitle))
+        movieInformationStackView.addArrangedSubview(informationStackView(title: MovieInformation.PropertyName.productionYear, information: movieInformation.productionYear))
+        movieInformationStackView.addArrangedSubview(informationStackView(title: MovieInformation.PropertyName.openDate, information: movieInformation.openDate))
+        movieInformationStackView.addArrangedSubview(informationStackView(title: MovieInformation.PropertyName.showTime, information: movieInformation.showTime))
+        movieInformationStackView.addArrangedSubview(informationStackView(title: MovieInformation.PropertyName.watchGradeName, information: movieInformation.watchGradeName))
+        movieInformationStackView.addArrangedSubview(informationStackView(title: MovieInformation.PropertyName.genreName, information: movieInformation.genreName))
+        movieInformationStackView.addArrangedSubview(informationStackView(title: MovieInformation.PropertyName.actors, information: movieInformation.actors))
+    }
+    
     private func informationStackView(title: String, information: String) -> UIStackView {
         let stackView = UIStackView()
         stackView.axis = .horizontal

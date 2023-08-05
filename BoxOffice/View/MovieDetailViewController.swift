@@ -30,6 +30,8 @@ final class MovieDetailViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        loadMovieInformationData()
     }
     
     private func setupNavigation() {
@@ -46,6 +48,14 @@ final class MovieDetailViewController: UIViewController {
                 }
                 
                 return
+            }
+            
+            guard let movieInformation = self?.boxOfficeManager.movieInformation else {
+                return
+            }
+            
+            DispatchQueue.main.async {
+                self?.movieDetailView.setupMovieInformationStackView(movieInformation: movieInformation)
             }
         }
     }
