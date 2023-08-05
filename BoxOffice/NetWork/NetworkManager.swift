@@ -20,7 +20,33 @@ struct NetworkManager {
             return
         }
         
-        let task = urlSession.dataTask(with: url) { data, response, error in
+        let urlRequest = URLRequest(url: url)
+        
+        let task = urlSession.dataTask(with: urlRequest) { data, response, error in
+            guard error == nil else {
+                completion(.failure(.networkFailed))
+                return
+            }
+            
+            guard let response = response as? HTTPURLResponse,
+                  (200..<300).contains(response.statusCode) else {
+                completion(.failure(.requestFailed))
+                return
+            }
+            
+            guard let data else {
+                completion(.failure(.dataFailed))
+                return
+            }
+            
+            completion(.success(data))
+        }
+        
+        task.resume()
+    }
+    
+    func requestData(from urlRequest: URLRequest, completion: @escaping (Result<Data, NetworkError>) -> Void) {
+        let task = urlSession.dataTask(with: urlRequest) { data, response, error in
             guard error == nil else {
                 completion(.failure(.networkFailed))
                 return
