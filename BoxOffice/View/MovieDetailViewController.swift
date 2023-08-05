@@ -39,23 +39,23 @@ final class MovieDetailViewController: UIViewController {
     }
     
     @objc private func loadMovieInformationData() {
-        boxOfficeManager.fetchMovie(movieCode) { [weak self] result in
+        boxOfficeManager.fetchMovie(movieCode) { result in
             if result == false {
                 DispatchQueue.main.async {
                     let alert = UIAlertController.errorAlert(NameSpace.fail, NameSpace.loadDataFail, actionTitle: NameSpace.check, actionType: .default)
                     
-                    self?.present(alert, animated: false)
+                    self.present(alert, animated: false)
                 }
                 
                 return
             }
             
-            guard let movieInformation = self?.boxOfficeManager.movieInformation else {
+            guard let movieInformation = self.boxOfficeManager.movieInformation else {
                 return
             }
             
             DispatchQueue.main.async {
-                self?.movieDetailView.setupMovieInformationStackView(movieInformation: movieInformation)
+                self.movieDetailView.setupMovieInformationStackView(movieInformation: movieInformation)
             }
         }
     }

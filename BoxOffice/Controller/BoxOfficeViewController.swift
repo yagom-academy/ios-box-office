@@ -62,23 +62,23 @@ final class BoxOfficeViewController: UIViewController {
     }
     
     @objc private func loadBoxOfficeData() {
-        boxOfficeManager.fetchBoxOffice { [weak self] result in
+        boxOfficeManager.fetchBoxOffice { result in
             if result == false {
                 DispatchQueue.main.async {
                     let alert = UIAlertController.errorAlert(NameSpace.fail, NameSpace.loadDataFail, actionTitle: NameSpace.check, actionType: .default)
                     
-                    self?.collectionView.refreshControl?.endRefreshing()
-                    self?.activityIndicator.stopAnimating()
-                    self?.present(alert, animated: false)
+                    self.collectionView.refreshControl?.endRefreshing()
+                    self.activityIndicator.stopAnimating()
+                    self.present(alert, animated: false)
                 }
                 
                 return
             }
             
             DispatchQueue.main.async {
-                self?.applySnapshot()
-                self?.collectionView.refreshControl?.endRefreshing()
-                self?.activityIndicator.stopAnimating()
+                self.applySnapshot()
+                self.collectionView.refreshControl?.endRefreshing()
+                self.activityIndicator.stopAnimating()
             }
         }
     }
