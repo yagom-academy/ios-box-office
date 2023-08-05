@@ -10,6 +10,7 @@ import UIKit
 typealias RankStateColor = (targetString: String, color: UIColor)
 
 struct DailyBoxOffice: Hashable {
+    let movieCode: String
     let rank: String
     let rankState: String
     let movieTitle: String
@@ -17,13 +18,15 @@ struct DailyBoxOffice: Hashable {
     let rankStateColor: RankStateColor
     
     static func == (lhs: DailyBoxOffice, rhs: DailyBoxOffice) -> Bool {
-        return lhs.rank == rhs.rank
+        return lhs.movieCode == rhs.movieCode
+            && lhs.rank == rhs.rank
             && lhs.rankState == rhs.rankState
             && lhs.movieTitle == rhs.movieTitle
             && lhs.dailyAndTotalAudience == rhs.dailyAndTotalAudience
     }
     
     func hash(into hasher: inout Hasher) {
+        hasher.combine(movieCode)
         hasher.combine(rank)
         hasher.combine(rankState)
         hasher.combine(movieTitle)

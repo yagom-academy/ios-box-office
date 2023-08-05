@@ -31,7 +31,7 @@ enum DataManager {
                 rankStateColor = (NameSpace.upTriangle, .systemRed)
             }
             
-            return DailyBoxOffice(rank: $0.rank, rankState: rankState, movieTitle: $0.movieName, dailyAndTotalAudience: dailyAndTotalAudience, rankStateColor: rankStateColor)
+            return DailyBoxOffice(movieCode: $0.movieCode, rank: $0.rank, rankState: rankState, movieTitle: $0.movieName, dailyAndTotalAudience: dailyAndTotalAudience, rankStateColor: rankStateColor)
         }
     }
     
