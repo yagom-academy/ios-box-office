@@ -1,5 +1,5 @@
 //
-//  ViewController.swift
+//  BoxOfficeViewController.swift
 //  BoxOffice
 //
 //  Created by kjs on 13/01/23.
@@ -7,7 +7,7 @@
 
 import UIKit
 
-final class ViewController: UIViewController {
+final class BoxOfficeViewController: UIViewController {
     private let activityIndicatorView = UIActivityIndicatorView(style: .medium)
     
     private let boxOfficeService = BoxOfficeService()
@@ -101,7 +101,7 @@ final class ViewController: UIViewController {
 }
 
 // MARK: - Configure CollectionView UI
-extension ViewController {
+extension BoxOfficeViewController {
     private func createLayout() -> UICollectionViewLayout {
         let config = UICollectionLayoutListConfiguration(appearance: .plain)
         let layout = UICollectionViewCompositionalLayout.list(using: config)
@@ -143,14 +143,14 @@ extension ViewController {
 }
 
 // MARK: - CollectionView Delegate
-extension ViewController: UICollectionViewDelegate {
+extension BoxOfficeViewController: UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         collectionView.deselectItem(at: indexPath, animated: true)
     }
 }
 
 // MARK: - Formatting Functions
-extension ViewController {
+extension BoxOfficeViewController {
     private func changeRankInformation(in dailyBoxOffice: DailyBoxOffice) -> NSMutableAttributedString {
         if dailyBoxOffice.rankOldAndNew == "NEW" {
             return "신작".addAttributeFontForKeyword(keyword: "신작", color: .red)
