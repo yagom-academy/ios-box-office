@@ -35,7 +35,6 @@ struct NetworkManager: NetworkingProtocol {
         }
         
         task.resume()
-        
         return task
     }
 }

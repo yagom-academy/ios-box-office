@@ -23,7 +23,4 @@ struct DataManager {
         self.apiType = KobisAPIType.boxOffice(dataText)
         self.boxOfficeDecoder = BoxOfficeDecoder<DailyBoxOffice>(apiType: self.apiType, model: NetworkManager(session: .shared))
     }
-
-    
 }
-
