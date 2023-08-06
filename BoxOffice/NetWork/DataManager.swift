@@ -7,22 +7,19 @@
 
 import UIKit
 
-struct DataManager: DataManaging {
-    private let decoder: JSONDecoder = JSONDecoder()
-
-    func decodeJSON<Element: Decodable>(_ type: Element.Type) -> Element? {
-        guard let itemsData = loadData(named: DataNamespace.item),
-              let decodedItems = decodeData(Element.self, from: itemsData)
-        else { return nil }
-
-        return decodedItems
+struct DataManager {
+    private let date: Date
+    private let apiType: KobisAPIType
+    var movieItems: [BoxOfficeMovieInfo] = []
+    let boxOfficeDecoder: BoxOfficeDecoder<DailyBoxOffice>
+    var navigationTitleText: String {
+        return Date.dateFormatter.string(from: date)
     }
-
-    func loadData(named name: String) -> Data? {
-        return NSDataAsset(name: name)?.data
-    }
-
-    func decodeData<Element: Decodable>(_ type: Element.Type, from data: Data) -> Element? {
-        return try? decoder.decode(type, from: data)
+    init(date: Date) {
+        let dataText = Date.apiDateFormatter.string(from: date)
+        self.date = date
+        self.apiType = KobisAPIType.boxOffice(dataText)
+        self.boxOfficeDecoder = BoxOfficeDecoder<DailyBoxOffice>(apiType: self.apiType, model: NetworkManager(session: .shared))
     }
 }
+
