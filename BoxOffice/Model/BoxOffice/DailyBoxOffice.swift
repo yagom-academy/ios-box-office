@@ -2,7 +2,7 @@
 //  DailyBoxOffice.swift
 //  BoxOffice
 //
-//  Created by karen on 2023/07/26.
+//  Created by karen on 2023/08/06.
 //
 
 struct DailyBoxOffice: Decodable {
