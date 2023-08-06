@@ -5,8 +5,6 @@
 //  Created by karen on 2023/08/06.
 //
 
-import Foundation
-
 struct MovieInfoDescription: Decodable {
     let movieCode: String
     let movieName: String
