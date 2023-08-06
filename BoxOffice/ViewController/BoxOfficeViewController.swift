@@ -44,6 +44,11 @@ final class BoxOfficeViewController: UIViewController {
         activityIndicatorView.startAnimating()
     }
     
+    private func hideLoadingView() {
+        activityIndicatorView.stopAnimating()
+        activityIndicatorView.removeFromSuperview()
+    }
+    
     private func setTitle() {
         self.title = boxOfficeService.formattedYesterdayWithHyphen
     }
@@ -66,6 +71,7 @@ final class BoxOfficeViewController: UIViewController {
                 DispatchQueue.main.async {
                     self.configureHierarchy()
                     self.configureDataSource()
+                    self.hideLoadingView()
                 }
             } else {
                 var snapshot = NSDiffableDataSourceSnapshot<Section, DailyBoxOffice>()
