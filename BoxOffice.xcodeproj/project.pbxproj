@@ -29,6 +29,7 @@
 		9CF7E9902A7F89F3006519B9 /* BoxOfficeError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9CF7E98F2A7F89F3006519B9 /* BoxOfficeError.swift */; };
 		9CF7E9922A7F8BB6006519B9 /* BoxOfficeDecoder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9CF7E9912A7F8BB6006519B9 /* BoxOfficeDecoder.swift */; };
 		9CF7E9952A7F8C05006519B9 /* Bundle+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9CF7E9942A7F8C05006519B9 /* Bundle+.swift */; };
+		9CF7E9972A7F8C80006519B9 /* URL+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9CF7E9962A7F8C80006519B9 /* URL+.swift */; };
 		9CF8A6052A738BB700CB6911 /* DataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9CF8A6042A738BB700CB6911 /* DataManager.swift */; };
 /* End PBXBuildFile section */
 
@@ -68,6 +69,7 @@
 		9CF7E98F2A7F89F3006519B9 /* BoxOfficeError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BoxOfficeError.swift; sourceTree = "<group>"; };
 		9CF7E9912A7F8BB6006519B9 /* BoxOfficeDecoder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BoxOfficeDecoder.swift; sourceTree = "<group>"; };
 		9CF7E9942A7F8C05006519B9 /* Bundle+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Bundle+.swift"; sourceTree = "<group>"; };
+		9CF7E9962A7F8C80006519B9 /* URL+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "URL+.swift"; sourceTree = "<group>"; };
 		9CF8A6042A738BB700CB6911 /* DataManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataManager.swift; sourceTree = "<group>"; };
 		9CF8A6172A742DF100CB6911 /* BoxOffice.xctestplan */ = {isa = PBXFileReference; lastKnownFileType = text; path = BoxOffice.xctestplan; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -221,6 +223,7 @@
 			isa = PBXGroup;
 			children = (
 				9CF7E9942A7F8C05006519B9 /* Bundle+.swift */,
+				9CF7E9962A7F8C80006519B9 /* URL+.swift */,
 			);
 			path = Extension;
 			sourceTree = "<group>";
@@ -354,6 +357,7 @@
 				9CF8A6052A738BB700CB6911 /* DataManager.swift in Sources */,
 				9CF7E9892A7F883D006519B9 /* MovieInfo.swift in Sources */,
 				9CF7E9902A7F89F3006519B9 /* BoxOfficeError.swift in Sources */,
+				9CF7E9972A7F8C80006519B9 /* URL+.swift in Sources */,
 				9C30BD3A2A70D149000DB5B2 /* NetworkManager.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
