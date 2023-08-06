@@ -35,6 +35,7 @@
 		D2A6AE482A73AA0100CE5903 /* NetworkManagerError.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2A6AE472A73AA0100CE5903 /* NetworkManagerError.swift */; };
 		D2D027C82A7BD54E00456444 /* Section.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2D027C72A7BD54E00456444 /* Section.swift */; };
 		D2D027CA2A7BD57800456444 /* String+.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2D027C92A7BD57800456444 /* String+.swift */; };
+		D2D027D02A7F293A00456444 /* MovieDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2D027CF2A7F293A00456444 /* MovieDetailView.swift */; };
 		D2E159472A6EA6EC00052F8B /* DailyBoxOffice.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2E159462A6EA6EC00052F8B /* DailyBoxOffice.swift */; };
 		D2E159652A6F560300052F8B /* JSONDecoder+.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2E159642A6F560300052F8B /* JSONDecoder+.swift */; };
 /* End PBXBuildFile section */
@@ -82,6 +83,7 @@
 		D2A6AE472A73AA0100CE5903 /* NetworkManagerError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkManagerError.swift; sourceTree = "<group>"; };
 		D2D027C72A7BD54E00456444 /* Section.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Section.swift; sourceTree = "<group>"; };
 		D2D027C92A7BD57800456444 /* String+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "String+.swift"; sourceTree = "<group>"; };
+		D2D027CF2A7F293A00456444 /* MovieDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MovieDetailView.swift; sourceTree = "<group>"; };
 		D2E159462A6EA6EC00052F8B /* DailyBoxOffice.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DailyBoxOffice.swift; sourceTree = "<group>"; };
 		D2E159642A6F560300052F8B /* JSONDecoder+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "JSONDecoder+.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -205,6 +207,7 @@
 			isa = PBXGroup;
 			children = (
 				D22F99672A79ECEE002EAE5E /* BoxOfficeCell.swift */,
+				D2D027CF2A7F293A00456444 /* MovieDetailView.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -398,6 +401,7 @@
 				D236E1AD2A734BFB003D0F7A /* People.swift in Sources */,
 				D236E1A72A734721003D0F7A /* Company.swift in Sources */,
 				CB5BF5A22A76AEC400FBB9D9 /* BoxOfficeService.swift in Sources */,
+				D2D027D02A7F293A00456444 /* MovieDetailView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
