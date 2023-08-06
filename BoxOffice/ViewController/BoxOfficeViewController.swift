@@ -95,7 +95,6 @@ final class BoxOfficeViewController: UIViewController {
     private func fetchMovie(_ result: Result<Movie, NetworkManagerError>) {
         switch result {
         case .success(let movie):
-            print(movie)
             self.movie = movie
         case .failure(let error):
             DispatchQueue.main.async {
