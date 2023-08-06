@@ -30,6 +30,7 @@
 		9CF7E9952A7F8C05006519B9 /* Bundle+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9CF7E9942A7F8C05006519B9 /* Bundle+.swift */; };
 		9CF7E9972A7F8C80006519B9 /* URL+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9CF7E9962A7F8C80006519B9 /* URL+.swift */; };
 		9CF7E9992A7F8D1D006519B9 /* Date+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9CF7E9982A7F8D1D006519B9 /* Date+.swift */; };
+		9CF7E99D2A7F925C006519B9 /* MockURLProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9CF7E99C2A7F925C006519B9 /* MockURLProtocol.swift */; };
 		9CF8A6052A738BB700CB6911 /* DataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9CF8A6042A738BB700CB6911 /* DataManager.swift */; };
 /* End PBXBuildFile section */
 
@@ -70,6 +71,7 @@
 		9CF7E9942A7F8C05006519B9 /* Bundle+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Bundle+.swift"; sourceTree = "<group>"; };
 		9CF7E9962A7F8C80006519B9 /* URL+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "URL+.swift"; sourceTree = "<group>"; };
 		9CF7E9982A7F8D1D006519B9 /* Date+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Date+.swift"; sourceTree = "<group>"; };
+		9CF7E99C2A7F925C006519B9 /* MockURLProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockURLProtocol.swift; sourceTree = "<group>"; };
 		9CF8A6042A738BB700CB6911 /* DataManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataManager.swift; sourceTree = "<group>"; };
 		9CF8A6172A742DF100CB6911 /* BoxOffice.xctestplan */ = {isa = PBXFileReference; lastKnownFileType = text; path = BoxOffice.xctestplan; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -131,6 +133,7 @@
 			children = (
 				9CF8A6172A742DF100CB6911 /* BoxOffice.xctestplan */,
 				9C30BD252A70C969000DB5B2 /* BoxOfficeTests.swift */,
+				9CF7E99C2A7F925C006519B9 /* MockURLProtocol.swift */,
 			);
 			path = BoxOfficeTests;
 			sourceTree = "<group>";
@@ -367,6 +370,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				9C30BD262A70C969000DB5B2 /* BoxOfficeTests.swift in Sources */,
+				9CF7E99D2A7F925C006519B9 /* MockURLProtocol.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
