@@ -5,7 +5,7 @@
 //  Created by Serena, BMO on 2023/07/24.
 //
 
-struct DailyBoxOffice: Decodable {
+struct DailyBoxOffice: Decodable, Hashable {
     let rawNumber: String                       // 순번
     let rank: String                            // 해당 일자 순위
     let rankIntensification: String             // 전일 대비 순위 증감분

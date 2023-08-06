@@ -8,12 +8,23 @@
 import Foundation
 
 struct BoxOfficeService {
-    func loadDailyBoxOfficeData(_ completion: @escaping (Result<BoxOffice, NetworkManagerError>) -> Void) {
-        let yesterday = Date() - (24 * 60 * 60)
-        let dateFormatter = DateFormatter()
+    private let dateFormatter = DateFormatter()
+    
+    private var yesterday: Date {
+        return Date() - (24 * 60 * 60)
+    }
+    
+    private var formattedYesterday: String {
         dateFormatter.dateFormat = CustomDateFormatStyle.yyyyMMdd
-        let formattedYesterday = dateFormatter.string(from: yesterday)
-        
+        return dateFormatter.string(from: yesterday)
+    }
+    
+    var formattedYesterdayWithHyphen: String {
+        dateFormatter.dateFormat = CustomDateFormatStyle.yyyyMMddWithHyphen
+        return dateFormatter.string(from: yesterday)
+    }
+    
+    func loadDailyBoxOfficeData(_ completion: @escaping (Result<BoxOffice, NetworkManagerError>) -> Void) {
         var components = URLComponents()
         components.scheme = KobisNameSpace.scheme
         components.host = KobisNameSpace.host
@@ -35,7 +46,6 @@ struct BoxOfficeService {
             }
         }
     }
-    
     
     func loadMovieDetailData(movieCd: String, _ completion: @escaping (Result<Movie, NetworkManagerError>) -> Void) {
         var components = URLComponents()
