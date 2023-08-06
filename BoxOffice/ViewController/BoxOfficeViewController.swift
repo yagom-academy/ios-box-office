@@ -10,7 +10,7 @@ import UIKit
 final class BoxOfficeViewController: UIViewController {
     private let activityIndicatorView = UIActivityIndicatorView(style: .medium)
     
-    private let boxOfficeService = BoxOfficeService()
+    private let boxOfficeService: BoxOfficeService
     private var boxOffice: BoxOffice?
     private var movie: Movie?
     
@@ -25,6 +25,15 @@ final class BoxOfficeViewController: UIViewController {
         setTitle()
         configureBackgroundColor()
         loadDailyBoxOfficeData()
+    }
+    
+    init(boxOfficeService: BoxOfficeService) {
+        self.boxOfficeService = boxOfficeService
+        super.init(nibName: nil, bundle: nil)
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
     }
     
     // MARK: - UI Configuration
