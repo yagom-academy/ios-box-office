@@ -22,9 +22,6 @@ final class MovieDetailView: UIView {
     
     private let posterImage: UIImageView = {
         let image = UIImageView()
-        image.image = UIImage(systemName: "rectangle.portrait.and.arrow.right.fill")
-        image.tintColor = .blue
-        image.frame.size = CGSize(width: 400, height: 400)
         image.contentMode = .scaleAspectFill
         return image
     }()
@@ -51,18 +48,16 @@ final class MovieDetailView: UIView {
     private let directorTitleLabel: UILabel = {
         let label = UILabel()
         label.textAlignment = .center
-        label.text = "sdfsdfsdfsdf"
-        label.font = UIFont.preferredFont(forTextStyle: .title1)
+        label.text = "감독"
+        label.font = UIFont.preferredFont(forTextStyle: .title3)
         label.minimumScaleFactor = 0.3
-        label.font = UIFont.preferredFont(forTextStyle: .body)
         label.adjustsFontForContentSizeCategory = true
         return label
     }()
     
-    private let directorDetailLabel: UILabel = {
+    let directorDetailLabel: UILabel = {
         let label = UILabel()
         label.numberOfLines = 0
-        label.text = "sdfsdfsdfsdf"
         label.minimumScaleFactor = 0.3
         label.font = UIFont.preferredFont(forTextStyle: .body)
         label.adjustsFontForContentSizeCategory = true
@@ -81,18 +76,16 @@ final class MovieDetailView: UIView {
     private let productionYearTitleLabel: UILabel = {
         let label = UILabel()
         label.textAlignment = .center
-        label.text = "sdfsdfsdfsdf"
-        label.font = UIFont.preferredFont(forTextStyle: .title1)
+        label.text = "제작년도"
+        label.font = UIFont.preferredFont(forTextStyle: .title3)
         label.minimumScaleFactor = 0.3
-        label.font = UIFont.preferredFont(forTextStyle: .body)
         label.adjustsFontForContentSizeCategory = true
         return label
     }()
     
-    private let productionYearDetailLabel: UILabel = {
+    let productionYearDetailLabel: UILabel = {
         let label = UILabel()
         label.numberOfLines = 0
-        label.text = "sdfsdfsdfsdf"
         label.minimumScaleFactor = 0.3
         label.font = UIFont.preferredFont(forTextStyle: .body)
         label.adjustsFontForContentSizeCategory = true
@@ -111,18 +104,16 @@ final class MovieDetailView: UIView {
     private let openDateTitleLabel: UILabel = {
         let label = UILabel()
         label.textAlignment = .center
-        label.text = "sdfsdfsdfsdf"
-        label.font = UIFont.preferredFont(forTextStyle: .title1)
+        label.text = "개봉일"
+        label.font = UIFont.preferredFont(forTextStyle: .title3)
         label.minimumScaleFactor = 0.3
-        label.font = UIFont.preferredFont(forTextStyle: .body)
         label.adjustsFontForContentSizeCategory = true
         return label
     }()
     
-    private let openDateDetailLabel: UILabel = {
+    let openDateDetailLabel: UILabel = {
         let label = UILabel()
         label.numberOfLines = 0
-        label.text = "sdfsdfsdfsdf"
         label.minimumScaleFactor = 0.3
         label.font = UIFont.preferredFont(forTextStyle: .body)
         label.adjustsFontForContentSizeCategory = true
@@ -141,18 +132,16 @@ final class MovieDetailView: UIView {
     private let showTimeTitleLabel: UILabel = {
         let label = UILabel()
         label.textAlignment = .center
-        label.text = "sdfsdfsdfsdf"
-        label.font = UIFont.preferredFont(forTextStyle: .title1)
+        label.text = "상영시간"
+        label.font = UIFont.preferredFont(forTextStyle: .title3)
         label.minimumScaleFactor = 0.3
-        label.font = UIFont.preferredFont(forTextStyle: .body)
         label.adjustsFontForContentSizeCategory = true
         return label
     }()
     
-    private let showTimeDetailLabel: UILabel = {
+    let showTimeDetailLabel: UILabel = {
         let label = UILabel()
         label.numberOfLines = 0
-        label.text = "sdfsdfsdfsdf"
         label.minimumScaleFactor = 0.3
         label.font = UIFont.preferredFont(forTextStyle: .body)
         label.adjustsFontForContentSizeCategory = true
@@ -171,18 +160,16 @@ final class MovieDetailView: UIView {
     private let watchGradeNameTitleLabel: UILabel = {
         let label = UILabel()
         label.textAlignment = .center
-        label.text = "sdfsdfsdfsdf"
-        label.font = UIFont.preferredFont(forTextStyle: .title1)
+        label.text = "관람등급"
+        label.font = UIFont.preferredFont(forTextStyle: .title3)
         label.minimumScaleFactor = 0.3
-        label.font = UIFont.preferredFont(forTextStyle: .body)
         label.adjustsFontForContentSizeCategory = true
         return label
     }()
     
-    private let watchGradeNameDetailLabel: UILabel = {
+    let watchGradeNameDetailLabel: UILabel = {
         let label = UILabel()
         label.numberOfLines = 0
-        label.text = "sdfsdfsdfsdf"
         label.minimumScaleFactor = 0.3
         label.font = UIFont.preferredFont(forTextStyle: .body)
         label.adjustsFontForContentSizeCategory = true
@@ -201,18 +188,16 @@ final class MovieDetailView: UIView {
     private let nationNameTitleLabel: UILabel = {
         let label = UILabel()
         label.textAlignment = .center
-        label.text = "sdfsdfsdfsdf"
-        label.font = UIFont.preferredFont(forTextStyle: .title1)
+        label.text = "제작국가"
+        label.font = UIFont.preferredFont(forTextStyle: .title3)
         label.minimumScaleFactor = 0.3
-        label.font = UIFont.preferredFont(forTextStyle: .body)
         label.adjustsFontForContentSizeCategory = true
         return label
     }()
     
-    private let nationNameDetailLabel: UILabel = {
+    let nationNameDetailLabel: UILabel = {
         let label = UILabel()
         label.numberOfLines = 0
-        label.text = "sdfsdfsdfsdf"
         label.minimumScaleFactor = 0.3
         label.font = UIFont.preferredFont(forTextStyle: .body)
         label.adjustsFontForContentSizeCategory = true
@@ -231,18 +216,16 @@ final class MovieDetailView: UIView {
     private let genreNameTitleLabel: UILabel = {
         let label = UILabel()
         label.textAlignment = .center
-        label.text = "sdfsdfsdfsdf"
-        label.font = UIFont.preferredFont(forTextStyle: .title1)
-        label.minimumScaleFactor = 0.3
+        label.text = "장르"
         label.font = UIFont.preferredFont(forTextStyle: .body)
+        label.minimumScaleFactor = 0.3
         label.adjustsFontForContentSizeCategory = true
         return label
     }()
     
-    private let genreNameDetailLabel: UILabel = {
+    let genreNameDetailLabel: UILabel = {
         let label = UILabel()
         label.numberOfLines = 0
-        label.text = "sdfsdfsdfsdf"
         label.minimumScaleFactor = 0.3
         label.font = UIFont.preferredFont(forTextStyle: .body)
         label.adjustsFontForContentSizeCategory = true
@@ -261,18 +244,16 @@ final class MovieDetailView: UIView {
     private let actorsTitleLabel: UILabel = {
         let label = UILabel()
         label.textAlignment = .center
-        label.text = "sdfsdfsdfsdf"
-        label.font = UIFont.preferredFont(forTextStyle: .title1)
+        label.text = "배우"
+        label.font = UIFont.preferredFont(forTextStyle: .title3)
         label.minimumScaleFactor = 0.3
-        label.font = UIFont.preferredFont(forTextStyle: .body)
         label.adjustsFontForContentSizeCategory = true
         return label
     }()
     
-    private let actorsDetailLabel: UILabel = {
+    let actorsDetailLabel: UILabel = {
         let label = UILabel()
         label.numberOfLines = 0
-        label.text = "sdfsdfsdfsdf"
         label.minimumScaleFactor = 0.3
         label.font = UIFont.preferredFont(forTextStyle: .body)
         label.adjustsFontForContentSizeCategory = true
@@ -353,7 +334,7 @@ extension MovieDetailView {
     private func setUpTotalStackViewConstraints() {
         NSLayoutConstraint.activate([
             totalStackView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 8),
-            totalStackView.topAnchor.constraint(equalTo: posterImage.bottomAnchor, constant:  -8)
+            totalStackView.topAnchor.constraint(equalTo: posterImage.bottomAnchor, constant: 8)
         ])
     }
 }
