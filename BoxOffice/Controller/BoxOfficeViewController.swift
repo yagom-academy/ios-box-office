@@ -32,4 +32,3 @@ final class BoxOfficeViewController: UIViewController {
         }
     }
 }
-

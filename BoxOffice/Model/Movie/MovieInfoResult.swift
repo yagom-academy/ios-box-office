@@ -9,4 +9,3 @@ struct MovieInfoResult: Decodable {
     let movieInfo: MovieInfoDescription
     let source: String
 }
-

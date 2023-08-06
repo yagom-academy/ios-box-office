@@ -22,4 +22,3 @@ struct DataManager {
         self.boxOfficeDecoder = BoxOfficeDecoder<DailyBoxOffice>(apiType: self.apiType, model: NetworkManager(session: .shared))
     }
 }
-

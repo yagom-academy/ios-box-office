@@ -13,9 +13,11 @@ final class BoxOfficeTests: XCTestCase {
     private var sut: BoxOfficeDecoder<DailyBoxOffice>!
     private var model: MockNetworkModel!
     private var url = KobisAPIType.boxOffice("20230804").receiveUrl()!
+   
     private var nsDataAsset:Data {
         return NSDataAsset(name: "box_office_sample")!.data
     }
+    
     override func setUpWithError() throws {
         let configuration = URLSessionConfiguration.default
         configuration.protocolClasses = [MockURLProtocol.self]
@@ -70,7 +72,6 @@ final class BoxOfficeTests: XCTestCase {
                 throw BoxOfficeError.urlError
             }
             
-//            let response = HTTPURLResponse(url: url, mimeType: "application/json", expectedContentLength: 0, textEncodingName: nil)
             let response = HTTPURLResponse(url: url, statusCode: 200, httpVersion: "2.0", headerFields: nil)!
             let data = self.nsDataAsset
             

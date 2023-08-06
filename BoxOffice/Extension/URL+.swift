@@ -22,4 +22,3 @@ extension URL {
         self = url
     }
 }
-

@@ -24,4 +24,3 @@ extension Date {
         return formatter
     }()
 }
-

@@ -34,5 +34,3 @@ struct BoxOfficeMovieInfo: Decodable {
         case screeningCount = "showCnt"
     }
 }
-
-
