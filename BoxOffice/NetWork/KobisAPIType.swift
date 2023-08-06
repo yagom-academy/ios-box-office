@@ -13,27 +13,27 @@ enum KobisAPIType {
 }
 
 extension KobisAPIType {
+    var urlComponents: URLComponents? {
+        var urlComponents = URLComponents()
+        urlComponents.scheme = scheme
+        urlComponents.host = host
+        urlComponents.path = path
+        urlComponents.queryItems = queries
+        return urlComponents
+    }
+
     private var apiKey: String {
-        switch self {
-        case .movie, .boxOffice:
-            return Bundle.main.apiKey
-        }
+        return Bundle.main.apiKey
     }
-    
+
     private var scheme: String {
-        switch self {
-        case .movie, .boxOffice:
-            return "http"
-        }
+        return "http"
     }
-    
+
     private var host: String {
-        switch self {
-        case .movie, .boxOffice:
-            return "kobis.or.kr"
-        }
+        return "kobis.or.kr"
     }
-    
+
     private var path: String {
         switch self {
         case .movie:
@@ -42,7 +42,7 @@ extension KobisAPIType {
             return "/kobisopenapi/webservice/rest/boxoffice/searchDailyBoxOfficeList.json"
         }
     }
-    
+
     private var queries: [URLQueryItem] {
         switch self {
         case .movie(let code):
@@ -51,16 +51,6 @@ extension KobisAPIType {
         case .boxOffice(let date):
             return [URLQueryItem(name: "key", value: apiKey),
                     URLQueryItem(name: "targetDt", value: date)]
-        }
-    }
-    
-    func receiveUrl() -> URL? {
-        let url = URL(scheme, host, path, queries)
-        switch self {
-        case .movie(_):
-            return url
-        case .boxOffice(_):
-            return url
         }
     }
 }

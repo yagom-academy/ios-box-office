@@ -18,12 +18,12 @@ final class BoxOfficeDecoder<Element: Decodable> {
     }
 
     private func decodeData(_ type: Element.Type, from data: Data) -> Element? {
-        let decoder: JSONDecoder = JSONDecoder()
+        let decoder = JSONDecoder()
         return try? decoder.decode(type, from: data)
     }
 
     func fetchData(handler: @escaping (Result<Element, BoxOfficeError>) -> Void) {
-        guard let url = apiType.receiveUrl() else {
+        guard let url = URL(apiType: apiType) else {
             handler(.failure(.urlError))
             return
         }
@@ -42,3 +42,4 @@ final class BoxOfficeDecoder<Element: Decodable> {
         }
     }
 }
+

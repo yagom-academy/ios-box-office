@@ -26,6 +26,7 @@ final class BoxOfficeViewController: UIViewController {
             switch result {
             case .success(let data):
                 self?.dataManager.movieItems = data.boxOfficeResult.movies
+                dump(data)
             case .failure(let error):
                 print(error.localizedDescription)
             }

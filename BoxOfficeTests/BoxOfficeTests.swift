@@ -12,8 +12,8 @@ import XCTest
 final class BoxOfficeTests: XCTestCase {
     private var sut: BoxOfficeDecoder<DailyBoxOffice>!
     private var model: MockNetworkModel!
-    private var url = KobisAPIType.boxOffice("20230804").receiveUrl()!
-   
+    private var url = URL(apiType: KobisAPIType.boxOffice("20230804"))
+    
     private var nsDataAsset:Data {
         return NSDataAsset(name: "box_office_sample")!.data
     }
@@ -68,7 +68,7 @@ final class BoxOfficeTests: XCTestCase {
         // given
         MockURLProtocol.requestHandler = { request in
             guard let url = request.url,
-                  url == KobisAPIType.boxOffice("20230804").receiveUrl()! else {
+                  url == URL(apiType: KobisAPIType.boxOffice("20230804"))! else {
                 throw BoxOfficeError.urlError
             }
             
@@ -80,7 +80,7 @@ final class BoxOfficeTests: XCTestCase {
         
         let expectation = self.nsDataAsset
         let asyncTest = XCTestExpectation()
-        let url = KobisAPIType.boxOffice("20230804").receiveUrl()!
+        let url = URL(apiType: KobisAPIType.boxOffice("20230804"))!
         
         // when
         model.getRequest(url: url) { result in
@@ -102,7 +102,7 @@ final class BoxOfficeTests: XCTestCase {
         // given
         MockURLProtocol.requestHandler = { request in
             guard let url = request.url,
-                  url == KobisAPIType.boxOffice("20230804").receiveUrl()! else {
+                  url == URL(apiType: KobisAPIType.boxOffice("20230804"))! else {
                 throw BoxOfficeError.urlError
             }
             
@@ -113,7 +113,7 @@ final class BoxOfficeTests: XCTestCase {
         }
         
         let asyncTest = XCTestExpectation()
-        let url = KobisAPIType.boxOffice("20230804").receiveUrl()!
+        let url = URL(apiType: KobisAPIType.boxOffice("20230804"))!
         
         // when
         model.getRequest(url: url) { event in

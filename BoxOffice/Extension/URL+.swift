@@ -8,17 +8,15 @@
 import Foundation
 
 extension URL {
-    init?(_ scheme: String, _ host: String, _ path: String, _ queries: [URLQueryItem]) {
-        var urlComponents = URLComponents()
-        urlComponents.scheme = scheme
-        urlComponents.host = host
-        urlComponents.path = path
-        urlComponents.queryItems = queries
+    init?(apiType: KobisAPIType) {
+        guard let urlComponents = apiType.urlComponents else {
+            return nil
+        }
 
         guard let url = urlComponents.url else {
             return nil
         }
-        
+
         self = url
     }
 }
