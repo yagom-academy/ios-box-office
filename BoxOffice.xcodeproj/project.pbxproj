@@ -21,6 +21,8 @@
 		9C30BD3A2A70D149000DB5B2 /* MovieDataAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C30BD392A70D149000DB5B2 /* MovieDataAPI.swift */; };
 		9C30BD3C2A70D502000DB5B2 /* DataNamespace.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C30BD3B2A70D502000DB5B2 /* DataNamespace.swift */; };
 		9C30BD3E2A70D64B000DB5B2 /* DataManaging.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C30BD3D2A70D64B000DB5B2 /* DataManaging.swift */; };
+		9CF7E97D2A7F7D6A006519B9 /* KobisAPIType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9CF7E97C2A7F7D6A006519B9 /* KobisAPIType.swift */; };
+		9CF7E97F2A7F7D9E006519B9 /* APIKEY.plist in Resources */ = {isa = PBXBuildFile; fileRef = 9CF7E97E2A7F7D9E006519B9 /* APIKEY.plist */; };
 		9CF8A6052A738BB700CB6911 /* DataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9CF8A6042A738BB700CB6911 /* DataManager.swift */; };
 /* End PBXBuildFile section */
 
@@ -52,6 +54,8 @@
 		9C30BD392A70D149000DB5B2 /* MovieDataAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MovieDataAPI.swift; sourceTree = "<group>"; };
 		9C30BD3B2A70D502000DB5B2 /* DataNamespace.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataNamespace.swift; sourceTree = "<group>"; };
 		9C30BD3D2A70D64B000DB5B2 /* DataManaging.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataManaging.swift; sourceTree = "<group>"; };
+		9CF7E97C2A7F7D6A006519B9 /* KobisAPIType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KobisAPIType.swift; sourceTree = "<group>"; };
+		9CF7E97E2A7F7D9E006519B9 /* APIKEY.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = APIKEY.plist; sourceTree = "<group>"; };
 		9CF8A6042A738BB700CB6911 /* DataManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataManager.swift; sourceTree = "<group>"; };
 		9CF8A6172A742DF100CB6911 /* BoxOffice.xctestplan */ = {isa = PBXFileReference; lastKnownFileType = text; path = BoxOffice.xctestplan; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -101,8 +105,8 @@
 				9C30BD2D2A70C9F8000DB5B2 /* Model */,
 				9C30BD2C2A70C9F5000DB5B2 /* View */,
 				9C30BD2F2A70C9FC000DB5B2 /* Controller */,
-				63DF20F72970E1A1005DF7D1 /* Assets.xcassets */,
-				63DF20FC2970E1A1005DF7D1 /* Info.plist */,
+				9CF7E97C2A7F7D6A006519B9 /* KobisAPIType.swift */,
+				9CF7E97B2A7F7D4B006519B9 /* Resource */,
 			);
 			path = BoxOffice;
 			sourceTree = "<group>";
@@ -161,6 +165,16 @@
 				9C30BD3D2A70D64B000DB5B2 /* DataManaging.swift */,
 			);
 			path = Protocol;
+			sourceTree = "<group>";
+		};
+		9CF7E97B2A7F7D4B006519B9 /* Resource */ = {
+			isa = PBXGroup;
+			children = (
+				63DF20F72970E1A1005DF7D1 /* Assets.xcassets */,
+				63DF20FC2970E1A1005DF7D1 /* Info.plist */,
+				9CF7E97E2A7F7D9E006519B9 /* APIKEY.plist */,
+			);
+			path = Resource;
 			sourceTree = "<group>";
 		};
 		9CF8A6032A738BAA00CB6911 /* DataManager */ = {
@@ -253,6 +267,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				63DF20FB2970E1A1005DF7D1 /* LaunchScreen.storyboard in Resources */,
+				9CF7E97F2A7F7D9E006519B9 /* APIKEY.plist in Resources */,
 				63DF20F82970E1A1005DF7D1 /* Assets.xcassets in Resources */,
 				63DF20F62970E1A0005DF7D1 /* Main.storyboard in Resources */,
 			);
@@ -277,6 +292,7 @@
 				9C30BD332A70CD75000DB5B2 /* BoxOfficeResult.swift in Sources */,
 				9C30BD3E2A70D64B000DB5B2 /* DataManaging.swift in Sources */,
 				63DF20EF2970E1A0005DF7D1 /* AppDelegate.swift in Sources */,
+				9CF7E97D2A7F7D6A006519B9 /* KobisAPIType.swift in Sources */,
 				63DF20F12970E1A0005DF7D1 /* SceneDelegate.swift in Sources */,
 				9C30BD3C2A70D502000DB5B2 /* DataNamespace.swift in Sources */,
 				9C30BD352A70CDF3000DB5B2 /* MovieInfo.swift in Sources */,
@@ -446,7 +462,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_FILE = BoxOffice/Info.plist;
+				INFOPLIST_FILE = BoxOffice/Resource/Info.plist;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UIMainStoryboardFile = Main;
@@ -474,7 +490,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_FILE = BoxOffice/Info.plist;
+				INFOPLIST_FILE = BoxOffice/Resource/Info.plist;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UIMainStoryboardFile = Main;
