@@ -101,12 +101,11 @@ extension BoxOfficeCell {
         updateSeparatorConstraint()
         setUpInformationStackViewConstraints()
         setUpRankStackViewConstraints()
-        setUpDetailLabelConstraints()
     }
     
     private func setUpInformationStackViewConstraints() {
         NSLayoutConstraint.activate([
-            informationStackView.leadingAnchor.constraint(equalTo: leadingAnchor),
+            informationStackView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
             informationStackView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
             informationStackView.topAnchor.constraint(equalTo: topAnchor, constant: 8),
             informationStackView.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -8)
@@ -115,17 +114,9 @@ extension BoxOfficeCell {
     
     private func setUpRankStackViewConstraints() {
         NSLayoutConstraint.activate([
-            rankStackView.leadingAnchor.constraint(equalTo: informationStackView.leadingAnchor, constant: 8),
+            rankStackView.leadingAnchor.constraint(equalTo: informationStackView.leadingAnchor),
             rankStackView.widthAnchor.constraint(equalTo: informationStackView.widthAnchor, multiplier: 0.15),
-            rankStackView.topAnchor.constraint(equalTo: informationStackView.topAnchor, constant: -1)
-        ])
-    }
-    
-    private func setUpDetailLabelConstraints() {
-        NSLayoutConstraint.activate([
-            detailLabel.leadingAnchor.constraint(equalTo: informationStackView.trailingAnchor, constant: 4),
-            detailLabel.centerYAnchor.constraint(equalTo: informationStackView.centerYAnchor),
-            detailLabel.trailingAnchor.constraint(equalTo: informationStackView.leadingAnchor)
+            rankStackView.topAnchor.constraint(equalTo: informationStackView.topAnchor)
         ])
     }
 }
