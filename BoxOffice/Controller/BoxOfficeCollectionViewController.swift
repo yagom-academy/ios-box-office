@@ -50,7 +50,7 @@ class BoxOfficeCollectionViewController: UICollectionViewController {
     }
     
     private func registerCell() {
-        collectionView.register(BoxOfficeCollectionViewCell.self, forCellWithReuseIdentifier: BoxOfficeCollectionViewCell.identifier)
+        collectionView.register(cellClass: BoxOfficeCollectionViewCell.self)
     }
     
     private func configureNavigation() {
@@ -66,7 +66,6 @@ class BoxOfficeCollectionViewController: UICollectionViewController {
 }
 
 // MARK: - Refresh and indicator
-
 extension BoxOfficeCollectionViewController {
     private func configureIndicator() {
         indicator.translatesAutoresizingMaskIntoConstraints = false
