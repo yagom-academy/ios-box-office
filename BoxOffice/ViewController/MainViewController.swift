@@ -47,10 +47,8 @@ final class MainViewController: UIViewController, CanShowNetworkRequestFailureAl
     private lazy var collectionView: UICollectionView = {
         let collectionView = UICollectionView(frame: .zero, collectionViewLayout: compositionalLayout)
         
-        collectionView.dataSource = diffableDataSource
         collectionView.refreshControl = refreshControl
         collectionView.translatesAutoresizingMaskIntoConstraints = false
-        collectionView.register(MainCollectionViewCell.self, forCellWithReuseIdentifier: MainCollectionViewCell.reuseIdentifier)
         return collectionView
     }()
     
@@ -101,13 +99,13 @@ final class MainViewController: UIViewController, CanShowNetworkRequestFailureAl
     }
     
     private func setUpDiffableDataSource() {
-        diffableDataSource = UICollectionViewDiffableDataSource<Section, MovieInformationDTO>(collectionView: collectionView, cellProvider: { collectionView, indexPath, movieInformation in
-            guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: MainCollectionViewCell.reuseIdentifier, for: indexPath) as? MainCollectionViewCell else {
-                return UICollectionViewCell()
-            }
+        let cellResgistration = UICollectionView.CellRegistration<MainCollectionViewCell, MovieInformationDTO> { cell, indexPath, movieInformation in
             
             cell.setUpContent(movieInformation)
-            return cell
+        }
+        
+        diffableDataSource = UICollectionViewDiffableDataSource<Section, MovieInformationDTO>(collectionView: collectionView, cellProvider: { collectionView, indexPath, movieInformation in
+            return collectionView.dequeueConfiguredReusableCell(using: cellResgistration, for: indexPath, item: movieInformation)
         })
     }
 }
