@@ -8,6 +8,8 @@
 import Foundation
 
 extension Date {
+    static private let formatter = DateFormatter()
+    
     static var yesterday: Self {
         guard let yesterday = Calendar.current.date(byAdding: .day, value: -1, to: Date()) else {
             return Date()
@@ -16,14 +18,12 @@ extension Date {
     }
     
     var navigationFormat: String {
-        let formatter = DateFormatter()
-        formatter.dateFormat = "YYYY-MM-dd"
-        return formatter.string(from: self)
+        Date.formatter.dateFormat = "YYYY-MM-dd"
+        return Date.formatter.string(from: self)
     }
     
     var networkFormat: String {
-        let formatter = DateFormatter()
-        formatter.dateFormat = "YYYYMMdd"
-        return formatter.string(from: self)
+        Date.formatter.dateFormat = "YYYYMMdd"
+        return Date.formatter.string(from: self)
     }    
 }
