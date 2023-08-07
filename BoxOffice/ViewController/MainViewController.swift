@@ -16,7 +16,7 @@ final class MainViewController: UIViewController, CanShowNetworkRequestFailureAl
     enum Section {
         case main
     }
-
+    
     private let usecase: MainViewControllerUseCase
     
     private lazy var activityIndicatorView: UIActivityIndicatorView = {
@@ -30,8 +30,11 @@ final class MainViewController: UIViewController, CanShowNetworkRequestFailureAl
     
     private lazy var refreshControl: UIRefreshControl = {
         let refreshControl = UIRefreshControl()
+        let refreshAction = UIAction { _ in
+            self.setUpViewControllerContents()
+        }
         
-        refreshControl.addTarget(self, action: #selector(setUpViewControllerContents), for: .valueChanged)
+        refreshControl.addAction(refreshAction, for: .valueChanged)
         return refreshControl
     }()
     
@@ -81,7 +84,7 @@ final class MainViewController: UIViewController, CanShowNetworkRequestFailureAl
         navigationItem.title = usecase.yesterdayDate
     }
     
-    @objc private func setUpViewControllerContents() {
+    private func setUpViewControllerContents() {
         let targetDate = usecase.yesterdayDate.replacingOccurrences(of: "-", with: "")
         
         usecase.fetchDailyBoxOffice(targetDate: targetDate)
