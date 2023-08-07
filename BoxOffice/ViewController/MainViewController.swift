@@ -19,14 +19,6 @@ protocol MainViewControllerUseCaseDelegate: AnyObject {
 final class MainViewController: UIViewController, CanShowNetworkRequestFailureAlert {
     private let usecase: MainViewControllerUseCase
     
-    private let yesterdayDate: String = {
-        let yesterday = Date() - (24 * 60 * 60)
-        let formatter = DateFormatter()
-        
-        formatter.dateFormat = "yyyy-MM-dd"
-        return formatter.string(from: yesterday)
-    }()
-    
     private lazy var activityIndicatorView: UIActivityIndicatorView = {
         let activityIndicatorView = UIActivityIndicatorView()
         
@@ -86,11 +78,11 @@ final class MainViewController: UIViewController, CanShowNetworkRequestFailureAl
     
     private func setUpViewController() {
         view.backgroundColor = .systemBackground
-        navigationItem.title = yesterdayDate
+        navigationItem.title = usecase.yesterdayDate
     }
     
     @objc private func setUpViewControllerContents() {
-        let targetDate = yesterdayDate.replacingOccurrences(of: "-", with: "")
+        let targetDate = usecase.yesterdayDate.replacingOccurrences(of: "-", with: "")
         
         usecase.fetchDailyBoxOffice(targetDate: targetDate)
     }

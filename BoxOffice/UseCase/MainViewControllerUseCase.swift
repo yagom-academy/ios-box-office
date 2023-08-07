@@ -9,12 +9,21 @@ import Foundation
 
 protocol MainViewControllerUseCase {
     var delegate: MainViewControllerUseCaseDelegate? { get set }
+    var yesterdayDate: String { get }
     func fetchDailyBoxOffice(targetDate: String)
 }
 
 final class MainViewControllerUseCaseImplementation: MainViewControllerUseCase {
     private let boxOfficeRepository: BoxOfficeRepository
     weak var delegate: MainViewControllerUseCaseDelegate?
+    
+    let yesterdayDate: String = {
+        let yesterday = Date() - (24 * 60 * 60)
+        let formatter = DateFormatter()
+        
+        formatter.dateFormat = "yyyy-MM-dd"
+        return formatter.string(from: yesterday)
+    }()
     
     init(boxOfficeRepository: BoxOfficeRepository) {
         self.boxOfficeRepository = boxOfficeRepository
