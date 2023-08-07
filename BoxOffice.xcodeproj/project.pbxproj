@@ -41,6 +41,7 @@
 		D2D027CA2A7BD57800456444 /* String+.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2D027C92A7BD57800456444 /* String+.swift */; };
 		D2D027CE2A7F291900456444 /* MovieDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2D027CD2A7F291900456444 /* MovieDetailViewController.swift */; };
 		D2D027D02A7F293A00456444 /* MovieDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2D027CF2A7F293A00456444 /* MovieDetailView.swift */; };
+		D2D027D22A813B7A00456444 /* UIFont+.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2D027D12A813B7A00456444 /* UIFont+.swift */; };
 		D2E159472A6EA6EC00052F8B /* DailyBoxOffice.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2E159462A6EA6EC00052F8B /* DailyBoxOffice.swift */; };
 		D2E159652A6F560300052F8B /* JSONDecoder+.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2E159642A6F560300052F8B /* JSONDecoder+.swift */; };
 /* End PBXBuildFile section */
@@ -94,6 +95,7 @@
 		D2D027C92A7BD57800456444 /* String+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "String+.swift"; sourceTree = "<group>"; };
 		D2D027CD2A7F291900456444 /* MovieDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MovieDetailViewController.swift; sourceTree = "<group>"; };
 		D2D027CF2A7F293A00456444 /* MovieDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MovieDetailView.swift; sourceTree = "<group>"; };
+		D2D027D12A813B7A00456444 /* UIFont+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIFont+.swift"; sourceTree = "<group>"; };
 		D2E159462A6EA6EC00052F8B /* DailyBoxOffice.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DailyBoxOffice.swift; sourceTree = "<group>"; };
 		D2E159642A6F560300052F8B /* JSONDecoder+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "JSONDecoder+.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -302,6 +304,7 @@
 			children = (
 				D2E159642A6F560300052F8B /* JSONDecoder+.swift */,
 				D2D027C92A7BD57800456444 /* String+.swift */,
+				D2D027D12A813B7A00456444 /* UIFont+.swift */,
 			);
 			path = Extension;
 			sourceTree = "<group>";
@@ -423,6 +426,7 @@
 				D277169E2A6FFFAC005C0045 /* JSONDecoderError.swift in Sources */,
 				CB289C042A7F31C2007EBADA /* DaumSearchMeta.swift in Sources */,
 				D236E1B22A7356EA003D0F7A /* KobisNameSpace.swift in Sources */,
+				D2D027D22A813B7A00456444 /* UIFont+.swift in Sources */,
 				63DF20F32970E1A0005DF7D1 /* BoxOfficeViewController.swift in Sources */,
 				D236E1A52A734716003D0F7A /* ShowType.swift in Sources */,
 				63DF20EF2970E1A0005DF7D1 /* AppDelegate.swift in Sources */,

@@ -49,7 +49,7 @@ final class MovieDetailView: UIView {
         let label = UILabel()
         label.textAlignment = .center
         label.text = "감독"
-        label.font = UIFont.preferredFont(forTextStyle: .title3)
+        label.font = UIFont.preferredFont(for: .title3, weight: .heavy)
         label.minimumScaleFactor = 0.3
         label.adjustsFontForContentSizeCategory = true
         return label
@@ -77,7 +77,7 @@ final class MovieDetailView: UIView {
         let label = UILabel()
         label.textAlignment = .center
         label.text = "제작년도"
-        label.font = UIFont.preferredFont(forTextStyle: .title3)
+        label.font = UIFont.preferredFont(for: .title3, weight: .heavy)
         label.minimumScaleFactor = 0.3
         label.adjustsFontForContentSizeCategory = true
         return label
@@ -105,7 +105,7 @@ final class MovieDetailView: UIView {
         let label = UILabel()
         label.textAlignment = .center
         label.text = "개봉일"
-        label.font = UIFont.preferredFont(forTextStyle: .title3)
+        label.font = UIFont.preferredFont(for: .title3, weight: .heavy)
         label.minimumScaleFactor = 0.3
         label.adjustsFontForContentSizeCategory = true
         return label
@@ -133,7 +133,7 @@ final class MovieDetailView: UIView {
         let label = UILabel()
         label.textAlignment = .center
         label.text = "상영시간"
-        label.font = UIFont.preferredFont(forTextStyle: .title3)
+        label.font = UIFont.preferredFont(for: .title3, weight: .heavy)
         label.minimumScaleFactor = 0.3
         label.adjustsFontForContentSizeCategory = true
         return label
@@ -161,7 +161,7 @@ final class MovieDetailView: UIView {
         let label = UILabel()
         label.textAlignment = .center
         label.text = "관람등급"
-        label.font = UIFont.preferredFont(forTextStyle: .title3)
+        label.font = UIFont.preferredFont(for: .title3, weight: .heavy)
         label.minimumScaleFactor = 0.3
         label.adjustsFontForContentSizeCategory = true
         return label
@@ -189,7 +189,7 @@ final class MovieDetailView: UIView {
         let label = UILabel()
         label.textAlignment = .center
         label.text = "제작국가"
-        label.font = UIFont.preferredFont(forTextStyle: .title3)
+        label.font = UIFont.preferredFont(for: .title3, weight: .heavy)
         label.minimumScaleFactor = 0.3
         label.adjustsFontForContentSizeCategory = true
         return label
@@ -217,7 +217,7 @@ final class MovieDetailView: UIView {
         let label = UILabel()
         label.textAlignment = .center
         label.text = "장르"
-        label.font = UIFont.preferredFont(forTextStyle: .body)
+        label.font = UIFont.preferredFont(for: .title3, weight: .heavy)
         label.minimumScaleFactor = 0.3
         label.adjustsFontForContentSizeCategory = true
         return label
@@ -245,7 +245,7 @@ final class MovieDetailView: UIView {
         let label = UILabel()
         label.textAlignment = .center
         label.text = "배우"
-        label.font = UIFont.preferredFont(forTextStyle: .title3)
+        label.font = UIFont.preferredFont(for: .title3, weight: .heavy)
         label.minimumScaleFactor = 0.3
         label.adjustsFontForContentSizeCategory = true
         return label
