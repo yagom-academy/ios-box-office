@@ -19,9 +19,15 @@ class BoxOfficeCollectionViewController: UICollectionViewController {
         configureRefreshControl()
         registerCell()
         
+        withIndicator {
+            await self.fetchBoxOfficeItems()
+        }
+    }
+    
+    private func withIndicator(closure: @escaping () async -> Void) {
         Task {
             indicator.startAnimating()
-            await fetchBoxOfficeItems()
+            await closure()
             indicator.stopAnimating()
         }
     }
