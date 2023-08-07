@@ -5,7 +5,7 @@
 //  Created by EtialMoon, Minsup on 2023/07/31.
 //
 
-import SwiftUI
+import UIKit
 
 class BoxOfficeCollectionViewController: UICollectionViewController {
     var boxOfficeItems: [BoxOfficeItem] = []
