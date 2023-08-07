@@ -69,9 +69,8 @@ final class MainCollectionViewCell: UICollectionViewListCell {
     override init(frame: CGRect) {
         super.init(frame: frame)
         
-        configureUI()
-        setUpConstraints()
         setUpAccessory()
+        setUpLayout()
     }
     
     required init?(coder: NSCoder) {
@@ -92,29 +91,47 @@ final class MainCollectionViewCell: UICollectionViewListCell {
 
 // MARK: - Private
 extension MainCollectionViewCell {
-    private func configureUI() {
-        [rankLabel, rankIntenLabel].forEach { rankStackView.addArrangedSubview($0) }
-        [movieNameLabel, audienceCountLabel].forEach { movieDescriptionStackView.addArrangedSubview($0) }
-        [rankStackView, movieDescriptionStackView].forEach { addSubview($0) }
-    }
-    
-    private func setUpConstraints() {
-        setUpRankStackViewConstraint()
-        setUpMovieDescriptionStackViewConstraint()
-    }
-    
     private func setUpAccessory() {
         accessories = [.disclosureIndicator()]
     }
     
-    private func setUpRankStackViewConstraint() {
+    private func setUpLayout() {
+        setUpRankLabelLayout()
+        setUpRankIntenLabelLayout()
+        setUpMovieNameLabelLayout()
+        setUpAudienceCountLabelLayout()
+        setUpRankStackViewLayout()
+        setUpMovieDescriptionStackViewLayout()
+    }
+    
+    private func setUpRankLabelLayout() {
+        rankStackView.addArrangedSubview(rankLabel)
+    }
+    
+    private func setUpRankIntenLabelLayout() {
+        rankStackView.addArrangedSubview(rankIntenLabel)
+    }
+    
+    private func setUpMovieNameLabelLayout() {
+        movieDescriptionStackView.addArrangedSubview(movieNameLabel)
+    }
+    
+    private func setUpAudienceCountLabelLayout() {
+        movieDescriptionStackView.addArrangedSubview(audienceCountLabel)
+    }
+    
+    private func setUpRankStackViewLayout() {
+        addSubview(rankStackView)
+        
         NSLayoutConstraint.activate([
             rankStackView.centerXAnchor.constraint(equalTo: leadingAnchor, constant: 40),
             rankStackView.centerYAnchor.constraint(equalTo: centerYAnchor)
         ])
     }
     
-    private func setUpMovieDescriptionStackViewConstraint() {
+    private func setUpMovieDescriptionStackViewLayout() {
+        addSubview(movieDescriptionStackView)
+        
         NSLayoutConstraint.activate([
             movieDescriptionStackView.topAnchor.constraint(equalTo: topAnchor, constant: 10),
             movieDescriptionStackView.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -10),
