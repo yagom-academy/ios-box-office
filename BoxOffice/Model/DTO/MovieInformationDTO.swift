@@ -9,7 +9,7 @@ import UIKit
 struct MovieInformationDTO: Hashable {
     let rank: String
     let rankInten: String
-    let OldAndNew: String
+    let oldAndNew: String
     let movieName: String
     let audienceCount: String
     let audienceAccumulate: String
@@ -17,7 +17,7 @@ struct MovieInformationDTO: Hashable {
 
 extension MovieInformationDTO {
     func conventedRankIntenSybolAndText() -> NSMutableAttributedString {
-        if OldAndNew == "NEW" {
+        if oldAndNew == "NEW" {
             return addAttributeString(text: "신작", keyword: "신작", color: .red)
         }
         

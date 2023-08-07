@@ -40,7 +40,7 @@ extension MainViewControllerUseCaseImplementation {
         let movieInformationDTOList = dailyBoxOfficeMovieInformationList.map { movieInformation in
             MovieInformationDTO(rank: movieInformation.rank,
                                 rankInten: movieInformation.rankInten,
-                                OldAndNew: movieInformation.rankOldAndNew,
+                                oldAndNew: movieInformation.rankOldAndNew,
                                 movieName: movieInformation.movieName,
                                 audienceCount: movieInformation.audienceCount,
                                 audienceAccumulate: movieInformation.audienceAccumulate)
