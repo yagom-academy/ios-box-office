@@ -123,7 +123,7 @@ extension MainViewController: MainViewControllerUseCaseDelegate {
             self.diffableDataSource?.apply(snapShot)
             self.refreshControl.endRefreshing()
             
-            if self.activityIndicatorView.isAnimating { self.activityIndicatorView.stopAnimating() }
+            self.activityIndicatorView.stopAnimating()
         }
     }
     
@@ -132,7 +132,7 @@ extension MainViewController: MainViewControllerUseCaseDelegate {
             self.refreshControl.endRefreshing()
             self.showNetworkFailAlert(message: errorDescription, retryFunction: self.setUpViewControllerContents)
             
-            if self.activityIndicatorView.isAnimating { self.activityIndicatorView.stopAnimating() }
+            self.activityIndicatorView.stopAnimating()
         }
     }
 }
