@@ -7,16 +7,16 @@
 
 import UIKit
 
-enum Section {
-    case main
-}
-
 protocol MainViewControllerUseCaseDelegate: AnyObject {
     func completeFetchDailyBoxOfficeInformation(_ movieInformationDTOList: [MovieInformationDTO])
     func failFetchDailyBoxOfficeInformation(_ errorDescription: String?)
 }
 
 final class MainViewController: UIViewController, CanShowNetworkRequestFailureAlert {
+    enum Section {
+        case main
+    }
+    
     private let usecase: MainViewControllerUseCase
     
     private lazy var activityIndicatorView: UIActivityIndicatorView = {
@@ -30,8 +30,11 @@ final class MainViewController: UIViewController, CanShowNetworkRequestFailureAl
     
     private lazy var refreshControl: UIRefreshControl = {
         let refreshControl = UIRefreshControl()
+        let refreshAction = UIAction { _ in
+            self.setUpViewControllerContents()
+        }
         
-        refreshControl.addTarget(self, action: #selector(setUpViewControllerContents), for: .valueChanged)
+        refreshControl.addAction(refreshAction, for: .valueChanged)
         return refreshControl
     }()
     
@@ -79,7 +82,7 @@ final class MainViewController: UIViewController, CanShowNetworkRequestFailureAl
         navigationItem.title = usecase.yesterdayDate
     }
     
-    @objc private func setUpViewControllerContents() {
+    private func setUpViewControllerContents() {
         let targetDate = usecase.yesterdayDate.replacingOccurrences(of: "-", with: "")
         
         usecase.fetchDailyBoxOffice(targetDate: targetDate)
@@ -108,6 +111,14 @@ final class MainViewController: UIViewController, CanShowNetworkRequestFailureAl
             return collectionView.dequeueConfiguredReusableCell(using: cellResgistration, for: indexPath, item: movieInformation)
         })
     }
+    
+    private func stopRefreshing() {
+        self.refreshControl.endRefreshing()
+        
+        if self.activityIndicatorView.isAnimating {
+            self.activityIndicatorView.stopAnimating()
+        }
+    }
 }
 
 // MARK: - MainViewControllerUseCaseDelegate
@@ -117,20 +128,17 @@ extension MainViewController: MainViewControllerUseCaseDelegate {
         
         snapShot.appendSections([.main])
         snapShot.appendItems(movieInformationDTOList)
+        diffableDataSource?.apply(snapShot)
+        
         DispatchQueue.main.async {
-            self.diffableDataSource?.apply(snapShot)
-            self.refreshControl.endRefreshing()
-            
-            if self.activityIndicatorView.isAnimating { self.activityIndicatorView.stopAnimating() }
+            self.stopRefreshing()
         }
     }
     
     func failFetchDailyBoxOfficeInformation(_ errorDescription: String?) {
         DispatchQueue.main.async {
-            self.refreshControl.endRefreshing()
+            self.stopRefreshing()
             self.showNetworkFailAlert(message: errorDescription, retryFunction: self.setUpViewControllerContents)
-            
-            if self.activityIndicatorView.isAnimating { self.activityIndicatorView.stopAnimating() }
         }
     }
 }
