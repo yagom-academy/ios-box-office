@@ -7,17 +7,14 @@
 
 import Foundation
 
-struct NetworkManager {
-    static func loadData<T: Decodable>(_ components: URLComponents?, _ dataType: T.Type, _ completion: @escaping (Result<T, NetworkManagerError>) -> Void) {
-        let urlSession = URLSession(configuration: .default)
-        
-        guard let url = components?.url else {
-            completion(.failure(NetworkManagerError.notExistedUrl))
-            return
-        }
-        
-        let task = urlSession.dataTask(with: url) { data, response, error in
-            if error != nil {
+class NetworkManager {
+    static let shared = NetworkManager()
+    
+    private init() {}
+    
+    func performRequest<T: Decodable>(_ request: URLRequest, _ objectType: T.Type, _ completion: @escaping (Result<T, NetworkManagerError>) -> Void) {
+        URLSession.shared.dataTask(with: request) { data, response, error in
+            if let error {
                 completion(.failure(NetworkManagerError.cannotLoadFromNetwork))
                 return
             }
@@ -39,12 +36,23 @@ struct NetworkManager {
                     print("JSONDecoder 에러 : \(error)")
                     completion(.failure(NetworkManagerError.failureJsonDecode))
                 } catch {
-                    print("알 수 없는 에러 발생")
+                    print("알 수 없는 에러 발생 : \(error)")
                     completion(.failure(NetworkManagerError.unknown))
                 }
             }
+        }.resume()
+    }
+    
+    func sendGETRequest<T: Decodable>(url: URL, query: [String: String]? = nil, headers: [String: String]? = nil, objectType: T.Type, completion: @escaping (Result<T, NetworkManagerError>) -> Void) {
+        var components = URLComponents(url: url, resolvingAgainstBaseURL: true)
+        components?.queryItems = query?.map { URLQueryItem(name: $0.key, value: $0.value) }
+
+        var request = URLRequest(url: components?.url ?? url)
+        request.httpMethod = "GET"
+        headers?.forEach { key, value in
+            request.setValue(value, forHTTPHeaderField: key)
         }
         
-        task.resume()
+        performRequest(request, objectType, completion)
     }
 }

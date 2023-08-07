@@ -30,19 +30,19 @@ struct BoxOfficeService {
         components.host = KobisNameSpace.host
         components.path = KobisNameSpace.dailyBoxOfficePath
         
-        let key = URLQueryItem(name: KobisNameSpace.key,
-                               value: KobisNameSpace.keyValue)
-        let targetDt = URLQueryItem(name: KobisNameSpace.targetDt,
-                                    value: formattedYesterday)
+        let query = [
+            KobisNameSpace.key : KobisNameSpace.keyValue,
+            KobisNameSpace.targetDt : formattedYesterday
+        ]
         
-        components.queryItems = [key, targetDt]
+        guard let url = components.url else { return }
         
-        NetworkManager.loadData(components, BoxOffice.self) { result in
+        NetworkManager.shared.sendGETRequest(url: url, query: query, objectType: BoxOffice.self) { result in
             switch result {
             case .success(let data):
                 completion(.success(data))
             case .failure(let error):
-                completion(.failure(error)) 
+                completion(.failure(error))
             }
         }
     }
@@ -53,14 +53,14 @@ struct BoxOfficeService {
         components.host = KobisNameSpace.host
         components.path = KobisNameSpace.detailMovieInfoPath
         
-        let key = URLQueryItem(name: KobisNameSpace.key,
-                               value: KobisNameSpace.keyValue)
-        let movieCd = URLQueryItem(name: KobisNameSpace.movieCd,
-                                   value: movieCd)
+        let query = [
+            KobisNameSpace.key : KobisNameSpace.keyValue,
+            KobisNameSpace.movieCd : movieCd
+        ]
         
-        components.queryItems = [key, movieCd]
+        guard let url = components.url else { return }
         
-        NetworkManager.loadData(components, Movie.self) { result in
+        NetworkManager.shared.sendGETRequest(url: url, query: query, objectType: Movie.self) { result in
             switch result {
             case .success(let data):
                 completion(.success(data))
