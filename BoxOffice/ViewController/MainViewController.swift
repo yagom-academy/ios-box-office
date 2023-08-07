@@ -7,16 +7,16 @@
 
 import UIKit
 
-enum Section {
-    case main
-}
-
 protocol MainViewControllerUseCaseDelegate: AnyObject {
     func completeFetchDailyBoxOfficeInformation(_ movieInformationDTOList: [MovieInformationDTO])
     func failFetchDailyBoxOfficeInformation(_ errorDescription: String?)
 }
 
 final class MainViewController: UIViewController, CanShowNetworkRequestFailureAlert {
+    enum Section {
+        case main
+    }
+
     private let usecase: MainViewControllerUseCase
     
     private lazy var activityIndicatorView: UIActivityIndicatorView = {
