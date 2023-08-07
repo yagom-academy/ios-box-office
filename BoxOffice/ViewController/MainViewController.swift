@@ -113,6 +113,14 @@ final class MainViewController: UIViewController, CanShowNetworkRequestFailureAl
             return cell
         })
     }
+    
+    private func stopRefreshing() {
+        self.refreshControl.endRefreshing()
+        
+        if self.activityIndicatorView.isAnimating {
+            self.activityIndicatorView.stopAnimating()
+        }
+    }
 }
 
 // MARK: - MainViewControllerUseCaseDelegate
@@ -125,16 +133,14 @@ extension MainViewController: MainViewControllerUseCaseDelegate {
         diffableDataSource?.apply(snapShot)
         
         DispatchQueue.main.async {
-            self.refreshControl.endRefreshing()
-            self.activityIndicatorView.stopAnimating()
+            self.stopRefreshing()
         }
     }
     
     func failFetchDailyBoxOfficeInformation(_ errorDescription: String?) {
         DispatchQueue.main.async {
-            self.refreshControl.endRefreshing()
+            self.stopRefreshing()
             self.showNetworkFailAlert(message: errorDescription, retryFunction: self.setUpViewControllerContents)
-            self.activityIndicatorView.stopAnimating()
         }
     }
 }
