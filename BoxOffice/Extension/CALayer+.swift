@@ -2,7 +2,7 @@
 //  CALayer+.swift
 //  BoxOffice
 //
-//  Created by MARY on 2023/08/04.
+//  Created by Idinaloq, MARY on 2023/08/04.
 //
 
 import UIKit

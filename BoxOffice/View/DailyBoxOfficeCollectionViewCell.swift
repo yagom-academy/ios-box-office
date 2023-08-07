@@ -8,9 +8,9 @@
 import UIKit
 
 final class DailyBoxOfficeCollectionViewCell: UICollectionViewListCell {
-    static let identifier: String = "DailyBoxOfficeCollectionViewCell"
+
     
-    let titleLabel: UILabel = {
+    private let titleLabel: UILabel = {
         let label: UILabel = UILabel()
         label.font = .preferredFont(forTextStyle: .title2)
         label.translatesAutoresizingMaskIntoConstraints = false
@@ -18,7 +18,7 @@ final class DailyBoxOfficeCollectionViewCell: UICollectionViewListCell {
         return label
     }()
     
-    let visitorLabel: UILabel = {
+    private let visitorLabel: UILabel = {
         let label: UILabel = UILabel()
         label.font = .preferredFont(forTextStyle: .title3)
         label.translatesAutoresizingMaskIntoConstraints = false
@@ -26,7 +26,7 @@ final class DailyBoxOfficeCollectionViewCell: UICollectionViewListCell {
         return label
     }()
     
-    let rankLabel: UILabel = {
+    private let rankLabel: UILabel = {
         let label: UILabel = UILabel()
         label.font = .preferredFont(forTextStyle: .title1)
         label.textAlignment = .center
@@ -35,7 +35,7 @@ final class DailyBoxOfficeCollectionViewCell: UICollectionViewListCell {
         return label
     }()
     
-    let rankChangeValueLabel: UILabel = {
+    private let rankChangeValueLabel: UILabel = {
         let label: UILabel = UILabel()
         label.font = .preferredFont(forTextStyle: .title3)
         label.textAlignment = .center
@@ -123,24 +123,32 @@ final class DailyBoxOfficeCollectionViewCell: UICollectionViewListCell {
         let audienceCount: String = data.audienceCount
         let audienceAccumulate: String = data.audienceAccumulate
         let rankChangeValue: String = data.rankChangeValue
-        let rankOldAndNew: String = data.rankOldAndNew
+        let rankOldAndNew: OldAndNew? = OldAndNew(rawValue: data.rankOldAndNew)
         
         self.titleLabel.text = movieName
         self.rankLabel.text = rank
-        self.visitorLabel.text = "오늘 \(audienceCount.decimalStyleFormatter()) / 총 \(audienceAccumulate.decimalStyleFormatter())"
         
-        switch (rankOldAndNew, rankChangeValue.first) {
-        case ("NEW", _):
-            self.rankChangeValueLabel.text = "신작"
-            self.rankChangeValueLabel.textColor = .systemPink
-        case ("OLD", "0"):
-            self.rankChangeValueLabel.text = "-"
-        case ("OLD", "-"):
-            self.rankChangeValueLabel.attributedText = setEmojiColor(text: "▼\(rankChangeValue.dropFirst())")
-        case ("OLD", _):
-            self.rankChangeValueLabel.attributedText = setEmojiColor(text: "▲\(rankChangeValue)")
-        case (_, _):
-            self.rankChangeValueLabel.text = "Error"
+        do {
+            let audienceCountToDecimal = try audienceCount.decimalStyleFormatter()
+            let audienceAccumulateToDecimal = try audienceAccumulate.decimalStyleFormatter()
+            
+            self.visitorLabel.text = "오늘 \(audienceCountToDecimal) / 총 \(audienceAccumulateToDecimal)"
+            
+            switch (rankOldAndNew, rankChangeValue.first) {
+            case (.new, _):
+                self.rankChangeValueLabel.text = "신작"
+                self.rankChangeValueLabel.textColor = .systemPink
+            case (.old, "0"):
+                self.rankChangeValueLabel.text = "-"
+            case (.old, "-"):
+                self.rankChangeValueLabel.attributedText = setEmojiColor(text: "▼\(rankChangeValue.dropFirst())")
+            case (.old, _):
+                self.rankChangeValueLabel.attributedText = setEmojiColor(text: "▲\(rankChangeValue)")
+            case (_, _):
+                self.rankChangeValueLabel.text = "Error"
+            }
+        } catch {
+            print(error.localizedDescription)
         }
     }
     
@@ -151,5 +159,12 @@ final class DailyBoxOfficeCollectionViewCell: UICollectionViewListCell {
         attributeString.addAttribute(.foregroundColor, value: UIColor.systemRed, range: (text as NSString).range(of: "▲"))
         
         return attributeString
+    }
+    
+    private enum OldAndNew: String {
+        case old = "OLD"
+        case new = "NEW"
+        
+        
     }
 }
