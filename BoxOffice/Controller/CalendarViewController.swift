@@ -23,6 +23,17 @@ class CalendarViewController: UIViewController {
                                                     height: view.bounds.height))
         calendarView.availableDateRange = DateInterval(start: pastDate, end: currentDate)
         calendarView.backgroundColor = .white
+        
         view.addSubview(calendarView)
+    }
+}
+
+extension CalendarViewController: UICalendarSelectionSingleDateDelegate {
+    func dateSelection(_ selection: UICalendarSelectionSingleDate, didSelectDate dateComponents: DateComponents?) {
+        if let date = dateComponents?.date {
+            dismiss(animated: true, completion: nil)
+        } else {
+            print("wrong Date")
+        }
     }
 }
