@@ -15,7 +15,7 @@ struct ImageDocument: Decodable, DaumSearchDocumentable {
     let height: Int                 // 이미지의 세로 길이
     let displaySitename: String     // 출처
     let docUrl: String              // 문서 URL
-    let datetime: String              // 문서 작성시간, ISO 8601
+    let datetime: String            // 문서 작성시간, ISO 8601
                                     // [YYYY]-[MM]-[DD]T[hh]:[mm]:[ss].000+[tz]
     
     private enum CodingKeys: String, CodingKey {
