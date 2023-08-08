@@ -20,6 +20,17 @@ extension DateFormatter {
         
         return self.string(from: purposeDay)
     }
+    
+    func date(before day: Int) -> Date? {
+        let currentDate = Date()
+        let calendar = Calendar.current
+        
+        guard let purposeDay = calendar.date(byAdding: .day, value: -day, to: currentDate) else {
+            return nil
+        }
+        
+        return purposeDay
+    }
 }
 
 extension DateFormatter {
