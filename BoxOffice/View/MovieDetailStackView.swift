@@ -12,12 +12,15 @@ class MovieDetailStackView: UIStackView {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
         label.font = .preferredFont(forTextStyle: .headline)
+        label.textAlignment = .center
         
         return label
     }()
     let valueLabel: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
+        label.lineBreakMode = .byWordWrapping
+        label.numberOfLines = 0
         
         return label
     }()
@@ -38,6 +41,11 @@ class MovieDetailStackView: UIStackView {
         self.axis = .horizontal
         self.addArrangedSubview(titleLabel)
         self.addArrangedSubview(valueLabel)
+        
+        NSLayoutConstraint.activate([
+            titleLabel.widthAnchor.constraint(equalTo: self.widthAnchor, multiplier: 0.22),
+            valueLabel.widthAnchor.constraint(equalTo: self.widthAnchor, multiplier: 0.78),
+        ])
     }
     
 }

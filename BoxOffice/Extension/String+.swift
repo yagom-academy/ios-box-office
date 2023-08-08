@@ -19,5 +19,4 @@ extension String {
         
         return numberFormatter.string(for: NSNumber(value: intData)) ?? self
     }
-
 }
