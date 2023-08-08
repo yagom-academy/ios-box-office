@@ -33,6 +33,7 @@ final class MovieDetailViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        movieDetailView.startActivityIndicator()
         loadMovieInformationData()
     }
     
@@ -66,6 +67,7 @@ final class MovieDetailViewController: UIViewController {
                 DispatchQueue.main.async {
                     let alert = UIAlertController.errorAlert(NameSpace.fail, NameSpace.loadDataFail, actionTitle: NameSpace.check, actionType: .default)
                     
+                    self.movieDetailView.stopActivityIndicator()
                     self.present(alert, animated: false)
                 }
                 
@@ -74,6 +76,7 @@ final class MovieDetailViewController: UIViewController {
             
             DispatchQueue.main.async {
                 self.movieDetailView.setupPosterImageView(image: self.boxOfficeManager.posterImage)
+                self.movieDetailView.stopActivityIndicator()
             }
         }
     }

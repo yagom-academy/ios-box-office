@@ -25,10 +25,16 @@ final class MovieDetailView: UIView {
     private let posterImageView: UIImageView = {
         let imageView = UIImageView()
         imageView.translatesAutoresizingMaskIntoConstraints = false
-        imageView.image = UIImage(systemName: "xmark.bin.fill")
-        imageView.tintColor = .systemGray
+        imageView.backgroundColor = .systemFill
         
         return imageView
+    }()
+    
+    private lazy var activityIndicator: UIActivityIndicatorView = {
+        let activityIndicator = UIActivityIndicatorView(style: .large)
+        activityIndicator.translatesAutoresizingMaskIntoConstraints = false
+
+        return activityIndicator
     }()
     
     private let movieInformationStackView: UIStackView = {
@@ -69,6 +75,14 @@ extension MovieDetailView {
         posterImageView.image = image
     }
     
+    func startActivityIndicator() {
+        activityIndicator.startAnimating()
+    }
+    
+    func stopActivityIndicator() {
+        activityIndicator.stopAnimating()
+    }
+    
     private func informationStackView(title: String, information: String) -> UIStackView {
         let stackView = UIStackView()
         stackView.axis = .horizontal
@@ -102,6 +116,7 @@ extension MovieDetailView {
         configureView()
         configureScrollView()
         configureContentView()
+        configureImageView()
     }
     
     private func configureView() {
@@ -116,6 +131,10 @@ extension MovieDetailView {
         contentView.addSubview(posterImageView)
         contentView.addSubview(movieInformationStackView)
     }
+    
+    private func configureImageView() {
+        posterImageView.addSubview(activityIndicator)
+    }
 }
 
 // MARK: setup Constraint
@@ -124,6 +143,7 @@ extension MovieDetailView {
         setupScrollViewConstraint()
         setupContentViewConstraint()
         setupPosterImageViewConstraint()
+        setupActivityIndicatorConstraint()
         setupMovieInformationStackView()
     }
     
@@ -152,6 +172,13 @@ extension MovieDetailView {
             posterImageView.centerXAnchor.constraint(equalTo: contentView.centerXAnchor),
             posterImageView.widthAnchor.constraint(equalTo: contentView.widthAnchor, multiplier: 0.95),
             posterImageView.heightAnchor.constraint(equalTo: contentView.widthAnchor, multiplier: 1.3)
+        ])
+    }
+    
+    private func setupActivityIndicatorConstraint() {
+        NSLayoutConstraint.activate([
+            activityIndicator.centerXAnchor.constraint(equalTo: posterImageView.centerXAnchor),
+            activityIndicator.centerYAnchor.constraint(equalTo: posterImageView.centerYAnchor)
         ])
     }
     
