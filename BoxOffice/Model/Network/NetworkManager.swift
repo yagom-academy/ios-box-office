@@ -15,9 +15,9 @@ enum FetchType {
     var url: String {
         switch self {
         case .boxOffice:
-            return "https://kobis.or.kr/kobisopenapi/webservice/rest/boxoffice/searchDailyBoxOfficeList.json"
+            return "http://kobis.or.kr/kobisopenapi/webservice/rest/boxoffice/searchDailyBoxOfficeList.json"
         case .movie:
-            return "https://kobis.or.kr/kobisopenapi/webservice/rest/movie/searchMovieInfo.json"
+            return "http://kobis.or.kr/kobisopenapi/webservice/rest/movie/searchMovieInfo.json"
         case .image:
             return "https://dapi.kakao.com/v2/search/image"
         }
@@ -40,11 +40,11 @@ enum NetworkManager {
     
     static func fetchData<T: Decodable>(fetchType: FetchType) async throws -> T {
         
-        guard let url = createURL(fetchType: fetchType) else {
+        guard let request = createRequest(fetchType: fetchType) else {
             throw NetworkError.invalidURL
         }
         
-        guard let (data, response) = try? await URLSession.shared.data(from: url) else {
+        guard let (data, response) = try? await URLSession.shared.data(for: request) else {
             throw NetworkError.requestFailed
         }
         
@@ -59,7 +59,7 @@ enum NetworkManager {
         return try JSONDecoder.decode(from: data)
     }
     
-    static private func createURL(fetchType: FetchType) -> URL? {
+    static private func createRequest(fetchType: FetchType) -> URLRequest? {
         guard var urlComponents = URLComponents(string: fetchType.url) else {
             return nil
         }
@@ -70,15 +70,35 @@ enum NetworkManager {
                 URLQueryItem(name: "key", value: "c04de3c2ceec65d22a2c1a0b4cfe2b3c"),
                 URLQueryItem(name: "targetDt", value: date)
             ]
+            
+            guard let url = urlComponents.url else {
+                return nil
+            }
+            
+            return URLRequest(url: url)
         case .movie(let code):
             urlComponents.queryItems = [
                 URLQueryItem(name: "key", value: "c04de3c2ceec65d22a2c1a0b4cfe2b3c"),
                 URLQueryItem(name: "movieCd", value: code)
             ]
+            
+            guard let url = urlComponents.url else {
+                return nil
+            }
+            
+            return URLRequest(url: url)
         case .image(let movieName):
             urlComponents.queryItems = [URLQueryItem(name: "query", value: "\(movieName)+영화+포스터")]
+            
+            guard let url = urlComponents.url else {
+                return nil
+            }
+            
+            var request = URLRequest(url: url)
+            
+            request.addValue("KakaoAK 92790979ad73cf3cba62561845bb1c01", forHTTPHeaderField: "Authorization")
+            
+            return request
         }
-        
-        return urlComponents.url
     }
 }

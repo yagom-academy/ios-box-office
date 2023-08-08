@@ -108,3 +108,13 @@ extension BoxOfficeCollectionViewController {
         return boxOfficeItems.count
     }
 }
+
+extension BoxOfficeCollectionViewController {
+    override func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        let moviecode = boxOfficeItems[indexPath.row].movieCode
+        
+        let movieDetailViewController = MovieDetailViewController(movieCode: moviecode)
+        
+        navigationController?.pushViewController(movieDetailViewController, animated: true)
+    }
+}
