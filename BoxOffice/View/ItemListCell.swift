@@ -1,13 +1,13 @@
 //
-//  CustomListCell.swift
+//  ItemListCell.swift
 //  BoxOffice
 //
-//  Created by Minseong Kang on 2023/08/08.
+//  Created by Kobe, yyss99 on 2023/08/08.
 //
 
 import UIKit
 
-class CustomListCell: UICollectionViewListCell {
+class ItemListCell: UICollectionViewListCell {
     private var item: DailyBoxOfficeList? = nil
     
     override var configurationState: UICellConfigurationState {
