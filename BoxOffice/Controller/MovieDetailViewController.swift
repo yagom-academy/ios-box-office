@@ -8,6 +8,7 @@
 import UIKit
 
 final class MovieDetailViewController: UIViewController {
+    private var networkingManager: NetworkingManager?
     private let movieCode: String
     private let movieName: String
     
@@ -57,6 +58,8 @@ final class MovieDetailViewController: UIViewController {
         super.viewDidLoad()
         addViews()
         setUpUI()
+        setUpNetwork()
+        passFetchedData()
     }
     
     private func addViews() {
@@ -89,5 +92,53 @@ final class MovieDetailViewController: UIViewController {
             mainStackView.leadingAnchor.constraint(equalTo: scrollView.leadingAnchor),
             mainStackView.trailingAnchor.constraint(equalTo: scrollView.trailingAnchor)
         ])
+    }
+}
+
+extension MovieDetailViewController: URLSessionDelegate {
+    private func setUpNetwork() {
+        let session: URLSession = {
+            let configuration = URLSessionConfiguration.default
+            configuration.waitsForConnectivity = true
+            
+            return URLSession(configuration: configuration, delegate: self, delegateQueue: nil)
+        }()
+        
+        networkingManager = NetworkingManager(session)
+    }
+    
+    private func passFetchedData() {
+        guard let url = URL(string: String(format: NetworkNamespace.movieDetail.url, NetworkNamespace.apiKey, movieCode))
+        else {
+            return
+        }
+        
+        let request = URLRequest(url: url)
+        
+        networkingManager?.load(request) { [weak self] (result: Result<Data, NetworkingError>) in
+            switch result {
+            case .success(let data):
+                do {
+                    let decodedData: MovieDetailEntity = try DecodingManager.shared.decode(data)
+                    
+                    DispatchQueue.main.async {
+                        self?.setUpLabelText(decodedData)
+                    }
+                } catch {
+                    print(DecodingError.decodingFailure.description)
+                }
+            case .failure(let error):
+                print(error.description)
+            }
+            
+//            DispatchQueue.main.async {
+//                self?.isLoading = false
+//                self?.refreshControl.endRefreshing()
+//            }
+        }
+    }
+    
+    private func setUpLabelText(_ data: MovieDetailEntity) {
+        directorsStackView.valueLabel.text = data.movieDetailData.movieInformation.directors.reduce("") { $0 + $1.name + "," }
     }
 }

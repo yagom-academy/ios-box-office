@@ -143,7 +143,6 @@ extension BoxOfficeViewController {
         guard let date = self.title?.replacingOccurrences(of: "-", with: ""),
               let url = URL(string: String(format: NetworkNamespace.boxOffice.url, NetworkNamespace.apiKey, date))
         else {
-            print("?")
             return
         }
         
