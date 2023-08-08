@@ -57,16 +57,22 @@ final class MovieDetailViewController: UIViewController {
         switch result {
         case .success(let daumSearchMainText):
             guard let imageDocument = daumSearchMainText.documents.first else { return }
-            print("imageDocument : \(imageDocument)")
-            if let imageUrl = URL(string: imageDocument.imageUrl),
-               let data = try? Data(contentsOf: imageUrl),
-               let image = UIImage(data: data)
-            {
+            
+            let cacheKey = NSString(string: imageDocument.imageUrl)
+            
+            if let cachedImage = ImageCacheManager.shared.object(forKey: cacheKey) {
                 DispatchQueue.main.async {
-                    let ratio = self.movieDetailView.posterImage.frame.width / CGFloat(integerLiteral: imageDocument.width)
-                    let height = ratio * CGFloat(integerLiteral: imageDocument.height)
-                    self.movieDetailView.posterImage.heightAnchor.constraint(equalToConstant: height).isActive = true
-                    self.movieDetailView.posterImage.image = image
+                    self.setPosterImage(imageDocument, cachedImage)
+                }
+            } else {
+                if let imageUrl = URL(string: imageDocument.imageUrl),
+                   let data = try? Data(contentsOf: imageUrl),
+                   let image = UIImage(data: data) {
+                    DispatchQueue.main.async {
+                        self.setPosterImage(imageDocument, image)
+                        
+                        ImageCacheManager.shared.setObject(image, forKey: cacheKey)
+                    }
                 }
             }
         case .failure(let error):
@@ -111,5 +117,14 @@ final class MovieDetailViewController: UIViewController {
                 AlertManager.showErrorAlert(in: self, "영화 상세 정보", error)
             }
         }
+    }
+}
+
+extension MovieDetailViewController {
+    private func setPosterImage(_ imageDocument: ImageDocument, _ image: UIImage) {
+        let ratio = self.movieDetailView.posterImage.frame.width / CGFloat(integerLiteral: imageDocument.width)
+        let height = ratio * CGFloat(integerLiteral: imageDocument.height)
+        self.movieDetailView.posterImage.heightAnchor.constraint(equalToConstant: height).isActive = true
+        self.movieDetailView.posterImage.image = image
     }
 }
