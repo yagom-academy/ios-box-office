@@ -90,27 +90,7 @@ final class MovieDetailViewController: UIViewController {
         switch result {
         case .success(let movie):
             DispatchQueue.main.async {
-                let movieInfo = movie.movieInformationResult.movieInformation
-                
-                let directors = movieInfo.directors.map{ $0.peopleName }.joined(separator: ", ")
-                self.movieDetailView.directorDetailLabel.text = directors
-                
-                self.movieDetailView.productionYearDetailLabel.text = movieInfo.productionYear
-                
-                var formattedOpenDate = movieInfo.openDate
-                formattedOpenDate.insert("-", at: formattedOpenDate.index(formattedOpenDate.startIndex, offsetBy: 4))
-                formattedOpenDate.insert("-", at: formattedOpenDate.index(formattedOpenDate.endIndex, offsetBy: -2))
-                self.movieDetailView.openDateDetailLabel.text = formattedOpenDate
-                
-                self.movieDetailView.showTimeDetailLabel.text = movieInfo.showTime
-                
-                self.movieDetailView.watchGradeNameDetailLabel.text = movieInfo.audits.first?.watchGradeName
-                
-                self.movieDetailView.nationNameDetailLabel.text = movieInfo.nations.map{ $0.nationName }.joined(separator: ", ")
-                
-                self.movieDetailView.genreNameDetailLabel.text = movieInfo.genres.map{ $0.genreName }.joined(separator: ", ")
-                
-                self.movieDetailView.actorsDetailLabel.text = movieInfo.actors.map{ $0.peopleName }.joined(separator: ", ")
+                self.setLabels(movie)
             }
         case .failure(let error):
             DispatchQueue.main.async {
@@ -126,5 +106,22 @@ extension MovieDetailViewController {
         let height = ratio * CGFloat(integerLiteral: imageDocument.height)
         self.movieDetailView.posterImage.heightAnchor.constraint(equalToConstant: height).isActive = true
         self.movieDetailView.posterImage.image = image
+    }
+    
+    private func setLabels(_ movie: Movie) {
+        let movieInfo = movie.movieInformationResult.movieInformation
+        let directors = movieInfo.directors.map{ $0.peopleName }.joined(separator: ", ")
+        var formattedOpenDate = movieInfo.openDate
+        formattedOpenDate.insert("-", at: formattedOpenDate.index(formattedOpenDate.startIndex, offsetBy: 4))
+        formattedOpenDate.insert("-", at: formattedOpenDate.index(formattedOpenDate.endIndex, offsetBy: -2))
+        
+        movieDetailView.directorDetailLabel.text = directors
+        movieDetailView.productionYearDetailLabel.text = movieInfo.productionYear
+        movieDetailView.openDateDetailLabel.text = formattedOpenDate
+        movieDetailView.showTimeDetailLabel.text = movieInfo.showTime
+        movieDetailView.watchGradeNameDetailLabel.text = movieInfo.audits.first?.watchGradeName
+        movieDetailView.nationNameDetailLabel.text = movieInfo.nations.map{ $0.nationName }.joined(separator: ", ")
+        movieDetailView.genreNameDetailLabel.text = movieInfo.genres.map{ $0.genreName }.joined(separator: ", ")
+        movieDetailView.actorsDetailLabel.text = movieInfo.actors.map{ $0.peopleName }.joined(separator: ", ")
     }
 }
