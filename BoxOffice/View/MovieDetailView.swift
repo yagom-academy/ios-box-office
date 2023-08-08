@@ -22,6 +22,7 @@ final class MovieDetailView: UIView {
     
     let posterImage: UIImageView = {
         let image = UIImageView()
+        image.translatesAutoresizingMaskIntoConstraints = false
         image.contentMode = .scaleAspectFill
         return image
     }()
@@ -326,8 +327,9 @@ extension MovieDetailView {
     
     private func setUpPosterImageViewConstraints() {
         NSLayoutConstraint.activate([
-            posterImage.centerXAnchor.constraint(equalTo: contentView.centerXAnchor),
-            posterImage.topAnchor.constraint(equalTo: contentView.topAnchor, constant:  8)
+            posterImage.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 8),
+            posterImage.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -8),
+            posterImage.topAnchor.constraint(equalTo: contentView.topAnchor)
         ])
     }
     

@@ -67,6 +67,3 @@ final class MovieDetailViewController: UIViewController {
         }
     }
 }
-        }
-    }
-}
