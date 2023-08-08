@@ -44,6 +44,7 @@ final class BoxOfficeViewController: UIViewController, URLSessionDelegate {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        collectionView.delegate = self
         isLoading = true
         setUpUI()
         setUpDate()
@@ -113,6 +114,19 @@ extension BoxOfficeViewController {
     }
 }
 
+extension BoxOfficeViewController: UICollectionViewDelegate {
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        guard let movieCode = dataSource?.itemIdentifier(for: indexPath)?.movieCode,
+              let movieName = dataSource?.itemIdentifier(for: indexPath)?.movieName else {
+            return
+        }
+        
+        let movieDetailViewController = MovieDetailViewController(movieCode: movieCode, movieName: movieName)
+        
+        navigationController?.pushViewController(movieDetailViewController, animated: true)
+    }
+}
+
 extension BoxOfficeViewController {
     private func setUpNetwork() {
         let session: URLSession = {
@@ -158,3 +172,4 @@ extension BoxOfficeViewController {
         }
     }
 }
+
