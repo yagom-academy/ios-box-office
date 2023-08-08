@@ -43,7 +43,7 @@ final class BoxOfficeViewController: UIViewController {
     }
     
     private func setupNavigation() {
-        self.navigationItem.title = DateFormatter().dateString(before: 1, with: DateFormatter.FormatCase.hyphen)
+        navigationItem.title = DateFormatter().dateString(before: 1, with: DateFormatter.FormatCase.hyphen)
     }
     
     private func setupCollectionView() {

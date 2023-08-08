@@ -26,7 +26,7 @@ final class MovieDetailViewController: UIViewController {
     }
     
     override func loadView() {
-        self.view = movieDetailView
+        view = movieDetailView
         view.backgroundColor = .systemBackground
     }
     
@@ -38,7 +38,7 @@ final class MovieDetailViewController: UIViewController {
     }
     
     private func setupNavigation() {
-        self.navigationItem.title = boxOfficeManager.movieInformation?.movieTitle
+        navigationItem.title = boxOfficeManager.movieInformation?.movieTitle
     }
     
     @objc private func loadMovieInformationData() {
