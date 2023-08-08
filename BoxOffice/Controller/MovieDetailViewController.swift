@@ -11,6 +11,37 @@ final class MovieDetailViewController: UIViewController {
     private let movieCode: String
     private let movieName: String
     
+    private let scrollView: UIScrollView = {
+        let scrollView = UIScrollView()
+        scrollView.translatesAutoresizingMaskIntoConstraints = false
+        
+        return scrollView
+    }()
+    
+    private let mainStackView: UIStackView = {
+        let stackView = UIStackView()
+        stackView.translatesAutoresizingMaskIntoConstraints = false
+        stackView.axis = .vertical
+        stackView.alignment = .center
+        
+        return stackView
+    }()
+    
+    private let posterImageView: UIImageView = {
+        let imageView = UIImageView()
+        
+        return imageView
+    }()
+    
+    private let directorsStackView = MovieDetailStackView(title: "감독")
+    private let productionYearStackView = MovieDetailStackView(title: "제작년도")
+    private let openingDateStackView = MovieDetailStackView(title: "개봉일")
+    private let showTimeStackView = MovieDetailStackView(title: "상영시간")
+    private let auditsStackView = MovieDetailStackView(title: "관람등급")
+    private let nationsStackView = MovieDetailStackView(title: "제작국가")
+    private let genresStackView = MovieDetailStackView(title: "장르")
+    private let actorsStackView = MovieDetailStackView(title: "배우")
+    
     init(movieCode: String, movieName: String) {
         self.movieCode = movieCode
         self.movieName = movieName
@@ -24,7 +55,39 @@ final class MovieDetailViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        print(movieCode)
-        print(movieName)
+        addViews()
+        setUpUI()
+    }
+    
+    private func addViews() {
+        view.addSubview(scrollView)
+        scrollView.addSubview(mainStackView)
+        mainStackView.addArrangedSubview(posterImageView)
+        mainStackView.addArrangedSubview(directorsStackView)
+        mainStackView.addArrangedSubview(productionYearStackView)
+        mainStackView.addArrangedSubview(openingDateStackView)
+        mainStackView.addArrangedSubview(showTimeStackView)
+        mainStackView.addArrangedSubview(auditsStackView)
+        mainStackView.addArrangedSubview(nationsStackView)
+        mainStackView.addArrangedSubview(genresStackView)
+        mainStackView.addArrangedSubview(actorsStackView)
+    }
+    
+    private func setUpUI() {
+        self.title = movieName
+        let safeArea = view.safeAreaLayoutGuide
+        view.backgroundColor = .systemBackground
+
+        NSLayoutConstraint.activate([
+            scrollView.topAnchor.constraint(equalTo: safeArea.topAnchor),
+            scrollView.bottomAnchor.constraint(equalTo: safeArea.bottomAnchor),
+            scrollView.leadingAnchor.constraint(equalTo: safeArea.leadingAnchor),
+            scrollView.trailingAnchor.constraint(equalTo: safeArea.trailingAnchor),
+            
+            mainStackView.topAnchor.constraint(equalTo: scrollView.topAnchor),
+            mainStackView.bottomAnchor.constraint(equalTo: scrollView.bottomAnchor),
+            mainStackView.leadingAnchor.constraint(equalTo: scrollView.leadingAnchor),
+            mainStackView.trailingAnchor.constraint(equalTo: scrollView.trailingAnchor)
+        ])
     }
 }
