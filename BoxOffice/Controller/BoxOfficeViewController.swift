@@ -153,9 +153,7 @@ extension BoxOfficeViewController {
             switch result {
             case .success(let data):
                 do {
-                    guard let decodedData: BoxOfficeEntity = try DecodingManager.shared.decode(data) else {
-                        break
-                    }
+                    let decodedData: BoxOfficeEntity = try DecodingManager.shared.decode(data)
                     self?.setUpDataSnapshot(decodedData.boxOfficeResult.dailyBoxOfficeList)
                 } catch {
                     print(DecodingError.decodingFailure.description)

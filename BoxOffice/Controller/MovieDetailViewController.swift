@@ -46,6 +46,55 @@ final class MovieDetailViewController: UIViewController {
     private let genresStackView = MovieDetailStackView(title: "장르")
     private let actorsStackView = MovieDetailStackView(title: "배우")
     
+    private let blankView: UIView = {
+        let view = UIView()
+        view.backgroundColor = .systemBackground
+        view.translatesAutoresizingMaskIntoConstraints = false
+        
+        return view
+    }()
+    
+    private let indicatorView: UIActivityIndicatorView = {
+        let indicatorView = UIActivityIndicatorView()
+        indicatorView.style = .large
+        indicatorView.translatesAutoresizingMaskIntoConstraints = false
+        
+        return indicatorView
+    }()
+    
+    private var isImageLoaded: Bool = false {
+        willSet(newValue) {
+            if newValue == true {
+                if self.isDataLoaded == true {
+                    self.isLoading = false
+                }
+            }
+        }
+    }
+    
+    private var isDataLoaded: Bool = false {
+        willSet(newValue) {
+            if newValue == true {
+                if self.isImageLoaded == true {
+                    self.isLoading = false
+                }
+            }
+        }
+    }
+
+    private var isLoading: Bool = true {
+        willSet(newValue) {
+            if newValue == true {
+                indicatorView.isHidden = false
+                indicatorView.startAnimating()
+            } else {
+                indicatorView.isHidden = true
+                indicatorView.stopAnimating()
+                blankView.removeFromSuperview()
+            }
+        }
+    }
+    
     init(movieCode: String, movieName: String) {
         self.movieCode = movieCode
         self.movieName = movieName
@@ -59,6 +108,7 @@ final class MovieDetailViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        isLoading = true
         addViews()
         setUpUI()
         setUpNetwork()
@@ -78,6 +128,8 @@ final class MovieDetailViewController: UIViewController {
         mainStackView.addArrangedSubview(nationsStackView)
         mainStackView.addArrangedSubview(genresStackView)
         mainStackView.addArrangedSubview(actorsStackView)
+        view.addSubview(blankView)
+        view.addSubview(indicatorView)
     }
     
     private func setUpUI() {
@@ -105,7 +157,14 @@ final class MovieDetailViewController: UIViewController {
             auditsStackView.widthAnchor.constraint(equalTo: mainStackView.widthAnchor),
             nationsStackView.widthAnchor.constraint(equalTo: mainStackView.widthAnchor),
             genresStackView.widthAnchor.constraint(equalTo: mainStackView.widthAnchor),
-            actorsStackView.widthAnchor.constraint(equalTo: mainStackView.widthAnchor)
+            actorsStackView.widthAnchor.constraint(equalTo: mainStackView.widthAnchor),
+            
+            blankView.widthAnchor.constraint(equalTo: safeArea.widthAnchor),
+            blankView.heightAnchor.constraint(equalTo: safeArea.heightAnchor),
+            blankView.centerXAnchor.constraint(equalTo: safeArea.centerXAnchor),
+            blankView.centerYAnchor.constraint(equalTo: safeArea.centerYAnchor),
+            indicatorView.centerXAnchor.constraint(equalTo: safeArea.centerXAnchor),
+            indicatorView.centerYAnchor.constraint(equalTo: safeArea.centerYAnchor)
         ])
     }
 }
@@ -146,10 +205,10 @@ extension MovieDetailViewController: URLSessionDelegate {
                 print(error.description)
             }
             
-//            DispatchQueue.main.async {
-//                self?.isLoading = false
-//                self?.refreshControl.endRefreshing()
-//            }
+            DispatchQueue.main.async {
+                self?.isDataLoaded = true
+            }
+            
         }
     }
     
@@ -174,7 +233,7 @@ extension MovieDetailViewController: URLSessionDelegate {
                     guard let firstData = decodedData.documents.first,
                           let imageUrl = URL(string: firstData.imageURL),
                           let image = try? Data(contentsOf: imageUrl) else {
-                        return
+                        break
                     }
                     
                     DispatchQueue.main.async {
@@ -185,6 +244,10 @@ extension MovieDetailViewController: URLSessionDelegate {
                 }
             case .failure(let error):
                 print(error.description)
+            }
+            
+            DispatchQueue.main.async {
+                self?.isImageLoaded = true
             }
         }
     }
