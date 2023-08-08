@@ -14,7 +14,7 @@ class NetworkManager {
     
     func performRequest<T: Decodable>(_ request: URLRequest, _ objectType: T.Type, _ completion: @escaping (Result<T, NetworkManagerError>) -> Void) {
         URLSession.shared.dataTask(with: request) { data, response, error in
-            if let error {
+            if error != nil {
                 completion(.failure(NetworkManagerError.cannotLoadFromNetwork))
                 return
             }
