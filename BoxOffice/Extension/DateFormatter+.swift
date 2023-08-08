@@ -8,6 +8,14 @@
 import Foundation
 
 extension DateFormatter {
+    static let yesterday = {
+        guard let date = DateFormatter().date(before: 1) else {
+            return Date()
+        }
+        
+        return date
+    }()
+    
     func dateString(before day: Int, with dateFormat: String) -> String? {
         let currentDate = Date()
         let calendar = Calendar.current
