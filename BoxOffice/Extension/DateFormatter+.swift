@@ -40,7 +40,19 @@ extension DateFormatter {
         return purposeDay
     }
     
-    func dateString(for date: Date, with dateFormat: String) -> String {
+    func dateString(from date: Date, with dateFormat: String) -> String {
+        self.dateFormat = dateFormat
+        
+        return self.string(from: date)
+    }
+    
+    func dateString(from dateString: String, with dateFormat: String) -> String {
+        self.dateFormat = FormatCase.attached
+        
+        guard let date = self.date(from: dateString) else {
+            return dateString
+        }
+        
         self.dateFormat = dateFormat
         
         return self.string(from: date)

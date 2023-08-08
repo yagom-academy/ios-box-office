@@ -11,6 +11,7 @@ final class BoxOfficeManager {
     private(set) var dailyBoxOffices: [DailyBoxOffice] = []
     private(set) var movieInformation: MovieInformation? = nil
     private(set) var posterImage: UIImage? = nil
+    private(set) var targetDate: Date = DateFormatter.yesterday
     private let networkManager = NetworkManager(urlSession: URLSession.shared)
     private let kobisKey = Bundle.main.object(forInfoDictionaryKey: NameSpace.kobisKey) as? String
     private let kakaoKey = Bundle.main.object(forInfoDictionaryKey: NameSpace.kakaoKey) as? String
@@ -20,7 +21,7 @@ final class BoxOfficeManager {
     }
     
     func fetchBoxOffice(completion: @escaping (Bool) -> Void) {
-        let date = DateFormatter().dateString(for: targetDate, with: DateFormatter.FormatCase.attached)
+        let date = DateFormatter().dateString(from: targetDate, with: DateFormatter.FormatCase.attached)
         let keyItem = URLQueryItem(name: NameSpace.key, value: kobisKey)
         let targetDateItem = URLQueryItem(name: NameSpace.targetDate, value: date)
         let url = URL.kobisURL(Path.boxOffice, [keyItem, targetDateItem])

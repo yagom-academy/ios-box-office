@@ -67,6 +67,7 @@ extension MovieDetailView {
         movieInformationStackView.addArrangedSubview(informationStackView(title: MovieInformation.PropertyName.openDate, information: movieInformation.openDate))
         movieInformationStackView.addArrangedSubview(informationStackView(title: MovieInformation.PropertyName.showTime, information: movieInformation.showTime))
         movieInformationStackView.addArrangedSubview(informationStackView(title: MovieInformation.PropertyName.watchGradeName, information: movieInformation.watchGradeName))
+        movieInformationStackView.addArrangedSubview(informationStackView(title: MovieInformation.PropertyName.nationName, information: movieInformation.nationName))
         movieInformationStackView.addArrangedSubview(informationStackView(title: MovieInformation.PropertyName.genreName, information: movieInformation.genreName))
         movieInformationStackView.addArrangedSubview(informationStackView(title: MovieInformation.PropertyName.actors, information: movieInformation.actors))
     }

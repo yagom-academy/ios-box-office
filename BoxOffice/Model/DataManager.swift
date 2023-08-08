@@ -41,7 +41,7 @@ enum DataManager {
             $0 == NameSpace.empty ? $0 + $1.peopleName : String(format: NameSpace.commaFormat, $0, $1.peopleName)
         }
         let productionYear = movie.movieInfoResult.movieInfo.productionYear
-        let openDate = movie.movieInfoResult.movieInfo.openDate
+        let openDate = DateFormatter().dateString(from: movie.movieInfoResult.movieInfo.openDate, with: DateFormatter.FormatCase.hyphen)
         let showTime = movie.movieInfoResult.movieInfo.showTime
         let watchGradeName = movie.movieInfoResult.movieInfo.audits.reduce(NameSpace.empty) {
             $0 == NameSpace.empty ? $0 + $1.watchGradeName : String(format: NameSpace.commaFormat, $0, $1.watchGradeName)

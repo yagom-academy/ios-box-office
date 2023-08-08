@@ -45,7 +45,7 @@ final class BoxOfficeViewController: UIViewController {
     private func setupNavigation() {
         let selectDateButton = UIBarButtonItem(title: "날짜선택", style: .plain, target: self, action: #selector(didTapSelectDateButton))
         
-        navigationItem.title = DateFormatter().dateString(for: boxOfficeManager.targetDate, with: DateFormatter.FormatCase.hyphen)
+        navigationItem.title = DateFormatter().dateString(from: boxOfficeManager.targetDate, with: DateFormatter.FormatCase.hyphen)
         navigationItem.rightBarButtonItem = selectDateButton
     }
     
