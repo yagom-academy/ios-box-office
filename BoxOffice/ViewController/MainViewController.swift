@@ -30,8 +30,8 @@ final class MainViewController: UIViewController, CanShowNetworkRequestFailureAl
     
     private lazy var refreshControl: UIRefreshControl = {
         let refreshControl = UIRefreshControl()
-        let refreshAction = UIAction { _ in
-            self.setUpViewControllerContents()
+        let refreshAction = UIAction { [weak self] _ in
+            self?.setUpViewControllerContents()
         }
         
         refreshControl.addAction(refreshAction, for: .valueChanged)
