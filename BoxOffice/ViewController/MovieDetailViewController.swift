@@ -23,6 +23,7 @@ final class MovieDetailViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        setTitle()
         configureBackgroundColor()
         loadMoviePoster()
         loadMovieDetail()
@@ -37,6 +38,10 @@ final class MovieDetailViewController: UIViewController {
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
+    }
+    
+    private func setTitle() {
+        self.title = dailyBoxOffice.movieName
     }
     
     private func configureBackgroundColor() {
