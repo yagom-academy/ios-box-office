@@ -14,12 +14,8 @@ struct NetworkingManager {
         self.session = session
     }
     
-    func load(_ urlString: String, completion: @escaping (Result<Data, NetworkingError>) -> Void) {
-        guard let url = URL(string: urlString) else {
-            return
-        }
-
-        let task = session.dataTask(with: url) { data, response, error in
+    func load(_ request: URLRequest, completion: @escaping (Result<Data, NetworkingError>) -> Void) {
+        let task = session.dataTask(with: request) { data, response, error in
             if error != nil {
                 completion(.failure(NetworkingError.connectionFailure))
                 return

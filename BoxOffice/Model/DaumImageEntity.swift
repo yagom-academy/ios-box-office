@@ -26,9 +26,8 @@ extension DaumImageEntity {
 
 extension DaumImageEntity {
     struct Document: Decodable {
-        let collection, thumbnailURL, imageURL, displaySitename, documentURL: String
+        let collection, thumbnailURL, imageURL, displaySitename, documentURL, datetime: String
         let width, height: Int
-        let datetime: Date
         
         enum CodingKeys: String, CodingKey {
             case collection, width, height, datetime

@@ -126,13 +126,17 @@ extension BoxOfficeViewController {
     }
     
     private func passFetchedData() {
-        guard let date = self.title?.replacingOccurrences(of: "-", with: "") else {
+        guard let date = self.title?.replacingOccurrences(of: "-", with: ""),
+              let url = URL(string: String(format: NetworkNamespace.boxOffice.url, NetworkNamespace.apiKey, date))
+        else {
+            print("?")
             return
         }
         
-        let url = String(format: NetworkNamespace.boxOffice.url, NetworkNamespace.apiKey, date)
+        let request = URLRequest(url: url)
         
-        networkingManager?.load(url) { [weak self] (result: Result<Data, NetworkingError>) in
+        
+        networkingManager?.load(request) { [weak self] (result: Result<Data, NetworkingError>) in
             switch result {
             case .success(let data):
                 do {

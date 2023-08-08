@@ -18,7 +18,6 @@ final class DecodingManager {
               let decodedData = try? decoder.decode(T.self, from: data) else {
             throw DecodingError.decodingFailure
         }
-        
         return decodedData
     }
 }
