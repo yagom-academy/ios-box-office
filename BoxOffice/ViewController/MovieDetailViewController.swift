@@ -49,7 +49,7 @@ final class MovieDetailViewController: UIViewController {
     }
     
     // MARK: - Load Data
-    @objc private func loadMoviePoster() {
+    private func loadMoviePoster() {
         boxOfficeService.loadMoviePoster(movieNm: dailyBoxOffice.movieName, fetchMoviePoster)
     }
     
@@ -82,7 +82,7 @@ final class MovieDetailViewController: UIViewController {
         }
     }
     
-    @objc private func loadMovieDetail() {
+    private func loadMovieDetail() {
         boxOfficeService.loadMovieDetailData(movieCd: dailyBoxOffice.movieCode, fetchMovie)
     }
     
