@@ -9,6 +9,8 @@ import UIKit
 
 class CalendarViewController: UIViewController {
     var calendarView: UICalendarView!
+    var selectedDate: Date?
+    weak var delegate: CalendarViewControllerDelegate?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -18,19 +20,23 @@ class CalendarViewController: UIViewController {
     private func showCalendarView() {
         let currentDate = Date()
         guard let pastDate = Calendar.current.date(byAdding: .year, value: -10, to: currentDate) else { return }
+        selectedDate = currentDate
         calendarView = UICalendarView(frame: CGRect(x: 0, y: 0,
                                                     width: view.bounds.width,
                                                     height: view.bounds.height))
         calendarView.availableDateRange = DateInterval(start: pastDate, end: currentDate)
         calendarView.backgroundColor = .white
-        
+        calendarView.calendar = .current
+        calendarView.selectionBehavior = UICalendarSelectionSingleDate(delegate: self)
+        calendarView.delegate = self
         view.addSubview(calendarView)
     }
 }
 
-extension CalendarViewController: UICalendarSelectionSingleDateDelegate {
+extension CalendarViewController: UICalendarSelectionSingleDateDelegate, UICalendarViewDelegate {
     func dateSelection(_ selection: UICalendarSelectionSingleDate, didSelectDate dateComponents: DateComponents?) {
         if let date = dateComponents?.date {
+            delegate?.didSelectDate(date)
             dismiss(animated: true, completion: nil)
         } else {
             print("wrong Date")

@@ -7,12 +7,13 @@
 
 import UIKit
 
-class MainViewController: UIViewController {
+class MainViewController: UIViewController, CalendarViewControllerDelegate {
     @IBOutlet weak var collectionView: UICollectionView!
     @IBOutlet weak var loadingActivityView: UIActivityIndicatorView!
     @IBOutlet weak var calendarButton: UIButton!
     var boxOffice: BoxOffice?
-
+    var selectedDate: Date?
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         showLodingView()
@@ -36,6 +37,7 @@ class MainViewController: UIViewController {
     @IBAction func tabCalendarButton(_ sender: UIButton) {
         let calendarVC = CalendarViewController()
         calendarVC.modalPresentationStyle = .popover
+        calendarVC.delegate = self
         self.present(calendarVC, animated: true, completion: nil)
     }
     
@@ -54,6 +56,13 @@ class MainViewController: UIViewController {
         }
         
         self.navigationItem.title = "\(yesterday)"
+    }
+    
+    func didSelectDate(_ date: Date) {
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "YYYY-MM-dd"
+        let dateString = dateFormatter.string(from: date)
+        self.navigationItem.title = "\(dateString)"
     }
     
     private func registerCustomCell() {
