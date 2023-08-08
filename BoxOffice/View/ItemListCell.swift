@@ -8,7 +8,7 @@
 import UIKit
 
 class ItemListCell: UICollectionViewListCell {
-    private var item: DailyBoxOfficeList? = nil
+    var item: DailyBoxOfficeList? = nil
     
     override var configurationState: UICellConfigurationState {
         var state = super.configurationState
