@@ -115,7 +115,7 @@ extension BoxOfficeCollectionViewCell {
     }
 }
 
-// MARK: setup UI
+// MARK: configure UI
 extension BoxOfficeCollectionViewCell {
     private func configureUI() {
         rankStackView.addArrangedSubview(rankLabel)
@@ -128,7 +128,10 @@ extension BoxOfficeCollectionViewCell {
         contentView.addSubview(movieInfomationStackView)
         contentView.addSubview(forwardImageView)
     }
-    
+}
+ 
+// MARK: setup Constraint
+extension BoxOfficeCollectionViewCell {
     private func setupConstraint() {
         setupSeperatorVeiwConstraint()
         setupRankStackVeiwConstraint()

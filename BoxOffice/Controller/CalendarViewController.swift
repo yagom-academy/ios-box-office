@@ -20,6 +20,7 @@ final class CalendarViewController: UIViewController {
         super.viewDidLoad()
 
         setupCalendarView()
+        
         configureUI()
         setupConstraint()
     }
@@ -37,15 +38,27 @@ final class CalendarViewController: UIViewController {
     }
 }
 
-// MARK: setup UI
+// MARK: configure UI
 @available(iOS 16.0, *)
 extension CalendarViewController {
     private func configureUI() {
+        configureView()
+    }
+    
+    private func configureView() {
         view.backgroundColor = .systemBackground
         view.addSubview(calendarView)
     }
-    
+}
+
+// MARK: setup Constraint
+@available(iOS 16.0, *)
+extension CalendarViewController {
     private func setupConstraint() {
+        setupCalendarConstrait()
+    }
+    
+    private func setupCalendarConstrait() {
         NSLayoutConstraint.activate([
             calendarView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor),
             calendarView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor),

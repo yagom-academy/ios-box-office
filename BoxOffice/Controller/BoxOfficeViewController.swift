@@ -145,7 +145,7 @@ extension BoxOfficeViewController {
     }
 }
 
-// MARK: setup UI
+// MARK: configure UI
 extension BoxOfficeViewController {
     private func configureUI() {
         configureView()
@@ -158,6 +158,7 @@ extension BoxOfficeViewController {
     }
 }
 
+// MARK: setup Constraint
 extension BoxOfficeViewController {
     private func setupConstraint() {
         setupCollectionVeiwConstraint()
