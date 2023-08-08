@@ -1,14 +1,14 @@
 //
-//  DailyBoxOffice.swift
+//  BoxOfficeResult.swift
 //  BoxOffice
 //
 //  Created by Idinaloq, MARY on 2023/07/24.
 //
 
-struct DailyBoxOffice: Decodable {
+struct BoxOfficeResult: Decodable {
     let boxOfficeType: String
     let showRange: String
-    let dailyBoxOfficeList: [MovieInformation]
+    let dailyBoxOfficeList: [DailyBoxOffice]
     
     enum CodingKeys: String, CodingKey {
         case boxOfficeType = "boxofficeType"
@@ -16,5 +16,3 @@ struct DailyBoxOffice: Decodable {
         case dailyBoxOfficeList
     }
 }
-
-

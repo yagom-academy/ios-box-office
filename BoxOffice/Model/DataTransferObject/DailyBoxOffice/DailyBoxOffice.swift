@@ -1,11 +1,11 @@
 //
-//  MovieInformation.swift
+//  DailyBoxOffice.swift
 //  BoxOffice
 //
 //  Created by Idinaloq, MARY on 2023/07/24.
 //
 
-struct MovieInformation: Decodable {
+struct DailyBoxOffice: Decodable {
     let rowNumber: String
     let rank: String
     let rankChangeValue: String
