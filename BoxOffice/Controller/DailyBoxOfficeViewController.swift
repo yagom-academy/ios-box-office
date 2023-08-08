@@ -171,4 +171,17 @@ extension DailyBoxOfficeViewController: UICollectionViewDataSource, UICollection
 
         return CGSize(width: width, height: height)        
     }
+    
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        guard let data = boxOfficeData,
+              let data = data.boxOfficeResult.dailyBoxOfficeList[index: indexPath.item] else {
+            return
+        }
+        
+        let movieInformationViewController: MovieInformationViewController = MovieInformationViewController(data: data)
+        
+        collectionView.deselectItem(at: indexPath, animated: true)
+        
+        navigationController?.pushViewController(movieInformationViewController, animated: true)
+    }
 }
