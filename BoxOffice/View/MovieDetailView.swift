@@ -11,12 +11,14 @@ final class MovieDetailView: UIView {
     private let scrollView: UIScrollView = {
         let scrollView = UIScrollView()
         scrollView.translatesAutoresizingMaskIntoConstraints  = false
+        
         return scrollView
     }()
     
     let contentView: UIView = {
         let contentView = UIView()
         contentView.translatesAutoresizingMaskIntoConstraints = false
+        
         return contentView
     }()
     
@@ -24,6 +26,7 @@ final class MovieDetailView: UIView {
         let image = UIImageView()
         image.translatesAutoresizingMaskIntoConstraints = false
         image.contentMode = .scaleAspectFill
+        
         return image
     }()
     
@@ -34,6 +37,7 @@ final class MovieDetailView: UIView {
         stackView.alignment = .leading
         stackView.distribution = .equalSpacing
         stackView.translatesAutoresizingMaskIntoConstraints = false
+        
         return stackView
     }()
     
@@ -43,6 +47,7 @@ final class MovieDetailView: UIView {
         stackView.spacing = 8
         stackView.alignment = .center
         stackView.distribution = .equalSpacing
+        
         return stackView
     }()
     
@@ -53,6 +58,8 @@ final class MovieDetailView: UIView {
         label.font = UIFont.preferredFont(for: .title3, weight: .heavy)
         label.minimumScaleFactor = 0.3
         label.adjustsFontForContentSizeCategory = true
+        label.adjustsFontSizeToFitWidth = true
+        
         return label
     }()
     
@@ -62,6 +69,8 @@ final class MovieDetailView: UIView {
         label.minimumScaleFactor = 0.3
         label.font = UIFont.preferredFont(forTextStyle: .body)
         label.adjustsFontForContentSizeCategory = true
+        label.adjustsFontSizeToFitWidth = true
+        
         return label
     }()
     
@@ -71,6 +80,7 @@ final class MovieDetailView: UIView {
         stackView.spacing = 4
         stackView.alignment = .center
         stackView.distribution = .equalSpacing
+        
         return stackView
     }()
     
@@ -81,6 +91,8 @@ final class MovieDetailView: UIView {
         label.font = UIFont.preferredFont(for: .title3, weight: .heavy)
         label.minimumScaleFactor = 0.3
         label.adjustsFontForContentSizeCategory = true
+        label.adjustsFontSizeToFitWidth = true
+        
         return label
     }()
     
@@ -90,6 +102,8 @@ final class MovieDetailView: UIView {
         label.minimumScaleFactor = 0.3
         label.font = UIFont.preferredFont(forTextStyle: .body)
         label.adjustsFontForContentSizeCategory = true
+        label.adjustsFontSizeToFitWidth = true
+        
         return label
     }()
     
@@ -99,6 +113,7 @@ final class MovieDetailView: UIView {
         stackView.spacing = 4
         stackView.alignment = .center
         stackView.distribution = .equalSpacing
+        
         return stackView
     }()
     
@@ -109,6 +124,8 @@ final class MovieDetailView: UIView {
         label.font = UIFont.preferredFont(for: .title3, weight: .heavy)
         label.minimumScaleFactor = 0.3
         label.adjustsFontForContentSizeCategory = true
+        label.adjustsFontSizeToFitWidth = true
+        
         return label
     }()
     
@@ -118,6 +135,8 @@ final class MovieDetailView: UIView {
         label.minimumScaleFactor = 0.3
         label.font = UIFont.preferredFont(forTextStyle: .body)
         label.adjustsFontForContentSizeCategory = true
+        label.adjustsFontSizeToFitWidth = true
+        
         return label
     }()
     
@@ -127,6 +146,7 @@ final class MovieDetailView: UIView {
         stackView.spacing = 4
         stackView.alignment = .center
         stackView.distribution = .equalSpacing
+        
         return stackView
     }()
     
@@ -137,6 +157,8 @@ final class MovieDetailView: UIView {
         label.font = UIFont.preferredFont(for: .title3, weight: .heavy)
         label.minimumScaleFactor = 0.3
         label.adjustsFontForContentSizeCategory = true
+        label.adjustsFontSizeToFitWidth = true
+        
         return label
     }()
     
@@ -146,6 +168,8 @@ final class MovieDetailView: UIView {
         label.minimumScaleFactor = 0.3
         label.font = UIFont.preferredFont(forTextStyle: .body)
         label.adjustsFontForContentSizeCategory = true
+        label.adjustsFontSizeToFitWidth = true
+        
         return label
     }()
     
@@ -155,6 +179,7 @@ final class MovieDetailView: UIView {
         stackView.spacing = 4
         stackView.alignment = .center
         stackView.distribution = .equalSpacing
+        
         return stackView
     }()
     
@@ -165,6 +190,8 @@ final class MovieDetailView: UIView {
         label.font = UIFont.preferredFont(for: .title3, weight: .heavy)
         label.minimumScaleFactor = 0.3
         label.adjustsFontForContentSizeCategory = true
+        label.adjustsFontSizeToFitWidth = true
+        
         return label
     }()
     
@@ -174,6 +201,8 @@ final class MovieDetailView: UIView {
         label.minimumScaleFactor = 0.3
         label.font = UIFont.preferredFont(forTextStyle: .body)
         label.adjustsFontForContentSizeCategory = true
+        label.adjustsFontSizeToFitWidth = true
+        
         return label
     }()
     
@@ -183,6 +212,7 @@ final class MovieDetailView: UIView {
         stackView.spacing = 4
         stackView.alignment = .center
         stackView.distribution = .equalSpacing
+        
         return stackView
     }()
     
@@ -193,6 +223,8 @@ final class MovieDetailView: UIView {
         label.font = UIFont.preferredFont(for: .title3, weight: .heavy)
         label.minimumScaleFactor = 0.3
         label.adjustsFontForContentSizeCategory = true
+        label.adjustsFontSizeToFitWidth = true
+        
         return label
     }()
     
@@ -202,6 +234,8 @@ final class MovieDetailView: UIView {
         label.minimumScaleFactor = 0.3
         label.font = UIFont.preferredFont(forTextStyle: .body)
         label.adjustsFontForContentSizeCategory = true
+        label.adjustsFontSizeToFitWidth = true
+        
         return label
     }()
     
@@ -211,6 +245,7 @@ final class MovieDetailView: UIView {
         stackView.spacing = 4
         stackView.alignment = .center
         stackView.distribution = .equalSpacing
+        
         return stackView
     }()
     
@@ -221,6 +256,8 @@ final class MovieDetailView: UIView {
         label.font = UIFont.preferredFont(for: .title3, weight: .heavy)
         label.minimumScaleFactor = 0.3
         label.adjustsFontForContentSizeCategory = true
+        label.adjustsFontSizeToFitWidth = true
+        
         return label
     }()
     
@@ -230,6 +267,8 @@ final class MovieDetailView: UIView {
         label.minimumScaleFactor = 0.3
         label.font = UIFont.preferredFont(forTextStyle: .body)
         label.adjustsFontForContentSizeCategory = true
+        label.adjustsFontSizeToFitWidth = true
+        
         return label
     }()
     
@@ -239,6 +278,7 @@ final class MovieDetailView: UIView {
         stackView.spacing = 4
         stackView.alignment = .center
         stackView.distribution = .equalSpacing
+        
         return stackView
     }()
     
@@ -249,6 +289,8 @@ final class MovieDetailView: UIView {
         label.font = UIFont.preferredFont(for: .title3, weight: .heavy)
         label.minimumScaleFactor = 0.3
         label.adjustsFontForContentSizeCategory = true
+        label.adjustsFontSizeToFitWidth = true
+        
         return label
     }()
     
@@ -258,6 +300,8 @@ final class MovieDetailView: UIView {
         label.minimumScaleFactor = 0.3
         label.font = UIFont.preferredFont(forTextStyle: .body)
         label.adjustsFontForContentSizeCategory = true
+        label.adjustsFontSizeToFitWidth = true
+        
         return label
     }()
     
