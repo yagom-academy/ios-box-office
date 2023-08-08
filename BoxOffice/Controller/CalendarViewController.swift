@@ -12,24 +12,57 @@ class CalendarViewController: UIViewController {
     var selectedDate: Date?
     weak var delegate: CalendarViewControllerDelegate?
     
+    init(selectedDate: Date?, delegate: CalendarViewControllerDelegate?) {
+        self.selectedDate = selectedDate
+        self.delegate = delegate
+        super.init(nibName: nil, bundle: nil)
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
+        configureCalendar()
         showCalendarView()
+        addInitAndView()
     }
     
     private func showCalendarView() {
         let currentDate = Date()
-        guard let pastDate = Calendar.current.date(byAdding: .year, value: -10, to: currentDate) else { return }
-        selectedDate = currentDate
-        calendarView = UICalendarView(frame: CGRect(x: 0, y: 0,
-                                                    width: view.bounds.width,
-                                                    height: view.bounds.height))
+        guard let pastDate = Calendar.current.date(byAdding: .year, value: -10, to: currentDate),
+              let yesterday = Calendar.current.date(byAdding: .day, value: -1, to: currentDate) else {
+                  return
+              }
+        
+        if selectedDate == nil {
+            selectedDate = yesterday
+        }
+        
+        let selectedDateComponent = getDateComponent(selectedDate!)
+        let dateSelection = UICalendarSelectionSingleDate(delegate: self)
+        dateSelection.selectedDate = selectedDateComponent
+        calendarView.selectionBehavior = dateSelection
         calendarView.availableDateRange = DateInterval(start: pastDate, end: currentDate)
+    }
+    
+    private func configureCalendar() {
+        calendarView = UICalendarView(frame: CGRect(x: 0, y: 0, width: view.bounds.width, height: view.bounds.height))
         calendarView.backgroundColor = .white
         calendarView.calendar = .current
-        calendarView.selectionBehavior = UICalendarSelectionSingleDate(delegate: self)
+        calendarView.locale = Locale(identifier: "ko_KR")
+        calendarView.timeZone = TimeZone(identifier: "Asia/Seoul")
+    }
+    
+    private func addInitAndView() {
         calendarView.delegate = self
         view.addSubview(calendarView)
+    }
+    
+    private func getDateComponent(_ date: Date) -> DateComponents {
+        let components: Set<Calendar.Component> = [.year, .month, .day]
+        return Calendar.current.dateComponents(components, from: date)
     }
 }
 

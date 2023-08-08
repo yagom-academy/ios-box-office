@@ -12,7 +12,6 @@ class MainViewController: UIViewController, CalendarViewControllerDelegate {
     @IBOutlet weak var loadingActivityView: UIActivityIndicatorView!
     @IBOutlet weak var calendarButton: UIButton!
     
-    let calendarVC = CalendarViewController()
     var boxOffice: BoxOffice?
     var selectedDate: Date?
     
@@ -24,9 +23,6 @@ class MainViewController: UIViewController, CalendarViewControllerDelegate {
         callAPIManager()
         configureTitle()
         initRefresh()
-        
-        calendarVC.modalPresentationStyle = .popover
-        calendarVC.delegate = self
     }
     
     private func showLodingView() {
@@ -40,6 +36,9 @@ class MainViewController: UIViewController, CalendarViewControllerDelegate {
     }
     
     @IBAction func tabCalendarButton(_ sender: UIButton) {
+        let calendarVC = CalendarViewController(selectedDate: selectedDate, delegate: self)
+        calendarVC.modalPresentationStyle = .popover
+        calendarVC.delegate = self
         self.present(calendarVC, animated: true, completion: nil)
     }
     
@@ -61,6 +60,7 @@ class MainViewController: UIViewController, CalendarViewControllerDelegate {
     }
     
     func didSelectDate(_ date: Date) {
+        selectedDate = date
         let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = "YYYY-MM-dd"
         let dateString = dateFormatter.string(from: date)
