@@ -9,53 +9,53 @@ import UIKit
 
 protocol MainViewControllerUseCaseDelegate: AnyObject {
     func completeFetchDailyBoxOfficeInformation(_ movieInformationDTOList: [MovieInformationDTO])
-    func completeFetchMovieDetailInformation(_ movieDetailResult: MovieDetailResult)
     func failFetchDailyBoxOfficeInformation(_ errorDescription: String?)
-    func failFetchMovieDetailInformaion(_ errorDescription: String?)
 }
 
 final class MainViewController: UIViewController, CanShowNetworkRequestFailureAlert {
+    enum Section {
+        case main
+    }
+    
     private let usecase: MainViewControllerUseCase
     
-    private lazy var requestMovieDetailInformationButton: UIButton = {
-        let button = UIButton()
+    private lazy var activityIndicatorView: UIActivityIndicatorView = {
+        let activityIndicatorView = UIActivityIndicatorView()
         
-        button.setTitle("영화 개별 상세 조회", for: .normal)
-        button.setTitleColor(.black, for: .normal)
-        button.backgroundColor = .yellow
-        button.addTarget(self, action: #selector(didTappedRequestMovieDetailInformationButton), for: .touchUpInside)
-        return button
+        activityIndicatorView.center = view.center
+        activityIndicatorView.style = .large
+        activityIndicatorView.startAnimating()
+        return activityIndicatorView
     }()
     
-    private lazy var requestMovieDailyInformationButton: UIButton = {
-        let button = UIButton()
+    private lazy var refreshControl: UIRefreshControl = {
+        let refreshControl = UIRefreshControl()
+        let refreshAction = UIAction { [weak self] _ in
+            self?.setUpViewControllerContents()
+        }
         
-        button.setTitle("오늘의 일일 박스오피스 조회", for: .normal)
-        button.setTitleColor(.black, for: .normal)
-        button.backgroundColor = .orange
-        button.addTarget(self, action: #selector(didTappedRequestMovieDailyInformationButton), for: .touchUpInside)
-        return button
+        refreshControl.addAction(refreshAction, for: .valueChanged)
+        return refreshControl
     }()
     
-    private lazy var networkRequestFailureButton: UIButton = {
-        let button = UIButton()
+    private let compositionalLayout: UICollectionViewCompositionalLayout = {
+        var listConfiguration = UICollectionLayoutListConfiguration(appearance: .plain)
         
-        button.setTitle("네트워크 요청 실패 버튼", for: .normal)
-        button.setTitleColor(.black, for: .normal)
-        button.backgroundColor = .red
-        button.addTarget(self, action: #selector(didTappedNetworkRequestFailureButton), for: .touchUpInside)
-        return button
+        listConfiguration.separatorConfiguration.bottomSeparatorInsets = .init(top: 0, leading: 0, bottom: 0, trailing: 0)
+        
+        let compositionalLayout = UICollectionViewCompositionalLayout.list(using: listConfiguration)
+        return compositionalLayout
     }()
     
-    private let stackView: UIStackView = {
-        let stackView = UIStackView()
+    private lazy var collectionView: UICollectionView = {
+        let collectionView = UICollectionView(frame: .zero, collectionViewLayout: compositionalLayout)
         
-        stackView.axis = .vertical
-        stackView.distribution = .fillEqually
-        stackView.spacing = 5
-        stackView.translatesAutoresizingMaskIntoConstraints = false
-        return stackView
+        collectionView.refreshControl = refreshControl
+        collectionView.translatesAutoresizingMaskIntoConstraints = false
+        return collectionView
     }()
+    
+    private var diffableDataSource: UICollectionViewDiffableDataSource<Section, MovieInformationDTO>?
     
     init(_ usecase: MainViewControllerUseCase) {
         self.usecase = usecase
@@ -72,69 +72,73 @@ final class MainViewController: UIViewController, CanShowNetworkRequestFailureAl
         
         configureUI()
         setUpConstraints()
-        setUpBackgroundColor()
+        setUpViewController()
+        setUpViewControllerContents()
+        setUpDiffableDataSource()
     }
     
-    private func setUpBackgroundColor() {
+    private func setUpViewController() {
         view.backgroundColor = .systemBackground
+        navigationItem.title = usecase.yesterdayDate
+    }
+    
+    private func setUpViewControllerContents() {
+        let targetDate = usecase.yesterdayDate.replacingOccurrences(of: "-", with: "")
+        
+        usecase.fetchDailyBoxOffice(targetDate: targetDate)
     }
     
     private func configureUI() {
-        [requestMovieDetailInformationButton, requestMovieDailyInformationButton, networkRequestFailureButton].forEach { stackView.addArrangedSubview($0) }
-        view.addSubview(stackView)
+        [collectionView, activityIndicatorView].forEach { view.addSubview($0) }
     }
     
     private func setUpConstraints() {
         NSLayoutConstraint.activate([
-            stackView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-            stackView.centerYAnchor.constraint(equalTo: view.centerYAnchor)
+            collectionView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor),
+            collectionView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor),
+            collectionView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
+            collectionView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor)
         ])
+    }
+    
+    private func setUpDiffableDataSource() {
+        let cellResgistration = UICollectionView.CellRegistration<MainCollectionViewCell, MovieInformationDTO> { cell, indexPath, movieInformation in
+            
+            cell.setUpContent(movieInformation)
+        }
+        
+        diffableDataSource = UICollectionViewDiffableDataSource<Section, MovieInformationDTO>(collectionView: collectionView, cellProvider: { collectionView, indexPath, movieInformation in
+            return collectionView.dequeueConfiguredReusableCell(using: cellResgistration, for: indexPath, item: movieInformation)
+        })
+    }
+    
+    private func stopRefreshing() {
+        self.refreshControl.endRefreshing()
+        
+        if self.activityIndicatorView.isAnimating {
+            self.activityIndicatorView.stopAnimating()
+        }
     }
 }
 
 // MARK: - MainViewControllerUseCaseDelegate
 extension MainViewController: MainViewControllerUseCaseDelegate {
     func completeFetchDailyBoxOfficeInformation(_ movieInformationDTOList: [MovieInformationDTO]) {
-        print(movieInformationDTOList)
-    }
-    
-    func completeFetchMovieDetailInformation(_ movieDetailResult: MovieDetailResult) {
-        print(movieDetailResult)
+        var snapShot = NSDiffableDataSourceSnapshot<Section, MovieInformationDTO>()
+        
+        snapShot.appendSections([.main])
+        snapShot.appendItems(movieInformationDTOList)
+        diffableDataSource?.apply(snapShot)
+        
+        DispatchQueue.main.async {
+            self.stopRefreshing()
+        }
     }
     
     func failFetchDailyBoxOfficeInformation(_ errorDescription: String?) {
         DispatchQueue.main.async {
-            self.showNetworkFailAlert(message: errorDescription, retryFunction: self.fetchDailyBoxOfficeForTest)
+            self.stopRefreshing()
+            self.showNetworkFailAlert(message: errorDescription, retryFunction: self.setUpViewControllerContents)
         }
-    }
-    
-    func failFetchMovieDetailInformaion(_ errorDescription: String?) {
-        print("\(errorDescription ?? "")")
-    }
-}
-
-// MARK: - Button Action
-extension MainViewController {
-    @objc private func didTappedRequestMovieDetailInformationButton() {
-        let movieCode = "20228543"
-        
-        usecase.fetchMovieDetailInformation(movieCode: movieCode)
-    }
-    
-    @objc private func didTappedRequestMovieDailyInformationButton() {
-        let tagerDate = "20230723"
-        
-        usecase.fetchDailyBoxOffice(targetDate: tagerDate)
-    }
-}
-
-// MARK: - Test Button Action
-extension MainViewController {
-    private func fetchDailyBoxOfficeForTest() {
-        usecase.fetchDailyBoxOffice(targetDate: "")
-    }
-    
-    @objc private func didTappedNetworkRequestFailureButton() {
-        fetchDailyBoxOfficeForTest()
     }
 }
