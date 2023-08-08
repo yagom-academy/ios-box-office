@@ -43,7 +43,10 @@ final class BoxOfficeViewController: UIViewController {
     }
     
     private func setupNavigation() {
+        let selectDateButton = UIBarButtonItem(title: "날짜선택", style: .plain, target: self, action: #selector(didTapSelectDateButton))
+        
         navigationItem.title = DateFormatter().dateString(before: 1, with: DateFormatter.FormatCase.hyphen)
+        navigationItem.rightBarButtonItem = selectDateButton
     }
     
     private func setupCollectionView() {
@@ -58,6 +61,15 @@ final class BoxOfficeViewController: UIViewController {
         refreshControl.addTarget(self, action: #selector(loadBoxOfficeData), for: .valueChanged)
         
         collectionView.refreshControl = refreshControl
+    }
+    
+    @objc private func didTapSelectDateButton() {
+        if #available(iOS 16.0, *) {
+            let calendarViewController = CalendarViewController()
+            present(calendarViewController, animated: true)
+        } else {
+            return
+        }
     }
     
     @objc private func loadBoxOfficeData() {
