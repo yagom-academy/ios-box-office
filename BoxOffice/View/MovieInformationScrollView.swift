@@ -97,57 +97,57 @@ class MovieInformationScrollView: UIScrollView {
     private let directorLabel: UILabel = {
         let label: UILabel = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
-        label.text = "감독이름"
+        
         return label
     }()
     
     private let productionYearLabel: UILabel = {
         let label: UILabel = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
-        label.text = "2023"
+        
         return label
     }()
     
     private let openDateLabel: UILabel = {
         let label: UILabel = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
-        label.text = "2023-01-01"
+        
         return label
     }()
     
     private let showTimeLabel: UILabel = {
         let label: UILabel = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
-        label.text = "108"
+        
         return label
     }()
     
     private let watchGradeNameLabel: UILabel = {
         let label: UILabel = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
-        label.text = "15세이상관람가"
+        
         return label
     }()
     
     private let nationLabel: UILabel = {
         let label: UILabel = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
-        label.text = "한국"
+        
         return label
     }()
     
     private let genreLabel: UILabel = {
         let label: UILabel = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
-        label.text = "범죄"
+        
         return label
     }()
     
     private let actorLabel: UILabel = {
         let label: UILabel = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
-        label.text = "배우이름"
         label.numberOfLines = 0
+        
         return label
     }()
     
@@ -220,7 +220,8 @@ class MovieInformationScrollView: UIScrollView {
         stackView.translatesAutoresizingMaskIntoConstraints = false
         stackView.axis = .vertical
         stackView.spacing = 8
-        stackView.distribution = .fillProportionally
+        stackView.distribution = .fill
+        
         return stackView
     }()
     
@@ -289,10 +290,26 @@ class MovieInformationScrollView: UIScrollView {
             imageView.widthAnchor.constraint(equalTo: widthAnchor),
             
             contentStackView.topAnchor.constraint(equalTo: imageView.bottomAnchor),
-            contentStackView.leadingAnchor.constraint(equalTo: leadingAnchor),
-            contentStackView.trailingAnchor.constraint(equalTo: trailingAnchor),
-            contentStackView.bottomAnchor.constraint(equalTo: bottomAnchor)
-            
+            contentStackView.leadingAnchor.constraint(equalTo: safeAreaLayoutGuide.leadingAnchor),
+            contentStackView.trailingAnchor.constraint(equalTo: safeAreaLayoutGuide.trailingAnchor),
+            contentStackView.bottomAnchor.constraint(equalTo: contentLayoutGuide.bottomAnchor)
         ])
+    }
+    
+    func updateLabels(data: MovieInformation?) {
+        guard let data = data else { return }
+        
+        var openDate = data.openDate
+        openDate.insert("-", at: openDate.index(openDate.startIndex, offsetBy: 4))
+        openDate.insert("-", at: openDate.index(openDate.startIndex, offsetBy: 7))
+        
+        directorLabel.text = data.directors.map { $0.peopleName }.joined(separator: ", ")
+        productionYearLabel.text = data.productionYear
+        openDateLabel.text = openDate
+        showTimeLabel.text = data.showTime
+        watchGradeNameLabel.text = data.audits.map { $0.watchGradeName }.joined(separator: ", ")
+        nationLabel.text = data.nations.map { $0.nationName }.joined(separator: ", ")
+        genreLabel.text = data.genres.map { $0.genreName }.joined(separator: ", ")
+        actorLabel.text = data.actors.map { $0.peopleName }.joined(separator: ", ")
     }
 }
