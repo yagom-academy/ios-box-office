@@ -7,8 +7,14 @@
 
 import UIKit
 
+protocol CalendarViewControllerDelegate: AnyObject {
+    func selectedDate(date: DateComponents?)
+}
+
 @available(iOS 16.0, *)
 final class CalendarViewController: UIViewController {
+    weak var delegate: CalendarViewControllerDelegate?
+    
     private let calendarView: UICalendarView = {
         let calendarView = UICalendarView()
         calendarView.translatesAutoresizingMaskIntoConstraints = false
@@ -35,6 +41,18 @@ final class CalendarViewController: UIViewController {
 
         let calendarViewDateRange = DateInterval(start: fromDate, end: toDate)
         calendarView.availableDateRange = calendarViewDateRange
+        
+        let dateSelection = UICalendarSelectionSingleDate(delegate: self)
+        calendarView.selectionBehavior = dateSelection
+    }
+}
+
+// MARK: UICalendarSelectionSingleDateDelegate
+@available(iOS 16.0, *)
+extension CalendarViewController: UICalendarSelectionSingleDateDelegate {
+    func dateSelection(_ selection: UICalendarSelectionSingleDate, didSelectDate dateComponents: DateComponents?) {
+        delegate?.selectedDate(date: dateComponents)
+        dismiss(animated: true)
     }
 }
 

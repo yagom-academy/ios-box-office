@@ -66,6 +66,8 @@ final class BoxOfficeViewController: UIViewController {
     @objc private func didTapSelectDateButton() {
         if #available(iOS 16.0, *) {
             let calendarViewController = CalendarViewController()
+            calendarViewController.delegate = self
+            
             present(calendarViewController, animated: true)
         } else {
             return
@@ -142,6 +144,12 @@ extension BoxOfficeViewController {
         snapshot.appendItems(boxOfficeManager.dailyBoxOffices, toSection: .main)
         
         dailyBoxOfficeDataSource.apply(snapshot, animatingDifferences: true)
+    }
+}
+
+// MARK: CalendarViewControllerDelegate
+extension BoxOfficeViewController: CalendarViewControllerDelegate {
+    func selectedDate(date: DateComponents?) {
     }
 }
 
