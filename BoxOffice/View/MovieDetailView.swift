@@ -339,7 +339,8 @@ extension MovieDetailView {
         NSLayoutConstraint.activate([
             totalStackView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 8),
             totalStackView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -8),
-            totalStackView.topAnchor.constraint(equalTo: posterImage.bottomAnchor, constant: 8)
+            totalStackView.topAnchor.constraint(equalTo: posterImage.bottomAnchor, constant: 8),
+            totalStackView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor)
         ])
     }
     
