@@ -77,14 +77,14 @@ final class BoxOfficeManager {
             return
         }
         
-        let queryItem = URLQueryItem(name: "query", value: movieName + "포스터")
+        let queryItem = URLQueryItem(name: NameSpace.query, value: String(format: NameSpace.posterFormat, movieName))
         guard let url = URL.kakaoURL(Path.searchImage, [queryItem]) else {
             completion(false)
             return
         }
         
         var urlRequest = URLRequest(url: url)
-        urlRequest.setValue(kakaoKey, forHTTPHeaderField: "Authorization")
+        urlRequest.setValue(kakaoKey, forHTTPHeaderField: NameSpace.Authorization)
         
         networkManager.requestData(from: urlRequest) { [weak self] result in
             guard let self else {
@@ -131,5 +131,8 @@ extension BoxOfficeManager {
         static let key = "key"
         static let targetDate = "targetDt"
         static let movieCode = "movieCd"
+        static let query = "query"
+        static let posterFormat = "%@ 포스터"
+        static let Authorization = "Authorization"
     }
 }
