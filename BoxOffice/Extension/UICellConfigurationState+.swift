@@ -8,5 +8,8 @@
 import UIKit
 
 extension UICellConfigurationState {
-    
+    var item: DailyBoxOfficeList? {
+        get { return self[.item] as? DailyBoxOfficeList }
+        set { self[.item] = newValue}
+    }
 }
