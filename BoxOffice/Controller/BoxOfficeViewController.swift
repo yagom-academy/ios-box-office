@@ -45,7 +45,7 @@ final class BoxOfficeViewController: UIViewController {
     private func setupNavigation() {
         let selectDateButton = UIBarButtonItem(title: "날짜선택", style: .plain, target: self, action: #selector(didTapSelectDateButton))
         
-        navigationItem.title = DateFormatter().dateString(before: 1, with: DateFormatter.FormatCase.hyphen)
+        navigationItem.title = DateFormatter().dateString(for: boxOfficeManager.targetDate, with: DateFormatter.FormatCase.hyphen)
         navigationItem.rightBarButtonItem = selectDateButton
     }
     
@@ -65,7 +65,8 @@ final class BoxOfficeViewController: UIViewController {
     
     @objc private func didTapSelectDateButton() {
         if #available(iOS 16.0, *) {
-            let calendarViewController = CalendarViewController()
+            let dateComponents = Calendar.current.dateComponents([.year, .month, .day], from: boxOfficeManager.targetDate)
+            let calendarViewController = CalendarViewController(selectedDate: dateComponents)
             calendarViewController.delegate = self
             
             present(calendarViewController, animated: true)
@@ -150,6 +151,15 @@ extension BoxOfficeViewController {
 // MARK: CalendarViewControllerDelegate
 extension BoxOfficeViewController: CalendarViewControllerDelegate {
     func selectedDate(date: DateComponents?) {
+        guard let dateComponents = date,
+              let selectedDate = dateComponents.date else {
+            return
+        }
+        
+        boxOfficeManager.setTargetDate(selectedDate)
+        activityIndicator.startAnimating()
+        loadBoxOfficeData()
+        setupNavigation()
     }
 }
 

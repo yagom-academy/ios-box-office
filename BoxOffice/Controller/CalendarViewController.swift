@@ -14,13 +14,23 @@ protocol CalendarViewControllerDelegate: AnyObject {
 @available(iOS 16.0, *)
 final class CalendarViewController: UIViewController {
     weak var delegate: CalendarViewControllerDelegate?
-    
+    private let selectedDate: DateComponents?
     private let calendarView: UICalendarView = {
         let calendarView = UICalendarView()
         calendarView.translatesAutoresizingMaskIntoConstraints = false
         
         return calendarView
     }()
+    
+    init(selectedDate: DateComponents?) {
+        self.selectedDate = selectedDate
+        
+        super.init(nibName: nil, bundle: nil)
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -43,6 +53,7 @@ final class CalendarViewController: UIViewController {
         calendarView.availableDateRange = calendarViewDateRange
         
         let dateSelection = UICalendarSelectionSingleDate(delegate: self)
+        dateSelection.selectedDate = selectedDate
         calendarView.selectionBehavior = dateSelection
     }
 }
