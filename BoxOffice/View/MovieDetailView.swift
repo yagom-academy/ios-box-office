@@ -31,7 +31,7 @@ final class MovieDetailView: UIView {
         let stackView = UIStackView()
         stackView.axis = .vertical
         stackView.spacing = 8
-        stackView.alignment = .center
+        stackView.alignment = .leading
         stackView.distribution = .equalSpacing
         stackView.translatesAutoresizingMaskIntoConstraints = false
         return stackView
@@ -297,6 +297,8 @@ final class MovieDetailView: UIView {
         setUpContentViewConstraints()
         setUpPosterImageViewConstraints()
         setUpTotalStackViewConstraints()
+        setUpTitleLabelsAlign()
+        setUpDetailLabelsAlign()
     }
 }
 
@@ -336,7 +338,32 @@ extension MovieDetailView {
     private func setUpTotalStackViewConstraints() {
         NSLayoutConstraint.activate([
             totalStackView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 8),
+            totalStackView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -8),
             totalStackView.topAnchor.constraint(equalTo: posterImage.bottomAnchor, constant: 8)
+        ])
+    }
+    
+    private func setUpTitleLabelsAlign() {
+        NSLayoutConstraint.activate([
+            productionYearTitleLabel.centerXAnchor.constraint(equalTo: directorTitleLabel.centerXAnchor),
+            openDateTitleLabel.centerXAnchor.constraint(equalTo: directorTitleLabel.centerXAnchor),
+            showTimeTitleLabel.centerXAnchor.constraint(equalTo: directorTitleLabel.centerXAnchor),
+            watchGradeNameTitleLabel.centerXAnchor.constraint(equalTo: directorTitleLabel.centerXAnchor),
+            nationNameTitleLabel.centerXAnchor.constraint(equalTo: directorTitleLabel.centerXAnchor),
+            genreNameTitleLabel.centerXAnchor.constraint(equalTo: directorTitleLabel.centerXAnchor),
+            actorsTitleLabel.centerXAnchor.constraint(equalTo: directorTitleLabel.centerXAnchor)
+        ])
+    }
+    
+    private func setUpDetailLabelsAlign() {
+        NSLayoutConstraint.activate([
+            productionYearDetailLabel.leadingAnchor.constraint(equalTo: directorDetailLabel.leadingAnchor),
+            openDateDetailLabel.leadingAnchor.constraint(equalTo: directorDetailLabel.leadingAnchor),
+            showTimeDetailLabel.leadingAnchor.constraint(equalTo: directorDetailLabel.leadingAnchor),
+            watchGradeNameDetailLabel.leadingAnchor.constraint(equalTo: directorDetailLabel.leadingAnchor),
+            nationNameDetailLabel.leadingAnchor.constraint(equalTo: directorDetailLabel.leadingAnchor),
+            genreNameDetailLabel.leadingAnchor.constraint(equalTo: directorDetailLabel.leadingAnchor),
+            actorsDetailLabel.leadingAnchor.constraint(equalTo: directorDetailLabel.leadingAnchor)
         ])
     }
 }
