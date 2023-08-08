@@ -56,8 +56,21 @@
                             <constraint firstItem="hJE-o8-6ci" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" id="WsE-fI-qng"/>
                         </constraints>
                     </view>
-                    <navigationItem key="navigationItem" id="83c-0O-bg9"/>
+                    <navigationItem key="navigationItem" id="83c-0O-bg9">
+                        <barButtonItem key="rightBarButtonItem" style="plain" id="0Kn-fV-bc3">
+                            <button key="customView" opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" id="1qc-eX-smJ">
+                                <rect key="frame" x="290" y="5" width="87" height="34.333333333333336"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <state key="normal" title="Button"/>
+                                <buttonConfiguration key="configuration" style="plain" title="날짜선택"/>
+                                <connections>
+                                    <action selector="tabCalendarButton:" destination="BYZ-38-t0r" eventType="touchUpInside" id="mLT-pY-cfT"/>
+                                </connections>
+                            </button>
+                        </barButtonItem>
+                    </navigationItem>
                     <connections>
+                        <outlet property="calendarButton" destination="1qc-eX-smJ" id="S9J-wW-moK"/>
                         <outlet property="collectionView" destination="hJE-o8-6ci" id="tUi-8K-AG4"/>
                         <outlet property="loadingActivityView" destination="Kwk-Hi-AOZ" id="pXB-8v-zht"/>
                     </connections>
