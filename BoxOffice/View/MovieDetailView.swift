@@ -25,7 +25,8 @@ final class MovieDetailView: UIView {
     private let posterImageView: UIImageView = {
         let imageView = UIImageView()
         imageView.translatesAutoresizingMaskIntoConstraints = false
-        imageView.backgroundColor = .systemFill
+        imageView.backgroundColor = .systemBackground
+        imageView.contentMode = .scaleAspectFit
         
         return imageView
     }()
