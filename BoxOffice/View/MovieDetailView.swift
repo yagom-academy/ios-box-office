@@ -14,7 +14,7 @@ final class MovieDetailView: UIView {
         return scrollView
     }()
     
-    private let contentView: UIView = {
+    let contentView: UIView = {
         let contentView = UIView()
         contentView.translatesAutoresizingMaskIntoConstraints = false
         return contentView

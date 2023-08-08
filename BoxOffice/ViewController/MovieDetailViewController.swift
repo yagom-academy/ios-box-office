@@ -57,6 +57,9 @@ final class MovieDetailViewController: UIViewController {
                let image = UIImage(data: data)
             {
                 DispatchQueue.main.async {
+                    let ratio = self.movieDetailView.posterImage.frame.width / CGFloat(integerLiteral: imageDocument.width)
+                    let height = ratio * CGFloat(integerLiteral: imageDocument.height)
+                    self.movieDetailView.posterImage.heightAnchor.constraint(equalToConstant: height).isActive = true
                     self.movieDetailView.posterImage.image = image
                 }
             }
