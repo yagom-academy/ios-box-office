@@ -23,7 +23,8 @@ final class MovieDetailViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        setBackgroundColor(.systemBackground)
+        configureBackgroundColor()
+        loadMoviePoster()
     }
     
     init(_ boxOfficeService: BoxOfficeService, _ dailyBoxOffice: DailyBoxOffice) {
@@ -37,7 +38,34 @@ final class MovieDetailViewController: UIViewController {
         fatalError("init(coder:) has not been implemented")
     }
     
-    private func setBackgroundColor(_ color: UIColor) {
-        view.backgroundColor = color
+    private func configureBackgroundColor() {
+        view.backgroundColor = .systemBackground
+    }
+    
+    // MARK: - Load Data
+    @objc private func loadMoviePoster() {
+        boxOfficeService.loadMoviePoster(movieNm: dailyBoxOffice.movieName, fetchMoviePoster)
+    }
+    
+    private func fetchMoviePoster(_ result: Result<DaumSearchMainText<ImageDocument>, NetworkManagerError>) {
+        switch result {
+        case .success(let daumSearchMainText):
+            guard let imageDocument = daumSearchMainText.documents.first else { return }
+            print("imageDocument : \(imageDocument)")
+            if let imageUrl = URL(string: imageDocument.imageUrl),
+               let data = try? Data(contentsOf: imageUrl),
+               let image = UIImage(data: data)
+            {
+                DispatchQueue.main.async {
+                    self.movieDetailView.posterImage.image = image
+                }
+            }
+        case .failure(let error):
+            print("에러입니다 : \(error)")
+            // TODO: Alert 출력 공통코드 분리 후 아래 코드 적용
+//            DispatchQueue.main.async {
+//                self.showAlert("상세정보", error)
+//            }
+        }
     }
 }

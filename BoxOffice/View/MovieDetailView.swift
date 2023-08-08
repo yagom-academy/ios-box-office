@@ -20,7 +20,7 @@ final class MovieDetailView: UIView {
         return contentView
     }()
     
-    private let posterImage: UIImageView = {
+    let posterImage: UIImageView = {
         let image = UIImageView()
         image.contentMode = .scaleAspectFill
         return image
