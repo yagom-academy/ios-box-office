@@ -71,6 +71,12 @@ final class BoxOfficeManager {
     }
     
     func fetchPosterImage(_ movieName: String, completion: @escaping (Bool) -> Void) {
+        if let cacheImage = CacheManager.shared.object(forKey: movieName as NSString) {
+            posterImage = cacheImage
+            completion(true)
+            return
+        }
+        
         let queryItem = URLQueryItem(name: "query", value: movieName + "포스터")
         guard let url = URL.kakaoURL(Path.searchImage, [queryItem]) else {
             completion(false)
@@ -88,15 +94,22 @@ final class BoxOfficeManager {
             switch result {
             case .success(let data):
                 do {
-                    let posterImage = try JSONDecoder().decode(PosterImage.self, from: data)
-                    guard let url = posterImage.documents.first?.imageURL,
+                    let posterImageInformation = try JSONDecoder().decode(PosterImageInformation.self, from: data)
+                    guard let url = posterImageInformation.documents.first?.imageURL,
                           let url = URL(string: url) else {
                         completion(false)
                         return
                     }
                     
                     let imageData = try Data(contentsOf: url)
-                    self.posterImage = UIImage(data: imageData)
+                    
+                    guard let image = UIImage(data: imageData) else {
+                        completion(false)
+                        return
+                    }
+                    
+                    CacheManager.shared.setObject(image, forKey: movieName as NSString)
+                    self.posterImage = image
                     completion(true)
                 } catch {
                     print(DataError.decodeJSONFailed.localizedDescription)
