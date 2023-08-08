@@ -140,19 +140,35 @@ extension DailyBoxOfficeViewController: UICollectionViewDataSource, UICollection
             return UICollectionViewCell()
         }
         
-        guard let data = boxOfficeData else {
+        guard let data = boxOfficeData,
+              let data = data.boxOfficeResult.dailyBoxOfficeList[index: indexPath.item] else {
             return cell
         }
         
-        cell.configureCell(data: data.boxOfficeResult.dailyBoxOfficeList[indexPath.item])
-        
+        cell.configureCell(data: data)
+
         return cell
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         let width: CGFloat = collectionView.frame.width
-        let height: CGFloat = collectionView.frame.height * 0.1
+        var height: CGFloat = collectionView.frame.height * 0.1
+
+        guard let data = boxOfficeData,
+              let data = data.boxOfficeResult.dailyBoxOfficeList[index: indexPath.item] else {
+            return CGSize(width: width, height: height)
+        }
         
-        return CGSize(width: width, height: height)
+        let cell = DailyBoxOfficeCollectionViewCell(frame: CGRect(x: 0, y: 0, width: width, height: height))
+        
+        cell.titleLabel.text = data.movieName
+        cell.setNeedsLayout()
+        cell.layoutIfNeeded()
+        
+        let titleLabelSize = cell.titleLabel.intrinsicContentSize
+        
+        height += titleLabelSize.height
+
+        return CGSize(width: width, height: height)        
     }
 }

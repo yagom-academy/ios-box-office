@@ -8,12 +8,11 @@
 import UIKit
 
 final class DailyBoxOfficeCollectionViewCell: UICollectionViewListCell {
-
-    
-    private let titleLabel: UILabel = {
+    let titleLabel: UILabel = {
         let label: UILabel = UILabel()
         label.font = .preferredFont(forTextStyle: .title2)
         label.translatesAutoresizingMaskIntoConstraints = false
+        label.numberOfLines = 0
         
         return label
     }()
@@ -164,7 +163,5 @@ final class DailyBoxOfficeCollectionViewCell: UICollectionViewListCell {
     private enum OldAndNew: String {
         case old = "OLD"
         case new = "NEW"
-        
-        
     }
 }
