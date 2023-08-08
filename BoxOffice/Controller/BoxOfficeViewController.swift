@@ -43,7 +43,7 @@ final class BoxOfficeViewController: UIViewController {
     }
     
     private func setupNavigation() {
-        let selectDateButton = UIBarButtonItem(title: "날짜선택", style: .plain, target: self, action: #selector(didTapSelectDateButton))
+        let selectDateButton = UIBarButtonItem(title: NameSpace.peakDate, style: .plain, target: self, action: #selector(didTapSelectDateButton))
         
         navigationItem.title = DateFormatter().dateString(from: boxOfficeManager.targetDate, with: DateFormatter.FormatCase.hyphen)
         navigationItem.rightBarButtonItem = selectDateButton
@@ -203,6 +203,7 @@ extension BoxOfficeViewController {
 // MARK: Name Space
 extension BoxOfficeViewController {
     private enum NameSpace {
+        static let peakDate = "날짜선택"
         static let fail = "실패"
         static let loadDataFail = "데이터 로드에 실패했습니다."
         static let check = "확인"
