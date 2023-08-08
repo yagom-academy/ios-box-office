@@ -61,11 +61,12 @@ final class MovieDetailViewController: UIViewController {
                 }
             }
         case .failure(let error):
-            print("에러입니다 : \(error)")
-            // TODO: Alert 출력 공통코드 분리 후 아래 코드 적용
-//            DispatchQueue.main.async {
-//                self.showAlert("상세정보", error)
-//            }
+            DispatchQueue.main.async {
+                AlertManager.showErrorAlert(in: self, "상세 정보", error)
+            }
+        }
+    }
+}
         }
     }
 }

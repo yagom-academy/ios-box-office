@@ -89,7 +89,7 @@ final class BoxOfficeViewController: UIViewController {
             }
         case .failure(let error):
             DispatchQueue.main.async {
-                self.showAlert("박스오피스", error)
+                AlertManager.showErrorAlert(in: self, "박스오피스", error)
             }
         }
     }
@@ -100,7 +100,7 @@ final class BoxOfficeViewController: UIViewController {
             self.movie = movie
         case .failure(let error):
             DispatchQueue.main.async {
-                self.showAlert("영화 상세 정보", error)
+                AlertManager.showErrorAlert(in: self, "영화 상세 정보", error)
             }
         }
     }
@@ -184,13 +184,5 @@ extension BoxOfficeViewController {
         let audienceAccumulation = formatter.string(for: Int(dailyBoxOffice.audienceAccumulation)) ?? "0"
         
         return "\(dailyBoxOffice.movieName)\n오늘: \(audienceCount) / 총: \(audienceAccumulation)"
-    }
-    
-    private func showAlert(_ message: String, _ error: NetworkManagerError) {
-        let alert = UIAlertController(title: "Error 발생", message: "\(message) 로드에 실패하였습니다.", preferredStyle: .alert)
-        alert.addAction(UIAlertAction(title: NSLocalizedString("확인", comment: "close"), style: .default, handler: { _ in
-            NSLog(error.localizedDescription)
-        }))
-        self.present(alert, animated: true, completion: nil)
     }
 }
