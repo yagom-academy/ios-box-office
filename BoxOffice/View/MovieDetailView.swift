@@ -72,6 +72,8 @@ extension MovieDetailView {
     private func informationStackView(title: String, information: String) -> UIStackView {
         let stackView = UIStackView()
         stackView.axis = .horizontal
+        stackView.alignment = .fill
+        stackView.distribution = .fill
         stackView.spacing = 4
         
         let titleLabel = UILabel()
@@ -82,7 +84,7 @@ extension MovieDetailView {
         titleLabel.text = title
         
         let informationLabel = UILabel()
-        titleLabel.font = UIFont.preferredFont(forTextStyle: .body)
+        informationLabel.font = UIFont.preferredFont(forTextStyle: .body)
         informationLabel.textAlignment = .left
         informationLabel.numberOfLines = 0
         informationLabel.text = information
