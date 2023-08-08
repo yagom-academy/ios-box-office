@@ -25,6 +25,7 @@ final class MovieDetailViewController: UIViewController {
         
         configureBackgroundColor()
         loadMoviePoster()
+        loadMovieDetail()
     }
     
     init(_ boxOfficeService: BoxOfficeService, _ dailyBoxOffice: DailyBoxOffice) {
@@ -66,6 +67,43 @@ final class MovieDetailViewController: UIViewController {
         case .failure(let error):
             DispatchQueue.main.async {
                 AlertManager.showErrorAlert(in: self, "상세 정보", error)
+            }
+        }
+    }
+    
+    @objc private func loadMovieDetail() {
+        boxOfficeService.loadMovieDetailData(movieCd: dailyBoxOffice.movieCode, fetchMovie)
+    }
+    
+    private func fetchMovie(_ result: Result<Movie, NetworkManagerError>) {
+        switch result {
+        case .success(let movie):
+            DispatchQueue.main.async {
+                let movieInfo = movie.movieInformationResult.movieInformation
+                
+                let directors = movieInfo.directors.map{ $0.peopleName }.joined(separator: ", ")
+                self.movieDetailView.directorDetailLabel.text = directors
+                
+                self.movieDetailView.productionYearDetailLabel.text = movieInfo.productionYear
+                
+                var formattedOpenDate = movieInfo.openDate
+                formattedOpenDate.insert("-", at: formattedOpenDate.index(formattedOpenDate.startIndex, offsetBy: 4))
+                formattedOpenDate.insert("-", at: formattedOpenDate.index(formattedOpenDate.endIndex, offsetBy: -2))
+                self.movieDetailView.openDateDetailLabel.text = formattedOpenDate
+                
+                self.movieDetailView.showTimeDetailLabel.text = movieInfo.showTime
+                
+                self.movieDetailView.watchGradeNameDetailLabel.text = movieInfo.audits.first?.watchGradeName
+                
+                self.movieDetailView.nationNameDetailLabel.text = movieInfo.nations.map{ $0.nationName }.joined(separator: ", ")
+                
+                self.movieDetailView.genreNameDetailLabel.text = movieInfo.genres.map{ $0.genreName }.joined(separator: ", ")
+                
+                self.movieDetailView.actorsDetailLabel.text = movieInfo.actors.map{ $0.peopleName }.joined(separator: ", ")
+            }
+        case .failure(let error):
+            DispatchQueue.main.async {
+                AlertManager.showErrorAlert(in: self, "영화 상세 정보", error)
             }
         }
     }

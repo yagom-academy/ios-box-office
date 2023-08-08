@@ -12,7 +12,6 @@ final class BoxOfficeViewController: UIViewController {
     
     private let boxOfficeService: BoxOfficeService
     private var boxOffice: BoxOffice?
-    private var movie: Movie?
     
     private var dataSource: UICollectionViewDiffableDataSource<Section, DailyBoxOffice>? = nil
     private var collectionView: UICollectionView? = nil
@@ -83,24 +82,9 @@ final class BoxOfficeViewController: UIViewController {
                     self.refresher.endRefreshing()
                 }
             }
-            
-            if let movieCode = boxOffice.boxOfficeResult.dailyBoxOfficeList.first?.movieCode {
-                boxOfficeService.loadMovieDetailData(movieCd: movieCode, fetchMovie)
-            }
         case .failure(let error):
             DispatchQueue.main.async {
                 AlertManager.showErrorAlert(in: self, "박스오피스", error)
-            }
-        }
-    }
-    
-    private func fetchMovie(_ result: Result<Movie, NetworkManagerError>) {
-        switch result {
-        case .success(let movie):
-            self.movie = movie
-        case .failure(let error):
-            DispatchQueue.main.async {
-                AlertManager.showErrorAlert(in: self, "영화 상세 정보", error)
             }
         }
     }
