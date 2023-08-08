@@ -16,9 +16,12 @@ class CalendarViewController: UIViewController {
     }
     
     private func showCalendarView() {
+        let currentDate = Date()
+        guard let pastDate = Calendar.current.date(byAdding: .year, value: -10, to: currentDate) else { return }
         calendarView = UICalendarView(frame: CGRect(x: 0, y: 0,
                                                     width: view.bounds.width,
                                                     height: view.bounds.height))
+        calendarView.availableDateRange = DateInterval(start: pastDate, end: currentDate)
         calendarView.backgroundColor = .white
         view.addSubview(calendarView)
     }
