@@ -50,7 +50,6 @@ final class BoxOfficeViewController: UIViewController {
         collectionView = UICollectionView(frame: .zero, collectionViewLayout: verticalLayout())
         collectionView.translatesAutoresizingMaskIntoConstraints = false
         collectionView.register(BoxOfficeCollectionViewCell.self, forCellWithReuseIdentifier: BoxOfficeCollectionViewCell.identifier)
-        collectionView.dataSource = dailyBoxOfficeDataSource
         collectionView.delegate = self
     }
     
