@@ -72,20 +72,17 @@ struct BoxOfficeService {
     
     func loadMoviePoster(movieNm: String, _ completion: @escaping (Result<DaumSearchMainText<ImageDocument>, NetworkManagerError>) -> Void) {
         var components = URLComponents()
-        // TODO: 리터럴 문자열 네임스페이스로 분리
-        components.scheme = "https"
-        components.host = "dapi.kakao.com"
-        components.path = "/v2/search/image"
+        components.scheme = KakaoNameSpace.scheme
+        components.host = KakaoNameSpace.host
+        components.path = KakaoNameSpace.path
         
         let query = [
-            "query" : movieNm,
-            "size" : "1"
+            KakaoNameSpace.query : movieNm,
+            KakaoNameSpace.size : KakaoNameSpace.one
         ]
         
-        let kakaoKey = Bundle.main.kakaoApiKey
-        
         let headers = [
-            "Authorization" : kakaoKey
+            KakaoNameSpace.authorization : KakaoNameSpace.apiKey
         ]
         
         guard let url = components.url else { return }
@@ -93,7 +90,6 @@ struct BoxOfficeService {
         NetworkManager.shared.sendGETRequest(url: url, query: query, headers: headers, objectType: DaumSearchMainText<ImageDocument>.self) { result in
             switch result {
             case .success(let data):
-                print("성공했습니다. \(data)")
                 completion(.success(data))
             case .failure(let error):
                 completion(.failure(error))
