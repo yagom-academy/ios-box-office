@@ -1,11 +1,11 @@
 //
-//  PosterImage.swift
+//  PosterImageInformation.swift
 //  BoxOffice
 //
 //  Created by kyungmin, Erick on 2023/08/05.
 //
 
-struct PosterImage: Decodable {
+struct PosterImageInformation: Decodable {
     let documents: [Document]
     let meta: Meta
 }
