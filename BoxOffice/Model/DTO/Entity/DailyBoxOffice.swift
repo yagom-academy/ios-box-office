@@ -1,5 +1,5 @@
 //
-//  DailyBoxOfficeData.swift
+//  DailyBoxOffice.swift
 //  BoxOffice
 //
 //  Created by kyungmin, Erick on 2023/08/01.

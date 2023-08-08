@@ -8,7 +8,7 @@
 import Foundation
 
 enum DataManager {
-    static func boxOfficeTransferDailyBoxOfficeData(boxOffice: BoxOffice) -> [DailyBoxOffice] {
+    static func boxOfficeTransferDailyBoxOffice(boxOffice: BoxOffice) -> [DailyBoxOffice] {
         return boxOffice.boxOfficeResult.dailyBoxOfficeList.map {
             let decimalAudienceCount = NumberFormatter().decimalString($0.audienceCount)
             let decimalaudienceAccumulation = NumberFormatter().decimalString($0.audienceAccumulation)

@@ -30,7 +30,7 @@ final class BoxOfficeManager {
             case .success(let data):
                 do {
                     let boxOffice = try JSONDecoder().decode(BoxOffice.self, from: data)
-                    self.dailyBoxOffices = DataManager.boxOfficeTransferDailyBoxOfficeData(boxOffice: boxOffice)
+                    self.dailyBoxOffices = DataManager.boxOfficeTransferDailyBoxOffice(boxOffice: boxOffice)
                     completion(true)
                 } catch {
                     print(DataError.decodeJSONFailed.localizedDescription)
@@ -79,7 +79,6 @@ final class BoxOfficeManager {
         
         var urlRequest = URLRequest(url: url)
         urlRequest.setValue(kakaoKey, forHTTPHeaderField: "Authorization")
-        
         
         networkManager.requestData(from: urlRequest) { [weak self] result in
             guard let self else {
