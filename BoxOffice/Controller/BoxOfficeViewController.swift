@@ -11,9 +11,9 @@ final class BoxOfficeViewController: UIViewController {
     private let boxOfficeManager: BoxOfficeManager
     private var collectionView: UICollectionView!
     private var dailyBoxOfficeDataSource: UICollectionViewDiffableDataSource<Section, DailyBoxOffice>!
-    private lazy var activityIndicator: UIActivityIndicatorView = {
+    private let activityIndicator: UIActivityIndicatorView = {
         let activityIndicator = UIActivityIndicatorView(style: .large)
-        activityIndicator.center = view.center
+        activityIndicator.translatesAutoresizingMaskIntoConstraints = false
         
         return activityIndicator
     }()
@@ -148,17 +148,35 @@ extension BoxOfficeViewController {
 // MARK: setup UI
 extension BoxOfficeViewController {
     private func configureUI() {
+        configureView()
+    }
+    
+    private func configureView() {
         view.backgroundColor = .systemBackground
         view.addSubview(collectionView)
         view.addSubview(activityIndicator)
     }
-    
+}
+
+extension BoxOfficeViewController {
     private func setupConstraint() {
+        setupCollectionVeiwConstraint()
+        setupActivityIndicatorConstraint()
+    }
+    
+    private func setupCollectionVeiwConstraint() {
         NSLayoutConstraint.activate([
             collectionView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor),
             collectionView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor),
             collectionView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
             collectionView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor)
+        ])
+    }
+    
+    private func setupActivityIndicatorConstraint() {
+        NSLayoutConstraint.activate([
+            activityIndicator.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            activityIndicator.centerYAnchor.constraint(equalTo: view.centerYAnchor)
         ])
     }
 }
