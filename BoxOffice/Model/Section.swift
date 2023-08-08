@@ -5,6 +5,6 @@
 //  Created by Kobe, yyss99 on 2023/08/06.
 //
 
-enum Section {
+enum Section: Hashable {
     case main
 }
