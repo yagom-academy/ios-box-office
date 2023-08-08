@@ -190,14 +190,16 @@ extension MovieDetailViewController: URLSessionDelegate {
     }
     
     private func setUpLabelText(_ data: MovieDetailEntity) {
-        directorsStackView.valueLabel.text = data.movieDetailData.movieInformation.directors.reduce("") { $0 + $1.name + ", " }
+        var formattedDate = data.movieDetailData.movieInformation.openingDate
+        
+        directorsStackView.valueLabel.text = data.movieDetailData.movieInformation.directors.map { $0.name }.joined(separator: ", ")
         productionYearStackView.valueLabel.text = data.movieDetailData.movieInformation.productionYear
-        openingDateStackView.valueLabel.text = data.movieDetailData.movieInformation.openingDate
+        openingDateStackView.valueLabel.text = formattedDate.changeDateFormat()
         showTimeStackView.valueLabel.text = data.movieDetailData.movieInformation.showTime
-        auditsStackView.valueLabel.text = data.movieDetailData.movieInformation.audits.reduce("") { $0 + $1.movieRating + ", " }
-        nationsStackView.valueLabel.text = data.movieDetailData.movieInformation.nations.reduce("") { $0 + $1.name + ", " }
-        genresStackView.valueLabel.text = data.movieDetailData.movieInformation.genres.reduce("") { $0 + $1.name + ", " }
-        actorsStackView.valueLabel.text = data.movieDetailData.movieInformation.actors.reduce("") { $0 + $1.name + ", " }
+        auditsStackView.valueLabel.text = data.movieDetailData.movieInformation.audits.map { $0.movieRating }.joined(separator: ", ")
+        nationsStackView.valueLabel.text = data.movieDetailData.movieInformation.nations.map { $0.name }.joined(separator: ", ")
+        genresStackView.valueLabel.text = data.movieDetailData.movieInformation.genres.map { $0.name }.joined(separator: ", ")
+        actorsStackView.valueLabel.text = data.movieDetailData.movieInformation.actors.map { $0.name }.joined(separator: ", ")
 
     }
 }
