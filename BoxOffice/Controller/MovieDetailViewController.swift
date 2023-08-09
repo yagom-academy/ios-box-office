@@ -29,7 +29,7 @@ class MovieDetailViewController: UIViewController {
                 return
             }
             
-            self.movieDetailView.injectionMovieInformation(movieInformation, image: posterImage)
+            self.movieDetailView.injectMovieInformation(movieInformation, image: posterImage)
             
             self.navigationItem.title = movieInformation.movieName
         }

@@ -50,7 +50,7 @@ final class MovieDetailView: UIView {
         fatalError("init(coder:) has not been implemented")
     }
     
-    func injectionMovieInformation(_ movieInformation: MovieInformation, image: UIImage) {
+    func injectMovieInformation(_ movieInformation: MovieInformation, image: UIImage) {
         posterImageView.image = image
         
         [createInformationLine(key: "감독", value: movieInformation.directors.description),
@@ -98,9 +98,8 @@ extension MovieDetailView {
         }
         
         keyLabel.translatesAutoresizingMaskIntoConstraints = false
-        keyLabel.setContentHuggingPriority(.defaultHigh, for: .horizontal)
         NSLayoutConstraint.activate([
-            keyLabel.widthAnchor.constraint(greaterThanOrEqualToConstant: 60)
+            keyLabel.widthAnchor.constraint(equalToConstant: 60)
         ])
         
         return stackView
@@ -113,6 +112,7 @@ extension MovieDetailView {
         scrollViewConstraints()
         contentStackViewConstraints()
         posterImageViewConstraints()
+        detailStackViewConstraints()
     }
     
     private func scrollViewConstraints() {
@@ -139,7 +139,15 @@ extension MovieDetailView {
     private func posterImageViewConstraints() {
         posterImageView.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([
-            posterImageView.heightAnchor.constraint(equalToConstant: 500)
+            posterImageView.widthAnchor.constraint(equalTo: contentStackView.widthAnchor, multiplier: 1),
+            posterImageView.heightAnchor.constraint(lessThanOrEqualTo: safeAreaLayoutGuide.heightAnchor, multiplier: 1)
+        ])
+    }
+    
+    private func detailStackViewConstraints() {
+        detailStackView.translatesAutoresizingMaskIntoConstraints = false
+        NSLayoutConstraint.activate([
+            detailStackView.widthAnchor.constraint(equalTo: contentStackView.widthAnchor)
         ])
     }
 }
