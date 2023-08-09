@@ -7,7 +7,7 @@
 
 import UIKit
 
-class CalendarViewController: UIViewController {
+final class CalendarViewController: UIViewController {
     var calendarView: UICalendarView!
     var selectedDate: Date?
     weak var delegate: CalendarViewControllerDelegate?
@@ -33,8 +33,8 @@ class CalendarViewController: UIViewController {
         let currentDate = Date()
         guard let pastDate = Calendar.current.date(byAdding: .year, value: -10, to: currentDate),
               let yesterday = Calendar.current.date(byAdding: .day, value: -1, to: currentDate) else {
-                  return
-              }
+            return
+        }
         
         let selectedDateComponent = getDateComponent(selectedDate ?? yesterday)
         let dateSelection = UICalendarSelectionSingleDate(delegate: self)
@@ -68,7 +68,7 @@ extension CalendarViewController: UICalendarSelectionSingleDateDelegate, UICalen
             delegate?.didSelectDate(date)
             dismiss(animated: true, completion: nil)
         } else {
-            print("wrong Date")
+            print("unselected Error")
         }
     }
 }

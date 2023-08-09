@@ -7,7 +7,7 @@
 
 import UIKit
 
-class MainViewController: UIViewController, CalendarViewControllerDelegate {
+final class MainViewController: UIViewController, CalendarViewControllerDelegate {
     @IBOutlet weak var collectionView: UICollectionView!
     @IBOutlet weak var loadingActivityView: UIActivityIndicatorView!
     @IBOutlet weak var calendarButton: UIButton!

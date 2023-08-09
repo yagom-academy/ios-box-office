@@ -114,7 +114,6 @@
 		63DF20ED2970E1A0005DF7D1 /* BoxOffice */ = {
 			isa = PBXGroup;
 			children = (
-				D0246A132A81E4B70045C0B6 /* Protocol+ */,
 				D00857D42A736331007F1B92 /* App */,
 				D06DF27F2A6E737D0074F9EF /* Controller */,
 				D06DF27E2A6E73710074F9EF /* Model */,
@@ -158,6 +157,23 @@
 			path = "Protocol+";
 			sourceTree = "<group>";
 		};
+		D0246A142A833CD80045C0B6 /* Error */ = {
+			isa = PBXGroup;
+			children = (
+				D0989F702A77616400716556 /* APIError.swift */,
+			);
+			path = Error;
+			sourceTree = "<group>";
+		};
+		D0246A152A833CEE0045C0B6 /* Extension */ = {
+			isa = PBXGroup;
+			children = (
+				D0989F892A7B522400716556 /* HideAPIKey++Bundle.swift */,
+				5DDFC34B2A7750CF00135954 /* JSONDecoder+.swift */,
+			);
+			path = Extension;
+			sourceTree = "<group>";
+		};
 		D06DF27C2A6E73430074F9EF /* Resources */ = {
 			isa = PBXGroup;
 			children = (
@@ -182,13 +198,12 @@
 		D06DF27E2A6E73710074F9EF /* Model */ = {
 			isa = PBXGroup;
 			children = (
+				D0246A152A833CEE0045C0B6 /* Extension */,
+				D0246A142A833CD80045C0B6 /* Error */,
 				D00857C62A72713F007F1B92 /* DTO */,
 				D040BE3C2A713E86007F2095 /* APIManager.swift */,
 				5DDFC3292A735C0100135954 /* URLManager.swift */,
 				5DDFC35D2A7A61A400135954 /* DateProvider.swift */,
-				D0989F702A77616400716556 /* APIError.swift */,
-				5DDFC34B2A7750CF00135954 /* JSONDecoder+.swift */,
-				D0989F892A7B522400716556 /* HideAPIKey++Bundle.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -196,6 +211,7 @@
 		D06DF27F2A6E737D0074F9EF /* Controller */ = {
 			isa = PBXGroup;
 			children = (
+				D0246A132A81E4B70045C0B6 /* Protocol+ */,
 				63DF20F22970E1A0005DF7D1 /* MainViewController.swift */,
 				D0246A0F2A81DDC50045C0B6 /* CalendarViewController.swift */,
 				5DDFC3592A79FBEB00135954 /* CollectionViewListCell.swift */,
