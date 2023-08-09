@@ -157,5 +157,6 @@ extension MainViewController: UICollectionViewDelegate {
         let movieName = movieInformation?.movieName ?? ""
         
         delegate?.pushMovieDetailViewController(movieCode, movieName)
+        collectionView.deselectItem(at: indexPath, animated: true)
     }
 }

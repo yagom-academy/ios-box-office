@@ -21,7 +21,7 @@ final class DaumSearchRepositoryImplementation: DaumSearchRepository {
     }
     
     func fetchDaumImageSearchInformation(_ movieName: String, _ completionHandler: @escaping (Result<DaumSearchImageResult, APIError>) -> Void) {
-        let queryItem: [String: Any] = ["query": movieName]
+        let queryItem: [String: Any] = ["query": "\(movieName) 영화 포스터"]
         let header = "KakaoAK \(APIKey.daumSearch)"
         var urlRequest = setUpRequestURL(BaseURL.daumSearch, DaumSearchURLPath.image, queryItem)
         
