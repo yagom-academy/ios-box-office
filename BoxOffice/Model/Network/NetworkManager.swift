@@ -67,7 +67,7 @@ enum NetworkManager {
         switch fetchType {
         case .boxOffice(let date):
             urlComponents.queryItems = [
-                URLQueryItem(name: "key", value: "c04de3c2ceec65d22a2c1a0b4cfe2b3c"),
+                URLQueryItem(name: "key", value: Bundle.main.kobisAPIKey),
                 URLQueryItem(name: "targetDt", value: date)
             ]
             
@@ -78,7 +78,7 @@ enum NetworkManager {
             return URLRequest(url: url)
         case .movie(let code):
             urlComponents.queryItems = [
-                URLQueryItem(name: "key", value: "c04de3c2ceec65d22a2c1a0b4cfe2b3c"),
+                URLQueryItem(name: "key", value: Bundle.main.kobisAPIKey),
                 URLQueryItem(name: "movieCd", value: code)
             ]
             
@@ -96,7 +96,7 @@ enum NetworkManager {
             
             var request = URLRequest(url: url)
             
-            request.addValue("KakaoAK 92790979ad73cf3cba62561845bb1c01", forHTTPHeaderField: "Authorization")
+            request.addValue(Bundle.main.kakaoAPIKey, forHTTPHeaderField: "Authorization")
             
             return request
         }
