@@ -118,11 +118,22 @@ extension BoxOfficeCollectionViewCell {
 // MARK: configure UI
 extension BoxOfficeCollectionViewCell {
     private func configureUI() {
+        configureRankStackView()
+        configureMovieInfomationStackView()
+        configureContentView()
+    }
+    
+    private func configureRankStackView() {
         rankStackView.addArrangedSubview(rankLabel)
         rankStackView.addArrangedSubview(rankChangeLabel)
+    }
+    
+    private func configureMovieInfomationStackView() {
         movieInfomationStackView.addArrangedSubview(movieTitleLabel)
         movieInfomationStackView.addArrangedSubview(audienceCountLabel)
-        
+    }
+    
+    private func configureContentView() {
         contentView.addSubview(seperatorView)
         contentView.addSubview(rankStackView)
         contentView.addSubview(movieInfomationStackView)
