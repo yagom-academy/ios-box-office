@@ -8,7 +8,7 @@
 import Foundation
 
 protocol DaumSearchRepository {
-    func fetchDaumImageSearchInformation(_ movieName: String, _ completionHandler: @escaping (Result<Data, APIError>) -> Void)
+    func fetchDaumImageSearchInformation(_ movieName: String, _ completionHandler: @escaping (Result<DaumSearchImageResult, APIError>) -> Void)
 }
 
 final class DaumSearchRepositoryImplementation: DaumSearchRepository {
@@ -20,7 +20,7 @@ final class DaumSearchRepositoryImplementation: DaumSearchRepository {
         self.decoder = decoder
     }
     
-    func fetchDaumImageSearchInformation(_ movieName: String, _ completionHandler: @escaping (Result<Data, APIError>) -> Void) {
+    func fetchDaumImageSearchInformation(_ movieName: String, _ completionHandler: @escaping (Result<DaumSearchImageResult, APIError>) -> Void) {
         let queryItem: [String: Any] = ["query": movieName]
         let header = "KakaoAK \(APIKey.daumSearch)"
         var urlRequest = setUpRequestURL(BaseURL.daumSearch, DaumSearchURLPath.image, queryItem)

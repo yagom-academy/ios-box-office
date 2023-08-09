@@ -7,6 +7,10 @@
 
 import UIKit
 
+protocol MovieDetailViewControllerUseCaseDelegate: AnyObject {
+    
+}
+
 final class MovieDetailViewController: UIViewController {
     private let movieDetailView: MovieDetailView = {
         let movieDetailView = MovieDetailView()
@@ -44,4 +48,9 @@ final class MovieDetailViewController: UIViewController {
         view.backgroundColor = .systemBackground
         navigationItem.title = movieName
     }
+}
+
+
+extension MovieDetailViewController: MovieDetailViewControllerUseCaseDelegate  {
+    
 }
