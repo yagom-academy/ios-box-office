@@ -15,9 +15,13 @@ final class MovieDetailViewController: UIViewController {
     }()
     
     private let usecase: MovieDetailViewControllerUseCase
+    private let movieCode: String
+    private let movieName: String
     
-    init(usecase: MovieDetailViewControllerUseCase) {
+    init(usecase: MovieDetailViewControllerUseCase, movieCode: String, movieName: String) {
         self.usecase = usecase
+        self.movieCode = movieCode
+        self.movieName = movieName
         
         super.init(nibName: nil, bundle: nil)
     }
@@ -32,5 +36,12 @@ final class MovieDetailViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        setUpViewController()
+    }
+    
+    private func setUpViewController() {
+        view.backgroundColor = .systemBackground
+        navigationItem.title = movieName
     }
 }

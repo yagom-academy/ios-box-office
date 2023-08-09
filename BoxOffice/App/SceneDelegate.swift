@@ -9,17 +9,16 @@ import UIKit
 
 class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     var window: UIWindow?
-
+    private var appCoordinator: AppCoordinator?
+    
     func scene(_ scene: UIScene, willConnectTo session: UISceneSession, options connectionOptions: UIScene.ConnectionOptions) {
         guard let windowScene = (scene as? UIWindowScene) else { return }
-        
         let sessionProvider: URLSessionProvider = URLSessionProviderImplementation()
-        let boxOfficeRepository: BoxOfficeRepository = BoxOfficeRepositoryImplementation(sessionProvider: sessionProvider)
-        var usecase: MainViewControllerUseCase = MainViewControllerUseCaseImplementation(boxOfficeRepository: boxOfficeRepository)
-        let mainViewController = MainViewController(usecase)
-        let navigationController = UINavigationController(rootViewController: mainViewController)
+        let navigationController = UINavigationController()
         
-        usecase.delegate = mainViewController
+        appCoordinator = AppCoordinator(navigationController: navigationController, sessionProvider: sessionProvider)
+        appCoordinator?.start()
+        
         window = UIWindow(windowScene: windowScene)
         window?.rootViewController = navigationController
         window?.makeKeyAndVisible()
