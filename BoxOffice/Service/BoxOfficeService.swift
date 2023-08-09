@@ -35,9 +35,9 @@ struct BoxOfficeService {
             KobisNameSpace.targetDt : formattedYesterday
         ]
         
-        guard let url = components.url else { return }
+        guard let dailyBoxOfficeURL = components.url else { return }
         
-        NetworkManager.shared.sendGETRequest(url: url, query: query, objectType: BoxOffice.self) { result in
+        NetworkManager.shared.sendGETRequest(url: dailyBoxOfficeURL, query: query, objectType: BoxOffice.self) { result in
             switch result {
             case .success(let data):
                 completion(.success(data))
@@ -58,9 +58,9 @@ struct BoxOfficeService {
             KobisNameSpace.movieCd : movieCd
         ]
         
-        guard let url = components.url else { return }
+        guard let movieDetailURL = components.url else { return }
         
-        NetworkManager.shared.sendGETRequest(url: url, query: query, objectType: Movie.self) { result in
+        NetworkManager.shared.sendGETRequest(url: movieDetailURL, query: query, objectType: Movie.self) { result in
             switch result {
             case .success(let data):
                 completion(.success(data))
@@ -85,9 +85,9 @@ struct BoxOfficeService {
             KakaoNameSpace.authorization : KakaoNameSpace.apiKey
         ]
         
-        guard let url = components.url else { return }
+        guard let moviePosterURL = components.url else { return }
         
-        NetworkManager.shared.sendGETRequest(url: url, query: query, headers: headers, objectType: DaumSearchMainText<ImageDocument>.self) { result in
+        NetworkManager.shared.sendGETRequest(url: moviePosterURL, query: query, headers: headers, objectType: DaumSearchMainText<ImageDocument>.self) { result in
             switch result {
             case .success(let data):
                 completion(.success(data))

@@ -9,23 +9,23 @@ import Foundation
 
 struct ImageDocument: Decodable, DaumSearchDocumentable {
     let collection: String          // 컬렉션
-    let thumbnailUrl: String        // 미리보기 이미지 URL
-    let imageUrl: String            // 이미지 URL
+    let thumbnailURL: String        // 미리보기 이미지 URL
+    let imageURL: String            // 이미지 URL
     let width: Int                  // 이미지의 가로 길이
     let height: Int                 // 이미지의 세로 길이
-    let displaySitename: String     // 출처
-    let docUrl: String              // 문서 URL
-    let datetime: String            // 문서 작성시간, ISO 8601
+    let displaySiteName: String     // 출처
+    let docURL: String              // 문서 URL
+    let dateTime: String            // 문서 작성시간, ISO 8601
                                     // [YYYY]-[MM]-[DD]T[hh]:[mm]:[ss].000+[tz]
     
     private enum CodingKeys: String, CodingKey {
         case collection
-        case thumbnailUrl = "thumbnail_url"
-        case imageUrl = "image_url"
+        case thumbnailURL = "thumbnail_url"
+        case imageURL = "image_url"
         case width
         case height
-        case displaySitename = "display_sitename"
-        case docUrl = "doc_url"
-        case datetime
+        case displaySiteName = "display_sitename"
+        case docURL = "doc_url"
+        case dateTime
     }
 }

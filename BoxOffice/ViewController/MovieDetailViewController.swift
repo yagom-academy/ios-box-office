@@ -58,15 +58,15 @@ final class MovieDetailViewController: UIViewController {
         case .success(let daumSearchMainText):
             guard let imageDocument = daumSearchMainText.documents.first else { return }
             
-            let cacheKey = NSString(string: imageDocument.imageUrl)
+            let cacheKey = NSString(string: imageDocument.imageURL)
             
             if let cachedImage = ImageCacheManager.shared.object(forKey: cacheKey) {
                 DispatchQueue.main.async {
                     self.setPosterImage(imageDocument, cachedImage)
                 }
             } else {
-                if let imageUrl = URL(string: imageDocument.imageUrl),
-                   let data = try? Data(contentsOf: imageUrl),
+                if let imageURL = URL(string: imageDocument.imageURL),
+                   let data = try? Data(contentsOf: imageURL),
                    let image = UIImage(data: data) {
                     DispatchQueue.main.async {
                         self.setPosterImage(imageDocument, image)
