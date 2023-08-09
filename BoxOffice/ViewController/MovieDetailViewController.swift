@@ -58,7 +58,7 @@ final class MovieDetailViewController: UIViewController {
         case .success(let daumSearchMainText):
             guard let imageDocument = daumSearchMainText.documents.first else { return }
             
-            let cacheKey = NSString(string: imageDocument.imageURL)
+            let cacheKey = NSString(string: dailyBoxOffice.movieCode)
             
             if let cachedImage = ImageCacheManager.shared.object(forKey: cacheKey) {
                 DispatchQueue.main.async {
