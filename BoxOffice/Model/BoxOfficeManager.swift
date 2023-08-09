@@ -11,7 +11,7 @@ final class BoxOfficeManager {
     private(set) var dailyBoxOffices: [DailyBoxOffice] = []
     private(set) var movieInformation: MovieInformation? = nil
     private(set) var posterImage: UIImage? = nil
-    private(set) var targetDate: Date = DateFormatter.yesterday
+    private(set) var targetDate: Date = Date.yesterday
     private let networkManager = NetworkManager(urlSession: URLSession.shared)
     private let kobisKey = Bundle.main.object(forInfoDictionaryKey: NameSpace.kobisKey) as? String
     private let kakaoKey = Bundle.main.object(forInfoDictionaryKey: NameSpace.kakaoKey) as? String

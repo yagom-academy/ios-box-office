@@ -44,12 +44,11 @@ final class CalendarViewController: UIViewController {
     private func setupCalendarView() {
         let fromDateComponents = DateComponents(calendar: Calendar(identifier: .gregorian), year: 2004, month: 1, day: 1)
 
-        guard let fromDate = fromDateComponents.date,
-              let toDate = DateFormatter().date(before: 1) else {
+        guard let fromDate = fromDateComponents.date else {
             return
         }
 
-        let calendarViewDateRange = DateInterval(start: fromDate, end: toDate)
+        let calendarViewDateRange = DateInterval(start: fromDate, end: Date.yesterday)
         calendarView.availableDateRange = calendarViewDateRange
         
         let dateSelection = UICalendarSelectionSingleDate(delegate: self)
