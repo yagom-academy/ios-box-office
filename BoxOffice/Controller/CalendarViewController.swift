@@ -36,11 +36,7 @@ class CalendarViewController: UIViewController {
                   return
               }
         
-        if selectedDate == nil {
-            selectedDate = yesterday
-        }
-        
-        let selectedDateComponent = getDateComponent(selectedDate!)
+        let selectedDateComponent = getDateComponent(selectedDate ?? yesterday)
         let dateSelection = UICalendarSelectionSingleDate(delegate: self)
         dateSelection.selectedDate = selectedDateComponent
         calendarView.selectionBehavior = dateSelection

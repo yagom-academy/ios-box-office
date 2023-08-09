@@ -7,8 +7,8 @@
 
 import Foundation
 
-struct APIService {
-    static var shared = APIService()
+struct URLManager {
+    static var shared = URLManager()
     var selectedDate: Date?
     
     func configureURLSession(key: String, path: String, targetDate: String) -> URL? {
@@ -20,7 +20,7 @@ struct APIService {
             URLQueryItem(name: "key", value: key),
         ]
         
-        if let targetDate = APIService.shared.selectedDate {
+        if let targetDate = URLManager.shared.selectedDate {
             let dateFormatter = DateFormatter()
             dateFormatter.dateFormat = "yyyyMMdd"
             let targetDateString = dateFormatter.string(from: targetDate)
@@ -33,13 +33,13 @@ struct APIService {
     }
 }
 
-enum ServiceType {
+enum APIService {
     case dailyBoxOffice
     case movieDetailInfo
     
     var url: URL? {
         let key = Bundle.main.apiKey
-        let apiService = APIService()
+        let urlManager = URLManager()
         guard let targetDate = DateProvider().updateYesterday(.urlDate) else {
             return nil
         }
@@ -47,10 +47,10 @@ enum ServiceType {
         switch self {
         case .dailyBoxOffice:
             let path = "/kobisopenapi/webservice/rest/boxoffice/searchDailyBoxOfficeList.json"
-            return apiService.configureURLSession(key: key, path: path, targetDate: targetDate)
+            return urlManager.configureURLSession(key: key, path: path, targetDate: targetDate)
         case .movieDetailInfo:
             let path = "/kobisopenapi/webservice/rest/movie/searchMovieInfo.json"
-            return apiService.configureURLSession(key: key, path: path, targetDate: targetDate)
+            return urlManager.configureURLSession(key: key, path: path, targetDate: targetDate)
         }
     }
 }

@@ -10,7 +10,7 @@
 		5D4FAA982A6E8604001FA74A /* BoxOfficeTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5D4FAA972A6E8604001FA74A /* BoxOfficeTests.swift */; };
 		5D4FAAA12A6E88D3001FA74A /* box_office_sample.json in Resources */ = {isa = PBXBuildFile; fileRef = 5D4FAAA02A6E88D2001FA74A /* box_office_sample.json */; };
 		5DDFC3282A72628700135954 /* Movie.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5DDFC3272A72628700135954 /* Movie.swift */; };
-		5DDFC32A2A735C0100135954 /* APIService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5DDFC3292A735C0100135954 /* APIService.swift */; };
+		5DDFC32A2A735C0100135954 /* URLManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5DDFC3292A735C0100135954 /* URLManager.swift */; };
 		5DDFC34C2A7750CF00135954 /* JSONDecoder+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5DDFC34B2A7750CF00135954 /* JSONDecoder+.swift */; };
 		5DDFC35B2A79FBEB00135954 /* CollectionViewListCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5DDFC3592A79FBEB00135954 /* CollectionViewListCell.swift */; };
 		5DDFC35C2A79FBEB00135954 /* CollectionViewListCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5DDFC35A2A79FBEB00135954 /* CollectionViewListCell.xib */; };
@@ -45,7 +45,7 @@
 		5D4FAA972A6E8604001FA74A /* BoxOfficeTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BoxOfficeTests.swift; sourceTree = "<group>"; };
 		5D4FAAA02A6E88D2001FA74A /* box_office_sample.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = box_office_sample.json; sourceTree = "<group>"; };
 		5DDFC3272A72628700135954 /* Movie.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Movie.swift; sourceTree = "<group>"; };
-		5DDFC3292A735C0100135954 /* APIService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIService.swift; sourceTree = "<group>"; };
+		5DDFC3292A735C0100135954 /* URLManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = URLManager.swift; sourceTree = "<group>"; };
 		5DDFC34B2A7750CF00135954 /* JSONDecoder+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "JSONDecoder+.swift"; sourceTree = "<group>"; };
 		5DDFC3592A79FBEB00135954 /* CollectionViewListCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CollectionViewListCell.swift; sourceTree = "<group>"; };
 		5DDFC35A2A79FBEB00135954 /* CollectionViewListCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = CollectionViewListCell.xib; sourceTree = "<group>"; };
@@ -184,7 +184,7 @@
 			children = (
 				D00857C62A72713F007F1B92 /* DTO */,
 				D040BE3C2A713E86007F2095 /* APIManager.swift */,
-				5DDFC3292A735C0100135954 /* APIService.swift */,
+				5DDFC3292A735C0100135954 /* URLManager.swift */,
 				5DDFC35D2A7A61A400135954 /* DateProvider.swift */,
 				D0989F702A77616400716556 /* APIError.swift */,
 				5DDFC34B2A7750CF00135954 /* JSONDecoder+.swift */,
@@ -321,7 +321,7 @@
 				D0246A122A81E4920045C0B6 /* CalendarViewControllerDelegate.swift in Sources */,
 				5DDFC3282A72628700135954 /* Movie.swift in Sources */,
 				5DDFC35E2A7A61A400135954 /* DateProvider.swift in Sources */,
-				5DDFC32A2A735C0100135954 /* APIService.swift in Sources */,
+				5DDFC32A2A735C0100135954 /* URLManager.swift in Sources */,
 				D040BE3D2A713E86007F2095 /* APIManager.swift in Sources */,
 				D06DF2812A6E73B40074F9EF /* BoxOffice.swift in Sources */,
 				D0246A102A81DDC50045C0B6 /* CalendarViewController.swift in Sources */,
