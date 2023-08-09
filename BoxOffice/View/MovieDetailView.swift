@@ -30,6 +30,16 @@ final class MovieDetailView: UIView {
         return image
     }()
     
+    private let loadingImage: UIImageView = {
+        let image = UIImageView()
+        let beanEaters: [UIImage] = (0...29).map { UIImage(named: String(format: "%02d", $0)) ?? UIImage() }
+        image.translatesAutoresizingMaskIntoConstraints = false
+        image.contentMode = .scaleAspectFill
+        image.image = UIImage.animatedImage(with: beanEaters, duration: 0.35)
+        
+        return image
+    }()
+    
     private let totalStackView: UIStackView = {
         let stackView = UIStackView()
         stackView.axis = .vertical
@@ -146,6 +156,15 @@ extension MovieDetailView {
             posterImage.topAnchor.constraint(equalTo: contentView.topAnchor)
         ])
     }
+
+    private func setUpLoadingImageViewConstraints() {
+        NSLayoutConstraint.activate([
+            loadingImage.centerXAnchor.constraint(equalTo: centerXAnchor),
+            loadingImage.centerYAnchor.constraint(equalTo: posterImage.centerYAnchor),
+            loadingImage.widthAnchor.constraint(equalTo: widthAnchor, multiplier: 0.25),
+            loadingImage.heightAnchor.constraint(equalTo: loadingImage.widthAnchor)
+        ])
+    }
     
     private func setUpTotalStackViewConstraints() {
         NSLayoutConstraint.activate([
@@ -178,5 +197,17 @@ extension MovieDetailView {
             genreNameDetailLabel.leadingAnchor.constraint(equalTo: directorDetailLabel.leadingAnchor),
             actorDetailLabel.leadingAnchor.constraint(equalTo: directorDetailLabel.leadingAnchor)
         ])
+    }
+}
+
+// MARK: - Loading Image
+extension MovieDetailView {
+    func startLoadingImage() {
+        addSubview(loadingImage)
+        setUpLoadingImageViewConstraints()
+    }
+    
+    func stopLoadingImage() {
+        loadingImage.removeFromSuperview()
     }
 }

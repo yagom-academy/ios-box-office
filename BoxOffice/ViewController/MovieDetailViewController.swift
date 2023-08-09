@@ -36,8 +36,9 @@ final class MovieDetailViewController: UIViewController {
         
         setTitle()
         configureBackgroundColor()
-        loadMoviePoster()
         loadMovieDetail()
+        loadMoviePoster()
+        movieDetailView.startLoadingImage()
     }
     
     private func setTitle() {
@@ -102,6 +103,8 @@ final class MovieDetailViewController: UIViewController {
 
 extension MovieDetailViewController {
     private func setPosterImage(_ imageDocument: ImageDocument, _ image: UIImage) {
+        usleep(500000)
+        movieDetailView.stopLoadingImage()
         let ratio = self.movieDetailView.posterImage.frame.width / CGFloat(integerLiteral: imageDocument.width)
         let height = ratio * CGFloat(integerLiteral: imageDocument.height)
         self.movieDetailView.posterImage.heightAnchor.constraint(equalToConstant: height).isActive = true
