@@ -41,189 +41,37 @@ final class MovieDetailView: UIView {
         return stackView
     }()
     
-    private let directorContentStackView: UIStackView = {
-        let stackView = UIStackView()
-        stackView.axis = .horizontal
-        stackView.spacing = 8
-        stackView.alignment = .center
-        stackView.distribution = .equalSpacing
-        
-        return stackView
-    }()
-    
+    private let directorContentStackView = LabelsStack()
     private let directorTitleLabel = TitleLabel(title: MovieDetailNameSpace.director)
+    let directorDetailLabel = DetailLabel()
     
-    let directorDetailLabel: UILabel = {
-        let label = UILabel()
-        label.numberOfLines = 0
-        label.minimumScaleFactor = 0.3
-        label.font = UIFont.preferredFont(forTextStyle: .body)
-        label.adjustsFontForContentSizeCategory = true
-        label.adjustsFontSizeToFitWidth = true
-        
-        return label
-    }()
-    
-    private let productionYearContentStackView: UIStackView = {
-        let stackView = UIStackView()
-        stackView.axis = .horizontal
-        stackView.spacing = 4
-        stackView.alignment = .center
-        stackView.distribution = .equalSpacing
-        
-        return stackView
-    }()
-    
+    private let productionYearContentStackView = LabelsStack()
     private let productionYearTitleLabel = TitleLabel(title: MovieDetailNameSpace.productionYear)
+    let productionYearDetailLabel = DetailLabel()
     
-    let productionYearDetailLabel: UILabel = {
-        let label = UILabel()
-        label.numberOfLines = 0
-        label.minimumScaleFactor = 0.3
-        label.font = UIFont.preferredFont(forTextStyle: .body)
-        label.adjustsFontForContentSizeCategory = true
-        label.adjustsFontSizeToFitWidth = true
-        
-        return label
-    }()
-    
-    private let openDateContentStackView: UIStackView = {
-        let stackView = UIStackView()
-        stackView.axis = .horizontal
-        stackView.spacing = 4
-        stackView.alignment = .center
-        stackView.distribution = .equalSpacing
-        
-        return stackView
-    }()
-    
+    private let openDateContentStackView = LabelsStack()
     private let openDateTitleLabel = TitleLabel(title: MovieDetailNameSpace.openDate)
+    let openDateDetailLabel = DetailLabel()
     
-    let openDateDetailLabel: UILabel = {
-        let label = UILabel()
-        label.numberOfLines = 0
-        label.minimumScaleFactor = 0.3
-        label.font = UIFont.preferredFont(forTextStyle: .body)
-        label.adjustsFontForContentSizeCategory = true
-        label.adjustsFontSizeToFitWidth = true
-        
-        return label
-    }()
-    
-    private let showTimeContentStackView: UIStackView = {
-        let stackView = UIStackView()
-        stackView.axis = .horizontal
-        stackView.spacing = 4
-        stackView.alignment = .center
-        stackView.distribution = .equalSpacing
-        
-        return stackView
-    }()
-    
+    private let showTimeContentStackView = LabelsStack()
     private let showTimeTitleLabel = TitleLabel(title: MovieDetailNameSpace.showTime)
+    let showTimeDetailLabel = DetailLabel()
     
-    let showTimeDetailLabel: UILabel = {
-        let label = UILabel()
-        label.numberOfLines = 0
-        label.minimumScaleFactor = 0.3
-        label.font = UIFont.preferredFont(forTextStyle: .body)
-        label.adjustsFontForContentSizeCategory = true
-        label.adjustsFontSizeToFitWidth = true
-        
-        return label
-    }()
-    
-    private let watchGradeNameContentStackView: UIStackView = {
-        let stackView = UIStackView()
-        stackView.axis = .horizontal
-        stackView.spacing = 4
-        stackView.alignment = .center
-        stackView.distribution = .equalSpacing
-        
-        return stackView
-    }()
-    
+    private let watchGradeNameContentStackView = LabelsStack()
     private let watchGradeNameTitleLabel = TitleLabel(title: MovieDetailNameSpace.watchGradeName)
+    let watchGradeNameDetailLabel = DetailLabel()
     
-    let watchGradeNameDetailLabel: UILabel = {
-        let label = UILabel()
-        label.numberOfLines = 0
-        label.minimumScaleFactor = 0.3
-        label.font = UIFont.preferredFont(forTextStyle: .body)
-        label.adjustsFontForContentSizeCategory = true
-        label.adjustsFontSizeToFitWidth = true
-        
-        return label
-    }()
-    
-    private let nationNameContentStackView: UIStackView = {
-        let stackView = UIStackView()
-        stackView.axis = .horizontal
-        stackView.spacing = 4
-        stackView.alignment = .center
-        stackView.distribution = .equalSpacing
-        
-        return stackView
-    }()
-    
+    private let nationNameContentStackView = LabelsStack()
     private let nationNameTitleLabel = TitleLabel(title: MovieDetailNameSpace.nationName)
+    let nationNameDetailLabel = DetailLabel()
     
-    let nationNameDetailLabel: UILabel = {
-        let label = UILabel()
-        label.numberOfLines = 0
-        label.minimumScaleFactor = 0.3
-        label.font = UIFont.preferredFont(forTextStyle: .body)
-        label.adjustsFontForContentSizeCategory = true
-        label.adjustsFontSizeToFitWidth = true
-        
-        return label
-    }()
-    
-    private let genreNameContentStackView: UIStackView = {
-        let stackView = UIStackView()
-        stackView.axis = .horizontal
-        stackView.spacing = 4
-        stackView.alignment = .center
-        stackView.distribution = .equalSpacing
-        
-        return stackView
-    }()
-    
+    private let genreNameContentStackView = LabelsStack()
     private let genreNameTitleLabel = TitleLabel(title: MovieDetailNameSpace.genreName)
+    let genreNameDetailLabel = DetailLabel()
     
-    let genreNameDetailLabel: UILabel = {
-        let label = UILabel()
-        label.numberOfLines = 0
-        label.minimumScaleFactor = 0.3
-        label.font = UIFont.preferredFont(forTextStyle: .body)
-        label.adjustsFontForContentSizeCategory = true
-        label.adjustsFontSizeToFitWidth = true
-        
-        return label
-    }()
-    
-    private let actorsContentStackView: UIStackView = {
-        let stackView = UIStackView()
-        stackView.axis = .horizontal
-        stackView.spacing = 4
-        stackView.alignment = .center
-        stackView.distribution = .equalSpacing
-        
-        return stackView
-    }()
-    
+    private let actorsContentStackView = LabelsStack()
     private let actorTitleLabel = TitleLabel(title: MovieDetailNameSpace.actor)
-    
-    let actorDetailLabel: UILabel = {
-        let label = UILabel()
-        label.numberOfLines = 0
-        label.minimumScaleFactor = 0.3
-        label.font = UIFont.preferredFont(forTextStyle: .body)
-        label.adjustsFontForContentSizeCategory = true
-        label.adjustsFontSizeToFitWidth = true
-        
-        return label
-    }()
+    let actorDetailLabel = DetailLabel()
     
     convenience init() {
         self.init(frame: CGRectZero)

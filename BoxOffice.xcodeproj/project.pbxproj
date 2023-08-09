@@ -19,6 +19,8 @@
 		CB289C0B2A81C805007EBADA /* KakaoAPIKey.plist in Resources */ = {isa = PBXBuildFile; fileRef = CB289C0A2A81C805007EBADA /* KakaoAPIKey.plist */; };
 		CB289C0D2A81C897007EBADA /* Bundle+.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB289C0C2A81C897007EBADA /* Bundle+.swift */; };
 		CB30DA072A83555D002DE804 /* MovieDetailNameSpace.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB30DA062A83555D002DE804 /* MovieDetailNameSpace.swift */; };
+		CB30DA092A8359FF002DE804 /* DetailLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB30DA082A8359FF002DE804 /* DetailLabel.swift */; };
+		CB30DA0B2A835AB9002DE804 /* LabelsStack.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB30DA0A2A835AB9002DE804 /* LabelsStack.swift */; };
 		CB31F7C62A738376001E9B21 /* CustomDateFormatStyle.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB31F7C52A738376001E9B21 /* CustomDateFormatStyle.swift */; };
 		CB31F7C82A738397001E9B21 /* MimeType.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB31F7C72A738397001E9B21 /* MimeType.swift */; };
 		CB4CFDD32A6FA25200288EFA /* BoxOfficeResultTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB4CFDD22A6FA25200288EFA /* BoxOfficeResultTests.swift */; };
@@ -78,6 +80,8 @@
 		CB289C0A2A81C805007EBADA /* KakaoAPIKey.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = KakaoAPIKey.plist; sourceTree = "<group>"; };
 		CB289C0C2A81C897007EBADA /* Bundle+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Bundle+.swift"; sourceTree = "<group>"; };
 		CB30DA062A83555D002DE804 /* MovieDetailNameSpace.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MovieDetailNameSpace.swift; sourceTree = "<group>"; };
+		CB30DA082A8359FF002DE804 /* DetailLabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailLabel.swift; sourceTree = "<group>"; };
+		CB30DA0A2A835AB9002DE804 /* LabelsStack.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LabelsStack.swift; sourceTree = "<group>"; };
 		CB31F7C52A738376001E9B21 /* CustomDateFormatStyle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomDateFormatStyle.swift; sourceTree = "<group>"; };
 		CB31F7C72A738397001E9B21 /* MimeType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MimeType.swift; sourceTree = "<group>"; };
 		CB4CFDD12A6FA16900288EFA /* BoxOfficeTestPlan.xctestplan */ = {isa = PBXFileReference; lastKnownFileType = text; path = BoxOfficeTestPlan.xctestplan; sourceTree = "<group>"; };
@@ -256,6 +260,8 @@
 			isa = PBXGroup;
 			children = (
 				D20B9F5A2A8356A20035DEC4 /* TitleLabel.swift */,
+				CB30DA082A8359FF002DE804 /* DetailLabel.swift */,
+				CB30DA0A2A835AB9002DE804 /* LabelsStack.swift */,
 			);
 			path = Custom;
 			sourceTree = "<group>";
@@ -454,6 +460,7 @@
 				D20B9F522A8245130035DEC4 /* ImageCacheManager.swift in Sources */,
 				D236E1952A7342FD003D0F7A /* Movie.swift in Sources */,
 				D236E19F2A7346C0003D0F7A /* Genre.swift in Sources */,
+				CB30DA092A8359FF002DE804 /* DetailLabel.swift in Sources */,
 				D2D027CA2A7BD57800456444 /* String+.swift in Sources */,
 				CB31F7C82A738397001E9B21 /* MimeType.swift in Sources */,
 				D2A6AE482A73AA0100CE5903 /* NetworkManagerError.swift in Sources */,
@@ -476,6 +483,7 @@
 				D236E1AD2A734BFB003D0F7A /* People.swift in Sources */,
 				D236E1A72A734721003D0F7A /* Company.swift in Sources */,
 				D2D027CE2A7F291900456444 /* MovieDetailViewController.swift in Sources */,
+				CB30DA0B2A835AB9002DE804 /* LabelsStack.swift in Sources */,
 				CB5BF5A22A76AEC400FBB9D9 /* BoxOfficeService.swift in Sources */,
 				D2D027D02A7F293A00456444 /* MovieDetailView.swift in Sources */,
 			);
