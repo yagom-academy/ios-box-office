@@ -46,7 +46,12 @@ final class CalendarViewController: UIViewController {
 @available(iOS 16.0, *)
 extension CalendarViewController {
     private func setupComponents() {
+        setupView()
         setupCalendarView()
+    }
+    
+    private func setupView() {
+        view.backgroundColor = .systemBackground
     }
     
     private func setupCalendarView() {
@@ -82,7 +87,6 @@ extension CalendarViewController {
     }
     
     private func configureView() {
-        view.backgroundColor = .systemBackground
         view.addSubview(calendarView)
     }
 }

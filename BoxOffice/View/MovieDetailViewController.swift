@@ -26,8 +26,9 @@ final class MovieDetailViewController: UIViewController {
     }
     
     override func loadView() {
+        super.loadView()
+        
         view = movieDetailView
-        view.backgroundColor = .systemBackground
     }
     
     override func viewDidLoad() {
@@ -42,6 +43,11 @@ final class MovieDetailViewController: UIViewController {
 extension MovieDetailViewController {
     private func setupComponents() {
         setupNavigation()
+        setupView()
+    }
+    
+    private func setupView() {
+        view.backgroundColor = .systemBackground
     }
     
     private func setupNavigation() {

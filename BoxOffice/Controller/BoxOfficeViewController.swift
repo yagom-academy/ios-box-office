@@ -42,9 +42,14 @@ final class BoxOfficeViewController: UIViewController {
 // MARK: setup Components
 extension BoxOfficeViewController {
     private func setupComponents() {
+        setupView()
         setupNavigation()
         setupCollectionView()
         setupRefreshControl()
+    }
+    
+    private func setupView() {
+        view.backgroundColor = .systemBackground
     }
     
     private func setupNavigation() {
@@ -186,7 +191,6 @@ extension BoxOfficeViewController {
     }
     
     private func configureView() {
-        view.backgroundColor = .systemBackground
         view.addSubview(collectionView)
         view.addSubview(activityIndicator)
     }
