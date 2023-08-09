@@ -51,6 +51,7 @@ extension MainViewControllerUseCaseImplementation {
                                 rankInten: movieInformation.rankInten,
                                 oldAndNew: movieInformation.rankOldAndNew,
                                 movieName: movieInformation.movieName,
+                                movieCode: movieInformation.movieCode,
                                 audienceCount: movieInformation.audienceCount,
                                 audienceAccumulate: movieInformation.audienceAccumulate)
         }

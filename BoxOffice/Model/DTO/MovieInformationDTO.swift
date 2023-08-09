@@ -11,6 +11,7 @@ struct MovieInformationDTO: Hashable {
     let rankInten: String
     let oldAndNew: String
     let movieName: String
+    let movieCode: String
     let audienceCount: String
     let audienceAccumulate: String
 }
