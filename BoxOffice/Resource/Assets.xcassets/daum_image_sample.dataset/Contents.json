@@ -1,0 +1,12 @@
+{
+  "data" : [
+    {
+      "filename" : "daum_image_sample.json",
+      "idiom" : "universal"
+    }
+  ],
+  "info" : {
+    "author" : "xcode",
+    "version" : 1
+  }
+}

@@ -44,6 +44,7 @@ final class BoxOfficeViewController: UIViewController, URLSessionDelegate {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        collectionView.delegate = self
         isLoading = true
         setUpUI()
         setUpDate()
@@ -113,6 +114,19 @@ extension BoxOfficeViewController {
     }
 }
 
+extension BoxOfficeViewController: UICollectionViewDelegate {
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        guard let movieCode = dataSource?.itemIdentifier(for: indexPath)?.movieCode,
+              let movieName = dataSource?.itemIdentifier(for: indexPath)?.movieName else {
+            return
+        }
+        
+        let movieDetailViewController = MovieDetailViewController(movieCode: movieCode, movieName: movieName)
+        
+        navigationController?.pushViewController(movieDetailViewController, animated: true)
+    }
+}
+
 extension BoxOfficeViewController {
     private func setUpNetwork() {
         let session: URLSession = {
@@ -126,19 +140,20 @@ extension BoxOfficeViewController {
     }
     
     private func passFetchedData() {
-        guard let date = self.title?.replacingOccurrences(of: "-", with: "") else {
+        guard let date = self.title?.replacingOccurrences(of: "-", with: ""),
+              let url = URL(string: String(format: NetworkNamespace.boxOffice.url, NetworkNamespace.apiKey, date))
+        else {
             return
         }
         
-        let url = String(format: NetworkNamespace.boxOffice.url, NetworkNamespace.apiKey, date)
+        let request = URLRequest(url: url)
         
-        networkingManager?.load(url) { [weak self] (result: Result<Data, NetworkingError>) in
+        
+        networkingManager?.load(request) { [weak self] (result: Result<Data, NetworkingError>) in
             switch result {
             case .success(let data):
                 do {
-                    guard let decodedData: BoxOfficeEntity = try DecodingManager.shared.decode(data) else {
-                        break
-                    }
+                    let decodedData: BoxOfficeEntity = try DecodingManager.shared.decode(data)
                     self?.setUpDataSnapshot(decodedData.boxOfficeResult.dailyBoxOfficeList)
                 } catch {
                     print(DecodingError.decodingFailure.description)
@@ -154,3 +169,4 @@ extension BoxOfficeViewController {
         }
     }
 }
+
