@@ -26,6 +26,7 @@ final class MovieDetailView: UIView {
         let image = UIImageView()
         image.translatesAutoresizingMaskIntoConstraints = false
         image.contentMode = .scaleAspectFill
+        image.backgroundColor = .systemGray6
         
         return image
     }()
