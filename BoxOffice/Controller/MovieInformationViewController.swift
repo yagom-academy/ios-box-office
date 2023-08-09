@@ -23,7 +23,7 @@ final class MovieInformationViewController: UIViewController {
         }
     }
     
-    let scrollView: MovieInformationScrollView = {
+    private let scrollView: MovieInformationScrollView = {
         let scrollView: MovieInformationScrollView = MovieInformationScrollView()
         scrollView.translatesAutoresizingMaskIntoConstraints = false
         
@@ -95,6 +95,7 @@ final class MovieInformationViewController: UIViewController {
             return urlRequest
         } catch {
             print(error.localizedDescription)
+            
             return nil
         }
     }
@@ -134,9 +135,11 @@ final class MovieInformationViewController: UIViewController {
     private func receiveImageURLRequest() -> URLRequest? {
         do {
             let urlRequest = try kakaoAPI.receiveURLRequest(queryItems: ["query": "\(dailyBoxOfficeData.movieName) 영화 포스터", "size": "1"])
+            
             return urlRequest
         } catch {
             print(error.localizedDescription)
+            
             return nil
         }
     }
@@ -170,6 +173,7 @@ final class MovieInformationViewController: UIViewController {
               let image = UIImage(data: data) else {
             throw URLError.urlIsNil
         }
+        
         return image
     }
 }

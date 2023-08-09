@@ -8,7 +8,6 @@
 import UIKit
 
 final class LoadingView: UIView {
-
     private let activityIndicator: UIActivityIndicatorView = {
         let activityIndicator: UIActivityIndicatorView = UIActivityIndicatorView()
         activityIndicator.color = .systemRed
@@ -21,6 +20,7 @@ final class LoadingView: UIView {
 
     override init(frame: CGRect) {
         super.init(frame: frame)
+        
         configureView()
         setUpAutoLayout()
         activityIndicator.startAnimating()
@@ -42,7 +42,6 @@ final class LoadingView: UIView {
         layer.zPosition = 1
         backgroundColor = .systemBackground
         addSubview(activityIndicator)
-        
     }
     
     private func setUpAutoLayout() {

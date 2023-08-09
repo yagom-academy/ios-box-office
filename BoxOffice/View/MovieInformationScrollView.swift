@@ -7,11 +7,12 @@
 
 import UIKit
 
-class MovieInformationScrollView: UIScrollView {
+final class MovieInformationScrollView: UIScrollView {
     private let imageView: UIImageView = {
         let imageView: UIImageView = UIImageView()
         imageView.translatesAutoresizingMaskIntoConstraints = false
         imageView.contentMode = .scaleAspectFit
+        
         return imageView
     }()
     
@@ -21,6 +22,7 @@ class MovieInformationScrollView: UIScrollView {
         label.text = "감독"
         label.textAlignment = .center
         label.font = UIFont.boldSystemFont(ofSize: 16)
+        
         return label
     }()
     
