@@ -9,6 +9,14 @@ import UIKit
 
 
 final class MovieDetailView: UIView {
+    private let activityIndicatorView: UIActivityIndicatorView = {
+        let activityIndicatorView = UIActivityIndicatorView(style: .large)
+        
+        activityIndicatorView.startAnimating()
+        activityIndicatorView.translatesAutoresizingMaskIntoConstraints = false
+        return activityIndicatorView
+    }()
+    
     private let scrollView: UIScrollView = {
         let scrollView = UIScrollView()
         
@@ -235,6 +243,7 @@ final class MovieDetailView: UIView {
         let label = UILabel()
         
         label.font = .systemFont(ofSize: 18)
+        label.numberOfLines = 0
         label.setContentHuggingPriority(.init(1), for: .horizontal)
         return label
     }()
@@ -274,6 +283,7 @@ final class MovieDetailView: UIView {
             let imageRatio = Double(movieDetailImageDTO.height) / Double(movieDetailImageDTO.width)
             let imageWidth = self.bounds.width
             
+            self.activityIndicatorView.stopAnimating()
             self.imageView.heightAnchor.constraint(equalToConstant: imageWidth * imageRatio).isActive = true
             self.imageView.image = UIImage(data: imageData)
         }
@@ -292,6 +302,7 @@ final class MovieDetailView: UIView {
         setUpProductionNationStackViewLayout()
         setUpGenresStackViewLayout()
         setUpMovieActorsStackViewLayout()
+        setUpActivityIndicatorViewLayout()
     }
 }
 
@@ -423,6 +434,15 @@ extension MovieDetailView {
         
         NSLayoutConstraint.activate([
             movieActorsLabel.widthAnchor.constraint(equalTo: movieActorsStackView.widthAnchor, multiplier: 0.2)
+        ])
+    }
+    
+    private func setUpActivityIndicatorViewLayout() {
+        addSubview(activityIndicatorView)
+        
+        NSLayoutConstraint.activate([
+            activityIndicatorView.centerXAnchor.constraint(equalTo: imageView.centerXAnchor),
+            activityIndicatorView.centerYAnchor.constraint(equalTo: imageView.centerYAnchor)
         ])
     }
 }
