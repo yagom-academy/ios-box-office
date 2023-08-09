@@ -26,6 +26,6 @@ struct ImageDocument: Decodable, DaumSearchDocumentable {
         case height
         case displaySiteName = "display_sitename"
         case docURL = "doc_url"
-        case dateTime
+        case dateTime = "datetime"
     }
 }

@@ -122,6 +122,6 @@ extension MovieDetailViewController {
         movieDetailView.watchGradeNameDetailLabel.text = movieInfo.audits.first?.watchGradeName
         movieDetailView.nationNameDetailLabel.text = movieInfo.nations.map{ $0.nationName }.joined(separator: ", ")
         movieDetailView.genreNameDetailLabel.text = movieInfo.genres.map{ $0.genreName }.joined(separator: ", ")
-        movieDetailView.actorsDetailLabel.text = movieInfo.actors.map{ $0.peopleName }.joined(separator: ", ")
+        movieDetailView.actorDetailLabel.text = movieInfo.actors.map{ $0.peopleName }.joined(separator: ", ")
     }
 }
