@@ -10,7 +10,6 @@ import Foundation
 class URLManager {
     static let shared = URLManager()
     var selectedDate: Date?
-    
     private init() {}
     
     func configureURLSession(key: String, path: String, targetDate: String) -> URL? {

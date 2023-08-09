@@ -17,7 +17,7 @@ struct DateProvider {
         } catch DateProviderError.wrongDate {
             print("wrongDateError")
         } catch {
-            print("updateDate()에서 알 수 없는 에러 발생")
+            print("unknown Error in reciveDate()")
         }
         
         return nil
