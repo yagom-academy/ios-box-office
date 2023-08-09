@@ -2,6 +2,8 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
+	<key>DaumAPIKey</key>
+	<string>e88ec31b2d9da9e801e939b34db4caf4</string>
 	<key>BoxOfficeAPIKey</key>
 	<string>a38f2bee3ae1dc5696060047ce83c935</string>
 </dict>

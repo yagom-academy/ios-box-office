@@ -19,4 +19,11 @@ final class DaumSearchRepositoryImplementation: DaumSearchRepository {
         self.sessionProvider = sessionProvider
         self.decoder = decoder
     }
+    
+    
+}
+
+
+extension DaumSearchRepositoryImplementation {
+
 }
