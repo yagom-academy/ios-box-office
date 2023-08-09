@@ -2,7 +2,7 @@
 //  ViewController.swift
 //  BoxOffice
 //
-//  Created by kjs on 13/01/23.
+//  Created by redmango, Jusbug on 13/01/23.
 //
 
 import UIKit
@@ -59,7 +59,7 @@ final class MainViewController: UIViewController, CalendarViewControllerDelegate
     func didSelectDate(_ date: Date) {
         selectedDate = date
         URLManager.shared.selectedDate = date
-        let dateString = DateProvider().modifyDate(with: date, by: .viewTitle)
+        let dateString = DateProvider().formatDate(with: date, by: .viewTitle)
         self.navigationItem.title = "\(dateString)"
         self.callAPIManager()
     }

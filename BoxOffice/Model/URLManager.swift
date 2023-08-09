@@ -7,9 +7,11 @@
 
 import Foundation
 
-struct URLManager {
-    static var shared = URLManager()
+class URLManager {
+    static let shared = URLManager()
     var selectedDate: Date?
+    
+    private init() {}
     
     func configureURLSession(key: String, path: String, targetDate: String) -> URL? {
         var urlComponents = URLComponents()
@@ -21,10 +23,8 @@ struct URLManager {
         ]
         
         if let targetDate = URLManager.shared.selectedDate {
-            let dateFormatter = DateFormatter()
-            dateFormatter.dateFormat = "yyyyMMdd"
-            let targetDateString = dateFormatter.string(from: targetDate)
-            urlComponents.queryItems?.append(URLQueryItem(name: "targetDt", value: targetDateString))
+            let formattedTargetDate = DateProvider().formatDate(with: targetDate, by: .urlDate)
+            urlComponents.queryItems?.append(URLQueryItem(name: "targetDt", value: formattedTargetDate))
         } else {
             urlComponents.queryItems?.append(URLQueryItem(name: "targetDt", value: targetDate))
         }
@@ -39,7 +39,7 @@ enum APIService {
     
     var url: URL? {
         let key = Bundle.main.apiKey
-        let urlManager = URLManager()
+        let urlManager = URLManager.shared
         guard let targetDate = DateProvider().updateDate(to: -1, by: .urlDate) else {
             return nil
         }

@@ -2,7 +2,7 @@
 //  CalendarViewController.swift
 //  BoxOffice
 //
-//  Created by 박종화 on 2023/08/08.
+//  Created by redmango, Jusbug on 2023/08/08.
 //
 
 import UIKit

@@ -2,7 +2,7 @@
 //  JSONDecoder+.swift
 //  BoxOffice
 //
-//  Created by redmango1446 on 2023/07/31.
+//  Created by redmango, Jusbug on 2023/07/31.
 //
 
 import Foundation

@@ -2,7 +2,7 @@
 //  CollectionViewCell.swift
 //  BoxOffice
 //
-//  Created by redmango1446 on 2023/08/02.
+//  Created by redmango, Jusbug on 2023/08/02.
 //
 
 import UIKit

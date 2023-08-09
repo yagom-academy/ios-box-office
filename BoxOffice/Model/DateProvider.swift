@@ -13,7 +13,7 @@ struct DateProvider {
     func updateDate(with date: Date = Date(), to numberOfDays: NumberOfDays, by form: DateForm) -> String? {
         do {
             let reciveDate = try reciveDate(to: numberOfDays, from: date)
-            return modifyDate(with: reciveDate, by: form)
+            return formatDate(with: reciveDate, by: form)
         } catch DateProviderError.wrongDate {
             print("wrongDateError")
         } catch {
@@ -23,18 +23,15 @@ struct DateProvider {
         return nil
     }
     
-    func modifyDate(with date: Date, by form: DateForm) -> String {
-        var dateFormatter = DateFormatter()
+    func formatDate(with date: Date, by form: DateForm) -> String {
+        let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = form.formet
         
         return dateFormatter.string(from: date)
     }
     
     private func reciveDate(to numberOfDays: NumberOfDays, from date: Date) throws -> Date {
-        guard let reciveDate = Calendar.current.date(byAdding: .day,
-                                                     value: numberOfDays,
-                                                     to: date)
-        else {
+        guard let reciveDate = Calendar.current.date(byAdding: .day, value: numberOfDays, to: date) else {
             throw DateProviderError.wrongDate
         }
         
