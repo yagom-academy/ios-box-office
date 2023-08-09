@@ -51,17 +51,7 @@ final class MovieDetailView: UIView {
         return stackView
     }()
     
-    private let directorTitleLabel: UILabel = {
-        let label = UILabel()
-        label.textAlignment = .center
-        label.text = "감독"
-        label.font = UIFont.preferredFont(for: .title3, weight: .heavy)
-        label.minimumScaleFactor = 0.3
-        label.adjustsFontForContentSizeCategory = true
-        label.adjustsFontSizeToFitWidth = true
-        
-        return label
-    }()
+    private let directorTitleLabel = TitleLabel(title: MovieDetailNameSpace.director)
     
     let directorDetailLabel: UILabel = {
         let label = UILabel()
@@ -84,17 +74,7 @@ final class MovieDetailView: UIView {
         return stackView
     }()
     
-    private let productionYearTitleLabel: UILabel = {
-        let label = UILabel()
-        label.textAlignment = .center
-        label.text = "제작년도"
-        label.font = UIFont.preferredFont(for: .title3, weight: .heavy)
-        label.minimumScaleFactor = 0.3
-        label.adjustsFontForContentSizeCategory = true
-        label.adjustsFontSizeToFitWidth = true
-        
-        return label
-    }()
+    private let productionYearTitleLabel = TitleLabel(title: MovieDetailNameSpace.productionYear)
     
     let productionYearDetailLabel: UILabel = {
         let label = UILabel()
@@ -117,17 +97,7 @@ final class MovieDetailView: UIView {
         return stackView
     }()
     
-    private let openDateTitleLabel: UILabel = {
-        let label = UILabel()
-        label.textAlignment = .center
-        label.text = "개봉일"
-        label.font = UIFont.preferredFont(for: .title3, weight: .heavy)
-        label.minimumScaleFactor = 0.3
-        label.adjustsFontForContentSizeCategory = true
-        label.adjustsFontSizeToFitWidth = true
-        
-        return label
-    }()
+    private let openDateTitleLabel = TitleLabel(title: MovieDetailNameSpace.openDate)
     
     let openDateDetailLabel: UILabel = {
         let label = UILabel()
@@ -150,17 +120,7 @@ final class MovieDetailView: UIView {
         return stackView
     }()
     
-    private let showTimeTitleLabel: UILabel = {
-        let label = UILabel()
-        label.textAlignment = .center
-        label.text = "상영시간"
-        label.font = UIFont.preferredFont(for: .title3, weight: .heavy)
-        label.minimumScaleFactor = 0.3
-        label.adjustsFontForContentSizeCategory = true
-        label.adjustsFontSizeToFitWidth = true
-        
-        return label
-    }()
+    private let showTimeTitleLabel = TitleLabel(title: MovieDetailNameSpace.showTime)
     
     let showTimeDetailLabel: UILabel = {
         let label = UILabel()
@@ -183,17 +143,7 @@ final class MovieDetailView: UIView {
         return stackView
     }()
     
-    private let watchGradeNameTitleLabel: UILabel = {
-        let label = UILabel()
-        label.textAlignment = .center
-        label.text = "관람등급"
-        label.font = UIFont.preferredFont(for: .title3, weight: .heavy)
-        label.minimumScaleFactor = 0.3
-        label.adjustsFontForContentSizeCategory = true
-        label.adjustsFontSizeToFitWidth = true
-        
-        return label
-    }()
+    private let watchGradeNameTitleLabel = TitleLabel(title: MovieDetailNameSpace.watchGradeName)
     
     let watchGradeNameDetailLabel: UILabel = {
         let label = UILabel()
@@ -216,17 +166,7 @@ final class MovieDetailView: UIView {
         return stackView
     }()
     
-    private let nationNameTitleLabel: UILabel = {
-        let label = UILabel()
-        label.textAlignment = .center
-        label.text = "제작국가"
-        label.font = UIFont.preferredFont(for: .title3, weight: .heavy)
-        label.minimumScaleFactor = 0.3
-        label.adjustsFontForContentSizeCategory = true
-        label.adjustsFontSizeToFitWidth = true
-        
-        return label
-    }()
+    private let nationNameTitleLabel = TitleLabel(title: MovieDetailNameSpace.nationName)
     
     let nationNameDetailLabel: UILabel = {
         let label = UILabel()
@@ -249,17 +189,7 @@ final class MovieDetailView: UIView {
         return stackView
     }()
     
-    private let genreNameTitleLabel: UILabel = {
-        let label = UILabel()
-        label.textAlignment = .center
-        label.text = "장르"
-        label.font = UIFont.preferredFont(for: .title3, weight: .heavy)
-        label.minimumScaleFactor = 0.3
-        label.adjustsFontForContentSizeCategory = true
-        label.adjustsFontSizeToFitWidth = true
-        
-        return label
-    }()
+    private let genreNameTitleLabel = TitleLabel(title: MovieDetailNameSpace.genreName)
     
     let genreNameDetailLabel: UILabel = {
         let label = UILabel()
@@ -282,19 +212,9 @@ final class MovieDetailView: UIView {
         return stackView
     }()
     
-    private let actorsTitleLabel: UILabel = {
-        let label = UILabel()
-        label.textAlignment = .center
-        label.text = "배우"
-        label.font = UIFont.preferredFont(for: .title3, weight: .heavy)
-        label.minimumScaleFactor = 0.3
-        label.adjustsFontForContentSizeCategory = true
-        label.adjustsFontSizeToFitWidth = true
-        
-        return label
-    }()
+    private let actorTitleLabel = TitleLabel(title: MovieDetailNameSpace.actor)
     
-    let actorsDetailLabel: UILabel = {
+    let actorDetailLabel: UILabel = {
         let label = UILabel()
         label.numberOfLines = 0
         label.minimumScaleFactor = 0.3
@@ -333,7 +253,7 @@ final class MovieDetailView: UIView {
         [watchGradeNameTitleLabel, watchGradeNameDetailLabel].forEach { watchGradeNameContentStackView.addArrangedSubview($0) }
         [nationNameTitleLabel, nationNameDetailLabel].forEach { nationNameContentStackView.addArrangedSubview($0) }
         [genreNameTitleLabel, genreNameDetailLabel].forEach { genreNameContentStackView.addArrangedSubview($0) }
-        [actorsTitleLabel, actorsDetailLabel].forEach { actorsContentStackView.addArrangedSubview($0) }
+        [actorTitleLabel, actorDetailLabel].forEach { actorsContentStackView.addArrangedSubview($0) }
     }
     
     private func setUpConstraints() {
@@ -396,7 +316,7 @@ extension MovieDetailView {
             watchGradeNameTitleLabel.centerXAnchor.constraint(equalTo: directorTitleLabel.centerXAnchor),
             nationNameTitleLabel.centerXAnchor.constraint(equalTo: directorTitleLabel.centerXAnchor),
             genreNameTitleLabel.centerXAnchor.constraint(equalTo: directorTitleLabel.centerXAnchor),
-            actorsTitleLabel.centerXAnchor.constraint(equalTo: directorTitleLabel.centerXAnchor)
+            actorTitleLabel.centerXAnchor.constraint(equalTo: directorTitleLabel.centerXAnchor)
         ])
     }
     
@@ -408,7 +328,7 @@ extension MovieDetailView {
             watchGradeNameDetailLabel.leadingAnchor.constraint(equalTo: directorDetailLabel.leadingAnchor),
             nationNameDetailLabel.leadingAnchor.constraint(equalTo: directorDetailLabel.leadingAnchor),
             genreNameDetailLabel.leadingAnchor.constraint(equalTo: directorDetailLabel.leadingAnchor),
-            actorsDetailLabel.leadingAnchor.constraint(equalTo: directorDetailLabel.leadingAnchor)
+            actorDetailLabel.leadingAnchor.constraint(equalTo: directorDetailLabel.leadingAnchor)
         ])
     }
 }
