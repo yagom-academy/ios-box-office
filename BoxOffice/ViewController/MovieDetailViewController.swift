@@ -16,6 +16,17 @@ final class MovieDetailViewController: UIViewController {
         return view
     }()
     
+    init(_ boxOfficeService: BoxOfficeService, _ dailyBoxOffice: DailyBoxOffice) {
+        self.boxOfficeService = boxOfficeService
+        self.dailyBoxOffice = dailyBoxOffice
+        
+        super.init(nibName: nil, bundle: nil)
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
     override func loadView() {
         view = movieDetailView
     }
@@ -27,17 +38,6 @@ final class MovieDetailViewController: UIViewController {
         configureBackgroundColor()
         loadMoviePoster()
         loadMovieDetail()
-    }
-    
-    init(_ boxOfficeService: BoxOfficeService, _ dailyBoxOffice: DailyBoxOffice) {
-        self.boxOfficeService = boxOfficeService
-        self.dailyBoxOffice = dailyBoxOffice
-        
-        super.init(nibName: nil, bundle: nil)
-    }
-    
-    required init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
     }
     
     private func setTitle() {
