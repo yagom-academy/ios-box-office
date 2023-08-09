@@ -36,7 +36,6 @@ final class CalendarViewController: UIViewController {
         super.viewDidLoad()
 
         setupComponents()
-        
         configureUI()
         setupConstraint()
     }
