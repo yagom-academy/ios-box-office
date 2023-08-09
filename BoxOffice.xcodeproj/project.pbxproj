@@ -25,7 +25,7 @@
 		DC57A7752A8220E00066A19C /* MovieInformationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC57A7742A8220E00066A19C /* MovieInformationViewController.swift */; };
 		DC57A7772A82279A0066A19C /* MovieInformationScrollView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC57A7762A82279A0066A19C /* MovieInformationScrollView.swift */; };
 		DC7946362A8331E400F25E19 /* KakaoAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC7946352A8331E400F25E19 /* KakaoAPI.swift */; };
-		DC7946392A833E6600F25E19 /* ImageSerch.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC7946382A833E6600F25E19 /* ImageSerch.swift */; };
+		DC7946392A833E6600F25E19 /* ImageSearch.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC7946382A833E6600F25E19 /* ImageSearch.swift */; };
 		DC79463B2A833FB900F25E19 /* Document.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC79463A2A833FB900F25E19 /* Document.swift */; };
 		DC79463D2A835DC500F25E19 /* LoadingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC79463C2A835DC500F25E19 /* LoadingView.swift */; };
 		DC9B182E2A7BA92900751473 /* DailyBoxOfficeCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC9B182D2A7BA92900751473 /* DailyBoxOfficeCollectionViewCell.swift */; };
@@ -73,7 +73,7 @@
 		DC57A7742A8220E00066A19C /* MovieInformationViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MovieInformationViewController.swift; sourceTree = "<group>"; };
 		DC57A7762A82279A0066A19C /* MovieInformationScrollView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MovieInformationScrollView.swift; sourceTree = "<group>"; };
 		DC7946352A8331E400F25E19 /* KakaoAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KakaoAPI.swift; sourceTree = "<group>"; };
-		DC7946382A833E6600F25E19 /* ImageSerch.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageSerch.swift; sourceTree = "<group>"; };
+		DC7946382A833E6600F25E19 /* ImageSearch.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageSearch.swift; sourceTree = "<group>"; };
 		DC79463A2A833FB900F25E19 /* Document.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Document.swift; sourceTree = "<group>"; };
 		DC79463C2A835DC500F25E19 /* LoadingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoadingView.swift; sourceTree = "<group>"; };
 		DC9B182D2A7BA92900751473 /* DailyBoxOfficeCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DailyBoxOfficeCollectionViewCell.swift; sourceTree = "<group>"; };
@@ -219,7 +219,7 @@
 		DC7946372A833E0F00F25E19 /* ImageSearch */ = {
 			isa = PBXGroup;
 			children = (
-				DC7946382A833E6600F25E19 /* ImageSerch.swift */,
+				DC7946382A833E6600F25E19 /* ImageSearch.swift */,
 				DC79463A2A833FB900F25E19 /* Document.swift */,
 			);
 			path = ImageSearch;
@@ -415,7 +415,7 @@
 				63DF20F12970E1A0005DF7D1 /* SceneDelegate.swift in Sources */,
 				DCB682F92A70E603005D1510 /* MovieInformationResult.swift in Sources */,
 				44CBACAD2A6E7DB800FDBAAE /* BoxOfficeResult.swift in Sources */,
-				DC7946392A833E6600F25E19 /* ImageSerch.swift in Sources */,
+				DC7946392A833E6600F25E19 /* ImageSearch.swift in Sources */,
 				DCB6831F2A727B99005D1510 /* NetworkService.swift in Sources */,
 				DC79463D2A835DC500F25E19 /* LoadingView.swift in Sources */,
 				DCB6832D2A792F48005D1510 /* URLSession+.swift in Sources */,

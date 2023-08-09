@@ -31,8 +31,10 @@ final class LoadingView: UIView {
     }
     
     func hide() {
-        layer.zPosition = 0
-        activityIndicator.stopAnimating()
+        DispatchQueue.main.async { [weak self] in
+            self?.layer.zPosition = 0
+            self?.activityIndicator.stopAnimating()
+        }
     }
     
     private func configureView() {

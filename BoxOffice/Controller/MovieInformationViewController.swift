@@ -13,7 +13,15 @@ final class MovieInformationViewController: UIViewController {
     private var networkService: NetworkService = NetworkService()
     private var dailyBoxOfficeData: DailyBoxOffice
     private var detailInformationData: DetailInformation?
-    private var imageSearch: ImageSerch?
+    private var imageSearch: ImageSearch?
+    private let loadingView: LoadingView = LoadingView()
+    private var completionCount: Int = 0 {
+        didSet {
+            if completionCount == 2 {
+                loadingView.hide()
+            }
+        }
+    }
     
     let scrollView: MovieInformationScrollView = {
         let scrollView: MovieInformationScrollView = MovieInformationScrollView()
@@ -47,11 +55,17 @@ final class MovieInformationViewController: UIViewController {
     
     private func configureView() {
         view.backgroundColor = .systemBackground
+        view.addSubview(loadingView)
         view.addSubview(scrollView)
     }
     
     private func setUpAutolayout() {
         NSLayoutConstraint.activate([
+            loadingView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
+            loadingView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor),
+            loadingView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor),
+            loadingView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor),
+            
             scrollView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
             scrollView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor),
             scrollView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor),
@@ -67,20 +81,7 @@ final class MovieInformationViewController: UIViewController {
             case .success(let data):
                 self.decodeBoxOfficeData(data)
                 self.updateScrollView()
-            case .failure(let error):
-                print(error)
-            }
-        }
-    }
-    
-    private func receiveImageData() {
-        guard let urlRequest = receiveImageURLRequest() else { return }
-        
-        NetworkService().fetchData(urlRequest: urlRequest) { result in
-            switch result {
-            case .success(let data):
-                self.decodeImageData(data)
-                self.updateImageView()
+                self.completionCount += 1
             case .failure(let error):
                 print(error)
             }
@@ -115,9 +116,24 @@ final class MovieInformationViewController: UIViewController {
         }
     }
     
+    private func receiveImageData() {
+        guard let urlRequest = receiveImageURLRequest() else { return }
+        
+        NetworkService().fetchData(urlRequest: urlRequest) { result in
+            switch result {
+            case .success(let data):
+                self.decodeImageData(data)
+                self.updateImageView()
+                self.completionCount += 1
+            case .failure(let error):
+                print(error)
+            }
+        }
+    }
+    
     private func receiveImageURLRequest() -> URLRequest? {
         do {
-            let urlRequest = try kakaoAPI.receiveURLRequest(queryItems: ["query": "\(dailyBoxOfficeData.movieName)포스터", "size": "1"])
+            let urlRequest = try kakaoAPI.receiveURLRequest(queryItems: ["query": "\(dailyBoxOfficeData.movieName) 영화 포스터", "size": "1"])
             return urlRequest
         } catch {
             print(error.localizedDescription)
@@ -127,7 +143,7 @@ final class MovieInformationViewController: UIViewController {
     
     private func decodeImageData(_ data: Data) {
         do {
-            let decodedData = try JSONDecoder().decode(ImageSerch.self, from: data)
+            let decodedData = try JSONDecoder().decode(ImageSearch.self, from: data)
             imageSearch = decodedData
         } catch let error as DecodingError {
             print(error)
@@ -136,16 +152,24 @@ final class MovieInformationViewController: UIViewController {
         }
     }
     
-    func updateImageView() {
+    private func updateImageView() {
+        do {
+            let image = try downloadImage()
+            DispatchQueue.main.async { [weak self] in
+                self?.scrollView.updateImage(image: image)
+            }
+        } catch {
+            print(error)
+        }
+    }
+    
+    private func downloadImage() throws -> UIImage {
         guard let imageURL = imageSearch?.documents[0].imageURL,
               let url = URL(string: imageURL),
               let data = try? Data(contentsOf: url),
               let image = UIImage(data: data) else {
-            return
+            throw URLError.urlIsNil
         }
-        
-        DispatchQueue.main.async { [weak self] in
-            self?.scrollView.updateImage(image: image)
-        }
+        return image
     }
 }
