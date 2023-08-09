@@ -1,29 +1,26 @@
 //
-//  KobisOpenAPI.swift
+//  KakaoAPI.swift
 //  BoxOffice
 //
-//  Created by Idinaloq, MARY on 2023/07/26.
+//  Created by Idinaloq, MARY on 2023/08/09.
 //
 
 import Foundation
 
-struct KobisOpenAPI {
+struct KakaoAPI {
     private let baseURL: URLComponents = {
         var components: URLComponents = URLComponents()
-        let queryItem: URLQueryItem = URLQueryItem(name: APIKey.key, value: APIKey.value)
         
         components.scheme = Components.scheme
         components.host = Components.host
         components.path = Components.path
-        components.queryItems = [queryItem]
+        components.queryItems = []
         
         return components
     }()
     
-    func receiveURLRequest(serviceType: KobisServiceType, queryItems: [String: String]) throws -> URLRequest {
+    func receiveURLRequest(queryItems: [String: String]) throws -> URLRequest {
         var components: URLComponents = baseURL
-        
-        components.path.append(serviceType.urlPath)
         
         queryItems.forEach { item in
             let queryItem: URLQueryItem = URLQueryItem(name: item.key, value: item.value)
@@ -35,18 +32,23 @@ struct KobisOpenAPI {
             throw URLError.urlIsNil
         }
         
-        return URLRequest(url: url)
+        var urlRequest: URLRequest = URLRequest(url: url)
+        
+        urlRequest.httpMethod = "GET"
+        urlRequest.addValue(APIKey.value, forHTTPHeaderField: APIKey.key)
+    
+        return urlRequest
     }
     
+    
     private enum APIKey {
-        static let key: String = "key"
-        static let value: String = "c824c74a1ff9ed62089a9a0bcc0d3211"
+        static let key: String = "Authorization"
+        static let value: String = "KakaoAK 5a5bed59f416826d3b667c6d97eac62a"
     }
     
     private enum Components {
-        static let scheme: String = "http"
-        static let host: String = "www.kobis.or.kr"
-        static let path: String = "/kobisopenapi/webservice/rest"
+        static let scheme: String = "https"
+        static let host: String = "dapi.kakao.com"
+        static let path: String = "/v2/search/image"
     }
 }
-

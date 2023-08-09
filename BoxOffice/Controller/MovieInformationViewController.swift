@@ -9,10 +9,12 @@ import UIKit
 
 final class MovieInformationViewController: UIViewController {
     private var kobisOpenAPI: KobisOpenAPI = KobisOpenAPI()
+    private var kakaoAPI: KakaoAPI = KakaoAPI()
     private var networkService: NetworkService = NetworkService()
     private var dailyBoxOfficeData: DailyBoxOffice
     private var detailInformationData: DetailInformation?
-
+    private var imageSearch: ImageSerch?
+    
     let scrollView: MovieInformationScrollView = {
         let scrollView: MovieInformationScrollView = MovieInformationScrollView()
         scrollView.translatesAutoresizingMaskIntoConstraints = false
@@ -35,7 +37,8 @@ final class MovieInformationViewController: UIViewController {
         configureNavigationItem()
         configureView()
         setUpAutolayout()
-        receiveData()
+        receiveBoxOfficeData()
+        receiveImageData()
     }
     
     private func configureNavigationItem() {
@@ -56,13 +59,13 @@ final class MovieInformationViewController: UIViewController {
         ])
     }
     
-    private func receiveData() {
-        guard let url = receiveURL() else { return }
+    private func receiveBoxOfficeData() {
+        guard let urlRequest = receiveBoxOfficeURLRequest() else { return }
         
-        NetworkService().fetchData(url: url) { result in
+        NetworkService().fetchData(urlRequest: urlRequest) { result in
             switch result {
             case .success(let data):
-                self.decodeData(data)
+                self.decodeBoxOfficeData(data)
                 self.updateScrollView()
             case .failure(let error):
                 print(error)
@@ -70,17 +73,32 @@ final class MovieInformationViewController: UIViewController {
         }
     }
     
-    private func receiveURL() -> URL? {
+    private func receiveImageData() {
+        guard let urlRequest = receiveImageURLRequest() else { return }
+        
+        NetworkService().fetchData(urlRequest: urlRequest) { result in
+            switch result {
+            case .success(let data):
+                self.decodeImageData(data)
+                self.updateImageView()
+            case .failure(let error):
+                print(error)
+            }
+        }
+    }
+    
+    private func receiveBoxOfficeURLRequest() -> URLRequest? {
         do {
-            let url = try kobisOpenAPI.receiveURL(serviceType: .movieInformation, queryItems: ["movieCd": dailyBoxOfficeData.movieCode])
-            return url
+            let urlRequest = try kobisOpenAPI.receiveURLRequest(serviceType: .movieInformation, queryItems: ["movieCd": dailyBoxOfficeData.movieCode])
+            
+            return urlRequest
         } catch {
             print(error.localizedDescription)
             return nil
         }
     }
     
-    private func decodeData(_ data: Data) {
+    private func decodeBoxOfficeData(_ data: Data) {
         do {
             let decodedData = try JSONDecoder().decode(DetailInformation.self, from: data)
             detailInformationData = decodedData
@@ -94,6 +112,40 @@ final class MovieInformationViewController: UIViewController {
     private func updateScrollView() {
         DispatchQueue.main.async { [weak self] in
             self?.scrollView.updateLabels(data: self?.detailInformationData?.movieInformationResult.movieInformation)
+        }
+    }
+    
+    private func receiveImageURLRequest() -> URLRequest? {
+        do {
+            let urlRequest = try kakaoAPI.receiveURLRequest(queryItems: ["query": "\(dailyBoxOfficeData.movieName)포스터", "size": "1"])
+            return urlRequest
+        } catch {
+            print(error.localizedDescription)
+            return nil
+        }
+    }
+    
+    private func decodeImageData(_ data: Data) {
+        do {
+            let decodedData = try JSONDecoder().decode(ImageSerch.self, from: data)
+            imageSearch = decodedData
+        } catch let error as DecodingError {
+            print(error)
+        } catch {
+            print(error)
+        }
+    }
+    
+    func updateImageView() {
+        guard let imageURL = imageSearch?.documents[0].imageURL,
+              let url = URL(string: imageURL),
+              let data = try? Data(contentsOf: url),
+              let image = UIImage(data: data) else {
+            return
+        }
+        
+        DispatchQueue.main.async { [weak self] in
+            self?.scrollView.updateImage(image: image)
         }
     }
 }

@@ -8,10 +8,10 @@
 import UIKit
 
 class MovieInformationScrollView: UIScrollView {
-    let imageView: UIImageView = {
+    private let imageView: UIImageView = {
         let imageView: UIImageView = UIImageView()
         imageView.translatesAutoresizingMaskIntoConstraints = false
-        
+        imageView.contentMode = .scaleAspectFit
         return imageView
     }()
     
@@ -288,11 +288,13 @@ class MovieInformationScrollView: UIScrollView {
             imageView.topAnchor.constraint(equalTo: topAnchor),
             imageView.centerXAnchor.constraint(equalTo: centerXAnchor),
             imageView.widthAnchor.constraint(equalTo: widthAnchor),
+            imageView.heightAnchor.constraint(lessThanOrEqualTo: heightAnchor, multiplier: 0.7),
             
             contentStackView.topAnchor.constraint(equalTo: imageView.bottomAnchor),
-            contentStackView.leadingAnchor.constraint(equalTo: safeAreaLayoutGuide.leadingAnchor),
-            contentStackView.trailingAnchor.constraint(equalTo: safeAreaLayoutGuide.trailingAnchor),
-            contentStackView.bottomAnchor.constraint(equalTo: contentLayoutGuide.bottomAnchor)
+            contentStackView.leadingAnchor.constraint(equalTo: contentLayoutGuide.leadingAnchor),
+            contentStackView.trailingAnchor.constraint(equalTo: contentLayoutGuide.trailingAnchor),
+            contentStackView.bottomAnchor.constraint(equalTo: contentLayoutGuide.bottomAnchor),
+            contentStackView.widthAnchor.constraint(equalTo: frameLayoutGuide.widthAnchor)
         ])
     }
     
@@ -300,6 +302,7 @@ class MovieInformationScrollView: UIScrollView {
         guard let data = data else { return }
         
         var openDate = data.openDate
+        
         openDate.insert("-", at: openDate.index(openDate.startIndex, offsetBy: 4))
         openDate.insert("-", at: openDate.index(openDate.startIndex, offsetBy: 7))
         
@@ -311,5 +314,9 @@ class MovieInformationScrollView: UIScrollView {
         nationLabel.text = data.nations.map { $0.nationName }.joined(separator: ", ")
         genreLabel.text = data.genres.map { $0.genreName }.joined(separator: ", ")
         actorLabel.text = data.actors.map { $0.peopleName }.joined(separator: ", ")
+    }
+    
+    func updateImage(image: UIImage) {
+        imageView.image = image
     }
 }
