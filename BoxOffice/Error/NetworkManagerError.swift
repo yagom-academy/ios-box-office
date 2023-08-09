@@ -6,7 +6,6 @@
 //
 
 enum NetworkManagerError: Error {
-    case notExistedUrl
     case cannotLoadFromNetwork
     case failureHttpResponse
     case failureJsonDecode

@@ -12,20 +12,10 @@ final class BoxOfficeViewController: UIViewController {
     
     private let boxOfficeService: BoxOfficeService
     private var boxOffice: BoxOffice?
-    private var movie: Movie?
     
     private var dataSource: UICollectionViewDiffableDataSource<Section, DailyBoxOffice>? = nil
     private var collectionView: UICollectionView? = nil
     private let refresher = UIRefreshControl()
-    
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        
-        showLoadingView()
-        setTitle()
-        configureBackgroundColor()
-        loadDailyBoxOfficeData()
-    }
     
     init(boxOfficeService: BoxOfficeService) {
         self.boxOfficeService = boxOfficeService
@@ -34,6 +24,15 @@ final class BoxOfficeViewController: UIViewController {
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
+    }
+    
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        
+        showLoadingView()
+        setTitle()
+        configureBackgroundColor()
+        loadDailyBoxOfficeData()
     }
     
     // MARK: - UI Configuration
@@ -83,24 +82,9 @@ final class BoxOfficeViewController: UIViewController {
                     self.refresher.endRefreshing()
                 }
             }
-            
-            if let movieCode = boxOffice.boxOfficeResult.dailyBoxOfficeList.first?.movieCode {
-                boxOfficeService.loadMovieDetailData(movieCd: movieCode, fetchMovie)
-            }
         case .failure(let error):
             DispatchQueue.main.async {
-                self.showAlert("박스오피스", error)
-            }
-        }
-    }
-    
-    private func fetchMovie(_ result: Result<Movie, NetworkManagerError>) {
-        switch result {
-        case .success(let movie):
-            self.movie = movie
-        case .failure(let error):
-            DispatchQueue.main.async {
-                self.showAlert("영화 상세 정보", error)
+                AlertManager.showErrorAlert(in: self, "박스오피스", error)
             }
         }
     }
@@ -152,6 +136,9 @@ extension BoxOfficeViewController {
 extension BoxOfficeViewController: UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         collectionView.deselectItem(at: indexPath, animated: true)
+        guard let dailyBoxOffice = boxOffice?.boxOfficeResult.dailyBoxOfficeList else { return }
+        let movieDetailViewController = MovieDetailViewController(boxOfficeService, dailyBoxOffice[indexPath.row])
+        self.navigationController?.pushViewController(movieDetailViewController, animated: true)
     }
 }
 
@@ -181,13 +168,5 @@ extension BoxOfficeViewController {
         let audienceAccumulation = formatter.string(for: Int(dailyBoxOffice.audienceAccumulation)) ?? "0"
         
         return "\(dailyBoxOffice.movieName)\n오늘: \(audienceCount) / 총: \(audienceAccumulation)"
-    }
-    
-    private func showAlert(_ message: String, _ error: NetworkManagerError) {
-        let alert = UIAlertController(title: "Error 발생", message: "\(message) 로드에 실패하였습니다.", preferredStyle: .alert)
-        alert.addAction(UIAlertAction(title: NSLocalizedString("확인", comment: "close"), style: .default, handler: { _ in
-            NSLog(error.localizedDescription)
-        }))
-        self.present(alert, animated: true, completion: nil)
     }
 }

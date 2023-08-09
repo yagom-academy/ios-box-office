@@ -30,19 +30,19 @@ struct BoxOfficeService {
         components.host = KobisNameSpace.host
         components.path = KobisNameSpace.dailyBoxOfficePath
         
-        let key = URLQueryItem(name: KobisNameSpace.key,
-                               value: KobisNameSpace.keyValue)
-        let targetDt = URLQueryItem(name: KobisNameSpace.targetDt,
-                                    value: formattedYesterday)
+        let query = [
+            KobisNameSpace.key : KobisNameSpace.keyValue,
+            KobisNameSpace.targetDt : formattedYesterday
+        ]
         
-        components.queryItems = [key, targetDt]
+        guard let dailyBoxOfficeURL = components.url else { return }
         
-        NetworkManager.loadData(components, BoxOffice.self) { result in
+        NetworkManager.shared.sendGETRequest(url: dailyBoxOfficeURL, query: query, objectType: BoxOffice.self) { result in
             switch result {
             case .success(let data):
                 completion(.success(data))
             case .failure(let error):
-                completion(.failure(error)) 
+                completion(.failure(error))
             }
         }
     }
@@ -53,14 +53,41 @@ struct BoxOfficeService {
         components.host = KobisNameSpace.host
         components.path = KobisNameSpace.detailMovieInfoPath
         
-        let key = URLQueryItem(name: KobisNameSpace.key,
-                               value: KobisNameSpace.keyValue)
-        let movieCd = URLQueryItem(name: KobisNameSpace.movieCd,
-                                   value: movieCd)
+        let query = [
+            KobisNameSpace.key : KobisNameSpace.keyValue,
+            KobisNameSpace.movieCd : movieCd
+        ]
         
-        components.queryItems = [key, movieCd]
+        guard let movieDetailURL = components.url else { return }
         
-        NetworkManager.loadData(components, Movie.self) { result in
+        NetworkManager.shared.sendGETRequest(url: movieDetailURL, query: query, objectType: Movie.self) { result in
+            switch result {
+            case .success(let data):
+                completion(.success(data))
+            case .failure(let error):
+                completion(.failure(error))
+            }
+        }
+    }
+    
+    func loadMoviePoster(movieNm: String, _ completion: @escaping (Result<DaumSearchMainText<ImageDocument>, NetworkManagerError>) -> Void) {
+        var components = URLComponents()
+        components.scheme = KakaoNameSpace.scheme
+        components.host = KakaoNameSpace.host
+        components.path = KakaoNameSpace.path
+        
+        let query = [
+            KakaoNameSpace.query : movieNm,
+            KakaoNameSpace.size : KakaoNameSpace.one
+        ]
+        
+        let headers = [
+            KakaoNameSpace.authorization : KakaoNameSpace.apiKey
+        ]
+        
+        guard let moviePosterURL = components.url else { return }
+        
+        NetworkManager.shared.sendGETRequest(url: moviePosterURL, query: query, headers: headers, objectType: DaumSearchMainText<ImageDocument>.self) { result in
             switch result {
             case .success(let data):
                 completion(.success(data))
