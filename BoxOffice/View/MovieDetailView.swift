@@ -60,6 +60,7 @@ final class MovieDetailView: UIView {
         let label = UILabel()
         
         label.font = .systemFont(ofSize: 15)
+        label.setContentHuggingPriority(.init(1), for: .horizontal)
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
@@ -85,6 +86,7 @@ final class MovieDetailView: UIView {
         let label = UILabel()
         
         label.font = .systemFont(ofSize: 15)
+        label.setContentHuggingPriority(.init(1), for: .horizontal)
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
@@ -110,6 +112,7 @@ final class MovieDetailView: UIView {
         let label = UILabel()
         
         label.font = .systemFont(ofSize: 15)
+        label.setContentHuggingPriority(.init(1), for: .horizontal)
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
@@ -135,6 +138,7 @@ final class MovieDetailView: UIView {
         let label = UILabel()
         
         label.font = .systemFont(ofSize: 15)
+        label.setContentHuggingPriority(.init(1), for: .horizontal)
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
@@ -160,6 +164,7 @@ final class MovieDetailView: UIView {
         let label = UILabel()
         
         label.font = .systemFont(ofSize: 15)
+        label.setContentHuggingPriority(.init(1), for: .horizontal)
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
@@ -185,6 +190,7 @@ final class MovieDetailView: UIView {
         let label = UILabel()
         
         label.font = .systemFont(ofSize: 15)
+        label.setContentHuggingPriority(.init(1), for: .horizontal)
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
@@ -210,6 +216,7 @@ final class MovieDetailView: UIView {
         let label = UILabel()
         
         label.font = .systemFont(ofSize: 15)
+        label.setContentHuggingPriority(.init(1), for: .horizontal)
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
@@ -235,6 +242,7 @@ final class MovieDetailView: UIView {
         let label = UILabel()
         
         label.font = .systemFont(ofSize: 15)
+        label.setContentHuggingPriority(.init(1), for: .horizontal)
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
