@@ -8,7 +8,7 @@
 import Foundation
 
 protocol DaumSearchRepository {
-    
+    func fetchDaumImageSearchInformation(_ movieName: String, _ completionHandler: @escaping (Result<Data, APIError>) -> Void)
 }
 
 final class DaumSearchRepositoryImplementation: DaumSearchRepository {
@@ -20,10 +20,33 @@ final class DaumSearchRepositoryImplementation: DaumSearchRepository {
         self.decoder = decoder
     }
     
-    
+    func fetchDaumImageSearchInformation(_ movieName: String, _ completionHandler: @escaping (Result<Data, APIError>) -> Void) {
+        let queryItem: [String: Any] = ["query": movieName]
+        let header = "KakaoAK \(APIKey.daumSearch)"
+        var urlRequest = setUpRequestURL(BaseURL.daumSearch, DaumSearchURLPath.image, queryItem)
+        
+        urlRequest?.setValue(header, forHTTPHeaderField: "Authorization")
+        sessionProvider.requestData(urlRequest) { result in
+            switch result {
+            case .success(let data):
+                self.decoder.decodeResponseData(data, completionHandler)
+            case .failure(let error):
+                completionHandler(.failure(error))
+            }
+        }
+    }
 }
 
-
 extension DaumSearchRepositoryImplementation {
-
+    private func setUpRequestURL(_ baseURL: String,_ path: String, _ queryItems: [String: Any]) -> URLRequest? {
+        guard var urlComponents = URLComponents(string: baseURL) else { return nil }
+        
+        urlComponents.path += path
+        urlComponents.queryItems = queryItems.map { URLQueryItem(name: $0.key, value: "\($0.value)") }
+        
+        guard let url = urlComponents.url else { return nil }
+        let urlRequest = URLRequest(url: url) // TODO : 중복 코드 사용
+        
+        return urlRequest
+    }
 }

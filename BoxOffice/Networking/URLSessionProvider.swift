@@ -8,13 +8,13 @@
 import Foundation
 
 protocol URLSessionProvider {
-    func requestData(_ requestURL: URL?, _ completionHandler: @escaping (Result<Data, APIError>) -> Void)
+    func requestData(_ requestURL: URLRequest?, _ completionHandler: @escaping (Result<Data, APIError>) -> Void)
 }
 
 final class URLSessionProviderImplementation: URLSessionProvider {
     private var dataTask: URLSessionDataTask?
 
-    func requestData(_ requestURL: URL?, _ completionHandler: @escaping (Result<Data, APIError>) -> Void) {
+    func requestData(_ requestURL: URLRequest?, _ completionHandler: @escaping (Result<Data, APIError>) -> Void) {
         guard let requestURL  = requestURL else {
             completionHandler(.failure(.invalidURL))
             return
