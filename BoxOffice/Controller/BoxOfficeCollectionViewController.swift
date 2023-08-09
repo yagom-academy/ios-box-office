@@ -7,9 +7,8 @@
 
 import UIKit
 
-class BoxOfficeCollectionViewController: UICollectionViewController {
+final class BoxOfficeCollectionViewController: UICollectionViewController {
     var boxOfficeItems: [BoxOfficeItem] = []
-    let indicator = UIActivityIndicatorView()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -26,9 +25,9 @@ class BoxOfficeCollectionViewController: UICollectionViewController {
     
     private func withIndicator(closure: @escaping () async -> Void) {
         Task {
-            indicator.startAnimating()
+            Indicator.shared.startAnimating()
             await closure()
-            indicator.stopAnimating()
+            Indicator.shared.stopAnimating()
         }
     }
     
@@ -68,6 +67,7 @@ class BoxOfficeCollectionViewController: UICollectionViewController {
 // MARK: - Refresh and indicator
 extension BoxOfficeCollectionViewController {
     private func configureIndicator() {
+        let indicator = Indicator.shared
         indicator.translatesAutoresizingMaskIntoConstraints = false
         view.addSubview(indicator)
         
@@ -111,10 +111,9 @@ extension BoxOfficeCollectionViewController {
 
 extension BoxOfficeCollectionViewController {
     override func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        let moviecode = boxOfficeItems[indexPath.row].movieCode
+        let boxOfficeItem = boxOfficeItems[indexPath.row]
         
-        let movieDetailViewController = MovieDetailViewController(movieCode: moviecode)
-        
+        let movieDetailViewController = MovieDetailViewController(boxOfficeItem: boxOfficeItem)        
         navigationController?.pushViewController(movieDetailViewController, animated: true)
     }
 }

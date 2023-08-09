@@ -22,8 +22,7 @@ final class MovieDetailView: UIView {
     }()
     
     private let posterImageView: UIImageView = {
-        let image = UIImageView()
-        image.image = UIImage(systemName: "ellipsis")
+        let image = UIImageView()        
         image.contentMode = .scaleAspectFit
         return image
     }()
@@ -37,7 +36,6 @@ final class MovieDetailView: UIView {
     
     convenience init() {
         self.init(frame: .zero)
-        
         configureView()
         backgroundColor = .systemBackground
     }
@@ -50,9 +48,9 @@ final class MovieDetailView: UIView {
         fatalError("init(coder:) has not been implemented")
     }
     
-    func injectMovieInformation(_ movieInformation: MovieInformation, image: UIImage) {
+    func injectMovieInformation(_ movieInformation: MovieInformation?, image: UIImage?) {
         posterImageView.image = image
-        
+        guard let movieInformation = movieInformation else { return }
         [createInformationLine(key: "감독", value: movieInformation.directors.description),
          createInformationLine(key: "제작년도", value: movieInformation.productionYear),
          createInformationLine(key: "개봉일", value: movieInformation.openDate),
