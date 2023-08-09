@@ -9,3 +9,4 @@
 // https://help.apple.com/xcode/#/dev745c5c974
 
 KOBIS_API_KEY = keyValue
+KAKAO_API_KEY = keyValue
