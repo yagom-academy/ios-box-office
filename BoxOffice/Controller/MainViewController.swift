@@ -59,10 +59,12 @@ class MainViewController: UIViewController, CalendarViewControllerDelegate {
     
     func didSelectDate(_ date: Date) {
         selectedDate = date
+        APIService.shared.selectedDate = date
         let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = "YYYY-MM-dd"
         let dateString = dateFormatter.string(from: date)
         self.navigationItem.title = "\(dateString)"
+        self.callAPIManager()
     }
     
     private func registerCustomCell() {
