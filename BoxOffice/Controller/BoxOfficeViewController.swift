@@ -31,15 +31,20 @@ final class BoxOfficeViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        setupNavigation()
-        setupCollectionView()
+        setupComponents()
         setupDataSource()
-        setupRefreshControl()
-        activityIndicator.startAnimating()
         loadBoxOfficeData()
-        
         configureUI()
         setupConstraint()
+    }
+}
+
+// MARK: setup Components
+extension BoxOfficeViewController {
+    private func setupComponents() {
+        setupNavigation()
+        setupCollectionView()
+        setupRefreshControl()
     }
     
     private func setupNavigation() {
@@ -58,24 +63,20 @@ final class BoxOfficeViewController: UIViewController {
     
     private func setupRefreshControl() {
         let refreshControl = UIRefreshControl()
-        refreshControl.addTarget(self, action: #selector(loadBoxOfficeData), for: .valueChanged)
+        refreshControl.addTarget(self, action: #selector(fetchBoxOfficeData), for: .valueChanged)
         
         collectionView.refreshControl = refreshControl
     }
-    
-    @objc private func didTapSelectDateButton() {
-        if #available(iOS 16.0, *) {
-            let dateComponents = Calendar.current.dateComponents([.year, .month, .day], from: boxOfficeManager.targetDate)
-            let calendarViewController = CalendarViewController(selectedDate: dateComponents)
-            calendarViewController.delegate = self
-            
-            present(calendarViewController, animated: true)
-        } else {
-            return
-        }
+}
+
+// MARK: Data Load
+extension BoxOfficeViewController {
+    private func loadBoxOfficeData() {
+        activityIndicator.startAnimating()
+        fetchBoxOfficeData()
     }
     
-    @objc private func loadBoxOfficeData() {
+    @objc private func fetchBoxOfficeData() {
         boxOfficeManager.fetchBoxOffice { result in
             if result == false {
                 DispatchQueue.main.async {
@@ -94,6 +95,21 @@ final class BoxOfficeViewController: UIViewController {
                 self.collectionView.refreshControl?.endRefreshing()
                 self.activityIndicator.stopAnimating()
             }
+        }
+    }
+}
+
+// MARK: Button Action
+extension BoxOfficeViewController {
+    @objc private func didTapSelectDateButton() {
+        if #available(iOS 16.0, *) {
+            let dateComponents = Calendar.current.dateComponents([.year, .month, .day], from: boxOfficeManager.targetDate)
+            let calendarViewController = CalendarViewController(selectedDate: dateComponents)
+            calendarViewController.delegate = self
+            
+            present(calendarViewController, animated: true)
+        } else {
+            return
         }
     }
 }

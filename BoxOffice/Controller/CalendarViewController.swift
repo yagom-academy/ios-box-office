@@ -35,10 +35,18 @@ final class CalendarViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        setupCalendarView()
+        setupComponents()
         
         configureUI()
         setupConstraint()
+    }
+}
+
+// MARK: setup Components
+@available(iOS 16.0, *)
+extension CalendarViewController {
+    private func setupComponents() {
+        setupCalendarView()
     }
     
     private func setupCalendarView() {

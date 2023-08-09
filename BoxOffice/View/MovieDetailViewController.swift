@@ -33,15 +33,31 @@ final class MovieDetailViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        movieDetailView.startActivityIndicator()
+        setupComponents()
         loadMovieInformationData()
+    }
+}
+
+// MARK: setup Components
+extension MovieDetailViewController {
+    private func setupComponents() {
+        setupNavigation()
     }
     
     private func setupNavigation() {
         navigationItem.title = boxOfficeManager.movieInformation?.movieTitle
     }
+}
+
+// MARK: Data Load
+extension MovieDetailViewController {
+    private func loadMovieInformationData() {
+        movieDetailView.startActivityIndicator()
+        fetchMovieInformation()
+        fetchPosterImage()
+    }
     
-    @objc private func loadMovieInformationData() {
+    private func fetchMovieInformation() {
         boxOfficeManager.fetchMovie(movieCode) { result in
             if result == false {
                 DispatchQueue.main.async {
@@ -61,7 +77,9 @@ final class MovieDetailViewController: UIViewController {
                 self.movieDetailView.setupMovieInformationStackView(movieInformation: movieInformation)
             }
         }
-        
+    }
+    
+    private func fetchPosterImage() {
         boxOfficeManager.fetchPosterImage(movieName) { result in
             if result == false {
                 DispatchQueue.main.async {
