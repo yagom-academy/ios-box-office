@@ -17,16 +17,14 @@ final class BoxOfficeCollectionViewController: UICollectionViewController {
         configureIndicator()
         configureRefreshControl()
         registerCell()
-        
-        withIndicator {
-            await self.fetchBoxOfficeItems()
-        }
+        fetchData()
     }
     
-    private func withIndicator(closure: @escaping () async -> Void) {
-        Task {
+    private func fetchData() {
+        Task { [weak self] in
             Indicator.shared.startAnimating()
-            await closure()
+            guard let self else { return }
+            await self.fetchBoxOfficeItems()
             Indicator.shared.stopAnimating()
         }
     }
@@ -72,10 +70,8 @@ extension BoxOfficeCollectionViewController {
         view.addSubview(indicator)
         
         NSLayoutConstraint.activate([
-            indicator.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
-            indicator.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor),
-            indicator.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor),
-            indicator.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor),
+            indicator.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            indicator.centerYAnchor.constraint(equalTo: view.centerYAnchor),
         ])
     }
     
