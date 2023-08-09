@@ -49,8 +49,7 @@ final class MainViewController: UIViewController, CalendarViewControllerDelegate
     }
     
     private func configureTitle() {
-        let dateProvider = DateProvider()
-        guard let yesterday = dateProvider.updateYesterday(.viewTitle) else {
+        guard let yesterday = DateProvider().updateDate(to: -1, by: .viewTitle) else {
             return
         }
         
@@ -60,9 +59,7 @@ final class MainViewController: UIViewController, CalendarViewControllerDelegate
     func didSelectDate(_ date: Date) {
         selectedDate = date
         URLManager.shared.selectedDate = date
-        let dateFormatter = DateFormatter()
-        dateFormatter.dateFormat = "YYYY-MM-dd"
-        let dateString = dateFormatter.string(from: date)
+        let dateString = DateProvider().modifyDate(with: date, by: .viewTitle)
         self.navigationItem.title = "\(dateString)"
         self.callAPIManager()
     }

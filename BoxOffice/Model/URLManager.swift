@@ -40,7 +40,7 @@ enum APIService {
     var url: URL? {
         let key = Bundle.main.apiKey
         let urlManager = URLManager()
-        guard let targetDate = DateProvider().updateYesterday(.urlDate) else {
+        guard let targetDate = DateProvider().updateDate(to: -1, by: .urlDate) else {
             return nil
         }
         
