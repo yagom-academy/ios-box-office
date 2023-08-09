@@ -60,6 +60,24 @@ final class MovieDetailView: UIView {
     }
 }
 
+// MARK: Manage Indicator
+extension MovieDetailView {
+    func startActivityIndicator() {
+        activityIndicator.startAnimating()
+    }
+    
+    func stopActivityIndicator() {
+        activityIndicator.stopAnimating()
+    }
+}
+
+// MARK: setup Components
+extension MovieDetailView {
+    func setupPosterImageView(image: UIImage?) {
+        posterImageView.image = image
+    }
+}
+
 // MARK: add MovieDetailStackVeiw
 extension MovieDetailView {
     func setupMovieInformationStackView(movieInformation: MovieInformation) {
@@ -71,18 +89,6 @@ extension MovieDetailView {
         movieInformationStackView.addArrangedSubview(informationStackView(title: MovieInformation.PropertyName.nationName, information: movieInformation.nationName))
         movieInformationStackView.addArrangedSubview(informationStackView(title: MovieInformation.PropertyName.genreName, information: movieInformation.genreName))
         movieInformationStackView.addArrangedSubview(informationStackView(title: MovieInformation.PropertyName.actors, information: movieInformation.actors))
-    }
-    
-    func setupPosterImageView(image: UIImage?) {
-        posterImageView.image = image
-    }
-    
-    func startActivityIndicator() {
-        activityIndicator.startAnimating()
-    }
-    
-    func stopActivityIndicator() {
-        activityIndicator.stopAnimating()
     }
     
     private func informationStackView(title: String, information: String) -> UIStackView {
