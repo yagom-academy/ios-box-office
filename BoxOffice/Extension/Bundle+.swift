@@ -1,5 +1,5 @@
 //
-//  BoxOfficeBundle.swift
+//  Bundle+.swift
 //  BoxOffice
 //
 //  Created by Serena, BMO on 2023/08/08.
