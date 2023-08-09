@@ -12,6 +12,7 @@ class NetworkManager {
     
     private init() {}
     
+    // TODO: HTTP Method 종류별 메서드 완성 시 해당 메서드 private 처리하기
     func performRequest<T: Decodable>(_ request: URLRequest, _ objectType: T.Type, _ completion: @escaping (Result<T, NetworkManagerError>) -> Void) {
         URLSession.shared.dataTask(with: request) { data, response, error in
             if error != nil {
