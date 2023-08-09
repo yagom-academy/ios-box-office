@@ -11,7 +11,6 @@ class MainViewController: UIViewController, CalendarViewControllerDelegate {
     @IBOutlet weak var collectionView: UICollectionView!
     @IBOutlet weak var loadingActivityView: UIActivityIndicatorView!
     @IBOutlet weak var calendarButton: UIButton!
-    
     var boxOffice: BoxOffice?
     var selectedDate: Date?
     
@@ -38,7 +37,6 @@ class MainViewController: UIViewController, CalendarViewControllerDelegate {
     @IBAction func tabCalendarButton(_ sender: UIButton) {
         let calendarVC = CalendarViewController(selectedDate: selectedDate, delegate: self)
         calendarVC.modalPresentationStyle = .popover
-        calendarVC.delegate = self
         self.present(calendarVC, animated: true, completion: nil)
     }
     

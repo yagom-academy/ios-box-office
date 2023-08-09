@@ -8,7 +8,7 @@
 import Foundation
 
 struct APIManager {
-    func fetchData(service: APIService, completion: @escaping (Result<Data, Error>) -> Void) {
+    func fetchData(service: ServiceType, completion: @escaping (Result<Data, Error>) -> Void) {
         let session = URLSession.shared
         
         guard let url = service.url else {
