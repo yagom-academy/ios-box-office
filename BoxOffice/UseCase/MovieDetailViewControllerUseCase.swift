@@ -7,6 +7,8 @@
 
 protocol MovieDetailViewControllerUseCase {
     var delegate: MovieDetailViewControllerUseCaseDelegate? { get set }
+    func fetchMovieDetailInformation(_ movieCode: String)
+    func fetchMovieDetailImage(_ movieName: String)
 }
 
 final class MovieDetailViewControllerUseCaseImplementation: MovieDetailViewControllerUseCase {
@@ -19,28 +21,31 @@ final class MovieDetailViewControllerUseCaseImplementation: MovieDetailViewContr
         self.daumSearchRepository = daumSearchRepository
     }
     
-    func fetchDetailMovieInformation(_ movieCode: String) {
+    func fetchMovieDetailInformation(_ movieCode: String) {
         boxOfficeRepository.fetchMovieDetailInformation(movieCode) { result in
             switch result {
             case .success(let result):
-                let movieDetailInformation = self.setUpMovieDetailInformationDTO(result.movieInformationResult.movieInformation)
-                print(result)
+                let movieDetailInformationDTO = self.setUpMovieDetailInformationDTO(result.movieInformationResult.movieInformation)
+                
+                self.delegate?.completeFetchMovieDetailInformation(movieDetailInformationDTO)
             case .failure(let error):
-                print(error)
+                self.delegate?.failFetchMovieDetailInformation(error.errorDescription)
             }
         }
     }
     
-    func fetchDetailMovieImage(_ movieName: String) {
+    func fetchMovieDetailImage(_ movieName: String) {
         daumSearchRepository.fetchDaumImageSearchInformation(movieName) { result in
             switch result {
             case .success(let result):
                 guard let movieDetailImageDTO = self.setUpMovieDetailImageDTO(result) else {
+                    // TODO : error Case 추가 (API Error)
                     return
                 }
-                print(result)
+                
+                self.delegate?.completeFetchMovieDetailImage(movieDetailImageDTO)
             case .failure(let error):
-                print(error)
+                self.delegate?.failFetchMovieDetailImage(error.errorDescription)
             }
         }
     }
@@ -49,23 +54,23 @@ final class MovieDetailViewControllerUseCaseImplementation: MovieDetailViewContr
 extension MovieDetailViewControllerUseCaseImplementation {
     private func setUpMovieDetailImageDTO(_ daumSearchImageResult: DaumSearchImageResult) -> MovieDetailImageDTO? {
         guard let imageInformation = daumSearchImageResult.documents.first else { return nil }
-        let movieDetailDTO = MovieDetailImageDTO(imageURL: imageInformation.imageURL,
+        let movieDetailImageDTO = MovieDetailImageDTO(imageURL: imageInformation.imageURL,
                                             width: imageInformation.width,
                                             height: imageInformation.height)
 
-        return movieDetailDTO
+        return movieDetailImageDTO
     }
     
     private func setUpMovieDetailInformationDTO(_ movieDetailResult: MovieDetail) -> MovieDetailInformationDTO {
-        let movieDetailInformation = MovieDetailInformationDTO(showTime: movieDetailResult.showTime,
+        let movieDetailInformationDTO = MovieDetailInformationDTO(showTime: movieDetailResult.showTime,
                                                                productYear: movieDetailResult.productYear,
                                                                openDate: movieDetailResult.openDate,
                                                                nations: movieDetailResult.nations,
                                                                genres: movieDetailResult.genres,
                                                                directors: movieDetailResult.directors,
-                                                               actors: movieDetailResult.actors,
+                                                               movieActors: movieDetailResult.actors,
                                                                audits: movieDetailResult.audits)
         
-        return movieDetailInformation
+        return movieDetailInformationDTO
     }
 }

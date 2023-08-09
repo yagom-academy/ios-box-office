@@ -2,7 +2,7 @@
 //  MovieDetailView.swift
 //  BoxOffice
 //
-//  Created by Zion, Hemg on 2023/08/09.
+//  Created by Zion, Hemg on 1823/08/09.
 //
 
 import UIKit
@@ -43,15 +43,15 @@ final class MovieDetailView: UIView {
         let stackView = UIStackView()
         
         stackView.axis = .horizontal
-        stackView.translatesAutoresizingMaskIntoConstraints = false
         return stackView
     }()
     
     private let directorLabel: UILabel = {
         let label = UILabel()
         
-        label.font = .boldSystemFont(ofSize: 15)
+        label.font = .boldSystemFont(ofSize: 18)
         label.text = "감독"
+        label.textAlignment = .center
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
@@ -59,9 +59,8 @@ final class MovieDetailView: UIView {
     private let directorContentLabel: UILabel = {
         let label = UILabel()
         
-        label.font = .systemFont(ofSize: 15)
+        label.font = .systemFont(ofSize: 18)
         label.setContentHuggingPriority(.init(1), for: .horizontal)
-        label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
     
@@ -69,15 +68,15 @@ final class MovieDetailView: UIView {
         let stackView = UIStackView()
         
         stackView.axis = .horizontal
-        stackView.translatesAutoresizingMaskIntoConstraints = false
         return stackView
     }()
     
     private let productionYearLabel: UILabel = {
         let label = UILabel()
         
-        label.font = .boldSystemFont(ofSize: 15)
+        label.font = .boldSystemFont(ofSize: 18)
         label.text = "제작년도"
+        label.textAlignment = .center
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
@@ -85,9 +84,8 @@ final class MovieDetailView: UIView {
     private let productionYearContentLabel: UILabel = {
         let label = UILabel()
         
-        label.font = .systemFont(ofSize: 15)
+        label.font = .systemFont(ofSize: 18)
         label.setContentHuggingPriority(.init(1), for: .horizontal)
-        label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
     
@@ -95,15 +93,15 @@ final class MovieDetailView: UIView {
         let stackView = UIStackView()
         
         stackView.axis = .horizontal
-        stackView.translatesAutoresizingMaskIntoConstraints = false
         return stackView
     }()
     
     private let openDateLabel: UILabel = {
         let label = UILabel()
         
-        label.font = .boldSystemFont(ofSize: 15)
+        label.font = .boldSystemFont(ofSize: 18)
         label.text = "개봉일"
+        label.textAlignment = .center
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
@@ -111,9 +109,8 @@ final class MovieDetailView: UIView {
     private let openDateContentLabel: UILabel = {
         let label = UILabel()
         
-        label.font = .systemFont(ofSize: 15)
+        label.font = .systemFont(ofSize: 18)
         label.setContentHuggingPriority(.init(1), for: .horizontal)
-        label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
     
@@ -121,15 +118,15 @@ final class MovieDetailView: UIView {
         let stackView = UIStackView()
         
         stackView.axis = .horizontal
-        stackView.translatesAutoresizingMaskIntoConstraints = false
         return stackView
     }()
     
     private let showTimeLabel: UILabel = {
         let label = UILabel()
         
-        label.font = .boldSystemFont(ofSize: 15)
+        label.font = .boldSystemFont(ofSize: 18)
         label.text = "상영시간"
+        label.textAlignment = .center
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
@@ -137,9 +134,8 @@ final class MovieDetailView: UIView {
     private let showTimeContentLabel: UILabel = {
         let label = UILabel()
         
-        label.font = .systemFont(ofSize: 15)
+        label.font = .systemFont(ofSize: 18)
         label.setContentHuggingPriority(.init(1), for: .horizontal)
-        label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
     
@@ -147,15 +143,15 @@ final class MovieDetailView: UIView {
         let stackView = UIStackView()
         
         stackView.axis = .horizontal
-        stackView.translatesAutoresizingMaskIntoConstraints = false
         return stackView
     }()
     
     private let watchGradeLabel: UILabel = {
         let label = UILabel()
         
-        label.font = .boldSystemFont(ofSize: 15)
+        label.font = .boldSystemFont(ofSize: 18)
         label.text = "관람등급"
+        label.textAlignment = .center
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
@@ -163,9 +159,8 @@ final class MovieDetailView: UIView {
     private let watchGradeContentLabel: UILabel = {
         let label = UILabel()
         
-        label.font = .systemFont(ofSize: 15)
+        label.font = .systemFont(ofSize: 18)
         label.setContentHuggingPriority(.init(1), for: .horizontal)
-        label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
     
@@ -173,15 +168,15 @@ final class MovieDetailView: UIView {
         let stackView = UIStackView()
         
         stackView.axis = .horizontal
-        stackView.translatesAutoresizingMaskIntoConstraints = false
         return stackView
     }()
     
     private let nationsLabel: UILabel = {
         let label = UILabel()
         
-        label.font = .boldSystemFont(ofSize: 15)
+        label.font = .boldSystemFont(ofSize: 18)
         label.text = "제작국가"
+        label.textAlignment = .center
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
@@ -189,9 +184,8 @@ final class MovieDetailView: UIView {
     private let nationsContentLabel: UILabel = {
         let label = UILabel()
         
-        label.font = .systemFont(ofSize: 15)
+        label.font = .systemFont(ofSize: 18)
         label.setContentHuggingPriority(.init(1), for: .horizontal)
-        label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
     
@@ -199,15 +193,15 @@ final class MovieDetailView: UIView {
         let stackView = UIStackView()
         
         stackView.axis = .horizontal
-        stackView.translatesAutoresizingMaskIntoConstraints = false
         return stackView
     }()
     
     private let genresLabel: UILabel = {
         let label = UILabel()
         
-        label.font = .boldSystemFont(ofSize: 15)
+        label.font = .boldSystemFont(ofSize: 18)
         label.text = "장르"
+        label.textAlignment = .center
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
@@ -215,9 +209,8 @@ final class MovieDetailView: UIView {
     private let genresContentLabel: UILabel = {
         let label = UILabel()
         
-        label.font = .systemFont(ofSize: 15)
+        label.font = .systemFont(ofSize: 18)
         label.setContentHuggingPriority(.init(1), for: .horizontal)
-        label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
     
@@ -225,15 +218,15 @@ final class MovieDetailView: UIView {
         let stackView = UIStackView()
         
         stackView.axis = .horizontal
-        stackView.translatesAutoresizingMaskIntoConstraints = false
         return stackView
     }()
     
     private let movieActorsLabel: UILabel = {
         let label = UILabel()
         
-        label.font = .boldSystemFont(ofSize: 15)
+        label.font = .boldSystemFont(ofSize: 18)
         label.text = "배우"
+        label.textAlignment = .center
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
@@ -241,9 +234,8 @@ final class MovieDetailView: UIView {
     private let movieActorsContentLabel: UILabel = {
         let label = UILabel()
         
-        label.font = .systemFont(ofSize: 15)
+        label.font = .systemFont(ofSize: 18)
         label.setContentHuggingPriority(.init(1), for: .horizontal)
-        label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
     
@@ -255,6 +247,36 @@ final class MovieDetailView: UIView {
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
+    }
+    
+    func setUpContents(_ movieDetailInformationDTO: MovieDetailInformationDTO) {
+        DispatchQueue.main.async {
+            self.directorContentLabel.text = movieDetailInformationDTO.convertDirectorsToText()
+            self.productionYearContentLabel.text = movieDetailInformationDTO.productYear
+            self.openDateContentLabel.text = movieDetailInformationDTO.openDate
+            self.showTimeContentLabel.text = movieDetailInformationDTO.showTime
+            self.watchGradeContentLabel.text = movieDetailInformationDTO.convertAuditsToText()
+            self.nationsContentLabel.text = movieDetailInformationDTO.convertNationsToText()
+            self.genresContentLabel.text = movieDetailInformationDTO.convertGenresToText()
+            self.movieActorsContentLabel.text = movieDetailInformationDTO.convertMovieActorsToText()
+            
+            if movieDetailInformationDTO.isMovieActorsEmpty() {
+                self.movieActorsStackView.isHidden = true
+            }
+        }
+    }
+    
+    func setUpImageContent(_ movieDetailImageDTO: MovieDetailImageDTO) {
+        guard let imageURL = URL(string: movieDetailImageDTO.imageURL),
+                let imageData = try? Data(contentsOf: imageURL) else { return }
+
+        DispatchQueue.main.async {
+            let imageRatio = Double(movieDetailImageDTO.height) / Double(movieDetailImageDTO.width)
+            let imageWidth = self.bounds.width
+            
+            self.imageView.heightAnchor.constraint(equalToConstant: imageWidth * imageRatio).isActive = true
+            self.imageView.image = UIImage(data: imageData)
+        }
     }
     
     private func setUpLayout() {
@@ -271,7 +293,10 @@ final class MovieDetailView: UIView {
         setUpGenresStackViewLayout()
         setUpMovieActorsStackViewLayout()
     }
-    
+}
+
+// MARK: - setUpLayout
+extension MovieDetailView {
     private func setUpScrollViewLayout() {
         addSubview(scrollView)
         
@@ -306,7 +331,7 @@ final class MovieDetailView: UIView {
         NSLayoutConstraint.activate([
             imageView.topAnchor.constraint(equalTo: contentView.topAnchor),
             imageView.centerXAnchor.constraint(equalTo: contentView.centerXAnchor),
-            imageView.heightAnchor.constraint(equalTo: contentView.heightAnchor, multiplier: 0.95)
+            imageView.widthAnchor.constraint(equalTo: contentView.widthAnchor, multiplier: 0.95)
         ])
     }
     
@@ -401,5 +426,3 @@ final class MovieDetailView: UIView {
         ])
     }
 }
-
-

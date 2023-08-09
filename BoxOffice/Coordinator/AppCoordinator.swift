@@ -32,9 +32,10 @@ extension AppCoordinator: MainViewControllerDelegate {
     func pushMovieDetailViewController(_ movieCode: String, _ movieName: String) {
         let boxOfficeRepository: BoxOfficeRepository = BoxOfficeRepositoryImplementation(sessionProvider: sessionProvider)
         let daumSearchRepository: DaumSearchRepository = DaumSearchRepositoryImplementation(sessionProvider: sessionProvider)
-        let useCase: MovieDetailViewControllerUseCase = MovieDetailViewControllerUseCaseImplementation(boxOfficeRepository: boxOfficeRepository, daumSearchRepository: daumSearchRepository)
+        var useCase: MovieDetailViewControllerUseCase = MovieDetailViewControllerUseCaseImplementation(boxOfficeRepository: boxOfficeRepository, daumSearchRepository: daumSearchRepository)
         let movieDetailViewController = MovieDetailViewController(usecase: useCase, movieCode: movieCode, movieName: movieName)
         
+        useCase.delegate = movieDetailViewController
         navigationController.pushViewController(movieDetailViewController, animated: true)
     }
 }
