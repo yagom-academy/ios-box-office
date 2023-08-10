@@ -22,8 +22,7 @@ final class MovieDetailView: UIView {
     }()
     
     private let posterImageView: UIImageView = {
-        let image = UIImageView()        
-        image.contentMode = .scaleAspectFit
+        let image = UIImageView()
         return image
     }()
     
@@ -50,6 +49,7 @@ final class MovieDetailView: UIView {
     
     func injectMovieInformation(_ movieInformation: MovieInformation?, image: UIImage?) {
         posterImageView.image = image
+        updatePosterImageViewConstraints()
         guard let movieInformation = movieInformation else { return }
         
         let directors = movieInformation.directors.map { $0.peopleName }.joined(separator: ", ")
@@ -144,9 +144,16 @@ extension MovieDetailView {
     private func posterImageViewConstraints() {
         posterImageView.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([
-            posterImageView.widthAnchor.constraint(equalTo: contentStackView.widthAnchor, multiplier: 1),
-            posterImageView.heightAnchor.constraint(lessThanOrEqualTo: safeAreaLayoutGuide.heightAnchor, multiplier: 1)
+            posterImageView.widthAnchor.constraint(equalTo: contentStackView.widthAnchor, multiplier: 1)
         ])
+    }
+    
+    private func updatePosterImageViewConstraints() {
+        guard let imageWidth = posterImageView.image?.size.width,
+              let imageHeight = posterImageView.image?.size.height else { return }
+        let ratio = posterImageView.frame.width / imageWidth
+        let height = ratio * imageHeight
+        posterImageView.heightAnchor.constraint(equalToConstant: height).isActive = true
     }
     
     private func detailStackViewConstraints() {

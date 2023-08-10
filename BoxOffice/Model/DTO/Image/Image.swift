@@ -16,7 +16,13 @@ struct Image: Decodable {
 }
 
 struct Meta: Decodable {
-    let total_count: Int
-    let pageable_count: Int
-    let is_end: Bool
+    let totalCount: Int
+    let pageableCount: Int
+    let isEnd: Bool
+    
+    private enum CodingKeys: String, CodingKey {
+        case totalCount = "total_count"
+        case pageableCount = "pageable_count"
+        case isEnd = "is_end"
+    }
 }

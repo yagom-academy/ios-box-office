@@ -27,7 +27,7 @@ enum FetchType {
 enum NetworkManager {
     
     static func fetchImage(movieName: String) async throws -> UIImage? {
-        let image:Image = try await fetchData(fetchType: .image(movieName: movieName))
+        let image: Image = try await fetchData(fetchType: .image(movieName: movieName))
         
         guard let urlString = image.imageDocuments.first?.imageURL,
               let url = URL(string: urlString),
