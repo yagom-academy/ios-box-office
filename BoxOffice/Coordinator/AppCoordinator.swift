@@ -10,14 +10,15 @@ import UIKit
 final class AppCoordinator {
     private let navigationController: UINavigationController
     private let sessionProvider: URLSessionProvider
+    private let boxOfficeRepository: BoxOfficeRepository
     
-    init(navigationController: UINavigationController, sessionProvider: URLSessionProvider) {
+    init(navigationController: UINavigationController, sessionProvider: URLSessionProvider, boxOfficeRepository: BoxOfficeRepository) {
         self.navigationController = navigationController
         self.sessionProvider = sessionProvider
+        self.boxOfficeRepository = boxOfficeRepository
     }
     
     func start() {
-        let boxOfficeRepository: BoxOfficeRepository = BoxOfficeRepositoryImplementation(sessionProvider: sessionProvider)
         var usecase: MainViewControllerUseCase = MainViewControllerUseCaseImplementation(boxOfficeRepository: boxOfficeRepository)
         let mainViewController = MainViewController(usecase)
         
@@ -30,7 +31,6 @@ final class AppCoordinator {
 // MARK: - MainViewControllerDelegate
 extension AppCoordinator: MainViewControllerDelegate {
     func pushMovieDetailViewController(_ movieCode: String, _ movieName: String) {
-        let boxOfficeRepository: BoxOfficeRepository = BoxOfficeRepositoryImplementation(sessionProvider: sessionProvider)
         let daumSearchRepository: DaumSearchRepository = DaumSearchRepositoryImplementation(sessionProvider: sessionProvider)
         var useCase: MovieDetailViewControllerUseCase = MovieDetailViewControllerUseCaseImplementation(boxOfficeRepository: boxOfficeRepository, daumSearchRepository: daumSearchRepository)
         let movieDetailViewController = MovieDetailViewController(usecase: useCase, movieCode: movieCode, movieName: movieName)
