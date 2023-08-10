@@ -27,6 +27,12 @@ class MainViewController: UIViewController {
         loadingActivityView.startAnimating()
     }
     
+    private func hideLoadingView() {
+        self.collectionView.isHidden = false
+        self.loadingActivityView.isHidden = true
+        self.loadingActivityView.stopAnimating()
+    }
+    
     private func assignDataSourceAndDelegate() {
         collectionView.dataSource = self
         collectionView.delegate = self
@@ -34,7 +40,7 @@ class MainViewController: UIViewController {
     
     private func initRefresh() {
         let refreshControl = UIRefreshControl()
-        refreshControl.addTarget(self, action: #selector(updateCollectionView), for: .valueChanged)
+        refreshControl.addTarget(self, action: #selector(updateData), for: .valueChanged)
         refreshControl.backgroundColor = UIColor.clear
         refreshControl.attributedTitle = NSAttributedString(string: "Loading...", attributes: [NSAttributedString.Key.foregroundColor: UIColor.systemGray, NSAttributedString.Key.font : UIFont.boldSystemFont(ofSize: 20)])
         self.collectionView.refreshControl = refreshControl
@@ -54,13 +60,16 @@ class MainViewController: UIViewController {
                                 forCellWithReuseIdentifier: "cell")
     }
     
-    @objc private func updateCollectionView() {
-        DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
+    @objc private func updateData() {
+        callAPIManager()
+        NotificationCenter.default.addObserver(self, selector: #selector(reloadCollectionView), name: Notification.Name("completed"), object: nil)
+    }
+    
+    @objc private func reloadCollectionView() {
+        DispatchQueue.main.async {
             self.collectionView.reloadData()
             self.collectionView.refreshControl?.endRefreshing()
-            self.collectionView.isHidden = false
-            self.loadingActivityView.stopAnimating()
-            self.loadingActivityView.isHidden = true
+            self.hideLoadingView()
         }
     }
     
@@ -71,13 +80,18 @@ class MainViewController: UIViewController {
             case .success(let data):
                 if let decodedData: BoxOffice = jsonDecoder.decodeJSON(data: data) {
                     self?.boxOffice = decodedData
-                    self?.updateCollectionView()
+                    DispatchQueue.main.async {
+                        self?.collectionView.reloadData()
+                        self?.hideLoadingView()
+                    }
                 } else {
                     print("Decoding Error")
                 }
             case .failure(let error):
                 print(error)
             }
+            
+            NotificationCenter.default.post(name: Notification.Name("completed"), object: nil)
         }
     }
 }
