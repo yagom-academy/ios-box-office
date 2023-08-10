@@ -62,7 +62,7 @@ final class BoxOfficeViewController: UIViewController {
     }
     
     // MARK: - Load Data
-    @objc private func loadDailyBoxOfficeData() {
+    private func loadDailyBoxOfficeData() {
         boxOfficeService.loadDailyBoxOfficeData(fetchBoxOffice)
     }
     
@@ -109,8 +109,8 @@ extension BoxOfficeViewController {
         collectionView?.autoresizingMask = [.flexibleWidth, .flexibleHeight]
         collectionView?.delegate = self
         collectionView?.refreshControl = refresher
-        collectionView?.refreshControl?.addTarget(self, action: #selector(loadDailyBoxOfficeData), for: .valueChanged)
-        collectionView?.refreshControl?.transform = CGAffineTransformMakeScale(0.6, 0.6);
+        collectionView?.refreshControl?.addAction(refreshData(), for: .valueChanged)
+        collectionView?.refreshControl?.transform = CGAffineTransformMakeScale (0.6, 0.6);
         
         view.addSubview(collectionView ?? UICollectionView())
     }
@@ -157,6 +157,14 @@ extension BoxOfficeViewController {
             let calendarViewController = CalendarViewController(year: year, month: month, day: day)
             
             self.present(calendarViewController, animated: true)
+        }
+        
+        return action
+    }
+    
+    private func refreshData() -> UIAction {
+        let action = UIAction { _ in
+            self.loadDailyBoxOfficeData()
         }
         
         return action
