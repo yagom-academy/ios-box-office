@@ -9,14 +9,19 @@ import UIKit
 
 class ViewController: UIViewController {
     
-    var itemData: [Item] = []
     let networkManager: NetworkManager = NetworkManager()
     var dataSource: UICollectionViewDiffableDataSource<Section, Item>? = nil
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        printBoxOfficeData()
+        self.configureHierarchy()
+        
+        fetchBoxOfficeData {
+            DispatchQueue.main.async {
+                self.configureDataSource()
+            }
+        }
     }
     
     func creatLayout() -> UICollectionViewLayout {
@@ -36,13 +41,13 @@ class ViewController: UIViewController {
             cell.updateWithItem(item)
             cell.accessories = [.disclosureIndicator()]
         }
-        dataSource = UICollectionViewDiffableDataSource<Section, Item>(collectionView: collectionView, cellProvider: { (collectionView, indexPath, itemIdentifier) -> UICollectionViewCell in
-            return collectionView.dequeueConfiguredReusableCell(using: cellRegistration, for: indexPath, item: itemIdentifier)
+        dataSource = UICollectionViewDiffableDataSource<Section, Item>(collectionView: collectionView, cellProvider: { (collectionView, indexPath, item) -> UICollectionViewCell in
+            return collectionView.dequeueConfiguredReusableCell(using: cellRegistration, for: indexPath, item: item)
         })
         
         var snapshot = NSDiffableDataSourceSnapshot<Section, Item>()
         snapshot.appendSections([.main])
-        snapshot.appendItems(itemData)
+        snapshot.appendItems(Item.all)
         guard let dataSource = dataSource else { return }
         dataSource.apply(snapshot)
     }
@@ -53,23 +58,14 @@ extension ViewController {
         do {
             
             let endPoint = EndPoint(
-                baseURL: "http://kobis.or.kr",
+                baseURL: "http://www.kobis.or.kr/kobisopenapi/webservice/rest/boxoffice/searchDailyBoxOfficeList.json",
                 queryItems: [
                     "key": "d4bb1f8d42a3b440bb739e9d49729660",
                     "targetDt": "20230724"
                 ]
             )
             
-            let url = try endPoint.generateURL(
-                paths: [
-                    "/kobisopenapi",
-                    "/webservice",
-                    "/rest",
-                    "/boxoffice",
-                    "/searchDailyBoxOfficeList.json"
-                ],
-                isFullPath: false
-            )
+            let url = try endPoint.generateURL(isFullPath: false)
             
             let urlRequest = URLRequest(url: url)
             
@@ -78,6 +74,42 @@ extension ViewController {
                 print(boxOffice)
             }
             
+        } catch {
+            print(error.localizedDescription)
+        }
+    }
+}
+
+extension ViewController {
+    func fetchBoxOfficeData(completion: @escaping () -> ()) {
+        do {
+            let endPoint = EndPoint(
+                baseURL: "http://www.kobis.or.kr/kobisopenapi/webservice/rest/boxoffice/searchDailyBoxOfficeList.json",
+                queryItems: [
+                    "key": "d4bb1f8d42a3b440bb739e9d49729660",
+                    "targetDt": "20230724"
+                ]
+            )
+            
+            let url = try endPoint.generateURL(isFullPath: false)
+            
+            let urlRequest = URLRequest(url: url)
+    
+            networkManager.getBoxOfficeData(requestURL: urlRequest) { (boxOffice: BoxOffice) in
+                let count = boxOffice.boxOfficeResult.dailyBoxOfficeList.count
+                for index in 0...(count-1) {
+                    let rankNumber = boxOffice.boxOfficeResult.dailyBoxOfficeList[index].rankNumber
+                    let rankIntensity = boxOffice.boxOfficeResult.dailyBoxOfficeList[index].rankIntensity
+                    let movieName = boxOffice.boxOfficeResult.dailyBoxOfficeList[index].movieName
+                    let audienceCount = boxOffice.boxOfficeResult.dailyBoxOfficeList[index].audienceCount
+                    let audienceAccumulated = boxOffice.boxOfficeResult.dailyBoxOfficeList[index].audienceAccumulated
+                    
+                    let items = Item(rankNumber: rankNumber, rankIntensity: rankIntensity, movieName: movieName, audienceCount: audienceCount, audienceAccumulated: audienceAccumulated)
+                    
+                    Item.all.append(items)
+                }
+                completion()
+            }
         } catch {
             print(error.localizedDescription)
         }
