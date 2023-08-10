@@ -8,8 +8,6 @@
 import Foundation
 
 struct BoxOfficeService {
-    
-    
     func loadDailyBoxOfficeData(_ completion: @escaping (Result<BoxOffice, NetworkManagerError>) -> Void) {
         var components = URLComponents()
         components.scheme = KobisNameSpace.scheme
