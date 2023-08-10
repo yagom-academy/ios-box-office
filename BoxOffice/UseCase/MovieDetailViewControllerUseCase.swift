@@ -67,11 +67,11 @@ extension MovieDetailViewControllerUseCaseImplementation {
         let movieDetailInformationDTO = MovieDetailInformationDTO(showTime: movieDetailResult.showTime,
                                                                productYear: movieDetailResult.productYear,
                                                                openDate: movieDetailResult.openDate,
-                                                               nations: movieDetailResult.nations,
-                                                               genres: movieDetailResult.genres,
-                                                               directors: movieDetailResult.directors,
-                                                               movieActors: movieDetailResult.actors,
-                                                               audits: movieDetailResult.audits)
+                                                                nations: movieDetailResult.nations.map { $0.nationName },
+                                                                  genres: movieDetailResult.genres.map { $0.genreName },
+                                                                  directors: movieDetailResult.directors.map { $0.peopleName },
+                                                                  movieActors: movieDetailResult.actors.map { $0.peopleName },
+                                                                  watchGrade: movieDetailResult.audits.first?.watchGradeName ?? "")
         
         return movieDetailInformationDTO
     }

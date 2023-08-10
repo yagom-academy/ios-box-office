@@ -260,14 +260,14 @@ final class MovieDetailView: UIView {
     
     func setUpContents(_ movieDetailInformationDTO: MovieDetailInformationDTO) {
         DispatchQueue.main.async {
-            self.directorContentLabel.text = movieDetailInformationDTO.convertDirectorsToText()
+            self.directorContentLabel.text = movieDetailInformationDTO.directors.joined(separator: ", ")
             self.productionYearContentLabel.text = movieDetailInformationDTO.productYear
             self.openDateContentLabel.text = movieDetailInformationDTO.openDate
             self.showTimeContentLabel.text = movieDetailInformationDTO.showTime
-            self.watchGradeContentLabel.text = movieDetailInformationDTO.convertAuditsToText()
-            self.nationsContentLabel.text = movieDetailInformationDTO.convertNationsToText()
-            self.genresContentLabel.text = movieDetailInformationDTO.convertGenresToText()
-            self.movieActorsContentLabel.text = movieDetailInformationDTO.convertMovieActorsToText()
+            self.watchGradeContentLabel.text = movieDetailInformationDTO.watchGrade
+            self.nationsContentLabel.text = movieDetailInformationDTO.nations.joined(separator: ",")
+            self.genresContentLabel.text = movieDetailInformationDTO.genres.joined(separator: ", ")
+            self.movieActorsContentLabel.text = movieDetailInformationDTO.movieActors.joined(separator: ", ")
             
             if movieDetailInformationDTO.isMovieActorsEmpty() {
                 self.movieActorsStackView.isHidden = true
