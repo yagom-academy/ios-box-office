@@ -37,14 +37,14 @@ final class MovieDetailViewController: UIViewController {
         return imageView
     }()
     
-    private let directorsStackView = MovieDetailStackView(title: "감독")
-    private let productionYearStackView = MovieDetailStackView(title: "제작년도")
-    private let openingDateStackView = MovieDetailStackView(title: "개봉일")
-    private let showTimeStackView = MovieDetailStackView(title: "상영시간")
-    private let auditsStackView = MovieDetailStackView(title: "관람등급")
-    private let nationsStackView = MovieDetailStackView(title: "제작국가")
-    private let genresStackView = MovieDetailStackView(title: "장르")
-    private let actorsStackView = MovieDetailStackView(title: "배우")
+    private let directorsStackView = MovieDetailStackView()
+    private let productionYearStackView = MovieDetailStackView()
+    private let openingDateStackView = MovieDetailStackView()
+    private let showTimeStackView = MovieDetailStackView()
+    private let auditsStackView = MovieDetailStackView()
+    private let nationsStackView = MovieDetailStackView()
+    private let genresStackView = MovieDetailStackView()
+    private let actorsStackView = MovieDetailStackView()
     
     private let blankView: UIView = {
         let view = UIView()
@@ -196,7 +196,7 @@ extension MovieDetailViewController: URLSessionDelegate {
                     let decodedData: MovieDetailEntity = try DecodingManager.shared.decode(data)
                     
                     DispatchQueue.main.async {
-                        self?.setUpLabelText(decodedData)
+                        self?.passLabelText(decodedData)
                     }
                 } catch {
                     print(DecodingError.decodingFailure.description)
@@ -252,17 +252,29 @@ extension MovieDetailViewController: URLSessionDelegate {
         }
     }
     
-    private func setUpLabelText(_ data: MovieDetailEntity) {
+    private func passLabelText(_ data: MovieDetailEntity) {
         var formattedDate = data.movieDetailData.movieInformation.openingDate
         
-        directorsStackView.valueLabel.text = data.movieDetailData.movieInformation.directors.map { $0.name }.joined(separator: ", ")
-        productionYearStackView.valueLabel.text = data.movieDetailData.movieInformation.productionYear
-        openingDateStackView.valueLabel.text = formattedDate.changeDateFormat()
-        showTimeStackView.valueLabel.text = data.movieDetailData.movieInformation.showTime
-        auditsStackView.valueLabel.text = data.movieDetailData.movieInformation.audits.map { $0.movieRating }.joined(separator: ", ")
-        nationsStackView.valueLabel.text = data.movieDetailData.movieInformation.nations.map { $0.name }.joined(separator: ", ")
-        genresStackView.valueLabel.text = data.movieDetailData.movieInformation.genres.map { $0.name }.joined(separator: ", ")
-        actorsStackView.valueLabel.text = data.movieDetailData.movieInformation.actors.map { $0.name }.joined(separator: ", ")
+        directorsStackView.setUpLabelText(title: Namespace.directorsTitle, value: data.movieDetailData.movieInformation.directors.map { $0.name }.joined(separator: ", "))
+        productionYearStackView.setUpLabelText(title: Namespace.productionYearTitle, value: data.movieDetailData.movieInformation.productionYear)
+        openingDateStackView.setUpLabelText(title: Namespace.openingDateTitle, value: formattedDate.changeDateFormat())
+        showTimeStackView.setUpLabelText(title: Namespace.showTimeTitle, value: data.movieDetailData.movieInformation.showTime)
+        auditsStackView.setUpLabelText(title: Namespace.auditsTitle, value: data.movieDetailData.movieInformation.audits.map { $0.movieRating }.joined(separator: ", "))
+        nationsStackView.setUpLabelText(title: Namespace.nationsTitle, value: data.movieDetailData.movieInformation.nations.map { $0.name }.joined(separator: ", "))
+        genresStackView.setUpLabelText(title: Namespace.genresTitle, value: data.movieDetailData.movieInformation.genres.map { $0.name }.joined(separator: ", "))
+        actorsStackView.setUpLabelText(title: Namespace.actorsTitle, value: data.movieDetailData.movieInformation.actors.map { $0.name }.joined(separator: ", "))
+    }
+}
 
+extension MovieDetailViewController {
+    enum Namespace {
+        static let directorsTitle = "감독"
+        static let productionYearTitle = "제작년도"
+        static let openingDateTitle = "개봉일"
+        static let showTimeTitle = "상영시간"
+        static let auditsTitle = "관람등급"
+        static let nationsTitle = "제작국가"
+        static let genresTitle = "장르"
+        static let actorsTitle = "배우"
     }
 }
