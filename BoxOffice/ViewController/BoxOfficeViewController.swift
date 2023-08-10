@@ -146,16 +146,20 @@ extension BoxOfficeViewController: UICollectionViewDelegate {
     }
 }
 
+// MARK: - CalendarViewController Delegate
+extension BoxOfficeViewController: CalendarViewControllerDelegate {
+    func updateBoxOfficeDate() {
+        setTitle()
+        loadDailyBoxOfficeData()
+    }
+}
+
 // MARK: - Functions
 extension BoxOfficeViewController {
     private func showCalendarViewController() -> UIAction {
         let action = UIAction() { _ in
-            guard let year = Int(DateManager.year),
-                  let month = Int(DateManager.month),
-                  let day = Int(DateManager.day)
-            else { return }
-            
-            let calendarViewController = CalendarViewController(year: year, month: month, day: day)
+            let calendarViewController = CalendarViewController()
+            calendarViewController.delegate = self
             
             self.present(calendarViewController, animated: true)
         }

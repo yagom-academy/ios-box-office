@@ -10,7 +10,9 @@ import Foundation
 class DateManager {
     static private let dateFormatter = DateFormatter()
     
-    static var selectedDate: Date = Date() - (24 * 60 * 60)
+    static let yesterday: Date = .now - (24 * 60 * 60)
+    
+    static var selectedDate: Date = yesterday
     
     static var year: String {
         dateFormatter.dateFormat = CustomDateFormatStyle.year

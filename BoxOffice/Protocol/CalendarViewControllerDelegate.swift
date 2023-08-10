@@ -8,5 +8,5 @@
 import Foundation
 
 protocol CalendarViewControllerDelegate: AnyObject {
-    func updateDate(dateComponents: DateComponents?)
+    func updateBoxOfficeDate()
 }
