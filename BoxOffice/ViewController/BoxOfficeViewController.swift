@@ -78,12 +78,12 @@ final class BoxOfficeViewController: UIViewController {
                     self.hideLoadingView()
                 }
             } else {
-                var snapshot = NSDiffableDataSourceSnapshot<Section, DailyBoxOffice>()
-                snapshot.appendSections([.dailyBoxOffice])
-                snapshot.appendItems(boxOffice.boxOfficeResult.dailyBoxOfficeList)
-                dataSource?.apply(snapshot, animatingDifferences: false)
-                
                 DispatchQueue.main.async {
+                    var snapshot = NSDiffableDataSourceSnapshot<Section, DailyBoxOffice>()
+                    snapshot.appendSections([.dailyBoxOffice])
+                    snapshot.appendItems(boxOffice.boxOfficeResult.dailyBoxOfficeList)
+                    self.dataSource?.apply(snapshot, animatingDifferences: false)
+                    
                     self.refresher.endRefreshing()
                 }
             }
