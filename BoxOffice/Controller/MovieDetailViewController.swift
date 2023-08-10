@@ -45,16 +45,8 @@ final class MovieDetailViewController: UIViewController {
     private let nationsStackView = MovieDetailStackView()
     private let genresStackView = MovieDetailStackView()
     private let actorsStackView = MovieDetailStackView()
-    
-    private let blankView: UIView = {
-        let view = UIView()
-        view.backgroundColor = .systemBackground
-        view.translatesAutoresizingMaskIntoConstraints = false
-        
-        return view
-    }()
-    
-    private let indicatorView: UIActivityIndicatorView = {
+
+    private let imageIndicatorView: UIActivityIndicatorView = {
         let indicatorView = UIActivityIndicatorView()
         indicatorView.style = .large
         indicatorView.translatesAutoresizingMaskIntoConstraints = false
@@ -62,35 +54,34 @@ final class MovieDetailViewController: UIViewController {
         return indicatorView
     }()
     
-    private var isImageLoaded: Bool = false {
+    private let dataIndicatorView: UIActivityIndicatorView = {
+        let indicatorView = UIActivityIndicatorView()
+        indicatorView.style = .large
+        indicatorView.translatesAutoresizingMaskIntoConstraints = false
+        
+        return indicatorView
+    }()
+    
+    private var isImageLoading: Bool = true {
         willSet(newValue) {
             if newValue == true {
-                if self.isDataLoaded == true {
-                    self.isLoading = false
-                }
+                imageIndicatorView.isHidden = false
+                imageIndicatorView.startAnimating()
+            } else {
+                imageIndicatorView.isHidden = true
+                imageIndicatorView.stopAnimating()
             }
         }
     }
     
-    private var isDataLoaded: Bool = false {
+    private var isDataLoading: Bool = true {
         willSet(newValue) {
             if newValue == true {
-                if self.isImageLoaded == true {
-                    self.isLoading = false
-                }
-            }
-        }
-    }
-
-    private var isLoading: Bool = true {
-        willSet(newValue) {
-            if newValue == true {
-                indicatorView.isHidden = false
-                indicatorView.startAnimating()
+                dataIndicatorView.isHidden = false
+                dataIndicatorView.startAnimating()
             } else {
-                indicatorView.isHidden = true
-                indicatorView.stopAnimating()
-                blankView.removeFromSuperview()
+                dataIndicatorView.isHidden = true
+                dataIndicatorView.stopAnimating()
             }
         }
     }
@@ -108,7 +99,8 @@ final class MovieDetailViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        isLoading = true
+        isImageLoading = true
+        isDataLoading = true
         addViews()
         setUpUI()
         setUpNetwork()
@@ -119,7 +111,9 @@ final class MovieDetailViewController: UIViewController {
     private func addViews() {
         view.addSubview(scrollView)
         scrollView.addSubview(mainStackView)
+        mainStackView.addArrangedSubview(imageIndicatorView)
         mainStackView.addArrangedSubview(posterImageView)
+        mainStackView.addArrangedSubview(dataIndicatorView)
         mainStackView.addArrangedSubview(directorsStackView)
         mainStackView.addArrangedSubview(productionYearStackView)
         mainStackView.addArrangedSubview(openingDateStackView)
@@ -128,8 +122,6 @@ final class MovieDetailViewController: UIViewController {
         mainStackView.addArrangedSubview(nationsStackView)
         mainStackView.addArrangedSubview(genresStackView)
         mainStackView.addArrangedSubview(actorsStackView)
-        view.addSubview(blankView)
-        view.addSubview(indicatorView)
     }
     
     private func setUpUI() {
@@ -158,13 +150,6 @@ final class MovieDetailViewController: UIViewController {
             nationsStackView.widthAnchor.constraint(equalTo: mainStackView.widthAnchor),
             genresStackView.widthAnchor.constraint(equalTo: mainStackView.widthAnchor),
             actorsStackView.widthAnchor.constraint(equalTo: mainStackView.widthAnchor),
-            
-            blankView.widthAnchor.constraint(equalTo: safeArea.widthAnchor),
-            blankView.heightAnchor.constraint(equalTo: safeArea.heightAnchor),
-            blankView.centerXAnchor.constraint(equalTo: safeArea.centerXAnchor),
-            blankView.centerYAnchor.constraint(equalTo: safeArea.centerYAnchor),
-            indicatorView.centerXAnchor.constraint(equalTo: safeArea.centerXAnchor),
-            indicatorView.centerYAnchor.constraint(equalTo: safeArea.centerYAnchor)
         ])
     }
 }
@@ -182,14 +167,7 @@ extension MovieDetailViewController: URLSessionDelegate {
     }
     
     private func passFetchedData() {
-        guard let url = URL(string: String(format: NetworkNamespace.movieDetail.url, NetworkNamespace.apiKey, movieCode))
-        else {
-            return
-        }
-        
-        let request = URLRequest(url: url)
-        
-        networkingManager?.load(request) { [weak self] (result: Result<Data, NetworkingError>) in
+        networkingManager?.load(NetworkConfiguration.movieDetail(movieCode)) { [weak self] (result: Result<Data, NetworkingError>) in
             switch result {
             case .success(let data):
                 do {
@@ -206,25 +184,14 @@ extension MovieDetailViewController: URLSessionDelegate {
             }
             
             DispatchQueue.main.async {
-                self?.isDataLoaded = true
+                self?.isDataLoading = false
             }
             
         }
     }
     
     private func passFetchedImage() {
-        var urlComponents = URLComponents(string: NetworkNamespace.daumImage.url)
-        urlComponents?.queryItems = [URLQueryItem(name: "query", value: "\(movieName) 영화 포스터")]
-        
-        guard let url = urlComponents?.url else {
-            return
-        }
-        
-        var request = URLRequest(url: url)
-        
-        request.setValue("KakaoAK \(NetworkNamespace.daumApiKey)", forHTTPHeaderField: "Authorization")
-        
-        networkingManager?.load(request) { [weak self] (result: Result<Data, NetworkingError>) in
+        networkingManager?.load(NetworkConfiguration.daumImage(movieName)) { [weak self] (result: Result<Data, NetworkingError>) in
             switch result {
             case .success(let data):
                 do {
@@ -247,7 +214,7 @@ extension MovieDetailViewController: URLSessionDelegate {
             }
             
             DispatchQueue.main.async {
-                self?.isImageLoaded = true
+                self?.isImageLoading = false
             }
         }
     }

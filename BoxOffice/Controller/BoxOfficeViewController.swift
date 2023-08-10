@@ -10,7 +10,7 @@ import UIKit
 final class BoxOfficeViewController: UIViewController, URLSessionDelegate {
     private var networkingManager: NetworkingManager?
     private var refreshControl = UIRefreshControl()
-    private var dataSource: UICollectionViewDiffableDataSource<NetworkNamespace, BoxOfficeEntity.BoxOfficeResult.DailyBoxOffice>?
+    private var dataSource: UICollectionViewDiffableDataSource<NetworkConfiguration, BoxOfficeEntity.BoxOfficeResult.DailyBoxOffice>?
     
     private let collectionView: UICollectionView = {
         let configuration = UICollectionLayoutListConfiguration(appearance: .plain)
@@ -47,7 +47,6 @@ final class BoxOfficeViewController: UIViewController, URLSessionDelegate {
         collectionView.delegate = self
         isLoading = true
         setUpUI()
-        setUpDate()
         setUpCollectionView()
         setUpDataSource()
         setUpNetwork()
@@ -62,6 +61,7 @@ extension BoxOfficeViewController {
         view.backgroundColor = .systemBackground
         view.addSubview(collectionView)
         view.addSubview(indicatorView)
+        self.title = getDate()
         
         NSLayoutConstraint.activate([
             collectionView.topAnchor.constraint(equalTo: safeArea.topAnchor),
@@ -74,12 +74,12 @@ extension BoxOfficeViewController {
         ])
     }
     
-    private func setUpDate() {
+    private func getDate() -> String {
         guard let yesterday = Calendar.current.date(byAdding: .day, value: -1, to: Date()) else {
-            return
+            return ""
         }
         
-        self.title = DateFormatter().formatToString(from: yesterday, with: "YYYY-MM-dd")
+        return DateFormatter().formatToString(from: yesterday, with: "YYYY-MM-dd")
     }
 }
 
@@ -90,7 +90,7 @@ extension BoxOfficeViewController {
     }
     
     private func setUpDataSource() {
-        dataSource = UICollectionViewDiffableDataSource<NetworkNamespace, BoxOfficeEntity.BoxOfficeResult.DailyBoxOffice>(collectionView: self.collectionView) { (collectionView, indexPath, data) -> UICollectionViewCell? in
+        dataSource = UICollectionViewDiffableDataSource<NetworkConfiguration, BoxOfficeEntity.BoxOfficeResult.DailyBoxOffice>(collectionView: self.collectionView) { (collectionView, indexPath, data) -> UICollectionViewCell? in
             guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: BoxOfficeRankingCell.cellIdentifier, for: indexPath) as? BoxOfficeRankingCell else {
                 return UICollectionViewCell()
             }
@@ -102,9 +102,10 @@ extension BoxOfficeViewController {
     }
     
     private func setUpDataSnapshot(_ data: [BoxOfficeEntity.BoxOfficeResult.DailyBoxOffice]) {
-        var snapshot = NSDiffableDataSourceSnapshot<NetworkNamespace, BoxOfficeEntity.BoxOfficeResult.DailyBoxOffice>()
+        let date = getDate().replacingOccurrences(of: "-", with: "")
+        var snapshot = NSDiffableDataSourceSnapshot<NetworkConfiguration, BoxOfficeEntity.BoxOfficeResult.DailyBoxOffice>()
         
-        snapshot.appendSections([.boxOffice])
+        snapshot.appendSections([.boxOffice(date)])
         snapshot.appendItems(data)
         dataSource?.apply(snapshot)
     }
@@ -140,16 +141,9 @@ extension BoxOfficeViewController {
     }
     
     private func passFetchedData() {
-        guard let date = self.title?.replacingOccurrences(of: "-", with: ""),
-              let url = URL(string: String(format: NetworkNamespace.boxOffice.url, NetworkNamespace.apiKey, date))
-        else {
-            return
-        }
-        
-        let request = URLRequest(url: url)
-        
-        
-        networkingManager?.load(request) { [weak self] (result: Result<Data, NetworkingError>) in
+        let date = getDate().replacingOccurrences(of: "-", with: "")
+
+        networkingManager?.load(NetworkConfiguration.boxOffice(date)) { [weak self] (result: Result<Data, NetworkingError>) in
             switch result {
             case .success(let data):
                 do {
