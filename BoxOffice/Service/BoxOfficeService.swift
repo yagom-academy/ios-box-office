@@ -8,34 +8,7 @@
 import Foundation
 
 struct BoxOfficeService {
-    private let dateFormatter = DateFormatter()
     
-    var selectedDate: Date = Date() - (24 * 60 * 60)
-    
-    var year: String {
-        dateFormatter.dateFormat = CustomDateFormatStyle.year
-        return dateFormatter.string(from: selectedDate)
-    }
-    
-    var month: String {
-        dateFormatter.dateFormat = CustomDateFormatStyle.month
-        return dateFormatter.string(from: selectedDate)
-    }
-    
-    var day: String {
-        dateFormatter.dateFormat = CustomDateFormatStyle.day
-        return dateFormatter.string(from: selectedDate)
-    }
-    
-    private var formattedDate: String {
-        dateFormatter.dateFormat = CustomDateFormatStyle.yyyyMMdd
-        return dateFormatter.string(from: selectedDate)
-    }
-    
-    var formattedDateWithHyphen: String {
-        dateFormatter.dateFormat = CustomDateFormatStyle.yyyyMMddWithHyphen
-        return dateFormatter.string(from: selectedDate)
-    }
     
     func loadDailyBoxOfficeData(_ completion: @escaping (Result<BoxOffice, NetworkManagerError>) -> Void) {
         var components = URLComponents()
@@ -45,7 +18,7 @@ struct BoxOfficeService {
         
         let query = [
             KobisNameSpace.key : KobisNameSpace.keyValue,
-            KobisNameSpace.targetDt : formattedDate
+            KobisNameSpace.targetDt : DateManager.formattedDate
         ]
         
         guard let dailyBoxOfficeURL = components.url else { return }

@@ -54,7 +54,7 @@ final class BoxOfficeViewController: UIViewController {
     }
     
     private func setTitle() {
-        self.title = boxOfficeService.formattedDateWithHyphen
+        self.title = DateManager.formattedDateWithHyphen
     }
     
     private func configureBackgroundColor() {
@@ -150,9 +150,10 @@ extension BoxOfficeViewController: UICollectionViewDelegate {
 extension BoxOfficeViewController {
     private func showCalendarViewController() -> UIAction {
         let action = UIAction() { _ in
-            guard let year = Int(self.boxOfficeService.year),
-                  let month = Int(self.boxOfficeService.month),
-                  let day = Int(self.boxOfficeService.day) else { return }
+            guard let year = Int(DateManager.year),
+                  let month = Int(DateManager.month),
+                  let day = Int(DateManager.day)
+            else { return }
             
             let calendarViewController = CalendarViewController(year: year, month: month, day: day)
             
