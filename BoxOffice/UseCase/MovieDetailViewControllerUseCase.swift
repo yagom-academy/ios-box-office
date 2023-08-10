@@ -39,7 +39,9 @@ final class MovieDetailViewControllerUseCaseImplementation: MovieDetailViewContr
             switch result {
             case .success(let result):
                 guard let movieDetailImageDTO = self.setUpMovieDetailImageDTO(result) else {
-                    // TODO : error Case 추가 (API Error)
+                    let error = APIError.dataTransferFail
+                    
+                    self.delegate?.failFetchMovieDetailImage(error.errorDescription)
                     return
                 }
                 

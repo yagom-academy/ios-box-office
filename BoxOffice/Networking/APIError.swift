@@ -11,6 +11,7 @@ enum APIError: LocalizedError {
     case invalidURL
     case requestFail
     case invalidData
+    case dataTransferFail
     case decodingFail
     case invalidHTTPStatusCode
     
@@ -21,11 +22,13 @@ enum APIError: LocalizedError {
         case .requestFail:
             return "요청에 실패했습니다."
         case .decodingFail:
-            return "디코딩 실패 했습니다."
+            return "디코딩 실패했습니다."
         case .invalidData:
             return "잘못된 데이터 입니다."
+        case .dataTransferFail:
+            return "데이터 변환에 실패했습니다."
         case .invalidHTTPStatusCode:
-            return "잘못된 HTTPStatusCode 입니다."
+            return "잘못된 HTTPStatusCode입니다."
         }
     }
 }
