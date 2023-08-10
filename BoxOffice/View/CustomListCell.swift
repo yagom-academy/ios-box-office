@@ -34,14 +34,19 @@ extension CustomListCell {
             $0.translatesAutoresizingMaskIntoConstraints = false
         }
         
+        let listContentViewBottomConstraint = listContentView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -30)
+        listContentViewBottomConstraint.priority = .defaultHigh
+        let movieRankStackViewBottomConstraint = movieRankStackView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -30)
+        movieRankStackViewBottomConstraint.priority = .defaultHigh
+        
         NSLayoutConstraint.activate([
             listContentView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 60),
             listContentView.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 20),
             listContentView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
-            listContentView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -30),
+            listContentViewBottomConstraint,
             movieRankStackView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 30),
             movieRankStackView.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 20),
-            movieRankStackView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -30)
+            movieRankStackViewBottomConstraint
         ])
         
         setupViewsIfNeededFlag = true
@@ -51,8 +56,6 @@ extension CustomListCell {
         setupViewsIfNeeded()
         
         var content = defaultListContentConfiguration().updated(for: state)
-        
-        content.axesPreservingSuperviewLayoutMargins = []
         
         content.text = state.item?.movieName
         content.textProperties.font = .preferredFont(forTextStyle: .subheadline)
