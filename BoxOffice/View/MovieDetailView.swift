@@ -50,24 +50,32 @@ final class MovieDetailView: UIView {
     func injectMovieInformation(_ movieInformation: MovieInformation?, image: UIImage?) {
         posterImageView.image = image
         updatePosterImageViewConstraints()
+        
         guard let movieInformation = movieInformation else { return }
         
         let directors = movieInformation.directors.map { $0.peopleName }.joined(separator: ", ")
+        let productionYear = movieInformation.productionYear
         let openDate = movieInformation.openDate.dateFormat
+        let runningTime = movieInformation.runningTime
+        let watchGrade = movieInformation.audits.first?.watchGrade
         let nations = movieInformation.nations.map { $0.nationName }.joined(separator: ", ")
         let genres = movieInformation.genres.map { $0.genreName }.joined(separator: ", ")
         let actors = movieInformation.actors.map { $0.peopleName }.joined(separator: ", ")
- 
-        [createInformationLine(key: "감독", value: directors),
-         createInformationLine(key: "제작년도", value: movieInformation.productionYear),
-         createInformationLine(key: "개봉일", value: openDate),
-         createInformationLine(key: "상영시간", value: movieInformation.runningTime),
-         createInformationLine(key: "관람등급", value: movieInformation.audits.first?.watchGradeName),
-         createInformationLine(key: "제작국가", value: nations),
-         createInformationLine(key: "장르", value: genres),
-         createInformationLine(key: "배우", value: actors)
-        ].forEach {
-            detailStackView.addArrangedSubview($0)
+        
+        let keysAndValue = [
+            ("감독", directors),
+            ("제작년도", productionYear),
+            ("개봉일", openDate),
+            ("상영시간", runningTime),
+            ("관람등급", watchGrade),
+            ("제작국가", nations),
+            ("장르", genres),
+            ("배우", actors)
+        ]
+        
+        for (key, value) in keysAndValue {
+            let detailStackCell = createDetailStackCell(key: key, value: value)
+            detailStackView.addArrangedSubview(detailStackCell)
         }
     }
 }
@@ -87,7 +95,7 @@ extension MovieDetailView {
         }
     }
     
-    private func createInformationLine(key: String, value: String?) -> UIStackView {
+    private func createDetailStackCell(key: String, value: String?) -> UIStackView {
         let stackView: UIStackView = {
             let stackView = UIStackView()
             stackView.spacing = 20
