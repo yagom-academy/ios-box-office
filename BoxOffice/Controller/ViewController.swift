@@ -9,9 +9,9 @@ import UIKit
 
 class ViewController: UIViewController {
     
-    var itemData: [DailyBoxOfficeList] = []
+    var itemData: [Item] = []
     let networkManager: NetworkManager = NetworkManager()
-    var dataSource: UICollectionViewDiffableDataSource<Section, DailyBoxOfficeList>? = nil
+    var dataSource: UICollectionViewDiffableDataSource<Section, Item>? = nil
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -32,15 +32,15 @@ class ViewController: UIViewController {
     }
     
     func configureDataSource() {
-        let cellRegistration = UICollectionView.CellRegistration<CustomListCell, DailyBoxOfficeList> { (cell, indexPath, item) in
+        let cellRegistration = UICollectionView.CellRegistration<CustomListCell, Item> { (cell, indexPath, item) in
             cell.updateWithItem(item)
             cell.accessories = [.disclosureIndicator()]
         }
-        dataSource = UICollectionViewDiffableDataSource<Section, DailyBoxOfficeList>(collectionView: collectionView, cellProvider: { (collectionView, indexPath, itemIdentifier) -> UICollectionViewCell in
+        dataSource = UICollectionViewDiffableDataSource<Section, Item>(collectionView: collectionView, cellProvider: { (collectionView, indexPath, itemIdentifier) -> UICollectionViewCell in
             return collectionView.dequeueConfiguredReusableCell(using: cellRegistration, for: indexPath, item: itemIdentifier)
         })
         
-        var snapshot = NSDiffableDataSourceSnapshot<Section, DailyBoxOfficeList>()
+        var snapshot = NSDiffableDataSourceSnapshot<Section, Item>()
         snapshot.appendSections([.main])
         snapshot.appendItems(itemData)
         guard let dataSource = dataSource else { return }
