@@ -35,6 +35,7 @@ final class BoxOfficeCell: UICollectionViewListCell {
         let stackView = UIStackView()
         stackView.axis = .vertical
         stackView.alignment = .center
+        stackView.distribution = .fillProportionally
         stackView.spacing = 4
         
         return stackView
