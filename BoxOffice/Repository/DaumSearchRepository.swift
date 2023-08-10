@@ -2,12 +2,12 @@
 //  DaumSearchRepository.swift
 //  BoxOffice
 //
-//  Created by Hyungmin Lee on 2023/08/09.
+//  Created by Zion, Hemg on 2023/08/09.
 //
 
 import Foundation
 
-protocol DaumSearchRepository {
+protocol DaumSearchRepository: CanMakeURLRequest {
     func fetchDaumImageSearchInformation(_ movieName: String, _ completionHandler: @escaping (Result<DaumSearchImageResult, APIError>) -> Void)
 }
 
@@ -34,19 +34,5 @@ final class DaumSearchRepositoryImplementation: DaumSearchRepository {
                 completionHandler(.failure(error))
             }
         }
-    }
-}
-
-extension DaumSearchRepositoryImplementation {
-    private func setUpRequestURL(_ baseURL: String,_ path: String, _ queryItems: [String: Any]) -> URLRequest? {
-        guard var urlComponents = URLComponents(string: baseURL) else { return nil }
-        
-        urlComponents.path += path
-        urlComponents.queryItems = queryItems.map { URLQueryItem(name: $0.key, value: "\($0.value)") }
-        
-        guard let url = urlComponents.url else { return nil }
-        let urlRequest = URLRequest(url: url) // TODO : 중복 코드 사용
-        
-        return urlRequest
     }
 }

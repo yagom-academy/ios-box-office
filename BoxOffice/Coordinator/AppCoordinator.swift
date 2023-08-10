@@ -2,7 +2,7 @@
 //  AppCoordinator.swift
 //  BoxOffice
 //
-//  Created by Hyungmin Lee on 2023/08/09.
+//  Created by Zion, Hemg on 2023/08/09.
 //
 
 import UIKit
