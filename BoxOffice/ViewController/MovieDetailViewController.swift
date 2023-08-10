@@ -15,12 +15,7 @@ protocol MovieDetailViewControllerUseCaseDelegate: AnyObject {
 }
 
 final class MovieDetailViewController: UIViewController, CanShowNetworkRequestFailureAlert {
-    private let movieDetailView: MovieDetailView = {
-        let movieDetailView = MovieDetailView()
-        
-        return movieDetailView
-    }()
-    
+    private let movieDetailView = MovieDetailView()
     private let usecase: MovieDetailViewControllerUseCase
     private let movieCode: String
     private let movieName: String
