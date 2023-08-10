@@ -18,6 +18,6 @@ struct MovieDetailInformationDTO {
 
 extension MovieDetailInformationDTO {
     func isMovieActorsEmpty() -> Bool {
-        return directors.count == 0
+        return movieActors.count == 0
     }
 }
