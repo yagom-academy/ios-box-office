@@ -29,6 +29,7 @@ final class BoxOfficeViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        setUpRightBarButton()
         showLoadingView()
         setTitle()
         configureBackgroundColor()
@@ -36,6 +37,10 @@ final class BoxOfficeViewController: UIViewController {
     }
     
     // MARK: - UI Configuration
+    private func setUpRightBarButton() {
+        navigationItem.rightBarButtonItem = UIBarButtonItem(title: "날짜선택", primaryAction: showCalendarViewController())
+    }
+    
     private func showLoadingView() {
         view.addSubview(activityIndicatorView)
         
@@ -49,7 +54,7 @@ final class BoxOfficeViewController: UIViewController {
     }
     
     private func setTitle() {
-        self.title = boxOfficeService.formattedYesterdayWithHyphen
+        self.title = boxOfficeService.formattedDateWithHyphen
     }
     
     private func configureBackgroundColor() {
@@ -97,7 +102,6 @@ extension BoxOfficeViewController {
         let layout = UICollectionViewCompositionalLayout.list(using: config)
         
         return layout
-        
     }
     
     private func configureHierarchy() {
@@ -144,6 +148,20 @@ extension BoxOfficeViewController: UICollectionViewDelegate {
 
 // MARK: - Functions
 extension BoxOfficeViewController {
+    private func showCalendarViewController() -> UIAction {
+        let action = UIAction() { _ in
+            guard let year = Int(self.boxOfficeService.year),
+                  let month = Int(self.boxOfficeService.month),
+                  let day = Int(self.boxOfficeService.day) else { return }
+            
+            let calendarViewController = CalendarViewController(year: year, month: month, day: day)
+            
+            self.present(calendarViewController, animated: true)
+        }
+        
+        return action
+    }
+    
     private func changeRankInformation(in dailyBoxOffice: DailyBoxOffice) -> NSMutableAttributedString {
         if dailyBoxOffice.rankOldAndNew == "NEW" {
             return "신작".addAttributeFontForKeyword(keyword: "신작", color: .red)
