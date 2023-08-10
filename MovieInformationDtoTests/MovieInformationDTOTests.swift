@@ -16,6 +16,7 @@ final class MovieInformationDTOTests: XCTestCase {
                                   rankInten: "1",
                                   oldAndNew: "NEW",
                                   movieName: "밀수",
+                                  movieCode: "1234",
                                   audienceCount: "450000",
                                   audienceAccumulate: "6000000")
     }
@@ -55,6 +56,7 @@ final class MovieInformationDTOTests: XCTestCase {
                                   rankInten: "1",
                                   oldAndNew: "OLD",
                                   movieName: "밀수",
+                                  movieCode: "1234",
                                   audienceCount: "450000",
                                   audienceAccumulate: "6000000")
         
@@ -73,6 +75,7 @@ final class MovieInformationDTOTests: XCTestCase {
                                   rankInten: "-3",
                                   oldAndNew: "OLD",
                                   movieName: "밀수",
+                                  movieCode: "1234",
                                   audienceCount: "450000",
                                   audienceAccumulate: "6000000")
         
@@ -92,6 +95,7 @@ final class MovieInformationDTOTests: XCTestCase {
                                   rankInten: "0",
                                   oldAndNew: "OLD",
                                   movieName: "밀수",
+                                  movieCode: "1234",
                                   audienceCount: "450000",
                                   audienceAccumulate: "6000000")
         
