@@ -16,6 +16,7 @@ extension Bundle {
         guard let key = resource["KOBIS_API_KEY"] as? String else {
             fatalError("KOBIS_API_KEY error")
         }
+        
         return key
     }
 }

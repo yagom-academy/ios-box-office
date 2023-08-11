@@ -11,8 +11,8 @@ enum DataError: LocalizedError {
     case notFoundAsset
     case failedDecoding
     
-    var errorDescription: String {
-        switch self{
+    var errorDescription: String? {
+        switch self {
         case .notFoundAsset:
             return "해당 DataAsset을 찾을 수 없습니다."
         case .failedDecoding:

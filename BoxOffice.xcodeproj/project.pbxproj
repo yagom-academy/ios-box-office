@@ -9,6 +9,9 @@
 /* Begin PBXBuildFile section */
 		3C35A80D2A6F9937008BB5C2 /* DecodingManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C35A80C2A6F9937008BB5C2 /* DecodingManager.swift */; };
 		3C35A80F2A6F9A17008BB5C2 /* DataError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C35A80E2A6F9A17008BB5C2 /* DataError.swift */; };
+		3CB38E9A2A7FEB6C0070E63C /* TargetDate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3CB38E992A7FEB6C0070E63C /* TargetDate.swift */; };
+		3CB38E9C2A7FF7690070E63C /* CountFormatter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3CB38E9B2A7FF7690070E63C /* CountFormatter.swift */; };
+		3CB38E9F2A8141CA0070E63C /* ConstraintsNamespace.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3CB38E9E2A8141CA0070E63C /* ConstraintsNamespace.swift */; };
 		3CF5610B2A73D30F0048D14D /* URLConfigurable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3CF5610A2A73D30F0048D14D /* URLConfigurable.swift */; };
 		3CF5610D2A73D3540048D14D /* KobisOpenAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3CF5610C2A73D3540048D14D /* KobisOpenAPI.swift */; };
 		3CF5610F2A73E7830048D14D /* URL+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3CF5610E2A73E7830048D14D /* URL+.swift */; };
@@ -25,6 +28,8 @@
 		AC11E7DF2A729341008A84B0 /* Movie.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC11E7DE2A729341008A84B0 /* Movie.swift */; };
 		AC11E7E52A729FE3008A84B0 /* NetworkManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC11E7E42A729FE3008A84B0 /* NetworkManager.swift */; };
 		AC9BDB3E2A78D083000FA75F /* KobisAPIKey.plist in Resources */ = {isa = PBXBuildFile; fileRef = AC9BDB3D2A78D083000FA75F /* KobisAPIKey.plist */; };
+		ACDC76492A7D4DAA00D324E5 /* BoxOfficeCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACDC76482A7D4DAA00D324E5 /* BoxOfficeCell.swift */; };
+		ACF5C62E2A811956005CB910 /* BoxOfficeManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACF5C62D2A811956005CB910 /* BoxOfficeManager.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -40,6 +45,9 @@
 /* Begin PBXFileReference section */
 		3C35A80C2A6F9937008BB5C2 /* DecodingManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DecodingManager.swift; sourceTree = "<group>"; };
 		3C35A80E2A6F9A17008BB5C2 /* DataError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataError.swift; sourceTree = "<group>"; };
+		3CB38E992A7FEB6C0070E63C /* TargetDate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TargetDate.swift; sourceTree = "<group>"; };
+		3CB38E9B2A7FF7690070E63C /* CountFormatter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CountFormatter.swift; sourceTree = "<group>"; };
+		3CB38E9E2A8141CA0070E63C /* ConstraintsNamespace.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConstraintsNamespace.swift; sourceTree = "<group>"; };
 		3CF5610A2A73D30F0048D14D /* URLConfigurable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = URLConfigurable.swift; sourceTree = "<group>"; };
 		3CF5610C2A73D3540048D14D /* KobisOpenAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KobisOpenAPI.swift; sourceTree = "<group>"; };
 		3CF5610E2A73E7830048D14D /* URL+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "URL+.swift"; sourceTree = "<group>"; };
@@ -60,6 +68,8 @@
 		AC11E7E42A729FE3008A84B0 /* NetworkManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkManager.swift; sourceTree = "<group>"; };
 		AC2C7AF12A6FC21C000CD35F /* BoxOffice.xctestplan */ = {isa = PBXFileReference; lastKnownFileType = text; path = BoxOffice.xctestplan; sourceTree = "<group>"; };
 		AC9BDB3D2A78D083000FA75F /* KobisAPIKey.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = KobisAPIKey.plist; sourceTree = "<group>"; };
+		ACDC76482A7D4DAA00D324E5 /* BoxOfficeCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BoxOfficeCell.swift; sourceTree = "<group>"; };
+		ACF5C62D2A811956005CB910 /* BoxOfficeManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BoxOfficeManager.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -88,6 +98,7 @@
 				3CF5610A2A73D30F0048D14D /* URLConfigurable.swift */,
 				3CF5610C2A73D3540048D14D /* KobisOpenAPI.swift */,
 				3CF561372A78D79F0048D14D /* Bundle+.swift */,
+				ACF5C62D2A811956005CB910 /* BoxOfficeManager.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -97,6 +108,7 @@
 			children = (
 				63DF20F42970E1A0005DF7D1 /* Main.storyboard */,
 				63DF20F92970E1A1005DF7D1 /* LaunchScreen.storyboard */,
+				ACDC76482A7D4DAA00D324E5 /* BoxOfficeCell.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -116,6 +128,14 @@
 				63DF20F02970E1A0005DF7D1 /* SceneDelegate.swift */,
 			);
 			path = Application;
+			sourceTree = "<group>";
+		};
+		3CB38E9D2A8141A30070E63C /* Namespace */ = {
+			isa = PBXGroup;
+			children = (
+				3CB38E9E2A8141CA0070E63C /* ConstraintsNamespace.swift */,
+			);
+			path = Namespace;
 			sourceTree = "<group>";
 		};
 		3CF561332A77C91C0048D14D /* Error */ = {
@@ -153,6 +173,7 @@
 				3C35A8082A6F68A9008BB5C2 /* Model */,
 				3C35A8092A6F68B1008BB5C2 /* View */,
 				3C35A80A2A6F68BB008BB5C2 /* Controller */,
+				3CB38E9D2A8141A30070E63C /* Namespace */,
 				3CF561332A77C91C0048D14D /* Error */,
 				AC9BDB3C2A78CD14000FA75F /* Resource */,
 			);
@@ -182,6 +203,8 @@
 				3C35A80C2A6F9937008BB5C2 /* DecodingManager.swift */,
 				AC11E7E42A729FE3008A84B0 /* NetworkManager.swift */,
 				3CF5610E2A73E7830048D14D /* URL+.swift */,
+				3CB38E992A7FEB6C0070E63C /* TargetDate.swift */,
+				3CB38E9B2A7FF7690070E63C /* CountFormatter.swift */,
 			);
 			path = Utility;
 			sourceTree = "<group>";
@@ -303,13 +326,18 @@
 				AC11E7DF2A729341008A84B0 /* Movie.swift in Sources */,
 				63DF20EF2970E1A0005DF7D1 /* AppDelegate.swift in Sources */,
 				63DF20F12970E1A0005DF7D1 /* SceneDelegate.swift in Sources */,
+				ACDC76492A7D4DAA00D324E5 /* BoxOfficeCell.swift in Sources */,
 				3CF561382A78D79F0048D14D /* Bundle+.swift in Sources */,
 				AC11E7E52A729FE3008A84B0 /* NetworkManager.swift in Sources */,
 				AC02E17C2A6F703D00C6A91B /* BoxOffice.swift in Sources */,
 				3C35A80F2A6F9A17008BB5C2 /* DataError.swift in Sources */,
 				3CF5610F2A73E7830048D14D /* URL+.swift in Sources */,
+				ACF5C62E2A811956005CB910 /* BoxOfficeManager.swift in Sources */,
+				3CB38E9A2A7FEB6C0070E63C /* TargetDate.swift in Sources */,
 				3CF561352A77C9480048D14D /* NetworkError.swift in Sources */,
+				3CB38E9C2A7FF7690070E63C /* CountFormatter.swift in Sources */,
 				3CF5610B2A73D30F0048D14D /* URLConfigurable.swift in Sources */,
+				3CB38E9F2A8141CA0070E63C /* ConstraintsNamespace.swift in Sources */,
 				3C35A80D2A6F9937008BB5C2 /* DecodingManager.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -480,7 +508,7 @@
 				INFOPLIST_KEY_UIMainStoryboardFile = Main;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
-				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -508,7 +536,7 @@
 				INFOPLIST_KEY_UIMainStoryboardFile = Main;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
-				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",

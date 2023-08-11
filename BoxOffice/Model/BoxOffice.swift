@@ -21,7 +21,7 @@ struct DailyBoxOfficeResult: Decodable {
     }
 }
 
-struct BoxOfficeData: Decodable {
+struct BoxOfficeData: Decodable, Hashable {
     let number: String
     let rank: String
     let rankIntensity: String

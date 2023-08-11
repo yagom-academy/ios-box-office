@@ -8,32 +8,30 @@
 import Foundation
 
 struct NetworkManager {
-    func fetchData(url: URL?, completionHandler: @escaping (Result<Data, NetworkError>) -> Void) {
-        guard let url = url else {
-            return
-        }
+    func fetchData(url: URL?, completionHandler: @escaping ((Data?, NetworkError?)) -> Void) {
+        guard let url = url else { return }
         
         let task = URLSession.shared.dataTask(with: url) { data, response, error in
             if error != nil {
-                completionHandler(.failure(.requestFailed))
+                completionHandler((nil, NetworkError.requestFailed))
 
                 return
             }
             
             guard let httpResponse = response as? HTTPURLResponse,
                   (200...299).contains(httpResponse.statusCode) else {
-                completionHandler(.failure(.invalidResponse))
+                completionHandler((nil, NetworkError.invalidResponse))
                 
                 return
             }
             
             guard let data = data else {
-                completionHandler(.failure(.noData))
+                completionHandler((nil, NetworkError.noData))
                 
                 return
             }
             
-            completionHandler(.success(data))
+            completionHandler((data, nil))
         }
         
         task.resume()
