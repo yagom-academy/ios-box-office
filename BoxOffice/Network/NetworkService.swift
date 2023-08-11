@@ -16,8 +16,8 @@ final class NetworkService {
         self.session = session
     }
 
-    func fetchData(url: URL, completion: @escaping NetworkResult) {
-        let task: URLSessionDataTask  = session.dataTask(with: url) { data, response, error in
+    func fetchData(urlRequest: URLRequest, completion: @escaping NetworkResult) {
+        let task: URLSessionDataTask  = session.dataTask(with: urlRequest) { data, response, error in
             if let _ = error {
                 completion(.failure(.requestFail))
                 return

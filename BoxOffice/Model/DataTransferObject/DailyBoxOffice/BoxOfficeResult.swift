@@ -16,5 +16,3 @@ struct BoxOfficeResult: Decodable {
         case dailyBoxOfficeList
     }
 }
-
-
