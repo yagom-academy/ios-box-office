@@ -6,7 +6,6 @@
 //
 
 struct MovieInformation {
-    let movieTitle: String
     let director: String
     let productionYear: String
     let openDate: String
@@ -19,7 +18,6 @@ struct MovieInformation {
 
 extension MovieInformation {
     enum PropertyName {
-        static let movieTitle = "영화제목"
         static let director = "감독"
         static let productionYear = "제작년도"
         static let openDate = "개봉일"

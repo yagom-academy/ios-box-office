@@ -36,7 +36,6 @@ enum DataManager {
     }
     
     static func movieTransferMoiveInformation(movie: Movie) -> MovieInformation {
-        let movieTitle = movie.movieInfoResult.movieInfo.movieName
         let director = movie.movieInfoResult.movieInfo.directors.reduce(NameSpace.empty) {
             $0 == NameSpace.empty ? $0 + $1.peopleName : String(format: NameSpace.commaFormat, $0, $1.peopleName)
         }
@@ -56,7 +55,7 @@ enum DataManager {
             $0 == NameSpace.empty ? $0 + $1.peopleName : String(format: NameSpace.commaFormat, $0, $1.peopleName)
         }
         
-        return MovieInformation(movieTitle: movieTitle, director: director, productionYear: productionYear, openDate: openDate, showTime: showTime, watchGradeName: watchGradeName, nationName: nationName, genreName: genreName, actors: actors)
+        return MovieInformation(director: director, productionYear: productionYear, openDate: openDate, showTime: showTime, watchGradeName: watchGradeName, nationName: nationName, genreName: genreName, actors: actors)
     }
 }
 

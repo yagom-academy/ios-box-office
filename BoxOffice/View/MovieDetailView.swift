@@ -81,7 +81,7 @@ extension MovieDetailView {
 // MARK: add MovieDetailStackVeiw
 extension MovieDetailView {
     func setupMovieInformationStackView(movieInformation: MovieInformation) {
-        movieInformationStackView.addArrangedSubview(informationStackView(title: MovieInformation.PropertyName.movieTitle, information: movieInformation.movieTitle))
+        movieInformationStackView.addArrangedSubview(informationStackView(title: MovieInformation.PropertyName.director, information: movieInformation.director))
         movieInformationStackView.addArrangedSubview(informationStackView(title: MovieInformation.PropertyName.productionYear, information: movieInformation.productionYear))
         movieInformationStackView.addArrangedSubview(informationStackView(title: MovieInformation.PropertyName.openDate, information: movieInformation.openDate))
         movieInformationStackView.addArrangedSubview(informationStackView(title: MovieInformation.PropertyName.showTime, information: movieInformation.showTime))
