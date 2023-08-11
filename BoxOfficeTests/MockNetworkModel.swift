@@ -1,5 +1,5 @@
 //
-//  MockURLSession.swift
+//  MockNetworkModel.swift
 //  BoxOfficeTests
 //
 //  Created by karen on 2023/08/06.
@@ -18,27 +18,26 @@ final class MockNetworkModel: NetworkService {
         self.session = session
     }
     
-    func getRequest(url: URL, completion: @escaping (Result<Data, BoxOffice.BoxOfficeError>) -> Void) -> URLSessionDataTask {
+    func getRequest(url: URL, completion: @escaping (Result<Data, BoxOffice.BoxOfficeError>) -> Void) {
         
         let task = session.dataTask(with: url) { data, response, error in
             guard let httpResponse = response as? HTTPURLResponse,
                   (200...299).contains(httpResponse.statusCode) else {
                 self.lastResponse = response as? HTTPURLResponse
-                self.lastError = .responseFail
-                completion(.failure(.responseFail))
+                self.lastError = .failureReseponse
+                completion(.failure(.failureReseponse))
                 return
             }
             self.lastResponse = httpResponse
             
             guard data != nil else {
                 self.lastData = data
-                completion(.failure(.typeError))
+                completion(.failure(.invalidType))
                 return
             }
             completion(.success(data!))
             self.lastData = data
         }
         task.resume()
-        return task
     }
 }

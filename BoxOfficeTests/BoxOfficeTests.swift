@@ -10,7 +10,7 @@ import XCTest
 @testable import BoxOffice
 
 final class BoxOfficeTests: XCTestCase {
-    private var sut: BoxOfficeDecoder<DailyBoxOffice>!
+    private var sut: BoxOfficeManager<DailyBoxOffice>!
     private var model: MockNetworkModel!
     private var url = URL(apiType: KobisAPIType.boxOffice("20230804"))
     
@@ -24,7 +24,7 @@ final class BoxOfficeTests: XCTestCase {
         let session = URLSession(configuration: configuration)
         
         model = MockNetworkModel(session: session)
-        sut = BoxOfficeDecoder(apiType: .boxOffice("20230804"), model: model)
+        sut = BoxOfficeManager(apiType: .boxOffice("20230804"), model: model)
     }
     
     override func tearDownWithError() throws {
@@ -37,7 +37,7 @@ final class BoxOfficeTests: XCTestCase {
         MockURLProtocol.requestHandler = { request in
             guard let url = request.url,
                   url == self.url else {
-                throw BoxOfficeError.urlError
+                throw BoxOfficeError.invalidURL
             }
             
             let response = HTTPURLResponse(url: url, statusCode: 200, httpVersion: "2.0", headerFields: nil)!
@@ -69,7 +69,7 @@ final class BoxOfficeTests: XCTestCase {
         MockURLProtocol.requestHandler = { request in
             guard let url = request.url,
                   url == URL(apiType: KobisAPIType.boxOffice("20230804"))! else {
-                throw BoxOfficeError.urlError
+                throw BoxOfficeError.invalidURL
             }
             
             let response = HTTPURLResponse(url: url, statusCode: 200, httpVersion: "2.0", headerFields: nil)!
@@ -103,7 +103,7 @@ final class BoxOfficeTests: XCTestCase {
         MockURLProtocol.requestHandler = { request in
             guard let url = request.url,
                   url == URL(apiType: KobisAPIType.boxOffice("20230804"))! else {
-                throw BoxOfficeError.urlError
+                throw BoxOfficeError.invalidURL
             }
             
             let response = HTTPURLResponse(url: url, statusCode: 400, httpVersion: "2.0", headerFields: nil)!
@@ -122,7 +122,7 @@ final class BoxOfficeTests: XCTestCase {
                 XCTFail("잘못된 테스트코드입니다.")
             case .failure(let error):
                 // then
-                XCTAssertEqual(error, BoxOfficeError.responseFail)
+                XCTAssertEqual(error, BoxOfficeError.failureReseponse)
                 asyncTest.fulfill()
             }
         }
