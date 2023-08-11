@@ -31,9 +31,25 @@ final class BoxOfficeCollectionViewController: UICollectionViewController {
     private func fetchBoxOfficeItems() async {
         do {
             let boxOffice: BoxOffice = try await NetworkManager.fetchData(fetchType: .boxOffice(date: Date.yesterday.networkFormat))
-            self.boxOfficeItems = boxOffice.boxOfficeResult.boxOfficeItems
             
-            collectionView.reloadData()
+            let origin = self.boxOfficeItems
+            let new = boxOffice.boxOfficeResult.boxOfficeItems
+
+            if !origin.isEmpty {
+                let differentIndexes = zip(origin, new).enumerated().compactMap { index, pair in
+                    return pair.0 != pair.1 ? index : nil
+                }
+
+                let indexPaths = differentIndexes.map { index in
+                    return IndexPath(item: index, section: 0)
+                }
+                
+                self.boxOfficeItems = new
+                collectionView.reloadItems(at: indexPaths)
+            } else {
+                self.boxOfficeItems = new
+                collectionView.reloadData()
+            }
         } catch {
             let alert = UIAlertController(
                 title: "에러",
@@ -81,7 +97,7 @@ extension BoxOfficeCollectionViewController {
     
     @objc private func handleRefreshControl() {
         Task { [weak self] in
-            await fetchBoxOfficeItems()
+            await self?.fetchBoxOfficeItems()
             self?.collectionView.refreshControl?.endRefreshing()
         }
     }
