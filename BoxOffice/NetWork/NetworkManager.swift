@@ -45,7 +45,12 @@ struct NetworkManager {
         task.resume()
     }
     
-    func requestData(from urlRequest: URLRequest, completion: @escaping (Result<Data, NetworkError>) -> Void) {
+    func requestData(from urlRequest: URLRequest?, completion: @escaping (Result<Data, NetworkError>) -> Void) {
+        guard let urlRequest else {
+            completion(.failure(.invalidURLRequest))
+            return
+        }
+        
         let task = urlSession.dataTask(with: urlRequest) { data, response, error in
             guard error == nil else {
                 completion(.failure(.networkFailed))

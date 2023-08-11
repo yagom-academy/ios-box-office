@@ -83,12 +83,8 @@ final class BoxOfficeManager {
         }
         
         let queryItem = URLQueryItem(name: NameSpace.query, value: String(format: NameSpace.posterFormat, movieName))
-        guard let url = URL.kakaoURL(Path.searchImage, [queryItem]) else {
-            completion(false)
-            return
-        }
-        
-        let urlRequest = URLRequest.kakaoURLRequest(url, kakaoKey)
+        let url = URL.kakaoURL(Path.searchImage, [queryItem])
+        let urlRequest: URLRequest? = URLRequest.kakaoURLRequest(url, kakaoKey)
         
         networkManager.requestData(from: urlRequest) { [weak self] result in
             guard let self else {

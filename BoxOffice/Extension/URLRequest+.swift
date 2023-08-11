@@ -8,7 +8,11 @@
 import Foundation
 
 extension URLRequest {
-    static func kakaoURLRequest(_ url: URL, _ key: String?) -> URLRequest {
+    static func kakaoURLRequest(_ url: URL?, _ key: String?) -> URLRequest? {
+        guard let url else {
+            return nil
+        }
+        
         var urlRequest = URLRequest(url: url)
         urlRequest.setValue(key, forHTTPHeaderField: HTTPHeaderField.authorization)
         
