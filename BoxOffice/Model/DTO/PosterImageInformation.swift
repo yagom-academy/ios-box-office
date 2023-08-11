@@ -20,7 +20,7 @@ struct Document: Decodable {
     let thumbnailURL: String
     let width: Int
 
-    enum CodingKeys: String, CodingKey {
+    private enum CodingKeys: String, CodingKey {
         case collection
         case datetime
         case displaySitename = "display_sitename"
@@ -37,7 +37,7 @@ struct Meta: Decodable {
     let pageableCount: Int
     let totalCount: Int
 
-    enum CodingKeys: String, CodingKey {
+    private enum CodingKeys: String, CodingKey {
         case isEnd = "is_end"
         case pageableCount = "pageable_count"
         case totalCount = "total_count"
