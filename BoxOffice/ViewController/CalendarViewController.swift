@@ -22,7 +22,7 @@ final class CalendarViewController: UIViewController {
     
     override func viewDidLoad() {
         configureBackgroundColor()
-        setCalendarRange()
+        limitCalendarRange()
         showSelectedDate()
     }
     
@@ -30,7 +30,7 @@ final class CalendarViewController: UIViewController {
         view.backgroundColor = .systemBackground
     }
     
-    private func setCalendarRange() {
+    private func limitCalendarRange() {
         calendarView.availableDateRange = DateInterval(start: .distantPast, end: DateManager.yesterday)
     }
     

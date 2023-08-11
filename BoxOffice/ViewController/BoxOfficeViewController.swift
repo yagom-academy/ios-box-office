@@ -31,7 +31,7 @@ final class BoxOfficeViewController: UIViewController {
         
         setupRightBarButton()
         showLoadingView()
-        setTitle()
+        setupTitle()
         configureBackgroundColor()
         loadDailyBoxOfficeData()
     }
@@ -53,7 +53,7 @@ final class BoxOfficeViewController: UIViewController {
         activityIndicatorView.removeFromSuperview()
     }
     
-    private func setTitle() {
+    private func setupTitle() {
         self.title = DateManager.formattedDateWithHyphen
     }
     
@@ -149,7 +149,7 @@ extension BoxOfficeViewController: UICollectionViewDelegate {
 // MARK: - CalendarViewController Delegate
 extension BoxOfficeViewController: CalendarViewControllerDelegate {
     func updateBoxOfficeDate() {
-        setTitle()
+        setupTitle()
         loadDailyBoxOfficeData()
     }
 }
