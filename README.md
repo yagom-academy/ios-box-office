@@ -1,5 +1,3 @@
-# README.md
-
 # 🎬 Box Office
 
 ## 🍀 소개
