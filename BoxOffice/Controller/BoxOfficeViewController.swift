@@ -6,11 +6,15 @@
 //
 
 import UIKit
-
 final class BoxOfficeViewController: UIViewController, URLSessionDelegate {
     private var networkingManager: NetworkingManager?
     private var refreshControl = UIRefreshControl()
     private var dataSource: UICollectionViewDiffableDataSource<NetworkConfiguration, BoxOfficeEntity.BoxOfficeResult.DailyBoxOffice>?
+    private var date: Date = Calendar.current.date(byAdding: .day, value: -1, to: Date()) ?? Date()
+    
+    private var dateString: String {
+        return DateFormatter().formatToString(from: date, with: "YYYY-MM-dd")
+    }
     
     private let collectionView: UICollectionView = {
         let configuration = UICollectionLayoutListConfiguration(appearance: .plain)
@@ -63,7 +67,7 @@ extension BoxOfficeViewController {
         view.addSubview(collectionView)
         view.addSubview(indicatorView)
         
-        self.title = getDate()
+        self.title = dateString
         self.navigationItem.rightBarButtonItem = dateSelectionButton
         
         NSLayoutConstraint.activate([
@@ -77,16 +81,9 @@ extension BoxOfficeViewController {
         ])
     }
     
-    private func getDate() -> String {
-        guard let yesterday = Calendar.current.date(byAdding: .day, value: -1, to: Date()) else {
-            return ""
-        }
-        
-        return DateFormatter().formatToString(from: yesterday, with: "YYYY-MM-dd")
-    }
-    
     @objc func showCalendar(_ sender: UIButton) {
-        let viewController = CalendarViewController()
+        let viewController = CalendarViewController(date)
+        viewController.delegate = self
         viewController.modalPresentationStyle = UIModalPresentationStyle.automatic
         
         self.present(viewController, animated: true)
@@ -112,10 +109,9 @@ extension BoxOfficeViewController {
     }
     
     private func setUpDataSnapshot(_ data: [BoxOfficeEntity.BoxOfficeResult.DailyBoxOffice]) {
-        let date = getDate().replacingOccurrences(of: "-", with: "")
         var snapshot = NSDiffableDataSourceSnapshot<NetworkConfiguration, BoxOfficeEntity.BoxOfficeResult.DailyBoxOffice>()
         
-        snapshot.appendSections([.boxOffice(date)])
+        snapshot.appendSections([.boxOffice(dateString.replacingOccurrences(of: "-", with: ""))])
         snapshot.appendItems(data)
         dataSource?.apply(snapshot)
     }
@@ -151,7 +147,7 @@ extension BoxOfficeViewController {
     }
     
     private func passFetchedData() {
-        let date = getDate().replacingOccurrences(of: "-", with: "")
+        let date = dateString.replacingOccurrences(of: "-", with: "")
 
         networkingManager?.load(NetworkConfiguration.boxOffice(date)) { [weak self] (result: Result<Data, NetworkingError>) in
             switch result {
@@ -171,5 +167,20 @@ extension BoxOfficeViewController {
                 self?.refreshControl.endRefreshing()
             }
         }
+    }
+}
+
+
+protocol BoxOfficeDelegate: AnyObject {
+    func setUpDate(_ date: Date)
+}
+
+extension BoxOfficeViewController: BoxOfficeDelegate {
+    func setUpDate(_ date: Date) {
+        self.date = date
+
+        isLoading = true
+        self.title = dateString
+        passFetchedData()
     }
 }
