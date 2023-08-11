@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		1F3E91432A85FA1800C892A4 /* Array+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F3E91422A85FA1800C892A4 /* Array+.swift */; };
 		1F5010F52A831C540022ECCF /* APIKey.plist in Resources */ = {isa = PBXBuildFile; fileRef = 1F5010F42A831C540022ECCF /* APIKey.plist */; };
 		1F5010F72A831CC00022ECCF /* Bundle+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F5010F62A831CC00022ECCF /* Bundle+.swift */; };
 		1F5010F92A835E0F0022ECCF /* Indicator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F5010F82A835E0F0022ECCF /* Indicator.swift */; };
@@ -50,6 +51,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		1F3E91422A85FA1800C892A4 /* Array+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Array+.swift"; sourceTree = "<group>"; };
 		1F5010F42A831C540022ECCF /* APIKey.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = APIKey.plist; sourceTree = "<group>"; };
 		1F5010F62A831CC00022ECCF /* Bundle+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Bundle+.swift"; sourceTree = "<group>"; };
 		1F5010F82A835E0F0022ECCF /* Indicator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Indicator.swift; sourceTree = "<group>"; };
@@ -190,6 +192,7 @@
 		1FCFDEE62A7A48DB00953085 /* Extension */ = {
 			isa = PBXGroup;
 			children = (
+				1F3E91422A85FA1800C892A4 /* Array+.swift */,
 				1FCFDEE72A7A490E00953085 /* String+.swift */,
 				1FCFDEE92A7A491700953085 /* Date+.swift */,
 				1FEDE6322A81DD230057B747 /* JSONDecoder+.swift */,
@@ -391,6 +394,7 @@
 				284895342A6E8C2600A2214F /* BoxOfficeItem.swift in Sources */,
 				1F8EB8B82A72A90E00CDA730 /* NetworkError.swift in Sources */,
 				1FABE3752A6E998D0020C5EC /* BoxOfficeResult.swift in Sources */,
+				1F3E91432A85FA1800C892A4 /* Array+.swift in Sources */,
 				1F5010F72A831CC00022ECCF /* Bundle+.swift in Sources */,
 				28533B312A8216690094C3EC /* MovieDetailViewController.swift in Sources */,
 				281691D02A80FA09000FC6E6 /* UICollectionView+.swift in Sources */,

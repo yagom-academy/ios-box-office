@@ -108,7 +108,9 @@ extension BoxOfficeCollectionViewController {
     override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: BoxOfficeCollectionViewCell.identifier, for: indexPath) as? BoxOfficeCollectionViewCell else { return UICollectionViewCell() }
         
-        let boxOfficeItem = boxOfficeItems[indexPath.row]
+        guard let boxOfficeItem = boxOfficeItems[safe: indexPath.row] else {
+            return UICollectionViewCell()
+        }
         
         cell.configureCell(boxOfficeItem: boxOfficeItem)
         
@@ -122,9 +124,11 @@ extension BoxOfficeCollectionViewController {
 
 extension BoxOfficeCollectionViewController {
     override func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        let boxOfficeItem = boxOfficeItems[indexPath.row]
+        guard let boxOfficeItem = boxOfficeItems[safe: indexPath.row] else { return }
         
         let movieDetailViewController = MovieDetailViewController(boxOfficeItem: boxOfficeItem)        
         navigationController?.pushViewController(movieDetailViewController, animated: true)
     }
 }
+
+
