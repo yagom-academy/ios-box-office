@@ -8,7 +8,7 @@
 import UIKit
 
 final class BoxOfficeCollectionViewController: UICollectionViewController {
-    var boxOfficeItems: [BoxOfficeItem] = []
+    private var boxOfficeItems: [BoxOfficeItem] = []
     
     override func viewDidLoad() {
         super.viewDidLoad()

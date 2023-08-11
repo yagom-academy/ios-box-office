@@ -8,8 +8,8 @@
 import UIKit
 
 final class MovieDetailViewController: UIViewController {
-    var boxOfficeItem: BoxOfficeItem?
-    let movieDetailView = MovieDetailView()
+    private var boxOfficeItem: BoxOfficeItem?
+    private let movieDetailView = MovieDetailView()
     
     override func loadView() {
         view = movieDetailView
