@@ -12,8 +12,8 @@ final class BoxOfficeResultTests: XCTestCase {
     var sut: BoxOfficeResult?
     var assetFileName: String = "box_office_sample"
     
-    override func setUpWithError() throws {
-        try super.setUpWithError()
+    override func setupWithError() throws {
+        try super.setupWithError()
         assetFileName = "box_office_sample"
         
         do {

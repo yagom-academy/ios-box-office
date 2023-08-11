@@ -88,7 +88,7 @@ final class MovieDetailView: UIView {
         self.init(frame: CGRectZero)
         
         configureUI()
-        setUpConstraints()
+        setupConstraints()
     }
     
     override init(frame: CGRect) {
@@ -115,19 +115,19 @@ final class MovieDetailView: UIView {
         [actorTitleLabel, actorDetailLabel].forEach { actorsContentStackView.addArrangedSubview($0) }
     }
     
-    private func setUpConstraints() {
-        setUpScrollViewConstraints()
-        setUpContentViewConstraints()
-        setUpPosterImageViewConstraints()
-        setUpTotalStackViewConstraints()
-        setUpTitleLabelsAlign()
-        setUpDetailLabelsAlign()
+    private func setupConstraints() {
+        setupScrollViewConstraints()
+        setupContentViewConstraints()
+        setupPosterImageViewConstraints()
+        setupTotalStackViewConstraints()
+        setupTitleLabelsAlign()
+        setupDetailLabelsAlign()
     }
 }
 
 // MARK: - Constraints
 extension MovieDetailView {
-    private func setUpScrollViewConstraints() {
+    private func setupScrollViewConstraints() {
         NSLayoutConstraint.activate([
             scrollView.frameLayoutGuide.leadingAnchor.constraint(equalTo: safeAreaLayoutGuide.leadingAnchor),
             scrollView.frameLayoutGuide.trailingAnchor.constraint(equalTo: safeAreaLayoutGuide.trailingAnchor),
@@ -136,7 +136,7 @@ extension MovieDetailView {
         ])
     }
     
-    private func setUpContentViewConstraints() {
+    private func setupContentViewConstraints() {
         NSLayoutConstraint.activate([
             contentView.leadingAnchor.constraint(equalTo: scrollView.contentLayoutGuide.leadingAnchor),
             contentView.trailingAnchor.constraint(equalTo: scrollView.contentLayoutGuide.trailingAnchor),
@@ -150,7 +150,7 @@ extension MovieDetailView {
         contentViewHeightConstraints.isActive = true
     }
     
-    private func setUpPosterImageViewConstraints() {
+    private func setupPosterImageViewConstraints() {
         NSLayoutConstraint.activate([
             posterImage.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 8),
             posterImage.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -8),
@@ -158,7 +158,7 @@ extension MovieDetailView {
         ])
     }
 
-    private func setUpLoadingImageViewConstraints() {
+    private func setupLoadingImageViewConstraints() {
         NSLayoutConstraint.activate([
             loadingImage.centerXAnchor.constraint(equalTo: centerXAnchor),
             loadingImage.centerYAnchor.constraint(equalTo: posterImage.centerYAnchor),
@@ -167,7 +167,7 @@ extension MovieDetailView {
         ])
     }
     
-    private func setUpTotalStackViewConstraints() {
+    private func setupTotalStackViewConstraints() {
         NSLayoutConstraint.activate([
             totalStackView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 8),
             totalStackView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -8),
@@ -176,7 +176,7 @@ extension MovieDetailView {
         ])
     }
     
-    private func setUpTitleLabelsAlign() {
+    private func setupTitleLabelsAlign() {
         NSLayoutConstraint.activate([
             productionYearTitleLabel.centerXAnchor.constraint(equalTo: directorTitleLabel.centerXAnchor),
             openDateTitleLabel.centerXAnchor.constraint(equalTo: directorTitleLabel.centerXAnchor),
@@ -188,7 +188,7 @@ extension MovieDetailView {
         ])
     }
     
-    private func setUpDetailLabelsAlign() {
+    private func setupDetailLabelsAlign() {
         NSLayoutConstraint.activate([
             productionYearDetailLabel.leadingAnchor.constraint(equalTo: directorDetailLabel.leadingAnchor),
             openDateDetailLabel.leadingAnchor.constraint(equalTo: directorDetailLabel.leadingAnchor),
@@ -205,7 +205,7 @@ extension MovieDetailView {
 extension MovieDetailView {
     func startLoadingImage() {
         addSubview(loadingImage)
-        setUpLoadingImageViewConstraints()
+        setupLoadingImageViewConstraints()
     }
     
     func stopLoadingImage() {

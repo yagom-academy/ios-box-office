@@ -29,7 +29,7 @@ final class BoxOfficeViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        setUpRightBarButton()
+        setupRightBarButton()
         showLoadingView()
         setTitle()
         configureBackgroundColor()
@@ -37,7 +37,7 @@ final class BoxOfficeViewController: UIViewController {
     }
     
     // MARK: - UI Configuration
-    private func setUpRightBarButton() {
+    private func setupRightBarButton() {
         navigationItem.rightBarButtonItem = UIBarButtonItem(title: "날짜선택", primaryAction: showCalendarViewController())
     }
     

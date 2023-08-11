@@ -67,7 +67,7 @@ final class BoxOfficeCell: UICollectionViewListCell {
 extension BoxOfficeCell {
     private func configureCell() {
         configureUI()
-        setUpConstraints()
+        setupConstraints()
     }
     
     private func configureUI() {
@@ -80,13 +80,13 @@ extension BoxOfficeCell {
         rankStackView.addArrangedSubview(rankInformationLabel)
     }
     
-    private func setUpConstraints() {
+    private func setupConstraints() {
         updateSeparatorConstraint()
-        setUpInformationStackViewConstraints()
-        setUpRankStackViewConstraints()
+        setupInformationStackViewConstraints()
+        setupRankStackViewConstraints()
     }
     
-    private func setUpInformationStackViewConstraints() {
+    private func setupInformationStackViewConstraints() {
         NSLayoutConstraint.activate([
             informationStackView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
             informationStackView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
@@ -95,7 +95,7 @@ extension BoxOfficeCell {
         ])
     }
     
-    private func setUpRankStackViewConstraints() {
+    private func setupRankStackViewConstraints() {
         NSLayoutConstraint.activate([
             rankStackView.leadingAnchor.constraint(equalTo: informationStackView.leadingAnchor),
             rankStackView.widthAnchor.constraint(equalTo: informationStackView.widthAnchor, multiplier: 0.15),
