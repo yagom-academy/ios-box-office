@@ -123,7 +123,9 @@
 **추가 예정**
 |실행 화면|
 |:--:|
-|<img src="https://s3.ap-northeast-2.amazonaws.com/media.yagom-academy.kr/resources/usr/63e1b1ad324ce85b6f356cee/20230811/64d5fcec45e6bf50b2f431cd.gif" width="300">|
+|<img src="https://github.com/MaryJo-github/ios-box-office/assets/124647187/8d5242a8-7513-4e59-bb6d-f3f990e9287f" width="300">|
+
+
 
 </br>
 
