@@ -51,7 +51,7 @@ extension MovieDetailViewController {
     }
     
     private func setupNavigation() {
-        navigationItem.title = boxOfficeManager.movieInformation?.movieTitle
+        navigationItem.title = movieName
     }
 }
 
