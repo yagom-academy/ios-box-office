@@ -55,14 +55,14 @@ final class MovieDetailView: UIView {
     func configureMovieInformation(_ movieInformation: MovieInformation?) {
         guard let movieInformation = movieInformation else { return }
         
-        let directors = movieInformation.directors.map { $0.peopleName }.joined(separator: ", ")
+        let directors = movieInformation.directors.map(\.peopleName).joined(separator: ", ")
         let productionYear = movieInformation.productionYear
         let openDate = movieInformation.openDate.dateFormat
         let runningTime = movieInformation.runningTime
         let watchGrade = movieInformation.audits.first?.watchGrade
-        let nations = movieInformation.nations.map { $0.nationName }.joined(separator: ", ")
-        let genres = movieInformation.genres.map { $0.genreName }.joined(separator: ", ")
-        let actors = movieInformation.actors.map { $0.peopleName }.joined(separator: ", ")
+        let nations = movieInformation.nations.map(\.nationName).joined(separator: ", ")
+        let genres = movieInformation.genres.map(\.genreName).joined(separator: ", ")
+        let actors = movieInformation.actors.map(\.peopleName).joined(separator: ", ")
         
         let keysAndValue = [
             ("감독", directors),
