@@ -7,7 +7,7 @@
 
 import UIKit
 
-final class MovieDetailView: UIView {
+final class MovieDetailScrollView: UIView {
     private let scrollView: UIScrollView = {
         let scrollView = UIScrollView()
         scrollView.translatesAutoresizingMaskIntoConstraints = false
@@ -61,7 +61,7 @@ final class MovieDetailView: UIView {
 }
 
 // MARK: Manage Indicator
-extension MovieDetailView {
+extension MovieDetailScrollView {
     func startActivityIndicator() {
         activityIndicator.startAnimating()
     }
@@ -72,14 +72,14 @@ extension MovieDetailView {
 }
 
 // MARK: setup Components
-extension MovieDetailView {
+extension MovieDetailScrollView {
     func setupPosterImageView(image: UIImage?) {
         posterImageView.image = image
     }
 }
 
 // MARK: add MovieDetailStackVeiw
-extension MovieDetailView {
+extension MovieDetailScrollView {
     func setupMovieInformationStackView(movieInformation: MovieInformation) {
         movieInformationStackView.addArrangedSubview(informationStackView(title: MovieInformation.PropertyName.director, information: movieInformation.director))
         movieInformationStackView.addArrangedSubview(informationStackView(title: MovieInformation.PropertyName.productionYear, information: movieInformation.productionYear))
@@ -119,7 +119,7 @@ extension MovieDetailView {
 }
 
 // MARK: configure UI
-extension MovieDetailView {
+extension MovieDetailScrollView {
     private func configureUI() {
         configureView()
         configureScrollView()
@@ -146,7 +146,7 @@ extension MovieDetailView {
 }
 
 // MARK: setup Constraint
-extension MovieDetailView {
+extension MovieDetailScrollView {
     private func setupConstraint() {
         setupScrollViewConstraint()
         setupContentViewConstraint()

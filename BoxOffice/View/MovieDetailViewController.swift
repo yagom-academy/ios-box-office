@@ -11,7 +11,7 @@ final class MovieDetailViewController: UIViewController {
     private let boxOfficeManager: BoxOfficeManager
     private let movieName: String
     private let movieCode: String
-    private let movieDetailView = MovieDetailView()
+    private let movieDetailView = MovieDetailScrollView()
     
     init(boxOfficeManager: BoxOfficeManager, movieName: String, movieCode: String) {
         self.movieName = movieName
