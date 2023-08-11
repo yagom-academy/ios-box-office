@@ -1,5 +1,5 @@
 ## 박스오피스
-> 프로젝트 기간: 23/07/24 ~ 23/08/04
+> 프로젝트 기간: 23/07/24 ~ 
 
 ## 📂 목차
 1. [팀원](#1.)
@@ -72,23 +72,34 @@
 ### 2023.08.04.(금)
 - README 작성
 
+### 2023.08.07.(월)
+- 개인 공부
+
+### 2023.08.08.(화)
+- `CalenderView`를 이용한 날짜선택 기능 구현
+- 선택된 날짜를 저장할수 있게 처리
+
+### 2023.08.09.(수)
+- 선택된 날짜를 전달받아 URL 생성 후 다시 API에 요청하는 기능 구현
+- `DateProvider` 기능 분리
+- `URLManager` 싱글톤 적용
+
+### 2023.08.10.(목)
+- 당겨서 새로고침할때 API에 재요청 기능 구현
+- API에서 요청 결과가 왔을때 `refreshControl`을 `endRefreshing()`하는 기능 구현
+
+### 2023.08.11.(금)
+- README 작성
+
 </div>
 </details>
-
 <a id="3."></a>
+
 
 ## 3. 시각화 구조
 
 ### 📐 Diagram
-
-<details>
-<summary>UML</summary>
-<div markdown="1">
-
 ![](https://hackmd.io/_uploads/B1WvCGqoh.png)
-
-</div>
-</details>
 
 ### 🌲 File Tree
 
@@ -392,6 +403,49 @@ cell.accessories = [.disclosureIndicator()]
 기존 DispatchQueue.main.async를 asyncAfter로 변경한뒤 2초간의 여유 시간을 주었습니다.
  
 <Img src = "https://hackmd.io/_uploads/BJon7MFs3.gif" width="200" height="400"><Img src = "https://hackmd.io/_uploads/rkSHEGKin.gif" width="200" height="400">
+    
+- - -
+### **<선택한 날짜로 `selectedDate` 변경>**
+🤯 **문제상황**
+`calenderButton`을 클릭하여 `CalendarView`가 떴을 때 조회한 어제 날짜로 미리 선택되게 하고 다시 다른 날짜를 클릭하고 달력이 떴을 때 이전에 선택했던 날짜로 선택이 되어 있도록 설정할 때 어떤 속성으로 접근을 해야하는지 몰라 엄청 헤맸었습니다.
+    
+🔥 **해결방법**
+`UICalendarSelectionSingleDate` 클래스는 사용자가 선택한 하나 이상의 날짜를 추적하는 개체로서 `SelectedDate`과 함께 날짜의 선택 값을 지정해 줄 수 있었습니다. 따라서 `selectedDate`가 nil일 경우는 `yesterday`를 선택하고, 선택된 날짜가 있을 경우에는 selectedDateComponent로 지정하여 구현했습니다.
+    
+```Swift
+private func showCalendarView() {
+    // some code
+    let selectedDateComponent = getDateComponent(selectedDate ?? yesterday)
+    let dateSelection = UICalendarSelectionSingleDate(delegate: self)
+    dateSelection.selectedDate = selectedDateComponent
+    // some code
+}
+```
+- - -
+### **<delegate 이슈>**
+🤯 **문제상황**
+`delgate`를 통해서 `UICalendarViewDelegate`를 준수하고 있는 클래스에 선택된 `date`를 전달하고 각 클래스에서 `didSelectDate()`를 구현하여 처리를 해주는데 여기서 url을 반환해주는 `APISerive` 타입이 열거형이라 해당 프로토콜을 준수할 수가 없어 `delegate`를 지정해주지 못하는 문제가 있었습니다.
+    
+🔥 **해결방법**
+수정 초반에는 `APIService` 타입을 클래스로 변경해주며 `didSelectDate()`를 정의해주었으나, `APIService`은 단순히 날짜 정보를 저장하고 url을 생성하여 API요청을 하는 역할을 하기 때문에 해당 메서드를 같이 정의하는 것이 어색하다고 판단했습니다. 따라서 구조체로 변경해주었고 delegate방식이 아닌 `APIService`의 `Singleton` 인스턴스를 생성하여 `selectedDate`를 공유하는 방법으로 해결하였습니다.
+
+```Swift
+struct APIService {
+    static var shared = APIService()
+    var selectedDate: Date?
+    // some code
+}
+```
+```Swift
+class MainViewController: UIViewController, CalendarViewControllerDelegate {
+    // some code
+    func didSelectDate(_ date: Date) {
+        selectedDate = date
+        APIService.shared.selectedDate = date
+        // some code
+    }
+}
+```
 - - -
 <a id="6."></a>
 
