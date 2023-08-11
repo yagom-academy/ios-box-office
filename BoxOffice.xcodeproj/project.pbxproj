@@ -238,11 +238,9 @@
 			children = (
 				45174D6B2A70F5B3009EEA9F /* TestDouble */,
 				45174D592A70B0DF009EEA9F /* DTO */,
+				CD4CE3A42A86113200F20D6E /* Manager */,
 				CD23029D2A78F2E5003B654C /* DailyBoxOffice.swift */,
 				45BD07CE2A7E3295006B8467 /* MovieInformation.swift */,
-				CDE52AAA2A81D29600183990 /* CacheManager.swift */,
-				CDCCAEA22A79E44B008811C3 /* DataManager.swift */,
-				452A30C22A789A980011C739 /* BoxOfficeManager.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -273,6 +271,16 @@
 				CD1AFC282A6E86B8001C50A7 /* BoxOfficeDataTransferObjectTests.swift */,
 			);
 			path = BoxOfficeDataTransferObjectTests;
+			sourceTree = "<group>";
+		};
+		CD4CE3A42A86113200F20D6E /* Manager */ = {
+			isa = PBXGroup;
+			children = (
+				CDE52AAA2A81D29600183990 /* CacheManager.swift */,
+				CDCCAEA22A79E44B008811C3 /* DataManager.swift */,
+				452A30C22A789A980011C739 /* BoxOfficeManager.swift */,
+			);
+			path = Manager;
 			sourceTree = "<group>";
 		};
 		CDCCAEA12A79E420008811C3 /* NetWork */ = {
