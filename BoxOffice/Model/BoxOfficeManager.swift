@@ -76,7 +76,7 @@ final class BoxOfficeManager {
     }
     
     func fetchPosterImage(_ movieName: String, completion: @escaping (Bool) -> Void) {
-        if let cacheImage = CacheManager.shared.object(forKey: movieName as NSString) {
+        if let cacheImage = CacheManager.shared.cacheImage(forKey: movieName) {
             posterImage = cacheImage
             completion(true)
             return
@@ -113,7 +113,7 @@ final class BoxOfficeManager {
                         return
                     }
                     
-                    CacheManager.shared.setObject(image, forKey: movieName as NSString)
+                    CacheManager.shared.setCacheImage(image, forKey: movieName)
                     self.posterImage = image
                     completion(true)
                 } catch {
