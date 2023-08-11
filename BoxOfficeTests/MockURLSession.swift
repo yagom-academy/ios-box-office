@@ -8,7 +8,7 @@
 import XCTest
 @testable import BoxOffice
 
-final class MockNetworkModel: NetworkingProtocol {
+final class MockNetworkModel: NetworkService {
     private var lastData: Data?
     private var lastResponse: HTTPURLResponse?
     private var lastError: BoxOfficeError?

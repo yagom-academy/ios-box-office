@@ -6,7 +6,7 @@
 //
 import Foundation
 
-struct NetworkManager: NetworkingProtocol {
+struct NetworkManager: NetworkService {
     private let session: URLSession
     
     init(session: URLSession) {

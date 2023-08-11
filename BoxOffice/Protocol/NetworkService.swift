@@ -6,7 +6,7 @@
 //
 import Foundation
 
-protocol NetworkingProtocol {
+protocol NetworkService {
     init(session: URLSession)
 
     func getRequest(url: URL, completion: @escaping (Result<Data, BoxOfficeError>) -> Void) -> URLSessionDataTask
