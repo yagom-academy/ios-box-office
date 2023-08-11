@@ -153,7 +153,6 @@ extension DailyBoxOfficeViewController: UICollectionViewDataSource, UICollection
         let cell = DailyBoxOfficeCollectionViewCell(frame: CGRect(x: 0, y: 0, width: width, height: height))
         
         cell.titleLabel.text = data.movieName
-        cell.setNeedsLayout()
         cell.layoutIfNeeded()
         
         let titleLabelSize = cell.titleLabel.intrinsicContentSize
