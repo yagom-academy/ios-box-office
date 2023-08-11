@@ -88,8 +88,7 @@ final class BoxOfficeManager {
             return
         }
         
-        var urlRequest = URLRequest(url: url)
-        urlRequest.setValue(kakaoKey, forHTTPHeaderField: NameSpace.Authorization)
+        let urlRequest = URLRequest.kakaoURLRequest(url, kakaoKey)
         
         networkManager.requestData(from: urlRequest) { [weak self] result in
             guard let self else {
@@ -138,6 +137,5 @@ extension BoxOfficeManager {
         static let movieCode = "movieCd"
         static let query = "query"
         static let posterFormat = "%@ 포스터"
-        static let Authorization = "Authorization"
     }
 }
