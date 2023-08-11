@@ -41,7 +41,7 @@ final class BoxOfficeViewController: UIViewController, URLSessionDelegate {
             }
         }
     }
-    
+
     override func viewDidLoad() {
         super.viewDidLoad()
         collectionView.delegate = self
@@ -57,11 +57,14 @@ final class BoxOfficeViewController: UIViewController, URLSessionDelegate {
 extension BoxOfficeViewController {
     private func setUpUI() {
         let safeArea = view.safeAreaLayoutGuide
+        let dateSelectionButton = UIBarButtonItem(title: "날짜선택", style: .plain, target: self, action: #selector(showCalendar))
         
         view.backgroundColor = .systemBackground
         view.addSubview(collectionView)
         view.addSubview(indicatorView)
+        
         self.title = getDate()
+        self.navigationItem.rightBarButtonItem = dateSelectionButton
         
         NSLayoutConstraint.activate([
             collectionView.topAnchor.constraint(equalTo: safeArea.topAnchor),
@@ -80,6 +83,13 @@ extension BoxOfficeViewController {
         }
         
         return DateFormatter().formatToString(from: yesterday, with: "YYYY-MM-dd")
+    }
+    
+    @objc func showCalendar(_ sender: UIButton) {
+        let viewController = CalendarViewController()
+        viewController.modalPresentationStyle = UIModalPresentationStyle.automatic
+        
+        self.present(viewController, animated: true)
     }
 }
 
@@ -163,4 +173,3 @@ extension BoxOfficeViewController {
         }
     }
 }
-
