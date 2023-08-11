@@ -33,6 +33,7 @@ extension CustomListCell {
             contentView.addSubview($0)
             $0.translatesAutoresizingMaskIntoConstraints = false
         }
+        
         let contentViewHeightConstraint = contentView.heightAnchor.constraint(equalToConstant: 100)
         contentViewHeightConstraint.priority = .defaultHigh
         

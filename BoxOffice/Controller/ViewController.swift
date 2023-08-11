@@ -16,6 +16,7 @@ class ViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        self.fetchDate()
         self.configureHierarchy()
         self.initRefreshControl()
         
@@ -26,12 +27,12 @@ class ViewController: UIViewController {
         }
     }
     
-    func creatLayout() -> UICollectionViewLayout {
+    func createLayout() -> UICollectionViewLayout {
         let config = UICollectionLayoutListConfiguration(appearance: .plain)
         return UICollectionViewCompositionalLayout.list(using: config)
     }
     
-    lazy var collectionView: UICollectionView = UICollectionView(frame: view.bounds, collectionViewLayout: creatLayout())
+    lazy var collectionView: UICollectionView = UICollectionView(frame: view.bounds, collectionViewLayout: createLayout())
     
     func configureHierarchy() {
         collectionView.autoresizingMask = [.flexibleHeight, .flexibleWidth]
@@ -144,6 +145,16 @@ extension ViewController {
                 
                 self.refreshControl.endRefreshing()
             }
+        }
+    }
+}
+
+extension ViewController {
+    private func fetchDate() {
+        do {
+            self.navigationItem.title = try DateFormatter().changeDateFormat(Date(), DateFormatter.DateFormat.hyphen)
+        } catch {
+            print(error.localizedDescription)
         }
     }
 }
