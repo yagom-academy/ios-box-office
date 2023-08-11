@@ -12,9 +12,9 @@ import XCTest
 final class BoxOfficeTests: XCTestCase {
     private var sut: BoxOfficeManager<DailyBoxOffice>!
     private var model: MockNetworkModel!
-    private var url = URL(apiType: KobisAPIType.boxOffice("20230804"))
+    private let url = URL(apiType: KobisAPIType.boxOffice("20230804"))
     
-    private var nsDataAsset:Data {
+    private var nsDataAsset: Data {
         return NSDataAsset(name: "box_office_sample")!.data
     }
     
@@ -35,12 +35,12 @@ final class BoxOfficeTests: XCTestCase {
     func test_decode_성공했을_때_movies_개수가_10개이다() {
         // given
         MockURLProtocol.requestHandler = { request in
-            guard let url = request.url,
-                  url == self.url else {
+            guard let requestURL = request.url,
+                  requestURL == self.url else {
                 throw BoxOfficeError.invalidURL
             }
             
-            let response = HTTPURLResponse(url: url, statusCode: 200, httpVersion: "2.0", headerFields: nil)!
+            let response = HTTPURLResponse(url: requestURL, statusCode: 200, httpVersion: "2.0", headerFields: nil)!
             let data = self.nsDataAsset
             
             return (response, data)
@@ -67,12 +67,12 @@ final class BoxOfficeTests: XCTestCase {
     func test_URLResponse가_200번대면_Data타입을_받아온다() {
         // given
         MockURLProtocol.requestHandler = { request in
-            guard let url = request.url,
-                  url == URL(apiType: KobisAPIType.boxOffice("20230804"))! else {
+            guard let requestURL = request.url,
+                  requestURL == self.url else {
                 throw BoxOfficeError.invalidURL
             }
             
-            let response = HTTPURLResponse(url: url, statusCode: 200, httpVersion: "2.0", headerFields: nil)!
+            let response = HTTPURLResponse(url: requestURL, statusCode: 200, httpVersion: "2.0", headerFields: nil)!
             let data = self.nsDataAsset
             
             return (response, data)
@@ -80,10 +80,9 @@ final class BoxOfficeTests: XCTestCase {
         
         let expectation = self.nsDataAsset
         let asyncTest = XCTestExpectation()
-        let url = URL(apiType: KobisAPIType.boxOffice("20230804"))!
         
         // when
-        model.getRequest(url: url) { result in
+        model.getRequest(url: self.url!) { result in
             switch result {
             case .success(let data):
                 // then
@@ -91,7 +90,7 @@ final class BoxOfficeTests: XCTestCase {
                 asyncTest.fulfill()
             case .failure(let error):
                 print("error: \(error)")
-                XCTFail("잘못된 테스트코드 입니다.")
+                XCTFail("잘못된 테스트코드입니다.")
             }
         }
         
@@ -101,22 +100,21 @@ final class BoxOfficeTests: XCTestCase {
     func test_URLResponse가_200번대가_아니라면_실패했다는_오류메세지를_나타낸다() {
         // given
         MockURLProtocol.requestHandler = { request in
-            guard let url = request.url,
-                  url == URL(apiType: KobisAPIType.boxOffice("20230804"))! else {
+            guard let requestURL = request.url,
+                  requestURL == self.url else {
                 throw BoxOfficeError.invalidURL
             }
             
-            let response = HTTPURLResponse(url: url, statusCode: 400, httpVersion: "2.0", headerFields: nil)!
+            let response = HTTPURLResponse(url: requestURL, statusCode: 400, httpVersion: "2.0", headerFields: nil)!
             let data = self.nsDataAsset
             
             return (response, data)
         }
         
         let asyncTest = XCTestExpectation()
-        let url = URL(apiType: KobisAPIType.boxOffice("20230804"))!
         
         // when
-        model.getRequest(url: url) { event in
+        model.getRequest(url: self.url!) { event in
             switch event {
             case .success(_):
                 XCTFail("잘못된 테스트코드입니다.")
