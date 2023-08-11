@@ -101,7 +101,7 @@ final class DailyBoxOfficeCollectionViewCell: UICollectionViewListCell {
         dailyBoxOfficeStackView.addArrangedSubview(movieStackView)
         
         contentView.addSubview(dailyBoxOfficeStackView)
-        self.layer.addSeparator()
+        self.layer.addSeparator(x: 0, y: 0, width: frame.width, height: 0.5)
         self.accessories = [.disclosureIndicator()]
     }
     

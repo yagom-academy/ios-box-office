@@ -41,7 +41,7 @@ final class DailyBoxOfficeViewController: UIViewController {
     }
     
     private func configureNavigationItem() {
-        navigationItem.title = dateManager.getYesterdayDate(format: "yyyy-MM-dd")
+        navigationItem.title = try? dateManager.getYesterdayDate(format: "yyyy-MM-dd")
     }
     
     private func setupCollectionView() {
@@ -75,20 +75,21 @@ final class DailyBoxOfficeViewController: UIViewController {
     private func receiveData() {
         guard let urlRequest = receiveURLRequest() else { return }
         
-        NetworkService().fetchData(urlRequest: urlRequest) { result in
+        networkService.fetchData(urlRequest: urlRequest) { result in
             switch result {
             case .success(let data):
                 self.decodeData(data)
                 self.reloadCollectionView()
             case .failure(let error):
-                print(error)
+                print(error.localizedDescription)
             }
         }
     }
     
     private func receiveURLRequest() -> URLRequest? {
         do {
-            let urlRequest = try kobisOpenAPI.receiveURLRequest(serviceType: .dailyBoxOffice, queryItems: ["targetDt": dateManager.getYesterdayDate(format: "yyyyMMdd")])
+            let yesterdayDate = try dateManager.getYesterdayDate(format: "yyyyMMdd")
+            let urlRequest = try kobisOpenAPI.receiveURLRequest(serviceType: .dailyBoxOffice, queryItems: ["targetDt": yesterdayDate])
             
             return urlRequest
         } catch {
@@ -102,10 +103,8 @@ final class DailyBoxOfficeViewController: UIViewController {
         do {
             let decodedData = try JSONDecoder().decode(BoxOffice.self, from: data)
             boxOfficeData = decodedData
-        } catch let error as DecodingError {
-            print(error)
         } catch {
-            print(error)
+            print(error.localizedDescription)
         }
     }
     
@@ -117,7 +116,7 @@ final class DailyBoxOfficeViewController: UIViewController {
         }
     }
     
-    @objc func refreshData() {
+    @objc private func refreshData() {
         receiveData()
     }
 }

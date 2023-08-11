@@ -8,10 +8,10 @@
 import UIKit
 
 extension CALayer {
-    func addSeparator() {
+    func addSeparator(x: CGFloat, y: CGFloat, width: CGFloat, height: CGFloat) {
         let separator = CALayer()
         
-        separator.frame = CGRect.init(x: 0, y: 0, width: frame.width, height: 0.5)
+        separator.frame = CGRect.init(x: x, y: y, width: width, height: height)
         separator.backgroundColor = UIColor.systemGray2.cgColor
         
         self.addSublayer(separator)

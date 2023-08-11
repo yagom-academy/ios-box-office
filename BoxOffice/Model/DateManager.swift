@@ -10,18 +10,18 @@ import Foundation
 struct DateManager {
     private var dateFormatter = DateFormatter()
     
-    func getYesterdayDate(format: String) -> String {
+    func getYesterdayDate(format: String) throws -> String {
         let today: Date = Date()
         let calendar: Calendar = Calendar.current
         
-        if let yesterday = calendar.date(byAdding: .day, value: -1, to: today) {
-            dateFormatter.dateFormat = format
-            
-            let formattedYesterday: String = dateFormatter.string(from: yesterday)
-            
-            return formattedYesterday
+        guard  let yesterday = calendar.date(byAdding: .day, value: -1, to: today) else {
+            throw DateError.notFoundYesterdayDate
         }
         
-        return "00000000"
+        dateFormatter.dateFormat = format
+        
+        let formattedYesterday: String = dateFormatter.string(from: yesterday)
+        
+        return formattedYesterday
     }
 }

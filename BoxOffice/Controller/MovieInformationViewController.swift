@@ -76,14 +76,14 @@ final class MovieInformationViewController: UIViewController {
     private func receiveBoxOfficeData() {
         guard let urlRequest = receiveBoxOfficeURLRequest() else { return }
         
-        NetworkService().fetchData(urlRequest: urlRequest) { result in
+        networkService.fetchData(urlRequest: urlRequest) { result in
             switch result {
             case .success(let data):
                 self.decodeBoxOfficeData(data)
                 self.updateScrollView()
                 self.completionCount += 1
             case .failure(let error):
-                print(error)
+                print(error.localizedDescription)
             }
         }
     }
@@ -104,10 +104,8 @@ final class MovieInformationViewController: UIViewController {
         do {
             let decodedData = try JSONDecoder().decode(DetailInformation.self, from: data)
             detailInformationData = decodedData
-        } catch let error as DecodingError {
-            print(error)
         } catch {
-            print(error)
+            print(error.localizedDescription)
         }
     }
     
@@ -120,14 +118,14 @@ final class MovieInformationViewController: UIViewController {
     private func receiveImageData() {
         guard let urlRequest = receiveImageURLRequest() else { return }
         
-        NetworkService().fetchData(urlRequest: urlRequest) { result in
+        networkService.fetchData(urlRequest: urlRequest) { result in
             switch result {
             case .success(let data):
                 self.decodeImageData(data)
                 self.updateImageView()
                 self.completionCount += 1
             case .failure(let error):
-                print(error)
+                print(error.localizedDescription)
             }
         }
     }
@@ -148,10 +146,8 @@ final class MovieInformationViewController: UIViewController {
         do {
             let decodedData = try JSONDecoder().decode(ImageSearch.self, from: data)
             imageSearch = decodedData
-        } catch let error as DecodingError {
-            print(error)
         } catch {
-            print(error)
+            print(error.localizedDescription)
         }
     }
     
@@ -162,12 +158,12 @@ final class MovieInformationViewController: UIViewController {
                 self?.scrollView.updateImage(image: image)
             }
         } catch {
-            print(error)
+            print(error.localizedDescription)
         }
     }
     
     private func downloadImage() throws -> UIImage {
-        guard let imageURL = imageSearch?.documents[0].imageURL,
+        guard let imageURL = imageSearch?.documents.first?.imageURL,
               let url = URL(string: imageURL),
               let data = try? Data(contentsOf: url),
               let image = UIImage(data: data) else {
