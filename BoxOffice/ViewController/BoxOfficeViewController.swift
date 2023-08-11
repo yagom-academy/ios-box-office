@@ -29,6 +29,7 @@ final class BoxOfficeViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        setUpRightBarButton()
         showLoadingView()
         setTitle()
         configureBackgroundColor()
@@ -36,6 +37,10 @@ final class BoxOfficeViewController: UIViewController {
     }
     
     // MARK: - UI Configuration
+    private func setUpRightBarButton() {
+        navigationItem.rightBarButtonItem = UIBarButtonItem(title: "날짜선택", primaryAction: showCalendarViewController())
+    }
+    
     private func showLoadingView() {
         view.addSubview(activityIndicatorView)
         
@@ -49,7 +54,7 @@ final class BoxOfficeViewController: UIViewController {
     }
     
     private func setTitle() {
-        self.title = boxOfficeService.formattedYesterdayWithHyphen
+        self.title = DateManager.formattedDateWithHyphen
     }
     
     private func configureBackgroundColor() {
@@ -57,7 +62,7 @@ final class BoxOfficeViewController: UIViewController {
     }
     
     // MARK: - Load Data
-    @objc private func loadDailyBoxOfficeData() {
+    private func loadDailyBoxOfficeData() {
         boxOfficeService.loadDailyBoxOfficeData(fetchBoxOffice)
     }
     
@@ -73,12 +78,12 @@ final class BoxOfficeViewController: UIViewController {
                     self.hideLoadingView()
                 }
             } else {
-                var snapshot = NSDiffableDataSourceSnapshot<Section, DailyBoxOffice>()
-                snapshot.appendSections([.dailyBoxOffice])
-                snapshot.appendItems(boxOffice.boxOfficeResult.dailyBoxOfficeList)
-                dataSource?.apply(snapshot, animatingDifferences: false)
-                
                 DispatchQueue.main.async {
+                    var snapshot = NSDiffableDataSourceSnapshot<Section, DailyBoxOffice>()
+                    snapshot.appendSections([.dailyBoxOffice])
+                    snapshot.appendItems(boxOffice.boxOfficeResult.dailyBoxOfficeList)
+                    self.dataSource?.apply(snapshot, animatingDifferences: false)
+                    
                     self.refresher.endRefreshing()
                 }
             }
@@ -97,7 +102,6 @@ extension BoxOfficeViewController {
         let layout = UICollectionViewCompositionalLayout.list(using: config)
         
         return layout
-        
     }
     
     private func configureHierarchy() {
@@ -105,8 +109,8 @@ extension BoxOfficeViewController {
         collectionView?.autoresizingMask = [.flexibleWidth, .flexibleHeight]
         collectionView?.delegate = self
         collectionView?.refreshControl = refresher
-        collectionView?.refreshControl?.addTarget(self, action: #selector(loadDailyBoxOfficeData), for: .valueChanged)
-        collectionView?.refreshControl?.transform = CGAffineTransformMakeScale(0.6, 0.6);
+        collectionView?.refreshControl?.addAction(refreshData(), for: .valueChanged)
+        collectionView?.refreshControl?.transform = CGAffineTransformMakeScale (0.6, 0.6);
         
         view.addSubview(collectionView ?? UICollectionView())
     }
@@ -142,8 +146,35 @@ extension BoxOfficeViewController: UICollectionViewDelegate {
     }
 }
 
+// MARK: - CalendarViewController Delegate
+extension BoxOfficeViewController: CalendarViewControllerDelegate {
+    func updateBoxOfficeDate() {
+        setTitle()
+        loadDailyBoxOfficeData()
+    }
+}
+
 // MARK: - Functions
 extension BoxOfficeViewController {
+    private func showCalendarViewController() -> UIAction {
+        let action = UIAction() { _ in
+            let calendarViewController = CalendarViewController()
+            calendarViewController.delegate = self
+            
+            self.present(calendarViewController, animated: true)
+        }
+        
+        return action
+    }
+    
+    private func refreshData() -> UIAction {
+        let action = UIAction { _ in
+            self.loadDailyBoxOfficeData()
+        }
+        
+        return action
+    }
+    
     private func changeRankInformation(in dailyBoxOffice: DailyBoxOffice) -> NSMutableAttributedString {
         if dailyBoxOffice.rankOldAndNew == "NEW" {
             return "신작".addAttributeFontForKeyword(keyword: "신작", color: .red)

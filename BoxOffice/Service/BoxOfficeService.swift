@@ -8,22 +8,6 @@
 import Foundation
 
 struct BoxOfficeService {
-    private let dateFormatter = DateFormatter()
-    
-    private var yesterday: Date {
-        return Date() - (24 * 60 * 60)
-    }
-    
-    private var formattedYesterday: String {
-        dateFormatter.dateFormat = CustomDateFormatStyle.yyyyMMdd
-        return dateFormatter.string(from: yesterday)
-    }
-    
-    var formattedYesterdayWithHyphen: String {
-        dateFormatter.dateFormat = CustomDateFormatStyle.yyyyMMddWithHyphen
-        return dateFormatter.string(from: yesterday)
-    }
-    
     func loadDailyBoxOfficeData(_ completion: @escaping (Result<BoxOffice, NetworkManagerError>) -> Void) {
         var components = URLComponents()
         components.scheme = KobisNameSpace.scheme
@@ -32,7 +16,7 @@ struct BoxOfficeService {
         
         let query = [
             KobisNameSpace.key : KobisNameSpace.keyValue,
-            KobisNameSpace.targetDt : formattedYesterday
+            KobisNameSpace.targetDt : DateManager.formattedDate
         ]
         
         guard let dailyBoxOfficeURL = components.url else { return }

@@ -35,6 +35,7 @@ final class BoxOfficeCell: UICollectionViewListCell {
         let stackView = UIStackView()
         stackView.axis = .vertical
         stackView.alignment = .center
+        stackView.distribution = .fillProportionally
         stackView.spacing = 4
         
         return stackView
@@ -49,26 +50,8 @@ final class BoxOfficeCell: UICollectionViewListCell {
         return label
     }()
     
-    let rankInformationLabel: UILabel = {
-        let label = UILabel()
-        label.font = UIFont.preferredFont(forTextStyle: .body)
-        label.adjustsFontForContentSizeCategory = true
-        label.adjustsFontSizeToFitWidth = true
-        
-        return label
-    }()
-    
-    // MARK: - Movie Name, Audience Information
-    let detailLabel: UILabel = {
-        let label = UILabel()
-        label.font = UIFont.preferredFont(forTextStyle: .title2)
-        label.numberOfLines = 0
-        label.font = UIFont.preferredFont(forTextStyle: .body)
-        label.adjustsFontForContentSizeCategory = true
-        label.adjustsFontSizeToFitWidth = true
-        
-        return label
-    }()
+    let rankInformationLabel: UILabel = DetailLabel()
+    let detailLabel: UILabel = DetailLabel()
     
     override init(frame: CGRect) {
         super.init(frame: frame)
