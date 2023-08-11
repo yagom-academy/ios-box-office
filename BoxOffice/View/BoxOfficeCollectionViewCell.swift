@@ -61,29 +61,7 @@ final class BoxOfficeCollectionViewCell: UICollectionViewListCell {
             return nil
         }
         
-        switch rankChange {
-        case .신작:
-            let text = "신작"
-            let attribute: [NSAttributedString.Key: Any] = [.foregroundColor: UIColor.red]
-            
-            return NSMutableAttributedString(string: text, attributes: attribute)
-        case .변동없음:
-            return NSMutableAttributedString(string: "-")
-        case .상승:
-            let text = "▲" + amountOfRankChange
-            let string = NSMutableAttributedString(string: text)
-            
-            string.addAttributes([.foregroundColor: UIColor.red], range: NSRange(location: 0, length: 1))
-            
-            return string
-        case .하락:
-            let text = "▼" + amountOfRankChange.dropFirst()
-            let string = NSMutableAttributedString(string: text)
-            
-            string.addAttributes([.foregroundColor: UIColor.blue], range: NSRange(location: 0, length: 1))
-            
-            return string
-        }
+        return rankChange.getAmountOfRankChangeString(origin: amountOfRankChange)
     }
 }
 
@@ -154,22 +132,48 @@ extension BoxOfficeCollectionViewCell {
 // MARK: - RankChangeState
 extension BoxOfficeCollectionViewCell {
     enum RankChangeState {
-        case 신작
-        case 변동없음
-        case 상승
-        case 하락
+        case new
+        case noChange
+        case rising
+        case falling
         
         init?(_ amountOfRankChange: String, _ rankOldAndNew: String) {
             if amountOfRankChange == "0" && rankOldAndNew == "NEW" {
-                self = .신작
+                self = .new
             } else if amountOfRankChange == "0" && rankOldAndNew == "OLD" {
-                self = .변동없음
+                self = .noChange
             } else if amountOfRankChange > "0" {
-                self = .상승
+                self = .rising
             } else if amountOfRankChange < "0" {
-                self = .하락
+                self = .falling
             } else {
                 return nil
+            }
+        }
+        
+        func getAmountOfRankChangeString(origin: String) -> NSMutableAttributedString {
+            switch self {
+            case .new:
+                let text = "신작"
+                let attribute: [NSAttributedString.Key: Any] = [.foregroundColor: UIColor.red]
+                
+                return NSMutableAttributedString(string: text, attributes: attribute)
+            case .noChange:
+                return NSMutableAttributedString(string: "-")
+            case .rising:
+                let text = "▲" + origin
+                let string = NSMutableAttributedString(string: text)
+                
+                string.addAttributes([.foregroundColor: UIColor.red], range: NSRange(location: 0, length: 1))
+                
+                return string
+            case .falling:
+                let text = "▼" + origin.dropFirst()
+                let string = NSMutableAttributedString(string: text)
+                
+                string.addAttributes([.foregroundColor: UIColor.blue], range: NSRange(location: 0, length: 1))
+                
+                return string
             }
         }
     }
