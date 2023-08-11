@@ -23,8 +23,7 @@ final class BoxOfficeCollectionViewController: UICollectionViewController {
     private func fetchData() {
         Task { [weak self] in
             Indicator.shared.startAnimating()
-            guard let self else { return }
-            await self.fetchBoxOfficeItems()
+            await self?.fetchBoxOfficeItems()
             Indicator.shared.stopAnimating()
         }
     }
@@ -81,9 +80,9 @@ extension BoxOfficeCollectionViewController {
     }
     
     @objc private func handleRefreshControl() {
-        Task {
+        Task { [weak self] in
             await fetchBoxOfficeItems()
-            collectionView.refreshControl?.endRefreshing()
+            self?.collectionView.refreshControl?.endRefreshing()
         }
     }
 }
