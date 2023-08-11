@@ -40,9 +40,7 @@ enum NetworkManager {
     
     static func fetchData<T: Decodable>(fetchType: FetchType) async throws -> T {
         
-        guard let request = createRequest(fetchType: fetchType) else {
-            throw NetworkError.invalidURL
-        }
+        let request = try createRequest(fetchType: fetchType)
         
         guard let (data, response) = try? await URLSession.shared.data(for: request) else {
             throw NetworkError.requestFailed
@@ -59,31 +57,36 @@ enum NetworkManager {
         return try JSONDecodingManager.decode(from: data)
     }
     
-    static private func createRequest(fetchType: FetchType) -> URLRequest? {
+    static private func createRequest(fetchType: FetchType) throws -> URLRequest {
         guard var urlComponents = URLComponents(string: fetchType.url) else {
-            return nil
+            throw NetworkError.invalidURL
+        }
+        
+        guard let kobisAPIKey = Bundle.main.kobisAPIKey,
+              let kakaoAPIKey = Bundle.main.kakaoAPIKey else {
+            throw NetworkError.notFoundAPIKey
         }
         
         switch fetchType {
         case .boxOffice(let date):
             urlComponents.queryItems = [
-                URLQueryItem(name: "key", value: Bundle.main.kobisAPIKey),
+                URLQueryItem(name: "key", value: kobisAPIKey),
                 URLQueryItem(name: "targetDt", value: date)
             ]
             
             guard let url = urlComponents.url else {
-                return nil
+                throw NetworkError.invalidURL
             }
             
             return URLRequest(url: url)
         case .movie(let code):
             urlComponents.queryItems = [
-                URLQueryItem(name: "key", value: Bundle.main.kobisAPIKey),
+                URLQueryItem(name: "key", value: kobisAPIKey),
                 URLQueryItem(name: "movieCd", value: code)
             ]
             
             guard let url = urlComponents.url else {
-                return nil
+                throw NetworkError.invalidURL
             }
             
             return URLRequest(url: url)
@@ -91,12 +94,12 @@ enum NetworkManager {
             urlComponents.queryItems = [URLQueryItem(name: "query", value: "\(movieName)+영화+포스터")]
             
             guard let url = urlComponents.url else {
-                return nil
+                throw NetworkError.invalidURL
             }
             
             var request = URLRequest(url: url)
             
-            request.addValue(Bundle.main.kakaoAPIKey, forHTTPHeaderField: "Authorization")
+            request.addValue(kakaoAPIKey, forHTTPHeaderField: "Authorization")
             
             return request
         }

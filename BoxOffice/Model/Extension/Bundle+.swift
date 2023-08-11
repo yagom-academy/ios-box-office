@@ -8,19 +8,19 @@
 import Foundation
 
 extension Bundle {
-    var kakaoAPIKey: String {
+    var kakaoAPIKey: String? {
         return fetchPropertyList(domain: "KAKAO")
     }
     
-    var kobisAPIKey: String {
+    var kobisAPIKey: String? {
         return fetchPropertyList(domain: "KOBIS")
     }
     
-    private func fetchPropertyList(domain: String) -> String {
-        guard let file = self.path(forResource: "APIKey", ofType: "plist") else { return "" }
+    private func fetchPropertyList(domain: String) -> String? {
+        guard let file = self.path(forResource: "APIKey", ofType: "plist") else { return nil }
         
-        guard let resource = NSDictionary(contentsOfFile: file) else { return "" }
-        guard let key = resource[domain] as? String else { fatalError("APIKey.plist에 \(domain) API키를 등록하세요")}
+        guard let resource = NSDictionary(contentsOfFile: file) else { return nil }
+        guard let key = resource[domain] as? String else { return nil }
         
         return key
     }
