@@ -47,10 +47,12 @@ final class MovieDetailView: UIView {
         fatalError("init(coder:) has not been implemented")
     }
     
-    func injectMovieInformation(_ movieInformation: MovieInformation?, image: UIImage?) {
+    func configurePosterImage(_ image: UIImage?) {
         posterImageView.image = image
         updatePosterImageViewConstraints()
-        
+    }
+    
+    func configureMovieInformation(_ movieInformation: MovieInformation?) {
         guard let movieInformation = movieInformation else { return }
         
         let directors = movieInformation.directors.map { $0.peopleName }.joined(separator: ", ")

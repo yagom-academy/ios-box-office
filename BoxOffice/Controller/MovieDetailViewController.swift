@@ -37,33 +37,30 @@ final class MovieDetailViewController: UIViewController {
     
     private func fetchData() {
         Task { [weak self] in
-            guard let self else { return }
             Indicator.shared.startAnimating()
-            guard let boxOfficeItem = self.boxOfficeItem else { return }
-            async let movieInformation = self.fetchMovieInformation(movieCode: boxOfficeItem.movieCode)
-            async let posterImage = self.fetchPosterImage(movieName: boxOfficeItem.movieName)
-            self.movieDetailView.injectMovieInformation(await movieInformation, image: await posterImage)
+            do {
+                guard let self else { return }
+                
+                guard let boxOfficeItem = self.boxOfficeItem else { return }
+                async let movieInformation = self.fetchMovieInformation(movieCode: boxOfficeItem.movieCode)
+                async let posterImage = self.fetchPosterImage(movieName: boxOfficeItem.movieName)
+                
+                movieDetailView.configureMovieInformation(try await movieInformation)
+                movieDetailView.configurePosterImage(try await posterImage)                
+            } catch {
+                showAlert(error: error)
+            }
             Indicator.shared.stopAnimating()
         }
     }
     
-    private func fetchMovieInformation(movieCode: String) async -> MovieInformation? {
-        do {
-            let movie: Movie = try await NetworkManager.fetchData(fetchType: .movie(code: movieCode))
-            return movie.movieResult.movieInformation
-        } catch {
-            showAlert(error: error)
-            return nil
-        }
+    private func fetchMovieInformation(movieCode: String) async throws -> MovieInformation? {
+        let movie: Movie = try await NetworkManager.fetchData(fetchType: .movie(code: movieCode))
+        return movie.movieResult.movieInformation
     }
     
-    private func fetchPosterImage(movieName: String) async -> UIImage? {
-        do {
-            return try await NetworkManager.fetchImage(movieName: movieName)
-        } catch {
-            showAlert(error: error)
-            return nil
-        }
+    private func fetchPosterImage(movieName: String) async throws -> UIImage? {
+        return try await NetworkManager.fetchImage(movieName: movieName)
     }
     
     private func showAlert(error: Error) {
@@ -72,7 +69,16 @@ final class MovieDetailViewController: UIViewController {
             message: "\(error.localizedDescription)",
             preferredStyle: .alert
         )
-        alert.addAction(UIAlertAction(title: "OK", style: .default))
+        
+        alert.addAction(UIAlertAction(title: "재시도", style: .default, handler: { _ in
+            self.fetchData()
+        }))
+        
+        alert.addAction(UIAlertAction(title: "확인", style: .default, handler: { _ in
+            self.navigationController?.popToRootViewController(animated: true)
+        }))
+        
+        
         self.present(alert, animated: true, completion: nil)
     }
 }
