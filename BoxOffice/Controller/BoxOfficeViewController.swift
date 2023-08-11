@@ -1,5 +1,5 @@
 //
-//  ViewController.swift
+//  BoxOfficeViewController.swift
 //  BoxOffice
 //
 //  Created by kjs on 13/01/23.
