@@ -171,8 +171,8 @@ extension BoxOfficeViewController {
 
 // MARK: CalendarViewControllerDelegate
 extension BoxOfficeViewController: CalendarViewControllerDelegate {
-    func selectedDate(date: DateComponents?) {
-        guard let dateComponents = date,
+    func calendarViewController(_ calendarViewController: UIViewController, didSelectDate dateComponents: DateComponents?) {
+        guard let dateComponents = dateComponents,
               let selectedDate = dateComponents.date else {
             return
         }

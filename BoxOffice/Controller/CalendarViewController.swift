@@ -8,7 +8,7 @@
 import UIKit
 
 protocol CalendarViewControllerDelegate: AnyObject {
-    func selectedDate(date: DateComponents?)
+    func calendarViewController(_ calendarViewController: UIViewController, didSelectDate dateComponents: DateComponents?)
 }
 
 @available(iOS 16.0, *)
@@ -73,7 +73,7 @@ extension CalendarViewController {
 @available(iOS 16.0, *)
 extension CalendarViewController: UICalendarSelectionSingleDateDelegate {
     func dateSelection(_ selection: UICalendarSelectionSingleDate, didSelectDate dateComponents: DateComponents?) {
-        delegate?.selectedDate(date: dateComponents)
+        delegate?.calendarViewController(self, didSelectDate: dateComponents)
         dismiss(animated: true)
     }
 }
