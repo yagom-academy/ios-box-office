@@ -1,5 +1,5 @@
 //
-//  GetDataAPI.swift
+//  NetworkManager.swift
 //  BoxOffice
 //
 //  Created by karen on 2023/07/26.
@@ -13,21 +13,21 @@ struct NetworkManager: NetworkService {
         self.session = session
     }
     
-    func getRequest(url: URL, completion: @escaping (Result<Data, BoxOfficeError>) -> Void) -> URLSessionDataTask {
+    func getRequest(url: URL, completion: @escaping (Result<Data, BoxOfficeError>) -> Void) {
         let task = session.dataTask(with: url) { data, response, error in
             guard error == nil else {
-                completion(.failure(.requestFail))
+                completion(.failure(.failureRequest))
                 return
             }
             
             guard let httpResponse = response as? HTTPURLResponse,
                   (200...299).contains(httpResponse.statusCode) else {
-                completion(.failure(.responseFail))
+                completion(.failure(.failureReseponse))
                 return
             }
             
             guard let data = data else {
-                completion(.failure(.typeError))
+                completion(.failure(.invalidType))
                 return
             }
             
@@ -35,6 +35,5 @@ struct NetworkManager: NetworkService {
         }
         
         task.resume()
-        return task
     }
 }
