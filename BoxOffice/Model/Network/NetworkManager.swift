@@ -56,7 +56,7 @@ enum NetworkManager {
             throw NetworkError.badStatusCode(statusCode: httpResponse.statusCode)
         }
         
-        return try JSONDecoder.decode(from: data)
+        return try JSONDecodingManager.decode(from: data)
     }
     
     static private func createRequest(fetchType: FetchType) -> URLRequest? {
