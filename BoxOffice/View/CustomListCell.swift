@@ -33,20 +33,15 @@ extension CustomListCell {
             contentView.addSubview($0)
             $0.translatesAutoresizingMaskIntoConstraints = false
         }
-        
-        let listContentViewBottomConstraint = listContentView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -30)
-        listContentViewBottomConstraint.priority = .defaultHigh
-        let movieRankStackViewBottomConstraint = movieRankStackView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -30)
-        movieRankStackViewBottomConstraint.priority = .defaultHigh
+        let contentViewHeightConstraint = contentView.heightAnchor.constraint(equalToConstant: 100)
+        contentViewHeightConstraint.priority = .defaultHigh
         
         NSLayoutConstraint.activate([
+            contentViewHeightConstraint,
             listContentView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 60),
-            listContentView.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 20),
-            listContentView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
-            listContentViewBottomConstraint,
+            listContentView.centerYAnchor.constraint(equalTo: contentView.centerYAnchor),
             movieRankStackView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 30),
-            movieRankStackView.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 20),
-            movieRankStackViewBottomConstraint
+            movieRankStackView.centerYAnchor.constraint(equalTo: contentView.centerYAnchor)
         ])
         
         setupViewsIfNeededFlag = true
