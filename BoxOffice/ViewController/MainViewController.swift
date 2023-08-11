@@ -7,10 +7,6 @@
 
 import UIKit
 
-protocol MainViewControllerDelegate: AnyObject {
-    func pushMovieDetailViewController(_ movieCode: String, _ movieName: String)
-}
-
 protocol MainViewControllerUseCaseDelegate: AnyObject {
     func completeFetchDailyBoxOfficeInformation(_ movieInformationDTOList: [MovieInformationDTO])
     func failFetchDailyBoxOfficeInformation(_ errorDescription: String?)
@@ -22,7 +18,6 @@ final class MainViewController: UIViewController, CanShowNetworkRequestFailureAl
     }
     
     private let usecase: MainViewControllerUseCase
-    weak var delegate: MainViewControllerDelegate?
     
     private lazy var activityIndicatorView: UIActivityIndicatorView = {
         let activityIndicatorView = UIActivityIndicatorView()
@@ -156,7 +151,15 @@ extension MainViewController: UICollectionViewDelegate {
         let movieCode = movieInformation?.movieCode ?? ""
         let movieName = movieInformation?.movieName ?? ""
         
-        delegate?.pushMovieDetailViewController(movieCode, movieName)
+        let sessionProvider: URLSessionProvider = URLSessionProviderImplementation()
+        let daumSearchRepository: DaumSearchRepository = DaumSearchRepositoryImplementation(sessionProvider: sessionProvider)
+        let boxOfficeRepository: BoxOfficeRepository = BoxOfficeRepositoryImplementation(sessionProvider: sessionProvider)
+        let usecase = MovieDetailViewControllerUseCaseImplementation(boxOfficeRepository: boxOfficeRepository,
+                                                                     daumSearchRepository: daumSearchRepository)
+        let movieDetailViewController = MovieDetailViewController(usecase: usecase, movieCode: movieCode, movieName: movieName)
+        
+        usecase.delegate = movieDetailViewController
+        navigationController?.pushViewController(movieDetailViewController, animated: true)
         collectionView.deselectItem(at: indexPath, animated: true)
     }
 }
