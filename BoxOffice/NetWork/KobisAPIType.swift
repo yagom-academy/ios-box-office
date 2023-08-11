@@ -35,11 +35,13 @@ extension KobisAPIType {
     }
 
     private var path: String {
+        let basePath: String = "/kobisopenapi/webservice/rest/"
+        
         switch self {
         case .movie:
-            return "/kobisopenapi/webservice/rest/movie/searchMovieInfo.json"
+            return basePath + "movie/searchMovieInfo.json"
         case .boxOffice:
-            return "/kobisopenapi/webservice/rest/boxoffice/searchDailyBoxOfficeList.json"
+            return basePath + "boxoffice/searchDailyBoxOfficeList.json"
         }
     }
 
