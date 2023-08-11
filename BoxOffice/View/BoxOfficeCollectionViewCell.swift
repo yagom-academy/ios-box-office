@@ -7,7 +7,7 @@
 
 import UIKit
 
-final class BoxOfficeCollectionViewCell: UICollectionViewListCell, Reusable {
+final class BoxOfficeCollectionViewCell: UICollectionViewListCell {
     private let rankLabel: UILabel = {
         let label = UILabel()
         label.font = UIFont.preferredFont(for: .largeTitle, weight: .semibold)
