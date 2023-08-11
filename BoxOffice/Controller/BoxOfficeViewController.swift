@@ -22,7 +22,7 @@ final class BoxOfficeViewController: UIViewController {
     }
     
     private func fetchBoxOfficeData() {
-        dataManager.boxOfficeDecoder.fetchData { [weak self] result in
+        dataManager.boxOfficeManager.fetchData { [weak self] result in
             switch result {
             case .success(let data):
                 self?.dataManager.movieItems = data.boxOfficeResult.movies
