@@ -26,7 +26,7 @@ final class BoxOfficeCollectionViewCell: UICollectionViewListCell {
     
     private let movieNameLabel: UILabel = {
         let label = UILabel()
-        label.numberOfLines = 0
+        label.numberOfLines = .zero
         label.font = UIFont.preferredFont(forTextStyle: .title2)
         label.adjustsFontForContentSizeCategory = true
         return label
@@ -34,7 +34,7 @@ final class BoxOfficeCollectionViewCell: UICollectionViewListCell {
     
     private let audienceNumberLabel: UILabel = {
         let label = UILabel()
-        label.numberOfLines = 0
+        label.numberOfLines = .zero
         label.font = UIFont.preferredFont(forTextStyle: .body)
         label.adjustsFontForContentSizeCategory = true
         return label

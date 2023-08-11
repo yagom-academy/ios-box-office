@@ -12,7 +12,7 @@ extension UILabel {
         let label = UILabel()
         label.text = text
         label.font = UIFont.preferredFont(for: .body, weight: .bold)
-        label.numberOfLines = 0
+        label.numberOfLines = .zero
         label.textAlignment = .center
         label.adjustsFontForContentSizeCategory = true
         return label
@@ -22,7 +22,7 @@ extension UILabel {
         let label = UILabel()
         label.text = text
         label.font = UIFont.preferredFont(forTextStyle: .body)
-        label.numberOfLines = 0
+        label.numberOfLines = .zero
         label.adjustsFontForContentSizeCategory = true
         return label
     }
