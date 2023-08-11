@@ -130,7 +130,6 @@
 				CD1AFC202A6E77C2001C50A7 /* BoxOffice.swift */,
 				45174D5A2A70B113009EEA9F /* Movie.swift */,
 				45BD07D02A7E70F6006B8467 /* PosterImageInformation.swift */,
-				CD23029C2A78F2BC003B654C /* Entity */,
 			);
 			path = DTO;
 			sourceTree = "<group>";
@@ -236,6 +235,7 @@
 			children = (
 				45174D6B2A70F5B3009EEA9F /* TestDouble */,
 				45174D592A70B0DF009EEA9F /* DTO */,
+				CD23029C2A78F2BC003B654C /* Entity */,
 				CDE52AAA2A81D29600183990 /* CacheManager.swift */,
 				CDCCAEA22A79E44B008811C3 /* DataManager.swift */,
 				452A30C22A789A980011C739 /* BoxOfficeManager.swift */,
