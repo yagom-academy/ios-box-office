@@ -8,7 +8,7 @@
 import UIKit
 
 final class MovieDetailViewController: UIViewController {
-    private var boxOfficeItem: BoxOfficeItem?
+    private var boxOfficeItem: BoxOfficeItem
     private let movieDetailView = MovieDetailView()
     
     override func loadView() {
@@ -22,13 +22,9 @@ final class MovieDetailViewController: UIViewController {
         fetchData()
     }
     
-    convenience init(boxOfficeItem: BoxOfficeItem) {
-        self.init(nibName: nil, bundle: nil)
+    init(boxOfficeItem: BoxOfficeItem) {
         self.boxOfficeItem = boxOfficeItem
-    }
-    
-    override init(nibName nibNameOrNil: String?, bundle nibBundleOrNil: Bundle?) {
-        super.init(nibName: nibNameOrNil, bundle: nibBundleOrNil)
+        super.init(nibName: nil, bundle: nil)
     }
     
     required init?(coder: NSCoder) {
@@ -38,17 +34,16 @@ final class MovieDetailViewController: UIViewController {
     private func fetchData() {
         Task { [weak self] in
             Indicator.shared.startAnimating()
+            guard let self else { return }
+            
             do {
-                guard let self else { return }
-                
-                guard let boxOfficeItem = self.boxOfficeItem else { return }
                 async let movieInformation = self.fetchMovieInformation(movieCode: boxOfficeItem.movieCode)
                 async let posterImage = self.fetchPosterImage(movieName: boxOfficeItem.movieName)
                 
                 movieDetailView.configureMovieInformation(try await movieInformation)
                 movieDetailView.configurePosterImage(try await posterImage)                
             } catch {
-                showAlert(error: error)
+                self.showAlert(error: error)
             }
             Indicator.shared.stopAnimating()
         }
@@ -85,7 +80,6 @@ final class MovieDetailViewController: UIViewController {
 
 extension MovieDetailViewController {
     private func configureNavigation() {
-        guard let boxOfficeItem = self.boxOfficeItem else { return }
         self.navigationItem.title = boxOfficeItem.movieName
     }
     
