@@ -55,7 +55,7 @@ extension CustomListCell {
         
         content.text = state.item?.movieName
         content.textProperties.font = .preferredFont(forTextStyle: .subheadline)
-        content.secondaryText = "오늘 \(state.item?.audienceCount ?? "오류") / 총 \(state.item?.audienceAccumulated ?? "오류")"
+        content.secondaryText = "오늘 \(state.item?.audienceCount?.changeNumberFormat() ?? "오류") / 총 \(state.item?.audienceAccumulated?.changeNumberFormat() ?? "오류")"
         
         rankNumberLabel.text = state.item?.rankNumber
         rankChangeLabel.text = state.item?.rankIntensity
