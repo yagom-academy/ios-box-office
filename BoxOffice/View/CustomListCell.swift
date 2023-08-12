@@ -58,8 +58,44 @@ extension CustomListCell {
         content.secondaryText = "오늘 \(state.item?.audienceCount?.changeNumberFormat() ?? "오류") / 총 \(state.item?.audienceAccumulated?.changeNumberFormat() ?? "오류")"
         
         rankNumberLabel.text = state.item?.rankNumber
-        rankChangeLabel.text = state.item?.rankIntensity
         rankNumberLabel.font = .preferredFont(forTextStyle: .title1)
+        
+        guard let isNewMovie = state.item?.rankOldAndNew else { return }
+        guard var rankIntensity = state.item?.rankIntensity else { return }
+        
+        var rankIntensityCategory: String {
+            if rankIntensity.contains("-") {
+                rankIntensity = rankIntensity.replacingOccurrences(of: "-", with: "▼")
+                
+                return rankIntensity
+            } else if rankIntensity.contains("0") {
+                rankIntensity = rankIntensity.replacingOccurrences(of: "0", with: "-")
+                
+                return rankIntensity
+            }
+            
+            rankIntensity = rankIntensity.replacingOccurrences(of: rankIntensity, with: "▲" + "\(rankIntensity)")
+            
+            return rankIntensity
+        }
+        
+        var oldAndNewMovieCategory: String {
+            switch isNewMovie {
+            case "NEW":
+                return "신작"
+            case "OLD":
+                return "기존"
+            default:
+                return "Error"
+            }
+        }
+        
+        if isNewMovie == "NEW" {
+            rankChangeLabel.text = oldAndNewMovieCategory
+        } else if isNewMovie == "OLD" {
+            rankChangeLabel.text = rankIntensityCategory
+        }
+        
         listContentView.configuration = content
     }
 }

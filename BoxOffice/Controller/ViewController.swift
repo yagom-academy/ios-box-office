@@ -113,8 +113,9 @@ extension ViewController {
                     let movieName = boxOffice.boxOfficeResult.dailyBoxOfficeList[index].movieName
                     let audienceCount = boxOffice.boxOfficeResult.dailyBoxOfficeList[index].audienceCount
                     let audienceAccumulated = boxOffice.boxOfficeResult.dailyBoxOfficeList[index].audienceAccumulated
+                    let rankOldAndNew = boxOffice.boxOfficeResult.dailyBoxOfficeList[index].rankOldAndNew
                     
-                    let items = Item(rankNumber: rankNumber, rankIntensity: rankIntensity, movieName: movieName, audienceCount: audienceCount, audienceAccumulated: audienceAccumulated)
+                    let items = Item(rankNumber: rankNumber, rankIntensity: rankIntensity, movieName: movieName, audienceCount: audienceCount, audienceAccumulated: audienceAccumulated, rankOldAndNew: rankOldAndNew)
                     
                     Item.all.append(items)
                 }
