@@ -77,9 +77,7 @@
 ### 🎨 Class Diagram
 </br>
 
-![image](https://github.com/karenyang835/ios-box-office/assets/124643896/b1ab68df-cb88-498e-8409-6de996330bcd)
-
-
+![image](https://github.com/karenyang835/ios-box-office/assets/124643896/f06d1734-4864-4789-ad27-4ab5a99b3510)
 
 
 ---
