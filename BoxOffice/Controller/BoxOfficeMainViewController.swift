@@ -7,25 +7,29 @@
 
 import UIKit
 
-final class BoxOfficeCollectionViewController: UICollectionViewController {
+final class BoxOfficeMainViewController: UIViewController {
+    private let boxOfficeMainView = BoxOfficeMainView()
     private var boxOfficeItems: [BoxOfficeItem] = []
     private var task: Task<Void, Never>?
     
+    override func loadView() {
+        view = boxOfficeMainView
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
+        boxOfficeMainView.boxOfficeCollectionView.delegate = self
+        boxOfficeMainView.boxOfficeCollectionView.dataSource = self
         configureNavigation()
-        configureCompositionalLayout()
-        configureIndicator()
         configureRefreshControl()
-        registerCell()
         fetchData()
     }
     
     private func fetchData() {
         Task {
-            Indicator.shared.startAnimating()
+            boxOfficeMainView.indicatorView.startAnimating()
             await self.fetchBoxOfficeItems()
-            Indicator.shared.stopAnimating()
+            boxOfficeMainView.indicatorView.stopAnimating()
         }
     }
     
@@ -46,10 +50,11 @@ final class BoxOfficeCollectionViewController: UICollectionViewController {
                 }
                 
                 self.boxOfficeItems = new
-                collectionView.reloadItems(at: indexPaths)
+                
+                boxOfficeMainView.collectionViewReloadItem(indexPaths: indexPaths)
             } else {
                 self.boxOfficeItems = new
-                collectionView.reloadData()
+                boxOfficeMainView.collectionViewReloadData()
             }
         } catch {
             let alert = UIAlertController(
@@ -62,52 +67,30 @@ final class BoxOfficeCollectionViewController: UICollectionViewController {
         }
     }
     
-    private func registerCell() {
-        collectionView.register(cellClass: BoxOfficeCollectionViewCell.self)
-    }
-    
     private func configureNavigation() {
         navigationItem.title = Date.yesterday.navigationFormat
-    }
-    
-    private func configureCompositionalLayout() {
-        let configuration = UICollectionLayoutListConfiguration(appearance: .plain)
-        let layout = UICollectionViewCompositionalLayout.list(using: configuration)
-        
-        collectionView.collectionViewLayout = layout
     }
 }
 
 // MARK: - Refresh and indicator
-extension BoxOfficeCollectionViewController {
-    private func configureIndicator() {
-        let indicator = Indicator.shared
-        indicator.translatesAutoresizingMaskIntoConstraints = false
-        view.addSubview(indicator)
-        
-        NSLayoutConstraint.activate([
-            indicator.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-            indicator.centerYAnchor.constraint(equalTo: view.centerYAnchor),
-        ])
-    }
-    
+extension BoxOfficeMainViewController {
     private func configureRefreshControl() {
-        collectionView.refreshControl = UIRefreshControl()
-        collectionView.refreshControl?.addTarget(self, action: #selector(handleRefreshControl), for: .valueChanged)
+        boxOfficeMainView.boxOfficeCollectionView.refreshControl = UIRefreshControl()
+        boxOfficeMainView.boxOfficeCollectionView.refreshControl?.addTarget(self, action: #selector(handleRefreshControl), for: .valueChanged)
     }
     
     @objc private func handleRefreshControl() {
         task?.cancel()        
         task = Task {            
             await self.fetchBoxOfficeItems()
-            self.collectionView.refreshControl?.endRefreshing()
+            self.boxOfficeMainView.boxOfficeCollectionView.refreshControl?.endRefreshing()
         }
     }
 }
 
 // MARK: - DataSource
-extension BoxOfficeCollectionViewController {
-    override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+extension BoxOfficeMainViewController: UICollectionViewDataSource {
+    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: BoxOfficeCollectionViewCell.identifier, for: indexPath) as? BoxOfficeCollectionViewCell else { return UICollectionViewCell() }
         
         guard let boxOfficeItem = boxOfficeItems[safe: indexPath.row] else {
@@ -119,13 +102,13 @@ extension BoxOfficeCollectionViewController {
         return cell
     }
     
-    override func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return boxOfficeItems.count
     }
 }
 
-extension BoxOfficeCollectionViewController {
-    override func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+extension BoxOfficeMainViewController: UICollectionViewDelegate {
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         guard let boxOfficeItem = boxOfficeItems[safe: indexPath.row] else { return }
         
         let movieDetailViewController = MovieDetailViewController(boxOfficeItem: boxOfficeItem)        

@@ -33,14 +33,12 @@ final class MovieDetailView: UIView {
         return stackView
     }()
     
-    convenience init() {
-        self.init(frame: .zero)
+    let indicatorView = UIActivityIndicatorView()
+    
+    init() {
+        super.init(frame: .zero)
         configureView()
         backgroundColor = .systemBackground
-    }
-    
-    override init(frame: CGRect) {
-        super.init(frame: frame)
     }
     
     required init?(coder: NSCoder) {
@@ -92,6 +90,7 @@ extension MovieDetailView {
     
     private func addSubviews() {
         addSubview(scrollView)
+        addSubview(indicatorView)
         scrollView.addSubview(contentStackView)
         [posterImageView, detailStackView].forEach {
             contentStackView.addArrangedSubview($0)
@@ -129,6 +128,7 @@ extension MovieDetailView {
         contentStackViewConstraints()
         posterImageViewConstraints()
         detailStackViewConstraints()
+        configureIndicator()
     }
     
     private func scrollViewConstraints() {
@@ -171,6 +171,14 @@ extension MovieDetailView {
         detailStackView.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([
             detailStackView.widthAnchor.constraint(equalTo: contentStackView.widthAnchor)
+        ])
+    }
+    
+    private func configureIndicator() {
+        indicatorView.translatesAutoresizingMaskIntoConstraints = false
+        NSLayoutConstraint.activate([
+            indicatorView.centerXAnchor.constraint(equalTo: safeAreaLayoutGuide.centerXAnchor),
+            indicatorView.centerYAnchor.constraint(equalTo: safeAreaLayoutGuide.centerYAnchor)
         ])
     }
 }

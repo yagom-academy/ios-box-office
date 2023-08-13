@@ -17,8 +17,7 @@ final class MovieDetailViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        configureNavigation()
-        configureIndicator()
+        configureNavigation()        
         fetchData()
     }
     
@@ -33,7 +32,7 @@ final class MovieDetailViewController: UIViewController {
     
     private func fetchData() {
         Task {
-            Indicator.shared.startAnimating()            
+            movieDetailView.indicatorView.startAnimating()
             do {
                 async let movieInformation = self.fetchMovieInformation(movieCode: boxOfficeItem.movieCode)
                 async let posterImage = self.fetchPosterImage(movieName: boxOfficeItem.movieName)
@@ -43,7 +42,7 @@ final class MovieDetailViewController: UIViewController {
             } catch {
                 self.showAlert(error: error)
             }
-            Indicator.shared.stopAnimating()
+            movieDetailView.indicatorView.stopAnimating()
         }
     }
     
@@ -79,15 +78,5 @@ final class MovieDetailViewController: UIViewController {
 extension MovieDetailViewController {
     private func configureNavigation() {
         self.navigationItem.title = boxOfficeItem.movieName
-    }
-    
-    private func configureIndicator() {
-        self.view.addSubview(Indicator.shared)
-        
-        Indicator.shared.translatesAutoresizingMaskIntoConstraints = false
-        NSLayoutConstraint.activate([
-            Indicator.shared.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-            Indicator.shared.centerYAnchor.constraint(equalTo: view.centerYAnchor),
-        ])
     }
 }
