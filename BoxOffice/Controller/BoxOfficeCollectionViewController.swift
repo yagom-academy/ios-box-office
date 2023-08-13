@@ -71,8 +71,8 @@ final class BoxOfficeCollectionViewController: UICollectionViewController {
     }
     
     private func configureCompositionalLayout() {
-        let config = UICollectionLayoutListConfiguration(appearance: .plain)
-        let layout = UICollectionViewCompositionalLayout.list(using: config)
+        let configuration = UICollectionLayoutListConfiguration(appearance: .plain)
+        let layout = UICollectionViewCompositionalLayout.list(using: configuration)
         
         collectionView.collectionViewLayout = layout
     }
