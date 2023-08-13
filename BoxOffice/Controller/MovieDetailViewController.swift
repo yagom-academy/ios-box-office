@@ -32,10 +32,8 @@ final class MovieDetailViewController: UIViewController {
     }
     
     private func fetchData() {
-        Task { [weak self] in
-            Indicator.shared.startAnimating()
-            guard let self else { return }
-            
+        Task {
+            Indicator.shared.startAnimating()            
             do {
                 async let movieInformation = self.fetchMovieInformation(movieCode: boxOfficeItem.movieCode)
                 async let posterImage = self.fetchPosterImage(movieName: boxOfficeItem.movieName)

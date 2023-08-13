@@ -9,6 +9,7 @@ import UIKit
 
 final class BoxOfficeCollectionViewController: UICollectionViewController {
     private var boxOfficeItems: [BoxOfficeItem] = []
+    private var task: Task<Void, Never>?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -21,9 +22,9 @@ final class BoxOfficeCollectionViewController: UICollectionViewController {
     }
     
     private func fetchData() {
-        Task { [weak self] in
+        Task {
             Indicator.shared.startAnimating()
-            await self?.fetchBoxOfficeItems()
+            await self.fetchBoxOfficeItems()
             Indicator.shared.stopAnimating()
         }
     }
@@ -96,9 +97,10 @@ extension BoxOfficeCollectionViewController {
     }
     
     @objc private func handleRefreshControl() {
-        Task { [weak self] in
-            await self?.fetchBoxOfficeItems()
-            self?.collectionView.refreshControl?.endRefreshing()
+        task?.cancel()        
+        task = Task {            
+            await self.fetchBoxOfficeItems()
+            self.collectionView.refreshControl?.endRefreshing()
         }
     }
 }
