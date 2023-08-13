@@ -1,11 +1,11 @@
 //
-//  MovieInfo.swift
+//  BoxOfficeMovieInfo.swift
 //  BoxOffice
 //
-//  Created by karen on 2023/07/26.
+//  Created by karen on 2023/08/06.
 //
 
-struct MovieInfo: Decodable {
+struct BoxOfficeMovieInfo: Decodable {
     let rowNumber: String
     let rank, changedRank, rankingStatus: String
     let code, name, releaseDate: String
@@ -34,4 +34,3 @@ struct MovieInfo: Decodable {
         case screeningCount = "showCnt"
     }
 }
-
