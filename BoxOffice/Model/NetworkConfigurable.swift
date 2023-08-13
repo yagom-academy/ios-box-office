@@ -40,7 +40,7 @@ extension NetworkConfigurable {
             throw NetworkConfigurableError.url
         }
         
-        var baseURL = url.absoluteString
+        let baseURL = url.absoluteString
         
         guard var urlComponents = URLComponents(string: baseURL) else {
             throw NetworkConfigurableError.urlComponents

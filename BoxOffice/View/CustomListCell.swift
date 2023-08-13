@@ -61,23 +61,12 @@ extension CustomListCell {
         rankNumberLabel.font = .preferredFont(forTextStyle: .title1)
         
         guard let isNewMovie = state.item?.rankOldAndNew else { return }
-        guard var rankIntensity = state.item?.rankIntensity else { return }
-        
-        var oldAndNewMovieCategory: String {
-            switch isNewMovie {
-            case "NEW":
-                return "신작"
-            case "OLD":
-                return "기존"
-            default:
-                return "Error"
-            }
-        }
-        
+        guard let rankIntensity = state.item?.rankIntensity else { return }
+                
         if isNewMovie == "NEW" {
-            rankChangeLabel.text = oldAndNewMovieCategory
-            rankChangeLabel.font = UIFont.systemFont(ofSize: 17.0)
-            rankChangeLabel.textColor = .red
+            makeOldAndNewMovieCategory(isNewMovie: isNewMovie) { [weak self] oldAndNewMovieTitle in
+                self?.rankChangeLabel.attributedText = oldAndNewMovieTitle
+            }
         } else if isNewMovie == "OLD" {
             makeRankIntensity(rankIntensityData: rankIntensity) { [weak self] rankIntensity in
                 self?.rankChangeLabel.attributedText = rankIntensity
@@ -89,7 +78,7 @@ extension CustomListCell {
 }
 
 extension CustomListCell {
-    func makeRankIntensity(rankIntensityData: String?, completion: @escaping (NSAttributedString) -> ()?) {
+    func makeRankIntensity(rankIntensityData: String?, completion: @escaping (NSAttributedString) -> Void?) {
         guard var rankIntensityData = rankIntensityData else { return }
         let font = UIFont.systemFont(ofSize: 17.0)
         
@@ -127,3 +116,33 @@ extension CustomListCell {
         }
     }
 }
+
+extension CustomListCell {
+    func makeOldAndNewMovieCategory(isNewMovie: String, completion: @escaping (NSAttributedString) -> Void) {
+        var oldAndNewMovieCategory: String {
+            switch isNewMovie {
+            case "NEW":
+                return "신작"
+            case "OLD":
+                return "기존"
+            default:
+                return "Error"
+            }
+        }
+        
+        let font = UIFont.systemFont(ofSize: 17.0)
+        
+        if oldAndNewMovieCategory == "신작" {
+            let attributeOldAndNewMovieCategory = NSMutableAttributedString(string: oldAndNewMovieCategory)
+            
+            attributeOldAndNewMovieCategory.addAttributes([
+                NSMutableAttributedString.Key.foregroundColor: UIColor.red,
+                NSMutableAttributedString.Key.font: font as Any
+            ], range: (oldAndNewMovieCategory as NSString).range(of: oldAndNewMovieCategory))
+            
+            completion(attributeOldAndNewMovieCategory)
+        }
+    }
+}
+
+
