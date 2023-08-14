@@ -5,14 +5,20 @@
 //  Created by karen on 2023/08/06.
 //
 
-struct BoxOfficeMovieInfo: Decodable {
+struct BoxOfficeMovieInfo: Decodable, Hashable {
     let rowNumber: String
-    let rank, changedRank, rankingStatus: String
+    let rank, changedRank: String
+    let rankingStatus: RankingStatus
     let code, name, releaseDate: String
     let salesAmount, salesShare, changedSales, changedSalesRate, salesTotal: String
     let audienceCount, changedAudience, changedAudienceRate, audienceTotal: String
     let screenCount, screeningCount: String
-
+    
+    enum RankingStatus: String, Decodable {
+        case old = "OLD"
+        case new = "NEW"
+    }
+    
     private enum CodingKeys: String, CodingKey {
         case rowNumber = "rnum"
         case rank
@@ -34,3 +40,4 @@ struct BoxOfficeMovieInfo: Decodable {
         case screeningCount = "showCnt"
     }
 }
+
