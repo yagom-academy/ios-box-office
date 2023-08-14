@@ -19,6 +19,8 @@
 		9C8D70B32A8A72E8004E9299 /* String+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C8D70B22A8A72E8004E9299 /* String+.swift */; };
 		9C8D70B52A8A736D004E9299 /* UILabel+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C8D70B42A8A736D004E9299 /* UILabel+.swift */; };
 		9C8D70B72A8A73F4004E9299 /* UIViewController+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C8D70B62A8A73F4004E9299 /* UIViewController+.swift */; };
+		9C8D70B92A8A7C4D004E9299 /* CellUIModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C8D70B82A8A7C4D004E9299 /* CellUIModel.swift */; };
+		9C8D70BB2A8A7CBA004E9299 /* DataNamespace.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C8D70BA2A8A7CBA004E9299 /* DataNamespace.swift */; };
 		9CA8220A2A869BF6000A334C /* DecodingService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9CA822092A869BF6000A334C /* DecodingService.swift */; };
 		9CA8220C2A869C10000A334C /* DefaultDecodingService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9CA8220B2A869C10000A334C /* DefaultDecodingService.swift */; };
 		9CF7E97D2A7F7D6A006519B9 /* KobisAPIType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9CF7E97C2A7F7D6A006519B9 /* KobisAPIType.swift */; };
@@ -64,6 +66,8 @@
 		9C8D70B22A8A72E8004E9299 /* String+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "String+.swift"; sourceTree = "<group>"; };
 		9C8D70B42A8A736D004E9299 /* UILabel+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UILabel+.swift"; sourceTree = "<group>"; };
 		9C8D70B62A8A73F4004E9299 /* UIViewController+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIViewController+.swift"; sourceTree = "<group>"; };
+		9C8D70B82A8A7C4D004E9299 /* CellUIModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CellUIModel.swift; sourceTree = "<group>"; };
+		9C8D70BA2A8A7CBA004E9299 /* DataNamespace.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataNamespace.swift; sourceTree = "<group>"; };
 		9CA822092A869BF6000A334C /* DecodingService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DecodingService.swift; sourceTree = "<group>"; };
 		9CA8220B2A869C10000A334C /* DefaultDecodingService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DefaultDecodingService.swift; sourceTree = "<group>"; };
 		9CF7E97C2A7F7D6A006519B9 /* KobisAPIType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KobisAPIType.swift; sourceTree = "<group>"; };
@@ -129,6 +133,8 @@
 				9C30BD362A70CEBE000DB5B2 /* Protocol */,
 				9C30BD2E2A70C9FA000DB5B2 /* Application */,
 				9C30BD2D2A70C9F8000DB5B2 /* Model */,
+				9C8D70B82A8A7C4D004E9299 /* CellUIModel.swift */,
+				9C8D70BA2A8A7CBA004E9299 /* DataNamespace.swift */,
 				9C30BD2C2A70C9F5000DB5B2 /* View */,
 				9C30BD2F2A70C9FC000DB5B2 /* Controller */,
 				9CF7E97B2A7F7D4B006519B9 /* Resource */,
@@ -365,6 +371,7 @@
 				9C8D70B52A8A736D004E9299 /* UILabel+.swift in Sources */,
 				9C30BD332A70CD75000DB5B2 /* BoxOfficeResult.swift in Sources */,
 				63DF20EF2970E1A0005DF7D1 /* AppDelegate.swift in Sources */,
+				9C8D70B92A8A7C4D004E9299 /* CellUIModel.swift in Sources */,
 				9CA8220C2A869C10000A334C /* DefaultDecodingService.swift in Sources */,
 				9CF7E97D2A7F7D6A006519B9 /* KobisAPIType.swift in Sources */,
 				63DF20F12970E1A0005DF7D1 /* SceneDelegate.swift in Sources */,
@@ -375,6 +382,7 @@
 				9CF7E9892A7F883D006519B9 /* MovieInfo.swift in Sources */,
 				9CF7E9902A7F89F3006519B9 /* BoxOfficeError.swift in Sources */,
 				9CF7E9972A7F8C80006519B9 /* URL+.swift in Sources */,
+				9C8D70BB2A8A7CBA004E9299 /* DataNamespace.swift in Sources */,
 				9C8D70B32A8A72E8004E9299 /* String+.swift in Sources */,
 				9C30BD3A2A70D149000DB5B2 /* NetworkManager.swift in Sources */,
 			);
