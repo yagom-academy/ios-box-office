@@ -99,8 +99,6 @@ final class MovieDetailViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        isImageLoading = true
-        isDataLoading = true
         addViews()
         setUpUI()
         setUpNetwork()
@@ -167,6 +165,7 @@ extension MovieDetailViewController: URLSessionDelegate {
     }
     
     private func passFetchedData() {
+        isDataLoading = true
         networkingManager?.load(NetworkConfiguration.movieDetail(movieCode)) { [weak self] (result: Result<Data, NetworkingError>) in
             switch result {
             case .success(let data):
@@ -191,6 +190,7 @@ extension MovieDetailViewController: URLSessionDelegate {
     }
     
     private func passFetchedImage() {
+        isImageLoading = true
         networkingManager?.load(NetworkConfiguration.daumImage(movieName)) { [weak self] (result: Result<Data, NetworkingError>) in
             switch result {
             case .success(let data):
