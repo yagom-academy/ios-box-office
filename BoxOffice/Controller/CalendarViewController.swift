@@ -8,7 +8,7 @@
 import UIKit
 
 final class CalendarViewController: UIViewController {
-    var calendarView: UICalendarView!
+    var calendarView: UICalendarView?
     var selectedDate: Date?
     weak var delegate: CalendarViewControllerDelegate?
     
@@ -39,21 +39,21 @@ final class CalendarViewController: UIViewController {
         let selectedDateComponent = getDateComponent(selectedDate ?? yesterday)
         let dateSelection = UICalendarSelectionSingleDate(delegate: self)
         dateSelection.selectedDate = selectedDateComponent
-        calendarView.selectionBehavior = dateSelection
-        calendarView.availableDateRange = DateInterval(start: pastDate, end: currentDate)
+        calendarView?.selectionBehavior = dateSelection
+        calendarView?.availableDateRange = DateInterval(start: pastDate, end: currentDate)
     }
     
     private func configureCalendar() {
         calendarView = UICalendarView(frame: CGRect(x: 0, y: 0, width: view.bounds.width, height: view.bounds.height))
-        calendarView.backgroundColor = .white
-        calendarView.calendar = .current
-        calendarView.locale = Locale(identifier: "ko_KR")
-        calendarView.timeZone = TimeZone(identifier: "Asia/Seoul")
+        calendarView?.backgroundColor = .white
+        calendarView?.calendar = .current
+        calendarView?.locale = Locale(identifier: "ko_KR")
+        calendarView?.timeZone = TimeZone(identifier: "Asia/Seoul")
     }
     
     private func addInitAndView() {
-        calendarView.delegate = self
-        view.addSubview(calendarView)
+        calendarView?.delegate = self
+        view.addSubview(calendarView ?? UICalendarView())
     }
     
     private func getDateComponent(_ date: Date) -> DateComponents {
