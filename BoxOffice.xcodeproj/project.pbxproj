@@ -16,6 +16,7 @@
 		9C30BD332A70CD75000DB5B2 /* BoxOfficeResult.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C30BD322A70CD75000DB5B2 /* BoxOfficeResult.swift */; };
 		9C30BD382A70CECF000DB5B2 /* NetworkService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C30BD372A70CECF000DB5B2 /* NetworkService.swift */; };
 		9C30BD3A2A70D149000DB5B2 /* NetworkManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C30BD392A70D149000DB5B2 /* NetworkManager.swift */; };
+		9C8D70B32A8A72E8004E9299 /* String+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C8D70B22A8A72E8004E9299 /* String+.swift */; };
 		9CA8220A2A869BF6000A334C /* DecodingService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9CA822092A869BF6000A334C /* DecodingService.swift */; };
 		9CA8220C2A869C10000A334C /* DefaultDecodingService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9CA8220B2A869C10000A334C /* DefaultDecodingService.swift */; };
 		9CF7E97D2A7F7D6A006519B9 /* KobisAPIType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9CF7E97C2A7F7D6A006519B9 /* KobisAPIType.swift */; };
@@ -58,6 +59,7 @@
 		9C30BD322A70CD75000DB5B2 /* BoxOfficeResult.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BoxOfficeResult.swift; sourceTree = "<group>"; };
 		9C30BD372A70CECF000DB5B2 /* NetworkService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkService.swift; sourceTree = "<group>"; };
 		9C30BD392A70D149000DB5B2 /* NetworkManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkManager.swift; sourceTree = "<group>"; };
+		9C8D70B22A8A72E8004E9299 /* String+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "String+.swift"; sourceTree = "<group>"; };
 		9CA822092A869BF6000A334C /* DecodingService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DecodingService.swift; sourceTree = "<group>"; };
 		9CA8220B2A869C10000A334C /* DefaultDecodingService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DefaultDecodingService.swift; sourceTree = "<group>"; };
 		9CF7E97C2A7F7D6A006519B9 /* KobisAPIType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KobisAPIType.swift; sourceTree = "<group>"; };
@@ -228,6 +230,7 @@
 				9CF7E9942A7F8C05006519B9 /* Bundle+.swift */,
 				9CF7E9962A7F8C80006519B9 /* URL+.swift */,
 				9CF7E9982A7F8D1D006519B9 /* Date+.swift */,
+				9C8D70B22A8A72E8004E9299 /* String+.swift */,
 			);
 			path = Extension;
 			sourceTree = "<group>";
@@ -364,6 +367,7 @@
 				9CF7E9892A7F883D006519B9 /* MovieInfo.swift in Sources */,
 				9CF7E9902A7F89F3006519B9 /* BoxOfficeError.swift in Sources */,
 				9CF7E9972A7F8C80006519B9 /* URL+.swift in Sources */,
+				9C8D70B32A8A72E8004E9299 /* String+.swift in Sources */,
 				9C30BD3A2A70D149000DB5B2 /* NetworkManager.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
