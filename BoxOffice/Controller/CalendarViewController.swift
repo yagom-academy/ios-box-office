@@ -9,19 +9,21 @@ import UIKit
 
 final class CalendarViewController: UIViewController {
     private let date: Date
+    weak var delegate: CalendarDelegate?
+    
     private let calendarView: UICalendarView = {
         let view: UICalendarView = UICalendarView()
-        view.translatesAutoresizingMaskIntoConstraints = false
         let yesterday: Date = DateManager.fetchPastDate(dayAgo: 1)
-        var calendarViewDateRange = DateInterval(start: Date(timeIntervalSince1970: 0), end: yesterday)
+        let calendarViewDateRange = DateInterval(start: Date(timeIntervalSince1970: 0), end: yesterday)
         view.availableDateRange = calendarViewDateRange
+        view.translatesAutoresizingMaskIntoConstraints = false
         
         return view
     }()
-    weak var delegate: CalendarDelegate?
     
     init(date: Date) {
         self.date = date
+        
         super.init(nibName: nil, bundle: nil)
     }
     

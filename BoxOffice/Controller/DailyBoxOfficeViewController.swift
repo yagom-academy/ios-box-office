@@ -7,10 +7,6 @@
 
 import UIKit
 
-protocol CalendarDelegate: AnyObject {
-    func updateBoxOffice(date: Date)
-}
-
 final class DailyBoxOfficeViewController: UIViewController {
     private var kobisOpenAPI: KobisOpenAPI = KobisOpenAPI()
     private var networkService: NetworkService = NetworkService()

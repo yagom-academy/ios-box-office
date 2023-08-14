@@ -29,6 +29,7 @@
 		DC7946392A833E6600F25E19 /* ImageSearch.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC7946382A833E6600F25E19 /* ImageSearch.swift */; };
 		DC79463B2A833FB900F25E19 /* Document.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC79463A2A833FB900F25E19 /* Document.swift */; };
 		DC79463D2A835DC500F25E19 /* LoadingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC79463C2A835DC500F25E19 /* LoadingView.swift */; };
+		DC8498592A8A5CAD007AE7B8 /* CalendarDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC8498582A8A5CAD007AE7B8 /* CalendarDelegate.swift */; };
 		DC9B182E2A7BA92900751473 /* DailyBoxOfficeCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC9B182D2A7BA92900751473 /* DailyBoxOfficeCollectionViewCell.swift */; };
 		DC9B18302A7BF81800751473 /* DateManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC9B182F2A7BF81800751473 /* DateManager.swift */; };
 		DCB682F72A70E58A005D1510 /* DetailInformation.swift in Sources */ = {isa = PBXBuildFile; fileRef = DCB682F62A70E58A005D1510 /* DetailInformation.swift */; };
@@ -78,6 +79,7 @@
 		DC7946382A833E6600F25E19 /* ImageSearch.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageSearch.swift; sourceTree = "<group>"; };
 		DC79463A2A833FB900F25E19 /* Document.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Document.swift; sourceTree = "<group>"; };
 		DC79463C2A835DC500F25E19 /* LoadingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoadingView.swift; sourceTree = "<group>"; };
+		DC8498582A8A5CAD007AE7B8 /* CalendarDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarDelegate.swift; sourceTree = "<group>"; };
 		DC9B182D2A7BA92900751473 /* DailyBoxOfficeCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DailyBoxOfficeCollectionViewCell.swift; sourceTree = "<group>"; };
 		DC9B182F2A7BF81800751473 /* DateManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateManager.swift; sourceTree = "<group>"; };
 		DCB682F62A70E58A005D1510 /* DetailInformation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailInformation.swift; sourceTree = "<group>"; };
@@ -291,6 +293,7 @@
 			isa = PBXGroup;
 			children = (
 				DCB6832A2A792F19005D1510 /* URLSessionProtocol.swift */,
+				DC8498582A8A5CAD007AE7B8 /* CalendarDelegate.swift */,
 			);
 			path = protocol;
 			sourceTree = "<group>";
@@ -408,6 +411,7 @@
 				DC2EA3932A6E9942009B9408 /* BoxOffice.swift in Sources */,
 				4423AB2C2A8A1D7900A68C1A /* CalendarViewController.swift in Sources */,
 				441F4E4A2A793DD1003192F2 /* URLError.swift in Sources */,
+				DC8498592A8A5CAD007AE7B8 /* CalendarDelegate.swift in Sources */,
 				DC79463B2A833FB900F25E19 /* Document.swift in Sources */,
 				441682372A72AC3900720ACF /* KobisServiceType.swift in Sources */,
 				DCF421BC2A80E8E00043174F /* StringError.swift in Sources */,
