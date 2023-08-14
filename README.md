@@ -28,8 +28,14 @@
 >     - 사용할 데이터만으로 이루어진 `Entity` 객체 구현
 > - **CollectionView**
 >   - `CollectionView`를 활용한 UI구현
+>   - `CompositionalLayout`를 활용한 `Layout` 설정
+>   - `DiffableDataSource`를 활용한 UI 업데이트
 > - **MVC**
 >   - `MVC`패턴을 활용하여 객체를 역할에 알맞게 분리하여 프로젝트 구현
+> - **NSCache**
+>   - `NSCache`를 활용하여 받아온 이미지를 재사용
+> - **UICalendarView**
+>   - `UICalendarView`를 활용하여 달력 구현
 
 <br>
 
@@ -60,6 +66,10 @@
 | **2023.08.02** |▫️ 데이터 로드에 실패했을 때 `Alert`가 뜨도록 구현 <br>|
 | **2023.08.03** |▫️ 코드 개선을 위한 리펙토링 <br> |
 | **2023.08.04** |▫️ 코드 개선을 위한 리펙토링 <br> ▫️ README 작성 <br>|
+| **2023.08.05** |▫️ `MoiveDetailView` 및 `Controller` 구현 <br> ▫️`BoxOfficeManager`에 `fetchPosterImage`추가 <br>|
+| **2023.08.08** |▫️ 이미지 캐싱을 위한 `CacheManager` 구현 <br> ▫️ `CalendarView`및 `Controller` 구현 <br>|
+| **2023.08.09** |▫️ 코드 개선을 위한 리펙토링 <br> |
+| **2023.08.11** |▫️ 코드 개선을 위한 리펙토링 <br> ▫️ README 작성 <br>|
 
 <br>
 
@@ -68,42 +78,51 @@
 
 ### UML
 
-<Img src = "https://hackmd.io/_uploads/Hy3VRfqs3.png" width=""/>
+<Img src = "https://hackmd.io/_uploads/BypKlumh3.png" width=""/>
 
 <br>
 
 ### 파일트리
 ```
+BoxOffice
 ├── App
 │   ├── AppDelegate.swift
 │   └── SceneDelegate.swift
-├── NetWork
-│   └── NetworkManager.swift
 ├── Model
-│   ├── BoxOfficeManager.swift
 │   ├── DTO
 │   │   ├── BoxOffice.swift
-│   │   ├── Entity
-│   │   │   └── DailyBoxOffice.swift
-│   │   └── Movie.swift
-│   ├── DataManager.swift
+│   │   ├── Movie.swift
+│   │   └── PosterImageInformation.swift
+│   ├── DailyBoxOffice.swift
+│   ├── Manager
+│   │   ├── BoxOfficeManager.swift
+│   │   ├── CacheManager.swift
+│   │   └── DataManager.swift
+│   ├── MovieInformation.swift
 │   └── TestDouble
 │       ├── StubURLSession.swift
 │       └── URLSessionProtocol.swift
 ├── Controller
-│   └── BoxOfficeViewController.swift
+│   ├── BoxOfficeViewController.swift
+│   └── CalendarViewController.swift
 ├── View
-│    └── BoxOfficeCollectionViewCell.swift
+│   ├── BoxOfficeCollectionViewCell.swift
+│   ├── MovieDetailScrollView.swift
+│   └── MovieDetailViewController.swift
 ├── Extension
+│   ├── Date+.swift
 │   ├── DateFormatter+.swift
 │   ├── NumberFormatter+.swift
 │   ├── UIAlertController+.swift
 │   ├── UILabel+.swift
 │   ├── URL+.swift
+│   ├── URLRequest+.swift
 │   └── URLSession+.swift
 ├── Error
 │   ├── DataError.swift
 │   └── NetworkError.swift
+├── NetWork
+│   └── NetworkManager.swift
 └── Util
     └── Path.swift
 ```
@@ -115,195 +134,293 @@
 | 박스오피스 데이터 로드 | 화면을 당겨 데이터 리로드 | 데이터 로드에 실패했을 때 알림화면 |
 | :--------------: | :-------: |  :-------: | 
 | <Img src = "https://hackmd.io/_uploads/BJdHyz9i3.gif" width="225"/> | <Img src = "https://hackmd.io/_uploads/ByZ1xfqi2.gif" width="225"/>  | <Img src = "https://hackmd.io/_uploads/H12xlf5jn.gif" width="225"/> |
+| **영화 상세화면** | **날짜선택** |
+| <Img src = "https://hackmd.io/_uploads/HJd7lDQ2n.gif" width="225"/> | <Img src = "https://hackmd.io/_uploads/r1FOxvQ3n.gif" width="225"/>  |
 
 <br>
 
 <a id="6."></a>
 ## 6. 🧨 트러블 슈팅
-### 1️⃣  객체 분리
 
-#### 🔥 문제점
-`Controller`나 하나의 `Model`에서 많은 로직을 처리하는 것보단 자신의 역할을 가진 객체들을 잘 구현하여 필요할때만 불러 사용한다면 객체간의 의존도 낮추고 코드를 재사용하는 측면에 좋을 것 같아 객체 분리에 대한 고민을 많이 했습니다.
-
-#### 🧯 해결방법
-다음과 같이 자신의 역할을 가진 객체를 만들어 프로젝트를 구현하였습니다.
-
-> - **DTO** : 서버로부터 받은 `Data`를 `Decode`할때 쓰는 타입
-> - **Entity** : 실제 `App`에서 사용할 `Data` 타입
-> - **DataManager** : `DTO`를 `Entity`로 변환해주는 역활
-> - **NetworkManager** : 서버로부터 `Data`를 받아오는 역할
-> - **BoxOfficeManager** : `Controller`에서 필요한 데이터를 받아 관리하는 타입,
-> - **Extension**
->   - URL : `URL`을 생성하는 `kobisURL`메서드 추가
->   - UILabel : `attributedText`의 부분 색을 변경해주는 `convertColor`메서드 추가
->   - UIAlertController : 하나의 액션을 가진 기본적인 `alert`을 반환하는 `errorAlert` 메서드 추가
->   - DateFormatter : 오늘로부터 원하는 만큼 떨어진 날짜를 원하는 포멧으로 반환하는 `dateString` 메서드 추가
->   - NumberFormatter : 숫자로 이루어진 `String`을 받아 `Decimal`스타일로 포멧해주는 `decimalString` 메서드 추가
+### [📎 Step3 트러블 슈팅 보러가기](https://github.com/h-suo/ios-box-office/blob/step3/README.md#6--트러블-슈팅)
 
 <br>
 
-### 2️⃣ Closure Capture
+### 1️⃣ VC의 기능 분리
 
 #### 🔥 문제점
-`BoxOfficeManager`의 `fetchBoxOffice`에서 `requestData`로 네트워킹을하여 데이터를 받아오는 로직에 클로져 내에서 `BoxOfficeManager`의 프로퍼티인 `dailyBoxOffices`로 접근하여 프로퍼티를 변경하는 로직이 있었습니다. 
-이때 클로져가 `self`를 캡쳐하면서 `RC`가 올라가 메모리 해제가 안되는 강한참조순환이 발생할 수 있다는 문제가 있었습니다.
+많은 기능들을 구현하다 보니 `Model`쪽으로 기능 분리를 많이 했음에도 불구하고 `VC`의 코드가 길어져 가독성이 떨어지는 문제가 있었습니다.
+
+#### 🧯 해결방법
+`extension`과 `MARK`를 이용해 기능 분리를 해서 코드의 가독성을 높였습니다.
+
+>#### 🔺extension 하지 않은 부분
+>- stored property
+>- initializer
+>- viewDidLoad
+>#### 🔺extension-setupComponents
+>- component관련 세팅
+>#### 🔺extension-configureUI
+>- 각각의 UI객체의 addSubview
+>#### 🔺extension-setupConstraint
+>- 각각의 UI객체의 constraint
+>#### 🔺extension-buttonAction
+>- 버튼 메서드
+>#### 🔺그 외 기능
+>- 델리게이트, 데이터소스 등..
+
+<br>
+
+### 2️⃣ Hashable
+
+#### 🔥 문제점
+기존의 `CollectionView`에 `CompositionalLayout`와 `DiffableDataSource`를 적용하는 과정에서 `DailyBoxOffice` 객체가 `Hashable`을 채택해야 했습니다.
+그리고 `Hashalbe`을 채택할 때 `struct`의 모든 프로퍼티는 `Hashable`을 준수해야 한다고 나와있었지만 `rankStateColor`는 `typealias` 타입이라 `Hashable`을 준수하지 않았습니다.
+> For a struct, all its stored properties must conform to Hashable.
+
+#### 🧯 해결방법
+`rankStateColor`는 `rankState property`를 통해서 만들어지는 `property`이기 때문에
+`hash value`를 비교할때 필요하지 않는 값이라고 생각해서 `hash`함수에서 빼줬습니다.
 
 ```swift
-final class BoxOfficeManager {
-    private(set) var dailyBoxOffices: [DailyBoxOffice] = []
+typealias RankStateColor = (targetString: String, color: UIColor)
+
+struct DailyBoxOffice: Hashable {
+    let movieCode: String
+    let rank: String
+    let rankState: String
+    let movieTitle: String
+    let dailyAndTotalAudience: String
+    let rankStateColor: RankStateColor
     
+    static func == (lhs: DailyBoxOffice, rhs: DailyBoxOffice) -> Bool {
+        return lhs.movieCode == rhs.movieCode
+            && lhs.rank == rhs.rank
+            && lhs.rankState == rhs.rankState
+            && lhs.movieTitle == rhs.movieTitle
+            && lhs.dailyAndTotalAudience == rhs.dailyAndTotalAudience
+    }
+    
+    func hash(into hasher: inout Hasher) {
+        hasher.combine(movieCode)
+        hasher.combine(rank)
+        hasher.combine(rankState)
+        hasher.combine(movieTitle)
+        hasher.combine(dailyAndTotalAudience)
+    }
+}
+```
+
+### 3️⃣ URLRequest
+
+#### 🔥 문제점
+영화 포스터 이미지를 가져올 때 [다음 이미지 검색 API](https://developers.kakao.com/docs/latest/ko/daum-search/dev-guide#search-image) 이용해야 했습니다.
+기존 `API`는 `URLRequest`를 설정할 필요 없이 `URL`의 `QureyItem`만을 설정하여 데이터를 요청할 수 있었지만 `다음 이미지 검색 API`는 `Request Header`에 `Key`를 담아서 보내야 했습니다.
+
+#### 🧯 해결방법
+`NetworkManager`에 `URLRequest`를 받을 수 있도록 `requestData(from urlRequest:, completion:)` 메서드를 추가하였습니다.
+
+```swift
+func requestData(from urlRequest: URLRequest, completion: @escaping (Result<Data, NetworkError>) -> Void) {
+    let task = urlSession.dataTask(with: urlRequest) { data, response, error in
+        // ...
+    }
     // ...
-    func fetchBoxOffice(completion: @escaping (Bool) -> Void) {
+}
+```
+
+### 4️⃣ NSCache
+
+#### 🔥 문제점
+데이터가 큰 이미지를 계속해서 네트워킹을 통해 받아오는 것은 효율적이지 못하다고 생각하였습니다.
+
+```swift
+func fetchPosterImage(_ movieName: String, completion: @escaping (Bool) -> Void) {
         
         // ...
-        networkManager.requestData(from: url) { result in
-            switch result {
-            case .success(let data):
-                do {
-                    let boxOffice = try JSONDecoder().decode(BoxOffice.self, from: data)
-                    self.dailyBoxOffices = DataManager.boxOfficeTransferDailyBoxOfficeData(boxOffice: boxOffice)
-                    completion(true)
-                } // ...
+        networkManager.requestData(from: urlRequest) { [weak self] result in
+            
+            // ...
             }
         }
     }
-}
 ```
+- `fetchPosterImage`를 호출하면 무조건 `requestData`로 네트워킹을 하여 이미지를 가져옵니다.
 
 #### 🧯 해결방법
-클로져의 캡쳐로 `self`의 `RC`가 올라가는 것을 막아주기 위해 `[weak self]`로 클로져를 캡쳐하여 강한순환참조를 예방하였습니다.
+데이터가 큰 이미지는 한번 받아온 후 재사용할 수 있도록 `CacheManager`를 만들어 관리해주었습니다.
 
 ```swift
-final class BoxOfficeManager {
-    private(set) var dailyBoxOffices: [DailyBoxOffice] = []
+final class CacheManager {
+    static let shared = CacheManager()
+    private let imageCache = NSCache<NSString, UIImage>()
+    
+    private init() {}
+    
+    
+    func setCacheImage(_ image: UIImage, forKey: String) {
+        imageCache.setObject(image, forKey: forKey as NSString)
+    }
+    
+    func cacheImage(forKey: String) -> UIImage? {
+        return imageCache.object(forKey: forKey as NSString)
+    }
+}
+```
+- `NSString`을 키값으로 `UIImage`를 저장하는 `NSCache`를 싱글톤 패턴을 이용하여 구현했습니다.
+
+```swift
+func fetchPosterImage(_ movieName: String, completion: @escaping (Bool) -> Void) {
+    if let cacheImage = CacheManager.shared.cacheImage(forKey: movieName) {
+        posterImage = cacheImage
+        completion(true)
+        return
+    }
     
     // ...
-    func fetchBoxOffice(completion: @escaping (Bool) -> Void) {
-        
+    networkManager.requestData(from: urlRequest) { [weak self] result in
         // ...
-        networkManager.requestData(from: url) { [weak self] result in
-            guard let self else {
-                return
+        switch result {
+        case .success(let data):
+            do {
+                // ...
+                CacheManager.shared.setCacheImage(image, forKey: movieName)
+                self.posterImage = image
+                completion(true)
+            } catch {
+                // ...
             }
-                                               
-            switch result {
-            case .success(let data):
-                do {
-                    let boxOffice = try JSONDecoder().decode(BoxOffice.self, from: data)
-                    self.dailyBoxOffices = DataManager.boxOfficeTransferDailyBoxOfficeData(boxOffice: boxOffice)
-                    completion(true)
-                } // ...
-            }
+        case .failure(let error):
+            // ...
         }
     }
 }
 ```
+- 실제 캐싱을 하는 위치는 `BoxOfficeManager`의 `fetchPosterImage`에서 이미지를 받아오기 전에 `movieName`을 `cacheKey`로 캐싱된 이미지가 있다면 `requestData`를 호출하지 않고 캐싱된 이미지를 사용합니다.
+- 캐싱된 이미지가 없다면 `requestData`로 이미지를 받아와 캐싱하도록 구현했습니다.
 
-<br>
-
-### 3️⃣ @escaping (Error?)
+### 5️⃣ 날짜선택
 
 #### 🔥 문제점
-`Controller`가 `NetworkManager`로 직접 데이터를 받아와서 가지고 있는 것보단 `BoxOffice`앱에서 필요한 데이터를 받아오고 관리하는 객체가 있으면 좋을 것 같아 `BoxOfficeManager` 객체를 생성하였습니다.
-그리고 `BoxOfficeManager`의 데이터 로드가 성공했을때 `UI update`를 하는 방식으로 코드를 구현하기 위해 `BoxOfficeManager.fetchBoxOffice`에서 완료핸들러가 `Error`를 던져 주도록 구현했습니다.
-하지만 `Controller`가 어떤 `Error`가 발생했는지 알아야할까라는 고민이 생겼습니다.
-
-**BoxOffice**
-```swift
-final class BoxOfficeManager {
-    private(set) var dailyBoxOffices: [DailyBoxOffice] = []
-    
-    // ...
-    func fetchBoxOffice(completion: @escaping (Error?) -> Void) {
-        // ...
-    }
-    
-    // ...
-}
-```
-
-**BoxOfficeViewController**
-```swift
-final class BoxOfficeViewController: UIViewController {
-    private let boxOfficeManager = BoxOfficeManager()
-    
-    // ...
-    @objc private func loadBoxOfficeData() {
-        boxOfficeManager.fetchBoxOffice { [weak self] error in
-            if let error {
-                // error 처리
-                print(error.localizedDescription)
-            }
-            
-            DispatchQueue.main.async {
-                // UI 업데이트
-            }
-        }
-    }
-}
-```
-
-- `Controller`는 `BoxOfficeManager.dailyBoxOffice`로 접근하여 데이터를 사용하고 `fetchBoxOffice`가 완료됐을때 에러를 반환하지 않으면 `UI update`를 합니다.
+`UICalendarView`를 사용하여 달력을 구현하였습니다.
+이 때 처음 달력이 보였을 때 선택된 날짜 달력에 표시하고, 사용자가 선택한 날짜를 `BoxOfficeViewController`로 보내기 위해 고민했습니다.
 
 #### 🧯 해결방법
-`fetchBoxOffice`가 완료됐을때 `Error`를 던져는 것이 아닌 `Bool` 타입을 던져 성공 유무만 알 수 있도록 하고 어떤 에러가 발생했는지는 `Model`인 `BoxOfficeManager`만 알 수 있도록 하였습니다.
+`BoxOfficeViewContorller`에서는 선택된 날짜를 `init`의 파라미터로 주입하여 전달하고, `CalendarViewController`에서는 `Delegate` 패턴을 사용하여 사용자가 선택한 날짜를 `BoxOfficeViewController`에서 사용할 수 있도록 했습니다.
 
-**BoxOffice**
 ```swift
-final class BoxOfficeManager {
-    private(set) var dailyBoxOffices: [DailyBoxOffice] = []
+private func setupCalendarView() {
     
     // ...
-    func fetchBoxOffice(completion: @escaping (Bool?) -> Void) {
-        // ...
-    }
-    
-    // ...
+    let dateSelection = UICalendarSelectionSingleDate(delegate: self)
+    dateSelection.selectedDate = selectedDate
+    calendarView.selectionBehavior = dateSelection
 }
 ```
+- `BoxOfficeViewController`에서 `init`을 통해 받아온 `selectedDate`를 선택된 날짜로 선택하도록 했습니다.
+- `UICalendarSelectionSingleDate`로 단일 선택만 가능하도록 설정했습니다.
 
-**BoxOfficeViewController**
 ```swift
-final class BoxOfficeViewController: UIViewController {
-    private let boxOfficeManager = BoxOfficeManager()
-    
-    // ...
-    @objc private func loadBoxOfficeData() {
-        boxOfficeManager.fetchBoxOffice { [weak self] result in
-            if result == false {
-                // 실패했을때 처리
-            }
-            
-            DispatchQueue.main.async {
-                // UI 업데이트
-            }
-        }
+protocol CalendarViewControllerDelegate: AnyObject {
+    func calendarViewController(_ calendarViewController: UIViewController, didSelectDate dateComponents: DateComponents?)
+}
+
+extension CalendarViewController: UICalendarSelectionSingleDateDelegate {
+    func dateSelection(_ selection: UICalendarSelectionSingleDate, didSelectDate dateComponents: DateComponents?) {
+        delegate?.calendarViewController(self, didSelectDate: dateComponents)
+        dismiss(animated: true)
     }
 }
 ```
+- `UICalendarSelectionSingleDateDelegate`를 채택하여 날짜가 선택되었을 때 `Delegate` 패턴을 이용하여 선택된 `DateComponents`를 넘겨주었습니다.
 
-<br>
-
-### 4️⃣ endRefreshing
+### 6️⃣ Delegate패턴 순환참조
 
 #### 🔥 문제점
-화면을 위로 드레그하여 데이터를 리로드할 때 데이터 로드에 실패하면 `alert`이 뜨는데 이때 `refreshControl?.endRefreshing()`이 안되는 문제가 있었습니다.
+`Delegate` 패턴을 사용할 때 순환참조가 일어나 메모리 해제가 되지 않을 가능성이 있었습니다.
 
-<Img src = "https://hackmd.io/_uploads/Hyq_Iz9o3.gif" width="300"/>
+**예시코드**
+```swift
+protocol ModelDelegate: AnyObject {}
+
+class Model {
+    var delegate: ModelDelegate?
+        deinit {
+        print("deinit Model")
+    }
+}
+
+class ViewController: ModelDelegate {
+    var model: Model?
+    
+    deinit {
+        print("deinit ViewController")
+    }
+    
+    func start() {
+ 
+        model = Model()
+        model?.delegate = self
+    }
+}
+
+var viewController: ViewController? = ViewController()
+viewController?.start()
+viewController = nil
+```
+- `model?.delegate = self`로 `delegate` 프로퍼티가 `ViewController`를 참조하고, `ViewController`에서 `Model`을 프로퍼티로 가지고 있어 참조하게 됩니다.
+- 따라서 `ViewController = nil`을 하여 `ViewController`를 해제 시키려고 해도 강한순환참조가 일어나 메모리 해제가 되지 않습니다.
 
 #### 🧯 해결방법
-`endRefreshing`의 애니메이션 효과와 `present`의 애니메이션 효과를 동시에 처리하지 못하여 발생하는 에러였습니다.
-`present`의 `animated`를 `false`로 설정하여 해결하였습니다.
+순환참조가 일어나는 것을 방지해주기 위해서 `delegate` 프로퍼티를 `weak var`로 선언하도록 하였습니다.
 
+**예시 코드**
 ```swift
-present(alert, animated: false)
-```
-<Img src = "https://hackmd.io/_uploads/rkRtvMqi3.gif" width="300"/>
+protocol ModelDelegate: AnyObject {}
 
-<br>
+class Model {
+    weak var delegate: ModelDelegate?
+        deinit {
+        print("deinit Model")
+    }
+}
+
+class ViewController: ModelDelegate {
+    var model: Model?
+    
+    deinit {
+        print("deinit ViewController")
+    }
+    
+    func start() {
+ 
+        model = Model()
+        model?.delegate = self
+    }
+}
+
+var viewController: ViewController? = ViewController()
+viewController?.start()
+viewController = nil
+
+// deinit ViewController
+// deinit Model
+```
+- `delegate` 프로퍼티를 `weak var`로 약한 참조하여 `viewController = nil`을 하여도 강한 순환 참조가 일어나지 않고 메모리 해제가 됩니다.
+
+**프로젝트 코드**
+```swift
+final class CalendarViewController: UIViewController {
+    weak var delegate: CalendarViewControllerDelegate?
+    
+    // ...
+}
+```
 
 <a id="7."></a>
 ## 7. 🔗 참고 링크
-- [🍎Apple: Capturing Values](https://docs.swift.org/swift-book/documentation/the-swift-programming-language/closures/#Capturing-Values)
-- [🍎Apple: UICollectionView](https://developer.apple.com/documentation/uikit/uicollectionview)
-- [🍎Apple: attributedText](https://developer.apple.com/documentation/uikit/uilabel/1620542-attributedtext)
+- [🍎Apple: UICollectionViewDiffableDataSource](https://developer.apple.com/documentation/uikit/uicollectionviewdiffabledatasource)
+- [🍎Apple: NSDiffableDataSourceSnapshot](https://developer.apple.com/documentation/uikit/nsdiffabledatasourcesnapshot)
+- [🍎Apple: Hashable](https://developer.apple.com/documentation/swift/hashable)
+- [🍎Apple: UICalendarView](https://developer.apple.com/documentation/uikit/uicalendarview#3992448)
+- [📗Velog: You don’t (always) need [weak self]](https://velog.io/@haanwave/Article-You-dont-always-need-weak-self)

@@ -8,17 +8,22 @@
 import Foundation
 
 extension DateFormatter {
-    func dateString(before day: Int, with dateFomat: String) -> String? {
-        let currentDate = Date()
-        let calendar = Calendar.current
+    func dateString(from date: Date, with dateFormat: String) -> String {
+        self.dateFormat = dateFormat
         
-        guard let purposeDay = calendar.date(byAdding: .day, value: -day, to: currentDate) else {
-            return nil
+        return self.string(from: date)
+    }
+    
+    func dateString(from dateString: String, with dateFormat: String) -> String {
+        self.dateFormat = FormatCase.attached
+        
+        guard let date = self.date(from: dateString) else {
+            return dateString
         }
         
-        self.dateFormat = dateFomat
+        self.dateFormat = dateFormat
         
-        return self.string(from: purposeDay)
+        return self.string(from: date)
     }
 }
 
