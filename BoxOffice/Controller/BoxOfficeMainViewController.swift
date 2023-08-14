@@ -11,6 +11,7 @@ final class BoxOfficeMainViewController: UIViewController {
     private let boxOfficeMainView = BoxOfficeMainView()
     private var boxOfficeItems: [BoxOfficeItem] = []
     private var task: Task<Void, Never>?
+    private var selectedDate = Date.yesterday
     
     override func loadView() {
         view = boxOfficeMainView
@@ -35,7 +36,7 @@ final class BoxOfficeMainViewController: UIViewController {
     
     private func fetchBoxOfficeItems() async {
         do {
-            let boxOffice: BoxOffice = try await NetworkManager.fetchData(fetchType: .boxOffice(date: Date.yesterday.networkFormat))
+            let boxOffice: BoxOffice = try await NetworkManager.fetchData(fetchType: .boxOffice(date: selectedDate.networkFormat))
             
             let origin = self.boxOfficeItems
             let new = boxOffice.boxOfficeResult.boxOfficeItems
@@ -68,11 +69,18 @@ final class BoxOfficeMainViewController: UIViewController {
     }
     
     private func configureNavigation() {
-        navigationItem.title = Date.yesterday.navigationFormat
+        navigationItem.title = selectedDate.navigationFormat
+        navigationItem.rightBarButtonItem = UIBarButtonItem(title: "날짜선택", style: .plain, target: self, action: #selector(tapSelectDateButton))
+    }
+    
+    @objc private func tapSelectDateButton() {
+        let boxOfficeCalendarViewController = BoxOfficeCalendarViewController(date: selectedDate)
+        boxOfficeCalendarViewController.delegate = self
+        present(boxOfficeCalendarViewController, animated: true)
     }
 }
 
-// MARK: - Refresh and indicator
+// MARK: - CollectionViewRefreshControl
 extension BoxOfficeMainViewController {
     private func configureRefreshControl() {
         boxOfficeMainView.boxOfficeCollectionView.refreshControl = UIRefreshControl()
@@ -88,7 +96,7 @@ extension BoxOfficeMainViewController {
     }
 }
 
-// MARK: - DataSource
+// MARK: - CollectionViewDataSource
 extension BoxOfficeMainViewController: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: BoxOfficeCollectionViewCell.identifier, for: indexPath) as? BoxOfficeCollectionViewCell else { return UICollectionViewCell() }
@@ -107,6 +115,7 @@ extension BoxOfficeMainViewController: UICollectionViewDataSource {
     }
 }
 
+// MARK: - CollectionViewDelegate
 extension BoxOfficeMainViewController: UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         guard let boxOfficeItem = boxOfficeItems[safe: indexPath.row] else { return }
@@ -116,4 +125,13 @@ extension BoxOfficeMainViewController: UICollectionViewDelegate {
     }
 }
 
-
+// MARK: - BoxOfficeCalendarViewControllerDelegate
+extension BoxOfficeMainViewController: BoxOfficeCalendarViewControllerDelegate {
+    func didTapSelectedDate(_ date: Date) {
+        selectedDate = date
+        navigationItem.title = selectedDate.navigationFormat
+        Task {
+            await self.fetchBoxOfficeItems()
+        }
+    }
+}
