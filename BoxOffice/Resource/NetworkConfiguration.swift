@@ -25,23 +25,19 @@ enum NetworkConfiguration: Hashable {
     
     var query: [(name: String, value: String)] {
         switch self {
-        case .boxOffice:
-            return []
-        case .movieDetail:
-            return []
         case .daumImage(let movieName):
             return [(name: "query", value: "\(movieName) 영화 포스터")]
+        default:
+            return []
         }
     }
     
     var header: [(value: String, forHTTPHeaderField: String)] {
         switch self {
-        case .boxOffice:
-            return []
-        case .movieDetail:
-            return []
         case .daumImage:
             return [(value: "KakaoAK \(NetworkConfiguration.daumApiKey)", forHTTPHeaderField: "Authorization")]
+        default:
+            return []
         }
     }
 
@@ -49,6 +45,7 @@ enum NetworkConfiguration: Hashable {
         guard let keyPath = Bundle.main.infoDictionary?["API_KEY"] as? String else {
             return ""
         }
+        
         return keyPath
     }
     
@@ -56,6 +53,7 @@ enum NetworkConfiguration: Hashable {
         guard let keyPath = Bundle.main.infoDictionary?["DAUM_API_KEY"] as? String else {
             return ""
         }
+        
         return keyPath
     }
 }

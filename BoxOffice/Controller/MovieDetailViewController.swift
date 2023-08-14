@@ -234,7 +234,7 @@ extension MovieDetailViewController: URLSessionDelegate {
 }
 
 extension MovieDetailViewController {
-    enum Namespace {
+    struct Namespace {
         static let directorsTitle = "감독"
         static let productionYearTitle = "제작년도"
         static let openingDateTitle = "개봉일"

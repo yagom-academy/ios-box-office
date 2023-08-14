@@ -8,7 +8,6 @@
 import UIKit
 
 final class CalendarViewController: UIViewController {
-    let date: Date
     weak var delegate: BoxOfficeDelegate?
     
     private let calendarView: UICalendarView = {
@@ -24,8 +23,8 @@ final class CalendarViewController: UIViewController {
     }()
     
     init(_ date: Date) {
-        self.date = date
         super.init(nibName: nil, bundle: nil)
+        self.setUpCalendarSelection(date)
     }
     
     required init?(coder: NSCoder) {
@@ -35,7 +34,6 @@ final class CalendarViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         setUpUI()
-        setUpCalendarSelection()
     }
     
     private func setUpUI() {
@@ -51,7 +49,7 @@ final class CalendarViewController: UIViewController {
         ])
     }
     
-    private func setUpCalendarSelection() {
+    private func setUpCalendarSelection(_ date: Date) {
         let dateSelection = UICalendarSelectionSingleDate(delegate: self)
         calendarView.selectionBehavior = dateSelection
         

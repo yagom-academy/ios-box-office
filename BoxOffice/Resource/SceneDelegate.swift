@@ -7,7 +7,6 @@
 
 import UIKit
 
-@available(iOS 16.0, *)
 final class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     var window: UIWindow?
 

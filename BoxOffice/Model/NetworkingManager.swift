@@ -22,7 +22,8 @@ struct NetworkingManager {
         }
         
         guard let url = urlComponents?.url else {
-            return
+            completion(.failure(NetworkingError.invalidURL))
+            return 
         }
         
         var request = URLRequest(url: url)

@@ -6,6 +6,7 @@
 //
 
 import UIKit
+
 final class BoxOfficeViewController: UIViewController, URLSessionDelegate {
     private var networkingManager: NetworkingManager?
     private var refreshControl = UIRefreshControl()
