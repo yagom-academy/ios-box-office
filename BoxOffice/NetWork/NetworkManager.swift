@@ -14,27 +14,32 @@ struct NetworkManager: NetworkService {
         self.session = session
     }
     
-    func getRequest(url: URL, completion: @escaping (Result<Data, BoxOfficeError>) -> Void) {
-        let task = session.dataTask(with: url) { data, response, error in
-            guard error == nil else {
-                completion(.failure(.failureRequest))
-                return
-            }
-            
-            guard let httpResponse = response as? HTTPURLResponse,
-                  (200...299).contains(httpResponse.statusCode) else {
-                completion(.failure(.failureReseponse))
-                return
-            }
-            
-            guard let data = data else {
-                completion(.failure(.invalidType))
-                return
-            }
-            
-            completion(.success(data))
+    func getRequest(request: URLRequest, completion: @escaping (Result<Data, BoxOfficeError>) -> Void) {
+        let task = session.dataTask(with: request) { data, response, error in
+            self.handleResponse(data: data, response: response, error: error, completion: completion)
         }
         
         task.resume()
+    }
+    
+    private func handleResponse(data: Data?, response: URLResponse?, error: Error?, completion: @escaping (Result<Data, BoxOfficeError>) -> Void) {
+        guard error == nil else {
+            completion(.failure(.failureRequest))
+            return
+        }
+        
+        guard let response = response,
+              let httpResponse = response as? HTTPURLResponse,
+              (200...299).contains(httpResponse.statusCode) else {
+            completion(.failure(.failureReseponse))
+            return
+        }
+        
+        guard let data = data else {
+            completion(.failure(.invalidType))
+            return
+        }
+        
+        completion(.success(data))
     }
 }
