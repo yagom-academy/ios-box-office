@@ -245,10 +245,10 @@
 			isa = PBXGroup;
 			children = (
 				9CF7E97C2A7F7D6A006519B9 /* KobisAPIType.swift */,
+				9CA8220B2A869C10000A334C /* DefaultDecodingService.swift */,
 				9CF7E9912A7F8BB6006519B9 /* BoxOfficeManager.swift */,
 				9C30BD392A70D149000DB5B2 /* NetworkManager.swift */,
 				9CF8A6042A738BB700CB6911 /* DataManager.swift */,
-				9CA8220B2A869C10000A334C /* DefaultDecodingService.swift */,
 			);
 			path = NetWork;
 			sourceTree = "<group>";
