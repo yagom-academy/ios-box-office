@@ -12,7 +12,6 @@ final class MainViewController: UIViewController, CalendarViewControllerDelegate
     @IBOutlet weak var loadingActivityView: UIActivityIndicatorView!
     @IBOutlet weak var calendarButton: UIButton!
     var boxOffice: BoxOffice?
-    var selectedDate: Date?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -35,7 +34,7 @@ final class MainViewController: UIViewController, CalendarViewControllerDelegate
     }
     
     @IBAction func tabCalendarButton(_ sender: UIButton) {
-        let calendarVC = CalendarViewController(selectedDate: selectedDate, delegate: self)
+        let calendarVC = CalendarViewController(selectedDate: URLManager.shared.selectedDate, delegate: self)
         calendarVC.modalPresentationStyle = .popover
         self.present(calendarVC, animated: true, completion: nil)
     }
@@ -57,7 +56,6 @@ final class MainViewController: UIViewController, CalendarViewControllerDelegate
     }
     
     func didSelectDate(_ date: Date) {
-        selectedDate = date
         URLManager.shared.selectedDate = date
         let dateString = DateProvider().formatDate(with: date, by: .viewTitle)
         self.navigationItem.title = "\(dateString)"
