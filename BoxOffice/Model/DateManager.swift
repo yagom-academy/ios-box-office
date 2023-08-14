@@ -7,21 +7,25 @@
 
 import Foundation
 
-struct DateManager {
-    private var dateFormatter = DateFormatter()
+enum DateManager {
+    static private let dateFormatter = DateFormatter()
     
-    func getYesterdayDate(format: String) throws -> String {
+    static func fetchPastDate(dayAgo: Int) -> Date {
         let today: Date = Date()
         let calendar: Calendar = Calendar.current
         
-        guard  let yesterday = calendar.date(byAdding: .day, value: -1, to: today) else {
-            throw DateError.notFoundYesterdayDate
+        guard let yesterday = calendar.date(byAdding: .day, value: -dayAgo, to: today) else {
+            return today
         }
         
+        return yesterday
+    }
+    
+    static func changeDateFormat(date: Date, format: String) -> String {
         dateFormatter.dateFormat = format
         
-        let formattedYesterday: String = dateFormatter.string(from: yesterday)
+        let formattedDate: String = dateFormatter.string(from: date)
         
-        return formattedYesterday
+        return formattedDate
     }
 }
