@@ -22,6 +22,7 @@ class CollectionViewIconCell: UICollectionViewCell {
         rankNumberLabel.font = UIFont.systemFont(ofSize: 30)
         rankInfoLabel.font = UIFont.systemFont(ofSize: 15)
         audiNumberLabel.font = UIFont.systemFont(ofSize: 15)
+        movieNameLabel.font = UIFont.systemFont(ofSize: 20)
     }
     
     func configureLabels(with dailyBoxOffice: DailyBoxOffice) {

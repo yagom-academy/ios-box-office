@@ -147,16 +147,28 @@ extension MainViewController: UICollectionViewDataSource {
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "listCell", for: indexPath) as? CollectionViewListCell else { return UICollectionViewListCell() }
-        
-        if let boxOfficeData = boxOffice {
-            let dailyBoxOffice = boxOfficeData.boxOfficeResult.dailyBoxOfficeList[indexPath.item]
-            cell.configureLabels(with: dailyBoxOffice)
-            cell.configureFont()
-            cell.accessories = [.disclosureIndicator()]
+        if isIconMode {
+            guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "iconCell", for: indexPath) as? CollectionViewIconCell else { return UICollectionViewCell() }
+            
+            if let boxOfficeData = boxOffice {
+                let dailyBoxOffice = boxOfficeData.boxOfficeResult.dailyBoxOfficeList[indexPath.item]
+                cell.configureLabels(with: dailyBoxOffice)
+                cell.configureFont()
+            }
+            
+            return cell
+        } else {
+            guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "listCell", for: indexPath) as? CollectionViewListCell else { return UICollectionViewListCell() }
+            
+            if let boxOfficeData = boxOffice {
+                let dailyBoxOffice = boxOfficeData.boxOfficeResult.dailyBoxOfficeList[indexPath.item]
+                cell.configureLabels(with: dailyBoxOffice)
+                cell.configureFont()
+                cell.accessories = [.disclosureIndicator()]
+            }
+            
+            return cell
         }
-        
-        return cell
     }
 }
 
@@ -165,5 +177,35 @@ extension MainViewController: UICollectionViewDelegate {
         guard let pushMovieDetailVC = self.storyboard?.instantiateViewController(withIdentifier: "MovieDetailViewController") else { return }
         
         self.navigationController?.pushViewController(pushMovieDetailVC, animated: true)
+    }
+}
+
+extension MainViewController: UICollectionViewDelegateFlowLayout {
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+        let viewWidth = collectionView.bounds.width
+        let viewHeight = collectionView.bounds.height
+        
+        if isIconMode {
+            let cellWidth = (viewWidth - 20 * 3) / 2
+            return CGSize(width: cellWidth, height: cellWidth)
+        } else {
+            return CGSize(width: viewWidth, height: viewHeight / 9)
+        }
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {
+        if isIconMode {
+            return UIEdgeInsets(top: 20, left: 20, bottom: 20, right: 20)
+        } else {
+            return UIEdgeInsets.zero
+        }
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
+        if isIconMode {
+            return 10
+        } else {
+            return 1
+        }
     }
 }
