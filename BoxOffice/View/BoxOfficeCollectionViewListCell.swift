@@ -7,8 +7,8 @@
 
 import UIKit
 
-final class BoxOfficeCollectionViewCell: UICollectionViewCell {
-    static let identifier = String(describing: BoxOfficeCollectionViewCell.self)
+final class BoxOfficeCollectionViewListCell: UICollectionViewCell {
+    static let identifier = String(describing: BoxOfficeCollectionViewListCell.self)
     
     private let seperatorView: UIView = {
         let view = UIView()
@@ -102,7 +102,7 @@ final class BoxOfficeCollectionViewCell: UICollectionViewCell {
 }
 
 // MARK: setup Data
-extension BoxOfficeCollectionViewCell {
+extension BoxOfficeCollectionViewListCell {
     func setupLabels(_ dailyBoxOffice: DailyBoxOffice) {
         rankLabel.text = dailyBoxOffice.rank
         rankChangeLabel.text = dailyBoxOffice.rankState
@@ -116,7 +116,7 @@ extension BoxOfficeCollectionViewCell {
 }
 
 // MARK: configure UI
-extension BoxOfficeCollectionViewCell {
+extension BoxOfficeCollectionViewListCell {
     private func configureUI() {
         configureRankStackView()
         configureMovieInfomationStackView()
@@ -142,7 +142,7 @@ extension BoxOfficeCollectionViewCell {
 }
  
 // MARK: setup Constraint
-extension BoxOfficeCollectionViewCell {
+extension BoxOfficeCollectionViewListCell {
     private func setupConstraint() {
         setupSeperatorVeiwConstraint()
         setupRankStackVeiwConstraint()
