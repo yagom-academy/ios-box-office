@@ -7,8 +7,8 @@
 
 import UIKit
 
-final class BoxOfficeCell: UICollectionViewListCell {
-    static let identifier = "boxOfficeCell"
+final class BoxOfficeListCell: UICollectionViewListCell {
+    static let identifier = "boxOfficeListCell"
     
     // MARK: - Separator
     private var separatorConstraint: NSLayoutConstraint?
@@ -55,7 +55,7 @@ final class BoxOfficeCell: UICollectionViewListCell {
     
     override init(frame: CGRect) {
         super.init(frame: frame)
-        configureCell()
+        configureListCell()
     }
     
     required init?(coder: NSCoder) {
@@ -64,8 +64,8 @@ final class BoxOfficeCell: UICollectionViewListCell {
 }
 
 // MARK: - Constraints
-extension BoxOfficeCell {
-    private func configureCell() {
+extension BoxOfficeListCell {
+    private func configureListCell() {
         configureUI()
         setupConstraints()
     }

@@ -110,7 +110,7 @@ extension BoxOfficeViewController {
         collectionView?.delegate = self
         collectionView?.refreshControl = refresher
         collectionView?.refreshControl?.addAction(refreshData(), for: .valueChanged)
-        collectionView?.refreshControl?.transform = CGAffineTransformMakeScale (0.6, 0.6);
+        collectionView?.refreshControl?.transform = CGAffineTransformMakeScale (0.6, 0.6)
         
         view.addSubview(collectionView ?? UICollectionView())
     }
