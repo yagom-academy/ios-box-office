@@ -5,8 +5,6 @@
 //  Created by 훈민트 on 2023/08/15.
 //
 
-import Foundation
-
 struct MovieInformation: Decodable {
     let movieInformationResult: MovieInformationResult
     
