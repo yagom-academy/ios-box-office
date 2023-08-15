@@ -35,7 +35,7 @@ final class BoxOfficeCollectionViewGridCell: UICollectionViewCell {
         label.textAlignment = .center
         label.numberOfLines = 2
         label.adjustsFontSizeToFitWidth = true
-        label.minimumScaleFactor = 0.5
+        label.minimumScaleFactor = 0.1
         
         return label
     }()
@@ -52,7 +52,7 @@ final class BoxOfficeCollectionViewGridCell: UICollectionViewCell {
         let label = UILabel()
         label.font = UIFont.preferredFont(forTextStyle: .body)
         label.adjustsFontSizeToFitWidth = true
-        label.minimumScaleFactor = 0.5
+        label.minimumScaleFactor = 0.1
         
         return label
     }()
