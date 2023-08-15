@@ -38,6 +38,12 @@ final class BoxOfficeViewController: UIViewController {
         configureUI()
         setupConstraint()
     }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        
+        setupNavigation()
+    }
 }
 
 // MARK: setup Components
