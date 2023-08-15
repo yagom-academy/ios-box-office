@@ -17,6 +17,12 @@ final class CollectionViewListCell: UICollectionViewListCell {
         super.awakeFromNib()
     }
     
+    override func layoutSubviews() {
+        super.layoutSubviews()
+        self.layer.borderWidth = 1
+        self.layer.borderColor = UIColor.black.cgColor
+    }
+    
     func configureFont() {
         rankNumberLabel.font = .preferredFont(forTextStyle: .title1)
         rankInfoLabel.font = .preferredFont(forTextStyle: .body)

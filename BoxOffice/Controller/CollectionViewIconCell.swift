@@ -18,13 +18,21 @@ class CollectionViewIconCell: UICollectionViewCell {
         
     }
     
+    override func layoutSubviews() {
+        super.layoutSubviews()
+        self.layer.borderWidth = 1
+        self.layer.borderColor = UIColor.black.cgColor
+        self.layer.cornerRadius = 10
+    }
+    
     func configureFont() {
         rankNumberLabel.font = .preferredFont(forTextStyle: .title1)
-        rankInfoLabel.font = .preferredFont(forTextStyle: .body)
-        movieNameLabel.font = .preferredFont(forTextStyle: .title2)
+        rankInfoLabel.font = .preferredFont(forTextStyle: .caption2)
         audiNumberLabel.font = .preferredFont(forTextStyle: .body)
-        movieNameLabel.adjustsFontSizeToFitWidth = true
         audiNumberLabel.adjustsFontSizeToFitWidth = true
+        movieNameLabel.font = .preferredFont(forTextStyle: .subheadline)
+        movieNameLabel.allowsDefaultTighteningForTruncation = true
+        movieNameLabel.numberOfLines = 2
     }
     
     func configureDynamicType() {
