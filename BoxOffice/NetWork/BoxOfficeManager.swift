@@ -23,7 +23,7 @@ final class BoxOfficeManager<Element: Decodable> {
             return
         }
 
-        model.getRequest(request: request) { [weak self] result in
+        model.fetchData(request: request) { [weak self] result in
             switch result {
             case .success(let data):
                 self?.handleSuccess(data: data, handler: handler)

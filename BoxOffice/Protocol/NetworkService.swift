@@ -9,5 +9,5 @@ import Foundation
 protocol NetworkService {
     init(session: URLSession)
     
-    func getRequest(request: URLRequest, completion: @escaping (Result<Data, BoxOfficeError>) -> Void)
+    func fetchData(request: URLRequest, completion: @escaping (Result<Data, BoxOfficeError>) -> Void)
 }

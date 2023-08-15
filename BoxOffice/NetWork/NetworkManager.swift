@@ -14,7 +14,7 @@ struct NetworkManager: NetworkService {
         self.session = session
     }
     
-    func getRequest(request: URLRequest, completion: @escaping (Result<Data, BoxOfficeError>) -> Void) {
+    func fetchData(request: URLRequest, completion: @escaping (Result<Data, BoxOfficeError>) -> Void) {
         let task = session.dataTask(with: request) { data, response, error in
             self.handleResponse(data: data, response: response, error: error, completion: completion)
         }
@@ -36,7 +36,7 @@ struct NetworkManager: NetworkService {
         }
         
         guard let data = data else {
-            completion(.failure(.invalidType))
+            completion(.failure(.invalidDataType))
             return
         }
         
