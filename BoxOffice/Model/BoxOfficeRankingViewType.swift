@@ -8,7 +8,7 @@
 enum BoxOfficeRankingViewType: Hashable {
     case list, icon
     
-    var anotherTitl₩e: String {
+    var layoutType: String {
         switch self {
         case .list:
             return "아이콘"

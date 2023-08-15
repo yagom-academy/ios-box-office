@@ -137,8 +137,6 @@
 				9C30BD362A70CEBE000DB5B2 /* Protocol */,
 				9C30BD2E2A70C9FA000DB5B2 /* Application */,
 				9C30BD2D2A70C9F8000DB5B2 /* Model */,
-				9C8D70B82A8A7C4D004E9299 /* CellUIModel.swift */,
-				9C8D70BA2A8A7CBA004E9299 /* DataNamespace.swift */,
 				9C30BD2C2A70C9F5000DB5B2 /* View */,
 				9C30BD2F2A70C9FC000DB5B2 /* Controller */,
 				9CF7E97B2A7F7D4B006519B9 /* Resource */,
@@ -169,9 +167,11 @@
 		9C30BD2D2A70C9F8000DB5B2 /* Model */ = {
 			isa = PBXGroup;
 			children = (
+				9C8D70B82A8A7C4D004E9299 /* CellUIModel.swift */,
+				9C8D70BA2A8A7CBA004E9299 /* DataNamespace.swift */,
+				9C8D70BC2A8A7D3F004E9299 /* BoxOfficeRankingViewType.swift */,
 				9CF7E9812A7F8729006519B9 /* BoxOffice */,
 				9CF7E9802A7F871C006519B9 /* Movie */,
-				9C8D70BC2A8A7D3F004E9299 /* BoxOfficeRankingViewType.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
