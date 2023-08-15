@@ -16,6 +16,7 @@ final class BoxOfficeColumnCell: UICollectionViewListCell {
         stackView.translatesAutoresizingMaskIntoConstraints = false
         stackView.axis = .vertical
         stackView.alignment = .center
+        stackView.distribution = .fillEqually
         
         return stackView
     }()
@@ -29,9 +30,9 @@ final class BoxOfficeColumnCell: UICollectionViewListCell {
         return label
     }()
     
-    let movieNameLabel: UILabel = DetailLabel()
-    let rankInformationLabel: UILabel = DetailLabel()
-    let audienceCountLabel: UILabel = DetailLabel()
+    let movieNameLabel: UILabel = DetailLabel(fontStyle: .body)
+    let rankInformationLabel: UILabel = DetailLabel(fontStyle: .body)
+    let audienceCountLabel: UILabel = DetailLabel(fontStyle: .caption1)
     
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -67,8 +68,8 @@ extension BoxOfficeColumnCell {
         NSLayoutConstraint.activate([
             contentStackView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
             contentStackView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
-            contentStackView.topAnchor.constraint(equalTo: topAnchor, constant: 8),
-            contentStackView.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -8)
+            contentStackView.topAnchor.constraint(equalTo: topAnchor, constant: 4),
+            contentStackView.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -4)
         ])
     }
 }

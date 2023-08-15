@@ -8,14 +8,15 @@
 import UIKit
 
 final class DetailLabel: UILabel {
-    convenience init() {
+    convenience init(fontStyle: UIFont.TextStyle) {
         self.init(frame: CGRectZero)
         
         numberOfLines = 0
         minimumScaleFactor = 0.3
-        font = UIFont.preferredFont(forTextStyle: .body)
+        font = UIFont.preferredFont(forTextStyle: fontStyle)
         adjustsFontForContentSizeCategory = true
         adjustsFontSizeToFitWidth = true
+        textAlignment = .center
     }
     
     override init(frame: CGRect) {
