@@ -73,7 +73,17 @@ extension BoxOfficeViewController {
         collectionView = UICollectionView(frame: .zero, collectionViewLayout: listLayout())
         collectionView.translatesAutoresizingMaskIntoConstraints = false
         collectionView.register(BoxOfficeCollectionViewListCell.self, forCellWithReuseIdentifier: BoxOfficeCollectionViewListCell.identifier)
+        collectionView.register(BoxOfficeCollectionViewGridCell.self, forCellWithReuseIdentifier: BoxOfficeCollectionViewGridCell.identifier)
         collectionView.delegate = self
+    }
+    
+    private func setupCollectionViewLayout() {
+        switch collectionViewMode {
+        case .list:
+            collectionView.collectionViewLayout = listLayout()
+        case .grid:
+            collectionView.collectionViewLayout = gridLayout()
+        }
     }
     
     private func setupRefreshControl() {
@@ -130,7 +140,31 @@ extension BoxOfficeViewController {
     }
     
     @objc private func didTapChangeViewModeButton() {
-        let action = UIAlertAction(title: "아이콘", style: .default)
+        let action: UIAlertAction = {
+            switch collectionViewMode {
+            case .list:
+                return  UIAlertAction(title: "아이콘", style: .default) { [weak self] _ in
+                    guard let self else {
+                        return
+                    }
+                    
+                    self.collectionViewMode = .grid
+                    self.setupCollectionViewLayout()
+                    self.collectionView.reloadData()
+                }
+            case .grid:
+                return UIAlertAction(title: "리스트", style: .default) { [weak self] _ in
+                    guard let self else {
+                        return
+                    }
+                    
+                    self.collectionViewMode = .list
+                    self.setupCollectionViewLayout()
+                    self.collectionView.reloadData()
+                }
+            }
+        }()
+        
         let cancelAction = UIAlertAction(title: "취소", style: .cancel)
         let changeModeAlert = UIAlertController.customAlert(alertTile: "화면모드선택", alertMessage: nil, preferredStyle: .actionSheet, alertActions: [action, cancelAction])
         
@@ -167,13 +201,24 @@ extension BoxOfficeViewController {
 extension BoxOfficeViewController {
     private func setupDataSource() {
         dailyBoxOfficeDataSource = UICollectionViewDiffableDataSource<Section, DailyBoxOffice>(collectionView: collectionView) { collectionView, indexPath, dailyBoxOffice in
-            guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: BoxOfficeCollectionViewListCell.identifier, for: indexPath) as? BoxOfficeCollectionViewListCell else {
-                return UICollectionViewCell()
+            switch self.collectionViewMode {
+            case .list:
+                guard let listCell = collectionView.dequeueReusableCell(withReuseIdentifier: BoxOfficeCollectionViewListCell.identifier, for: indexPath) as? BoxOfficeCollectionViewListCell else {
+                    return UICollectionViewCell()
+                }
+                
+                listCell.setupLabels(dailyBoxOffice)
+                
+                return listCell
+            case .grid:
+                guard let gridCell = collectionView.dequeueReusableCell(withReuseIdentifier: BoxOfficeCollectionViewGridCell.identifier, for: indexPath) as? BoxOfficeCollectionViewGridCell else {
+                    return UICollectionViewCell()
+                }
+                
+                gridCell.setupLabels(dailyBoxOffice)
+                
+                return gridCell
             }
-            
-            cell.setupLabels(dailyBoxOffice)
-            
-            return cell
         }
     }
 }
