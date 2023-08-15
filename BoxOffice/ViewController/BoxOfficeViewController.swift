@@ -15,6 +15,7 @@ final class BoxOfficeViewController: UIViewController {
     
     private var dataSource: UICollectionViewDiffableDataSource<Section, DailyBoxOffice>? = nil
     private var collectionView: UICollectionView? = nil
+    private var viewMode: String?
     private let refresher = UIRefreshControl()
     
     init(boxOfficeService: BoxOfficeService) {
@@ -28,6 +29,13 @@ final class BoxOfficeViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        if let viewMode = UserDefaults.standard.string(forKey: "viewMode") {
+            self.viewMode = viewMode
+        } else {
+            viewMode = "list"
+            UserDefaults.standard.set(viewMode, forKey: "viewMode")
+        }
         
         setupRightBarButton()
         showLoadingView()
@@ -104,35 +112,33 @@ final class BoxOfficeViewController: UIViewController {
 
 // MARK: - Configure CollectionView UI
 extension BoxOfficeViewController {
-    // TODO: 리스트, 컬렉션 레이아웃 코드 분리
-    // 리스트 레이아웃
-    private func createLayout() -> UICollectionViewLayout {
+    private func createListLayout() -> UICollectionViewLayout {
         let config = UICollectionLayoutListConfiguration(appearance: .plain)
         let layout = UICollectionViewCompositionalLayout.list(using: config)
 
         return layout
     }
     
-    // 컬렉션 레이아웃
-//    func createLayout() -> UICollectionViewLayout {
-//        let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(0.5),
-//                                             heightDimension: .fractionalHeight(1.0))
-//        let item = NSCollectionLayoutItem(layoutSize: itemSize)
-//        item.contentInsets = NSDirectionalEdgeInsets(top: 8, leading: 8, bottom: 8, trailing: 8)
-//
-//        let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0),
-//                                              heightDimension: .fractionalWidth(0.5))
-//        let group = NSCollectionLayoutGroup.horizontal(layoutSize: groupSize,
-//                                                         subitems: [item])
-//
-//        let section = NSCollectionLayoutSection(group: group)
-//        let layout = UICollectionViewCompositionalLayout(section: section)
-//
-//        return layout
-//    }
+    private func createIconLayout() -> UICollectionViewLayout {
+        let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(0.5),
+                                             heightDimension: .fractionalHeight(1.0))
+        let item = NSCollectionLayoutItem(layoutSize: itemSize)
+        item.contentInsets = NSDirectionalEdgeInsets(top: 8, leading: 8, bottom: 8, trailing: 8)
+
+        let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0),
+                                              heightDimension: .fractionalWidth(0.5))
+        let group = NSCollectionLayoutGroup.horizontal(layoutSize: groupSize,
+                                                         subitems: [item])
+
+        let section = NSCollectionLayoutSection(group: group)
+        let layout = UICollectionViewCompositionalLayout(section: section)
+
+        return layout
+    }
     
     private func configureHierarchy() {
-        collectionView = UICollectionView(frame: view.safeAreaLayoutGuide.layoutFrame, collectionViewLayout: createLayout())
+        let collectionviewlayout = viewMode == "list" ? createListLayout : createIconLayout
+        collectionView = UICollectionView(frame: view.safeAreaLayoutGuide.layoutFrame, collectionViewLayout: collectionviewlayout())
         collectionView?.autoresizingMask = [.flexibleWidth, .flexibleHeight]
         collectionView?.delegate = self
         collectionView?.refreshControl = refresher
@@ -143,11 +149,7 @@ extension BoxOfficeViewController {
     }
     
     private func configureDataSource() {
-        guard let collectionView else { return }
-        
-        // TODO: 리스트, 컬렉션 Registration 코드 분리
-        // 리스트 Registration
-        let cellRegistration = UICollectionView.CellRegistration<BoxOfficeListCell, DailyBoxOffice> { (cell, indexPath, dailyBoxOffice) in
+        let listCellRegistration = UICollectionView.CellRegistration<BoxOfficeListCell, DailyBoxOffice> { (cell, indexPath, dailyBoxOffice) in
             cell.rankLabel.text = dailyBoxOffice.rank
             cell.rankInformationLabel.attributedText = self.changeRankInformation(in: dailyBoxOffice)
             cell.movieNameLabel.text = dailyBoxOffice.movieName
@@ -155,24 +157,39 @@ extension BoxOfficeViewController {
             cell.accessories = [.disclosureIndicator()]
         }
         
-        // 컬렉션 Registration
-//        let cellRegistration = UICollectionView.CellRegistration<BoxOfficeColumnCell, DailyBoxOffice> { (cell, indexPath, dailyBoxOffice) in
-//            cell.rankLabel.text = dailyBoxOffice.rank
-//            cell.movieNameLabel.text = dailyBoxOffice.movieName
-//            cell.rankInformationLabel.attributedText = self.changeRankInformation(in: dailyBoxOffice)
-//            cell.audienceCountLabel.text = "오늘: \(dailyBoxOffice.audienceCount) / 총: \(dailyBoxOffice.audienceAccumulation)"
-//            cell.layer.borderColor = UIColor.black.cgColor
-//            cell.layer.borderWidth = 1
-//        }
-        
-        dataSource = UICollectionViewDiffableDataSource<Section, DailyBoxOffice>(collectionView: collectionView) { collectionView, indexPath, itemIdentifier in
-            return collectionView.dequeueConfiguredReusableCell(using: cellRegistration, for: indexPath, item: itemIdentifier)
+        let iconCellRegistration = UICollectionView.CellRegistration<BoxOfficeColumnCell, DailyBoxOffice> { (cell, indexPath, dailyBoxOffice) in
+            cell.rankLabel.text = dailyBoxOffice.rank
+            cell.movieNameLabel.text = dailyBoxOffice.movieName
+            cell.rankInformationLabel.attributedText = self.changeRankInformation(in: dailyBoxOffice)
+            cell.audienceCountLabel.text = self.makeDetailLabelText(in: dailyBoxOffice)
+            cell.layer.borderColor = UIColor.black.cgColor
+            cell.layer.borderWidth = 1
         }
         
+        guard let collectionView else { return }
+        dataSource = UICollectionViewDiffableDataSource<Section, DailyBoxOffice>(collectionView: collectionView) { collectionView, indexPath, itemIdentifier in
+            if self.viewMode == "list" {
+                return collectionView.dequeueConfiguredReusableCell(using: listCellRegistration, for: indexPath, item: itemIdentifier)
+            } else {
+                return collectionView.dequeueConfiguredReusableCell(using: iconCellRegistration, for: indexPath, item: itemIdentifier)
+            }
+        }
+        
+        dataSource?.apply(setupSnapshot(), animatingDifferences: false)
+    }
+    
+    func setupSnapshot() -> NSDiffableDataSourceSnapshot<Section, DailyBoxOffice> {
         var snapshot = NSDiffableDataSourceSnapshot<Section, DailyBoxOffice>()
         snapshot.appendSections([.dailyBoxOffice])
-        snapshot.appendItems(boxOffice?.boxOfficeResult.dailyBoxOfficeList ?? [])
-        dataSource?.apply(snapshot, animatingDifferences: false)
+        snapshot.appendItems(boxOffice?.boxOfficeResult.dailyBoxOfficeList ?? [], toSection: .dailyBoxOffice)
+        
+        return snapshot
+    }
+    
+    func reloadData() {
+        guard var updatedSnapshot = dataSource?.snapshot() else { return }
+        updatedSnapshot.reloadSections([.dailyBoxOffice])
+        self.dataSource?.apply(updatedSnapshot, animatingDifferences: true)
     }
 }
 
@@ -207,9 +224,27 @@ extension BoxOfficeViewController {
         return action
     }
     
-    // TODO: 화면 모드 변경 구현하기
     private func showSelector() -> UIAction {
-        let action = UIAction() { _ in
+        let action = UIAction { _ in
+            let sheet = UIAlertController(title: "화면모드변경", message: nil, preferredStyle: .actionSheet)
+            if self.viewMode == "list" {
+                sheet.addAction(UIAlertAction(title: "아이콘", style: .default, handler: { _ in
+                    self.viewMode = "icon"
+                    UserDefaults.standard.set("icon", forKey: "viewMode")
+                    self.collectionView?.collectionViewLayout = self.createIconLayout()
+                    self.reloadData()
+                }))
+            } else {
+                sheet.addAction(UIAlertAction(title: "리스트", style: .default, handler: { _ in
+                    self.viewMode = "list"
+                    UserDefaults.standard.set("list", forKey: "viewMode")
+                    self.collectionView?.collectionViewLayout = self.createListLayout()
+                    self.reloadData()
+                }))
+                
+            }
+            sheet.addAction(UIAlertAction(title: "취소", style: .cancel))
+            self.present(sheet, animated: true)
         }
 
         return action
