@@ -44,6 +44,7 @@ extension BoxOfficeViewController {
     private func setupComponents() {
         setupView()
         setupNavigation()
+        setupToolbar()
         setupCollectionView()
         setupRefreshControl()
     }
@@ -57,6 +58,14 @@ extension BoxOfficeViewController {
         
         navigationItem.title = DateFormatter().dateString(from: boxOfficeManager.targetDate, with: DateFormatter.FormatCase.hyphen)
         navigationItem.rightBarButtonItem = selectDateButton
+        navigationController?.setToolbarHidden(false, animated: false)
+    }
+    
+    private func setupToolbar() {
+        let changeViewModeButton = UIBarButtonItem(title: "화면 모드 변경", style: .plain, target: self, action: #selector(didTapChangeViewModeButton))
+        let flexibleSpace = UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: self, action: nil)
+        
+        toolbarItems = [flexibleSpace, changeViewModeButton, flexibleSpace]
     }
     
     private func setupCollectionView() {
@@ -117,6 +126,14 @@ extension BoxOfficeViewController {
         } else {
             return
         }
+    }
+    
+    @objc private func didTapChangeViewModeButton() {
+        let action = UIAlertAction(title: "아이콘", style: .default)
+        let cancelAction = UIAlertAction(title: "취소", style: .cancel)
+        let changeModeAlert = UIAlertController.customAlert(alertTile: "화면모드선택", alertMessage: nil, preferredStyle: .actionSheet, alertActions: [action, cancelAction])
+        
+        present(changeModeAlert, animated: true)
     }
 }
 
