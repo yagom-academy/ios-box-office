@@ -69,9 +69,9 @@ extension BoxOfficeViewController {
     }
     
     private func setupCollectionView() {
-        collectionView = UICollectionView(frame: .zero, collectionViewLayout: verticalLayout())
+        collectionView = UICollectionView(frame: .zero, collectionViewLayout: listLayout())
         collectionView.translatesAutoresizingMaskIntoConstraints = false
-        collectionView.register(BoxOfficeCollectionViewCell.self, forCellWithReuseIdentifier: BoxOfficeCollectionViewCell.identifier)
+        collectionView.register(BoxOfficeCollectionViewListCell.self, forCellWithReuseIdentifier: BoxOfficeCollectionViewListCell.identifier)
         collectionView.delegate = self
     }
     
@@ -139,7 +139,7 @@ extension BoxOfficeViewController {
 
 // MARK: CollectionView Layout
 extension BoxOfficeViewController {
-    private func verticalLayout() -> UICollectionViewCompositionalLayout {
+    private func listLayout() -> UICollectionViewCompositionalLayout {
         let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0), heightDimension: .fractionalHeight(0.1))
         let item = NSCollectionLayoutItem(layoutSize: itemSize)
         let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0), heightDimension: .fractionalHeight(1.2))
@@ -154,7 +154,7 @@ extension BoxOfficeViewController {
 extension BoxOfficeViewController {
     private func setupDataSource() {
         dailyBoxOfficeDataSource = UICollectionViewDiffableDataSource<Section, DailyBoxOffice>(collectionView: collectionView) { collectionView, indexPath, dailyBoxOffice in
-            guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: BoxOfficeCollectionViewCell.identifier, for: indexPath) as? BoxOfficeCollectionViewCell else {
+            guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: BoxOfficeCollectionViewListCell.identifier, for: indexPath) as? BoxOfficeCollectionViewListCell else {
                 return UICollectionViewCell()
             }
             
