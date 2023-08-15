@@ -85,7 +85,8 @@ extension BoxOfficeViewController {
         boxOfficeManager.fetchBoxOffice { result in
             if result == false {
                 DispatchQueue.main.async {
-                    let alert = UIAlertController.errorAlert(NameSpace.fail, NameSpace.loadDataFail, actionTitle: NameSpace.check, actionType: .default)
+                    let alertAction = UIAlertAction(title: NameSpace.check, style: .default)
+                    let alert = UIAlertController.customAlert(alertTile: NameSpace.fail, alertMessage: NameSpace.loadDataFail, preferredStyle: .alert, alertActions: [alertAction])
                     
                     self.collectionView.refreshControl?.endRefreshing()
                     self.activityIndicator.stopAnimating()
