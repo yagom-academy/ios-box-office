@@ -11,7 +11,9 @@ final class MainViewController: UIViewController, CalendarViewControllerDelegate
     @IBOutlet weak var collectionView: UICollectionView!
     @IBOutlet weak var loadingActivityView: UIActivityIndicatorView!
     @IBOutlet weak var calendarButton: UIButton!
+    @IBOutlet weak var changeModeButton: UIButton!
     var boxOffice: BoxOffice?
+    var isIconMode = false
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -21,6 +23,34 @@ final class MainViewController: UIViewController, CalendarViewControllerDelegate
         callAPIManager()
         configureTitle()
         initRefresh()
+    }
+    
+    @IBAction func tapChangeModeButton(_ sender: Any) {
+        let actionSheet = UIAlertController(title: "화면모드변경", message: nil, preferredStyle: .actionSheet)
+        
+        let icon = UIAlertAction(title: "아이콘", style: .default) { action in
+            print("Selected icon")
+            self.isIconMode = true
+            self.collectionView.reloadData()
+        }
+        
+        let list = UIAlertAction(title: "리스트", style: .default) { action in
+            print("Selected list")
+            self.isIconMode = false
+            self.collectionView.reloadData()
+        }
+        
+        let cancel = UIAlertAction(title: "취소", style: .cancel)
+        
+        if isIconMode {
+            actionSheet.addAction(list)
+        } else {
+            actionSheet.addAction(icon)
+        }
+        
+        actionSheet.addAction(cancel)
+        
+        present(actionSheet, animated: true, completion: nil)
     }
     
     private func showLodingView() {
