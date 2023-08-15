@@ -96,11 +96,12 @@ extension MovieDetailScrollView {
         stackView.axis = .horizontal
         stackView.alignment = .fill
         stackView.distribution = .fill
-        stackView.spacing = 4
+        stackView.spacing = 8
         
         let titleLabel = UILabel()
-        let titleLabelConstraint = titleLabel.widthAnchor.constraint(equalToConstant: self.frame.width * 0.2)
+        let titleLabelConstraint = titleLabel.widthAnchor.constraint(greaterThanOrEqualToConstant: self.frame.width * 0.2)
         titleLabelConstraint.isActive = true
+        titleLabel.setContentCompressionResistancePriority(.required, for: .horizontal)
         titleLabel.font = UIFont.preferredFont(forTextStyle: .headline)
         titleLabel.adjustsFontForContentSizeCategory = true
         titleLabel.textAlignment = .center
