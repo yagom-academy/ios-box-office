@@ -87,15 +87,15 @@ final class MainViewController: UIViewController, CalendarViewControllerDelegate
     }
     
     private func callAPIManager() {
-        APIManager().fetchData(service: .dailyBoxOffice) { [weak self] result in
+        APIManager().fetchData(service: .dailyBoxOffice) { result in
             let jsonDecoder = JSONDecoder()
             switch result {
             case .success(let data):
                 if let decodedData: BoxOffice = jsonDecoder.decodeJSON(data: data) {
-                    self?.boxOffice = decodedData
+                    self.boxOffice = decodedData
                     DispatchQueue.main.async {
-                        self?.collectionView.reloadData()
-                        self?.hideLoadingView()
+                        self.collectionView.reloadData()
+                        self.hideLoadingView()
                     }
                 } else {
                     print("Decoding Error")
