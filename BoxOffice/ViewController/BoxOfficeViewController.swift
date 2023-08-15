@@ -43,6 +43,13 @@ final class BoxOfficeViewController: UIViewController {
     
     private func showLoadingView() {
         view.addSubview(activityIndicatorView)
+        navigationController?.isToolbarHidden = false
+        
+        let modeButton = UIBarButtonItem(title: "화면 모드 변경", primaryAction: showSelector())
+        let flexibleSpace = UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: self, action: nil)
+
+        let items = [flexibleSpace, modeButton, flexibleSpace]
+        toolbarItems = items
         
         activityIndicatorView.center = view.center
         activityIndicatorView.startAnimating()
@@ -164,6 +171,14 @@ extension BoxOfficeViewController {
             self.present(calendarViewController, animated: true)
         }
         
+        return action
+    }
+    
+    // TODO: 화면 모드 변경 구현하기
+    private func showSelector() -> UIAction {
+        let action = UIAction() { _ in
+        }
+
         return action
     }
     
