@@ -108,6 +108,11 @@ extension BoxOfficeListCell {
             rankStackView.widthAnchor.constraint(equalTo: contentStackView.widthAnchor, multiplier: 0.15),
             rankStackView.topAnchor.constraint(equalTo: contentStackView.topAnchor)
         ])
+        
+        let bottomAnchor = rankStackView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -8)
+        
+        bottomAnchor.isActive = true
+        bottomAnchor.priority = .defaultLow
     }
     
     private func setupContentStackViewViewConstraints() {
@@ -115,7 +120,7 @@ extension BoxOfficeListCell {
             contentStackView.leadingAnchor.constraint(equalTo: rankStackView.trailingAnchor, constant: 16),
             contentStackView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
             contentStackView.topAnchor.constraint(equalTo: topAnchor, constant: 8),
-            contentStackView.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -8)
+            contentStackView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -8)
         ])
     }
 }
