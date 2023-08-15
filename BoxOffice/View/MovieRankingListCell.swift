@@ -14,7 +14,7 @@ final class MovieRankingListCell: UICollectionViewListCell {
     private let rankLabel = UILabel(fontStyle: .preferredFont(forTextStyle: .largeTitle))
     private let rankStatusLabel = UILabel(fontStyle: .preferredFont(forTextStyle: .body))
     private let movieNameLabel = UILabel(fontStyle: .preferredFont(forTextStyle: .title3), numberOfLine: 0)
-    private let audienceLabel = UILabel(fontStyle: .preferredFont(forTextStyle: .body))
+    private let audienceLabel = UILabel(fontStyle: .preferredFont(forTextStyle: .body), numberOfLine: 0)
     
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -25,11 +25,11 @@ final class MovieRankingListCell: UICollectionViewListCell {
         fatalError("init(coder:) has not been implemented")
     }
     
-    func updateLabelText(for manager: CellUIModel) {
-        self.rankLabel.text = manager.rank
-        self.rankStatusLabel.attributedText = manager.rankStatusAttributedText
-        self.movieNameLabel.text = manager.name
-        self.audienceLabel.text = manager.audienceInfoText
+    func updateCellData(for cellUIModel: CellUIModel) {
+        self.rankLabel.text = cellUIModel.rank
+        self.rankStatusLabel.attributedText = cellUIModel.rankStatusAttributedText
+        self.movieNameLabel.text = cellUIModel.name
+        self.audienceLabel.attributedText = cellUIModel.audienceInfoText
     }
 }
 

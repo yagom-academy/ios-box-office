@@ -18,14 +18,23 @@ struct CellUIModel {
         return data.name
     }
     
-    var audienceInfoText: String {
-        guard let todayOfAudienceText = data.audienceCount.formatDecimal(),
-              let totalOfAudienceText = data.audienceTotal.formatDecimal() else {
-            return DataNamespace.empty
+    var audienceInfoText: NSAttributedString {
+        guard let todayOfAudienceText = data.audienceCount.makeFormattedDecimalString(),
+              let totalOfAudienceText = data.audienceTotal.makeFormattedDecimalString() else {
+            return NSAttributedString(string: DataNamespace.empty)
         }
         
-        return "오늘 \(todayOfAudienceText) / 총 \(totalOfAudienceText)"
+        let attributedText = NSMutableAttributedString()
+        
+        let todayAttributedString = NSAttributedString(string: "오늘 \(todayOfAudienceText) / ", attributes: [.foregroundColor: UIColor.label])
+        let totalAttributedString = NSAttributedString(string: "총 \(totalOfAudienceText)", attributes: [.foregroundColor: UIColor.label])
+        
+        attributedText.append(todayAttributedString)
+        attributedText.append(totalAttributedString)
+        
+        return attributedText
     }
+    
     
     var rankStatusAttributedText: NSAttributedString {
         let text = self.rankStatusText
@@ -75,7 +84,7 @@ struct CellUIModel {
             if changedRankValue > 0 {
                 return .red
             } else if changedRankValue == 0 {
-                return .black
+                return .label
             } else {
                 return .blue
             }
