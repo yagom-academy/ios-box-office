@@ -15,7 +15,7 @@ extension String {
         return formatter
     }()
     
-    func formatDecimal() -> String? {
+    func makeFormattedDecimalString() -> String? {
         guard let value = Int(self),
               let formattedNumber = String.numberFormatter.string(from: NSNumber(value: value)) else { return nil }
         
