@@ -66,8 +66,8 @@ extension BoxOfficeColumnCell {
     
     private func setupContentStackViewConstraints() {
         NSLayoutConstraint.activate([
-            contentStackView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
-            contentStackView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
+            contentStackView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 4),
+            contentStackView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -4),
             contentStackView.topAnchor.constraint(equalTo: topAnchor, constant: 4),
             contentStackView.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -4)
         ])
