@@ -137,8 +137,8 @@ extension BoxOfficeViewController {
     }
     
     private func configureHierarchy() {
-        let collectionviewlayout = viewMode == "list" ? createListLayout : createIconLayout
-        collectionView = UICollectionView(frame: view.safeAreaLayoutGuide.layoutFrame, collectionViewLayout: collectionviewlayout())
+        let collectionViewLayout = viewMode == "list" ? createListLayout : createIconLayout
+        collectionView = UICollectionView(frame: view.safeAreaLayoutGuide.layoutFrame, collectionViewLayout: collectionViewLayout())
         collectionView?.autoresizingMask = [.flexibleWidth, .flexibleHeight]
         collectionView?.delegate = self
         collectionView?.refreshControl = refresher
@@ -241,7 +241,6 @@ extension BoxOfficeViewController {
                     self.collectionView?.collectionViewLayout = self.createListLayout()
                     self.reloadData()
                 }))
-                
             }
             sheet.addAction(UIAlertAction(title: "취소", style: .cancel))
             self.present(sheet, animated: true)
