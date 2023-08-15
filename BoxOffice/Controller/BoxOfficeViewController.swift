@@ -10,6 +10,7 @@ import UIKit
 final class BoxOfficeViewController: UIViewController {
     private let boxOfficeManager: BoxOfficeManager
     private var collectionView: UICollectionView!
+    private var collectionViewMode: CollectionViewMode = .list
     private var dailyBoxOfficeDataSource: UICollectionViewDiffableDataSource<Section, DailyBoxOffice>!
     private let activityIndicator: UIActivityIndicatorView = {
         let activityIndicator = UIActivityIndicatorView(style: .large)
@@ -148,6 +149,18 @@ extension BoxOfficeViewController {
         
         return UICollectionViewCompositionalLayout(section: section)
     }
+    
+    private func gridLayout() -> UICollectionViewCompositionalLayout {
+        let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(0.5), heightDimension: .fractionalHeight(1.0))
+        let item = NSCollectionLayoutItem(layoutSize: itemSize)
+        item.contentInsets = NSDirectionalEdgeInsets(top: 8, leading: 8, bottom: 8, trailing: 8)
+        let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0), heightDimension: .fractionalHeight(0.3))
+        let group = NSCollectionLayoutGroup.horizontal(layoutSize: groupSize, subitems: [item])
+        group.contentInsets = NSDirectionalEdgeInsets(top: 0, leading: 8, bottom: 0, trailing: 8)
+        let section = NSCollectionLayoutSection(group: group)
+        
+        return UICollectionViewCompositionalLayout(section: section)
+    }
 }
 
 // MARK: CollectionView DataSource
@@ -252,5 +265,13 @@ extension BoxOfficeViewController {
 extension BoxOfficeViewController {
     private enum Section {
         case main
+    }
+}
+
+// MARK: CollectionView Mode
+extension BoxOfficeViewController {
+    private enum CollectionViewMode {
+        case list
+        case grid
     }
 }
