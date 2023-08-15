@@ -104,9 +104,29 @@ final class BoxOfficeViewController: UIViewController {
 
 // MARK: - Configure CollectionView UI
 extension BoxOfficeViewController {
-    private func createLayout() -> UICollectionViewLayout {
-        let config = UICollectionLayoutListConfiguration(appearance: .plain)
-        let layout = UICollectionViewCompositionalLayout.list(using: config)
+    // TODO: 리스트, 컬렉션 레이아웃 코드 분리
+    // 리스트 레이아웃
+//    private func createLayout() -> UICollectionViewLayout {
+//        let config = UICollectionLayoutListConfiguration(appearance: .plain)
+//        let layout = UICollectionViewCompositionalLayout.list(using: config)
+//
+//        return layout
+//    }
+    
+    // 컬렉션 레이아웃
+    func createLayout() -> UICollectionViewLayout {
+        let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(0.5),
+                                             heightDimension: .fractionalHeight(1.0))
+        let item = NSCollectionLayoutItem(layoutSize: itemSize)
+        item.contentInsets = NSDirectionalEdgeInsets(top: 8, leading: 8, bottom: 8, trailing: 8)
+
+        let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0),
+                                              heightDimension: .fractionalWidth(0.5))
+        let group = NSCollectionLayoutGroup.horizontal(layoutSize: groupSize,
+                                                         subitems: [item])
+
+        let section = NSCollectionLayoutSection(group: group)
+        let layout = UICollectionViewCompositionalLayout(section: section)
         
         return layout
     }
@@ -125,11 +145,23 @@ extension BoxOfficeViewController {
     private func configureDataSource() {
         guard let collectionView else { return }
         
-        let cellRegistration = UICollectionView.CellRegistration<BoxOfficeListCell, DailyBoxOffice> { (cell, indexPath, dailyBoxOffice) in
+        // TODO: 리스트, 컬렉션 Registration 코드 분리
+        // 리스트 Registration
+//        let cellRegistration = UICollectionView.CellRegistration<BoxOfficeListCell, DailyBoxOffice> { (cell, indexPath, dailyBoxOffice) in
+//            cell.rankLabel.text = dailyBoxOffice.rank
+//            cell.rankInformationLabel.attributedText = self.changeRankInformation(in: dailyBoxOffice)
+//            cell.detailLabel.text = self.makeDetailLabelText(in: dailyBoxOffice)
+//            cell.accessories = [.disclosureIndicator()]
+//        }
+        
+        // 컬렉션 Registration
+        let cellRegistration = UICollectionView.CellRegistration<BoxOfficeColumnCell, DailyBoxOffice> { (cell, indexPath, dailyBoxOffice) in
             cell.rankLabel.text = dailyBoxOffice.rank
+            cell.movieNameLabel.text = dailyBoxOffice.movieName
             cell.rankInformationLabel.attributedText = self.changeRankInformation(in: dailyBoxOffice)
-            cell.detailLabel.text = self.makeDetailLabelText(in: dailyBoxOffice)
-            cell.accessories = [.disclosureIndicator()]
+            cell.audienceCountLabel.text = "오늘: \(dailyBoxOffice.audienceCount) / 총: \(dailyBoxOffice.audienceAccumulation)"
+            cell.layer.borderColor = UIColor.black.cgColor
+            cell.layer.borderWidth = 1
         }
         
         dataSource = UICollectionViewDiffableDataSource<Section, DailyBoxOffice>(collectionView: collectionView) { collectionView, indexPath, itemIdentifier in
