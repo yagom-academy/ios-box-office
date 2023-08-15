@@ -2,7 +2,7 @@
 //  BoxOfficeData.swift
 //  BoxOffice
 //
-//  Created by hoon, mint on 2023/07/25.
+//  Created by 훈민트 on 2023/07/25.
 //
 
 struct BoxOfficeData: Decodable {

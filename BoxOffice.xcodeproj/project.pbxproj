@@ -15,6 +15,7 @@
 		63DF20FB2970E1A1005DF7D1 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 63DF20F92970E1A1005DF7D1 /* LaunchScreen.storyboard */; };
 		924EFF102A6EC2E7002764D5 /* JsonDecodeTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 924EFF0F2A6EC2E7002764D5 /* JsonDecodeTests.swift */; };
 		924EFF212A6F68C3002764D5 /* BoxOfficeData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 924EFF202A6F68C3002764D5 /* BoxOfficeData.swift */; };
+		92A28BD42A8B6BF1003E8249 /* MovieInformation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 92A28BD32A8B6BF1003E8249 /* MovieInformation.swift */; };
 		92FE87E52A6F7443000510A3 /* Json.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 92FE87E42A6F7443000510A3 /* Json.xcassets */; };
 /* End PBXBuildFile section */
 
@@ -40,6 +41,7 @@
 		924EFF0D2A6EC2E7002764D5 /* BoxOfficeTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = BoxOfficeTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		924EFF0F2A6EC2E7002764D5 /* JsonDecodeTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JsonDecodeTests.swift; sourceTree = "<group>"; };
 		924EFF202A6F68C3002764D5 /* BoxOfficeData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BoxOfficeData.swift; sourceTree = "<group>"; };
+		92A28BD32A8B6BF1003E8249 /* MovieInformation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MovieInformation.swift; sourceTree = "<group>"; };
 		92FE87E32A6F71A3000510A3 /* TestPlan.xctestplan */ = {isa = PBXFileReference; lastKnownFileType = text; path = TestPlan.xctestplan; sourceTree = "<group>"; };
 		92FE87E42A6F7443000510A3 /* Json.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = Json.xcassets; path = BoxOfficeTests/Json.xcassets; sourceTree = SOURCE_ROOT; };
 /* End PBXFileReference section */
@@ -107,6 +109,7 @@
 			isa = PBXGroup;
 			children = (
 				924EFF202A6F68C3002764D5 /* BoxOfficeData.swift */,
+				92A28BD32A8B6BF1003E8249 /* MovieInformation.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -240,6 +243,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				63DF20F32970E1A0005DF7D1 /* ViewController.swift in Sources */,
+				92A28BD42A8B6BF1003E8249 /* MovieInformation.swift in Sources */,
 				63DF20EF2970E1A0005DF7D1 /* AppDelegate.swift in Sources */,
 				63DF20F12970E1A0005DF7D1 /* SceneDelegate.swift in Sources */,
 				924EFF212A6F68C3002764D5 /* BoxOfficeData.swift in Sources */,

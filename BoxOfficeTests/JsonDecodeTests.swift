@@ -2,7 +2,7 @@
 //  JsonDecodeTests.swift
 //  JsonDecodeTests
 //
-//  Created by hoon, mint on 2023/07/24.
+//  Created by 훈민트 on 2023/07/24.
 //
 
 import XCTest
@@ -13,7 +13,7 @@ final class JsonDecodeTests: XCTestCase {
 
     override func setUpWithError() throws {
         try super.setUpWithError()
-        let bundle = Bundle(for: JsonDecodeTests.self)
+        let bundle = Bundle(for: JsonDecodeTests.self) 
         guard let json = NSDataAsset(name: "box_office_sample", bundle: bundle) else {
             return
         }
