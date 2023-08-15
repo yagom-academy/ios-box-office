@@ -11,9 +11,10 @@ enum BoxOfficeError {
     case failureRequest
     case failureReseponse
     case unknownError
-    case invalidType
+    case invalidDataType
     case failureDecoding
     case invalidAPIKey
+    case failedToGetData
 }
 
 extension BoxOfficeError: LocalizedError {
@@ -27,12 +28,14 @@ extension BoxOfficeError: LocalizedError {
             return "응답이 없습니다."
         case .unknownError:
             return "알 수 없는 에러입니다."
-        case .invalidType:
+        case .invalidDataType:
             return "올바르지 않는 데이터 포맷입니다"
         case .failureDecoding:
             return "데이터를 변환하지 못하였습니다"
         case .invalidAPIKey:
             return "APIKEY 설정 값이 누락되었거나 잘못된 키값입니다."
+        case .failedToGetData:
+            return "오류 - 데이터 가져오기 실패"
         }
     }
 }
