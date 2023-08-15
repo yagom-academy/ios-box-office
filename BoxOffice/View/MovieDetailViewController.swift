@@ -50,6 +50,7 @@ extension MovieDetailViewController {
     
     private func setupNavigation() {
         navigationItem.title = movieName
+        navigationController?.setToolbarHidden(true, animated: true)
     }
 }
 
