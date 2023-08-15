@@ -125,7 +125,7 @@ extension BoxOfficeViewController {
     private func configureDataSource() {
         guard let collectionView else { return }
         
-        let cellRegistration = UICollectionView.CellRegistration<BoxOfficeCell, DailyBoxOffice> { (cell, indexPath, dailyBoxOffice) in
+        let cellRegistration = UICollectionView.CellRegistration<BoxOfficeListCell, DailyBoxOffice> { (cell, indexPath, dailyBoxOffice) in
             cell.rankLabel.text = dailyBoxOffice.rank
             cell.rankInformationLabel.attributedText = self.changeRankInformation(in: dailyBoxOffice)
             cell.detailLabel.text = self.makeDetailLabelText(in: dailyBoxOffice)
