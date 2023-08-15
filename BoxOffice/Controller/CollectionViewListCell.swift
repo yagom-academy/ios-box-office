@@ -2,13 +2,12 @@
 //  CollectionViewCell.swift
 //  BoxOffice
 //
-//  Created by redmango1446 on 2023/08/02.
+//  Created by redmango, Jusbug on 2023/08/02.
 //
 
 import UIKit
 
-class CollectionViewListCell: UICollectionViewListCell {
-    
+final class CollectionViewListCell: UICollectionViewListCell {
     @IBOutlet weak var rankNumberLabel: UILabel!
     @IBOutlet weak var rankInfoLabel: UILabel!
     @IBOutlet weak var movieNameLabel: UILabel!
@@ -45,20 +44,27 @@ class CollectionViewListCell: UICollectionViewListCell {
     }
     
     func configureRankInfoLabel(with dailyBoxOffice: DailyBoxOffice) {
-        if dailyBoxOffice.rankOldAndNew == "NEW" {
+        switch dailyBoxOffice.rankOldAndNew {
+        case "NEW":
             rankInfoLabel.textColor = .red
             rankInfoLabel.text = "신작"
-        } else if dailyBoxOffice.rankInten == "0" {
-            rankInfoLabel.text = "-"
-        } else if dailyBoxOffice.rankOldAndNew == "OLD",
-                let rankInten = Int(dailyBoxOffice.rankInten),
-                let arrow = Arrow(rawValue: rankInten > 0 ? "▲" : "▼") {
-            rankInfoLabel.textColor = .black
-            let rankIntenString = "\(arrow.rawValue)\(abs(rankInten))"
-            let attributedString = NSMutableAttributedString(string: rankIntenString)
-            let range = (rankIntenString as NSString).range(of: arrow.rawValue)
-            attributedString.addAttribute(.foregroundColor, value: arrow.color, range: range)
-            rankInfoLabel.attributedText = attributedString
+        case "OLD":
+            if dailyBoxOffice.rankInten == "0" {
+                rankInfoLabel.text = "-"
+                return
+            }
+            
+            if let rankInten = Int(dailyBoxOffice.rankInten),
+               let arrow = Arrow(rawValue: rankInten) {
+                rankInfoLabel.textColor = .black
+                let rankIntenString = "\(arrow.rawValue)\(abs(rankInten))"
+                let attributedString = NSMutableAttributedString(string: rankIntenString)
+                let range = (rankIntenString as NSString).range(of: arrow.rawValue)
+                attributedString.addAttribute(.foregroundColor, value: arrow.color, range: range)
+                rankInfoLabel.attributedText = attributedString
+            }
+        default:
+            print("no Data")
         }
     }
 }
@@ -76,5 +82,10 @@ extension CollectionViewListCell {
                 return .blue
             }
         }
+        
+        init?(rawValue: Int) {
+            self = rawValue > 0 ? .upArrow : .downArrow
+        }
     }
 }
+

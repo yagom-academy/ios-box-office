@@ -2,14 +2,15 @@
 //  ViewController.swift
 //  BoxOffice
 //
-//  Created by kjs on 13/01/23.
+//  Created by redmango, Jusbug on 13/01/23.
 //
 
 import UIKit
 
-class MainViewController: UIViewController {
+final class MainViewController: UIViewController, CalendarViewControllerDelegate {
     @IBOutlet weak var collectionView: UICollectionView!
     @IBOutlet weak var loadingActivityView: UIActivityIndicatorView!
+    @IBOutlet weak var calendarButton: UIButton!
     var boxOffice: BoxOffice?
     
     override func viewDidLoad() {
@@ -38,6 +39,12 @@ class MainViewController: UIViewController {
         collectionView.delegate = self
     }
     
+    @IBAction func tabCalendarButton(_ sender: UIButton) {
+        let calendarVC = CalendarViewController(selectedDate: URLManager.shared.selectedDate, delegate: self)
+        calendarVC.modalPresentationStyle = .popover
+        self.present(calendarVC, animated: true, completion: nil)
+    }
+    
     private func initRefresh() {
         let refreshControl = UIRefreshControl()
         refreshControl.addTarget(self, action: #selector(updateData), for: .valueChanged)
@@ -47,12 +54,18 @@ class MainViewController: UIViewController {
     }
     
     private func configureTitle() {
-        let dateProvider = DateProvider()
-        guard let yesterday = dateProvider.updateYesterday(.viewTitle) else {
+        guard let yesterday = DateProvider().updateDate(to: -1, by: .viewTitle) else {
             return
         }
         
         self.navigationItem.title = "\(yesterday)"
+    }
+    
+    func didSelectDate(_ date: Date) {
+        URLManager.shared.selectedDate = date
+        let dateString = DateProvider().formatDate(with: date, by: .viewTitle)
+        self.navigationItem.title = "\(dateString)"
+        self.callAPIManager()
     }
     
     private func registerCustomCell() {
@@ -74,15 +87,15 @@ class MainViewController: UIViewController {
     }
     
     private func callAPIManager() {
-        APIManager().fetchData(service: .dailyBoxOffice) { [weak self] result in
+        APIManager().fetchData(service: .dailyBoxOffice) { result in
             let jsonDecoder = JSONDecoder()
             switch result {
             case .success(let data):
                 if let decodedData: BoxOffice = jsonDecoder.decodeJSON(data: data) {
-                    self?.boxOffice = decodedData
+                    self.boxOffice = decodedData
                     DispatchQueue.main.async {
-                        self?.collectionView.reloadData()
-                        self?.hideLoadingView()
+                        self.collectionView.reloadData()
+                        self.hideLoadingView()
                     }
                 } else {
                     print("Decoding Error")

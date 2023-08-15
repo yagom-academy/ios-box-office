@@ -1,5 +1,5 @@
 ## 박스오피스
-> 프로젝트 기간: 23/07/24 ~ 23/08/04
+> 프로젝트 기간: 23/07/24 ~ 
 
 ## 📂 목차
 1. [팀원](#1.)
@@ -72,23 +72,34 @@
 ### 2023.08.04.(금)
 - README 작성
 
+### 2023.08.07.(월)
+- 개인 공부
+
+### 2023.08.08.(화)
+- `CalenderView`를 이용한 날짜선택 기능 구현
+- 선택된 날짜를 저장할수 있게 처리
+
+### 2023.08.09.(수)
+- 선택된 날짜를 전달받아 URL 생성 후 다시 API에 요청하는 기능 구현
+- `DateProvider` 기능 분리
+- `URLManager` 싱글톤 적용
+
+### 2023.08.10.(목)
+- 당겨서 새로고침할때 API에 재요청 기능 구현
+- API에서 요청 결과가 왔을때 `refreshControl`을 `endRefreshing()`하는 기능 구현
+
+### 2023.08.11.(금)
+- README 작성
+
 </div>
 </details>
-
 <a id="3."></a>
+
 
 ## 3. 시각화 구조
 
 ### 📐 Diagram
-
-<details>
-<summary>UML</summary>
-<div markdown="1">
-
 ![](https://hackmd.io/_uploads/B1WvCGqoh.png)
-
-</div>
-</details>
 
 ### 🌲 File Tree
 
@@ -148,7 +159,7 @@
 
 ## 5. 트러블 슈팅
 
-### <데이터 타입 구현>
+### 1. <데이터 타입 구현>
 
 🤯 **문제상황**
 일일 박스오피스의 데이터 형식이 크게 boxOfficeType, showRange, dailyBoxOfficeList로 이루어져 있고 dailyBoxOfficeList 배열 안에 Rank number 순으로 그 안에서 영화들의 각 데이터 요소들을 관리하고 있는데, 처음에는 배열 안의 데이터만 구현할 것인지 아니면 전체 구조를 가져오는 타입을 구현할지 고민하게 되었습니다.
@@ -186,7 +197,7 @@ struct MovieInfo: Decodable {
     ...
 ```
 - - -
-### <HTTP 연결 이슈>
+### 2. <HTTP 연결 이슈>
 
 🤯 **문제상황** 
 ATP 보안 기능으로 인해 HTTP에 대한 접근이 차단되어 테스트를 진행할 수 없었습니다.
@@ -197,7 +208,7 @@ ATP에 도메인을 추가하여 해당 도메인에 HTTP에 대한 연결을 �
 ![](https://hackmd.io/_uploads/rynMz-R9h.png)
 
 - - -
-### <재활용성 이슈>
+### 3. <재활용성 이슈>
 
 🤯 **문제상황**
 요구사항에선
@@ -228,7 +239,7 @@ enum Service: String {
 func fetchData(service: Service, completion: @escaping (Data?) -> Void) { ... }
 ```
 - - -
-### **<URLRequest 객체의 필요성>**
+### 4. **<URLRequest 객체의 필요성>**
 
 🤯 **문제상황** 
 기존에는 받아온 `URL`을 `URLRequest`로 다시 받아오면서 `DataTask`와 함께 서버로 요청을 넘겨주면서 응답을 받아왔는데, 사실 따로 메서드를 특정하거나 헤더/바디 등 다른 정보를 넘겨주지 않았기 때문에 불필요한 부분이라고 느껴졌습니다.
@@ -244,7 +255,7 @@ var request = URLRequest(url: url)
 `URLRequest` 객체 생성을 생략하고 URL을 바로 `DataTask`에 넘겨주는 것으로 수정했습니다. 다만 이렇게 되면 요청할 때 구성된 정보와 기능이 제한이 되지만 현재에서는 불필요한 부분이라고 생각합니다.
 
 - - -
-### **<의존성 이슈>**
+### 5. **<의존성 이슈>**
 
 🤯 **문제상황**
 기존에 `APIManager`의 `fetchData()`에서 `completion` 클로저가 결과 값을 반환해준 이후 switch-case로 인자로 전달받은 `APIservice` 타입에 따라 `decodeJSON()`으로 디코딩을 처리해주는 로직이었습니다. 하지만 이렇게 되면, 이후에 데이터 타입이 추가 되거나 삭제 될 경우 해당 타입도 같이 수정해야 하는 의존성 문제가 생길 수 있습니다.
@@ -292,7 +303,7 @@ private func callAPIManager() {
 ```
 
 - - -
-### **<어제 날짜 가져오기>**
+### 6. **<어제 날짜 가져오기>**
 
 🤯 **문제상황**
  어제 날짜를 받아오기 위해 `DateProvider`타입을 생성해줬습니다.
@@ -321,7 +332,7 @@ enum DateForm: String {
 ```
 
 - - -
-### **<APIKey 관리>**
+### 7. **<APIKey 관리>**
 🤯 **문제상황**
  깃허브에 APIKey가 올라가 공유되고 있었습니다. key가 유출된다면 다양한 보안 사고가 발생할 수 있으므로 저희는 APIKey를 숨기고자 했습니다.
     
@@ -368,7 +379,7 @@ func configureURLSession(key: String, path: String) -> URL? {
 ```
 
 - - -
-### **<CollectionViewListCell>**
+### 8. **<CollectionViewListCell>**
     
 🤯 **문제상황**
  기존의 CollectionViewCell에선 예시화면에서 나온 Accessory를 구현할 수 없었습니다.
@@ -392,6 +403,50 @@ cell.accessories = [.disclosureIndicator()]
 기존 DispatchQueue.main.async를 asyncAfter로 변경한뒤 2초간의 여유 시간을 주었습니다.
  
 <Img src = "https://hackmd.io/_uploads/BJon7MFs3.gif" width="200" height="400"><Img src = "https://hackmd.io/_uploads/rkSHEGKin.gif" width="200" height="400">
+    
+- - -
+### 9. **<선택한 날짜로 `selectedDate` 변경>**
+🤯 **문제상황**
+`calenderButton`을 클릭하여 `CalendarView`가 떴을 때 조회한 어제 날짜로 미리 선택되게 하고 다시 다른 날짜를 클릭하고 달력이 떴을 때 이전에 선택했던 날짜로 선택이 되어 있도록 설정할 때 어떤 속성으로 접근을 해야하는지 몰라 엄청 헤맸었습니다.
+    
+🔥 **해결방법**
+`UICalendarSelectionSingleDate` 클래스는 사용자가 선택한 하나 이상의 날짜를 추적하는 개체로서 `SelectedDate`과 함께 날짜의 선택 값을 지정해 줄 수 있었습니다. 따라서 `selectedDate`가 nil일 경우는 `yesterday`를 선택하고, 선택된 날짜가 있을 경우에는 selectedDateComponent로 지정하여 구현했습니다.
+    
+```Swift
+private func showCalendarView() {
+    // some code
+    let selectedDateComponent = getDateComponent(selectedDate ?? yesterday)
+    let dateSelection = UICalendarSelectionSingleDate(delegate: self)
+    dateSelection.selectedDate = selectedDateComponent
+    // some code
+}
+```
+- - -
+### 10. **<delegate 이슈>**
+🤯 **문제상황**
+`delgate`를 통해서 `UICalendarViewDelegate`를 준수하고 있는 클래스에 선택된 `date`를 전달하고 각 클래스에서 `didSelectDate()`를 구현하여 처리를 해주는데 여기서 url을 반환해주는 `APISerive` 타입이 열거형이라 해당 프로토콜을 준수할 수가 없어 `delegate`를 지정해주지 못하는 문제가 있었습니다.
+    
+🔥 **해결방법**
+수정 초반에는 `APIService` 타입을 클래스로 변경해주며 `didSelectDate()`를 정의해주었으나, `APIService`은 단순히 날짜 정보를 저장하고 url을 생성하여 API요청을 하는 역할을 하기 때문에 해당 메서드를 같이 정의하는 것이 어색하다고 판단했습니다. 따라서 구조체로 변경해주었고 delegate방식이 아닌 `APIService`의 `Singleton` 인스턴스를 생성하여 `selectedDate`를 공유하는 방법으로 해결하였습니다.
+
+```Swift
+struct APIService {
+    static var shared = APIService()
+    var selectedDate: Date?
+    // some code
+}
+```
+```Swift
+class MainViewController: UIViewController, CalendarViewControllerDelegate {
+    // some code
+    func didSelectDate(_ date: Date) {
+        selectedDate = date
+        APIService.shared.selectedDate = date
+        // some code
+    }
+}
+```
+
 - - -
 <a id="6."></a>
 
