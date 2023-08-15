@@ -63,7 +63,7 @@ extension BoxOfficeViewController {
     }
     
     private func setupToolbar() {
-        let changeViewModeButton = UIBarButtonItem(title: "화면 모드 변경", style: .plain, target: self, action: #selector(didTapChangeViewModeButton))
+        let changeViewModeButton = UIBarButtonItem(title: NameSpace.changeMode, style: .plain, target: self, action: #selector(didTapChangeViewModeButton))
         let flexibleSpace = UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: self, action: nil)
         
         toolbarItems = [flexibleSpace, changeViewModeButton, flexibleSpace]
@@ -143,7 +143,7 @@ extension BoxOfficeViewController {
         let action: UIAlertAction = {
             switch collectionViewMode {
             case .list:
-                return  UIAlertAction(title: "아이콘", style: .default) { [weak self] _ in
+                return  UIAlertAction(title: NameSpace.icon, style: .default) { [weak self] _ in
                     guard let self else {
                         return
                     }
@@ -153,7 +153,7 @@ extension BoxOfficeViewController {
                     self.collectionView.reloadData()
                 }
             case .grid:
-                return UIAlertAction(title: "리스트", style: .default) { [weak self] _ in
+                return UIAlertAction(title: NameSpace.list, style: .default) { [weak self] _ in
                     guard let self else {
                         return
                     }
@@ -165,8 +165,8 @@ extension BoxOfficeViewController {
             }
         }()
         
-        let cancelAction = UIAlertAction(title: "취소", style: .cancel)
-        let changeModeAlert = UIAlertController.customAlert(alertTile: "화면모드선택", alertMessage: nil, preferredStyle: .actionSheet, alertActions: [action, cancelAction])
+        let cancelAction = UIAlertAction(title: NameSpace.cancel, style: .cancel)
+        let changeModeAlert = UIAlertController.customAlert(alertTile: NameSpace.selectMode, alertMessage: nil, preferredStyle: .actionSheet, alertActions: [action, cancelAction])
         
         present(changeModeAlert, animated: true)
     }
@@ -303,6 +303,11 @@ extension BoxOfficeViewController {
         static let fail = "실패"
         static let loadDataFail = "데이터 로드에 실패했습니다."
         static let check = "확인"
+        static let changeMode = "화면 모드 변경"
+        static let icon = "아이콘"
+        static let list = "리스트"
+        static let cancel = "취소"
+        static let selectMode = "화면모드선택"
     }
 }
 
