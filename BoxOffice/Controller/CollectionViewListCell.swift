@@ -64,6 +64,7 @@ final class CollectionViewListCell: UICollectionViewListCell {
             rankInfoLabel.text = "신작"
         case "OLD":
             if dailyBoxOffice.rankInten == "0" {
+                rankInfoLabel.textColor = .black
                 rankInfoLabel.text = "-"
                 return
             }

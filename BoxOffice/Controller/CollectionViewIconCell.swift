@@ -27,10 +27,10 @@ class CollectionViewIconCell: UICollectionViewCell {
     
     func configureFont() {
         rankNumberLabel.font = .preferredFont(forTextStyle: .title1)
-        rankInfoLabel.font = .preferredFont(forTextStyle: .caption2)
+        rankInfoLabel.font = .preferredFont(forTextStyle: .body)
         audiNumberLabel.font = .preferredFont(forTextStyle: .body)
         audiNumberLabel.adjustsFontSizeToFitWidth = true
-        movieNameLabel.font = .preferredFont(forTextStyle: .subheadline)
+        movieNameLabel.font = .preferredFont(forTextStyle: .title3)
         movieNameLabel.allowsDefaultTighteningForTruncation = true
         movieNameLabel.numberOfLines = 2
     }
