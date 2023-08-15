@@ -100,7 +100,9 @@ final class MainViewController: UIViewController, CalendarViewControllerDelegate
     
     private func registerCustomCell() {
         collectionView.register(UINib(nibName: "CollectionViewListCell", bundle: nil),
-                                forCellWithReuseIdentifier: "cell")
+                                forCellWithReuseIdentifier: "listCell")
+        collectionView.register(UINib(nibName: "CollectionViewIconCell", bundle: nil),
+                                forCellWithReuseIdentifier: "iconCell")
     }
     
     @objc private func updateData() {
@@ -145,7 +147,7 @@ extension MainViewController: UICollectionViewDataSource {
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "cell", for: indexPath) as? CollectionViewListCell else { return UICollectionViewListCell() }
+        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "listCell", for: indexPath) as? CollectionViewListCell else { return UICollectionViewListCell() }
         
         if let boxOfficeData = boxOffice {
             let dailyBoxOffice = boxOfficeData.boxOfficeResult.dailyBoxOfficeList[indexPath.item]
