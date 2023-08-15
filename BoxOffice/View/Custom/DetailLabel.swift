@@ -16,7 +16,6 @@ final class DetailLabel: UILabel {
         font = UIFont.preferredFont(forTextStyle: fontStyle)
         adjustsFontForContentSizeCategory = true
         adjustsFontSizeToFitWidth = true
-        textAlignment = .center
     }
     
     override init(frame: CGRect) {

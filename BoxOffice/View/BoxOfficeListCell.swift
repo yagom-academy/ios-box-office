@@ -21,22 +21,24 @@ final class BoxOfficeListCell: UICollectionViewListCell {
         separatorConstraint = constraint
     }
     
-    // MARK: - InformationStackView
-    private let informationStackView: UIStackView = {
-        let stackView = UIStackView()
-        stackView.translatesAutoresizingMaskIntoConstraints = false
-        stackView.axis = .horizontal
-        
-        return stackView
-    }()
-    
     // MARK: - RankStackView
     private let rankStackView: UIStackView = {
         let stackView = UIStackView()
         stackView.axis = .vertical
         stackView.alignment = .center
         stackView.distribution = .fillProportionally
+        stackView.translatesAutoresizingMaskIntoConstraints = false
         stackView.spacing = 4
+        
+        return stackView
+    }()
+    
+    // MARK: - ContentStackView
+    private let contentStackView: UIStackView = {
+        let stackView = UIStackView()
+        stackView.translatesAutoresizingMaskIntoConstraints = false
+        stackView.setContentHuggingPriority(.init(1), for: .vertical)
+        stackView.axis = .vertical
         
         return stackView
     }()
@@ -50,8 +52,21 @@ final class BoxOfficeListCell: UICollectionViewListCell {
         return label
     }()
     
-    let rankInformationLabel: UILabel = DetailLabel()
-    let detailLabel: UILabel = DetailLabel()
+    let rankInformationLabel: UILabel = DetailLabel(fontStyle: .body)
+    
+    let movieNameLabel: UILabel = {
+        let label = UILabel()
+        label.font = UIFont.preferredFont(forTextStyle: .body)
+        label.numberOfLines = 0
+        label.setContentHuggingPriority(.init(1), for: .vertical)
+        label.adjustsFontForContentSizeCategory = true
+        label.adjustsFontSizeToFitWidth = true
+        label.minimumScaleFactor = 0.3
+        
+        return label
+    }()
+    
+    let audienceCountLabel: UILabel = DetailLabel(fontStyle: .body)
     
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -71,35 +86,36 @@ extension BoxOfficeListCell {
     }
     
     private func configureUI() {
-        addSubview(informationStackView)
-        
-        informationStackView.addArrangedSubview(rankStackView)
-        informationStackView.addArrangedSubview(detailLabel)
+        addSubview(rankStackView)
+        addSubview(contentStackView)
         
         rankStackView.addArrangedSubview(rankLabel)
         rankStackView.addArrangedSubview(rankInformationLabel)
+        
+        contentStackView.addArrangedSubview(movieNameLabel)
+        contentStackView.addArrangedSubview(audienceCountLabel)
     }
     
     private func setupConstraints() {
         updateSeparatorConstraint()
-        setupInformationStackViewConstraints()
         setupRankStackViewConstraints()
-    }
-    
-    private func setupInformationStackViewConstraints() {
-        NSLayoutConstraint.activate([
-            informationStackView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
-            informationStackView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
-            informationStackView.topAnchor.constraint(equalTo: topAnchor, constant: 8),
-            informationStackView.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -8)
-        ])
+        setupContentStackViewViewConstraints()
     }
     
     private func setupRankStackViewConstraints() {
         NSLayoutConstraint.activate([
-            rankStackView.leadingAnchor.constraint(equalTo: informationStackView.leadingAnchor),
-            rankStackView.widthAnchor.constraint(equalTo: informationStackView.widthAnchor, multiplier: 0.15),
-            rankStackView.topAnchor.constraint(equalTo: informationStackView.topAnchor)
+            rankStackView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 16),
+            rankStackView.widthAnchor.constraint(equalTo: contentStackView.widthAnchor, multiplier: 0.15),
+            rankStackView.topAnchor.constraint(equalTo: contentStackView.topAnchor)
+        ])
+    }
+    
+    private func setupContentStackViewViewConstraints() {
+        NSLayoutConstraint.activate([
+            contentStackView.leadingAnchor.constraint(equalTo: rankStackView.trailingAnchor, constant: 16),
+            contentStackView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
+            contentStackView.topAnchor.constraint(equalTo: topAnchor, constant: 8),
+            contentStackView.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -8)
         ])
     }
 }
