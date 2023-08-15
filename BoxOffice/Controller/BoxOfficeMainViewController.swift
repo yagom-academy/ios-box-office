@@ -28,9 +28,11 @@ final class BoxOfficeMainViewController: UIViewController {
     
     private func fetchData() {
         Task {
+            boxOfficeMainView.boxOfficeCollectionView.isHidden = true
             boxOfficeMainView.indicatorView.startAnimating()
             await self.fetchBoxOfficeItems()
             boxOfficeMainView.indicatorView.stopAnimating()
+            boxOfficeMainView.boxOfficeCollectionView.isHidden = false
         }
     }
     
@@ -129,9 +131,7 @@ extension BoxOfficeMainViewController: UICollectionViewDelegate {
 extension BoxOfficeMainViewController: BoxOfficeCalendarViewControllerDelegate {
     func didTapSelectedDate(_ date: Date) {
         selectedDate = date
-        navigationItem.title = selectedDate.navigationFormat
-        Task {
-            await self.fetchBoxOfficeItems()
-        }
+        navigationItem.title = date.navigationFormat
+        fetchData()
     }
 }

@@ -7,10 +7,6 @@
 
 import UIKit
 
-protocol BoxOfficeCalendarViewControllerDelegate: AnyObject {
-    func didTapSelectedDate(_ date: Date)
-}
-
 final class BoxOfficeCalendarViewController: UIViewController {
     private let calendarView = UICalendarView()
     private let selectedDate: Date
