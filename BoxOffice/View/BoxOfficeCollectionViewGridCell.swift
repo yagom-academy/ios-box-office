@@ -24,7 +24,6 @@ final class BoxOfficeCollectionViewGridCell: UICollectionViewCell {
     private let rankLabel: UILabel = {
         let label = UILabel()
         label.font = UIFont.preferredFont(forTextStyle: .largeTitle)
-        label.adjustsFontForContentSizeCategory = true
         label.textAlignment = .center
         
         return label
@@ -33,8 +32,10 @@ final class BoxOfficeCollectionViewGridCell: UICollectionViewCell {
     private let movieTitleLabel: UILabel = {
         let label = UILabel()
         label.font = UIFont.preferredFont(forTextStyle: .title3)
-        label.adjustsFontForContentSizeCategory = true
         label.textAlignment = .center
+        label.numberOfLines = 2
+        label.adjustsFontSizeToFitWidth = true
+        label.minimumScaleFactor = 0.5
         
         return label
     }()
@@ -42,7 +43,6 @@ final class BoxOfficeCollectionViewGridCell: UICollectionViewCell {
     private let rankChangeLabel: UILabel = {
         let label = UILabel()
         label.font = UIFont.preferredFont(forTextStyle: .body)
-        label.adjustsFontForContentSizeCategory = true
         label.textAlignment = .center
         
         return label
@@ -51,7 +51,8 @@ final class BoxOfficeCollectionViewGridCell: UICollectionViewCell {
     private let audienceCountLabel: UILabel = {
         let label = UILabel()
         label.font = UIFont.preferredFont(forTextStyle: .body)
-        label.adjustsFontForContentSizeCategory = true
+        label.adjustsFontSizeToFitWidth = true
+        label.minimumScaleFactor = 0.5
         
         return label
     }()
