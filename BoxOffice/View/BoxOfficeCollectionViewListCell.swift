@@ -166,7 +166,8 @@ extension BoxOfficeCollectionViewListCell {
     private func setupRankStackVeiwConstraint() {
         NSLayoutConstraint.activate([
             rankStackView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 32),
-            rankStackView.centerYAnchor.constraint(equalTo: contentView.centerYAnchor)
+            rankStackView.centerYAnchor.constraint(equalTo: contentView.centerYAnchor),
+            rankStackView.widthAnchor.constraint(greaterThanOrEqualToConstant: 40)
         ])
     }
     
