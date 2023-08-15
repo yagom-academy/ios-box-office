@@ -80,9 +80,9 @@ extension BoxOfficeViewController {
     private func setupCollectionViewLayout() {
         switch collectionViewMode {
         case .list:
-            collectionView.collectionViewLayout = listLayout()
+            collectionView.setCollectionViewLayout(listLayout(), animated: true)
         case .grid:
-            collectionView.collectionViewLayout = gridLayout()
+            collectionView.setCollectionViewLayout(gridLayout(), animated: true)
         }
     }
     
@@ -150,7 +150,7 @@ extension BoxOfficeViewController {
                     
                     self.collectionViewMode = .grid
                     self.setupCollectionViewLayout()
-                    self.collectionView.reloadData()
+                    self.applyReloadSnapshot()
                 }
             case .grid:
                 return UIAlertAction(title: NameSpace.list, style: .default) { [weak self] _ in
@@ -160,7 +160,7 @@ extension BoxOfficeViewController {
                     
                     self.collectionViewMode = .list
                     self.setupCollectionViewLayout()
-                    self.collectionView.reloadData()
+                    self.applyReloadSnapshot()
                 }
             }
         }()
@@ -240,6 +240,15 @@ extension BoxOfficeViewController {
         var snapshot = NSDiffableDataSourceSnapshot<Section, DailyBoxOffice>()
         snapshot.appendSections([.main])
         snapshot.appendItems(boxOfficeManager.dailyBoxOffices, toSection: .main)
+        
+        dailyBoxOfficeDataSource.apply(snapshot, animatingDifferences: true)
+    }
+    
+    private func applyReloadSnapshot() {
+        var snapshot = NSDiffableDataSourceSnapshot<Section, DailyBoxOffice>()
+        snapshot.appendSections([.main])
+        snapshot.appendItems(boxOfficeManager.dailyBoxOffices, toSection: .main)
+        snapshot.reloadSections([.main])
         
         dailyBoxOfficeDataSource.apply(snapshot, animatingDifferences: true)
     }
