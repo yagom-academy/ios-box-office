@@ -102,11 +102,13 @@ extension MovieDetailScrollView {
         let titleLabelConstraint = titleLabel.widthAnchor.constraint(equalToConstant: self.frame.width * 0.2)
         titleLabelConstraint.isActive = true
         titleLabel.font = UIFont.preferredFont(forTextStyle: .headline)
+        titleLabel.adjustsFontForContentSizeCategory = true
         titleLabel.textAlignment = .center
         titleLabel.text = title
         
         let informationLabel = UILabel()
         informationLabel.font = UIFont.preferredFont(forTextStyle: .body)
+        informationLabel.adjustsFontForContentSizeCategory = true
         informationLabel.textAlignment = .left
         informationLabel.numberOfLines = 0
         informationLabel.text = information
