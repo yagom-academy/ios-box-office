@@ -19,10 +19,19 @@ class CollectionViewIconCell: UICollectionViewCell {
     }
     
     func configureFont() {
-        rankNumberLabel.font = UIFont.systemFont(ofSize: 30)
-        rankInfoLabel.font = UIFont.systemFont(ofSize: 15)
-        audiNumberLabel.font = UIFont.systemFont(ofSize: 15)
-        movieNameLabel.font = UIFont.systemFont(ofSize: 20)
+        rankNumberLabel.font = .preferredFont(forTextStyle: .title1)
+        rankInfoLabel.font = .preferredFont(forTextStyle: .body)
+        movieNameLabel.font = .preferredFont(forTextStyle: .title2)
+        audiNumberLabel.font = .preferredFont(forTextStyle: .body)
+        movieNameLabel.adjustsFontSizeToFitWidth = true
+        audiNumberLabel.adjustsFontSizeToFitWidth = true
+    }
+    
+    func configureDynamicType() {
+        rankNumberLabel.adjustsFontForContentSizeCategory = true
+        rankInfoLabel.adjustsFontForContentSizeCategory = true
+        movieNameLabel.adjustsFontForContentSizeCategory = true
+        audiNumberLabel.adjustsFontForContentSizeCategory = true
     }
     
     func configureLabels(with dailyBoxOffice: DailyBoxOffice) {

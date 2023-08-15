@@ -154,6 +154,7 @@ extension MainViewController: UICollectionViewDataSource {
                 let dailyBoxOffice = boxOfficeData.boxOfficeResult.dailyBoxOfficeList[indexPath.item]
                 cell.configureLabels(with: dailyBoxOffice)
                 cell.configureFont()
+                cell.configureDynamicType()
             }
             
             return cell
@@ -164,6 +165,7 @@ extension MainViewController: UICollectionViewDataSource {
                 let dailyBoxOffice = boxOfficeData.boxOfficeResult.dailyBoxOfficeList[indexPath.item]
                 cell.configureLabels(with: dailyBoxOffice)
                 cell.configureFont()
+                cell.configureDynamicType()
                 cell.accessories = [.disclosureIndicator()]
             }
             
@@ -173,7 +175,7 @@ extension MainViewController: UICollectionViewDataSource {
 }
 
 extension MainViewController: UICollectionViewDelegate {
-    func collectionView(_ collectionView: UICollectionView, didDeselectItemAt indexPath: IndexPath) {
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         guard let pushMovieDetailVC = self.storyboard?.instantiateViewController(withIdentifier: "MovieDetailViewController") else { return }
         
         self.navigationController?.pushViewController(pushMovieDetailVC, animated: true)
