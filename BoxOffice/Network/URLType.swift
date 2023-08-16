@@ -38,7 +38,7 @@ enum URLType {
     case boxOfficeData
     case movieInformation
     
-    var url: URL? {
+    var url: URL {
         switch self {
         case .boxOfficeData:
             return configureURL(path: Path.boxOfficeData, query: [Query.key, Query.date])
@@ -47,7 +47,7 @@ enum URLType {
         }
     }
     
-    private func configureURL(path: String, query: [URLQueryItem?]) -> URL? {
+    private func configureURL(path: String, query: [URLQueryItem?]) -> URL {
         var component = URLComponents()
         
         component.scheme = Scheme.http
@@ -55,7 +55,11 @@ enum URLType {
         component.path = path
         component.queryItems = query.compactMap { $0 }
         
-        return component.url
+        guard let url = component.url else {
+            fatalError(NetworkError.invalidURL.localizedDescription)
+        }
+        
+        return url
     }
 }
 

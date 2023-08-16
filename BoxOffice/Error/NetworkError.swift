@@ -10,4 +10,5 @@ enum NetworkError: Error {
     case responseCasting
     case invalidStatus
     case noData
+    case invalidURL
 }
