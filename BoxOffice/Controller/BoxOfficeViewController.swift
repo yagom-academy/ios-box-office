@@ -12,6 +12,7 @@ final class BoxOfficeViewController: UIViewController, URLSessionDelegate {
     private var refreshControl = UIRefreshControl()
     private var dataSource: UICollectionViewDiffableDataSource<NetworkConfiguration, BoxOfficeEntity.BoxOfficeResult.DailyBoxOffice>?
     private var date: Date = Calendar.current.date(byAdding: .day, value: -1, to: Date()) ?? Date()
+    private var isListMode = true
     
     private let collectionView: UICollectionView = {
         let configuration = UICollectionLayoutListConfiguration(appearance: .plain)
@@ -58,11 +59,16 @@ extension BoxOfficeViewController {
     private func setUpUI() {
         let safeArea = view.safeAreaLayoutGuide
         let dateSelectionButton = UIBarButtonItem(title: "날짜선택", style: .plain, target: self, action: #selector(showCalendar))
+        let modeChangeButton = UIBarButtonItem(title: "화면 모드 변경", style: .plain, target: self, action: #selector(hitChangeModeButton))
+        let flexibleSpace = UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: self, action: nil)
+        
         
         view.backgroundColor = .systemBackground
         view.addSubview(collectionView)
         view.addSubview(indicatorView)
         
+        self.navigationController?.isToolbarHidden = false
+        self.toolbarItems = [flexibleSpace, modeChangeButton, flexibleSpace]
         self.title = getDateString(format: Namespace.dateWithHyphen)
         self.navigationItem.rightBarButtonItem = dateSelectionButton
         
@@ -83,6 +89,19 @@ extension BoxOfficeViewController {
         viewController.modalPresentationStyle = UIModalPresentationStyle.automatic
         
         self.present(viewController, animated: true)
+    }
+    
+    @objc func hitChangeModeButton() {
+        let mode: String = isListMode == true ? "아이콘" : "리스트"
+        let alert = UIAlertController(title: "화면 모드 변경", message: nil, preferredStyle: .actionSheet)
+        let modeChangeAction = UIAlertAction(title: mode, style: .default) { _ in
+            self.isListMode.toggle()
+        }
+        let cancelAction = UIAlertAction(title: "취소", style: .cancel)
+        
+        alert.addAction(modeChangeAction)
+        alert.addAction(cancelAction)
+        present(alert, animated: true)
     }
 }
 
