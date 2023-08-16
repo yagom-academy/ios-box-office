@@ -9,7 +9,44 @@ import UIKit
 
 final class BoxOfficeMainViewController: UIViewController {
     enum Layout {
+        enum IconSize {
+            case small
+            case medium
+            case large
+            
+            var size: CGFloat {
+                switch self {
+                case .small:
+                    return 0.25
+                case .medium:
+                    return 0.5
+                case .large:
+                    return 1.0
+                }
+            }
+            
+            mutating func up() {
+                switch self {
+                case .small:
+                    self = .medium
+                case .medium:
+                    self = .large
+                case .large:
+                    self = .large
+                }
+            }
+        }
+        
         case list, icon
+        
+        mutating func toggle() {
+            switch self {
+            case .icon:
+                self = .list
+            case .list:
+                self = .icon
+            }
+        }
     }
     
     private let boxOfficeMainView = BoxOfficeMainView()
@@ -26,6 +63,8 @@ final class BoxOfficeMainViewController: UIViewController {
         super.viewDidLoad()
         boxOfficeMainView.boxOfficeCollectionView.delegate = self
         boxOfficeMainView.boxOfficeCollectionView.dataSource = self
+        NotificationCenter.default.addObserver(self, selector: #selector(setIconLayout), name: UIDevice.orientationDidChangeNotification, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(setIconLayout), name: UIContentSizeCategory.didChangeNotification, object: nil)
         configureNavigation()
         configureRefreshControl()
         fetchData()
@@ -93,24 +132,59 @@ final class BoxOfficeMainViewController: UIViewController {
     
     @objc private func tapChangeModeButton() {
         let sheet = UIAlertController(title: "화면모드변경", message: nil, preferredStyle: .actionSheet)
-        let action = UIAlertAction(title: selectedLayout == .list ? "아이콘" : "리스트", style: .default) { [weak self] _ in
-            switch self?.selectedLayout {
-            case .list:
-                self?.selectedLayout = .icon
-                self?.boxOfficeMainView.configureCollectionViewIconLayout()
-                self?.boxOfficeMainView.collectionViewReloadData()
-            case .icon:
-                self?.selectedLayout = .list
-                self?.boxOfficeMainView.configureCollectionViewListLayout()
-                self?.boxOfficeMainView.collectionViewReloadData()
-            case .none:
-                return
+        let action = UIAlertAction(
+            title: selectedLayout == .list ? "아이콘" : "리스트",
+            style: .default,
+            handler: { [weak self] _ in
+                guard let self else { return }
+                self.selectedLayout.toggle()
+                switch self.selectedLayout {
+                case .list:
+                    self.setListLayout()
+                case .icon:
+                    self.setIconLayout()
+                }
             }
-        }
+        )
         let cancel = UIAlertAction(title: "취소", style: .cancel)
         sheet.addAction(action)
         sheet.addAction(cancel)
         present(sheet, animated: true)
+    }
+    
+    func setListLayout() {
+        self.boxOfficeMainView.configureCollectionViewListLayout()
+        self.boxOfficeMainView.collectionViewReloadData()
+    }
+    
+    @objc func setIconLayout() {
+        guard selectedLayout == .icon else { return }
+        
+        //iconSize 계산
+        var iconSizeWidth: Layout.IconSize
+        var iconSizeHeight: Layout.IconSize
+        let orientation  = view.window?.windowScene?.interfaceOrientation
+        let dynamicType = traitCollection.preferredContentSizeCategory
+        
+        if orientation == .landscapeRight || orientation == .landscapeLeft {
+            iconSizeWidth = .small
+            iconSizeHeight = .medium
+        } else {
+            iconSizeWidth = .medium
+            iconSizeHeight = .small
+        }
+        
+        if dynamicType >= .accessibilityMedium {
+            iconSizeWidth.up()
+            iconSizeHeight.up()
+        }
+        
+        self.boxOfficeMainView.configureCollectionViewIconLayout(
+            size: CGSize(
+                width: iconSizeWidth.size,
+                height: iconSizeHeight.size)
+        )
+        self.boxOfficeMainView.collectionViewReloadData()
     }
 }
 

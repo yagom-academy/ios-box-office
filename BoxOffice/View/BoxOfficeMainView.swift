@@ -8,6 +8,9 @@
 import UIKit
 
 final class BoxOfficeMainView: UIView {
+    
+    typealias IconSize = BoxOfficeMainViewController.Layout.IconSize
+    
     let boxOfficeCollectionView: UICollectionView = {
         let collectionView = UICollectionView(frame: .zero, collectionViewLayout: UICollectionViewLayout())
         return collectionView
@@ -42,16 +45,21 @@ final class BoxOfficeMainView: UIView {
         boxOfficeCollectionView.collectionViewLayout = layout
     }
     
-    func configureCollectionViewIconLayout() {
+    func configureCollectionViewIconLayout(size: CGSize) {
         boxOfficeCollectionView.register(cellClass: BoxOfficeCollectionViewIconCell.self)
-        let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(0.5),
-                                              heightDimension: .fractionalHeight(1.0))
+        
+        let itemSize = NSCollectionLayoutSize(
+            widthDimension: .fractionalWidth(size.width),
+            heightDimension: .fractionalHeight(1.0)
+        )
         
         let item = NSCollectionLayoutItem(layoutSize: itemSize)
         item.contentInsets = NSDirectionalEdgeInsets(top: 8, leading: 12, bottom: 8, trailing: 12)
         
-        let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0),
-                                               heightDimension: .estimated(200))
+        let groupSize = NSCollectionLayoutSize(
+            widthDimension: .fractionalWidth(1.0),
+            heightDimension: .fractionalHeight(size.height)
+        )
         let group = NSCollectionLayoutGroup.horizontal(layoutSize: groupSize,
                                                          subitems: [item])
         
