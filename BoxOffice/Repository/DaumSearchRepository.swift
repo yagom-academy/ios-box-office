@@ -21,12 +21,10 @@ final class DaumSearchRepositoryImplementation: DaumSearchRepository {
     }
     
     func fetchDaumImageSearchInformation(_ movieName: String, _ completionHandler: @escaping (Result<DaumSearchImageResult, APIError>) -> Void) {
-        let queryItem: [String: Any] = ["query": "\(movieName) 영화 포스터"]
-        let header = "KakaoAK \(APIKey.daumSearch)"
-        var urlRequest = setUpRequestURL(BaseURL.daumSearch, DaumSearchURLPath.image, queryItem)
+        let daumImageSearch = DaumSearchEndPoint(.image(movieName: movieName))
+        let header = ["Authorization": "KakaoAK \(APIKey.daumSearch)"]
         
-        urlRequest?.setValue(header, forHTTPHeaderField: "Authorization")
-        sessionProvider.requestData(urlRequest) { result in
+        sessionProvider.requestData(url: daumImageSearch.url, header: header) { result in
             switch result {
             case .success(let data):
                 self.decoder.decodeResponseData(data, completionHandler)

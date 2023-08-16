@@ -22,14 +22,9 @@ final class BoxOfficeRepositoryImplementation: BoxOfficeRepository {
     }
     
     func fetchDailyBoxOffice(_ targetDate: String, _ completionHandler: @escaping (Result<BoxOfficeResult, APIError>) -> Void) {
-        let queryItems: [String: Any] = [
-            "key": APIKey.boxOffice,
-            "targetDt": targetDate
-        ]
+        let dailyBoxOffice = BoxOfficeEndPoint(.daily(targetDate: targetDate))
         
-        let requestURL = setUpRequestURL(BaseURL.boxOffice, BoxOfficeURLPath.daily, queryItems)
-        
-        sessionProvider.requestData(requestURL) { result in
+        sessionProvider.requestData(url: dailyBoxOffice.url, header: nil) { result in
             switch result {
             case .success(let data):
                 self.decoder.decodeResponseData(data, completionHandler)
@@ -40,14 +35,9 @@ final class BoxOfficeRepositoryImplementation: BoxOfficeRepository {
     }
     
     func fetchMovieDetailInformation(_ movieCode: String, _ completionHandler: @escaping (Result<MovieDetailResult, APIError>) -> Void) {
-        let queryItems: [String: Any] = [
-            "key": APIKey.boxOffice,
-            "movieCd": movieCode
-        ]
+        let movieDetailInformation = BoxOfficeEndPoint(.movieDetail(movieCode: movieCode))
         
-        let requestURL = setUpRequestURL(BaseURL.boxOffice, BoxOfficeURLPath.movieDetail, queryItems)
-        
-        sessionProvider.requestData(requestURL) { result in
+        sessionProvider.requestData(url: movieDetailInformation.url, header: nil) { result in
             switch result {
             case .success(let data):
                 self.decoder.decodeResponseData(data, completionHandler)
