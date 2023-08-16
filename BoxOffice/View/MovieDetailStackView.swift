@@ -7,27 +7,24 @@
 
 import UIKit
 
-class MovieDetailStackView: UIStackView {
+final class MovieDetailStackView: UIStackView {
     private let titleLabel: UILabel = {
         let label = UILabel()
-        label.translatesAutoresizingMaskIntoConstraints = false
         label.font = .preferredFont(forTextStyle: .headline)
         label.textAlignment = .center
         
         return label
     }()
+    
     let valueLabel: UILabel = {
         let label = UILabel()
-        label.translatesAutoresizingMaskIntoConstraints = false
         label.lineBreakMode = .byWordWrapping
         label.numberOfLines = 0
         
         return label
     }()
     
-    init(title: String) {
-        self.titleLabel.text = title
-        
+    init() {
         super.init(frame: .init())
         setUpUI()
     }
@@ -37,7 +34,6 @@ class MovieDetailStackView: UIStackView {
     }
     
     private func setUpUI() {
-        self.translatesAutoresizingMaskIntoConstraints = false
         self.axis = .horizontal
         self.addArrangedSubview(titleLabel)
         self.addArrangedSubview(valueLabel)
@@ -48,4 +44,8 @@ class MovieDetailStackView: UIStackView {
         ])
     }
     
+    func setUpLabelText(title: String, value: String) {
+        self.titleLabel.text = title
+        self.valueLabel.text = value
+    }
 }

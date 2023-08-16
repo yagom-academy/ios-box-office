@@ -37,24 +37,16 @@ final class MovieDetailViewController: UIViewController {
         return imageView
     }()
     
-    private let directorsStackView = MovieDetailStackView(title: "감독")
-    private let productionYearStackView = MovieDetailStackView(title: "제작년도")
-    private let openingDateStackView = MovieDetailStackView(title: "개봉일")
-    private let showTimeStackView = MovieDetailStackView(title: "상영시간")
-    private let auditsStackView = MovieDetailStackView(title: "관람등급")
-    private let nationsStackView = MovieDetailStackView(title: "제작국가")
-    private let genresStackView = MovieDetailStackView(title: "장르")
-    private let actorsStackView = MovieDetailStackView(title: "배우")
-    
-    private let blankView: UIView = {
-        let view = UIView()
-        view.backgroundColor = .systemBackground
-        view.translatesAutoresizingMaskIntoConstraints = false
-        
-        return view
-    }()
-    
-    private let indicatorView: UIActivityIndicatorView = {
+    private let directorsStackView = MovieDetailStackView()
+    private let productionYearStackView = MovieDetailStackView()
+    private let openingDateStackView = MovieDetailStackView()
+    private let showTimeStackView = MovieDetailStackView()
+    private let auditsStackView = MovieDetailStackView()
+    private let nationsStackView = MovieDetailStackView()
+    private let genresStackView = MovieDetailStackView()
+    private let actorsStackView = MovieDetailStackView()
+
+    private let imageIndicatorView: UIActivityIndicatorView = {
         let indicatorView = UIActivityIndicatorView()
         indicatorView.style = .large
         indicatorView.translatesAutoresizingMaskIntoConstraints = false
@@ -62,35 +54,34 @@ final class MovieDetailViewController: UIViewController {
         return indicatorView
     }()
     
-    private var isImageLoaded: Bool = false {
+    private let dataIndicatorView: UIActivityIndicatorView = {
+        let indicatorView = UIActivityIndicatorView()
+        indicatorView.style = .large
+        indicatorView.translatesAutoresizingMaskIntoConstraints = false
+        
+        return indicatorView
+    }()
+    
+    private var isImageLoading: Bool = true {
         willSet(newValue) {
             if newValue == true {
-                if self.isDataLoaded == true {
-                    self.isLoading = false
-                }
+                imageIndicatorView.isHidden = false
+                imageIndicatorView.startAnimating()
+            } else {
+                imageIndicatorView.isHidden = true
+                imageIndicatorView.stopAnimating()
             }
         }
     }
     
-    private var isDataLoaded: Bool = false {
+    private var isDataLoading: Bool = true {
         willSet(newValue) {
             if newValue == true {
-                if self.isImageLoaded == true {
-                    self.isLoading = false
-                }
-            }
-        }
-    }
-
-    private var isLoading: Bool = true {
-        willSet(newValue) {
-            if newValue == true {
-                indicatorView.isHidden = false
-                indicatorView.startAnimating()
+                dataIndicatorView.isHidden = false
+                dataIndicatorView.startAnimating()
             } else {
-                indicatorView.isHidden = true
-                indicatorView.stopAnimating()
-                blankView.removeFromSuperview()
+                dataIndicatorView.isHidden = true
+                dataIndicatorView.stopAnimating()
             }
         }
     }
@@ -108,7 +99,6 @@ final class MovieDetailViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        isLoading = true
         addViews()
         setUpUI()
         setUpNetwork()
@@ -119,7 +109,9 @@ final class MovieDetailViewController: UIViewController {
     private func addViews() {
         view.addSubview(scrollView)
         scrollView.addSubview(mainStackView)
+        mainStackView.addArrangedSubview(imageIndicatorView)
         mainStackView.addArrangedSubview(posterImageView)
+        mainStackView.addArrangedSubview(dataIndicatorView)
         mainStackView.addArrangedSubview(directorsStackView)
         mainStackView.addArrangedSubview(productionYearStackView)
         mainStackView.addArrangedSubview(openingDateStackView)
@@ -128,8 +120,6 @@ final class MovieDetailViewController: UIViewController {
         mainStackView.addArrangedSubview(nationsStackView)
         mainStackView.addArrangedSubview(genresStackView)
         mainStackView.addArrangedSubview(actorsStackView)
-        view.addSubview(blankView)
-        view.addSubview(indicatorView)
     }
     
     private func setUpUI() {
@@ -158,13 +148,6 @@ final class MovieDetailViewController: UIViewController {
             nationsStackView.widthAnchor.constraint(equalTo: mainStackView.widthAnchor),
             genresStackView.widthAnchor.constraint(equalTo: mainStackView.widthAnchor),
             actorsStackView.widthAnchor.constraint(equalTo: mainStackView.widthAnchor),
-            
-            blankView.widthAnchor.constraint(equalTo: safeArea.widthAnchor),
-            blankView.heightAnchor.constraint(equalTo: safeArea.heightAnchor),
-            blankView.centerXAnchor.constraint(equalTo: safeArea.centerXAnchor),
-            blankView.centerYAnchor.constraint(equalTo: safeArea.centerYAnchor),
-            indicatorView.centerXAnchor.constraint(equalTo: safeArea.centerXAnchor),
-            indicatorView.centerYAnchor.constraint(equalTo: safeArea.centerYAnchor)
         ])
     }
 }
@@ -182,21 +165,15 @@ extension MovieDetailViewController: URLSessionDelegate {
     }
     
     private func passFetchedData() {
-        guard let url = URL(string: String(format: NetworkNamespace.movieDetail.url, NetworkNamespace.apiKey, movieCode))
-        else {
-            return
-        }
-        
-        let request = URLRequest(url: url)
-        
-        networkingManager?.load(request) { [weak self] (result: Result<Data, NetworkingError>) in
+        isDataLoading = true
+        networkingManager?.load(NetworkConfiguration.movieDetail(movieCode)) { [weak self] (result: Result<Data, NetworkingError>) in
             switch result {
             case .success(let data):
                 do {
                     let decodedData: MovieDetailEntity = try DecodingManager.shared.decode(data)
                     
                     DispatchQueue.main.async {
-                        self?.setUpLabelText(decodedData)
+                        self?.passLabelText(decodedData)
                     }
                 } catch {
                     print(DecodingError.decodingFailure.description)
@@ -206,25 +183,15 @@ extension MovieDetailViewController: URLSessionDelegate {
             }
             
             DispatchQueue.main.async {
-                self?.isDataLoaded = true
+                self?.isDataLoading = false
             }
             
         }
     }
     
     private func passFetchedImage() {
-        var urlComponents = URLComponents(string: NetworkNamespace.daumImage.url)
-        urlComponents?.queryItems = [URLQueryItem(name: "query", value: "\(movieName) 영화 포스터")]
-        
-        guard let url = urlComponents?.url else {
-            return
-        }
-        
-        var request = URLRequest(url: url)
-        
-        request.setValue("KakaoAK \(NetworkNamespace.daumApiKey)", forHTTPHeaderField: "Authorization")
-        
-        networkingManager?.load(request) { [weak self] (result: Result<Data, NetworkingError>) in
+        isImageLoading = true
+        networkingManager?.load(NetworkConfiguration.daumImage(movieName)) { [weak self] (result: Result<Data, NetworkingError>) in
             switch result {
             case .success(let data):
                 do {
@@ -247,22 +214,34 @@ extension MovieDetailViewController: URLSessionDelegate {
             }
             
             DispatchQueue.main.async {
-                self?.isImageLoaded = true
+                self?.isImageLoading = false
             }
         }
     }
     
-    private func setUpLabelText(_ data: MovieDetailEntity) {
+    private func passLabelText(_ data: MovieDetailEntity) {
         var formattedDate = data.movieDetailData.movieInformation.openingDate
         
-        directorsStackView.valueLabel.text = data.movieDetailData.movieInformation.directors.map { $0.name }.joined(separator: ", ")
-        productionYearStackView.valueLabel.text = data.movieDetailData.movieInformation.productionYear
-        openingDateStackView.valueLabel.text = formattedDate.changeDateFormat()
-        showTimeStackView.valueLabel.text = data.movieDetailData.movieInformation.showTime
-        auditsStackView.valueLabel.text = data.movieDetailData.movieInformation.audits.map { $0.movieRating }.joined(separator: ", ")
-        nationsStackView.valueLabel.text = data.movieDetailData.movieInformation.nations.map { $0.name }.joined(separator: ", ")
-        genresStackView.valueLabel.text = data.movieDetailData.movieInformation.genres.map { $0.name }.joined(separator: ", ")
-        actorsStackView.valueLabel.text = data.movieDetailData.movieInformation.actors.map { $0.name }.joined(separator: ", ")
+        directorsStackView.setUpLabelText(title: Namespace.directorsTitle, value: data.movieDetailData.movieInformation.directors.map { $0.name }.joined(separator: ", "))
+        productionYearStackView.setUpLabelText(title: Namespace.productionYearTitle, value: data.movieDetailData.movieInformation.productionYear)
+        openingDateStackView.setUpLabelText(title: Namespace.openingDateTitle, value: formattedDate.changeDateFormat())
+        showTimeStackView.setUpLabelText(title: Namespace.showTimeTitle, value: data.movieDetailData.movieInformation.showTime)
+        auditsStackView.setUpLabelText(title: Namespace.auditsTitle, value: data.movieDetailData.movieInformation.audits.map { $0.movieRating }.joined(separator: ", "))
+        nationsStackView.setUpLabelText(title: Namespace.nationsTitle, value: data.movieDetailData.movieInformation.nations.map { $0.name }.joined(separator: ", "))
+        genresStackView.setUpLabelText(title: Namespace.genresTitle, value: data.movieDetailData.movieInformation.genres.map { $0.name }.joined(separator: ", "))
+        actorsStackView.setUpLabelText(title: Namespace.actorsTitle, value: data.movieDetailData.movieInformation.actors.map { $0.name }.joined(separator: ", "))
+    }
+}
 
+extension MovieDetailViewController {
+    struct Namespace {
+        static let directorsTitle = "감독"
+        static let productionYearTitle = "제작년도"
+        static let openingDateTitle = "개봉일"
+        static let showTimeTitle = "상영시간"
+        static let auditsTitle = "관람등급"
+        static let nationsTitle = "제작국가"
+        static let genresTitle = "장르"
+        static let actorsTitle = "배우"
     }
 }

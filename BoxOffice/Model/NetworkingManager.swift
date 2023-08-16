@@ -14,7 +14,24 @@ struct NetworkingManager {
         self.session = session
     }
     
-    func load(_ request: URLRequest, completion: @escaping (Result<Data, NetworkingError>) -> Void) {
+    func load(_ networkType: NetworkConfiguration, completion: @escaping (Result<Data, NetworkingError>) -> Void) {
+        var urlComponents = URLComponents(string: networkType.url)
+        
+        networkType.query.forEach {
+            urlComponents?.queryItems = [URLQueryItem(name: $0.name, value: $0.value)]
+        }
+        
+        guard let url = urlComponents?.url else {
+            completion(.failure(NetworkingError.invalidURL))
+            return 
+        }
+        
+        var request = URLRequest(url: url)
+        
+        networkType.header.forEach {
+            request.setValue($0.value, forHTTPHeaderField: $0.forHTTPHeaderField)
+        }
+
         let task = session.dataTask(with: request) { data, response, error in
             if error != nil {
                 completion(.failure(NetworkingError.connectionFailure))

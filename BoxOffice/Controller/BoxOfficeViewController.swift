@@ -10,7 +10,8 @@ import UIKit
 final class BoxOfficeViewController: UIViewController, URLSessionDelegate {
     private var networkingManager: NetworkingManager?
     private var refreshControl = UIRefreshControl()
-    private var dataSource: UICollectionViewDiffableDataSource<NetworkNamespace, BoxOfficeEntity.BoxOfficeResult.DailyBoxOffice>?
+    private var dataSource: UICollectionViewDiffableDataSource<NetworkConfiguration, BoxOfficeEntity.BoxOfficeResult.DailyBoxOffice>?
+    private var date: Date = Calendar.current.date(byAdding: .day, value: -1, to: Date()) ?? Date()
     
     private let collectionView: UICollectionView = {
         let configuration = UICollectionLayoutListConfiguration(appearance: .plain)
@@ -41,13 +42,11 @@ final class BoxOfficeViewController: UIViewController, URLSessionDelegate {
             }
         }
     }
-    
+
     override func viewDidLoad() {
         super.viewDidLoad()
         collectionView.delegate = self
-        isLoading = true
         setUpUI()
-        setUpDate()
         setUpCollectionView()
         setUpDataSource()
         setUpNetwork()
@@ -58,10 +57,14 @@ final class BoxOfficeViewController: UIViewController, URLSessionDelegate {
 extension BoxOfficeViewController {
     private func setUpUI() {
         let safeArea = view.safeAreaLayoutGuide
+        let dateSelectionButton = UIBarButtonItem(title: "날짜선택", style: .plain, target: self, action: #selector(showCalendar))
         
         view.backgroundColor = .systemBackground
         view.addSubview(collectionView)
         view.addSubview(indicatorView)
+        
+        self.title = getDateString(format: Namespace.dateWithHyphen)
+        self.navigationItem.rightBarButtonItem = dateSelectionButton
         
         NSLayoutConstraint.activate([
             collectionView.topAnchor.constraint(equalTo: safeArea.topAnchor),
@@ -74,12 +77,23 @@ extension BoxOfficeViewController {
         ])
     }
     
-    private func setUpDate() {
-        guard let yesterday = Calendar.current.date(byAdding: .day, value: -1, to: Date()) else {
-            return
-        }
+    @objc func showCalendar(_ sender: UIButton) {
+        let viewController = CalendarViewController(date)
+        viewController.delegate = self
+        viewController.modalPresentationStyle = UIModalPresentationStyle.automatic
         
-        self.title = DateFormatter().formatToString(from: yesterday, with: "YYYY-MM-dd")
+        self.present(viewController, animated: true)
+    }
+}
+
+extension BoxOfficeViewController {
+    private func getDateString(format: String) -> String {
+        return DateFormatter().formatToString(from: date, with: format)
+    }
+    
+    struct Namespace {
+        static let dateWithHyphen = "YYYY-MM-dd"
+        static let dateWithoutHyphen = "YYYYMMdd"
     }
 }
 
@@ -90,7 +104,7 @@ extension BoxOfficeViewController {
     }
     
     private func setUpDataSource() {
-        dataSource = UICollectionViewDiffableDataSource<NetworkNamespace, BoxOfficeEntity.BoxOfficeResult.DailyBoxOffice>(collectionView: self.collectionView) { (collectionView, indexPath, data) -> UICollectionViewCell? in
+        dataSource = UICollectionViewDiffableDataSource<NetworkConfiguration, BoxOfficeEntity.BoxOfficeResult.DailyBoxOffice>(collectionView: self.collectionView) { (collectionView, indexPath, data) -> UICollectionViewCell? in
             guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: BoxOfficeRankingCell.cellIdentifier, for: indexPath) as? BoxOfficeRankingCell else {
                 return UICollectionViewCell()
             }
@@ -102,9 +116,9 @@ extension BoxOfficeViewController {
     }
     
     private func setUpDataSnapshot(_ data: [BoxOfficeEntity.BoxOfficeResult.DailyBoxOffice]) {
-        var snapshot = NSDiffableDataSourceSnapshot<NetworkNamespace, BoxOfficeEntity.BoxOfficeResult.DailyBoxOffice>()
+        var snapshot = NSDiffableDataSourceSnapshot<NetworkConfiguration, BoxOfficeEntity.BoxOfficeResult.DailyBoxOffice>()
         
-        snapshot.appendSections([.boxOffice])
+        snapshot.appendSections([.boxOffice(getDateString(format: Namespace.dateWithoutHyphen))])
         snapshot.appendItems(data)
         dataSource?.apply(snapshot)
     }
@@ -140,16 +154,10 @@ extension BoxOfficeViewController {
     }
     
     private func passFetchedData() {
-        guard let date = self.title?.replacingOccurrences(of: "-", with: ""),
-              let url = URL(string: String(format: NetworkNamespace.boxOffice.url, NetworkNamespace.apiKey, date))
-        else {
-            return
-        }
-        
-        let request = URLRequest(url: url)
-        
-        
-        networkingManager?.load(request) { [weak self] (result: Result<Data, NetworkingError>) in
+        isLoading = true
+        let date = getDateString(format: Namespace.dateWithoutHyphen)
+
+        networkingManager?.load(NetworkConfiguration.boxOffice(date)) { [weak self] (result: Result<Data, NetworkingError>) in
             switch result {
             case .success(let data):
                 do {
@@ -170,3 +178,14 @@ extension BoxOfficeViewController {
     }
 }
 
+protocol BoxOfficeDelegate: AnyObject {
+    func setUpDate(_ date: Date)
+}
+
+extension BoxOfficeViewController: BoxOfficeDelegate {
+    func setUpDate(_ date: Date) {
+        self.date = date
+        self.title = getDateString(format: Namespace.dateWithHyphen)
+        passFetchedData()
+    }
+}

@@ -13,7 +13,7 @@ final class BoxOfficeNetworkingTest: XCTestCase {
     
     override func setUpWithError() throws {
         try super.setUpWithError()
-        setUpSUT(isSuccess: true, apiType: NetworkNamespace.movieDetail)
+        setUpSUT(isSuccess: true, apiType: NetworkConfiguration.movieDetail(""))
     }
 
     override func tearDownWithError() throws {
@@ -21,19 +21,19 @@ final class BoxOfficeNetworkingTest: XCTestCase {
         sut = nil
     }
     
-    func setUpSUT(isSuccess: Bool, apiType: NetworkNamespace) {
+    func setUpSUT(isSuccess: Bool, apiType: NetworkConfiguration) {
         var urlString = ""
         var asset = ""
         
         switch apiType {
         case .boxOffice:
-            urlString = String(format: NetworkNamespace.boxOffice.url, NetworkNamespace.apiKey, "20230801")
+            urlString = NetworkConfiguration.boxOffice("20230801").url
             asset = "box_office_sample"
         case .movieDetail:
-            urlString = String(format: NetworkNamespace.movieDetail.url, NetworkNamespace.apiKey, "20230801")
+            urlString = NetworkConfiguration.movieDetail("20230801").url
             asset = "movie_detail_sample"
         case .daumImage:
-            urlString = String(format: NetworkNamespace.daumImage.url)
+            urlString = String(format: NetworkConfiguration.daumImage("").url)
             asset = "daum_image_sample"
         }
 
@@ -57,13 +57,12 @@ final class BoxOfficeNetworkingTest: XCTestCase {
     
     func test_MovieDetail_네트워킹이_성공했을때_데이터가_정상적으로_호출되는지() {
         // given
-        setUpSUT(isSuccess: true, apiType: NetworkNamespace.movieDetail)
+        setUpSUT(isSuccess: true, apiType: NetworkConfiguration.movieDetail("20230801"))
         
         let expectation = "광해, 왕이 된 남자"
-        let request = URLRequest(url: URL(string: "https://www.naver.com/")!)
         
         // when & then
-        sut.load(request) { (result: Result<Data, NetworkingError>) in
+        sut.load(NetworkConfiguration.movieDetail("20230801")) { (result: Result<Data, NetworkingError>) in
             switch result {
             case .success(let data):
                 do {
@@ -83,13 +82,12 @@ final class BoxOfficeNetworkingTest: XCTestCase {
     
     func test_MovieDetail_네트워킹이_실패했을때_에러가_반환되는지() {
         // given
-        setUpSUT(isSuccess: false, apiType: NetworkNamespace.movieDetail)
+        setUpSUT(isSuccess: false, apiType: NetworkConfiguration.movieDetail("20230801"))
         
         let expectation = "서버 응답 오류입니다. Status Code: 400"
-        let request = URLRequest(url: URL(string: "https://www.naver.com/")!)
         
         // when & then
-        sut.load(request) { (result: Result<Data, NetworkingError>) in
+        sut.load(NetworkConfiguration.movieDetail("20230801")) { (result: Result<Data, NetworkingError>) in
             switch result {
             case .success:
                 XCTFail("테스트 실패")
@@ -101,13 +99,12 @@ final class BoxOfficeNetworkingTest: XCTestCase {
     
     func test_DaumImage_네트워킹이_성공했을때_데이터가_정상적으로_호출되는지() {
         // given
-        setUpSUT(isSuccess: true, apiType: NetworkNamespace.daumImage)
+        setUpSUT(isSuccess: true, apiType: NetworkConfiguration.daumImage(""))
         
         let expectation = "https://t1.daumcdn.net/cafeattach/1IHuH/f7f31ed51da240282d463ad00ef2c274d167de7a"
-        let request = URLRequest(url: URL(string: "https://www.naver.com/")!)
         
         // when & then
-        sut.load(request) { (result: Result<Data, NetworkingError>) in
+        sut.load(NetworkConfiguration.daumImage("")) { (result: Result<Data, NetworkingError>) in
             switch result {
             case .success(let data):
                 do {
