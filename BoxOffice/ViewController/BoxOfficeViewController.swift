@@ -107,9 +107,7 @@ final class BoxOfficeViewController: UIViewController {
                 }
             } else {
                 DispatchQueue.main.async {
-                    var snapshot = NSDiffableDataSourceSnapshot<Section, DailyBoxOffice>()
-                    snapshot.appendSections([.dailyBoxOffice])
-                    snapshot.appendItems(boxOffice.boxOfficeResult.dailyBoxOfficeList)
+                    let snapshot = self.setupSnapshot()
                     self.dataSource?.apply(snapshot, animatingDifferences: false)
                     
                     self.refresher.endRefreshing()
@@ -239,25 +237,27 @@ extension BoxOfficeViewController {
     private func showSelector() -> UIAction {
         let action = UIAction { _ in
             let sheet = UIAlertController(title: "화면모드변경", message: nil, preferredStyle: .actionSheet)
-            
-            switch self.viewMode {
-            case .list:
-                sheet.addAction(UIAlertAction(title: ViewMode.icon.description, style: .default, handler: { _ in
-                    UserDefaults.standard.viewMode = ViewMode.icon.rawValue
-                    self.collectionView?.setCollectionViewLayout(self.createIconLayout(), animated: true)
-                    self.reloadSnapshot()
-                }))
-            case .icon:
-                sheet.addAction(UIAlertAction(title: ViewMode.list.description, style: .default, handler: { _ in
-                    UserDefaults.standard.viewMode = ViewMode.list.rawValue
-                    self.collectionView?.setCollectionViewLayout(self.createListLayout(), animated: true)
-                    self.reloadSnapshot()
-                }))
-            }
-            
+            sheet.addAction(self.createViewModeChangeAction())
             sheet.addAction(UIAlertAction(title: "취소", style: .cancel))
             self.present(sheet, animated: true)
         }
+        
+        return action
+    }
+    
+    private func createViewModeChangeAction() -> UIAlertAction {
+        let action = UIAlertAction(title: viewMode.otherOption, style: .default, handler: { _ in
+            switch self.viewMode {
+            case .list:
+                self.collectionView?.setCollectionViewLayout(self.createIconLayout(), animated: true)
+                UserDefaults.standard.viewMode = ViewMode.icon.rawValue
+            case .icon:
+                self.collectionView?.setCollectionViewLayout(self.createListLayout(), animated: true)
+                UserDefaults.standard.viewMode = ViewMode.list.rawValue
+            }
+            
+            self.reloadSnapshot()
+        })
         
         return action
     }
