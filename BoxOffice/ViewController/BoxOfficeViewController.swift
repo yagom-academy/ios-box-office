@@ -244,13 +244,13 @@ extension BoxOfficeViewController {
             case .list:
                 sheet.addAction(UIAlertAction(title: ViewMode.icon.description, style: .default, handler: { _ in
                     UserDefaults.standard.viewMode = ViewMode.icon.rawValue
-                    self.collectionView?.collectionViewLayout = self.createIconLayout()
+                    self.collectionView?.setCollectionViewLayout(self.createIconLayout(), animated: true)
                     self.reloadSnapshot()
                 }))
             case .icon:
                 sheet.addAction(UIAlertAction(title: ViewMode.list.description, style: .default, handler: { _ in
                     UserDefaults.standard.viewMode = ViewMode.list.rawValue
-                    self.collectionView?.collectionViewLayout = self.createListLayout()
+                    self.collectionView?.setCollectionViewLayout(self.createListLayout(), animated: true)
                     self.reloadSnapshot()
                 }))
             }
