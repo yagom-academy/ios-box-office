@@ -8,10 +8,15 @@
 import UIKit
 
 final class BoxOfficeMainViewController: UIViewController {
+    enum Layout {
+        case list, icon
+    }
+    
     private let boxOfficeMainView = BoxOfficeMainView()
     private var boxOfficeItems: [BoxOfficeItem] = []
     private var task: Task<Void, Never>?
     private var selectedDate = Date.yesterday
+    private var selectedLayout = Layout.list
     
     override func loadView() {
         view = boxOfficeMainView
@@ -73,12 +78,35 @@ final class BoxOfficeMainViewController: UIViewController {
     private func configureNavigation() {
         navigationItem.title = selectedDate.navigationFormat
         navigationItem.rightBarButtonItem = UIBarButtonItem(title: "날짜선택", style: .plain, target: self, action: #selector(tapSelectDateButton))
+        
+        navigationController?.isToolbarHidden = false
+        let flexibleSpace = UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: self, action: nil)
+        let changeModeButton = UIBarButtonItem(title: "화면 모드 변경", style: .plain, target: self, action: #selector(tapChangeModeButton))
+        toolbarItems = [flexibleSpace, changeModeButton, flexibleSpace]
     }
     
     @objc private func tapSelectDateButton() {
         let boxOfficeCalendarViewController = BoxOfficeCalendarViewController(date: selectedDate)
         boxOfficeCalendarViewController.delegate = self
         present(boxOfficeCalendarViewController, animated: true)
+    }
+    
+    @objc private func tapChangeModeButton() {
+        let sheet = UIAlertController(title: "화면모드변경", message: nil, preferredStyle: .actionSheet)
+        let action = UIAlertAction(title: selectedLayout == .list ? "아이콘" : "리스트", style: .default) { [weak self] _ in
+            switch self?.selectedLayout {
+            case .list:
+                self?.selectedLayout = .icon
+            case .icon:
+                self?.selectedLayout = .list
+            case .none:
+                return
+            }
+        }
+        let cancel = UIAlertAction(title: "취소", style: .cancel)
+        sheet.addAction(action)
+        sheet.addAction(cancel)
+        present(sheet, animated: true)
     }
 }
 
