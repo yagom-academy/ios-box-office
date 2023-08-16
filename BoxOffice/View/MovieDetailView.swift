@@ -300,17 +300,9 @@ final class MovieDetailView: UIView {
     
     private func setUpLayout() {
         setUpScrollViewLayout()
-        setUpContentViewLayout()
         setUpImageViewLayout()
         setUpMainStackViewLayout()
-        setUpDirectorStackViewLayout()
-        setUpProductionYearStackViewLayout()
-        setUpOpenDateStackViewLayout()
-        setUpShowTimeStackViewLayout()
-        setUpWatchGradeStackViewLayout()
-        setUpProductionNationStackViewLayout()
-        setUpGenresStackViewLayout()
-        setUpMovieActorsStackViewLayout()
+        setUpSubStackViewLayout()
         setUpLoadingViewLayout()
     }
 }
@@ -318,6 +310,7 @@ final class MovieDetailView: UIView {
 // MARK: - setUpLayout
 extension MovieDetailView {
     private func setUpScrollViewLayout() {
+        scrollView.addSubview(contentView)
         addSubview(scrollView)
         
         NSLayoutConstraint.activate([
@@ -325,13 +318,6 @@ extension MovieDetailView {
             scrollView.bottomAnchor.constraint(equalTo: safeAreaLayoutGuide.bottomAnchor),
             scrollView.leadingAnchor.constraint(equalTo: safeAreaLayoutGuide.leadingAnchor),
             scrollView.trailingAnchor.constraint(equalTo: safeAreaLayoutGuide.trailingAnchor),
-        ])
-    }
-    
-    private func setUpContentViewLayout() {
-        scrollView.addSubview(contentView)
-        
-        NSLayoutConstraint.activate([
             contentView.topAnchor.constraint(equalTo: scrollView.contentLayoutGuide.topAnchor),
             contentView.bottomAnchor.constraint(equalTo: scrollView.contentLayoutGuide.bottomAnchor),
             contentView.leadingAnchor.constraint(equalTo: scrollView.contentLayoutGuide.leadingAnchor),
@@ -366,83 +352,42 @@ extension MovieDetailView {
         ])
     }
     
-    private func setUpDirectorStackViewLayout() {
+    private func setUpSubStackViewLayout() {
         directorStackView.addArrangedSubview(directorLabel)
         directorStackView.addArrangedSubview(directorContentLabel)
-        mainStackView.addArrangedSubview(directorStackView)
-        
-        NSLayoutConstraint.activate([
-            directorLabel.widthAnchor.constraint(equalTo: directorStackView.widthAnchor, multiplier: 0.2)
-        ])
-    }
-    
-    private func setUpProductionYearStackViewLayout() {
         productionYearStackView.addArrangedSubview(productionYearLabel)
         productionYearStackView.addArrangedSubview(productionYearContentLabel)
-        mainStackView.addArrangedSubview(productionYearStackView)
-        
-        NSLayoutConstraint.activate([
-            productionYearLabel.widthAnchor.constraint(equalTo: productionYearStackView.widthAnchor, multiplier: 0.2)
-        ])
-    }
-    
-    private func setUpOpenDateStackViewLayout() {
         openDateStackView.addArrangedSubview(openDateLabel)
         openDateStackView.addArrangedSubview(openDateContentLabel)
-        mainStackView.addArrangedSubview(openDateStackView)
-        
-        NSLayoutConstraint.activate([
-            openDateLabel.widthAnchor.constraint(equalTo: openDateStackView.widthAnchor, multiplier: 0.2)
-        ])
-    }
-    
-    private func setUpShowTimeStackViewLayout() {
         showTimeStackView.addArrangedSubview(showTimeLabel)
         showTimeStackView.addArrangedSubview(showTimeContentLabel)
-        mainStackView.addArrangedSubview(showTimeStackView)
-        
-        NSLayoutConstraint.activate([
-            showTimeLabel.widthAnchor.constraint(equalTo: showTimeStackView.widthAnchor, multiplier: 0.2)
-        ])
-    }
-    
-    private func setUpWatchGradeStackViewLayout() {
         watchGradeStackView.addArrangedSubview(watchGradeLabel)
         watchGradeStackView.addArrangedSubview(watchGradeContentLabel)
-        mainStackView.addArrangedSubview(watchGradeStackView)
-        
-        NSLayoutConstraint.activate([
-            watchGradeLabel.widthAnchor.constraint(equalTo: watchGradeStackView.widthAnchor, multiplier: 0.2)
-        ])
-    }
-    
-    private func setUpProductionNationStackViewLayout() {
         nationsStackView.addArrangedSubview(nationsLabel)
         nationsStackView.addArrangedSubview(nationsContentLabel)
-        mainStackView.addArrangedSubview(nationsStackView)
-        
-        NSLayoutConstraint.activate([
-            nationsLabel.widthAnchor.constraint(equalTo: nationsStackView.widthAnchor, multiplier: 0.2)
-        ])
-    }
-    
-    private func setUpGenresStackViewLayout() {
         genresStackView.addArrangedSubview(genresLabel)
         genresStackView.addArrangedSubview(genresContentLabel)
-        mainStackView.addArrangedSubview(genresStackView)
-        
-        NSLayoutConstraint.activate([
-            genresLabel.widthAnchor.constraint(equalTo: genresStackView.widthAnchor, multiplier: 0.2)
-        ])
-    }
-    
-    private func setUpMovieActorsStackViewLayout() {
         movieActorsStackView.addArrangedSubview(movieActorsLabel)
         movieActorsStackView.addArrangedSubview(movieActorsContentLabel)
+        
+        mainStackView.addArrangedSubview(directorStackView)
+        mainStackView.addArrangedSubview(productionYearStackView)
+        mainStackView.addArrangedSubview(openDateStackView)
+        mainStackView.addArrangedSubview(showTimeStackView)
+        mainStackView.addArrangedSubview(watchGradeStackView)
+        mainStackView.addArrangedSubview(nationsStackView)
+        mainStackView.addArrangedSubview(genresStackView)
         mainStackView.addArrangedSubview(movieActorsStackView)
         
         NSLayoutConstraint.activate([
-            movieActorsLabel.widthAnchor.constraint(equalTo: movieActorsStackView.widthAnchor, multiplier: 0.2)
+            directorLabel.widthAnchor.constraint(equalTo: directorStackView.widthAnchor, multiplier: 0.2),
+            productionYearLabel.widthAnchor.constraint(equalTo: productionYearStackView.widthAnchor, multiplier: 0.2),
+            openDateLabel.widthAnchor.constraint(equalTo: openDateStackView.widthAnchor, multiplier: 0.2),
+            showTimeLabel.widthAnchor.constraint(equalTo: showTimeStackView.widthAnchor, multiplier: 0.2),
+            watchGradeLabel.widthAnchor.constraint(equalTo: watchGradeStackView.widthAnchor, multiplier: 0.2),
+            nationsLabel.widthAnchor.constraint(equalTo: nationsStackView.widthAnchor, multiplier: 0.2),
+            genresLabel.widthAnchor.constraint(equalTo: genresStackView.widthAnchor, multiplier: 0.2),
+            movieActorsLabel.widthAnchor.constraint(equalTo: movieActorsStackView.widthAnchor, multiplier: 0.2),
         ])
     }
     
