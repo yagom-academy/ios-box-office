@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		0A5096F02A8C902500A9AB75 /* RankIntensity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A5096EF2A8C902500A9AB75 /* RankIntensity.swift */; };
 		0A9680FE2A7393DD00B78C61 /* NetworkManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A9680FD2A7393DD00B78C61 /* NetworkManager.swift */; };
 		0A9681012A73954C00B78C61 /* URLRequestError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A9681002A73954C00B78C61 /* URLRequestError.swift */; };
 		0A9681052A7899A300B78C61 /* EndPoint.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A9681042A7899A300B78C61 /* EndPoint.swift */; };
@@ -45,6 +46,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		0A5096EF2A8C902500A9AB75 /* RankIntensity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RankIntensity.swift; sourceTree = "<group>"; };
 		0A9680FD2A7393DD00B78C61 /* NetworkManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkManager.swift; sourceTree = "<group>"; };
 		0A9681002A73954C00B78C61 /* URLRequestError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = URLRequestError.swift; sourceTree = "<group>"; };
 		0A9681042A7899A300B78C61 /* EndPoint.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EndPoint.swift; sourceTree = "<group>"; };
@@ -188,6 +190,7 @@
 				0A9681042A7899A300B78C61 /* EndPoint.swift */,
 				BAF090892A7F2E550091C1B7 /* Section.swift */,
 				0A96815B2A84EE7700B78C61 /* Item.swift */,
+				0A5096EF2A8C902500A9AB75 /* RankIntensity.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -303,6 +306,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				0A5096F02A8C902500A9AB75 /* RankIntensity.swift in Sources */,
 				BA2AFE112A78BE27006C852C /* NetworkConfigurableError.swift in Sources */,
 				BA3D99AC2A78D25C00D7737C /* Bundle+.swift in Sources */,
 				0A96815C2A84EE7700B78C61 /* Item.swift in Sources */,

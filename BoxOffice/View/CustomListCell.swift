@@ -78,42 +78,12 @@ extension CustomListCell {
 }
 
 extension CustomListCell {
-    func makeRankIntensity(rankIntensityData: String?, completion: @escaping (NSAttributedString) -> Void?) {
-        guard var rankIntensityData = rankIntensityData else { return }
-        let font = UIFont.systemFont(ofSize: 17.0)
-        
-        if rankIntensityData.contains("-") {
-            rankIntensityData = rankIntensityData.replacingOccurrences(of: "-", with: "▼")
-            
-            let attributeDownRankIntensity = NSMutableAttributedString(string: rankIntensityData)
-            attributeDownRankIntensity.addAttributes([
-                NSMutableAttributedString.Key.foregroundColor: UIColor.blue,
-                NSMutableAttributedString.Key.font: font as Any
-            ], range: (rankIntensityData as NSString).range(of: "▼"))
-            
-            completion(attributeDownRankIntensity)
-        } else if rankIntensityData.contains("0") {
-            rankIntensityData = rankIntensityData.replacingOccurrences(of: "0", with: "-")
-            
-            let attributeStayRankIntensity = NSMutableAttributedString(string: rankIntensityData)
-            attributeStayRankIntensity.addAttribute(
-                .foregroundColor,
-                value: UIColor.black,
-                range: (rankIntensityData as NSString).range(of: "-")
-            )
-            
-            completion(attributeStayRankIntensity)
-        } else {
-            rankIntensityData = rankIntensityData.replacingOccurrences(of: rankIntensityData, with: "▲" + "\(rankIntensityData)")
-            
-            let attributeUpRankIntensity = NSMutableAttributedString(string: rankIntensityData)
-            attributeUpRankIntensity.addAttributes([
-                NSMutableAttributedString.Key.foregroundColor: UIColor.red,
-                NSMutableAttributedString.Key.font: font as Any
-            ], range: (rankIntensityData as NSString).range(of: "▲"))
-            
-            completion(attributeUpRankIntensity)
-        }
+    func makeRankIntensity(rankIntensityData: String?, completion: @escaping (NSAttributedString) -> Void) {
+        guard let rankIntensityData = rankIntensityData else { return }
+        guard let rankIntensity = RankIntensity(fromString: rankIntensityData) else { return }
+        let font = UIFont.preferredFont(forTextStyle: .caption1)
+        guard let attributedString = rankIntensity.attributedString(withFont: font) else { return }
+        completion(attributedString)
     }
 }
 
