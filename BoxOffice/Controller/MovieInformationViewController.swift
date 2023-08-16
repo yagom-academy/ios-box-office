@@ -50,6 +50,7 @@ final class MovieInformationViewController: UIViewController {
     }
     
     private func configureNavigationItem() {
+        navigationController?.isToolbarHidden = true
         navigationItem.title = dailyBoxOfficeData.movieName
     }
     

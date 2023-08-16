@@ -13,6 +13,12 @@ final class DailyBoxOfficeViewController: UIViewController {
     private var boxOfficeData: BoxOffice?
     private let loadingView: LoadingView = LoadingView()
     private var targetDate: Date = DateManager.fetchPastDate(dayAgo: 1)
+    private var isListMode: Bool = true {
+        didSet {
+            updateCollectionViewLayout()
+            collectionView.reloadData()
+        }
+    }
     
     private lazy var refreshControl: UIRefreshControl = {
         let refreshControl: UIRefreshControl = UIRefreshControl()
@@ -40,17 +46,57 @@ final class DailyBoxOfficeViewController: UIViewController {
         receiveData()
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        
+        navigationController?.isToolbarHidden = false
+    }
+    
     private func configureNavigationItem() {
         let logoutBarButtonItem = UIBarButtonItem(title: "날짜선택", style: .done, target: self, action: #selector(presentCalendarView))
         self.navigationItem.rightBarButtonItem  = logoutBarButtonItem
+        
+        let toolBarButtonItem = UIBarButtonItem(title: "화면 모드 변경", style: .done, target: self, action: #selector(presentActionSheet))
+        let flexibleSpace = UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: nil, action: nil)
+        self.setToolbarItems([flexibleSpace, toolBarButtonItem, flexibleSpace], animated: true)
+        
+        let appearance = UIToolbarAppearance()
+        appearance.configureWithOpaqueBackground()
+        appearance.backgroundColor = .systemGray6
+        navigationController?.toolbar.scrollEdgeAppearance = appearance
+        
         setNavigationTitle()
+    }
+    
+    @objc private func presentActionSheet() {
+        let actionSheet: UIAlertController = UIAlertController(title: "화면 모드 변경", message: nil, preferredStyle: .actionSheet)
+        let alertActionList: UIAlertAction = UIAlertAction(title: "리스트", style: .default) { _ in
+            self.changeScreenMode()
+        }
+        let alertActionIcon: UIAlertAction = UIAlertAction(title: "아이콘", style: .default) { _ in
+            self.changeScreenMode()
+        }
+        let alertActionCancel: UIAlertAction = UIAlertAction(title: "취소", style: .cancel, handler: nil)
+        
+        if isListMode {
+            actionSheet.addAction(alertActionIcon)
+        } else {
+            actionSheet.addAction(alertActionList)
+        }
+        actionSheet.addAction(alertActionCancel)
+        
+        present(actionSheet, animated: true)
+    }
+    
+    private func changeScreenMode() {
+        isListMode = !isListMode
     }
     
     private func setNavigationTitle() {
         navigationItem.title = DateManager.changeDateFormat(date: targetDate, format: "yyyy-MM-dd")
     }
     
-    @objc func presentCalendarView() {
+    @objc private func presentCalendarView() {
         let calendarViewController = CalendarViewController(date: targetDate)
         calendarViewController.delegate = self
         present(calendarViewController, animated: true)
@@ -59,8 +105,10 @@ final class DailyBoxOfficeViewController: UIViewController {
     private func setupCollectionView() {
         collectionView.dataSource = self
         collectionView.delegate = self
-        collectionView.register(DailyBoxOfficeCollectionViewCell.self,
-                                forCellWithReuseIdentifier: DailyBoxOfficeCollectionViewCell.identifier)
+        collectionView.register(DailyBoxOfficeCollectionViewListCell.self,
+                                forCellWithReuseIdentifier: DailyBoxOfficeCollectionViewListCell.identifier)
+        collectionView.register(DailyBoxOfficeCollectionViewGridCell.self,
+                                forCellWithReuseIdentifier: DailyBoxOfficeCollectionViewGridCell.identifier)
         collectionView.refreshControl = refreshControl
     }
     
@@ -78,8 +126,8 @@ final class DailyBoxOfficeViewController: UIViewController {
             loadingView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor),
             
             collectionView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
-            collectionView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor),
-            collectionView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor),
+            collectionView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 10),
+            collectionView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -10),
             collectionView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor)
         ])
     }
@@ -132,6 +180,18 @@ final class DailyBoxOfficeViewController: UIViewController {
     @objc private func refreshData() {
         receiveData()
     }
+    
+    private func updateCollectionViewLayout() {
+        if isListMode {
+            let layout = collectionView.collectionViewLayout as? UICollectionViewFlowLayout
+            layout?.minimumLineSpacing = 0
+            layout?.minimumInteritemSpacing = 0
+        } else {
+            let layout = collectionView.collectionViewLayout as? UICollectionViewFlowLayout
+            layout?.minimumLineSpacing = 10
+            layout?.minimumInteritemSpacing = 10
+        }
+    }
 }
 
 extension DailyBoxOfficeViewController: CalendarDelegate {
@@ -148,39 +208,61 @@ extension DailyBoxOfficeViewController: UICollectionViewDataSource, UICollection
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: DailyBoxOfficeCollectionViewCell.identifier, for: indexPath) as? DailyBoxOfficeCollectionViewCell else {
-            return UICollectionViewCell()
-        }
-        
-        guard let data = boxOfficeData,
-              let data = data.boxOfficeResult.dailyBoxOfficeList[index: indexPath.item] else {
+        if isListMode {
+            guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: DailyBoxOfficeCollectionViewListCell.identifier, for: indexPath) as? DailyBoxOfficeCollectionViewListCell else {
+                return UICollectionViewCell()
+            }
+            
+            guard let data = boxOfficeData,
+                  let data = data.boxOfficeResult.dailyBoxOfficeList[index: indexPath.item] else {
+                return cell
+            }
+            
+            cell.configureCell(data: data)
+            
+            return cell
+        } else {
+            guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: DailyBoxOfficeCollectionViewGridCell.identifier, for: indexPath) as? DailyBoxOfficeCollectionViewGridCell else {
+                return UICollectionViewCell()
+            }
+            
+            guard let data = boxOfficeData,
+                  let data = data.boxOfficeResult.dailyBoxOfficeList[index: indexPath.item] else {
+                return cell
+            }
+            
+            cell.configureCell(data: data)
+            
             return cell
         }
-        
-        cell.configureCell(data: data)
-        
-        return cell
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        let width: CGFloat = collectionView.frame.width
-        var height: CGFloat = collectionView.frame.height * 0.1
-        
-        guard let data = boxOfficeData,
-              let data = data.boxOfficeResult.dailyBoxOfficeList[index: indexPath.item] else {
+        if isListMode {
+            let width: CGFloat = collectionView.frame.width
+            var height: CGFloat = collectionView.frame.height * 0.1
+            
+            guard let data = boxOfficeData,
+                  let data = data.boxOfficeResult.dailyBoxOfficeList[index: indexPath.item] else {
+                return CGSize(width: width, height: height)
+            }
+            
+            let cell = DailyBoxOfficeCollectionViewListCell(frame: CGRect(x: 0, y: 0, width: width, height: height))
+            
+            cell.titleLabel.text = data.movieName
+            cell.layoutIfNeeded()
+            
+            let titleLabelSize = cell.titleLabel.intrinsicContentSize
+            
+            height += titleLabelSize.height
+            
+            return CGSize(width: width, height: height)
+        } else {
+            let width: CGFloat = collectionView.frame.width / 2.1
+            let height: CGFloat = width
+            
             return CGSize(width: width, height: height)
         }
-        
-        let cell = DailyBoxOfficeCollectionViewCell(frame: CGRect(x: 0, y: 0, width: width, height: height))
-        
-        cell.titleLabel.text = data.movieName
-        cell.layoutIfNeeded()
-        
-        let titleLabelSize = cell.titleLabel.intrinsicContentSize
-        
-        height += titleLabelSize.height
-        
-        return CGSize(width: width, height: height)
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {

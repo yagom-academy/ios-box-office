@@ -18,136 +18,175 @@ final class MovieInformationScrollView: UIScrollView {
     
     private let directorTitleLabel: UILabel = {
         let label: UILabel = UILabel()
+        label.adjustsFontForContentSizeCategory = true
         label.translatesAutoresizingMaskIntoConstraints = false
         label.text = "감독"
         label.textAlignment = .center
-        label.font = UIFont.boldSystemFont(ofSize: 16)
+        label.font = .preferredFont(forTextStyle: .headline)
+        label.numberOfLines = 0
         
         return label
     }()
     
     private let productionYearTitleLabel: UILabel = {
         let label: UILabel = UILabel()
+        label.adjustsFontForContentSizeCategory = true
         label.translatesAutoresizingMaskIntoConstraints = false
         label.text = "제작년도"
         label.textAlignment = .center
-        label.font = UIFont.boldSystemFont(ofSize: 16)
+        label.font = .preferredFont(forTextStyle: .headline)
+        label.numberOfLines = 0
         
         return label
     }()
     
     private let openDateTitleLabel: UILabel = {
         let label: UILabel = UILabel()
+        label.adjustsFontForContentSizeCategory = true
         label.translatesAutoresizingMaskIntoConstraints = false
         label.text = "개봉일"
         label.textAlignment = .center
-        label.font = UIFont.boldSystemFont(ofSize: 16)
+        label.font = .preferredFont(forTextStyle: .headline)
+        label.numberOfLines = 0
         
         return label
     }()
     
     private let showTimeTitleLabel: UILabel = {
         let label: UILabel = UILabel()
+        label.adjustsFontForContentSizeCategory = true
         label.translatesAutoresizingMaskIntoConstraints = false
         label.text = "상영시간"
         label.textAlignment = .center
-        label.font = UIFont.boldSystemFont(ofSize: 16)
+        label.font = .preferredFont(forTextStyle: .headline)
+        label.numberOfLines = 0
         
         return label
     }()
     
     private let watchGradeNameTitleLabel: UILabel = {
         let label: UILabel = UILabel()
+        label.adjustsFontForContentSizeCategory = true
         label.translatesAutoresizingMaskIntoConstraints = false
         label.text = "관람등급"
         label.textAlignment = .center
-        label.font = UIFont.boldSystemFont(ofSize: 16)
+        label.font = .preferredFont(forTextStyle: .headline)
+        label.numberOfLines = 0
         
         return label
     }()
     
     private let nationTitleLabel: UILabel = {
         let label: UILabel = UILabel()
+        label.adjustsFontForContentSizeCategory = true
         label.translatesAutoresizingMaskIntoConstraints = false
         label.text = "제작국가"
         label.textAlignment = .center
-        label.font = UIFont.boldSystemFont(ofSize: 16)
+        label.font = .preferredFont(forTextStyle: .headline)
+        label.numberOfLines = 0
         
         return label
     }()
     
     private let genreTitleLabel: UILabel = {
         let label: UILabel = UILabel()
+        label.adjustsFontForContentSizeCategory = true
         label.translatesAutoresizingMaskIntoConstraints = false
         label.text = "장르"
         label.textAlignment = .center
-        label.font = UIFont.boldSystemFont(ofSize: 16)
+        label.font = .preferredFont(forTextStyle: .headline)
+        label.numberOfLines = 0
         
         return label
     }()
     
     private let actorTitleLabel: UILabel = {
         let label: UILabel = UILabel()
+        label.adjustsFontForContentSizeCategory = true
         label.translatesAutoresizingMaskIntoConstraints = false
         label.text = "배우"
         label.textAlignment = .center
-        label.font = UIFont.boldSystemFont(ofSize: 16)
+        label.font = .preferredFont(forTextStyle: .headline)
+        label.numberOfLines = 0
         
         return label
     }()
     
     private let directorLabel: UILabel = {
         let label: UILabel = UILabel()
+        label.adjustsFontForContentSizeCategory = true
         label.translatesAutoresizingMaskIntoConstraints = false
+        label.font = .preferredFont(forTextStyle: .body)
+        label.numberOfLines = 0
         
         return label
     }()
     
     private let productionYearLabel: UILabel = {
         let label: UILabel = UILabel()
+        label.adjustsFontForContentSizeCategory = true
         label.translatesAutoresizingMaskIntoConstraints = false
+        label.font = .preferredFont(forTextStyle: .body)
+        label.numberOfLines = 0
         
         return label
     }()
     
     private let openDateLabel: UILabel = {
         let label: UILabel = UILabel()
+        label.adjustsFontForContentSizeCategory = true
         label.translatesAutoresizingMaskIntoConstraints = false
+        label.font = .preferredFont(forTextStyle: .body)
+        label.numberOfLines = 0
         
         return label
     }()
     
     private let showTimeLabel: UILabel = {
         let label: UILabel = UILabel()
+        label.adjustsFontForContentSizeCategory = true
         label.translatesAutoresizingMaskIntoConstraints = false
+        label.font = .preferredFont(forTextStyle: .body)
+        label.numberOfLines = 0
         
         return label
     }()
     
     private let watchGradeNameLabel: UILabel = {
         let label: UILabel = UILabel()
+        label.adjustsFontForContentSizeCategory = true
         label.translatesAutoresizingMaskIntoConstraints = false
+        label.font = .preferredFont(forTextStyle: .body)
+        label.numberOfLines = 0
         
         return label
     }()
     
     private let nationLabel: UILabel = {
         let label: UILabel = UILabel()
+        label.adjustsFontForContentSizeCategory = true
         label.translatesAutoresizingMaskIntoConstraints = false
+        label.font = .preferredFont(forTextStyle: .body)
+        label.numberOfLines = 0
         
         return label
     }()
     
     private let genreLabel: UILabel = {
         let label: UILabel = UILabel()
+        label.adjustsFontForContentSizeCategory = true
         label.translatesAutoresizingMaskIntoConstraints = false
+        label.font = .preferredFont(forTextStyle: .body)
+        label.numberOfLines = 0
         
         return label
     }()
     
     private let actorLabel: UILabel = {
         let label: UILabel = UILabel()
+        label.adjustsFontForContentSizeCategory = true
         label.translatesAutoresizingMaskIntoConstraints = false
+        label.font = .preferredFont(forTextStyle: .body)
         label.numberOfLines = 0
         
         return label

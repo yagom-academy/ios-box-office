@@ -16,4 +16,9 @@ extension CALayer {
         
         self.addSublayer(separator)
     }
+    
+    func addBorder(width: CGFloat, color: UIColor) {
+        self.borderWidth = width
+        self.borderColor = color.cgColor
+    }
 }

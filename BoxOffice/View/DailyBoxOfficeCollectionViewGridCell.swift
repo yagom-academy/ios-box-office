@@ -1,18 +1,24 @@
 //
-//  DailyBoxOfficeCollectionViewCell.swift
+//  DailyBoxOfficeCollectionViewGridCell.swift
 //  BoxOffice
 //
-//  Created by Idinaloq, MARY on 2023/08/03.
+//  Created by Idinaloq, MARY on 2023/08/16.
 //
 
 import UIKit
 
-final class DailyBoxOfficeCollectionViewCell: UICollectionViewListCell {
+final class DailyBoxOfficeCollectionViewGridCell: UICollectionViewCell {
+    static let identifier: String = String(describing: DailyBoxOfficeCollectionViewGridCell.self)
+    
     let titleLabel: UILabel = {
         let label: UILabel = UILabel()
         label.font = .preferredFont(forTextStyle: .title2)
+        label.adjustsFontForContentSizeCategory = true
         label.translatesAutoresizingMaskIntoConstraints = false
-        label.numberOfLines = 0
+        label.adjustsFontSizeToFitWidth = true
+        label.numberOfLines = 3
+        label.textAlignment = .center
+        label.setContentHuggingPriority(.init(200), for: .vertical)
         
         return label
     }()
@@ -20,7 +26,10 @@ final class DailyBoxOfficeCollectionViewCell: UICollectionViewListCell {
     private let visitorLabel: UILabel = {
         let label: UILabel = UILabel()
         label.font = .preferredFont(forTextStyle: .title3)
+        label.adjustsFontForContentSizeCategory = true
         label.translatesAutoresizingMaskIntoConstraints = false
+        label.adjustsFontSizeToFitWidth = true
+        label.textAlignment = .center
         
         return label
     }()
@@ -29,6 +38,7 @@ final class DailyBoxOfficeCollectionViewCell: UICollectionViewListCell {
         let label: UILabel = UILabel()
         label.font = .preferredFont(forTextStyle: .title1)
         label.textAlignment = .center
+        label.adjustsFontForContentSizeCategory = true
         label.translatesAutoresizingMaskIntoConstraints = false
         
         return label
@@ -36,35 +46,19 @@ final class DailyBoxOfficeCollectionViewCell: UICollectionViewListCell {
     
     private let rankChangeValueLabel: UILabel = {
         let label: UILabel = UILabel()
-        label.font = .preferredFont(forTextStyle: .title3)
+        label.font = .preferredFont(forTextStyle: .body)
         label.textAlignment = .center
+        label.adjustsFontForContentSizeCategory = true
         label.translatesAutoresizingMaskIntoConstraints = false
         
         return label
     }()
-    
-    private let rankStackView: UIStackView = {
-        let stackView: UIStackView = UIStackView()
-        stackView.axis = .vertical
-        stackView.translatesAutoresizingMaskIntoConstraints = false
-        stackView.distribution = .fillProportionally
-        
-        return stackView
-    }()
-    
-    private let movieStackView: UIStackView = {
-        let stackView: UIStackView = UIStackView()
-        stackView.axis = .vertical
-        stackView.translatesAutoresizingMaskIntoConstraints = false
-        stackView.distribution = .fillProportionally
-        
-        return stackView
-    }()
-    
+
     private let dailyBoxOfficeStackView: UIStackView = {
         let stackView: UIStackView = UIStackView()
-        stackView.axis = .horizontal
+        stackView.axis = .vertical
         stackView.translatesAutoresizingMaskIntoConstraints = false
+        stackView.spacing = 4
         
         return stackView
     }()
@@ -91,24 +85,17 @@ final class DailyBoxOfficeCollectionViewCell: UICollectionViewListCell {
     }
     
     private func configureUI() {
-        rankStackView.addArrangedSubview(rankLabel)
-        rankStackView.addArrangedSubview(rankChangeValueLabel)
-        
-        movieStackView.addArrangedSubview(titleLabel)
-        movieStackView.addArrangedSubview(visitorLabel)
-        
-        dailyBoxOfficeStackView.addArrangedSubview(rankStackView)
-        dailyBoxOfficeStackView.addArrangedSubview(movieStackView)
+        dailyBoxOfficeStackView.addArrangedSubview(rankLabel)
+        dailyBoxOfficeStackView.addArrangedSubview(titleLabel)
+        dailyBoxOfficeStackView.addArrangedSubview(rankChangeValueLabel)
+        dailyBoxOfficeStackView.addArrangedSubview(visitorLabel)
         
         contentView.addSubview(dailyBoxOfficeStackView)
-        self.layer.addSeparator(x: 0, y: 0, width: frame.width, height: 0.5)
-        self.accessories = [.disclosureIndicator()]
+        self.layer.addBorder(width: 1, color: .black)
     }
     
     private func setUpAutolayout() {
         NSLayoutConstraint.activate([
-            rankStackView.widthAnchor.constraint(equalTo: dailyBoxOfficeStackView.widthAnchor, multiplier: 0.2),
-            
             dailyBoxOfficeStackView.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 8),
             dailyBoxOfficeStackView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 8),
             dailyBoxOfficeStackView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -8),
