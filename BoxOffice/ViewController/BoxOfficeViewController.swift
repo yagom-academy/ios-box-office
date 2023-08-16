@@ -21,6 +21,23 @@ final class BoxOfficeViewController: UIViewController {
         return ViewMode(rawValue: UserDefaults.standard.viewMode) ?? ViewMode.list
     }
     
+    private lazy var listCellRegistration = UICollectionView.CellRegistration<BoxOfficeListCell, DailyBoxOffice> { (cell, indexPath, dailyBoxOffice) in
+        cell.rankLabel.text = dailyBoxOffice.rank
+        cell.rankInformationLabel.attributedText = self.changeRankInformation(in: dailyBoxOffice)
+        cell.movieNameLabel.text = dailyBoxOffice.movieName
+        cell.audienceCountLabel.text = self.makeDetailLabelText(in: dailyBoxOffice)
+        cell.accessories = [.disclosureIndicator()]
+    }
+    
+    private lazy var iconCellRegistration = UICollectionView.CellRegistration<BoxOfficeColumnCell, DailyBoxOffice> { (cell, indexPath, dailyBoxOffice) in
+        cell.rankLabel.text = dailyBoxOffice.rank
+        cell.movieNameLabel.text = dailyBoxOffice.movieName
+        cell.rankInformationLabel.attributedText = self.changeRankInformation(in: dailyBoxOffice)
+        cell.audienceCountLabel.text = self.makeDetailLabelText(in: dailyBoxOffice)
+        cell.layer.borderColor = UIColor.black.cgColor
+        cell.layer.borderWidth = 1
+    }
+    
     init(boxOfficeService: BoxOfficeService) {
         self.boxOfficeService = boxOfficeService
         super.init(nibName: nil, bundle: nil)
@@ -143,39 +160,29 @@ extension BoxOfficeViewController {
         
         view.addSubview(collectionView ?? UICollectionView())
     }
-    
+}
+
+// MARK: - Handling Data
+extension BoxOfficeViewController {
     private func configureDataSource() {
-        let listCellRegistration = UICollectionView.CellRegistration<BoxOfficeListCell, DailyBoxOffice> { (cell, indexPath, dailyBoxOffice) in
-            cell.rankLabel.text = dailyBoxOffice.rank
-            cell.rankInformationLabel.attributedText = self.changeRankInformation(in: dailyBoxOffice)
-            cell.movieNameLabel.text = dailyBoxOffice.movieName
-            cell.audienceCountLabel.text = self.makeDetailLabelText(in: dailyBoxOffice)
-            cell.accessories = [.disclosureIndicator()]
-        }
-        
-        let iconCellRegistration = UICollectionView.CellRegistration<BoxOfficeColumnCell, DailyBoxOffice> { (cell, indexPath, dailyBoxOffice) in
-            cell.rankLabel.text = dailyBoxOffice.rank
-            cell.movieNameLabel.text = dailyBoxOffice.movieName
-            cell.rankInformationLabel.attributedText = self.changeRankInformation(in: dailyBoxOffice)
-            cell.audienceCountLabel.text = self.makeDetailLabelText(in: dailyBoxOffice)
-            cell.layer.borderColor = UIColor.black.cgColor
-            cell.layer.borderWidth = 1
-        }
-        
         guard let collectionView else { return }
+        
+        let listCell = listCellRegistration
+        let iconCell = iconCellRegistration
+        
         dataSource = UICollectionViewDiffableDataSource<Section, DailyBoxOffice>(collectionView: collectionView) { collectionView, indexPath, itemIdentifier in
             switch self.viewMode {
             case .list:
-                return collectionView.dequeueConfiguredReusableCell(using: listCellRegistration, for: indexPath, item: itemIdentifier)
+                return collectionView.dequeueConfiguredReusableCell(using: listCell, for: indexPath, item: itemIdentifier)
             case .icon:
-                return collectionView.dequeueConfiguredReusableCell(using: iconCellRegistration, for: indexPath, item: itemIdentifier)
+                return collectionView.dequeueConfiguredReusableCell(using: iconCell, for: indexPath, item: itemIdentifier)
             }
         }
         
-        dataSource?.apply(setupSnapshot(), animatingDifferences: false)
+        dataSource?.apply(setupSnapshot(), animatingDifferences: true)
     }
     
-    func setupSnapshot() -> NSDiffableDataSourceSnapshot<Section, DailyBoxOffice> {
+    private func setupSnapshot() -> NSDiffableDataSourceSnapshot<Section, DailyBoxOffice> {
         var snapshot = NSDiffableDataSourceSnapshot<Section, DailyBoxOffice>()
         snapshot.appendSections([.dailyBoxOffice])
         snapshot.appendItems(boxOffice?.boxOfficeResult.dailyBoxOfficeList ?? [], toSection: .dailyBoxOffice)
@@ -183,10 +190,18 @@ extension BoxOfficeViewController {
         return snapshot
     }
     
-    func reloadData() {
+    private func reloadSnapshot() {
         guard var updatedSnapshot = dataSource?.snapshot() else { return }
         updatedSnapshot.reloadSections([.dailyBoxOffice])
         self.dataSource?.apply(updatedSnapshot, animatingDifferences: true)
+    }
+    
+    private func refreshData() -> UIAction {
+        let action = UIAction { _ in
+            self.loadDailyBoxOfficeData()
+        }
+        
+        return action
     }
 }
 
@@ -230,26 +245,18 @@ extension BoxOfficeViewController {
                 sheet.addAction(UIAlertAction(title: ViewMode.icon.description, style: .default, handler: { _ in
                     UserDefaults.standard.viewMode = ViewMode.icon.rawValue
                     self.collectionView?.collectionViewLayout = self.createIconLayout()
-                    self.reloadData()
+                    self.reloadSnapshot()
                 }))
             case .icon:
                 sheet.addAction(UIAlertAction(title: ViewMode.list.description, style: .default, handler: { _ in
                     UserDefaults.standard.viewMode = ViewMode.list.rawValue
                     self.collectionView?.collectionViewLayout = self.createListLayout()
-                    self.reloadData()
+                    self.reloadSnapshot()
                 }))
             }
             
             sheet.addAction(UIAlertAction(title: "취소", style: .cancel))
             self.present(sheet, animated: true)
-        }
-        
-        return action
-    }
-    
-    private func refreshData() -> UIAction {
-        let action = UIAction { _ in
-            self.loadDailyBoxOfficeData()
         }
         
         return action
