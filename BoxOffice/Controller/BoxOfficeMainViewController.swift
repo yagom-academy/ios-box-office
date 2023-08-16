@@ -97,8 +97,12 @@ final class BoxOfficeMainViewController: UIViewController {
             switch self?.selectedLayout {
             case .list:
                 self?.selectedLayout = .icon
+                self?.boxOfficeMainView.configureCollectionViewIconLayout()
+                self?.boxOfficeMainView.collectionViewReloadData()
             case .icon:
                 self?.selectedLayout = .list
+                self?.boxOfficeMainView.configureCollectionViewListLayout()
+                self?.boxOfficeMainView.collectionViewReloadData()
             case .none:
                 return
             }
@@ -129,15 +133,29 @@ extension BoxOfficeMainViewController {
 // MARK: - CollectionViewDataSource
 extension BoxOfficeMainViewController: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: BoxOfficeCollectionViewCell.identifier, for: indexPath) as? BoxOfficeCollectionViewCell else { return UICollectionViewCell() }
         
-        guard let boxOfficeItem = boxOfficeItems[safe: indexPath.row] else {
-            return UICollectionViewCell()
+        switch selectedLayout {
+        case .list:
+            guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: BoxOfficeCollectionViewListCell.identifier, for: indexPath) as? BoxOfficeCollectionViewListCell else { return UICollectionViewCell() }
+            
+            guard let boxOfficeItem = boxOfficeItems[safe: indexPath.row] else {
+                return UICollectionViewCell()
+            }
+            
+            cell.configureCell(boxOfficeItem: boxOfficeItem)
+            
+            return cell
+        case .icon:
+            guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: BoxOfficeCollectionViewIconCell.identifier, for: indexPath) as? BoxOfficeCollectionViewIconCell else { return UICollectionViewCell() }
+            
+            guard let boxOfficeItem = boxOfficeItems[safe: indexPath.row] else {
+                return UICollectionViewCell()
+            }
+            
+            cell.configureCell(boxOfficeItem: boxOfficeItem)
+            
+            return cell
         }
-        
-        cell.configureCell(boxOfficeItem: boxOfficeItem)
-        
-        return cell
     }
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {

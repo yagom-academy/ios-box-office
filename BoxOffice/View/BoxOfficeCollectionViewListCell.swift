@@ -7,7 +7,7 @@
 
 import UIKit
 
-final class BoxOfficeCollectionViewCell: UICollectionViewListCell {
+final class BoxOfficeCollectionViewListCell: UICollectionViewListCell {
     private let rankLabel: UILabel = {
         let label = UILabel()
         label.font = UIFont.preferredFont(for: .largeTitle, weight: .semibold)
@@ -66,7 +66,7 @@ final class BoxOfficeCollectionViewCell: UICollectionViewListCell {
 }
 
 // MARK: - Add Subviews
-extension BoxOfficeCollectionViewCell {
+extension BoxOfficeCollectionViewListCell {
     private func addSubviews() {
         [rankLabel, rankVariationLabel, movieNameLabel, audienceNumberLabel].forEach {
             addSubview($0)
@@ -77,7 +77,7 @@ extension BoxOfficeCollectionViewCell {
 }
 
 // MARK: - Constraints
-extension BoxOfficeCollectionViewCell {
+extension BoxOfficeCollectionViewListCell {
     private func setUpConstraints() {
         rankLabelConstraints()
         rankVariationLabelConstraints()
@@ -126,55 +126,5 @@ extension BoxOfficeCollectionViewCell {
             audienceNumberLabel.topAnchor.constraint(equalTo: movieNameLabel.bottomAnchor, constant: 4),
             audienceNumberLabel.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -8)
         ])
-    }
-}
-
-// MARK: - RankChangeState
-extension BoxOfficeCollectionViewCell {
-    enum RankChangeState {
-        case new
-        case noChange
-        case rising
-        case falling
-        
-        init?(_ amountOfRankChange: String, _ rankOldAndNew: String) {
-            if amountOfRankChange == "0" && rankOldAndNew == "NEW" {
-                self = .new
-            } else if amountOfRankChange == "0" && rankOldAndNew == "OLD" {
-                self = .noChange
-            } else if amountOfRankChange > "0" {
-                self = .rising
-            } else if amountOfRankChange < "0" {
-                self = .falling
-            } else {
-                return nil
-            }
-        }
-        
-        func getAmountOfRankChangeString(origin: String) -> NSMutableAttributedString {
-            switch self {
-            case .new:
-                let text = "신작"
-                let attribute: [NSAttributedString.Key: Any] = [.foregroundColor: UIColor.red]
-                
-                return NSMutableAttributedString(string: text, attributes: attribute)
-            case .noChange:
-                return NSMutableAttributedString(string: "-")
-            case .rising:
-                let text = "▲" + origin
-                let string = NSMutableAttributedString(string: text)
-                
-                string.addAttributes([.foregroundColor: UIColor.red], range: NSRange(location: 0, length: 1))
-                
-                return string
-            case .falling:
-                let text = "▼" + origin.dropFirst()
-                let string = NSMutableAttributedString(string: text)
-                
-                string.addAttributes([.foregroundColor: UIColor.blue], range: NSRange(location: 0, length: 1))
-                
-                return string
-            }
-        }
     }
 }

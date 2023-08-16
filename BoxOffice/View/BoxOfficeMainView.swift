@@ -10,8 +10,6 @@ import UIKit
 final class BoxOfficeMainView: UIView {
     let boxOfficeCollectionView: UICollectionView = {
         let collectionView = UICollectionView(frame: .zero, collectionViewLayout: UICollectionViewLayout())
-        collectionView.register(cellClass: BoxOfficeCollectionViewCell.self)
-        
         return collectionView
     }()
     
@@ -36,12 +34,34 @@ final class BoxOfficeMainView: UIView {
         boxOfficeCollectionView.reloadData()
     }
     
-    private func configureCollectionViewListLayout() {
+    func configureCollectionViewListLayout() {
+        boxOfficeCollectionView.register(cellClass: BoxOfficeCollectionViewListCell.self)
         let configuration = UICollectionLayoutListConfiguration(appearance: .plain)
         let layout = UICollectionViewCompositionalLayout.list(using: configuration)
         
         boxOfficeCollectionView.collectionViewLayout = layout
     }
+    
+    func configureCollectionViewIconLayout() {
+        boxOfficeCollectionView.register(cellClass: BoxOfficeCollectionViewIconCell.self)
+        let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(0.5),
+                                              heightDimension: .fractionalHeight(1.0))
+        
+        let item = NSCollectionLayoutItem(layoutSize: itemSize)
+        item.contentInsets = NSDirectionalEdgeInsets(top: 8, leading: 12, bottom: 8, trailing: 12)
+        
+        let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0),
+                                               heightDimension: .estimated(200))
+        let group = NSCollectionLayoutGroup.horizontal(layoutSize: groupSize,
+                                                         subitems: [item])
+        
+        let section = NSCollectionLayoutSection(group: group)
+
+        let layout = UICollectionViewCompositionalLayout(section: section)
+        
+        boxOfficeCollectionView.collectionViewLayout = layout
+    }
+    
 }
 
 // MARK: - Constraints
@@ -80,5 +100,3 @@ extension BoxOfficeMainView {
         ])
     }
 }
-
-
