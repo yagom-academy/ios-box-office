@@ -8,11 +8,9 @@
 import Foundation
 
 struct NetworkManager {
-    func fetchData(url: URL, completion: @escaping (Result<Data, NetworkError>) -> Void) {
-        let request = URLRequest(url: url)
-        
+    func fetchData(request: URLRequest, completion: @escaping (Result<Data, NetworkError>) -> Void) {
         let task = URLSession.shared.dataTask(with: request) { data, response, error in
-            if let error = error {
+            if error != nil {
                 completion(.failure(.dataTaskFail))
                 return
             }
