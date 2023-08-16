@@ -1,5 +1,5 @@
 //
-//  BoxOfficeColumnCell.swift
+//  BoxOfficeIconCell.swift
 //  BoxOffice
 //
 //  Created by Serena, BMO on 2023/08/15.
@@ -7,8 +7,8 @@
 
 import UIKit
 
-final class BoxOfficeColumnCell: UICollectionViewListCell {
-    static let identifier = "boxOfficeColumnCell"
+final class BoxOfficeIconCell: UICollectionViewListCell {
+    static let identifier = "boxOfficeIconCell"
     
     // MARK: - InformationStackView
     private let contentStackView: UIStackView = {
@@ -36,7 +36,7 @@ final class BoxOfficeColumnCell: UICollectionViewListCell {
     
     override init(frame: CGRect) {
         super.init(frame: frame)
-        configureColumnCell()
+        configureIconCell()
     }
     
     required init?(coder: NSCoder) {
@@ -45,8 +45,8 @@ final class BoxOfficeColumnCell: UICollectionViewListCell {
 }
 
 // MARK: - Constraints
-extension BoxOfficeColumnCell {
-    private func configureColumnCell() {
+extension BoxOfficeIconCell {
+    private func configureIconCell() {
         configureUI()
         setupConstraints()
     }

@@ -24,7 +24,7 @@
 		CB30DA0D2A8480B7002DE804 /* CalendarViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB30DA0C2A8480B7002DE804 /* CalendarViewController.swift */; };
 		CB30DA0F2A850C1B002DE804 /* CalendarViewControllerDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB30DA0E2A850C1B002DE804 /* CalendarViewControllerDelegate.swift */; };
 		CB30DA112A8517C6002DE804 /* DateManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB30DA102A8517C6002DE804 /* DateManager.swift */; };
-		CB30DA842A8B0976002DE804 /* BoxOfficeColumnCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB30DA832A8B0976002DE804 /* BoxOfficeColumnCell.swift */; };
+		CB30DA842A8B0976002DE804 /* BoxOfficeIconCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB30DA832A8B0976002DE804 /* BoxOfficeIconCell.swift */; };
 		CB30DA862A8C925F002DE804 /* ViewMode.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB30DA852A8C925F002DE804 /* ViewMode.swift */; };
 		CB30DA882A8C9294002DE804 /* UserDefaults+.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB30DA872A8C9294002DE804 /* UserDefaults+.swift */; };
 		CB31F7C62A738376001E9B21 /* CustomDateFormatStyle.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB31F7C52A738376001E9B21 /* CustomDateFormatStyle.swift */; };
@@ -91,7 +91,7 @@
 		CB30DA0C2A8480B7002DE804 /* CalendarViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarViewController.swift; sourceTree = "<group>"; };
 		CB30DA0E2A850C1B002DE804 /* CalendarViewControllerDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarViewControllerDelegate.swift; sourceTree = "<group>"; };
 		CB30DA102A8517C6002DE804 /* DateManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateManager.swift; sourceTree = "<group>"; };
-		CB30DA832A8B0976002DE804 /* BoxOfficeColumnCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BoxOfficeColumnCell.swift; sourceTree = "<group>"; };
+		CB30DA832A8B0976002DE804 /* BoxOfficeIconCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BoxOfficeIconCell.swift; sourceTree = "<group>"; };
 		CB30DA852A8C925F002DE804 /* ViewMode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewMode.swift; sourceTree = "<group>"; };
 		CB30DA872A8C9294002DE804 /* UserDefaults+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UserDefaults+.swift"; sourceTree = "<group>"; };
 		CB31F7C52A738376001E9B21 /* CustomDateFormatStyle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomDateFormatStyle.swift; sourceTree = "<group>"; };
@@ -286,7 +286,7 @@
 			children = (
 				D20B9F592A8356810035DEC4 /* Custom */,
 				D22F99672A79ECEE002EAE5E /* BoxOfficeListCell.swift */,
-				CB30DA832A8B0976002DE804 /* BoxOfficeColumnCell.swift */,
+				CB30DA832A8B0976002DE804 /* BoxOfficeIconCell.swift */,
 				D2D027CF2A7F293A00456444 /* MovieDetailView.swift */,
 			);
 			path = View;
@@ -468,7 +468,7 @@
 				D2E159472A6EA6EC00052F8B /* DailyBoxOffice.swift in Sources */,
 				D20B9F5B2A8356A20035DEC4 /* TitleLabel.swift in Sources */,
 				CB289C022A7F319F007EBADA /* DaumSearchMainText.swift in Sources */,
-				CB30DA842A8B0976002DE804 /* BoxOfficeColumnCell.swift in Sources */,
+				CB30DA842A8B0976002DE804 /* BoxOfficeIconCell.swift in Sources */,
 				CBEF1EE12A6F8909005459DD /* BoxOffice.swift in Sources */,
 				CB289C0D2A81C897007EBADA /* Bundle+.swift in Sources */,
 				D20B9F4E2A820C800035DEC4 /* AlertManager.swift in Sources */,

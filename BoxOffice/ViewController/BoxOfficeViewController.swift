@@ -29,7 +29,7 @@ final class BoxOfficeViewController: UIViewController {
         cell.accessories = [.disclosureIndicator()]
     }
     
-    private lazy var iconCellRegistration = UICollectionView.CellRegistration<BoxOfficeColumnCell, DailyBoxOffice> { (cell, indexPath, dailyBoxOffice) in
+    private lazy var iconCellRegistration = UICollectionView.CellRegistration<BoxOfficeIconCell, DailyBoxOffice> { (cell, indexPath, dailyBoxOffice) in
         cell.rankLabel.text = dailyBoxOffice.rank
         cell.movieNameLabel.text = dailyBoxOffice.movieName
         cell.rankInformationLabel.attributedText = self.changeRankInformation(in: dailyBoxOffice)
