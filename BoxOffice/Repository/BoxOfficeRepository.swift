@@ -7,7 +7,7 @@
 
 import Foundation
 
-protocol BoxOfficeRepository: CanMakeURLRequest {
+protocol BoxOfficeRepository {
     func fetchDailyBoxOffice(_ targetDate: String, _ completionHandler: @escaping (Result<BoxOfficeResult, APIError>) -> Void)
     func fetchMovieDetailInformation(_ movieCode: String, _ completionHandler: @escaping (Result<MovieDetailResult, APIError>) -> Void)
 }

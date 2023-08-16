@@ -7,7 +7,7 @@
 
 import Foundation
 
-protocol DaumSearchRepository: CanMakeURLRequest {
+protocol DaumSearchRepository {
     func fetchDaumImageSearchInformation(_ movieName: String, _ completionHandler: @escaping (Result<DaumSearchImageResult, APIError>) -> Void)
     func fetchImageDataFromURL(_ imageURL: String, _ completionHandler: @escaping (Result<Data, APIError>) -> Void)
 }

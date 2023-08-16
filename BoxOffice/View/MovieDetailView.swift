@@ -7,7 +7,6 @@
 
 import UIKit
 
-
 final class MovieDetailView: UIView {
     private let loadingView: UIView = {
         let view = UIView()
