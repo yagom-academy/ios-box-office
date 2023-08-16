@@ -12,8 +12,7 @@ final class BoxOfficeViewController: UIViewController, URLSessionDelegate {
     private var refreshControl = UIRefreshControl()
     private var dataSource: UICollectionViewDiffableDataSource<NetworkConfiguration, BoxOfficeEntity.BoxOfficeResult.DailyBoxOffice>?
     private var date: Date = Calendar.current.date(byAdding: .day, value: -1, to: Date()) ?? Date()
-    private var isListMode = true
-    
+
     private let collectionView: UICollectionView = {
         let configuration = UICollectionLayoutListConfiguration(appearance: .plain)
         let layout = UICollectionViewCompositionalLayout.list(using: configuration)
@@ -44,6 +43,14 @@ final class BoxOfficeViewController: UIViewController, URLSessionDelegate {
             }
         }
     }
+    
+    private var isListMode = true {
+        didSet {
+            setUpCollectionViewLayout()
+            setUpDataSource()
+            passFetchedData()
+        }
+    }
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -63,7 +70,6 @@ extension BoxOfficeViewController {
         let modeChangeButton = UIBarButtonItem(title: "화면 모드 변경", style: .plain, target: self, action: #selector(hitChangeModeButton))
         let flexibleSpace = UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: self, action: nil)
         
-        
         view.backgroundColor = .systemBackground
         view.addSubview(collectionView)
         view.addSubview(indicatorView)
@@ -82,6 +88,25 @@ extension BoxOfficeViewController {
             indicatorView.centerXAnchor.constraint(equalTo: safeArea.centerXAnchor),
             indicatorView.centerYAnchor.constraint(equalTo: safeArea.centerYAnchor)
         ])
+    }
+    
+    private func setUpCollectionViewLayout() {
+        if isListMode {
+            let configuration = UICollectionLayoutListConfiguration(appearance: .plain)
+            let layout = UICollectionViewCompositionalLayout.list(using: configuration)
+            
+            collectionView.collectionViewLayout = layout
+        } else {
+            let layout = UICollectionViewFlowLayout()
+            let width = (view.frame.width - 45) / 2.0
+            
+            layout.sectionInset = UIEdgeInsets(top: 15, left: 15, bottom: 15, right: 15)
+            layout.minimumLineSpacing = 10
+            layout.minimumInteritemSpacing = 15
+            layout.itemSize = CGSize(width: width, height: width)
+            
+            collectionView.collectionViewLayout = layout
+        }
     }
     
     @objc func showCalendar(_ sender: UIButton) {
@@ -124,15 +149,28 @@ extension BoxOfficeViewController {
     }
     
     private func setUpDataSource() {
-        dataSource = UICollectionViewDiffableDataSource<NetworkConfiguration, BoxOfficeEntity.BoxOfficeResult.DailyBoxOffice>(collectionView: self.collectionView) { (collectionView, indexPath, data) -> UICollectionViewCell? in
-            guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: BoxOfficeRankingListCell.cellIdentifier, for: indexPath) as? BoxOfficeRankingListCell else {
-                return UICollectionViewCell()
+        if isListMode {
+            dataSource = UICollectionViewDiffableDataSource<NetworkConfiguration, BoxOfficeEntity.BoxOfficeResult.DailyBoxOffice>(collectionView: self.collectionView) { (collectionView, indexPath, data) -> UICollectionViewCell? in
+                guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: BoxOfficeRankingListCell.cellIdentifier, for: indexPath) as? BoxOfficeRankingListCell else {
+                    return UICollectionViewCell()
+                }
+                
+                cell.setUpLabelText(data)
+                
+                return cell
             }
+        } else {
+            dataSource = UICollectionViewDiffableDataSource<NetworkConfiguration, BoxOfficeEntity.BoxOfficeResult.DailyBoxOffice>(collectionView: self.collectionView) { (collectionView, indexPath, data) -> UICollectionViewCell? in
+                guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: BoxOfficeRankingIconCell.cellIdentifier, for: indexPath) as? BoxOfficeRankingIconCell else {
+                    return UICollectionViewCell()
+                }
 
-            cell.setUpLabelText(data)
+                cell.setUpLabelText(data)
 
-            return cell
+                return cell
+            }
         }
+            
     }
     
     private func setUpDataSnapshot(_ data: [BoxOfficeEntity.BoxOfficeResult.DailyBoxOffice]) {
