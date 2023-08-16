@@ -50,6 +50,7 @@ final class MainViewController: UIViewController, CanShowNetworkRequestFailureAl
     private lazy var collectionView: UICollectionView = {
         let collectionView = UICollectionView(frame: .zero, collectionViewLayout: compositionalLayout)
         
+        collectionView.delegate = self
         collectionView.refreshControl = refreshControl
         collectionView.translatesAutoresizingMaskIntoConstraints = false
         return collectionView
@@ -140,5 +141,27 @@ extension MainViewController: MainViewControllerUseCaseDelegate {
             self.stopRefreshing()
             self.showNetworkFailAlert(message: errorDescription, retryFunction: self.setUpViewControllerContents)
         }
+    }
+}
+
+// MARK: - CollectionView Delegate
+extension MainViewController: UICollectionViewDelegate {
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        let movieInformation = diffableDataSource?.snapshot().itemIdentifiers[indexPath.item]
+        let movieCode = movieInformation?.movieCode ?? ""
+        let movieName = movieInformation?.movieName ?? ""
+        
+        let sessionProvider: URLSessionProvider = URLSessionProviderImplementation()
+        let daumSearchRepository: DaumSearchRepository = DaumSearchRepositoryImplementation(sessionProvider: sessionProvider)
+        let boxOfficeRepository: BoxOfficeRepository = BoxOfficeRepositoryImplementation(sessionProvider: sessionProvider)
+        let usecase = MovieDetailViewControllerUseCaseImplementation(boxOfficeRepository: boxOfficeRepository,
+                                                                     daumSearchRepository: daumSearchRepository,
+                                                                     movieName: movieName,
+                                                                     movieCode: movieCode)
+        let movieDetailViewController = MovieDetailViewController(usecase: usecase)
+        
+        usecase.delegate = movieDetailViewController
+        navigationController?.pushViewController(movieDetailViewController, animated: true)
+        collectionView.deselectItem(at: indexPath, animated: true)
     }
 }

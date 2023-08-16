@@ -2,7 +2,7 @@
 //  MainCollectionViewCell.swift
 //  BoxOffice
 //
-//  Created by 1 on 2023/08/03.
+//  Created by Zion, Hemg on 2023/08/03.
 //
 
 import UIKit

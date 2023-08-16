@@ -21,6 +21,8 @@ extension CanShowNetworkRequestFailureAlert {
         
         alert.addAction(retryAction)
         alert.addAction(confirmAction)
-        present(alert, animated: false)
+        DispatchQueue.main.async {
+            self.present(alert, animated: false)
+        }
     }
 }

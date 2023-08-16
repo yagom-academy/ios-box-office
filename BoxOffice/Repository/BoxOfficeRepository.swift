@@ -2,7 +2,7 @@
 //  BoxOfficeRepository.swift
 //  BoxOffice
 //
-//  Created by Hyungmin Lee on 2023/08/01.
+//  Created by Zion, Hemg on 2023/08/01.
 //
 
 import Foundation
@@ -22,14 +22,9 @@ final class BoxOfficeRepositoryImplementation: BoxOfficeRepository {
     }
     
     func fetchDailyBoxOffice(_ targetDate: String, _ completionHandler: @escaping (Result<BoxOfficeResult, APIError>) -> Void) {
-        let queryItems: [String: Any] = [
-            "key": APIKey.boxOffice,
-            "targetDt": targetDate
-        ]
+        let dailyBoxOffice = BoxOfficeEndPoint(.daily(targetDate: targetDate))
         
-        let requestURL = setUpRequestURL(BaseURL.boxOffice, BoxOfficeURLPath.daily, queryItems)
-        
-        sessionProvider.requestData(requestURL) { result in
+        sessionProvider.requestData(url: dailyBoxOffice.url, header: nil) { result in
             switch result {
             case .success(let data):
                 self.decoder.decodeResponseData(data, completionHandler)
@@ -40,14 +35,9 @@ final class BoxOfficeRepositoryImplementation: BoxOfficeRepository {
     }
     
     func fetchMovieDetailInformation(_ movieCode: String, _ completionHandler: @escaping (Result<MovieDetailResult, APIError>) -> Void) {
-        let queryItems: [String: Any] = [
-            "key": APIKey.boxOffice,
-            "movieCd": movieCode
-        ]
+        let movieDetailInformation = BoxOfficeEndPoint(.movieDetail(movieCode: movieCode))
         
-        let requestURL = setUpRequestURL(BaseURL.boxOffice, BoxOfficeURLPath.movieDetail, queryItems)
-        
-        sessionProvider.requestData(requestURL) { result in
+        sessionProvider.requestData(url: movieDetailInformation.url, header: nil) { result in
             switch result {
             case .success(let data):
                 self.decoder.decodeResponseData(data, completionHandler)
@@ -55,17 +45,5 @@ final class BoxOfficeRepositoryImplementation: BoxOfficeRepository {
                 completionHandler(.failure(error))
             }
         }
-    }
-}
-
-//MARK: - Private
-extension BoxOfficeRepositoryImplementation {
-    private func setUpRequestURL(_ baseURL: String,_ path: String, _ queryItems: [String: Any]) -> URL? {
-        guard var urlComponents = URLComponents(string: baseURL) else { return nil }
-        
-        urlComponents.path += path
-        urlComponents.queryItems = queryItems.map { URLQueryItem(name: $0.key, value: "\($0.value)") }
-        
-        return urlComponents.url
     }
 }
