@@ -147,7 +147,7 @@ extension MainViewController: MainViewControllerUseCaseDelegate {
 // MARK: - CollectionView Delegate
 extension MainViewController: UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        let movieInformation = diffableDataSource?.snapshot().itemIdentifiers[indexPath.row]
+        let movieInformation = diffableDataSource?.snapshot().itemIdentifiers[indexPath.item]
         let movieCode = movieInformation?.movieCode ?? ""
         let movieName = movieInformation?.movieName ?? ""
         
