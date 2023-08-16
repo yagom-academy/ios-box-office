@@ -30,6 +30,7 @@ final class DailyBoxOfficeCollectionViewGridCell: UICollectionViewCell {
         label.translatesAutoresizingMaskIntoConstraints = false
         label.adjustsFontSizeToFitWidth = true
         label.textAlignment = .center
+        label.setContentCompressionResistancePriority(.init(100), for: .vertical)
         
         return label
     }()
@@ -50,10 +51,11 @@ final class DailyBoxOfficeCollectionViewGridCell: UICollectionViewCell {
         label.textAlignment = .center
         label.adjustsFontForContentSizeCategory = true
         label.translatesAutoresizingMaskIntoConstraints = false
+        label.setContentCompressionResistancePriority(.init(99), for: .vertical)
         
         return label
     }()
-
+    
     private let dailyBoxOfficeStackView: UIStackView = {
         let stackView: UIStackView = UIStackView()
         stackView.axis = .vertical
@@ -99,7 +101,7 @@ final class DailyBoxOfficeCollectionViewGridCell: UICollectionViewCell {
             dailyBoxOfficeStackView.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 8),
             dailyBoxOfficeStackView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 8),
             dailyBoxOfficeStackView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -8),
-            dailyBoxOfficeStackView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -8),
+            dailyBoxOfficeStackView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -8)
         ])
     }
     

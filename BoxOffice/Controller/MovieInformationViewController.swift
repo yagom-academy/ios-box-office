@@ -15,6 +15,7 @@ final class MovieInformationViewController: UIViewController {
     private var detailInformationData: DetailInformation?
     private var imageSearch: ImageSearch?
     private let loadingView: LoadingView = LoadingView()
+    
     private var completionCount: Int = 0 {
         didSet {
             if completionCount == 2 {

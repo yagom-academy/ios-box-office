@@ -41,7 +41,6 @@ final class CalendarViewController: UIViewController {
     
     private func setCalendar() {
         let dateSelection = UICalendarSelectionSingleDate(delegate: self)
-        
         dateSelection.selectedDate = Calendar.current.dateComponents([.year, .month, .day], from: date)
         calendarView.selectionBehavior = dateSelection
     }

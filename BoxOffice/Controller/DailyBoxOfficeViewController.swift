@@ -13,6 +13,7 @@ final class DailyBoxOfficeViewController: UIViewController {
     private var boxOfficeData: BoxOffice?
     private let loadingView: LoadingView = LoadingView()
     private var targetDate: Date = DateManager.fetchPastDate(dayAgo: 1)
+    
     private var isListMode: Bool = true {
         didSet {
             updateCollectionViewLayout()
@@ -68,6 +69,13 @@ final class DailyBoxOfficeViewController: UIViewController {
         setNavigationTitle()
     }
     
+    @objc private func presentCalendarView() {
+        let calendarViewController = CalendarViewController(date: targetDate)
+        calendarViewController.delegate = self
+        
+        present(calendarViewController, animated: true)
+    }
+    
     @objc private func presentActionSheet() {
         let actionSheet: UIAlertController = UIAlertController(title: "화면 모드 변경", message: nil, preferredStyle: .actionSheet)
         let alertActionList: UIAlertAction = UIAlertAction(title: "리스트", style: .default) { _ in
@@ -88,18 +96,12 @@ final class DailyBoxOfficeViewController: UIViewController {
         present(actionSheet, animated: true)
     }
     
-    private func changeScreenMode() {
-        isListMode = !isListMode
-    }
-    
     private func setNavigationTitle() {
         navigationItem.title = DateManager.changeDateFormat(date: targetDate, format: "yyyy-MM-dd")
     }
     
-    @objc private func presentCalendarView() {
-        let calendarViewController = CalendarViewController(date: targetDate)
-        calendarViewController.delegate = self
-        present(calendarViewController, animated: true)
+    private func changeScreenMode() {
+        isListMode = !isListMode
     }
     
     private func setupCollectionView() {
@@ -148,7 +150,7 @@ final class DailyBoxOfficeViewController: UIViewController {
     
     private func receiveURLRequest() -> URLRequest? {
         let targetDateString = DateManager.changeDateFormat(date: targetDate, format: "yyyyMMdd")
-
+        
         do {
             let urlRequest = try kobisOpenAPI.receiveURLRequest(serviceType: .dailyBoxOffice, queryItems: ["targetDt": targetDateString])
             
@@ -248,12 +250,11 @@ extension DailyBoxOfficeViewController: UICollectionViewDataSource, UICollection
             }
             
             let cell = DailyBoxOfficeCollectionViewListCell(frame: CGRect(x: 0, y: 0, width: width, height: height))
-            
             cell.titleLabel.text = data.movieName
+            
             cell.layoutIfNeeded()
             
             let titleLabelSize = cell.titleLabel.intrinsicContentSize
-            
             height += titleLabelSize.height
             
             return CGSize(width: width, height: height)
