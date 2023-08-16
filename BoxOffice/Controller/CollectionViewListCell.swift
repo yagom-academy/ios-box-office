@@ -17,17 +17,11 @@ final class CollectionViewListCell: UICollectionViewListCell {
         super.awakeFromNib()
     }
     
-    override func layoutSubviews() {
-        super.layoutSubviews()
-        self.layer.borderWidth = 1
-        self.layer.borderColor = UIColor.black.cgColor
-    }
-    
     func configureFont() {
         rankNumberLabel.font = .preferredFont(forTextStyle: .title1)
-        rankInfoLabel.font = .preferredFont(forTextStyle: .body)
-        movieNameLabel.font = .preferredFont(forTextStyle: .title2)
-        audiNumberLabel.font = .preferredFont(forTextStyle: .body)
+        rankInfoLabel.font = .preferredFont(forTextStyle: .caption1)
+        movieNameLabel.font = .preferredFont(forTextStyle: .title3)
+        audiNumberLabel.font = .preferredFont(forTextStyle: .caption1)
     }
     
     func configureDynamicType() {

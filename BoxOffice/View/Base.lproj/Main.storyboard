@@ -48,9 +48,8 @@
                                     <outlet property="delegate" destination="BYZ-38-t0r" id="F38-ai-aK1"/>
                                 </connections>
                             </collectionView>
-                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="tIt-B5-YEc">
-                                <rect key="frame" x="136" y="783" width="121" height="35"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="tIt-B5-YEc">
+                                <rect key="frame" x="136" y="788" width="121" height="35"/>
                                 <state key="normal" title="Button"/>
                                 <buttonConfiguration key="configuration" style="plain" title="화면 모드 변경"/>
                                 <connections>
@@ -63,6 +62,8 @@
                         <constraints>
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="hJE-o8-6ci" secondAttribute="trailing" id="6db-zA-2iJ"/>
                             <constraint firstItem="hJE-o8-6ci" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" id="9zW-Dg-phV"/>
+                            <constraint firstItem="tIt-B5-YEc" firstAttribute="centerX" secondItem="6Tk-OE-BBY" secondAttribute="centerX" id="CSL-X1-gTt"/>
+                            <constraint firstItem="tIt-B5-YEc" firstAttribute="bottom" secondItem="6Tk-OE-BBY" secondAttribute="bottom" constant="5" id="DjM-DR-rvx"/>
                             <constraint firstItem="hJE-o8-6ci" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" id="WsE-fI-qng"/>
                         </constraints>
                     </view>

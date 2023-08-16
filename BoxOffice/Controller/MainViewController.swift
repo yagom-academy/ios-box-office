@@ -13,7 +13,11 @@ final class MainViewController: UIViewController, CalendarViewControllerDelegate
     @IBOutlet weak var calendarButton: UIButton!
     @IBOutlet weak var changeModeButton: UIButton!
     var boxOffice: BoxOffice?
-    var isIconMode = false
+    var isIconMode: Bool = false {
+        willSet(newVal){
+           changeLayout(newValue: newVal)
+        }
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -21,8 +25,28 @@ final class MainViewController: UIViewController, CalendarViewControllerDelegate
         assignDataSourceAndDelegate()
         registerCustomCell()
         callAPIManager()
+        configureListLayout()
         configureTitle()
         initRefresh()
+    }
+    
+    func configureFlowLayout() {
+        let layout = UICollectionViewFlowLayout()
+        collectionView.setCollectionViewLayout(layout, animated: false)
+    }
+    
+    func configureListLayout() {
+        let configuration = UICollectionLayoutListConfiguration(appearance: .plain)
+        let layout = UICollectionViewCompositionalLayout.list(using: configuration)
+        collectionView.setCollectionViewLayout(layout, animated: false)
+    }
+    
+    func changeLayout(newValue: Bool) {
+        if newValue == true {
+            configureFlowLayout()
+        } else {
+            configureListLayout()
+        }
     }
     
     @IBAction func tapChangeModeButton(_ sender: Any) {
