@@ -19,7 +19,8 @@ final class BoxOfficeViewController: UIViewController, URLSessionDelegate {
         let layout = UICollectionViewCompositionalLayout.list(using: configuration)
         let view = UICollectionView(frame: .zero, collectionViewLayout: layout)
         view.translatesAutoresizingMaskIntoConstraints = false
-        view.register(BoxOfficeRankingCell.self, forCellWithReuseIdentifier: BoxOfficeRankingCell.cellIdentifier)
+        view.register(BoxOfficeRankingListCell.self, forCellWithReuseIdentifier: BoxOfficeRankingListCell.cellIdentifier)
+        view.register(BoxOfficeRankingIconCell.self, forCellWithReuseIdentifier: BoxOfficeRankingIconCell.cellIdentifier)
 
         return view
     }()
@@ -124,12 +125,12 @@ extension BoxOfficeViewController {
     
     private func setUpDataSource() {
         dataSource = UICollectionViewDiffableDataSource<NetworkConfiguration, BoxOfficeEntity.BoxOfficeResult.DailyBoxOffice>(collectionView: self.collectionView) { (collectionView, indexPath, data) -> UICollectionViewCell? in
-            guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: BoxOfficeRankingCell.cellIdentifier, for: indexPath) as? BoxOfficeRankingCell else {
+            guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: BoxOfficeRankingListCell.cellIdentifier, for: indexPath) as? BoxOfficeRankingListCell else {
                 return UICollectionViewCell()
             }
-            
+
             cell.setUpLabelText(data)
-            
+
             return cell
         }
     }
