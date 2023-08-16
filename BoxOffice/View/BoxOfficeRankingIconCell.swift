@@ -15,6 +15,7 @@ class BoxOfficeRankingIconCell: UICollectionViewCell {
         label.textAlignment = .center
         label.font = .preferredFont(forTextStyle: .largeTitle)
         label.translatesAutoresizingMaskIntoConstraints = false
+        label.adjustsFontForContentSizeCategory = true
         
         return label
     }()
@@ -24,6 +25,7 @@ class BoxOfficeRankingIconCell: UICollectionViewCell {
         label.textAlignment = .center
         label.font = .preferredFont(forTextStyle: .callout)
         label.translatesAutoresizingMaskIntoConstraints = false
+        label.adjustsFontForContentSizeCategory = true
         
         return label
     }()
@@ -32,13 +34,18 @@ class BoxOfficeRankingIconCell: UICollectionViewCell {
         let label = UILabel()
         label.font = .preferredFont(forTextStyle: .title3)
         label.translatesAutoresizingMaskIntoConstraints = false
+        label.adjustsFontForContentSizeCategory = true
+        label.numberOfLines = 0
         
         return label
     }()
     
     private let audienceLabel: UILabel = {
         let label = UILabel()
+        label.font = .preferredFont(forTextStyle: .callout)
         label.translatesAutoresizingMaskIntoConstraints = false
+        label.adjustsFontForContentSizeCategory = true
+        label.adjustsFontSizeToFitWidth = true
         
         return label
     }()

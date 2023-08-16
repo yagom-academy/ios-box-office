@@ -15,6 +15,7 @@ final class BoxOfficeRankingListCell: UICollectionViewListCell {
         label.textAlignment = .center
         label.font = .preferredFont(forTextStyle: .largeTitle)
         label.translatesAutoresizingMaskIntoConstraints = false
+        label.adjustsFontForContentSizeCategory = true
         
         return label
     }()
@@ -24,6 +25,7 @@ final class BoxOfficeRankingListCell: UICollectionViewListCell {
         label.textAlignment = .center
         label.font = .preferredFont(forTextStyle: .callout)
         label.translatesAutoresizingMaskIntoConstraints = false
+        label.adjustsFontForContentSizeCategory = true
         
         return label
     }()
@@ -32,18 +34,31 @@ final class BoxOfficeRankingListCell: UICollectionViewListCell {
         let label = UILabel()
         label.font = .preferredFont(forTextStyle: .title3)
         label.translatesAutoresizingMaskIntoConstraints = false
+        label.adjustsFontForContentSizeCategory = true
+        label.numberOfLines = 0
         
         return label
     }()
     
     private let audienceLabel: UILabel = {
         let label = UILabel()
+        label.font = .preferredFont(forTextStyle: .body)
         label.translatesAutoresizingMaskIntoConstraints = false
+        label.adjustsFontForContentSizeCategory = true
+        label.adjustsFontSizeToFitWidth = true
         
         return label
     }()
     
-    private let stackView: UIStackView = {
+    private let rankingStackView: UIStackView = {
+        let stackView = UIStackView()
+        stackView.axis = .vertical
+        stackView.translatesAutoresizingMaskIntoConstraints = false
+        
+        return stackView
+    }()
+    
+    private let informationStackView: UIStackView = {
         let stackView = UIStackView()
         stackView.axis = .vertical
         stackView.translatesAutoresizingMaskIntoConstraints = false
@@ -63,26 +78,25 @@ final class BoxOfficeRankingListCell: UICollectionViewListCell {
     private func setUpUI() {
         self.accessories = [.outlineDisclosure(options: .init(tintColor: .systemGray))]
         
-        stackView.addArrangedSubview(movieNameLabel)
-        stackView.addArrangedSubview(audienceLabel)
-        contentView.addSubview(rankLabel)
-        contentView.addSubview(rankIntensityLabel)
-        contentView.addSubview(stackView)
+        rankingStackView.addArrangedSubview(rankLabel)
+        rankingStackView.addArrangedSubview(rankIntensityLabel)
+        
+        informationStackView.addArrangedSubview(movieNameLabel)
+        informationStackView.addArrangedSubview(audienceLabel)
+
+        contentView.addSubview(rankingStackView)
+        contentView.addSubview(informationStackView)
         
         NSLayoutConstraint.activate([
-            rankLabel.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 10),
-            rankLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
-            rankLabel.widthAnchor.constraint(equalTo: contentView.widthAnchor, multiplier: 0.3),
+            rankingStackView.widthAnchor.constraint(equalTo: contentView.widthAnchor, multiplier: 0.3),
+            rankingStackView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
+            rankingStackView.centerYAnchor.constraint(equalTo: contentView.centerYAnchor),
             
-            rankIntensityLabel.widthAnchor.constraint(equalTo: rankLabel.widthAnchor),
-            rankIntensityLabel.topAnchor.constraint(equalTo: rankLabel.bottomAnchor),
-            rankIntensityLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
-            rankIntensityLabel.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -10),
+            informationStackView.leadingAnchor.constraint(equalTo: rankLabel.trailingAnchor),
+            informationStackView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -20),
+            informationStackView.centerYAnchor.constraint(equalTo: contentView.centerYAnchor),
             
-            stackView.leadingAnchor.constraint(equalTo: rankLabel.trailingAnchor),
-            stackView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -20),
-            stackView.centerYAnchor.constraint(equalTo: contentView.centerYAnchor),
-            
+            self.heightAnchor.constraint(equalTo: informationStackView.heightAnchor, constant: 30),
             self.separatorLayoutGuide.leadingAnchor.constraint(equalTo: rankLabel.leadingAnchor)
         ])
     }

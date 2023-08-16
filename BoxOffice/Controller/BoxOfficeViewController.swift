@@ -152,7 +152,7 @@ extension BoxOfficeViewController {
         if isListMode {
             dataSource = UICollectionViewDiffableDataSource<NetworkConfiguration, BoxOfficeEntity.BoxOfficeResult.DailyBoxOffice>(collectionView: self.collectionView) { (collectionView, indexPath, data) -> UICollectionViewCell? in
                 guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: BoxOfficeRankingListCell.cellIdentifier, for: indexPath) as? BoxOfficeRankingListCell else {
-                    return UICollectionViewCell()
+                    return BoxOfficeRankingListCell()
                 }
                 
                 cell.setUpLabelText(data)
@@ -162,7 +162,7 @@ extension BoxOfficeViewController {
         } else {
             dataSource = UICollectionViewDiffableDataSource<NetworkConfiguration, BoxOfficeEntity.BoxOfficeResult.DailyBoxOffice>(collectionView: self.collectionView) { (collectionView, indexPath, data) -> UICollectionViewCell? in
                 guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: BoxOfficeRankingIconCell.cellIdentifier, for: indexPath) as? BoxOfficeRankingIconCell else {
-                    return UICollectionViewCell()
+                    return BoxOfficeRankingIconCell()
                 }
 
                 cell.setUpLabelText(data)
@@ -170,7 +170,6 @@ extension BoxOfficeViewController {
                 return cell
             }
         }
-            
     }
     
     private func setUpDataSnapshot(_ data: [BoxOfficeEntity.BoxOfficeResult.DailyBoxOffice]) {
@@ -244,6 +243,7 @@ extension BoxOfficeViewController: BoxOfficeDelegate {
     func setUpDate(_ date: Date) {
         self.date = date
         self.title = getDateString(format: Namespace.dateWithHyphen)
+
         passFetchedData()
     }
 }
