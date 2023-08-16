@@ -277,9 +277,7 @@ final class MovieDetailView: UIView {
             self.genresContentLabel.text = movieDetailInformationDTO.genres.joined(separator: ", ")
             self.movieActorsContentLabel.text = movieDetailInformationDTO.movieActors.joined(separator: ", ")
             
-            if movieDetailInformationDTO.isMovieActorsEmpty {
-                self.movieActorsStackView.isHidden = true
-            }
+            self.movieActorsStackView.isHidden = movieDetailInformationDTO.isMovieActorsEmpty
         }
     }
     
