@@ -246,7 +246,7 @@ extension BoxOfficeViewController {
     }
     
     private func createViewModeChangeAction() -> UIAlertAction {
-        let action = UIAlertAction(title: viewMode.otherOption, style: .default, handler: { _ in
+        let action = UIAlertAction(title: viewMode.anotherOption, style: .default, handler: { _ in
             switch self.viewMode {
             case .list:
                 self.collectionView?.setCollectionViewLayout(self.createIconLayout(), animated: true)

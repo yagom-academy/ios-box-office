@@ -9,12 +9,12 @@ enum ViewMode: String {
     case list
     case icon
     
-    var description: String {
+    var anotherOption: String {
         switch self {
         case .list:
-            return "리스트"
-        case .icon:
             return "아이콘"
+        case .icon:
+            return "리스트"
         }
     }
 }
