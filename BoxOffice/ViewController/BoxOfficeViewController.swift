@@ -15,8 +15,11 @@ final class BoxOfficeViewController: UIViewController {
     
     private var dataSource: UICollectionViewDiffableDataSource<Section, DailyBoxOffice>? = nil
     private var collectionView: UICollectionView? = nil
-    private var viewMode: String?
     private let refresher = UIRefreshControl()
+    
+    private var viewMode: ViewMode {
+        return ViewMode(rawValue: UserDefaults.standard.viewMode) ?? ViewMode.list
+    }
     
     init(boxOfficeService: BoxOfficeService) {
         self.boxOfficeService = boxOfficeService
@@ -29,13 +32,6 @@ final class BoxOfficeViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        if let viewMode = UserDefaults.standard.string(forKey: "viewMode") {
-            self.viewMode = viewMode
-        } else {
-            viewMode = "list"
-            UserDefaults.standard.set(viewMode, forKey: "viewMode")
-        }
         
         setupRightBarButton()
         showLoadingView()
@@ -55,7 +51,7 @@ final class BoxOfficeViewController: UIViewController {
         
         let modeButton = UIBarButtonItem(title: "화면 모드 변경", primaryAction: showSelector())
         let flexibleSpace = UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: self, action: nil)
-
+        
         let items = [flexibleSpace, modeButton, flexibleSpace]
         toolbarItems = items
         
@@ -115,29 +111,29 @@ extension BoxOfficeViewController {
     private func createListLayout() -> UICollectionViewLayout {
         let config = UICollectionLayoutListConfiguration(appearance: .plain)
         let layout = UICollectionViewCompositionalLayout.list(using: config)
-
+        
         return layout
     }
     
     private func createIconLayout() -> UICollectionViewLayout {
         let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(0.5),
-                                             heightDimension: .fractionalHeight(1.0))
+                                              heightDimension: .fractionalHeight(1.0))
         let item = NSCollectionLayoutItem(layoutSize: itemSize)
         item.contentInsets = NSDirectionalEdgeInsets(top: 8, leading: 8, bottom: 8, trailing: 8)
-
+        
         let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0),
-                                              heightDimension: .fractionalWidth(0.5))
+                                               heightDimension: .fractionalWidth(0.5))
         let group = NSCollectionLayoutGroup.horizontal(layoutSize: groupSize,
-                                                         subitems: [item])
-
+                                                       subitems: [item])
+        
         let section = NSCollectionLayoutSection(group: group)
         let layout = UICollectionViewCompositionalLayout(section: section)
-
+        
         return layout
     }
     
     private func configureHierarchy() {
-        let collectionViewLayout = viewMode == "list" ? createListLayout : createIconLayout
+        let collectionViewLayout = viewMode == ViewMode.list ? createListLayout : createIconLayout
         collectionView = UICollectionView(frame: view.safeAreaLayoutGuide.layoutFrame, collectionViewLayout: collectionViewLayout())
         collectionView?.autoresizingMask = [.flexibleWidth, .flexibleHeight]
         collectionView?.delegate = self
@@ -168,9 +164,10 @@ extension BoxOfficeViewController {
         
         guard let collectionView else { return }
         dataSource = UICollectionViewDiffableDataSource<Section, DailyBoxOffice>(collectionView: collectionView) { collectionView, indexPath, itemIdentifier in
-            if self.viewMode == "list" {
+            switch self.viewMode {
+            case .list:
                 return collectionView.dequeueConfiguredReusableCell(using: listCellRegistration, for: indexPath, item: itemIdentifier)
-            } else {
+            case .icon:
                 return collectionView.dequeueConfiguredReusableCell(using: iconCellRegistration, for: indexPath, item: itemIdentifier)
             }
         }
@@ -227,25 +224,26 @@ extension BoxOfficeViewController {
     private func showSelector() -> UIAction {
         let action = UIAction { _ in
             let sheet = UIAlertController(title: "화면모드변경", message: nil, preferredStyle: .actionSheet)
-            if self.viewMode == "list" {
-                sheet.addAction(UIAlertAction(title: "아이콘", style: .default, handler: { _ in
-                    self.viewMode = "icon"
-                    UserDefaults.standard.set("icon", forKey: "viewMode")
+            
+            switch self.viewMode {
+            case .list:
+                sheet.addAction(UIAlertAction(title: ViewMode.icon.description, style: .default, handler: { _ in
+                    UserDefaults.standard.viewMode = ViewMode.icon.rawValue
                     self.collectionView?.collectionViewLayout = self.createIconLayout()
                     self.reloadData()
                 }))
-            } else {
-                sheet.addAction(UIAlertAction(title: "리스트", style: .default, handler: { _ in
-                    self.viewMode = "list"
-                    UserDefaults.standard.set("list", forKey: "viewMode")
+            case .icon:
+                sheet.addAction(UIAlertAction(title: ViewMode.list.description, style: .default, handler: { _ in
+                    UserDefaults.standard.viewMode = ViewMode.list.rawValue
                     self.collectionView?.collectionViewLayout = self.createListLayout()
                     self.reloadData()
                 }))
             }
+            
             sheet.addAction(UIAlertAction(title: "취소", style: .cancel))
             self.present(sheet, animated: true)
         }
-
+        
         return action
     }
     
