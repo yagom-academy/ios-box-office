@@ -14,6 +14,7 @@ enum APIError: LocalizedError {
     case dataTransferFail
     case decodingFail
     case invalidHTTPStatusCode
+    case requestTimeOut
     
     var errorDescription: String? {
         switch self {
@@ -29,6 +30,8 @@ enum APIError: LocalizedError {
             return "데이터 변환에 실패했습니다."
         case .invalidHTTPStatusCode:
             return "잘못된 HTTPStatusCode입니다."
+        case . requestTimeOut:
+            return "요청시간이 초과되었습니다."
         }
     }
 }

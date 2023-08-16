@@ -8,10 +8,10 @@
 import UIKit
 
 protocol MovieDetailViewControllerUseCaseDelegate: AnyObject {
-    func completeFetchMovieDetailInformation(_ movieDetailInformationDTO: MovieDetailInformationDTO)
+    func completeFetchMovieDetailInformation()
+    func completFetchMovieDetailDescription(_ movieDetailInformationDTO: MovieDetailInformationDTO)
     func completeFetchMovieDetailImage(_ movieDetailImageDTO: MovieDetailImageDTO)
     func failFetchMovieDetailInformation(_ errorDescription: String?)
-    func failFetchMovieDetailImage(_ errorDescription: String?)
 }
 
 final class MovieDetailViewController: UIViewController, CanShowNetworkRequestFailureAlert {
@@ -45,34 +45,25 @@ final class MovieDetailViewController: UIViewController, CanShowNetworkRequestFa
     }
     
     private func setUpViewControllerContents() {
-        fetchMovieDetailInformation()
-        fetchMovieDetailImage()
-    }
-    
-    private func fetchMovieDetailInformation() {
         usecase.fetchMovieDetailInformation()
-    }
-    
-    private func fetchMovieDetailImage() {
-        usecase.fetchMovieDetailImage()
     }
 }
 
 // MARK: - MovieDetailViewControllerUseCaseDelegate
 extension MovieDetailViewController: MovieDetailViewControllerUseCaseDelegate  {
-    func completeFetchMovieDetailInformation(_ movieDetailInformationDTO: MovieDetailInformationDTO) {
-        movieDetailView.setUpContents(movieDetailInformationDTO)
+    func completeFetchMovieDetailInformation() {
+        
     }
     
-    func failFetchMovieDetailInformation(_ errorDescription: String?) {
-        showNetworkFailAlert(message: errorDescription, retryFunction: fetchMovieDetailInformation)
+    func completFetchMovieDetailDescription(_ movieDetailInformationDTO: MovieDetailInformationDTO) {
+        movieDetailView.setUpContents(movieDetailInformationDTO)
     }
     
     func completeFetchMovieDetailImage(_ movieDetailImageDTO: MovieDetailImageDTO) {
         movieDetailView.setUpImageContent(movieDetailImageDTO)
     }
     
-    func failFetchMovieDetailImage(_ errorDescription: String?) {
-        showNetworkFailAlert(message: errorDescription, retryFunction: fetchMovieDetailImage)
+    func failFetchMovieDetailInformation(_ errorDescription: String?) {
+        showNetworkFailAlert(message: errorDescription, retryFunction: setUpViewControllerContents)
     }
 }

@@ -5,8 +5,10 @@
 //  Created by Zion, Hemg on 2023/08/09.
 //
 
+import Foundation
+
 struct MovieDetailImageDTO {
-    let imageURL: String
+    let imageData: Data
     let width: Int
     let height: Int
 }

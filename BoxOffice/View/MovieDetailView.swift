@@ -276,16 +276,13 @@ final class MovieDetailView: UIView {
     }
     
     func setUpImageContent(_ movieDetailImageDTO: MovieDetailImageDTO) {
-        guard let imageURL = URL(string: movieDetailImageDTO.imageURL),
-                let imageData = try? Data(contentsOf: imageURL) else { return }
-
         DispatchQueue.main.async {
             let imageRatio = Double(movieDetailImageDTO.height) / Double(movieDetailImageDTO.width)
             let imageWidth = self.bounds.width
             
             self.activityIndicatorView.stopAnimating()
             self.imageView.heightAnchor.constraint(equalToConstant: imageWidth * imageRatio).isActive = true
-            self.imageView.image = UIImage(data: imageData)
+            self.imageView.image = UIImage(data: movieDetailImageDTO.imageData)
         }
     }
     
