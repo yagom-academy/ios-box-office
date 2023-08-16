@@ -155,8 +155,10 @@ extension MainViewController: UICollectionViewDelegate {
         let daumSearchRepository: DaumSearchRepository = DaumSearchRepositoryImplementation(sessionProvider: sessionProvider)
         let boxOfficeRepository: BoxOfficeRepository = BoxOfficeRepositoryImplementation(sessionProvider: sessionProvider)
         let usecase = MovieDetailViewControllerUseCaseImplementation(boxOfficeRepository: boxOfficeRepository,
-                                                                     daumSearchRepository: daumSearchRepository)
-        let movieDetailViewController = MovieDetailViewController(usecase: usecase, movieCode: movieCode, movieName: movieName)
+                                                                     daumSearchRepository: daumSearchRepository,
+                                                                     movieName: movieName,
+                                                                     movieCode: movieCode)
+        let movieDetailViewController = MovieDetailViewController(usecase: usecase)
         
         usecase.delegate = movieDetailViewController
         navigationController?.pushViewController(movieDetailViewController, animated: true)

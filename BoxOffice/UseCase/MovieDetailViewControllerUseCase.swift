@@ -7,21 +7,26 @@
 
 protocol MovieDetailViewControllerUseCase {
     var delegate: MovieDetailViewControllerUseCaseDelegate? { get set }
-    func fetchMovieDetailInformation(_ movieCode: String)
-    func fetchMovieDetailImage(_ movieName: String)
+    var movieName: String { get }
+    func fetchMovieDetailInformation()
+    func fetchMovieDetailImage()
 }
 
 final class MovieDetailViewControllerUseCaseImplementation: MovieDetailViewControllerUseCase {
     private let boxOfficeRepository: BoxOfficeRepository
     private let daumSearchRepository: DaumSearchRepository
+    private let movieCode: String
+    let movieName: String
     weak var delegate: MovieDetailViewControllerUseCaseDelegate?
     
-    init(boxOfficeRepository: BoxOfficeRepository, daumSearchRepository: DaumSearchRepository) {
+    init(boxOfficeRepository: BoxOfficeRepository, daumSearchRepository: DaumSearchRepository, movieName: String, movieCode: String) {
         self.boxOfficeRepository = boxOfficeRepository
         self.daumSearchRepository = daumSearchRepository
+        self.movieName = movieName
+        self.movieCode = movieCode
     }
     
-    func fetchMovieDetailInformation(_ movieCode: String) {
+    func fetchMovieDetailInformation() {
         boxOfficeRepository.fetchMovieDetailInformation(movieCode) { result in
             switch result {
             case .success(let result):
@@ -34,7 +39,7 @@ final class MovieDetailViewControllerUseCaseImplementation: MovieDetailViewContr
         }
     }
     
-    func fetchMovieDetailImage(_ movieName: String) {
+    func fetchMovieDetailImage() {
         daumSearchRepository.fetchDaumImageSearchInformation(movieName) { result in
             switch result {
             case .success(let result):
