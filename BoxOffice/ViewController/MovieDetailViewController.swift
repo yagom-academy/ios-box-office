@@ -52,7 +52,7 @@ final class MovieDetailViewController: UIViewController, CanShowNetworkRequestFa
 // MARK: - MovieDetailViewControllerUseCaseDelegate
 extension MovieDetailViewController: MovieDetailViewControllerUseCaseDelegate  {
     func completeFetchMovieDetailInformation() {
-        
+        movieDetailView.hiddenLoadingView()
     }
     
     func completFetchMovieDetailDescription(_ movieDetailInformationDTO: MovieDetailInformationDTO) {

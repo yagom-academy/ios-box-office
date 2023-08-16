@@ -9,6 +9,14 @@ import UIKit
 
 
 final class MovieDetailView: UIView {
+    private let loadingView: UIView = {
+        let view = UIView()
+        
+        view.backgroundColor = .systemBackground
+        view.translatesAutoresizingMaskIntoConstraints = false
+        return view
+    }()
+    
     private let activityIndicatorView: UIActivityIndicatorView = {
         let activityIndicatorView = UIActivityIndicatorView(style: .large)
         
@@ -280,9 +288,15 @@ final class MovieDetailView: UIView {
             let imageRatio = Double(movieDetailImageDTO.height) / Double(movieDetailImageDTO.width)
             let imageWidth = self.bounds.width
             
-            self.activityIndicatorView.stopAnimating()
             self.imageView.heightAnchor.constraint(equalToConstant: imageWidth * imageRatio).isActive = true
             self.imageView.image = UIImage(data: movieDetailImageDTO.imageData)
+        }
+    }
+    
+    func hiddenLoadingView() {
+        DispatchQueue.main.async {
+            self.activityIndicatorView.stopAnimating()
+            self.loadingView.isHidden = true
         }
     }
     
@@ -299,7 +313,7 @@ final class MovieDetailView: UIView {
         setUpProductionNationStackViewLayout()
         setUpGenresStackViewLayout()
         setUpMovieActorsStackViewLayout()
-        setUpActivityIndicatorViewLayout()
+        setUpLoadingViewLayout()
     }
 }
 
@@ -434,12 +448,18 @@ extension MovieDetailView {
         ])
     }
     
-    private func setUpActivityIndicatorViewLayout() {
-        addSubview(activityIndicatorView)
+    private func setUpLoadingViewLayout() {
+        loadingView.addSubview(activityIndicatorView)
+        addSubview(loadingView)
         
         NSLayoutConstraint.activate([
-            activityIndicatorView.centerXAnchor.constraint(equalTo: imageView.centerXAnchor),
-            activityIndicatorView.centerYAnchor.constraint(equalTo: imageView.centerYAnchor)
+            loadingView.leadingAnchor.constraint(equalTo: leadingAnchor),
+            loadingView.trailingAnchor.constraint(equalTo: trailingAnchor),
+            loadingView.topAnchor.constraint(equalTo: topAnchor),
+            loadingView.bottomAnchor.constraint(equalTo: bottomAnchor),
+            
+            activityIndicatorView.centerXAnchor.constraint(equalTo: loadingView.centerXAnchor),
+            activityIndicatorView.centerYAnchor.constraint(equalTo: loadingView.centerYAnchor)
         ])
     }
 }
