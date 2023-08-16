@@ -30,18 +30,18 @@ final class MainViewController: UIViewController, CalendarViewControllerDelegate
         initRefresh()
     }
     
-    func configureFlowLayout() {
+    private func configureFlowLayout() {
         let layout = UICollectionViewFlowLayout()
         collectionView.setCollectionViewLayout(layout, animated: false)
     }
     
-    func configureListLayout() {
+    private func configureListLayout() {
         let configuration = UICollectionLayoutListConfiguration(appearance: .plain)
         let layout = UICollectionViewCompositionalLayout.list(using: configuration)
         collectionView.setCollectionViewLayout(layout, animated: false)
     }
     
-    func changeLayout(newValue: Bool) {
+    private func changeLayout(newValue: Bool) {
         if newValue == true {
             configureFlowLayout()
         } else {
@@ -53,13 +53,11 @@ final class MainViewController: UIViewController, CalendarViewControllerDelegate
         let actionSheet = UIAlertController(title: "화면모드변경", message: nil, preferredStyle: .actionSheet)
         
         let icon = UIAlertAction(title: "아이콘", style: .default) { action in
-            print("Selected icon")
             self.isIconMode = true
             self.collectionView.reloadData()
         }
         
         let list = UIAlertAction(title: "리스트", style: .default) { action in
-            print("Selected list")
             self.isIconMode = false
             self.collectionView.reloadData()
         }

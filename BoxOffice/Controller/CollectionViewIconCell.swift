@@ -87,24 +87,3 @@ class CollectionViewIconCell: UICollectionViewCell {
         }
     }
 }
-
-extension CollectionViewIconCell {
-    enum Arrow: String {
-        case upArrow = "▲"
-        case downArrow = "▼"
-        
-        var color: UIColor {
-            switch self {
-            case .upArrow:
-                return .red
-            case .downArrow:
-                return .blue
-            }
-        }
-        
-        init?(rawValue: Int) {
-            self = rawValue > 0 ? .upArrow : .downArrow
-        }
-    }
-}
-
