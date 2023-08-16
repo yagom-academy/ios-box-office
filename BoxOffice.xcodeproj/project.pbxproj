@@ -64,13 +64,6 @@
 			remoteGlobalIDString = 63DF20EA2970E1A0005DF7D1;
 			remoteInfo = BoxOffice;
 		};
-		63113E8B2A84CEBC001C54E5 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 63DF20E32970E1A0005DF7D1 /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = 63DF20EA2970E1A0005DF7D1;
-			remoteInfo = BoxOffice;
-		};
 		63113E982A84D521001C54E5 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 63DF20E32970E1A0005DF7D1 /* Project object */;
@@ -112,7 +105,6 @@
 		5BFB02C92A8CC9C8009AA930 /* BoxOfficeEndPointTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BoxOfficeEndPointTests.swift; sourceTree = "<group>"; };
 		5BFB02D42A8CC9D4009AA930 /* DaumSearchEndPointTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = DaumSearchEndPointTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		5BFB02D62A8CC9D4009AA930 /* DaumSearchEndPointTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DaumSearchEndPointTests.swift; sourceTree = "<group>"; };
-		63113E872A84CEBC001C54E5 /* URLRequestMakeTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = URLRequestMakeTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		63113E942A84D521001C54E5 /* MovieDetailInformationDTOTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = MovieDetailInformationDTOTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		6332DA632A6E6C6B000E3B38 /* BoxOfficeTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = BoxOfficeTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		6332DA652A6E6C6B000E3B38 /* BoxOfficeTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BoxOfficeTests.swift; sourceTree = "<group>"; };
@@ -154,13 +146,6 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 		5BFB02D12A8CC9D4009AA930 /* Frameworks */ = {
-			isa = PBXFrameworksBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		63113E842A84CEBC001C54E5 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -385,7 +370,6 @@
 				63DF20EB2970E1A0005DF7D1 /* BoxOffice.app */,
 				6332DA632A6E6C6B000E3B38 /* BoxOfficeTests.xctest */,
 				63BF05E32A80EEB500D73800 /* MovieInformationDtoTests.xctest */,
-				63113E872A84CEBC001C54E5 /* URLRequestMakeTests.xctest */,
 				63113E942A84D521001C54E5 /* MovieDetailInformationDTOTests.xctest */,
 				5BFB02C72A8CC9C8009AA930 /* BoxOfficeEndPointTests.xctest */,
 				5BFB02D42A8CC9D4009AA930 /* DaumSearchEndPointTests.xctest */,
@@ -449,24 +433,6 @@
 			name = DaumSearchEndPointTests;
 			productName = DaumSearchEndPointTests;
 			productReference = 5BFB02D42A8CC9D4009AA930 /* DaumSearchEndPointTests.xctest */;
-			productType = "com.apple.product-type.bundle.unit-test";
-		};
-		63113E862A84CEBC001C54E5 /* URLRequestMakeTests */ = {
-			isa = PBXNativeTarget;
-			buildConfigurationList = 63113E8F2A84CEBC001C54E5 /* Build configuration list for PBXNativeTarget "URLRequestMakeTests" */;
-			buildPhases = (
-				63113E832A84CEBC001C54E5 /* Sources */,
-				63113E842A84CEBC001C54E5 /* Frameworks */,
-				63113E852A84CEBC001C54E5 /* Resources */,
-			);
-			buildRules = (
-			);
-			dependencies = (
-				63113E8C2A84CEBC001C54E5 /* PBXTargetDependency */,
-			);
-			name = URLRequestMakeTests;
-			productName = URLRequestMakeTests;
-			productReference = 63113E872A84CEBC001C54E5 /* URLRequestMakeTests.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
 		};
 		63113E932A84D521001C54E5 /* MovieDetailInformationDTOTests */ = {
@@ -558,10 +524,6 @@
 						CreatedOnToolsVersion = 14.3.1;
 						TestTargetID = 63DF20EA2970E1A0005DF7D1;
 					};
-					63113E862A84CEBC001C54E5 = {
-						CreatedOnToolsVersion = 14.0;
-						TestTargetID = 63DF20EA2970E1A0005DF7D1;
-					};
 					63113E932A84D521001C54E5 = {
 						CreatedOnToolsVersion = 14.0;
 						TestTargetID = 63DF20EA2970E1A0005DF7D1;
@@ -595,7 +557,6 @@
 				63DF20EA2970E1A0005DF7D1 /* BoxOffice */,
 				6332DA622A6E6C6B000E3B38 /* BoxOfficeTests */,
 				63BF05E22A80EEB500D73800 /* MovieInformationDtoTests */,
-				63113E862A84CEBC001C54E5 /* URLRequestMakeTests */,
 				63113E932A84D521001C54E5 /* MovieDetailInformationDTOTests */,
 				5BFB02C62A8CC9C8009AA930 /* BoxOfficeEndPointTests */,
 				5BFB02D32A8CC9D4009AA930 /* DaumSearchEndPointTests */,
@@ -612,13 +573,6 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 		5BFB02D22A8CC9D4009AA930 /* Resources */ = {
-			isa = PBXResourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		63113E852A84CEBC001C54E5 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -672,13 +626,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				5BFB02D72A8CC9D4009AA930 /* DaumSearchEndPointTests.swift in Sources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		63113E832A84CEBC001C54E5 /* Sources */ = {
-			isa = PBXSourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -758,11 +705,6 @@
 			target = 63DF20EA2970E1A0005DF7D1 /* BoxOffice */;
 			targetProxy = 5BFB02D82A8CC9D4009AA930 /* PBXContainerItemProxy */;
 		};
-		63113E8C2A84CEBC001C54E5 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = 63DF20EA2970E1A0005DF7D1 /* BoxOffice */;
-			targetProxy = 63113E8B2A84CEBC001C54E5 /* PBXContainerItemProxy */;
-		};
 		63113E992A84D521001C54E5 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = 63DF20EA2970E1A0005DF7D1 /* BoxOffice */;
@@ -799,7 +741,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				GENERATE_INFOPLIST_FILE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 16.4;
+				IPHONEOS_DEPLOYMENT_TARGET = 14.5;
 				MACOSX_DEPLOYMENT_TARGET = 13.2;
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = net.Zion.BoxOfficeEndPointTests;
@@ -820,7 +762,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				GENERATE_INFOPLIST_FILE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 16.4;
+				IPHONEOS_DEPLOYMENT_TARGET = 14.5;
 				MACOSX_DEPLOYMENT_TARGET = 13.2;
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = net.Zion.BoxOfficeEndPointTests;
@@ -841,7 +783,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				GENERATE_INFOPLIST_FILE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 16.4;
+				IPHONEOS_DEPLOYMENT_TARGET = 14.5;
 				MACOSX_DEPLOYMENT_TARGET = 13.2;
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = net.Zion.DaumSearchEndPointTests;
@@ -862,52 +804,10 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				GENERATE_INFOPLIST_FILE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 16.4;
+				IPHONEOS_DEPLOYMENT_TARGET = 14.5;
 				MACOSX_DEPLOYMENT_TARGET = 13.2;
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = net.Zion.DaumSearchEndPointTests;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				SDKROOT = auto;
-				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator macosx";
-				SWIFT_EMIT_LOC_STRINGS = NO;
-				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/BoxOffice.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/BoxOffice";
-			};
-			name = Release;
-		};
-		63113E8D2A84CEBC001C54E5 /* Debug */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				BUNDLE_LOADER = "$(TEST_HOST)";
-				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
-				GENERATE_INFOPLIST_FILE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
-				MACOSX_DEPLOYMENT_TARGET = 12.3;
-				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = kr.co.hemg2.URLRequestMakeTests;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				SDKROOT = auto;
-				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator macosx";
-				SWIFT_EMIT_LOC_STRINGS = NO;
-				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/BoxOffice.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/BoxOffice";
-			};
-			name = Debug;
-		};
-		63113E8E2A84CEBC001C54E5 /* Release */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				BUNDLE_LOADER = "$(TEST_HOST)";
-				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
-				GENERATE_INFOPLIST_FILE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
-				MACOSX_DEPLOYMENT_TARGET = 12.3;
-				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = kr.co.hemg2.URLRequestMakeTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = auto;
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator macosx";
@@ -925,7 +825,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				GENERATE_INFOPLIST_FILE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 14.5;
 				MACOSX_DEPLOYMENT_TARGET = 12.3;
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = kr.co.hemg2.MovieDetailInformationDTOTests;
@@ -946,7 +846,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				GENERATE_INFOPLIST_FILE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 14.5;
 				MACOSX_DEPLOYMENT_TARGET = 12.3;
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = kr.co.hemg2.MovieDetailInformationDTOTests;
@@ -967,7 +867,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				GENERATE_INFOPLIST_FILE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 14.5;
 				MACOSX_DEPLOYMENT_TARGET = 12.3;
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = kr.co.hemg2.BoxOfficeTests;
@@ -988,7 +888,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				GENERATE_INFOPLIST_FILE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 14.5;
 				MACOSX_DEPLOYMENT_TARGET = 12.3;
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = kr.co.hemg2.BoxOfficeTests;
@@ -1009,7 +909,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				GENERATE_INFOPLIST_FILE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 14.5;
 				MACOSX_DEPLOYMENT_TARGET = 12.3;
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = kr.co.hemg2.MovieInformationDtoTests;
@@ -1030,7 +930,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				GENERATE_INFOPLIST_FILE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 14.5;
 				MACOSX_DEPLOYMENT_TARGET = 12.3;
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = kr.co.hemg2.MovieInformationDtoTests;
@@ -1229,15 +1129,6 @@
 			buildConfigurations = (
 				5BFB02DB2A8CC9D4009AA930 /* Debug */,
 				5BFB02DC2A8CC9D4009AA930 /* Release */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
-		};
-		63113E8F2A84CEBC001C54E5 /* Build configuration list for PBXNativeTarget "URLRequestMakeTests" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				63113E8D2A84CEBC001C54E5 /* Debug */,
-				63113E8E2A84CEBC001C54E5 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
