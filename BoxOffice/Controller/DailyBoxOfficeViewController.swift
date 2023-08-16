@@ -10,9 +10,9 @@ import UIKit
 final class DailyBoxOfficeViewController: UIViewController {
     private var kobisOpenAPI: KobisOpenAPI = KobisOpenAPI()
     private var networkService: NetworkService = NetworkService()
-    private var dateManager: DateManager = DateManager()
     private var boxOfficeData: BoxOffice?
     private let loadingView: LoadingView = LoadingView()
+    private var targetDate: Date = DateManager.fetchPastDate(dayAgo: 1)
     
     private lazy var refreshControl: UIRefreshControl = {
         let refreshControl: UIRefreshControl = UIRefreshControl()
@@ -41,7 +41,19 @@ final class DailyBoxOfficeViewController: UIViewController {
     }
     
     private func configureNavigationItem() {
-        navigationItem.title = try? dateManager.getYesterdayDate(format: "yyyy-MM-dd")
+        let logoutBarButtonItem = UIBarButtonItem(title: "날짜선택", style: .done, target: self, action: #selector(presentCalendarView))
+        self.navigationItem.rightBarButtonItem  = logoutBarButtonItem
+        setNavigationTitle()
+    }
+    
+    private func setNavigationTitle() {
+        navigationItem.title = DateManager.changeDateFormat(date: targetDate, format: "yyyy-MM-dd")
+    }
+    
+    @objc func presentCalendarView() {
+        let calendarViewController = CalendarViewController(date: targetDate)
+        calendarViewController.delegate = self
+        present(calendarViewController, animated: true)
     }
     
     private func setupCollectionView() {
@@ -87,9 +99,10 @@ final class DailyBoxOfficeViewController: UIViewController {
     }
     
     private func receiveURLRequest() -> URLRequest? {
+        let targetDateString = DateManager.changeDateFormat(date: targetDate, format: "yyyyMMdd")
+
         do {
-            let yesterdayDate = try dateManager.getYesterdayDate(format: "yyyyMMdd")
-            let urlRequest = try kobisOpenAPI.receiveURLRequest(serviceType: .dailyBoxOffice, queryItems: ["targetDt": yesterdayDate])
+            let urlRequest = try kobisOpenAPI.receiveURLRequest(serviceType: .dailyBoxOffice, queryItems: ["targetDt": targetDateString])
             
             return urlRequest
         } catch {
@@ -118,6 +131,14 @@ final class DailyBoxOfficeViewController: UIViewController {
     
     @objc private func refreshData() {
         receiveData()
+    }
+}
+
+extension DailyBoxOfficeViewController: CalendarDelegate {
+    func updateBoxOffice(date: Date) {
+        targetDate = date
+        receiveData()
+        setNavigationTitle()
     }
 }
 
