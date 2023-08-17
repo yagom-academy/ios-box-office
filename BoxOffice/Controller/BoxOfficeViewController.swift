@@ -37,10 +37,10 @@ final class BoxOfficeViewController: UIViewController, UICollectionViewDelegate 
     }
 
     private func fetchBoxOfficeData() {
-        dataManager?.fetchRanking(handler: boxOfficeFetchDataResult)
+        dataManager?.fetchRanking(handler: fetchBoxOfficeDataResult)
     }
 
-    private func boxOfficeFetchDataResult(result: Result<[BoxOfficeMovieInfo], Error>) {
+    private func fetchBoxOfficeDataResult(result: Result<[BoxOfficeMovieInfo], Error>) {
         switch result {
         case .success(_):
             DispatchQueue.main.async {
