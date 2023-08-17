@@ -243,7 +243,9 @@ extension BoxOfficeViewController: BoxOfficeDelegate {
     func setUpDate(_ date: Date) {
         self.date = date
         self.title = getDateString(format: Namespace.dateWithHyphen)
-
+        
+        setUpCollectionViewLayout()
+        setUpDataSource()
         passFetchedData()
     }
 }
