@@ -19,8 +19,8 @@ struct CellUIModel {
     }
     
     var audienceInfoText: NSAttributedString {
-        guard let todayOfAudienceText = data.audienceCount.makeFormattedDecimalString(),
-              let totalOfAudienceText = data.audienceTotal.makeFormattedDecimalString() else {
+        guard let todayOfAudienceText = data.audienceCount.formattedDecimalString(),
+              let totalOfAudienceText = data.audienceTotal.formattedDecimalString() else {
             return NSAttributedString(string: DataNamespace.empty)
         }
         
