@@ -15,12 +15,14 @@ extension Date {
     static let dateFormatter: DateFormatter = {
         let formatter = DateFormatter()
         formatter.dateFormat = "yyyy-MM-dd"
+        
         return formatter
     }()
     
     static let apiDateFormatter: DateFormatter = {
         let formatter = DateFormatter()
         formatter.dateFormat = "yyyyMMdd"
+        
         return formatter
     }()
 }

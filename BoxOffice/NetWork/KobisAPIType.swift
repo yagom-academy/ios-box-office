@@ -21,7 +21,11 @@ extension KobisAPIType {
         urlComponents.queryItems = queries
         return urlComponents
     }
-
+    
+    var header: String? {
+      return nil
+    }
+    
     private var apiKey: String {
         return Bundle.main.apiKey
     }
