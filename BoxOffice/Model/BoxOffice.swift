@@ -5,11 +5,11 @@
 //  Created by Kobe, yyss99 on 2023/07/25.
 //
 
-struct BoxOffice: Decodable {
+struct BoxOffice: Decodable, Hashable {
     let boxOfficeResult: BoxOfficeResult
 }
 
-struct BoxOfficeResult: Decodable {
+struct BoxOfficeResult: Decodable, Hashable {
     let boxOfficeType: String
     let showRange: String
     let dailyBoxOfficeList: [DailyBoxOfficeList]
@@ -21,7 +21,7 @@ struct BoxOfficeResult: Decodable {
     }
 }
 
-struct DailyBoxOfficeList: Decodable {
+struct DailyBoxOfficeList: Decodable, Hashable {
     let rankNumber: String
     let rank: String
     let rankIntensity: String

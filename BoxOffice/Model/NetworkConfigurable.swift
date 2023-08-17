@@ -35,16 +35,12 @@ extension NetworkConfigurable {
         return requestURL
     }
     
-    public func generateURL(paths: [String]?, isFullPath: Bool) throws -> URL {
+    public func generateURL(isFullPath: Bool) throws -> URL {
         guard let url = URL(string: baseURL) else {
             throw NetworkConfigurableError.url
         }
         
-        var baseURL = url.absoluteString
-        
-        paths?.forEach {
-            baseURL += $0
-        }
+        let baseURL = url.absoluteString
         
         guard var urlComponents = URLComponents(string: baseURL) else {
             throw NetworkConfigurableError.urlComponents
