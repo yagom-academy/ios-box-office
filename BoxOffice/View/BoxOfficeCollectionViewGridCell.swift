@@ -84,6 +84,7 @@ extension BoxOfficeCollectionViewGridCell {
     
     private func setupContentView() {
         contentView.layer.cornerRadius = 4
+        contentView.layer.masksToBounds = true
         contentView.layer.borderWidth = 2
         contentView.layer.borderColor = UIColor.systemGray.cgColor
 
