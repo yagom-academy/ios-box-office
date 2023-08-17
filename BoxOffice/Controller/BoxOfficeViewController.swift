@@ -9,8 +9,8 @@ import UIKit
 
 final class BoxOfficeViewController: UIViewController {
     private let boxOfficeManager: BoxOfficeManager
+    private var collectionViewMode: CollectionViewMode
     private var collectionView: UICollectionView!
-    private var collectionViewMode: CollectionViewMode = .list
     private var dailyBoxOfficeDataSource: UICollectionViewDiffableDataSource<Section, DailyBoxOffice>!
     private let activityIndicator: UIActivityIndicatorView = {
         let activityIndicator = UIActivityIndicatorView(style: .large)
@@ -19,8 +19,9 @@ final class BoxOfficeViewController: UIViewController {
         return activityIndicator
     }()
     
-    init(boxOfficeManager: BoxOfficeManager) {
+    init(boxOfficeManager: BoxOfficeManager, collectionViewMode: CollectionViewMode) {
         self.boxOfficeManager = boxOfficeManager
+        self.collectionViewMode = collectionViewMode
 
         super.init(nibName: nil, bundle: nil)
     }
@@ -335,7 +336,7 @@ extension BoxOfficeViewController {
 
 // MARK: CollectionView Mode
 extension BoxOfficeViewController {
-    private enum CollectionViewMode {
+    enum CollectionViewMode {
         case list
         case grid
     }
