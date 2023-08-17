@@ -22,10 +22,10 @@ final class BoxOfficeViewController: UIViewController {
     init(boxOfficeManager: BoxOfficeManager, collectionViewMode: CollectionViewMode) {
         self.boxOfficeManager = boxOfficeManager
         self.collectionViewMode = collectionViewMode
-
+        
         super.init(nibName: nil, bundle: nil)
     }
-
+    
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
@@ -84,13 +84,8 @@ extension BoxOfficeViewController {
         collectionView.delegate = self
     }
     
-    private func setupCollectionViewLayout() {
-        switch collectionViewMode {
-        case .list:
-            collectionView.setCollectionViewLayout(listLayout(), animated: true)
-        case .grid:
-            collectionView.setCollectionViewLayout(gridLayout(), animated: true)
-        }
+    private func setupCollectionViewLayout(_ layout: UICollectionViewLayout) {
+        collectionView.setCollectionViewLayout(layout, animated: true)
     }
     
     private func setupRefreshControl() {
@@ -156,7 +151,7 @@ extension BoxOfficeViewController {
                     }
                     
                     self.collectionViewMode = .grid
-                    self.setupCollectionViewLayout()
+                    self.setupCollectionViewLayout(gridLayout())
                     self.applyReloadSnapshot()
                 }
             case .grid:
@@ -166,7 +161,7 @@ extension BoxOfficeViewController {
                     }
                     
                     self.collectionViewMode = .list
-                    self.setupCollectionViewLayout()
+                    self.setupCollectionViewLayout(listLayout())
                     self.applyReloadSnapshot()
                 }
             }
