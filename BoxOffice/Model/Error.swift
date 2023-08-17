@@ -10,6 +10,7 @@ enum NetworkingError: Error {
     case notHttpUrlResponse
     case invalidResponse(statusCode: Int)
     case invalidURL
+    case invalidAPIKey
     
     var description: String {
         switch self {
@@ -21,6 +22,8 @@ enum NetworkingError: Error {
             return "서버 응답 오류입니다. Status Code: \(statusCode)"
         case .invalidURL:
             return "유효하지 않은 URL입니다."
+        case .invalidAPIKey:
+            return "유효하지 않은 API Key입니다."
         }
     }
 }

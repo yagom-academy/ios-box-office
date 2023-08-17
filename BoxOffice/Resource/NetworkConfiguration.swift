@@ -12,11 +12,19 @@ enum NetworkConfiguration: Hashable {
     case movieDetail(_ movieCode: String)
     case daumImage(_ movieName: String)
     
-    var url: String {
+    var url: String? {
         switch self {
         case .boxOffice(let targetDate):
+            if NetworkConfiguration.apiKey == "" {
+                return nil
+            }
+            
             return String(format: "http://kobis.or.kr/kobisopenapi/webservice/rest/boxoffice/searchDailyBoxOfficeList.json?key=%@&targetDt=%@", NetworkConfiguration.apiKey, targetDate)
         case .movieDetail(let movieCode):
+            if NetworkConfiguration.apiKey == "" {
+                return nil
+            }
+            
             return String(format: "http://www.kobis.or.kr/kobisopenapi/webservice/rest/movie/searchMovieInfo.json?key=%@&movieCd=%@", NetworkConfiguration.apiKey, movieCode)
         case .daumImage:
             return "https://dapi.kakao.com/v2/search/image"
@@ -32,9 +40,13 @@ enum NetworkConfiguration: Hashable {
         }
     }
     
-    var header: [(value: String, forHTTPHeaderField: String)] {
+    var header: [(value: String, forHTTPHeaderField: String)]? {
         switch self {
         case .daumImage:
+            if NetworkConfiguration.daumApiKey == "" {
+                return nil
+            }
+            
             return [(value: "KakaoAK \(NetworkConfiguration.daumApiKey)", forHTTPHeaderField: "Authorization")]
         default:
             return []
