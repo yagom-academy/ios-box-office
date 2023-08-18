@@ -247,6 +247,17 @@ extension BoxOfficeViewController {
     
     private func createViewModeChangeAction() -> UIAlertAction {
         let action = UIAlertAction(title: viewMode.anotherOption, style: .default, handler: { _ in
+            var visibleIndexPath: [IndexPath] = []
+            if let visibleCell = self.collectionView?.indexPathsForVisibleItems {
+                visibleIndexPath = visibleCell.sorted {
+                    if $0[0] == $1[0] {
+                        return $0[1] < $1[1]
+                    }
+                    
+                    return $0[0] < $1[0]
+                }
+            }
+            
             switch self.viewMode {
             case .list:
                 self.collectionView?.setCollectionViewLayout(self.createIconLayout(), animated: true)
@@ -257,6 +268,10 @@ extension BoxOfficeViewController {
             }
             
             self.reloadSnapshot()
+            
+            if visibleIndexPath.isEmpty == false {
+                self.collectionView?.scrollToItem(at: visibleIndexPath[0], at: .top, animated: true)
+            }
         })
         
         return action
