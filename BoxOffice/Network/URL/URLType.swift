@@ -33,7 +33,7 @@ enum URLType {
         }
     }
     
-    private func configureURL(path: String, query: [URLQueryItem]) -> URL {
+    private func configureURL(path: String, query: [URLQueryItem]?) -> URL {
         var component = URLComponents()
         
         component.scheme = Scheme.http
