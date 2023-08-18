@@ -12,13 +12,14 @@ final class BoxOfficeViewController: UIViewController, URLSessionDelegate {
     private var refreshControl = UIRefreshControl()
     private var dataSource: UICollectionViewDiffableDataSource<NetworkConfiguration, BoxOfficeEntity.BoxOfficeResult.DailyBoxOffice>?
     private var date: Date = Calendar.current.date(byAdding: .day, value: -1, to: Date()) ?? Date()
-    
+
     private let collectionView: UICollectionView = {
         let configuration = UICollectionLayoutListConfiguration(appearance: .plain)
         let layout = UICollectionViewCompositionalLayout.list(using: configuration)
         let view = UICollectionView(frame: .zero, collectionViewLayout: layout)
         view.translatesAutoresizingMaskIntoConstraints = false
-        view.register(BoxOfficeRankingCell.self, forCellWithReuseIdentifier: BoxOfficeRankingCell.cellIdentifier)
+        view.register(BoxOfficeRankingListCell.self, forCellWithReuseIdentifier: BoxOfficeRankingListCell.cellIdentifier)
+        view.register(BoxOfficeRankingIconCell.self, forCellWithReuseIdentifier: BoxOfficeRankingIconCell.cellIdentifier)
 
         return view
     }()
@@ -42,6 +43,14 @@ final class BoxOfficeViewController: UIViewController, URLSessionDelegate {
             }
         }
     }
+    
+    private var isListMode = true {
+        didSet {
+            setUpCollectionViewLayout()
+            setUpDataSource()
+            passFetchedData()
+        }
+    }
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -58,11 +67,15 @@ extension BoxOfficeViewController {
     private func setUpUI() {
         let safeArea = view.safeAreaLayoutGuide
         let dateSelectionButton = UIBarButtonItem(title: "날짜선택", style: .plain, target: self, action: #selector(showCalendar))
+        let modeChangeButton = UIBarButtonItem(title: "화면 모드 변경", style: .plain, target: self, action: #selector(hitChangeModeButton))
+        let flexibleSpace = UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: self, action: nil)
         
         view.backgroundColor = .systemBackground
         view.addSubview(collectionView)
         view.addSubview(indicatorView)
         
+        self.navigationController?.isToolbarHidden = false
+        self.toolbarItems = [flexibleSpace, modeChangeButton, flexibleSpace]
         self.title = getDateString(format: Namespace.dateWithHyphen)
         self.navigationItem.rightBarButtonItem = dateSelectionButton
         
@@ -77,12 +90,44 @@ extension BoxOfficeViewController {
         ])
     }
     
+    private func setUpCollectionViewLayout() {
+        if isListMode {
+            let configuration = UICollectionLayoutListConfiguration(appearance: .plain)
+            let layout = UICollectionViewCompositionalLayout.list(using: configuration)
+            
+            collectionView.collectionViewLayout = layout
+        } else {
+            let layout = UICollectionViewFlowLayout()
+            let width = (view.frame.width - 45) / 2.0
+            
+            layout.sectionInset = UIEdgeInsets(top: 15, left: 15, bottom: 15, right: 15)
+            layout.minimumLineSpacing = 10
+            layout.minimumInteritemSpacing = 15
+            layout.itemSize = CGSize(width: width, height: width)
+            
+            collectionView.collectionViewLayout = layout
+        }
+    }
+    
     @objc func showCalendar(_ sender: UIButton) {
         let viewController = CalendarViewController(date)
         viewController.delegate = self
         viewController.modalPresentationStyle = UIModalPresentationStyle.automatic
         
         self.present(viewController, animated: true)
+    }
+    
+    @objc func hitChangeModeButton() {
+        let mode: String = isListMode == true ? "아이콘" : "리스트"
+        let alert = UIAlertController(title: "화면 모드 변경", message: nil, preferredStyle: .actionSheet)
+        let modeChangeAction = UIAlertAction(title: mode, style: .default) { _ in
+            self.isListMode.toggle()
+        }
+        let cancelAction = UIAlertAction(title: "취소", style: .cancel)
+        
+        alert.addAction(modeChangeAction)
+        alert.addAction(cancelAction)
+        present(alert, animated: true)
     }
 }
 
@@ -104,14 +149,26 @@ extension BoxOfficeViewController {
     }
     
     private func setUpDataSource() {
-        dataSource = UICollectionViewDiffableDataSource<NetworkConfiguration, BoxOfficeEntity.BoxOfficeResult.DailyBoxOffice>(collectionView: self.collectionView) { (collectionView, indexPath, data) -> UICollectionViewCell? in
-            guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: BoxOfficeRankingCell.cellIdentifier, for: indexPath) as? BoxOfficeRankingCell else {
-                return UICollectionViewCell()
+        if isListMode {
+            dataSource = UICollectionViewDiffableDataSource<NetworkConfiguration, BoxOfficeEntity.BoxOfficeResult.DailyBoxOffice>(collectionView: self.collectionView) { (collectionView, indexPath, data) -> UICollectionViewCell? in
+                guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: BoxOfficeRankingListCell.cellIdentifier, for: indexPath) as? BoxOfficeRankingListCell else {
+                    return BoxOfficeRankingListCell()
+                }
+                
+                cell.setUpLabelText(data)
+                
+                return cell
             }
-            
-            cell.setUpLabelText(data)
-            
-            return cell
+        } else {
+            dataSource = UICollectionViewDiffableDataSource<NetworkConfiguration, BoxOfficeEntity.BoxOfficeResult.DailyBoxOffice>(collectionView: self.collectionView) { (collectionView, indexPath, data) -> UICollectionViewCell? in
+                guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: BoxOfficeRankingIconCell.cellIdentifier, for: indexPath) as? BoxOfficeRankingIconCell else {
+                    return BoxOfficeRankingIconCell()
+                }
+
+                cell.setUpLabelText(data)
+
+                return cell
+            }
         }
     }
     
@@ -186,6 +243,9 @@ extension BoxOfficeViewController: BoxOfficeDelegate {
     func setUpDate(_ date: Date) {
         self.date = date
         self.title = getDateString(format: Namespace.dateWithHyphen)
+        
+        setUpCollectionViewLayout()
+        setUpDataSource()
         passFetchedData()
     }
 }

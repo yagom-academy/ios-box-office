@@ -1,20 +1,21 @@
 //
-//  BoxOfficeRankingCell.swift
+//  BoxOfficeRankingIconCell.swift
 //  BoxOffice
 //
-//  Created by Yetti, Maxhyunm on 2023/08/02.
+//  Created by Min Hyun on 2023/08/16.
 //
 
 import UIKit
 
-final class BoxOfficeRankingCell: UICollectionViewListCell {
-    static let cellIdentifier = "BoxOfficeCell"
+class BoxOfficeRankingIconCell: UICollectionViewCell {
+    static let cellIdentifier = "BoxOfficeIconCell"
     
     private let rankLabel: UILabel = {
         let label = UILabel()
         label.textAlignment = .center
         label.font = .preferredFont(forTextStyle: .largeTitle)
         label.translatesAutoresizingMaskIntoConstraints = false
+        label.adjustsFontForContentSizeCategory = true
         
         return label
     }()
@@ -24,6 +25,7 @@ final class BoxOfficeRankingCell: UICollectionViewListCell {
         label.textAlignment = .center
         label.font = .preferredFont(forTextStyle: .callout)
         label.translatesAutoresizingMaskIntoConstraints = false
+        label.adjustsFontForContentSizeCategory = true
         
         return label
     }()
@@ -32,13 +34,18 @@ final class BoxOfficeRankingCell: UICollectionViewListCell {
         let label = UILabel()
         label.font = .preferredFont(forTextStyle: .title3)
         label.translatesAutoresizingMaskIntoConstraints = false
+        label.adjustsFontForContentSizeCategory = true
+        label.numberOfLines = 0
         
         return label
     }()
     
     private let audienceLabel: UILabel = {
         let label = UILabel()
+        label.font = .preferredFont(forTextStyle: .callout)
         label.translatesAutoresizingMaskIntoConstraints = false
+        label.adjustsFontForContentSizeCategory = true
+        label.adjustsFontSizeToFitWidth = true
         
         return label
     }()
@@ -47,6 +54,8 @@ final class BoxOfficeRankingCell: UICollectionViewListCell {
         let stackView = UIStackView()
         stackView.axis = .vertical
         stackView.translatesAutoresizingMaskIntoConstraints = false
+        stackView.alignment = .center
+        stackView.distribution = .equalSpacing
         
         return stackView
     }()
@@ -61,29 +70,20 @@ final class BoxOfficeRankingCell: UICollectionViewListCell {
     }
     
     private func setUpUI() {
-        self.accessories = [.outlineDisclosure(options: .init(tintColor: .systemGray))]
+        self.layer.borderWidth = 2.0
+        self.layer.borderColor = .init(gray: 0.5, alpha: 1.0)
         
-        stackView.addArrangedSubview(movieNameLabel)
-        stackView.addArrangedSubview(audienceLabel)
-        contentView.addSubview(rankLabel)
-        contentView.addSubview(rankIntensityLabel)
         contentView.addSubview(stackView)
+        stackView.addArrangedSubview(rankLabel)
+        stackView.addArrangedSubview(movieNameLabel)
+        stackView.addArrangedSubview(rankIntensityLabel)
+        stackView.addArrangedSubview(audienceLabel)
         
         NSLayoutConstraint.activate([
-            rankLabel.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 10),
-            rankLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
-            rankLabel.widthAnchor.constraint(equalTo: contentView.widthAnchor, multiplier: 0.3),
-            
-            rankIntensityLabel.widthAnchor.constraint(equalTo: rankLabel.widthAnchor),
-            rankIntensityLabel.topAnchor.constraint(equalTo: rankLabel.bottomAnchor),
-            rankIntensityLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
-            rankIntensityLabel.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -10),
-            
-            stackView.leadingAnchor.constraint(equalTo: rankLabel.trailingAnchor),
-            stackView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -20),
+            stackView.centerXAnchor.constraint(equalTo: contentView.centerXAnchor),
             stackView.centerYAnchor.constraint(equalTo: contentView.centerYAnchor),
-            
-            self.separatorLayoutGuide.leadingAnchor.constraint(equalTo: rankLabel.leadingAnchor)
+            stackView.widthAnchor.constraint(equalTo: contentView.widthAnchor, multiplier: 0.9),
+            stackView.heightAnchor.constraint(equalTo: contentView.heightAnchor, multiplier: 0.9)
         ])
     }
     
@@ -118,5 +118,9 @@ final class BoxOfficeRankingCell: UICollectionViewListCell {
         attributedString.addAttribute(.foregroundColor, value: UIColor.systemBlue, range: (fixedIntensity as NSString).range(of: "▼"))
         
         return attributedString
+    }
+    
+    override func prepareForReuse() {
+        rankIntensityLabel.textColor = .black
     }
 }

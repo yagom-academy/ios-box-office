@@ -15,7 +15,11 @@ struct NetworkingManager {
     }
     
     func load(_ networkType: NetworkConfiguration, completion: @escaping (Result<Data, NetworkingError>) -> Void) {
-        var urlComponents = URLComponents(string: networkType.url)
+        guard let urlString = networkType.url, let header = networkType.header else {
+            completion(.failure(NetworkingError.invalidAPIKey))
+            return
+        }
+        var urlComponents = URLComponents(string: urlString)
         
         networkType.query.forEach {
             urlComponents?.queryItems = [URLQueryItem(name: $0.name, value: $0.value)]
@@ -23,12 +27,12 @@ struct NetworkingManager {
         
         guard let url = urlComponents?.url else {
             completion(.failure(NetworkingError.invalidURL))
-            return 
+            return
         }
         
         var request = URLRequest(url: url)
-        
-        networkType.header.forEach {
+
+        header.forEach {
             request.setValue($0.value, forHTTPHeaderField: $0.forHTTPHeaderField)
         }
 

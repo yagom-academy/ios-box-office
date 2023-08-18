@@ -12,14 +12,18 @@ final class MovieDetailStackView: UIStackView {
         let label = UILabel()
         label.font = .preferredFont(forTextStyle: .headline)
         label.textAlignment = .center
+        label.adjustsFontForContentSizeCategory = true
+        label.numberOfLines = 0
         
         return label
     }()
     
     let valueLabel: UILabel = {
         let label = UILabel()
+        label.font = .preferredFont(forTextStyle: .body)
         label.lineBreakMode = .byWordWrapping
         label.numberOfLines = 0
+        label.adjustsFontForContentSizeCategory = true
         
         return label
     }()
