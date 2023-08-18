@@ -12,11 +12,15 @@ final class DailyBoxOfficeViewController: UIViewController {
     private var networkService: NetworkService = NetworkService()
     private var boxOfficeData: BoxOffice?
     private let loadingView: LoadingView = LoadingView()
-    private var targetDate: Date = DateManager.fetchPastDate(dayAgo: 1)
+    private var targetDate: Date = Date.yesterday
     
-    private var isListMode: Bool = true {
+    private var leadingConstraint: NSLayoutConstraint!
+    private var trailingConstraint: NSLayoutConstraint!
+    
+    private var viewMode: BoxOfficeViewMode = .list {
         didSet {
             updateCollectionViewLayout()
+            updateAutoLayout()
             collectionView.reloadData()
         }
     }
@@ -49,7 +53,6 @@ final class DailyBoxOfficeViewController: UIViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        
         navigationController?.isToolbarHidden = false
     }
     
@@ -61,10 +64,7 @@ final class DailyBoxOfficeViewController: UIViewController {
         let flexibleSpace = UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: nil, action: nil)
         self.setToolbarItems([flexibleSpace, toolBarButtonItem, flexibleSpace], animated: true)
         
-        let appearance = UIToolbarAppearance()
-        appearance.configureWithOpaqueBackground()
-        appearance.backgroundColor = .systemGray6
-        navigationController?.toolbar.scrollEdgeAppearance = appearance
+        navigationController?.toolbar.scrollEdgeAppearance = UIToolbarAppearance()
         
         setNavigationTitle()
     }
@@ -78,30 +78,23 @@ final class DailyBoxOfficeViewController: UIViewController {
     
     @objc private func presentActionSheet() {
         let actionSheet: UIAlertController = UIAlertController(title: "화면 모드 변경", message: nil, preferredStyle: .actionSheet)
-        let alertActionList: UIAlertAction = UIAlertAction(title: "리스트", style: .default) { _ in
-            self.changeScreenMode()
-        }
-        let alertActionIcon: UIAlertAction = UIAlertAction(title: "아이콘", style: .default) { _ in
-            self.changeScreenMode()
-        }
         let alertActionCancel: UIAlertAction = UIAlertAction(title: "취소", style: .cancel, handler: nil)
         
-        if isListMode {
-            actionSheet.addAction(alertActionIcon)
-        } else {
-            actionSheet.addAction(alertActionList)
+        BoxOfficeViewMode.allCases.filter{ $0 != viewMode }.forEach { mode in
+            let alertAction: UIAlertAction = UIAlertAction(title: "\(mode)", style: .default) { _ in
+                self.viewMode = mode
+            }
+            
+            actionSheet.addAction(alertAction)
         }
+        
         actionSheet.addAction(alertActionCancel)
         
         present(actionSheet, animated: true)
     }
     
     private func setNavigationTitle() {
-        navigationItem.title = DateManager.changeDateFormat(date: targetDate, format: "yyyy-MM-dd")
-    }
-    
-    private func changeScreenMode() {
-        isListMode = !isListMode
+        navigationItem.title = targetDate.convertString(format: "yyyy-MM-dd")
     }
     
     private func setupCollectionView() {
@@ -121,6 +114,9 @@ final class DailyBoxOfficeViewController: UIViewController {
     }
     
     private func setUpAutoLayout() {
+        leadingConstraint = collectionView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor)
+        trailingConstraint = collectionView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor)
+        
         NSLayoutConstraint.activate([
             loadingView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
             loadingView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor),
@@ -128,10 +124,21 @@ final class DailyBoxOfficeViewController: UIViewController {
             loadingView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor),
             
             collectionView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
-            collectionView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 10),
-            collectionView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -10),
+            leadingConstraint,
+            trailingConstraint,
             collectionView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor)
         ])
+    }
+    
+    private func updateAutoLayout() {
+        switch viewMode {
+        case .list:
+            leadingConstraint.constant = CGFloat(0)
+            trailingConstraint.constant = CGFloat(0)
+        case .grid:
+            leadingConstraint.constant = CGFloat(10)
+            trailingConstraint.constant = CGFloat(-10)
+        }
     }
     
     private func receiveData() {
@@ -149,7 +156,7 @@ final class DailyBoxOfficeViewController: UIViewController {
     }
     
     private func receiveURLRequest() -> URLRequest? {
-        let targetDateString = DateManager.changeDateFormat(date: targetDate, format: "yyyyMMdd")
+        let targetDateString = targetDate.convertString(format: "yyyyMMdd")
         
         do {
             let urlRequest = try kobisOpenAPI.receiveURLRequest(serviceType: .dailyBoxOffice, queryItems: ["targetDt": targetDateString])
@@ -184,11 +191,13 @@ final class DailyBoxOfficeViewController: UIViewController {
     }
     
     private func updateCollectionViewLayout() {
-        if isListMode {
+        
+        switch viewMode {
+        case .list:
             let layout = collectionView.collectionViewLayout as? UICollectionViewFlowLayout
             layout?.minimumLineSpacing = 0
             layout?.minimumInteritemSpacing = 0
-        } else {
+        case .grid:
             let layout = collectionView.collectionViewLayout as? UICollectionViewFlowLayout
             layout?.minimumLineSpacing = 10
             layout?.minimumInteritemSpacing = 10
@@ -206,46 +215,45 @@ extension DailyBoxOfficeViewController: CalendarDelegate {
 
 extension DailyBoxOfficeViewController: UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return 10
+        guard let count = boxOfficeData?.boxOfficeResult.dailyBoxOfficeList.count else { return 0 }
+        
+        return count
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        if isListMode {
+        guard let data = boxOfficeData?.boxOfficeResult.dailyBoxOfficeList[index: indexPath.item] else {
+            return UICollectionViewCell()
+        }
+        
+        switch viewMode {
+        case .list:
             guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: DailyBoxOfficeCollectionViewListCell.identifier, for: indexPath) as? DailyBoxOfficeCollectionViewListCell else {
                 return UICollectionViewCell()
             }
             
-            guard let data = boxOfficeData,
-                  let data = data.boxOfficeResult.dailyBoxOfficeList[index: indexPath.item] else {
-                return cell
-            }
-            
             cell.configureCell(data: data)
             
             return cell
-        } else {
+        case .grid:
             guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: DailyBoxOfficeCollectionViewGridCell.identifier, for: indexPath) as? DailyBoxOfficeCollectionViewGridCell else {
                 return UICollectionViewCell()
             }
             
-            guard let data = boxOfficeData,
-                  let data = data.boxOfficeResult.dailyBoxOfficeList[index: indexPath.item] else {
-                return cell
-            }
-            
             cell.configureCell(data: data)
             
             return cell
+            
         }
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        if isListMode {
+        switch viewMode {
+            
+        case .list:
             let width: CGFloat = collectionView.frame.width
             var height: CGFloat = collectionView.frame.height * 0.1
             
-            guard let data = boxOfficeData,
-                  let data = data.boxOfficeResult.dailyBoxOfficeList[index: indexPath.item] else {
+            guard let data = boxOfficeData?.boxOfficeResult.dailyBoxOfficeList[index: indexPath.item] else {
                 return CGSize(width: width, height: height)
             }
             
@@ -258,7 +266,7 @@ extension DailyBoxOfficeViewController: UICollectionViewDataSource, UICollection
             height += titleLabelSize.height
             
             return CGSize(width: width, height: height)
-        } else {
+        case .grid:
             let width: CGFloat = collectionView.frame.width / 2.1
             let height: CGFloat = width
             
@@ -267,8 +275,7 @@ extension DailyBoxOfficeViewController: UICollectionViewDataSource, UICollection
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        guard let data = boxOfficeData,
-              let data = data.boxOfficeResult.dailyBoxOfficeList[index: indexPath.item] else {
+        guard let data = boxOfficeData?.boxOfficeResult.dailyBoxOfficeList[index: indexPath.item] else {
             return
         }
         
