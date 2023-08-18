@@ -21,6 +21,14 @@ final class MovieDetailViewController: UIViewController {
         fetchData()
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        navigationController?.isToolbarHidden = true
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        navigationController?.isToolbarHidden = false
+    }
+    
     init(boxOfficeItem: BoxOfficeItem) {
         self.boxOfficeItem = boxOfficeItem
         super.init(nibName: nil, bundle: nil)
