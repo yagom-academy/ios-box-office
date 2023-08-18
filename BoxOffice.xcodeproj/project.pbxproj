@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		5D2CF6C92A8B6F0A009EECB3 /* CollectionViewIconCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5D2CF6C72A8B6F0A009EECB3 /* CollectionViewIconCell.swift */; };
+		5D2CF6CA2A8B6F0A009EECB3 /* CollectionViewIconCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5D2CF6C82A8B6F0A009EECB3 /* CollectionViewIconCell.xib */; };
 		5D4FAA982A6E8604001FA74A /* BoxOfficeTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5D4FAA972A6E8604001FA74A /* BoxOfficeTests.swift */; };
 		5D4FAAA12A6E88D3001FA74A /* box_office_sample.json in Resources */ = {isa = PBXBuildFile; fileRef = 5D4FAAA02A6E88D2001FA74A /* box_office_sample.json */; };
 		5DDFC3282A72628700135954 /* Movie.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5DDFC3272A72628700135954 /* Movie.swift */; };
@@ -29,6 +31,7 @@
 		D0989F712A77616400716556 /* APIError.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0989F702A77616400716556 /* APIError.swift */; };
 		D0989F882A7B517900716556 /* APIKey.plist in Resources */ = {isa = PBXBuildFile; fileRef = D0989F872A7B517900716556 /* APIKey.plist */; };
 		D0989F8A2A7B522400716556 /* HideAPIKey++Bundle.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0989F892A7B522400716556 /* HideAPIKey++Bundle.swift */; };
+		D0F060152A8C96DF006133E4 /* Arrow.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0F060142A8C96DF006133E4 /* Arrow.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -42,6 +45,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		5D2CF6C72A8B6F0A009EECB3 /* CollectionViewIconCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CollectionViewIconCell.swift; sourceTree = "<group>"; };
+		5D2CF6C82A8B6F0A009EECB3 /* CollectionViewIconCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = CollectionViewIconCell.xib; sourceTree = "<group>"; };
 		5D4FAA952A6E8604001FA74A /* BoxOfficeTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = BoxOfficeTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		5D4FAA972A6E8604001FA74A /* BoxOfficeTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BoxOfficeTests.swift; sourceTree = "<group>"; };
 		5D4FAAA02A6E88D2001FA74A /* box_office_sample.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = box_office_sample.json; sourceTree = "<group>"; };
@@ -67,6 +72,7 @@
 		D0989F702A77616400716556 /* APIError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIError.swift; sourceTree = "<group>"; };
 		D0989F872A7B517900716556 /* APIKey.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = APIKey.plist; sourceTree = "<group>"; };
 		D0989F892A7B522400716556 /* HideAPIKey++Bundle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "HideAPIKey++Bundle.swift"; sourceTree = "<group>"; };
+		D0F060142A8C96DF006133E4 /* Arrow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Arrow.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -193,6 +199,7 @@
 			children = (
 				63DF20F42970E1A0005DF7D1 /* Main.storyboard */,
 				5DDFC35A2A79FBEB00135954 /* CollectionViewListCell.xib */,
+				5D2CF6C82A8B6F0A009EECB3 /* CollectionViewIconCell.xib */,
 				63DF20F92970E1A1005DF7D1 /* LaunchScreen.storyboard */,
 			);
 			path = View;
@@ -214,12 +221,22 @@
 		D06DF27F2A6E737D0074F9EF /* Controller */ = {
 			isa = PBXGroup;
 			children = (
+				D0F060162A8C9782006133E4 /* Enum */,
 				D0246A132A81E4B70045C0B6 /* Protocol+ */,
 				63DF20F22970E1A0005DF7D1 /* MainViewController.swift */,
 				D0246A0F2A81DDC50045C0B6 /* CalendarViewController.swift */,
 				5DDFC3592A79FBEB00135954 /* CollectionViewListCell.swift */,
+				5D2CF6C72A8B6F0A009EECB3 /* CollectionViewIconCell.swift */,
 			);
 			path = Controller;
+			sourceTree = "<group>";
+		};
+		D0F060162A8C9782006133E4 /* Enum */ = {
+			isa = PBXGroup;
+			children = (
+				D0F060142A8C96DF006133E4 /* Arrow.swift */,
+			);
+			path = Enum;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -311,6 +328,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				63DF20FB2970E1A1005DF7D1 /* LaunchScreen.storyboard in Resources */,
+				5D2CF6CA2A8B6F0A009EECB3 /* CollectionViewIconCell.xib in Resources */,
 				63DF20F82970E1A1005DF7D1 /* Assets.xcassets in Resources */,
 				63DF20F62970E1A0005DF7D1 /* Main.storyboard in Resources */,
 				D0989F882A7B517900716556 /* APIKey.plist in Resources */,
@@ -341,11 +359,13 @@
 				5DDFC38E2A83881500135954 /* DateProviderError.swift in Sources */,
 				5DDFC3282A72628700135954 /* Movie.swift in Sources */,
 				5DDFC35E2A7A61A400135954 /* DateProvider.swift in Sources */,
+				5D2CF6C92A8B6F0A009EECB3 /* CollectionViewIconCell.swift in Sources */,
 				5DDFC32A2A735C0100135954 /* URLManager.swift in Sources */,
 				D040BE3D2A713E86007F2095 /* APIManager.swift in Sources */,
 				D06DF2812A6E73B40074F9EF /* BoxOffice.swift in Sources */,
 				D0246A102A81DDC50045C0B6 /* CalendarViewController.swift in Sources */,
 				63DF20F32970E1A0005DF7D1 /* MainViewController.swift in Sources */,
+				D0F060152A8C96DF006133E4 /* Arrow.swift in Sources */,
 				63DF20EF2970E1A0005DF7D1 /* AppDelegate.swift in Sources */,
 				D0989F712A77616400716556 /* APIError.swift in Sources */,
 				63DF20F12970E1A0005DF7D1 /* SceneDelegate.swift in Sources */,

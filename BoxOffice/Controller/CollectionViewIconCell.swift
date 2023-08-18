@@ -1,27 +1,38 @@
 //
-//  CollectionViewCell.swift
+//  CollectionViewIconCell.swift
 //  BoxOffice
 //
-//  Created by redmango, Jusbug on 2023/08/02.
+//  Created by redmango1446 on 2023/08/15.
 //
 
 import UIKit
 
-final class CollectionViewListCell: UICollectionViewListCell {
+class CollectionViewIconCell: UICollectionViewCell {
     @IBOutlet weak var rankNumberLabel: UILabel!
-    @IBOutlet weak var rankInfoLabel: UILabel!
     @IBOutlet weak var movieNameLabel: UILabel!
+    @IBOutlet weak var rankInfoLabel: UILabel!
     @IBOutlet weak var audiNumberLabel: UILabel!
     
     override func awakeFromNib() {
         super.awakeFromNib()
+        
+    }
+    
+    override func layoutSubviews() {
+        super.layoutSubviews()
+        self.layer.borderWidth = 1
+        self.layer.borderColor = UIColor.black.cgColor
+        self.layer.cornerRadius = 10
     }
     
     func configureFont() {
         rankNumberLabel.font = .preferredFont(forTextStyle: .title1)
-        rankInfoLabel.font = .preferredFont(forTextStyle: .caption1)
+        rankInfoLabel.font = .preferredFont(forTextStyle: .body)
+        audiNumberLabel.font = .preferredFont(forTextStyle: .body)
+        audiNumberLabel.adjustsFontSizeToFitWidth = true
         movieNameLabel.font = .preferredFont(forTextStyle: .title3)
-        audiNumberLabel.font = .preferredFont(forTextStyle: .caption1)
+        movieNameLabel.allowsDefaultTighteningForTruncation = true
+        movieNameLabel.numberOfLines = 2
     }
     
     func configureDynamicType() {
@@ -58,7 +69,6 @@ final class CollectionViewListCell: UICollectionViewListCell {
             rankInfoLabel.text = "신작"
         case "OLD":
             if dailyBoxOffice.rankInten == "0" {
-                rankInfoLabel.textColor = .black
                 rankInfoLabel.text = "-"
                 return
             }

@@ -2,7 +2,6 @@
 <document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="21701" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="CcU-pL-9Uj">
     <device id="retina6_12" orientation="portrait" appearance="light"/>
     <dependencies>
-        <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="21679"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="System colors in document resources" minToolsVersion="11.0"/>
@@ -23,9 +22,12 @@
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             </activityIndicatorView>
                             <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="hJE-o8-6ci">
-                                <rect key="frame" x="0.0" y="103" width="393" height="715"/>
-                                <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="1" minimumInteritemSpacing="10" id="hRj-tQ-Yvq">
+                                <rect key="frame" x="0.0" y="103" width="393" height="680"/>
+                                <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="680" id="KSx-YY-gvG"/>
+                                </constraints>
+                                <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="0.0" minimumInteritemSpacing="10" id="hRj-tQ-Yvq">
                                     <size key="itemSize" width="392" height="80"/>
                                     <size key="headerReferenceSize" width="0.0" height="0.0"/>
                                     <size key="footerReferenceSize" width="0.0" height="0.0"/>
@@ -46,19 +48,28 @@
                                     <outlet property="delegate" destination="BYZ-38-t0r" id="F38-ai-aK1"/>
                                 </connections>
                             </collectionView>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="tIt-B5-YEc">
+                                <rect key="frame" x="136" y="788" width="121" height="35"/>
+                                <state key="normal" title="Button"/>
+                                <buttonConfiguration key="configuration" style="plain" title="화면 모드 변경"/>
+                                <connections>
+                                    <action selector="tapChangeModeButton:" destination="BYZ-38-t0r" eventType="touchUpInside" id="0gD-r6-qDl"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <constraints>
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="hJE-o8-6ci" secondAttribute="trailing" id="6db-zA-2iJ"/>
                             <constraint firstItem="hJE-o8-6ci" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" id="9zW-Dg-phV"/>
-                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="bottom" secondItem="hJE-o8-6ci" secondAttribute="bottom" id="GSC-B8-uu4"/>
+                            <constraint firstItem="tIt-B5-YEc" firstAttribute="centerX" secondItem="6Tk-OE-BBY" secondAttribute="centerX" id="CSL-X1-gTt"/>
+                            <constraint firstItem="tIt-B5-YEc" firstAttribute="bottom" secondItem="6Tk-OE-BBY" secondAttribute="bottom" constant="5" id="DjM-DR-rvx"/>
                             <constraint firstItem="hJE-o8-6ci" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" id="WsE-fI-qng"/>
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" id="83c-0O-bg9">
                         <barButtonItem key="rightBarButtonItem" style="plain" id="0Kn-fV-bc3">
-                            <button key="customView" opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" id="1qc-eX-smJ">
+                            <button key="customView" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" id="1qc-eX-smJ">
                                 <rect key="frame" x="290" y="5" width="87" height="34.333333333333336"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <state key="normal" title="Button"/>
@@ -71,6 +82,7 @@
                     </navigationItem>
                     <connections>
                         <outlet property="calendarButton" destination="1qc-eX-smJ" id="S9J-wW-moK"/>
+                        <outlet property="changeModeButton" destination="tIt-B5-YEc" id="494-ha-Kii"/>
                         <outlet property="collectionView" destination="hJE-o8-6ci" id="tUi-8K-AG4"/>
                         <outlet property="loadingActivityView" destination="Kwk-Hi-AOZ" id="pXB-8v-zht"/>
                     </connections>
