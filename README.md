@@ -177,8 +177,13 @@ URLSession을 이용해 API에서 영화정보를 받아와 CollectionView를 �
 
 ## 4. 실행 화면
 
-<Img src = "https://hackmd.io/_uploads/H1iuid2n2.gif" width="200" height="400">
-<Img src = "https://hackmd.io/_uploads/B1gm3d323.gif" width="200" height="400">
+
+|  | List Mode | Icon Mode |
+| :--------: | :--------: | :--------: |
+| 실행화면     | <Img src = "https://hackmd.io/_uploads/H1iuid2n2.gif" width="200" height="400"> | <Img src = "https://hackmd.io/_uploads/B1gm3d323.gif" width="200" height="400"> |
+
+
+
 </br>
 <a id="5."></a>
 
