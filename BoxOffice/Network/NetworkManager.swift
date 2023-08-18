@@ -7,43 +7,7 @@
 
 import Foundation
 
-struct NetworkManager {
-    private let boxOfficeDataCompletion: (Result<Data, NetworkError>) -> Void = { result in
-        switch result {
-        case .success(let data):
-            guard let decodedData = BoxOfficeData.decode(data: data) else {
-                return
-            }
-        case .failure(let error):
-            print(error.localizedDescription)
-        }
-    }
-    
-    private let movieInformationCompletion: (Result<Data, NetworkError>) -> Void = { result in
-        switch result {
-        case .success(let data):
-            guard let decodedData = MovieInformation.decode(data: data) else {
-                return
-            }
-        case .failure(let error):
-            print(error.localizedDescription)
-        }
-    }
-    
-    enum completion {
-        case boxOfficeData
-        case movieInformation
-        
-        var handler: (Result<Data, NetworkError>) -> Void {
-            switch self {
-            case .boxOfficeData:
-                return NetworkManager().boxOfficeDataCompletion
-            case .movieInformation:
-                return NetworkManager().movieInformationCompletion
-            }
-        }
-    }
-    
+struct NetworkManager {    
     func configureRequest(url: URL, method: String = HTTPMethod.get.typeName) -> URLRequest {
         var request = URLRequest(url: url)
         request.httpMethod = method
@@ -78,3 +42,35 @@ struct NetworkManager {
         task.resume()
     }
 }
+
+//struct User {
+//    private let networkManager: NetworkManager
+//    private let model: Decodable
+//    private let apiKey: URLQueryItem
+//
+//    init(networkManager: NetworkManager, model: Decodable, apiKey: URLQueryItem) {
+//        self.networkManager = networkManager
+//        self.model = model
+//        self.apiKey = apiKey
+//    }
+//
+//    func fetch() {
+//        let apiKey = URLQueryItem(name: "key", value: "f5eef3421c602c6cb7ea224104795888")
+//        var api = URLQuery()
+//        api.addURLQueryItem(APIKey: apiKey, query: ["targetDt": "20120101"])
+//        let url = URLType.boxOfficeData(query: api.queryItems).url
+//        let request = networkManager.configureRequest(url: url)
+//
+//        networkManager.fetchData(request: request) { result in
+//            switch result {
+//            case .success(let data):
+//                guard let decodedData = model.decode(data: data) else {
+//                    return
+//                }
+//                print(decodedData)
+//            case .failure(let error):
+//                print(error.localizedDescription)
+//            }
+//        }
+//    }
+//}

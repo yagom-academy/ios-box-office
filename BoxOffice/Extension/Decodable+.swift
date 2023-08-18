@@ -8,7 +8,7 @@
 import Foundation
 
 extension Decodable {
-    static func decode(data: Data) -> Self? {
+    func decode(data: Data) -> Self? {
         var result: Self?
         
         do {

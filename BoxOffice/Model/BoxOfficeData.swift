@@ -6,7 +6,7 @@
 //
 
 struct BoxOfficeData: Decodable {
-    let boxOfficeResult: BoxOfficeResult
+    var boxOfficeResult: BoxOfficeResult?
 }
 
 struct BoxOfficeResult: Decodable {
