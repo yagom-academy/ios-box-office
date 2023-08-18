@@ -105,11 +105,11 @@ struct Company: Decodable {
 
 struct Audit: Decodable {
     let auditNumber: String
-    let watchGradeName: String
+    let watchGrade: String
     
     private enum CodingKeys: String, CodingKey {
         case auditNumber = "auditNo"
-        case watchGradeName = "watchGradeNm"
+        case watchGrade = "watchGradeNm"
     }
 }
     
