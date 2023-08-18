@@ -258,12 +258,12 @@ struct BoxOfficeResult: Decodable {
 ### 3️⃣ `@available`을 사용하게 되는 이유는?
 
 #### ⛔️ 문제점
-- `UICollectionLayoutListConfiguration`와 `UICollectionLayoutListConfiguration`을 활용하려고 할 경우 다음과 같은 오류가 발생했습니다.
+- `UICollectionLayoutListConfiguration`와 `UICollectionLayoutListConfiguration`을 활용하려고 할 경우 다음과 같은 오류가 발생했습니다. <br>
 ![스크린샷 2023-08-15 오전 2 22 14](https://github.com/karenyang835/ios-box-office/assets/124643896/4a9e935d-6bb1-4a02-b0c0-0a4e70758c06)
 
 
 #### ✅ 해결 방법
-- `iOS`버전을 `14`로 올려 해결했습니다.
+- `iOS`버전을 `14`로 올려 해결했습니다. <br>
 ![스크린샷 2023-08-15 오전 3 03 27](https://github.com/karenyang835/ios-box-office/assets/124643896/49878ab9-cf7c-4ccd-bdab-d6f742a76281)
 
 ---
