@@ -34,14 +34,14 @@ final class MovieDetailViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        setTitle()
+        setupTitle()
         configureBackgroundColor()
         loadMovieDetail()
         loadMoviePoster()
         movieDetailView.startLoadingImage()
     }
     
-    private func setTitle() {
+    private func setupTitle() {
         self.title = dailyBoxOffice.movieName
     }
     
@@ -63,14 +63,14 @@ final class MovieDetailViewController: UIViewController {
             
             if let cachedImage = ImageCacheManager.shared.object(forKey: cacheKey) {
                 DispatchQueue.main.async {
-                    self.setPosterImage(imageDocument, cachedImage)
+                    self.setupPosterImage(imageDocument, cachedImage)
                 }
             } else {
                 if let imageURL = URL(string: imageDocument.imageURL),
                    let data = try? Data(contentsOf: imageURL),
                    let image = UIImage(data: data) {
                     DispatchQueue.main.async {
-                        self.setPosterImage(imageDocument, image)
+                        self.setupPosterImage(imageDocument, image)
                         
                         ImageCacheManager.shared.setObject(image, forKey: cacheKey)
                     }
@@ -91,7 +91,7 @@ final class MovieDetailViewController: UIViewController {
         switch result {
         case .success(let movie):
             DispatchQueue.main.async {
-                self.setLabels(movie)
+                self.setupLabels(movie)
             }
         case .failure(let error):
             DispatchQueue.main.async {
@@ -102,7 +102,7 @@ final class MovieDetailViewController: UIViewController {
 }
 
 extension MovieDetailViewController {
-    private func setPosterImage(_ imageDocument: ImageDocument, _ image: UIImage) {
+    private func setupPosterImage(_ imageDocument: ImageDocument, _ image: UIImage) {
         usleep(500000)
         movieDetailView.stopLoadingImage()
         let ratio = self.movieDetailView.posterImage.frame.width / CGFloat(integerLiteral: imageDocument.width)
@@ -111,7 +111,7 @@ extension MovieDetailViewController {
         self.movieDetailView.posterImage.image = image
     }
     
-    private func setLabels(_ movie: Movie) {
+    private func setupLabels(_ movie: Movie) {
         let movieInfo = movie.movieInformationResult.movieInformation
         let directors = movieInfo.directors.map{ $0.peopleName }.joined(separator: ", ")
         var formattedOpenDate = movieInfo.openDate

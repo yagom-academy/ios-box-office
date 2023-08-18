@@ -11,8 +11,8 @@ import XCTest
 final class BoxOfficeTests: XCTestCase {
     var sut: BoxOffice?
     
-    override func setUpWithError() throws {
-        try super.setUpWithError()
+    override func setupWithError() throws {
+        try super.setupWithError()
     }
     
     override func tearDownWithError() throws {

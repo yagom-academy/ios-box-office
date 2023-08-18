@@ -7,7 +7,7 @@
 1. [소개](#소개)
 2. [팀원](#팀원)
 3. [타임라인 및 핵심경험](#타임라인-핵심경험)
-4. [UML & 파일트리](#UML-파일트리)
+4. [파일트리](#파일트리)
 5. [실행 화면](#실행-화면)
 6. [트러블 슈팅](#트러블-슈팅)
 7. [주요 학습 내용](#주요-학습-내용)
@@ -20,17 +20,21 @@
 
 ## 1. 📢 소개
 
-`오늘의 일일 박스오피스`가 궁금하신가요?
+`일일 박스오피스`가 궁금하신가요?
 혹은 `영화 개별 상세 조회`를 원하시나요?
 저희에게 물어보세요!
 
-✔️ 전날 기준 1~10위 박스오피스를 제공해드립니다!
-✔️ 새로고침을 원하시면 리스트를 아래로 잡아 끌어주세요!
+✔️ 캘린더에서 원하시는 날짜를 선택해주세요 📅 <br>
+✔️ 해당 날짜의 1️⃣~🔟위 박스오피스를 제공해드립니다! <br>
+✔️ 새로고침을 원하시면 리스트를 아래로 잡아 끌어주세요! <br>
+✔️ 영화 별 상세정보도 확인 가능하니 놓치지 마시고 확인해 보세요😆
 
 > **핵심 개념**
-> 오픈 API / URLSession / JSON Decoding / CodingKeys / UNIT Test /
-> CollectionView / ModernCollectionView / UIActivityIndicatorView /
-> UIRefreshControl / NSMutableAttributedString
+> 오픈 API / URLSession / JSON Decoding / CodingKeys / UNIT Test / <br>
+> CollectionView / ModernCollectionView / UIActivityIndicatorView /  <br>
+> UIRefreshControl / NSMutableAttributedString / <br>
+> API KEY 발급 및 노출 방지 / Image Fetch / NSCache / <br>
+> Modal / UICalendarView / DateManager / Image Loading View
 
 <br>
 
@@ -47,7 +51,7 @@
 <a id="타임라인-핵심경험"></a>
 ## 3. ⏱️ 타임라인 및 핵심경험
 
-> 프로젝트 기간 : 2023-07-24 ~ 2023-08-04
+> 프로젝트 기간 : 2023-07-24 ~ 2023-08-18
 
 **타임라인**
 
@@ -61,6 +65,11 @@
 | **2023.08.02** |◽️ 스토리보드 제거 및 코드베이스 UI 구현 <br> ◽️ 일벽 박스오피스 `Cell` 생성 <br> ◽️ 일별 박스오피스 `CollectionView`로 구현 |
 | **2023.08.03** |◽️ `CollectionView` 의 `DataSoruce`를 `DiffableDataSource`로 변경 <br> ◽️ `CollectionView`에 `refresh control` 추가 |
 | **2023.08.04** |◽️ 접근성 향상을 위해 `adjustsFontSize` 적용 <br> ◽️ 에러 발생시 `Alert` 출력 |
+| **2023.08.06** |◽️ `BoxOfficeService`를 사용하는 곳은 모두 의존성 주입을 받아 사용하도록 변경 <br> ◽️ 공통 `Alert` 중복 메서드 분리 <br> ◽️ 영화 상세정보 `ViewController` 생성 및 구현 <br> ◽️ 다음 이미지 검색 관련 `DTO` 추가 |
+| **2023.08.07** |◽️ `NetworkManager` 로직 변경 및 싱글톤 클래스로 변경 <br> ◽️ `Dynamic Type` 적용 |
+| **2023.08.08** |◽️ `Kakao Developer`에 팀 앱 생성  <br> ◽️ `KakaoAPIKey`를 `plist`에 등록 |
+| **2023.08.09** |◽️ 이미지 로드 애니메이션 생성 <br> ◽️ 이미지 캐시 저장 로직 추가 |
+| **2023.08.10** |◽️ 박스오피스 날짜 선택 `ViewController` 추가 <br> ◽️ `BoxOfficeService`의 날짜 로직을 `DateManager` 싱글톤 클래스로 분리 |
 
 **핵심경험**
 
@@ -68,14 +77,13 @@
 > - `Model`을 활용하여 `URLSession`으로 `JSON` 파일을 `Fetch`
 > - `JSON` 파일 `Decode`에 대한 `Unit Test` 작성
 > - iOS 14.0 미만 버전을 위한 `CollecionView` / iOS 14.0 이상 버전을 위한 `ModernCollecionView` 구성
+> - `Kakao API Key`를 활용하여 영화 포스터 `fetch`하기
+> - `fetch`한 이미지 및 데이터를 `StackView`와 `ScrollView`에 넣기
 
 <br>
 
-<a id="UML-파일트리"></a>
-## 4. 📊 UML & 파일트리
-
-### UML
-> 추후 업로드 예정
+<a id="파일트리"></a>
+## 4. 🌲 파일트리
 
 ### 파일트리
 ```
@@ -86,18 +94,26 @@ BoxOffice
 ├── Base.lproj
 │   └── LaunchScreen.storyboard
 ├── Error
+│   ├── AlertManager.swift
 │   ├── JSONDecoderError.swift
 │   └── NetworkManagerError.swift
 ├── Extension
+│   ├── Bundle+.swift
 │   ├── JSONDecoder+.swift
-│   └── String+.swift
+│   ├── String+.swift
+│   └── UIFont+.swift
 ├── Info.plist
+├── KakaoAPIKey.plist
 ├── Model
 │   ├── DTO
 │   │   ├── BoxOffice
 │   │   │   ├── BoxOffice.swift
 │   │   │   ├── BoxOfficeResult.swift
 │   │   │   └── DailyBoxOffice.swift
+│   │   ├── DaumSearch
+│   │   │   ├── DaumSearchMainText.swift
+│   │   │   ├── DaumSearchMeta.swift
+│   │   │   └── ImageDocument.swift
 │   │   └── Movie
 │   │       ├── Audit.swift
 │   │       ├── Company.swift
@@ -111,16 +127,30 @@ BoxOffice
 │   └── Section.swift
 ├── NameSpace
 │   ├── CustomDateFormatStyle.swift
+│   ├── KakaoNameSpace.swift
 │   ├── KobisNameSpace.swift
-│   └── MimeType.swift
+│   ├── MimeType.swift
+│   └── MovieDetailNameSpace.swift
+├── Protocol
+│   ├── CalendarViewControllerDelegate.swift
+│   └── DaumSearchDocumentable.swift
 ├── Service
 │   └── BoxOfficeService.swift
 ├── Util
+│   ├── DateManager.swift
+│   ├── ImageCacheManager.swift
 │   └── NetworkManager.swift
 ├── View
-│   └── BoxOfficeCell.swift
+│   ├── BoxOfficeCell.swift
+│   ├── Custom
+│   │   ├── DetailLabel.swift
+│   │   ├── LabelsStack.swift
+│   │   └── TitleLabel.swift
+│   └── MovieDetailView.swift
 └── ViewController
-    └── ViewController.swift
+    ├── BoxOfficeViewController.swift
+    ├── CalendarViewController.swift
+    └── MovieDetailViewController.swift
 ```
 
 <br>
@@ -130,6 +160,9 @@ BoxOffice
 | 박스오피스 로딩 화면 | 박스오피스 리스트 새로고침|
 | :--------: | :--------: |
 | <Img src = "https://github.com/bubblecocoa/storage/assets/67216784/7662d089-f891-4bd9-978b-3cab4b7f4ce9" width="350"/>| <img width="350px" src="https://github.com/bubblecocoa/storage/assets/67216784/58ec5755-dad8-4966-a80f-d535e2437244">|
+| 이미지 로딩 화면 | 캘린더로 날짜 선택하기 |
+| <Img src = "https://hackmd.io/_uploads/BkRj2OG3n.gif" width="350"/>| <img width="350" src="https://hackmd.io/_uploads/Sy5W8P73h.gif">|
+
 
 <br>
 
@@ -277,6 +310,138 @@ BoxOffice
 
 <br>
 
+## API Key를 git에 노출시키지 않는 방법
+### 🔥 문제점
+- `이미지 검색 API`를 사용하기 위해 `Kakao Developer`에서 앱을 생성하여 `REST API Key`를 발급받았습니다. 발급받은 `REST API Key`를 이용해 `이미지 검색 API`를 이용하는데 성공했고, 해당 내용을 커밋하려고 했습니다.
+- 변경 내역을 확인하던 중 `API Key`가 포함된 코드가 커밋된다면 이후 별도 관리를 위해 해당 코드를 제거하더라도 깃 커밋 이력에 `API Key`가 그대로 노출 되는 상황이 발생하게 됩니다.
+
+### 🧯 해결방법
+- 저희는 이러한 상황이 발생하지 않도록 하기 위해 `KakaoAPIKey.plist` 파일을 만들고 `gitignore`에 추가했습니다. 해당 파일은 깃을 통해 받을 수 없게 되었기 때문에 팀원에게 직접 파일 전달을 하는 방식으로 작업하게 됩니다.
+- `plist`내부의 데이터는 `Bundle`을 확장하여 읽기전용 프로퍼티를 통해 가져오도록 했습니다.
+    ```swift
+    extension Bundle {
+        var kakaoApiKey: String {
+            guard let file = self.path(forResource: "KakaoAPIKey", ofType: "plist") else { return "" }
+            guard let resource = NSDictionary (contentsOfFile: file) else { return "" }
+            guard let key = resource["Authorization"] as? String else {
+                fatalError("KakaoAPIKey.plist에 Authorization를 설정해주세요.")
+            }
+
+            return key
+        }
+    }
+
+    enum KakaoNameSpace {
+        ...
+        static let authorization = "Authorization"
+        static let apiKey = Bundle.main.kakaoApiKey // Bundle에 등록된 Key를 NameSpace로 관리
+    }
+
+    // 이후 URLRequest에 header에 필요한 정보를 주입
+    let headers = [
+        KakaoNameSpace.authorization : KakaoNameSpace.apiKey
+    ]
+    
+    ```
+    > `Bundle`은 실행 가능한 코드와 해당 코드의 자원을 포함하는 디렉토리입니다.
+    > `Bundle`은 여러가지가 있는데, 그 중 `main`은 앱이 실행되는 코드가 있는 `Bundle` 디렉토리에 접근할 수 있는 `bundle`입니다.
+
+<br>
+
+## UIImageView의 Height를 동적으로 입력
+### 🔥 문제점
+- 이미지 검색 API를 통해 어떤 사이즈의 이미지를 가지 와도 이미지의 `width`는 `contentView`의 `width`와 맞추면 되었습니다. 하지만 `UIImage.contentMode`를 어떻게 조정해도 가로 혹은 세로 사이즈의 요구조건을 맞출 수 없었습니다.
+
+### 🧯 해결방법
+- `UIImageView.contentMode`와 상관없이, 비율을 계산하여 세로 사이즈를 조정해주기로 했습니다. 다행히도 이미지 검색 시 가로, 세로 사이즈 정보가 함께 제공되었기 때문에 어렵지 않게 높이를 동적으로 입력할 수 있었습니다.
+    ```swift
+    private func setPosterImage(_ imageDocument: ImageDocument, _ image: UIImage) {
+        // 비율 = UIImage 프레임 가로 ÷ 로드된 이미지 실제 가로 사이즈
+        let ratio = self.movieDetailView.posterImage.frame.width / CGFloat(integerLiteral: imageDocument.width)
+        // 높이 = 비율 × 로드된 이미지 실제 세로 사이즈
+        let height = ratio * CGFloat(integerLiteral: imageDocument.height)
+        self.movieDetailView.posterImage.heightAnchor.constraint(equalToConstant: height).isActive = true
+        self.movieDetailView.posterImage.image = image
+    }
+    ```
+
+<br>
+
+## UIFont Extension을 활용하여 Dynamic Bold Font 구현
+### 🔥 문제점
+- 특정 문자의 두께를 변경하고자 할 때 어떤 방법을 사용할 지 고민하였습니다.
+- swift 기본 제공 메서드를 활용하는 방법이 있지만, 이는 `Font`의 **사이즈가 고정** 된다는 단점이 존재했습니다.
+    ```swift
+    .systemFont(ofSize: 17, weight: .bold)
+    ```
+- `Label`과 `Button`은 `Dynamic Type`에 대한 대응이 되어야한다고 생각했기 때문에, `Font`의 사이즈가 고정되지 않으면서 특정 `Font`의 두께를 조절할 수 있는 방법을 찾고자 하였습니다.
+
+
+### 🧯 해결방법
+- `UIFont`를 `extension`하여 폰트를 `Custom`할 수 있다는 것을 알게되어 이를 활용하였습니다.
+    ```swift
+    extension UIFont {
+        static func preferredFont(for style: TextStyle, weight: Weight) -> UIFont {
+            let descriptor = UIFontDescriptor.preferredFontDescriptor(withTextStyle: style)
+            let font = UIFont.systemFont(ofSize: descriptor.pointSize, weight: weight)
+            let metrics = UIFontMetrics(forTextStyle: style)
+            return metrics.scaledFont(for: font)
+        }
+    }
+    ```
+
+<br>
+
+## Singleton 구조의 DateManager로 Date 관리 로직 분리
+### 🔥 문제점
+- 이전 Step에서는 어제의 날짜 기준으로 모든 데이터를 로드하면 되었으나, 이번 Step부터는 다양한 날짜를 대응해야 했습니다. 여러 `ViewController`에서 지정 날짜를 공유해야 하는 상황에서 어떤 방식으로 대응할지 고민을 했습니다.
+- `ViewController`간 날짜 정보를 주고 받을 수 있지만, 날짜 정보를 가지고 있는 `ViewController`가 모두 메모리에서 해제되는 경우 날짜 정보가 초기화 되는 위험이 있었습니다.
+- 기존에 생성한 `BoxOfficeService`는 앱의 생명주기와 함께하는 구조체이기 때문에, 기존 날짜 관련 로직을 이곳에서 관리하였습니다. 하지만 날짜 관련 로직이 증가하면서 이전과 같이 `BoxOfficeService`에서 이를 모두 관리하는 것은 적절하지 않다고 생각했습니다.
+
+### 🧯 해결방법
+- `DateManager`를 생성하여 날짜 관련 프로퍼티를 해당 클래스에서 처리하도록 했습니다.
+    ```swift
+    class DateManager {
+        static private let dateFormatter = DateFormatter()
+        static let yesterday: Date = .now - (24 * 60 * 60)
+        static var selectedDate: Date = yesterday
+        ...
+
+        private init() {}
+    }
+    ```
+
+<br>
+
+## UICalendarView 선택된 날짜
+### 🔥 문제점
+- 날짜선택 화면의 달력에는 현재 선택된 날짜가 미리 선택되어 있어야 한다는 내용이 있었습니다. 해당 요구사항을 구현하기 위해 `UICalendarView.Decoration`를 이용했습니다.
+    > 커스텀 데코레이션에 적용한 코드
+    ```swift
+    private func customDecoration() -> UIView {
+        let view = UIView()
+        view.backgroundColor = .red
+        view.clipsToBounds = false
+        view.frame = CGRect(x: 0, y: 0, width: 50, height: 50)
+        return view
+    }
+    ```
+    <Img src = "https://hackmd.io/_uploads/B1snPOMnh.png" width="350"/>
+- 결과는 날짜의 하단 일부 영역에만 커스텀을 할 수 있을 뿐, 날짜 자체가 선택된 효과를 줄 수 없었습니다. 
+
+### 🧯 해결방법
+- `UICalendarSelectionSingleDate`를 인스턴스화 하고(`UICalendarSelectionSingleDateDelegate`도 채택합니다.) 아래 코드를 적용하면, 원하는 효과가 적용되는 것을 확인할 수 있었습니다.
+    ```swift
+    let dateSelection = UICalendarSelectionSingleDate(delegate: self)
+    calendarView.selectionBehavior = dateSelection
+    ```
+- 추가로 아래 코드를 작성하여 캘린더뷰가 열릴 때부터 날짜가 선택된 효과를 적용할 수 있었습니다.
+    ```swift
+    dateSelection.selectedDate = DateComponents(year: year, month: month, day: day)
+    ```
+
+<br>
+
 <a id="주요-학습-내용"></a> 
 ## 7. 📚 주요 학습 내용
 
@@ -333,6 +498,32 @@ BoxOffice
 
 <br>
 
+## ✏️ animatedImage를 활용하여 Loading 화면 구성
+- 이미지 로딩 화면을 구성 시 어떤 방법을 사용할 지 고민이 많았습니다. `BoxOfficeViewController`처럼 `activityIndicatorView`를 사용할 수도 있었지만, 다른 종류의 로딩화면도 구현해보고자 하였습니다. 고민을 하던 중 통상적인 앱에서 로딩화면서 움직이는 이미지를 참고하여 이와 비슷하게 구현을 해보고자 하였습니다.
+- `asset`에 `gif` 이미지를 `frame`별 `png`파일로 분리하여 저장하였습니다. 이를 `UIImage`에서 `animatedImage`를 활용하여 임의의 `duration`을 지정하여 자연스럽게 움직이는 형상을 보여줄 수 있도록 하였습니다.
+- 현재 저희 프로젝트에서 로딩하는 이미지는 빠른 속도로 처리가 되기 때문에 저희가 구성한 `Image Loading`화면이 짧은 찰나에 깜빡이고 사라지는 형상을 띄게 되었습니다. 저희는 오히려 이렇게 짧은 로딩화면이 `user`에게 오류가 나는 형상처럼 보여질 수 있다 생각하였습니다. 하여 이미지가 로딩 중이라는 것을 `user`에게 명시하기 위해 `usleep(500000)`을 주어 `Image Loading`의 과정이 보다 저희의 의도와 맞게끔 조정하였습니다.
+
+<br>
+
+## ✏️ URLCache in Memory
+- 저희는 프로젝트에 `NSCache`를 적용했지만, `URLCache`도 공부해 보았습니다.
+- `URLCache`는 기본적으로 캐시 저장이 `ondisk`인 것을 확인했고, 이것을 변경하기 위해 `StoragePolicy`를 `allowedInMemoryOnly`로 지정해 보았습니다. 하지만 저희의 예상과 달리 `StoragePolicy`를 변경하였음에도 캐시 데이터가 `Memory`에 저장 되지 않았습니다.
+- 아래와 같이 여러 실험 끝에 `(30 * 1024 * 1024)` 부터는 `URLCache`가 `메모리`에 저장이 되는 것을 확인할 수 있었습니다.
+    ```
+    ------------------------------------------------------------------------------
+    URLCache.shared의 memoryCapacity: 512,000 bytes
+                      diskCapacity: 10,000,000 bytes
+
+    CachedURLResponse의 storagePolicy가 .allowedInMemoryOnly일 때,
+    memoryCapacity: 10, 20 (* 1024 * 1024)일 때는 실패함. 30부터 성공. 31,457,280 bytes
+    첫번째 data - 1,469,837 bytes
+    두번째 data - 1,078,478 bytes
+    ------------------------------------------------------------------------------
+    ```
+- 때문에 저희는 저장되어야하는 데이터 보다 지정 `memoryCapacity`가 클 때만 `URLCache`의 `inmemory Policy`가 적용된다고 추측했습니다.
+
+<br>
+
 <a id="팀-회고"></a> 
 ## 8. 💭 팀 회고
 
@@ -351,24 +542,77 @@ BoxOffice
 
 <a id="참고-링크"></a>
 ## 9. 🔗 참고 링크
-- [🍎 Developer Apple - XCTFail](https://developer.apple.com/documentation/xctest/xctfail)
-- [🍎 Developer Apple - URLSession](https://developer.apple.com/documentation/foundation/urlsession)
-- [🍎 Developer Apple - Fetching Website Data into Memory](https://developer.apple.com/documentation/foundation/url_loading_system/fetching_website_data_into_memory)
-- [🍎 Developer Apple - Escaping Closures](https://docs.swift.org/swift-book/documentation/the-swift-programming-language/closures/#Escaping-Closures)
-- [🍎 Developer Apple: UICollectionView](https://developer.apple.com/documentation/uikit/uicollectionview)
-- [🍎 Developer Apple: Modern cell configuration](https://developer.apple.com/videos/play/wwdc2020/10027/)
-- [🍎 Developer Apple: Lists in UICollectionView](https://developer.apple.com/videos/play/wwdc2020/10026)
-- [🍎 Developer Apple: Implementing Modern Collection Views](https://developer.apple.com/documentation/uikit/views_and_controls/collection_views/implementing_modern_collection_views)
-- [🍎 Developer Apple: UIAlertController](https://developer.apple.com/documentation/uikit/uialertcontroller)
-- [🍎 Developer Apple: Hashable](https://developer.apple.com/documentation/swift/hashable)
-- [🍎 Developer Apple: Sendable](https://developer.apple.com/documentation/swift/sendable)
-- [📒 Blog: SwiftUI : @escaping](https://seons-dev.tistory.com/entry/SwiftUI-escaping)
-- [📒 Blog: XCTAssert Failure Messages](https://www.basbroek.nl/xctassert-asterisk)
-- [📒 Blog: [Swift] 예외처리 (throws, do-catch, try) 하기](https://twih1203.medium.com/swift-예외처리-throws-do-catch-try-하기-c0f320e61f62)
-- [📒 Blog: do-try-catch 유닛테스트 하기 위한 코드
+
+<details>
+<summary>🍎 Developer Apple</summary>
+
+- [XCTFail](https://developer.apple.com/documentation/xctest/xctfail)
+- [URLSession](https://developer.apple.com/documentation/foundation/urlsession)
+- [Fetching Website Data into Memory](https://developer.apple.com/documentation/foundation/url_loading_system/fetching_website_data_into_memory)
+- [Escaping Closures](https://docs.swift.org/swift-book/documentation/the-swift-programming-language/closures/#Escaping-Closures)
+- [UICollectionView](https://developer.apple.com/documentation/uikit/uicollectionview)
+- [Modern cell configuration](https://developer.apple.com/videos/play/wwdc2020/10027/)
+- [Lists in UICollectionView](https://developer.apple.com/videos/play/wwdc2020/10026)
+- [Implementing Modern Collection Views](https://developer.apple.com/documentation/uikit/views_and_controls/collection_views/implementing_modern_collection_views)
+- [UIAlertController](https://developer.apple.com/documentation/uikit/uialertcontroller)
+- [Hashable](https://developer.apple.com/documentation/swift/hashable)
+- [Sendable](https://developer.apple.com/documentation/swift/sendable)
+- [Bundle](https://developer.apple.com/documentation/foundation/bundle)
+- [NSCache](https://developer.apple.com/documentation/foundation/nscache)
+- [URLCache](https://developer.apple.com/documentation/foundation/urlcache)
+- [URLRequest.CachePolicy](https://developer.apple.com/documentation/foundation/urlrequest/cachepolicy)
+- [URLCache.StoragePolicy](https://developer.apple.com/documentation/foundation/urlcache/storagepolicy)
+- [UICalendarView](https://developer.apple.com/documentation/uikit/uicalendarview)
+- [UICalendarView.Decoration](https://developer.apple.com/documentation/uikit/uicalendarview/decoration)
+- [addTarget](https://developer.apple.com/documentation/uikit/uicontrol/1618259-addtarget)
+- [addAction](https://developer.apple.com/documentation/uikit/uicontrol/3600490-addaction)
+- [UIRefreshControl](https://developer.apple.com/documentation/uikit/uirefreshcontrol)
+
+</details>    
+
+<br>
+
+
+<details>
+<summary>📒 Blog</summary>
+
+- [🌳 Cache](https://green1229.tistory.com/57)
+- [🌳 NSCache vs URLCache](https://green1229.tistory.com/268)
+- [이미지 캐시 처리와 NSCache](https://beenii.tistory.com/187)
+- [URLSession Cahce Policy](https://inuplace.tistory.com/1232)
+- [SwiftUI : @escaping](https://seons-dev.tistory.com/entry/SwiftUI-escaping)
+- [XCTAssert Failure Messages](https://www.basbroek.nl/xctassert-asterisk)
+- [예외처리 (throws, do-catch, try) 하기](https://twih1203.medium.com/swift-예외처리-throws-do-catch-try-하기-c0f320e61f62)
+- [do-try-catch 유닛테스트 하기 위한 코드
 ](https://oingbong.tistory.com/213)
-- [📒 Blog: Xcode13 HTTP 통신 방법](https://jerry-bakery.tistory.com/entry/iOS-Xcode13에서-HTTP-통신-사용하는-방법Use-HTTPS-instead-or-add-Exception-Domains-to-your-apps-Infoplist)
-- [📒 Blog: DiffableDataSource](https://ios-development.tistory.com/717)
-- [📒 Blog: UIActivityIndicator](https://calmone.tistory.com/entry/iOS-UIKit-in-Swift-4-UIActivityIndicator-사용하기)
-- [📒 Blog: UIActivityIndicatorView](https://ios-development.tistory.com/985)
-- [📒 Blog: 일치하는 모든 문자열의 Attribute를 바꾸고 싶을 때](https://zeddios.tistory.com/462)
+- [Xcode13 HTTP 통신 방법](https://jerry-bakery.tistory.com/entry/iOS-Xcode13에서-HTTP-통신-사용하는-방법Use-HTTPS-instead-or-add-Exception-Domains-to-your-apps-Infoplist)
+- [DiffableDataSource](https://ios-development.tistory.com/717)
+- [UIActivityIndicator](https://calmone.tistory.com/entry/iOS-UIKit-in-Swift-4-UIActivityIndicator-사용하기)
+- [UIActivityIndicatorView](https://ios-development.tistory.com/985)
+- [일치하는 모든 문자열의 Attribute를 바꾸고 싶을 때](https://zeddios.tistory.com/462)
+- [github에 올리면 안되는 APIKEY 숨기기](https://nareunhagae.tistory.com/44)
+- [Dynamic Type을 지원하되, weight는 커스텀하기](https://dev-dain.tistory.com/244)
+- [달력 UICalendarView Custom 예제](https://ohwhatisthis.tistory.com/23)
+    
+</details>    
+
+<br>
+
+
+<details>
+<summary>👾 Git</summary>
+
+- [토요스터디ClassC - DasanKim](https://github.com/WhalesJin/FireSaturdayStudyClassC/blob/dasan/2_week6_cache/2_week6_cache/ViewController.swift)
+- [달력 로딩 이미지 애니메이션 팝업 쉽게 만들기](http://minsone.github.io/mac/ios/easy-make-loading-animation-popup-view-in-swift)
+
+</details>    
+
+<br>
+
+
+<details>
+<summary>🌊 stack overflow</summary>
+    
+- [change size of UICalanderView Decofration](https://stackoverflow.com/questions/75470155/how-to-change-size-of-customview-passed-as-uicalanderview-decoration)
+    
+</details>    
