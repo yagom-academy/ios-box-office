@@ -6,15 +6,15 @@
 //
 
 enum ViewMode: String {
-    case list
-    case icon
+    case list = "리스트"
+    case icon = "아이콘"
     
-    var anotherOption: String {
+    var toggle: ViewMode {
         switch self {
         case .list:
-            return "아이콘"
+            return .icon
         case .icon:
-            return "리스트"
+            return .list
         }
     }
 }

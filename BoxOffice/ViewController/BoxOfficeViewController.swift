@@ -246,7 +246,7 @@ extension BoxOfficeViewController {
     }
     
     private func createViewModeChangeAction() -> UIAlertAction {
-        let action = UIAlertAction(title: viewMode.anotherOption, style: .default, handler: { _ in
+        let action = UIAlertAction(title: viewMode.toggle.rawValue, style: .default, handler: { _ in
             var visibleIndexPath: [IndexPath] = []
             if let visibleCell = self.collectionView?.indexPathsForVisibleItems {
                 visibleIndexPath = visibleCell.sorted {
