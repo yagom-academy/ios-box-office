@@ -204,6 +204,7 @@ ATP에 도메인을 추가하여 해당 도메인에 HTTP에 대한 연결을 �
 ![](https://hackmd.io/_uploads/rynMz-R9h.png)
 
 - - -
+    
 ### 1-2. <재활용성 이슈>
 
 🤯 **문제상황**
@@ -234,7 +235,9 @@ enum Service: String {
 
 func fetchData(service: Service, completion: @escaping (Data?) -> Void) { ... }
 ```
+    
 - - -
+    
 ### 1-3. **<URLRequest 객체의 필요성>**
 
 🤯 **문제상황** 
@@ -251,6 +254,7 @@ var request = URLRequest(url: url)
 `URLRequest` 객체 생성을 생략하고 URL을 바로 `DataTask`에 넘겨주는 것으로 수정했습니다. 다만 이렇게 되면 요청할 때 구성된 정보와 기능이 제한이 되지만 현재에서는 불필요한 부분이라고 생각합니다.
 
 - - -
+    
 ### 1-4. **<의존성 이슈>**
 
 🤯 **문제상황**
@@ -298,6 +302,8 @@ private func callAPIManager() {
 }
 ```
 
+- - -
+    
 ### 1-5. **<APIKey 관리>**
 🤯 **문제상황**
  깃허브에 APIKey가 올라가 공유되고 있었습니다. key가 유출된다면 다양한 보안 사고가 발생할 수 있으므로 저희는 APIKey를 숨기고자 했습니다.
@@ -308,6 +314,7 @@ private func callAPIManager() {
 ![](https://hackmd.io/_uploads/SkKMpfYsh.png)
 
 - - -
+    
 ### 1-6. **<URL 관리>**
 
 🤯 **문제상황**
@@ -344,6 +351,8 @@ func configureURLSession(key: String, path: String) -> URL? {
 }
 ```
 
+- - -
+
 </div>
 </details>
 
@@ -366,6 +375,8 @@ func configureURLSession(key: String, path: String) -> URL? {
 cell.accessories = [.disclosureIndicator()]
 ```
     
+- - -
+    
 ### 2-2. **<UIRefreshControl>**
 
 🤯 **문제상황**
@@ -377,6 +388,7 @@ cell.accessories = [.disclosureIndicator()]
 <Img src = "https://hackmd.io/_uploads/BJon7MFs3.gif" width="200" height="400"><Img src = "https://hackmd.io/_uploads/rkSHEGKin.gif" width="200" height="400">
     
 - - -
+    
 ### 2-3. **<선택한 날짜로 `selectedDate` 변경>**
     
 🤯 **문제상황**
@@ -394,7 +406,9 @@ private func showCalendarView() {
     // some code
 }
 ```
-
+    
+- - -
+    
 ### 2-4. **<CollectionView 하단에 버튼 추가>**
     
 🤯 **문제상황**
@@ -402,10 +416,9 @@ private func showCalendarView() {
 
 🔥 **해결방법**
 기존의 `Constraint'에서 잡아줬던 `Safe area` 설정을 제거하고 height 값을 직접 넣어주면서 해결할 수 있었습니다.
-    
 
-    
 - - -
+    
 ### 2-5. **<iconCell 레이아웃 설정>**
     
 🤯 **문제상황**
@@ -445,7 +458,9 @@ extension MainViewController: UICollectionViewDelegateFlowLayout {
 }
 
 ```
+    
 - - -
+    
 ### 2-6. **<cell 경계선 설정>**
 🤯 **문제상황**
 각 셀들을 구분짓기 위해서 기존에는 단순하게 셀의 간격을 두고`backgroundColor`를 넣어 경계가 보이도록 설정하였는데 이번에는 각 셀들에 `layer`에 너비를 주고 컬러를 넣어 경계선이 보이도록 수정했습니다. 하지만 셀들이 서로 겹치는 `layer`에서는 경계선들의 두께가 불규칙적으로 상이해지는 문제가 발생했습니다.
@@ -491,6 +506,7 @@ private func changeLayout(newValue: Bool) {
 ```
 
 ![](https://hackmd.io/_uploads/HJ5P60Kn3.png)
+    
 - - -
     
 ### 2-7. **<cell의 크기를 벗어난 Label.text 처리>**
@@ -513,6 +529,7 @@ movieNameLabel.numberOfLines = 2
 ```
 ![](https://hackmd.io/_uploads/r1CnuJqh3.png)
 
+- - - 
     
 </div>
 </details>
