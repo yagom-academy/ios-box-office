@@ -18,7 +18,8 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         }
         
         window = UIWindow(windowScene: windowScene)
-        let boxOfficeViewController = BoxOfficeViewController(boxOfficeManager: BoxOfficeManager())
+        let boxOfficeViewController = BoxOfficeViewController(boxOfficeManager: BoxOfficeManager(),
+                                                              collectionViewMode: BoxOfficeViewController.CollectionViewMode.list)
         
         window?.rootViewController = UINavigationController(rootViewController: boxOfficeViewController)
         window?.makeKeyAndVisible()

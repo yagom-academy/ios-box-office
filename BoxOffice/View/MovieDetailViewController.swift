@@ -50,6 +50,7 @@ extension MovieDetailViewController {
     
     private func setupNavigation() {
         navigationItem.title = movieName
+        navigationController?.setToolbarHidden(true, animated: true)
     }
 }
 
@@ -65,7 +66,8 @@ extension MovieDetailViewController {
         boxOfficeManager.fetchMovie(movieCode) { result in
             if result == false {
                 DispatchQueue.main.async {
-                    let alert = UIAlertController.errorAlert(NameSpace.fail, NameSpace.loadDataFail, actionTitle: NameSpace.check, actionType: .default)
+                    let alertAction = UIAlertAction(title: NameSpace.check, style: .default)
+                    let alert = UIAlertController.customAlert(alertTile: NameSpace.fail, alertMessage: NameSpace.loadDataFail, preferredStyle: .alert, alertActions: [alertAction])
                     
                     self.present(alert, animated: false)
                 }
@@ -87,7 +89,8 @@ extension MovieDetailViewController {
         boxOfficeManager.fetchPosterImage(movieName) { result in
             if result == false {
                 DispatchQueue.main.async {
-                    let alert = UIAlertController.errorAlert(NameSpace.fail, NameSpace.loadDataFail, actionTitle: NameSpace.check, actionType: .default)
+                    let alertAction = UIAlertAction(title: NameSpace.check, style: .default)
+                    let alert = UIAlertController.customAlert(alertTile: NameSpace.fail, alertMessage: NameSpace.loadDataFail, preferredStyle: .alert, alertActions: [alertAction])
                     
                     self.movieDetailView.stopActivityIndicator()
                     self.present(alert, animated: false)

@@ -7,8 +7,8 @@
 
 import UIKit
 
-final class BoxOfficeCollectionViewCell: UICollectionViewCell {
-    static let identifier = String(describing: BoxOfficeCollectionViewCell.self)
+final class BoxOfficeCollectionViewListCell: UICollectionViewCell {
+    static let identifier = String(describing: BoxOfficeCollectionViewListCell.self)
     
     private let seperatorView: UIView = {
         let view = UIView()
@@ -31,18 +31,20 @@ final class BoxOfficeCollectionViewCell: UICollectionViewCell {
     
     private let rankLabel: UILabel = {
         let label = UILabel()
-        label.translatesAutoresizingMaskIntoConstraints = false
         label.font = UIFont.preferredFont(forTextStyle: .largeTitle)
+        label.adjustsFontForContentSizeCategory = true
         label.textAlignment = .center
+        label.setContentCompressionResistancePriority(.required, for: .horizontal)
         
         return label
     }()
     
     private let rankChangeLabel: UILabel = {
         let label = UILabel()
-        label.translatesAutoresizingMaskIntoConstraints = false
         label.font = UIFont.preferredFont(forTextStyle: .body)
+        label.adjustsFontForContentSizeCategory = true
         label.textAlignment = .center
+        label.setContentCompressionResistancePriority(.required, for: .horizontal)
         
         return label
     }()
@@ -60,16 +62,18 @@ final class BoxOfficeCollectionViewCell: UICollectionViewCell {
     
     private let movieTitleLabel: UILabel = {
         let label = UILabel()
-        label.translatesAutoresizingMaskIntoConstraints = false
         label.font = UIFont.preferredFont(forTextStyle: .title3)
+        label.adjustsFontForContentSizeCategory = true
+        label.numberOfLines = 0
         
         return label
     }()
     
     private let audienceCountLabel: UILabel = {
         let label = UILabel()
-        label.translatesAutoresizingMaskIntoConstraints = false
         label.font = UIFont.preferredFont(forTextStyle: .body)
+        label.adjustsFontForContentSizeCategory = true
+        label.numberOfLines = 0
         
         return label
     }()
@@ -102,21 +106,20 @@ final class BoxOfficeCollectionViewCell: UICollectionViewCell {
 }
 
 // MARK: setup Data
-extension BoxOfficeCollectionViewCell {
+extension BoxOfficeCollectionViewListCell {
     func setupLabels(_ dailyBoxOffice: DailyBoxOffice) {
+        let rankStateColor = dailyBoxOffice.rankStateColor
         rankLabel.text = dailyBoxOffice.rank
         rankChangeLabel.text = dailyBoxOffice.rankState
         movieTitleLabel.text = dailyBoxOffice.movieTitle
         audienceCountLabel.text = dailyBoxOffice.dailyAndTotalAudience
-        
-        let rankStateColor = dailyBoxOffice.rankStateColor
         
         rankChangeLabel.convertColor(target: rankStateColor.targetString, as: rankStateColor.color)
     }
 }
 
 // MARK: configure UI
-extension BoxOfficeCollectionViewCell {
+extension BoxOfficeCollectionViewListCell {
     private func configureUI() {
         configureRankStackView()
         configureMovieInfomationStackView()
@@ -142,7 +145,7 @@ extension BoxOfficeCollectionViewCell {
 }
  
 // MARK: setup Constraint
-extension BoxOfficeCollectionViewCell {
+extension BoxOfficeCollectionViewListCell {
     private func setupConstraint() {
         setupSeperatorVeiwConstraint()
         setupRankStackVeiwConstraint()
@@ -163,20 +166,22 @@ extension BoxOfficeCollectionViewCell {
         NSLayoutConstraint.activate([
             rankStackView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 32),
             rankStackView.centerYAnchor.constraint(equalTo: contentView.centerYAnchor),
-            rankStackView.widthAnchor.constraint(equalToConstant: 40)
+            rankStackView.widthAnchor.constraint(greaterThanOrEqualToConstant: 40)
         ])
     }
     
     private func setupMovieInfomationStackViewConstraint() {
         NSLayoutConstraint.activate([
             movieInfomationStackView.leadingAnchor.constraint(equalTo: rankStackView.trailingAnchor, constant: 32),
-            movieInfomationStackView.centerYAnchor.constraint(equalTo: contentView.centerYAnchor)
+            movieInfomationStackView.centerYAnchor.constraint(equalTo: contentView.centerYAnchor),
+            movieInfomationStackView.topAnchor.constraint(greaterThanOrEqualTo: contentView.topAnchor, constant: 16),
+            movieInfomationStackView.bottomAnchor.constraint(greaterThanOrEqualTo: contentView.bottomAnchor, constant: -16)
         ])
     }
     
     private func setupForwardImageViewConstraint() {
         NSLayoutConstraint.activate([
-            forwardImageView.leadingAnchor.constraint(greaterThanOrEqualTo: movieInfomationStackView.trailingAnchor, constant: 32),
+            forwardImageView.leadingAnchor.constraint(greaterThanOrEqualTo: movieInfomationStackView.trailingAnchor, constant: 16),
             forwardImageView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -16),
             forwardImageView.centerYAnchor.constraint(equalTo: contentView.centerYAnchor),
             forwardImageView.widthAnchor.constraint(equalToConstant: 12),
