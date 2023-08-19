@@ -12,18 +12,18 @@ final class DataManager {
     private let boxOfficeManager: BoxOfficeManager<DailyBoxOffice>
     let apiType: APIType
     var movieItems: [BoxOfficeMovieInfo] = []
-    
+
     var navigationTitleText: String {
         return Date.dateFormatter.string(from: date)
     }
-    
+
     init(date: Date) {
         let dataText = Date.apiDateFormatter.string(from: date)
         self.date = date
-        self.apiType = APIType.boxOffice(dataText)
-        self.boxOfficeManager = BoxOfficeManager<DailyBoxOffice>(apiType: self.apiType, model: NetworkManager(session: .shared))
+        self.apiType = .boxOffice(dataText)
+        self.boxOfficeManager = BoxOfficeManager<DailyBoxOffice>(apiType: self.apiType, model: NetworkManager.shared)
     }
-    
+
     func fetchRanking(handler: @escaping (Result<[BoxOfficeMovieInfo], Error>) -> Void) {
         boxOfficeManager.fetchData { [weak self] result in
             switch result {
