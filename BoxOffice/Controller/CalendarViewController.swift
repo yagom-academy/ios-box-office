@@ -13,7 +13,7 @@ final class CalendarViewController: UIViewController {
     
     private let calendarView: UICalendarView = {
         let view: UICalendarView = UICalendarView()
-        let yesterday: Date = DateManager.fetchPastDate(dayAgo: 1)
+        let yesterday: Date = Date.yesterday
         let calendarViewDateRange = DateInterval(start: Date(timeIntervalSince1970: 0), end: yesterday)
         view.availableDateRange = calendarViewDateRange
         view.translatesAutoresizingMaskIntoConstraints = false
@@ -41,7 +41,6 @@ final class CalendarViewController: UIViewController {
     
     private func setCalendar() {
         let dateSelection = UICalendarSelectionSingleDate(delegate: self)
-        
         dateSelection.selectedDate = Calendar.current.dateComponents([.year, .month, .day], from: date)
         calendarView.selectionBehavior = dateSelection
     }

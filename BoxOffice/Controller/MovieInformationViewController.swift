@@ -15,6 +15,7 @@ final class MovieInformationViewController: UIViewController {
     private var detailInformationData: DetailInformation?
     private var imageSearch: ImageSearch?
     private let loadingView: LoadingView = LoadingView()
+    
     private var completionCount: Int = 0 {
         didSet {
             if completionCount == 2 {
@@ -50,6 +51,7 @@ final class MovieInformationViewController: UIViewController {
     }
     
     private func configureNavigationItem() {
+        navigationController?.isToolbarHidden = true
         navigationItem.title = dailyBoxOfficeData.movieName
     }
     

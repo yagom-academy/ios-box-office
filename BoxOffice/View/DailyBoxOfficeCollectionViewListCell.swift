@@ -1,5 +1,5 @@
 //
-//  DailyBoxOfficeCollectionViewCell.swift
+//  DailyBoxOfficeCollectionViewListCell.swift
 //  BoxOffice
 //
 //  Created by Idinaloq, MARY on 2023/08/03.
@@ -7,10 +7,13 @@
 
 import UIKit
 
-final class DailyBoxOfficeCollectionViewCell: UICollectionViewListCell {
+final class DailyBoxOfficeCollectionViewListCell: UICollectionViewListCell {
+    static let identifier: String = String(describing: DailyBoxOfficeCollectionViewListCell.self)
+    
     let titleLabel: UILabel = {
         let label: UILabel = UILabel()
         label.font = .preferredFont(forTextStyle: .title2)
+        label.adjustsFontForContentSizeCategory = true
         label.translatesAutoresizingMaskIntoConstraints = false
         label.numberOfLines = 0
         
@@ -20,7 +23,9 @@ final class DailyBoxOfficeCollectionViewCell: UICollectionViewListCell {
     private let visitorLabel: UILabel = {
         let label: UILabel = UILabel()
         label.font = .preferredFont(forTextStyle: .title3)
+        label.adjustsFontForContentSizeCategory = true
         label.translatesAutoresizingMaskIntoConstraints = false
+        label.adjustsFontSizeToFitWidth = true
         
         return label
     }()
@@ -29,6 +34,7 @@ final class DailyBoxOfficeCollectionViewCell: UICollectionViewListCell {
         let label: UILabel = UILabel()
         label.font = .preferredFont(forTextStyle: .title1)
         label.textAlignment = .center
+        label.adjustsFontForContentSizeCategory = true
         label.translatesAutoresizingMaskIntoConstraints = false
         
         return label
@@ -38,6 +44,7 @@ final class DailyBoxOfficeCollectionViewCell: UICollectionViewListCell {
         let label: UILabel = UILabel()
         label.font = .preferredFont(forTextStyle: .title3)
         label.textAlignment = .center
+        label.adjustsFontForContentSizeCategory = true
         label.translatesAutoresizingMaskIntoConstraints = false
         
         return label

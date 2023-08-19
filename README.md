@@ -3,9 +3,10 @@
 ## 🍀 소개
 > `idinaloq`와 `Mary`가 만든 박스오피스 입니다.
 
-영화진흥위원회 API를 활용하여 일일 박스오피스 조회 및 영화 개별 상세 조회를 진행합니다.
+영화진흥위원회 API를 활용하여 일일 박스오피스 조회 및 영화 개별 상세 조회를 진행합니다.<br>
+사용자에게 날짜를 입력받아 해당 날짜의 박스오피스를 보여주고, 클릭하면 영화의 상세 정보를 보여줍니다.
 
-* 주요 개념: `JSON Decoder`, `URLComponents`, `URLSession`, `Fetching Website Data into Memory`, `escaping closure`, `completionHandler`, `UICollectionView`, `refreshControl`, `URLRequest`
+* 주요 개념: `JSON Decoder`, `URLComponents`, `URLSession`, `Fetching Website Data into Memory`, `escaping closure`, `completionHandler`, `UICollectionView`, `refreshControl`, `URLRequest`, `UICalendarView`, `Dynamic Type`, `delegate pattern`, `Navigation ToolBar`, `DateInterval`
 
 <br>
 
@@ -46,6 +47,9 @@
 |2023.08.09.(수)|이미지 다운로드, 다운로드 된 이미지 뷰에 표시하도록 추가|
 |2023.08.10.(목)|loadingView구현<br> 에러타입 추가<br> 컨벤션 수정|
 |2023.08.11.(금)|README작성|
+|2023.08.14.(월)|UICalendarView추가<br>ViewController 추가<br>날짜 변경 기능 구현<br>파일분할 및 코드 리팩토링|
+|2023.08.16.(수)|화면모드 변경기능 추가<br>다이나믹타입 적용<br>컨벤션 리팩토링|
+|2023.08.18(금)|README작성|
 
 <br>
 
@@ -54,8 +58,8 @@
 ### Class Diagram
 <p>
 
-<img width="700" src="https://hackmd.io/_uploads/ByCd4vQhh.jpg"> 
-   
+<img width="700" src="https://hackmd.io/_uploads/rkJX-P3hn.jpg"> 
+
 </p>
 
 <br>
@@ -86,18 +90,20 @@
 │   ├── View
 │   │   ├── Base.lproj
 │   │   │   └── LaunchScreen.storyboard
-│   │   ├── DailyBoxOfficeCollectionViewCell.swift
+│   │   ├── DailyBoxOfficeCollectionViewGridCell.swift
+│   │   ├── DailyBoxOfficeCollectionViewListCell.swift
 │   │   ├── LoadingView.swift
 │   │   └── MovieInformationScrollView.swift
 │   ├── Controller
+│   │   ├── CalendarViewController.swift
 │   │   ├── DailyBoxOfficeViewController.swift
 │   │   └── MovieInformationViewController.swift
 │   ├── Network
 │   │   └── NetworkService.swift
 │   └── protocol
+│   │   ├── CalendarDelegate.swift
 │   │   └── URLSessionProtocol.swift
 │   ├── Error
-│   │   ├── DateError.swift
 │   │   ├── NetworkError.swift
 │   │   ├── StringError.swift
 │   │   └── URLError.swift
@@ -105,7 +111,6 @@
 │   │   ├── Array+.swift
 │   │   ├── CALayer+.swift
 │   │   ├── String+.swift
-│   │   ├── UICollectionViewCell+.swift
 │   │   └── URLSession+.swift
 │   ├── Application
 │   │   ├── AppDelegate.swift
@@ -120,13 +125,9 @@
 <br>
 
 ## 💻 실행 화면 
-**추가 예정**
 |실행 화면|
 |:--:|
-|<img src="https://github.com/MaryJo-github/ios-box-office/assets/124647187/8d5242a8-7513-4e59-bb6d-f3f990e9287f" width="300">|
-
-
-
+|<img src="https://github.com/MaryJo-github/ios-box-office/assets/42026766/9353c257-efa9-4bf3-a961-483cffb961d1" width="300">|
 </br>
 
 ## 🧠 고민했던 점
@@ -193,10 +194,12 @@
 - `fetchData(url: URL, completion: @escaping NetworkResult)`메서드에서 `dataTask()`메서드로 데이터를 비동기로 가져와도 반환할 때는 비동기적으로 데이터를 넘겨주지 않는것을 확인했습니다.
 - `completion Handler`인 `escaping closure`를 사용해서 비동기로 데이터를 반환할 수 있었습니다.
 
-### 4️⃣ UIActivityIndicatorView
-- `tableViewCell`을 사용할 때 `accessory`타입의 `.idsclosureIndicator`를 활용해서 각각의 셀에 `>`모양을 표시했습니다. 하지만 `UICollectionViewCell`은 해당 기능이 없었고, 검색해 본 결과 `UICollectionViewListCell`이 있었습니다. 하지만 이는 **iOS14**부터 지원을 하기 때문에 저희가 처음에 만들어진 프로젝트의 **iOS13**보다 높아서 사용할 수 없었습니다.
+### 4️⃣ Deployment target version
+- `tableViewCell`을 사용할 때 `accessory`타입의 `.disclosureIndicator`를 활용해서 각각의 셀에 `>`모양을 표시했습니다. 하지만 `UICollectionViewCell`은 해당 기능이 없었고, 검색해 본 결과 `UICollectionViewListCell`이 있었습니다. 하지만 이는 **iOS14**부터 지원합니다.
+- 사용자에게 날짜를 입력받을 때 `UICalendarView`를 활용하라는 요구사항이 있었고, 이는 **iOS16**부터 지원합니다. 
+- 처음에 만들어진 프로젝트의 버전은 **iOS13**이며, 위 두 기능은 기존 버전보다 높아서 사용할 수 없었습니다.
 
-- 처음에는 기존 프로젝트 설정 그대로 가려고 했지만, 프로젝트에서 요구사항에는 `iOS`버전에 대한 이야기가 없었습니다. 찾아본 결과 공식페이지에 [iOS점유율](https://developer.apple.com/kr/support/app-store/)을 확인하는 곳이 있었고 아이폰의 81%가 **iOS16**을 사용하고 있다는 통계를 찾았고 이것이 저희가 버전을 수정하려는 이유가 될 수 있다고 생각했기 때문에 `UICollectionViewCell`의 `UICellAccessory ` `.discatorIndicator`를 사용해서 `indicator`를 표시해 주도록 변경했습니다.
+- 처음에는 기존 프로젝트 설정 그대로 가려고 했지만, 프로젝트에서 요구사항에는 `iOS`버전에 대한 이야기가 없었습니다. 찾아본 결과 공식페이지에 [iOS점유율](https://developer.apple.com/kr/support/app-store/)을 확인하는 곳이 있었고 아이폰의 81%가 **iOS16**을 사용하고 있다는 통계를 찾았고 이것이 저희가 버전을 수정하려는 이유가 될 수 있다고 생각했기 때문에 프로젝트 버전을 **iOS16**으로 변경하였습니다.
 
 ### 5️⃣ 여러개의 비동기 작업 끝나는 시점
 - `MovieInformationViewController`클래스에서 `receiveImageData()`메서드와 `receiveBoxOfficeData()` 메서드에서 비동기로 데이터를 처리하고 있습니다. 
@@ -229,6 +232,43 @@
         }
     }
     ```
+
+### 6️⃣ ViewController 데이터 전달
+- `CalendarViewController`에서 사용자가 선택한 날짜에 따라 BoxOffice를 업데이트하기위해 날짜를 전달해야했습니다.
+`CalendarDelegate` 프로토콜을 활용하여 `CalendarViewController`에서 날짜가 변경되었을 때 `DailyBoxOfficeViewController`의 `updateBoxOffice(date: Date)`메서드를 호출하도록 구현하였습니다.
+
+```swift
+protocol CalendarDelegate: AnyObject {
+    func updateBoxOffice(date: Date)
+}
+
+final class DailyBoxOfficeViewController: UIViewController {
+    ...
+    extension DailyBoxOfficeViewController: CalendarDelegate {
+        func updateBoxOffice(date: Date) {
+            targetDate = date
+            receiveData()
+            setNavigationTitle()
+        }
+    }
+    ...
+}
+
+final class CalendarViewController: UIViewController {
+    weak var delegate: CalendarDelegate?
+    ...
+}
+
+extension CalendarViewController: UICalendarSelectionSingleDateDelegate {
+    func dateSelection(_ selection: UICalendarSelectionSingleDate, didSelectDate dateComponents: DateComponents?) {
+        guard let date = dateComponents?.date else { return }
+        
+        delegate?.updateBoxOffice(date: date)
+        dismiss(animated: true)
+    }
+}
+
+```
 
 <br>
 
@@ -344,20 +384,26 @@ override func prepareForReuse() {
 - [🍎 Apple Docs: `refreshControl`](https://developer.apple.com/documentation/uikit/uirefreshcontrol)
 - [🍎 Apple Docs: `URLRequest`](https://developer.apple.com/documentation/foundation/urlrequest)
 - [🍎 Apple Docs: `UICollectionView`](https://developer.apple.com/documentation/uikit/uicollectionview)
+- [🍎 Apple Docs: `UICalendarView`](https://developer.apple.com/documentation/uikit/uicalendarview)
+- [🍎 Apple Docs: `DateInterval`](https://developer.apple.com/documentation/foundation/dateinterval)
+- [🍎 Apple Docs: `UIToolbar`](https://developer.apple.com/documentation/uikit/uitoolbar)
 - [🌐 Blog: `escaping closure`](https://jusung.github.io/Escaping-Closure/)
 - [🌐 Blog: `iOS 서버통신 연결하기`](https://vanillacreamdonut.tistory.com/254)
 - [🌐 Blog: `subscript`](https://limjs-dev.tistory.com/104)
-
+- [🌐 Blog: `Dynamic Type`](https://limjs-dev.tistory.com/103)
 
 <br>
 
 ## 👥 팀 회고
 ### 칭찬할 부분
-- 
-### 서로에게 하고 싶은 말
-- To. idinaloq
-    - 
-- To. Mary
-    - 
+- 코드를 작성함에 있어서 왜 그렇게 하는것이 좋은지, 개선할 부분이 있을지에 대해 계속해서 토론, 토의한 점 
+- apple 공식문서를 많이 참고한 점
+- 적용해야할 기술이 많아 프로젝트 방향성이 흐려졌을 때 외부에 도움을 구한 점
+### 아쉬웠던 부분
+- 프로젝트에 집중하여 개인공부 시간을 많이 갖지 못했던 점
 
----
+### 서로에게 하고 싶은 말
+- To. Mary
+    - 한 달 동안 고생 많으셨습니다. 이번에 코드 리뷰어 신청하셨던데 도움이 필요할 때 언제든지 연락 주시면 마음껏 참견하겠습니다 😄
+- To. idinaloq
+    - 가장 어렵고 빡센(?) 프로젝트였던 것 같은데 이디나로크와 함께해서 잘 마무리했던 것 같습니다. 고생하셨습니다! (⬆️ 연락드리겠습니다😁)

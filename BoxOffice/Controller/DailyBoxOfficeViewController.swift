@@ -12,7 +12,18 @@ final class DailyBoxOfficeViewController: UIViewController {
     private var networkService: NetworkService = NetworkService()
     private var boxOfficeData: BoxOffice?
     private let loadingView: LoadingView = LoadingView()
-    private var targetDate: Date = DateManager.fetchPastDate(dayAgo: 1)
+    private var targetDate: Date = Date.yesterday
+    
+    private var leadingConstraint: NSLayoutConstraint!
+    private var trailingConstraint: NSLayoutConstraint!
+    
+    private var viewMode: BoxOfficeViewMode = .list {
+        didSet {
+            updateCollectionViewLayout()
+            updateAutoLayout()
+            collectionView.reloadData()
+        }
+    }
     
     private lazy var refreshControl: UIRefreshControl = {
         let refreshControl: UIRefreshControl = UIRefreshControl()
@@ -40,27 +51,59 @@ final class DailyBoxOfficeViewController: UIViewController {
         receiveData()
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        navigationController?.isToolbarHidden = false
+    }
+    
     private func configureNavigationItem() {
         let logoutBarButtonItem = UIBarButtonItem(title: "날짜선택", style: .done, target: self, action: #selector(presentCalendarView))
         self.navigationItem.rightBarButtonItem  = logoutBarButtonItem
+        
+        let toolBarButtonItem = UIBarButtonItem(title: "화면 모드 변경", style: .done, target: self, action: #selector(presentActionSheet))
+        let flexibleSpace = UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: nil, action: nil)
+        self.setToolbarItems([flexibleSpace, toolBarButtonItem, flexibleSpace], animated: true)
+        
+        navigationController?.toolbar.scrollEdgeAppearance = UIToolbarAppearance()
+        
         setNavigationTitle()
     }
     
-    private func setNavigationTitle() {
-        navigationItem.title = DateManager.changeDateFormat(date: targetDate, format: "yyyy-MM-dd")
-    }
-    
-    @objc func presentCalendarView() {
+    @objc private func presentCalendarView() {
         let calendarViewController = CalendarViewController(date: targetDate)
         calendarViewController.delegate = self
+        
         present(calendarViewController, animated: true)
+    }
+    
+    @objc private func presentActionSheet() {
+        let actionSheet: UIAlertController = UIAlertController(title: "화면 모드 변경", message: nil, preferredStyle: .actionSheet)
+        let alertActionCancel: UIAlertAction = UIAlertAction(title: "취소", style: .cancel, handler: nil)
+        
+        BoxOfficeViewMode.allCases.filter{ $0 != viewMode }.forEach { mode in
+            let alertAction: UIAlertAction = UIAlertAction(title: "\(mode)", style: .default) { _ in
+                self.viewMode = mode
+            }
+            
+            actionSheet.addAction(alertAction)
+        }
+        
+        actionSheet.addAction(alertActionCancel)
+        
+        present(actionSheet, animated: true)
+    }
+    
+    private func setNavigationTitle() {
+        navigationItem.title = targetDate.convertString(format: "yyyy-MM-dd")
     }
     
     private func setupCollectionView() {
         collectionView.dataSource = self
         collectionView.delegate = self
-        collectionView.register(DailyBoxOfficeCollectionViewCell.self,
-                                forCellWithReuseIdentifier: DailyBoxOfficeCollectionViewCell.identifier)
+        collectionView.register(DailyBoxOfficeCollectionViewListCell.self,
+                                forCellWithReuseIdentifier: DailyBoxOfficeCollectionViewListCell.identifier)
+        collectionView.register(DailyBoxOfficeCollectionViewGridCell.self,
+                                forCellWithReuseIdentifier: DailyBoxOfficeCollectionViewGridCell.identifier)
         collectionView.refreshControl = refreshControl
     }
     
@@ -71,6 +114,9 @@ final class DailyBoxOfficeViewController: UIViewController {
     }
     
     private func setUpAutoLayout() {
+        leadingConstraint = collectionView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor)
+        trailingConstraint = collectionView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor)
+        
         NSLayoutConstraint.activate([
             loadingView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
             loadingView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor),
@@ -78,10 +124,21 @@ final class DailyBoxOfficeViewController: UIViewController {
             loadingView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor),
             
             collectionView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
-            collectionView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor),
-            collectionView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor),
+            leadingConstraint,
+            trailingConstraint,
             collectionView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor)
         ])
+    }
+    
+    private func updateAutoLayout() {
+        switch viewMode {
+        case .list:
+            leadingConstraint.constant = CGFloat(0)
+            trailingConstraint.constant = CGFloat(0)
+        case .grid:
+            leadingConstraint.constant = CGFloat(10)
+            trailingConstraint.constant = CGFloat(-10)
+        }
     }
     
     private func receiveData() {
@@ -99,8 +156,8 @@ final class DailyBoxOfficeViewController: UIViewController {
     }
     
     private func receiveURLRequest() -> URLRequest? {
-        let targetDateString = DateManager.changeDateFormat(date: targetDate, format: "yyyyMMdd")
-
+        let targetDateString = targetDate.convertString(format: "yyyyMMdd")
+        
         do {
             let urlRequest = try kobisOpenAPI.receiveURLRequest(serviceType: .dailyBoxOffice, queryItems: ["targetDt": targetDateString])
             
@@ -132,6 +189,20 @@ final class DailyBoxOfficeViewController: UIViewController {
     @objc private func refreshData() {
         receiveData()
     }
+    
+    private func updateCollectionViewLayout() {
+        
+        switch viewMode {
+        case .list:
+            let layout = collectionView.collectionViewLayout as? UICollectionViewFlowLayout
+            layout?.minimumLineSpacing = 0
+            layout?.minimumInteritemSpacing = 0
+        case .grid:
+            let layout = collectionView.collectionViewLayout as? UICollectionViewFlowLayout
+            layout?.minimumLineSpacing = 10
+            layout?.minimumInteritemSpacing = 10
+        }
+    }
 }
 
 extension DailyBoxOfficeViewController: CalendarDelegate {
@@ -144,48 +215,67 @@ extension DailyBoxOfficeViewController: CalendarDelegate {
 
 extension DailyBoxOfficeViewController: UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return 10
+        guard let count = boxOfficeData?.boxOfficeResult.dailyBoxOfficeList.count else { return 0 }
+        
+        return count
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: DailyBoxOfficeCollectionViewCell.identifier, for: indexPath) as? DailyBoxOfficeCollectionViewCell else {
+        guard let data = boxOfficeData?.boxOfficeResult.dailyBoxOfficeList[index: indexPath.item] else {
             return UICollectionViewCell()
         }
         
-        guard let data = boxOfficeData,
-              let data = data.boxOfficeResult.dailyBoxOfficeList[index: indexPath.item] else {
+        switch viewMode {
+        case .list:
+            guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: DailyBoxOfficeCollectionViewListCell.identifier, for: indexPath) as? DailyBoxOfficeCollectionViewListCell else {
+                return UICollectionViewCell()
+            }
+            
+            cell.configureCell(data: data)
+            
             return cell
+        case .grid:
+            guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: DailyBoxOfficeCollectionViewGridCell.identifier, for: indexPath) as? DailyBoxOfficeCollectionViewGridCell else {
+                return UICollectionViewCell()
+            }
+            
+            cell.configureCell(data: data)
+            
+            return cell
+            
         }
-        
-        cell.configureCell(data: data)
-        
-        return cell
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        let width: CGFloat = collectionView.frame.width
-        var height: CGFloat = collectionView.frame.height * 0.1
-        
-        guard let data = boxOfficeData,
-              let data = data.boxOfficeResult.dailyBoxOfficeList[index: indexPath.item] else {
+        switch viewMode {
+            
+        case .list:
+            let width: CGFloat = collectionView.frame.width
+            var height: CGFloat = collectionView.frame.height * 0.1
+            
+            guard let data = boxOfficeData?.boxOfficeResult.dailyBoxOfficeList[index: indexPath.item] else {
+                return CGSize(width: width, height: height)
+            }
+            
+            let cell = DailyBoxOfficeCollectionViewListCell(frame: CGRect(x: 0, y: 0, width: width, height: height))
+            cell.titleLabel.text = data.movieName
+            
+            cell.layoutIfNeeded()
+            
+            let titleLabelSize = cell.titleLabel.intrinsicContentSize
+            height += titleLabelSize.height
+            
+            return CGSize(width: width, height: height)
+        case .grid:
+            let width: CGFloat = collectionView.frame.width / 2.1
+            let height: CGFloat = width
+            
             return CGSize(width: width, height: height)
         }
-        
-        let cell = DailyBoxOfficeCollectionViewCell(frame: CGRect(x: 0, y: 0, width: width, height: height))
-        
-        cell.titleLabel.text = data.movieName
-        cell.layoutIfNeeded()
-        
-        let titleLabelSize = cell.titleLabel.intrinsicContentSize
-        
-        height += titleLabelSize.height
-        
-        return CGSize(width: width, height: height)
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        guard let data = boxOfficeData,
-              let data = data.boxOfficeResult.dailyBoxOfficeList[index: indexPath.item] else {
+        guard let data = boxOfficeData?.boxOfficeResult.dailyBoxOfficeList[index: indexPath.item] else {
             return
         }
         
