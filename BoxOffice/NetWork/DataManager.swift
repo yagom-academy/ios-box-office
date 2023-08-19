@@ -10,7 +10,7 @@ import UIKit
 final class DataManager {
     private let date: Date
     private let boxOfficeManager: BoxOfficeManager<DailyBoxOffice>
-    let apiType: KobisAPIType
+    let apiType: APIType
     var movieItems: [BoxOfficeMovieInfo] = []
     
     var navigationTitleText: String {
@@ -20,7 +20,7 @@ final class DataManager {
     init(date: Date) {
         let dataText = Date.apiDateFormatter.string(from: date)
         self.date = date
-        self.apiType = KobisAPIType.boxOffice(dataText)
+        self.apiType = APIType.boxOffice(dataText)
         self.boxOfficeManager = BoxOfficeManager<DailyBoxOffice>(apiType: self.apiType, model: NetworkManager(session: .shared))
     }
     

@@ -12,7 +12,7 @@ import XCTest
 final class BoxOfficeTests: XCTestCase {
     private var sut: BoxOfficeManager<DailyBoxOffice>!
     private var model: MockNetworkModel!
-    private let url = URL(apiType: KobisAPIType.boxOffice("20230804"))
+    private let url = URL(apiType: APIType.boxOffice("20230804"))
     
     private var nsDataAsset: Data {
         return NSDataAsset(name: "box_office_sample")!.data

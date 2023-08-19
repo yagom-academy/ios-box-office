@@ -8,7 +8,7 @@
 import Foundation
 
 extension URL {
-    init?(apiType: KobisAPIType) {
+    init?(apiType: APIType) {
         guard let urlComponents = apiType.urlComponents else {
             return nil
         }

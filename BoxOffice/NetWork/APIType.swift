@@ -7,12 +7,12 @@
 
 import Foundation
 
-enum KobisAPIType {
+enum APIType {
     case movie(String)
     case boxOffice(String)
 }
 
-extension KobisAPIType {
+extension APIType {
     var urlComponents: URLComponents? {
         var urlComponents = URLComponents()
         urlComponents.scheme = scheme
