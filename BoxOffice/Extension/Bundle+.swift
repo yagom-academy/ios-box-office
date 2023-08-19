@@ -8,7 +8,7 @@
 import Foundation
 
 extension Bundle {
-    var apiKey: String {
+    var kobisApiKey: String {
         guard let file = path(forResource: "APIKEY", ofType: "plist"),
               let resource = NSDictionary(contentsOfFile: file),
               let key = resource["KobisAPIKey"] as? String else {
@@ -17,4 +17,16 @@ extension Bundle {
         
         return key
     }
+    
+    var kakaoApiKey: String {
+        guard let file = path(forResource: "APIKEY", ofType: "plist"),
+              let resource = NSDictionary(contentsOfFile: file),
+              let key = resource["KakaoAPIKey"] as? String else {
+            fatalError("\(BoxOfficeError.invalidAPIKey)")
+            
+        }
+        
+        return key
+    }
 }
+
