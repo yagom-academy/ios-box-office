@@ -24,40 +24,20 @@ final class NetworkManager: NetworkService {
         task.resume()
     }
 
-    func fetchImage(from url: URL, completionHandler: @escaping (Result<(UIImage, CGSize), BoxOfficeError>) -> Void) {
+    func fetchImage(from url: URL, completion: @escaping (Result<(UIImage, CGSize), BoxOfficeError>) -> Void) {
         session.dataTask(with: url) { data, response, error in
-            if let error = error {
-                completionHandler(.failure(.failureResponse))
+            guard error == nil else {
+                completion(.failure(.failureRequest))
                 return
             }
 
-            guard let data = data, let image = UIImage(data: data) else {
-                completionHandler(.failure(.failureDecoding))
+            guard let data = data,
+                  let image = UIImage(data: data) else {
+                completion (.failure(.failureDecoding))
                 return
             }
 
-            completionHandler(.success((image, CGSize(width: image.size.width, height: image.size.height))))
+            completion(.success((image, CGSize(width: image.size.width, height: image.size.height))))
         }.resume()
-    }
-    
-    private func handleResponse(data: Data?, response: URLResponse?, error: Error?, completion: @escaping (Result<Data, BoxOfficeError>) -> Void) {
-        guard error == nil else {
-            completion(.failure(.failureRequest))
-            return
-        }
-
-        guard let response = response,
-              let httpResponse = response as? HTTPURLResponse,
-              (200...299).contains(httpResponse.statusCode) else {
-            completion(.failure(.failureResponse))
-            return
-        }
-
-        guard let data = data else {
-            completion(.failure(.invalidDataType))
-            return
-        }
-
-        completion(.success(data))
     }
 }

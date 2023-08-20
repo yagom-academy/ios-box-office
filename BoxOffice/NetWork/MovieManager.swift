@@ -9,8 +9,8 @@ import UIKit
 
 final class MovieManager {
     let boxOfficeInfo: BoxOfficeManager<MovieInfo>
-    let movieImage: BoxOfficeManager<MovieImage>
-    var imageDocument: Document?
+    private let movieImage: BoxOfficeManager<MovieImage>
+    private var imageDocument: Document?
 
     init(movieCode: String, movieName: String, session: URLSession = URLSession.shared) {
         self.boxOfficeInfo = BoxOfficeManager<MovieInfo>(apiType: .movie(movieCode), model: NetworkManager(session: session))
@@ -39,6 +39,6 @@ final class MovieManager {
             return
         }
 
-        NetworkManager.shared.fetchImage(from: url, completionHandler: handler)
+        NetworkManager.shared.fetchImage(from: url, completion: handler)
     }
 }
