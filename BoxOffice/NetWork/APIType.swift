@@ -16,10 +16,12 @@ enum APIType {
 extension APIType {
     var urlComponents: URLComponents? {
         var urlComponents = URLComponents()
+        
         urlComponents.scheme = scheme
         urlComponents.host = host
         urlComponents.path = path
         urlComponents.queryItems = queries
+        
         return urlComponents
     }
     

@@ -8,7 +8,6 @@
 import UIKit
 
 final class DescriptionStackView: UIStackView {
-    
     private let directorStackView = ContentStackView(categoryText: "감독")
     private let productedYearStackView = ContentStackView(categoryText: "제작년도")
     private let openDateStackView = ContentStackView(categoryText: "개봉일")

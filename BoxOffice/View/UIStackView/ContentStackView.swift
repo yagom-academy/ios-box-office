@@ -8,7 +8,6 @@
 import UIKit
 
 final class ContentStackView: UIStackView {
-    
     private var categoryLabelWidthConstraint: NSLayoutConstraint?
     
     private let categoryLabel = UILabel(fontStyle: UIFontMetrics(forTextStyle: .headline).scaledFont(for: UIFont.systemFont(ofSize: 12, weight: .bold)))
