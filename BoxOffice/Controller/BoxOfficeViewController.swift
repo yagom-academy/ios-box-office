@@ -7,7 +7,7 @@
 
 import UIKit
 
-final class BoxOfficeViewController: UIViewController, UICollectionViewDelegate {
+final class BoxOfficeViewController: UIViewController {
     // MARK: Properties
     private var rankingViewType: BoxOfficeRankingViewType = .list
     private var dataManager: DataManager?
@@ -64,9 +64,19 @@ final class BoxOfficeViewController: UIViewController, UICollectionViewDelegate 
     @objc private func refreshCollectionView() {
         self.fetchBoxOfficeData()
     }
+}
 
+// MARK: Delegate
+extension BoxOfficeViewController: UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        guard let movieItem = dataManager?.movieItems[indexPath.row] else { return }
+        let nextViewController = MovieDetailViewController()
+        
+        nextViewController.movieName = movieItem.name
+        nextViewController.movieCode = movieItem.code
+        
         collectionView.deselectItem(at: indexPath, animated: true)
+        navigationController?.pushViewController(nextViewController, animated: true)
     }
 }
 
@@ -83,7 +93,7 @@ private extension BoxOfficeViewController {
         configureLoadingView()
         configureRefreshController()
     }
-
+    
     func configureNavigationTitle() {
         navigationItem.title = dataManager?.navigationTitleText
     }
@@ -146,7 +156,7 @@ private extension BoxOfficeViewController {
     func makeListCellRegistration() -> UICollectionView.CellRegistration<MovieRankingListCell, BoxOfficeMovieInfo> {
         return UICollectionView.CellRegistration<MovieRankingListCell, BoxOfficeMovieInfo> { cell, indexPath, item in
             let uiModel = CellUIModel(data: item)
-            cell.updateCellData(for: uiModel)
+            cell.update(for: uiModel)
         }
     }
 
@@ -162,3 +172,4 @@ private extension BoxOfficeViewController {
         dataSource?.apply(snapshot, animatingDifferences: true)
     }
 }
+

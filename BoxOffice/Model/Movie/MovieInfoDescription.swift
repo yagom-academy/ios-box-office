@@ -38,87 +38,87 @@ struct MovieInfoDescription: Decodable {
     }
     
     struct Actors: Decodable {
-        let peopleName: String
-        let peopleNameEnglish: String
+        let name: String
+        let nameEnglish: String
         let cast: String
         let castEnglish: String
         
         private enum CodingKeys: String, CodingKey {
-            case peopleName = "peopleNm"
-            case peopleNameEnglish = "peopleNmEn"
+            case name = "peopleNm"
+            case nameEnglish = "peopleNmEn"
             case cast
             case castEnglish = "castEn"
         }
     }
     
     struct Audits: Decodable {
-        let auditNumber: String
+        let number: String
         let watchGradeName: String
         
         private enum CodingKeys: String, CodingKey {
-            case auditNumber = "auditNo"
+            case number = "auditNo"
             case watchGradeName = "watchGradeNm"
         }
     }
     
     struct Companys: Decodable {
-        let companyCode: String
-        let companyName: String
-        let companyEnglishName: String
-        let companyPartName: String
+        let code: String
+        let name: String
+        let englishName: String
+        let partName: String
         
         private enum CodingKeys: String, CodingKey {
-            case companyCode = "companyCd"
-            case companyName = "companyNm"
-            case companyEnglishName = "companyNmEn"
-            case companyPartName = "companyPartNm"
+            case code = "companyCd"
+            case name = "companyNm"
+            case englishName = "companyNmEn"
+            case partName = "companyPartNm"
         }
     }
     
     struct Directors: Decodable {
-        let peopleName: String
-        let peopleEnglishName: String
+        let name: String
+        let englishName: String
         
         private enum CodingKeys: String, CodingKey {
-            case peopleName = "peopleNm"
-            case peopleEnglishName = "peopleNmEn"
+            case name = "peopleNm"
+            case englishName = "peopleNmEn"
         }
     }
     
     struct Genres: Decodable {
-        let genreName: String
+        let name: String
         
         private enum CodingKeys: String, CodingKey {
-            case genreName = "genreNm"
+            case name = "genreNm"
         }
     }
     
     struct Nations: Decodable {
-        let nationName: String
+        let name: String
         
         private enum CodingKeys: String, CodingKey {
-            case nationName = "nationNm"
+            case name = "nationNm"
         }
     }
     
     struct ShowTypes: Decodable {
-        let showTypeGroupName: String
-        let showTypeName: String
+        let groupName: String
+        let name: String
         
         private enum CodingKeys: String, CodingKey {
-            case showTypeGroupName = "showTypeGroupNm"
-            case showTypeName = "showTypeNm"
+            case groupName = "showTypeGroupNm"
+            case name = "showTypeNm"
         }
     }
     
     struct Staffs: Decodable {
-        let peopleName: String
-        let peopleEnglishName: String
+        let name: String
+        let englishName: String
         let staffRoleName: String
         
         private  enum CodingKeys: String, CodingKey {
-            case peopleName = "peopleNm"
-            case peopleEnglishName = "peopleNmEn"
+            case name = "peopleNm"
+            case englishName = "peopleNmEn"
             case staffRoleName = "staffRoleNm"
         }
     }

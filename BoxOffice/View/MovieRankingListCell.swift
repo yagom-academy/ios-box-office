@@ -25,7 +25,7 @@ final class MovieRankingListCell: UICollectionViewListCell {
         fatalError("init(coder:) has not been implemented")
     }
     
-    func updateCellData(for cellUIModel: CellUIModel) {
+    func update(for cellUIModel: CellUIModel) {
         self.rankLabel.text = cellUIModel.rank
         self.rankStatusLabel.attributedText = cellUIModel.rankStatusAttributedText
         self.movieNameLabel.text = cellUIModel.name

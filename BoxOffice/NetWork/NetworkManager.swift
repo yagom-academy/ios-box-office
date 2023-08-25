@@ -5,9 +5,10 @@
 //  Created by karen on 2023/08/06.
 //
 
-import Foundation
+import UIKit
 
-struct NetworkManager: NetworkService {
+final class NetworkManager: NetworkService {
+    static let shared = NetworkManager(session: URLSession.shared)
     private let session: URLSession
     
     init(session: URLSession) {
@@ -22,24 +23,22 @@ struct NetworkManager: NetworkService {
         task.resume()
     }
     
-    private func handleResponse(data: Data?, response: URLResponse?, error: Error?, completion: @escaping (Result<Data, BoxOfficeError>) -> Void) {
-        guard error == nil else {
-            completion(.failure(.failureRequest))
-            return
+    func fetchImage(from url: URL, completion: @escaping (Result<(UIImage, CGSize), BoxOfficeError>) -> Void) {
+        let task = session.dataTask(with: url) { data, response, error in
+            guard error == nil else {
+                completion(.failure(.failureRequest))
+                return
+            }
+            
+            guard let data = data,
+                  let image = UIImage(data: data) else {
+                completion (.failure(.failureDecoding))
+                return
+            }
+            
+            completion(.success((image, CGSize(width: image.size.width, height: image.size.height))))
         }
         
-        guard let response = response,
-              let httpResponse = response as? HTTPURLResponse,
-              (200...299).contains(httpResponse.statusCode) else {
-            completion(.failure(.failureReseponse))
-            return
-        }
-        
-        guard let data = data else {
-            completion(.failure(.invalidDataType))
-            return
-        }
-        
-        completion(.success(data))
+        task.resume()
     }
 }

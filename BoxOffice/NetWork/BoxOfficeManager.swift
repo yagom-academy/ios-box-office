@@ -8,10 +8,10 @@
 import Foundation
 
 final class BoxOfficeManager<Element: Decodable> {
-    private let apiType: KobisAPIType
+    private let apiType: APIType
     private let model: NetworkService
 
-    init(apiType: KobisAPIType, model: NetworkService) {
+    init(apiType: APIType, model: NetworkService) {
         self.apiType = apiType
         self.model = model
     }
