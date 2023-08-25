@@ -1,5 +1,5 @@
 //
-//  KobisOpenAPI.swift
+//  KobisAPI.swift
 //  BoxOffice
 //
 //  Created by Dasan & Whales on 2023/07/28.
@@ -7,12 +7,12 @@
 
 import Foundation
 
-enum KobisOpenAPI {
+enum KobisAPI {
     case boxOffice(targetDate: String)
     case movie(movieCode: String)
 }
 
-extension KobisOpenAPI: URLConfigurable {
+extension KobisAPI: URLConfigurable {
     var baseURL: String {
         return "http://www.kobis.or.kr"
     }
@@ -33,10 +33,10 @@ extension KobisOpenAPI: URLConfigurable {
     var queries: [URLQueryItem] {
         switch self {
         case .boxOffice(let targetDate):
-            return [URLQueryItem(name: "key", value: Bundle.main.KOBIS_API_KEY),
+            return [URLQueryItem(name: "key", value: Bundle.main.KOBIS_REST_API_KEY),
                     URLQueryItem(name: "targetDt", value: targetDate)]
         case .movie(let movieCode):
-            return [URLQueryItem(name: "key", value: Bundle.main.KOBIS_API_KEY),
+            return [URLQueryItem(name: "key", value: Bundle.main.KOBIS_REST_API_KEY),
                     URLQueryItem(name: "movieCd", value: movieCode)]
         }
     }

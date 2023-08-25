@@ -1,207 +1,75 @@
 # 🎬 박스오피스 _ 웰다비🍿🥤
 
+- 프로젝트 기간: [2023년 7월 24일 ~ 8월 23일](https://github.com/WhalesJin/ios-box-office/wiki/타임라인)
+- 프로젝트 팀원: [Whales🐬](https://github.com/WhalesJin), [Dasan🌳](https://github.com/DasanKim)
+- 프로젝트 리뷰어: [vivi🦜](https://github.com/YebinKim)
+
+
 ## 📖 목차
 🍀 [소개](#소개) </br>
-👨‍💻 [팀원](#팀원) </br>
-⏱️ [타임라인](#타임라인) </br>
-👀 [시각화된 프로젝트 구조](#시각화된_프로젝트_구조) </br>
 💻 [실행 화면](#실행_화면) </br>
-⛑️ [핵심 경험](#핵심_경험) </br>
+🛠️ [사용 기술](#사용_기술) </br>
+👀 [다이어그램](#Diagram) </br>
 🧨 [트러블 슈팅](#트러블_슈팅) </br>
 📚 [참고 링크](#참고_링크) </br>
+👩‍👧‍👧 [about TEAM](#about_TEAM) </br>
 
 </br>
 
 ## 🍀 소개<a id="소개"></a>
-`Whales`과 `Dasan`이 만든 박스오피스입니다.
-영화진흥위원회의 Open API를 이용하여 일별 박스오피스 정보와 영화 상세 정보를 가져옵니다.
-
-</br>
-
-## 👨‍💻 팀원<a id="팀원"></a>
-| 🐬Whales🐬 | 🌳Dasan🌳 |
-| :--------: | :--------: |
-| <Img src = "https://github.com/WhalesJin/FireSaturdayStudyClassC/assets/124643545/e4e33a5d-f56c-4a3d-80b5-484ab3c62f27" width="200"> | <Img src = "https://user-images.githubusercontent.com/106504779/253477235-ca103b42-8938-447f-9381-29d0bcf55cac.jpeg" width="200"> |
-|[Github Profile](https://github.com/WhalesJin) |[Github Profile](https://github.com/DasanKim) |
-
-</br>
-
-## ⏱️ 타임라인<a id="타임라인"></a>
-|날짜|내용|
-|:--:|--|
-|2023.07.24(월)| - [영화진흥위원회의 일별 박스오피스 API 문서](https://www.kobis.or.kr/kobisopenapi/homepg/apiservice/searchServiceInfo.do?serviceId=searchDailyBoxOffice)의 데이터 형식을 고려한 모델 타입 설계 |
-|2023.07.25(화)| - `BoxOffic`, `BoxOfficeData`, `DailyBoxOfficeResult` 타입 생성 <br> - `DecodingManager`, `DataError` 타입 생성 및 구현 <br> - `DecodingManager`에 대한 Unit Test 진행 <br> - 파일 그룹화|
-|2023.07.26(수)| - **Test Plan Reference** 오류 수정 <br> - [URLSession](https://developer.apple.com/documentation/foundation/urlsession) 공부 |
-|2023.07.27(목)| - `Movie`, `MovieInformationResult`, `MovieInformation` 타입 생성 <br> - 각각의 관련 타입들 `BoxOffice`, `Movie` 파일로 **병합** <br> - `NetworkManager` 타입 생성 및 구현|
-|2023.07.28(금)| - `Movie` 타입 오류 수정 <br> - `fetchData`매서드에 `completionHandler` 추가 <br> - README 작성|
-|2023.07.31(월)| - 네트워크 관련 에러 `Result` 타입으로 수정 <br> -`Utility`, `Error` 그룹 생성 및 그룹화 <br> - 피드백 반영| 
-|2023.08.01(화)| - plist를 활용하여 github에서 API key값이 보이지 않도록 수정 <br> - `Resource` 그룹 생성 및 그룹화|
-|2023.08.02(수)| - `os log` 메서드 활용 및 전체적인 리펙토링 |
-|2023.08.03(목)| - [Modern cell configuration](https://developer.apple.com/videos/play/wwdc2020/10027/), [Lists in UICollectionView](https://developer.apple.com/videos/play/wwdc2020/10026) 공부 <br> - 첫번째 페이지 UI 설계 |
-|2023.08.04(금)| - README 작성 <br> - 개발 타겟 버전 `iOS 14` 이상으로 수정 <br> - `Modern Collection View`를 활용한 UI 구현|
-|2023.08.07(월)| - `TargetDate` 타입 생성 <br> - `UIActivityIndicatorView`, `RefreshControl`를 활용한 로딩 화면 구현 <br> - `BoxOfficeManager` 타입 생성|
-|2023.08.08(화)| - `Dynamic Type` 적용 <br> - `ConstraintsNamespace` 추가 및 적용 <br> - 전체적인 리펙토링 |
-|2023.08.09(수)| - `Kakao REST API` 타입 설계 |
-|2023.08.10(목)| - 영화 상세 페이지 UI 설계 |
-|2023.08.11(금)| - 피드백 반영 및 수정 <br> - README 작성 |
-
-</br>
-
-## 👀 시각화된 프로젝트 구조<a id="시각화된_프로젝트_구조"></a>
-
-### ℹ️ File Tree
-    ┌── BoxOffice
-    │   ├── BoxOffice
-    │   │   ├── Application
-    │   │   │   ├── AppDelegate
-    │   │   │   └── SceneDelegate
-    │   │   ├── Utility
-    │   │   │   ├── DecodingManager
-    │   │   │   ├── NetworkManager
-    │   │   │   ├── URL+
-    │   │   │   ├── TargetDate
-    │   │   │   └── CountFormatter
-    │   │   ├── Model
-    │   │   │   ├── BoxOffice
-    │   │   │   ├── Movie
-    │   │   │   ├── URLConfigurable
-    │   │   │   ├── KobisOpenAPI
-    │   │   │   ├── Bundle+
-    │   │   │   └── BoxOfficeManager
-    │   │   ├── View
-    │   │   │   ├── Main
-    │   │   │   ├── LaunchScreen
-    │   │   │   └── BoxOfficeCell
-    │   │   ├── Controller
-    │   │   │   └── BoxOfficeViewController
-    │   │   ├── Namespace
-    │   │   │   └── ConstraintsNamespace
-    │   │   ├── Error
-    │   │   │   ├── DataError
-    │   │   │   └── NetworkError
-    │   │   ├── Resource
-    │   │   │   ├── Assets
-    │   │   │   ├── Info
-    │   │   │   └── KobisAPIKey
-    │   └── BoxOfficeTests
-    │       └── DecodingManagerTests
-    │           └── DecodingManagerTests
-    └── README
-</br>
-
-### 📐 Diagram
-
-- Model<br>
-    <img width = "450" src = "https://hackmd.io/_uploads/SkjAuGcon.png"> <br>
-
-- View & Controller<br>
-    <img width = "700" src = "https://hackmd.io/_uploads/SJ02gv7nn.png"> <br>
-
-- <details> 
-      <summary> View & Utility </summary>
-  <img width = "250" src = "https://hackmd.io/_uploads/BygtbwQh3.png">
-  </details>
-
-- <details> 
-      <summary> Controller & Utility </summary>
-  <img width = "700" src = "https://hackmd.io/_uploads/H1dEWwXhn.png">
-  </details>
-
-- <details> 
-      <summary> Model - DTO </summary>
-  <img width = "550" src = "https://hackmd.io/_uploads/SkPRdzqo2.png">
-  </details>
-
-- <details> 
-      <summary> Error & Utility </summary>
-  <img width = "450" src = "https://hackmd.io/_uploads/HJy0uG9j2.png">
-  </details>
+- [영화진흥위원회에서 제공하는 영화 API](https://www.kobis.or.kr/kobisopenapi/homepg/apiservice/searchServiceInfo.do?serviceId=searchDailyBoxOffice)를 사용하여 일별 박스오피스 순위와 영화 상세 정보를 볼 수 있는 앱입니다.
+- 박스오피스 화면은 `화면 모드 변경` 버튼을 이용하여 리스트/아이콘 두 가지 화면으로 볼 수 있습니다.
 
 </br>
 
 ## 💻 실행 화면<a id="실행_화면"></a>
 
-
 | 앱 시작시 로딩 | 12시 새로고침(날짜변경) |
 | :--------: | :--------: |
-| <img src = "https://hackmd.io/_uploads/HyffIP73h.gif" width = "250"> | <img src = "https://hackmd.io/_uploads/B1TbrPXh3.gif" width = "250"> |
+| <img src = "https://hackmd.io/_uploads/HyffIP73h.gif" width = "200"> | <img src = "https://hackmd.io/_uploads/B1TbrPXh3.gif"  width = "200"> |
+
+| 화면모드 변경 | List-상세정보 | Grid-상세정보 |
+| :--------: | :--------: | :--------: |
+| <img src = "https://github.com/WhalesJin/FireSaturdayStudyClassC/assets/124643545/b3cd38d5-9b1b-40d6-87a0-d75084c6961a" width = "200"> | <img src = "https://github.com/WhalesJin/FireSaturdayStudyClassC/assets/124643545/9b72dc37-c9ba-4c17-95ed-307efcf64efb" width = "200"> | <img src = "https://github.com/WhalesJin/FireSaturdayStudyClassC/assets/124643545/1d4c9957-ae63-48fb-a61d-eae89d39ddae" width = "200"> |
 
 </br>
 
+## 🛠️ 사용 기술<a id="사용_기술"></a>
+| 구현 내용	| 도구 |
+|:---:|:---:|
+|아키텍쳐|MVC|
+|UI|UIKit|
+|동시성 프로그래밍|GCD|
+|네트워크|URLSession|
+|리스트 표시|Modern Collection Veiw|
 
-## ⛑️ 핵심 경험<a id="핵심_경험"></a>
+</br>
 
-### Unit Test의 XCTAssertThrowsError
-- `DecodingManager` 타입의 decodeJSON`메서드`를 테스트하여, **decoding 및 parsing**이 잘 이루어지고 있는지를 확인하고 싶었습니다.
-- Tests 내에서 `XCTAssertThrowsError`, `XCTAssertNoThrow` 메서드를 사용하여 상황에 맞게 오류를 잘 던지고 있는지 확인하였습니다.
- 
+## 👀 Diagram<a id="Diagram"></a>
+### 📐 UML
+<img src = "https://github.com/WhalesJin/ios-box-office/assets/106504779/523e302d-87dc-4d5e-827a-c3d25586d40b" width = "800">
+
+</br>
+</br>
 <details>
-    <summary> 코드 </summary>
-    
-```swift
-//DecodingManagerTests.swfit
+    <summary> Model </summary>
 
-func test_일치하는_dataAsset이없을때_notFoundAsset에러를_던진다() {
-    //given
-    let fileName = "없는파일이름"
-
-    //when, then
-    XCTAssertThrowsError(try sut.decodeJSON(fileName: fileName) as BoxOffice) { error in
-        XCTAssertEqual(error as! DataError, DataError.notFoundAsset)
-    }
-}
-    
-func test_일치하는_dataAsset가있을때_notFoundAsset에러를_던지지않는다() {
-    //given
-    let fileName = "box_office_sample"
-
-    //when, then
-    XCTAssertNoThrow(try sut.decodeJSON(fileName: fileName) as BoxOffice)
-}
-```
+<img src = "https://github.com/WhalesJin/FireSaturdayStudyClassC/assets/124643545/2d3d0e01-a30b-4574-bd2d-80474f210731" width = "400">
 </details>
 
-### Modern Collection Veiw 활용
-- Modern Collection View를 활용하여 `list Layout`을 쉽게 구현할 수 있었습니다.
-- 또한 `NSDiffableDataSourceSnapshot` 및 `UICollectionViewDiffableDataSource`를 활용하여 collection View 내의 Data를 업데이트하였습니다.
-
 <details>
-    <summary> 코드 </summary>
-    
-```swift
-// BoxOfficeViewController.swfit
+    <summary> View </summary>
 
-extension BoxOfficeViewController {
-    private func createLayout() -> UICollectionViewLayout {
-        let configuration = UICollectionLayoutListConfiguration(appearance: .plain)
-
-        return UICollectionViewCompositionalLayout.list(using: configuration)
-    }
-
-    (...)
-
-    private func configureDataSource() {
-        (...)
-        dataSource = UICollectionViewDiffableDataSource <Section, BoxOfficeData>(collectionView: collectionView) {
-            (collectionView: UICollectionView, indexPath: IndexPath, identifier: BoxOfficeData) -> UICollectionViewListCell? in
-            return collectionView.dequeueConfiguredReusableCell(using: cellRegistration, for: indexPath, item: identifier)
-        }
-
-        applySnapshot()
-    }
-
-    private func applySnapshot() {
-        var snapshot = NSDiffableDataSourceSnapshot<Section, BoxOfficeData >()
-        snapshot.appendSections([.main])
-        snapshot.appendItems(items)
-        dataSource.apply(snapshot, animatingDifferences: true)
-    }
-    (...)
-}
-```
+<img src = "https://github.com/WhalesJin/FireSaturdayStudyClassC/assets/124643545/09a678c8-ef3e-44af-8621-1444d188bdd0" width = "800">
 </details>
 
-<br>
+<details>
+    <summary> Controller </summary>
+
+<img src = "https://github.com/WhalesJin/FireSaturdayStudyClassC/assets/124643545/a34044e3-f825-413d-93be-51662d4a882b" width = "800">
+</details>
+
+</br>
 
 ## 🧨 트러블 슈팅<a id="트러블_슈팅"></a>
 
@@ -269,6 +137,7 @@ extension KobisOpenAPI: API {
     2. 후에 **더이상 새로운 `plist`파일을 추적하지 못하도록** `.gitignore` 파일 내에 새로운 plist path를 추가해준 뒤 push 해주었습니다.
     3. 더 이상 추적하지 못하도록 한 뒤, `KOBIS API KEY VALUE`로 적혀있던 Value에 `실제 API Key`를 넣어주었습니다.
     ![](https://hackmd.io/_uploads/S1qX7Xqjh.png)
+
 <br>
 
 ### 3️⃣ 역할 분리
@@ -319,7 +188,7 @@ extension KobisOpenAPI: API {
     ```
     </details>
     
-</br>
+<br>
 
 💡 **해결방법** <br>
 
@@ -409,8 +278,57 @@ extension KobisOpenAPI: API {
     ```
 <br>
 
-## 📚 참고 링크<a id="참고_링크"></a>
+### 5️⃣ 스크롤 뷰 내 오토레이아웃
+🚨 **문제점** <br>
+- 아래와 같이 코드로 **스크롤 뷰**와 스크롤 뷰의 `content 뷰` 역할을 하는 **스택 뷰**의 오토레이아웃을 설정하여 주었습니다. 실행되는 화면에서는 특별한 문제가 없었는 듯하였으나, debug view hierarchy에서 아래와 같은 오류 메시지를 확인할 수 있었습니다.
 
+  - **코드**
+    ```swift 
+    // MovieScrollView.swift
+    private func configureUI() {
+        self.translatesAutoresizingMaskIntoConstraints = false
+        self.addSubview(movieStackView)
+        movieStackView.addArrangedSubview(movieImageView)
+
+        NSLayoutConstraint.activate([
+            movieStackView.topAnchor.constraint(equalTo: self.topAnchor),
+            movieStackView.bottomAnchor.constraint(equalTo: self.bottomAnchor),
+            movieStackView.centerXAnchor.constraint(equalTo: self.centerXAnchor),
+            movieStackView.widthAnchor.constraint(equalTo: self.widthAnchor),
+            ...
+        ])
+        ...
+    }
+    ```
+  - **debug view hierarchy**의 오류 메시지 </br>
+    <img src ="https://github.com/WhalesJin/FireSaturdayStudyClassC/assets/124643545/00c59b68-af27-4c68-8135-36188aedb223" width = "500">
+
+💡 **해결방법** <br>
+- [Working with Scroll Views](https://developer.apple.com/library/archive/documentation/UserExperience/Conceptual/AutolayoutPG/WorkingwithScrollViews.html#//apple_ref/doc/uid/TP40010853-CH24-SW1)에서 스크롤 뷰의 레이아웃은 `content 뷰`의 크기를 **`완전히`** 정의해야한다고 말해주고 있습니다.
+   > to set the width, you must have an unbroken chain of constraints and views from the content view’s leading edge to its trailing edge.
+- `content 뷰`인 `movieStackView`의 크기가 완전히 정의되지 않아 생긴 오류이므로, `movieStackView`의 centerX 대신 `leading`, `trailing` edge를 스크롤 뷰의 edge에 고정시켜주었더니 해당 오류 메시지가 사라졌습니다.
+- `widthAnchor`는 스크롤 뷰의 가로 스크롤을 막기 위한 constraint입니다.
+    ```swift 
+    // MovieScrollView.swift
+    private func configureUI() {
+        self.translatesAutoresizingMaskIntoConstraints = false
+        self.addSubview(movieStackView)
+        movieStackView.addArrangedSubview(movieImageView)
+
+        NSLayoutConstraint.activate([
+            movieStackView.topAnchor.constraint(equalTo: self.topAnchor),
+            movieStackView.bottomAnchor.constraint(equalTo: self.bottomAnchor),
+            movieStackView.leadingAnchor.constraint(equalTo: self.leadingAnchor),
+            movieStackView.trailingAnchor.constraint(equalTo: self.trailingAnchor),
+            movieStackView.widthAnchor.constraint(equalTo: self.widthAnchor),
+            ...
+        ])
+        ...
+    }
+    ```
+<br>
+
+## 📚 참고 링크<a id="참고_링크"></a>
 - [🍎Apple Docs: URLSession](https://developer.apple.com/documentation/foundation/urlsession)
 - [🍎Apple Docs: Fetching Website Data into Memory](https://developer.apple.com/documentation/foundation/url_loading_system/fetching_website_data_into_memory)
 - [🍎Apple Docs: Swift Closures - Capturing Values](https://docs.swift.org/swift-book/documentation/the-swift-programming-language/closures/)
@@ -426,3 +344,13 @@ extension KobisOpenAPI: API {
 - <Img src = "https://hackmd.io/_uploads/ByTEsGUv3.png" width="20"/> [blog: URL 처리 방법](https://ios-development.tistory.com/1014)
 
 <br>
+
+## 👩‍👧‍👧 about TEAM<a id="about_TEAM"></a>
+
+| <Img src = "https://github.com/WhalesJin/FireSaturdayStudyClassC/assets/124643545/e4e33a5d-f56c-4a3d-80b5-484ab3c62f27" width="100"> | 🐬Whales🐬  | https://github.com/WhalesJin |
+| -------- | -------- | -------- |
+| <Img src = "https://user-images.githubusercontent.com/106504779/253477235-ca103b42-8938-447f-9381-29d0bcf55cac.jpeg" width="100"> | **🌳Dasan🌳** | **https://github.com/DasanKim** |
+
+
+- [타임라인](https://github.com/WhalesJin/ios-box-office/wiki/타임라인)
+- [팀 회고](https://github.com/WhalesJin/ios-box-office/wiki/팀-회고)

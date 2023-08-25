@@ -1,4 +1,4 @@
 .DS_Store
 BoxOffice.xcodeproj/xcuserdata
 BoxOffice.xcodeproj/project.xcworkspace/xcuserdata
-BoxOffice/Resource/KobisAPIKey.plist
+BoxOffice/Resource/APIKey.plist

@@ -8,13 +8,25 @@
 import Foundation
 
 extension Bundle {
-    var KOBIS_API_KEY: String {
-        guard let file = self.path(forResource: "KobisAPIKey", ofType: "plist") else { return "" }
+    var KOBIS_REST_API_KEY: String {
+        guard let file = self.path(forResource: "APIKey", ofType: "plist") else { return "" }
 
         guard let resource = NSDictionary(contentsOfFile: file) else { return "" }
 
-        guard let key = resource["KOBIS_API_KEY"] as? String else {
-            fatalError("KOBIS_API_KEY error")
+        guard let key = resource["KOBIS_REST_API_KEY"] as? String else {
+            fatalError("KOBIS_REST_API_KEY error")
+        }
+        
+        return key
+    }
+    
+    var KAKAO_REST_API_KEY: String {
+        guard let file = self.path(forResource: "APIKey", ofType: "plist") else { return "" }
+
+        guard let resource = NSDictionary(contentsOfFile: file) else { return "" }
+
+        guard let key = resource["KAKAO_REST_API_KEY"] as? String else {
+            fatalError("KAKAO_REST_API_KEY error")
         }
         
         return key

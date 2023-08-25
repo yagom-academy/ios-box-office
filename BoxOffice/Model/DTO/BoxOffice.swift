@@ -25,7 +25,7 @@ struct BoxOfficeData: Decodable, Hashable {
     let number: String
     let rank: String
     let rankIntensity: String
-    let rankOldOrNew: String
+    let rankOldOrNew: RankOldOrNew
     let movieCode: String
     let movieName: String
     let openingDate: String

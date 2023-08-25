@@ -1,5 +1,5 @@
 //
-//  BoxOfficeCell.swift
+//  BoxOfficeGridCell.swift
 //  BoxOffice
 //
 //  Created by Dasan & Whales on 2023/08/05.
@@ -7,8 +7,8 @@
 
 import UIKit
 
-final class BoxOfficeCell: UICollectionViewListCell {
-    static let identifier = "boxOfficeCell"
+final class BoxOfficeGridCell: UICollectionViewCell {
+    static let identifier = "boxOfficeGridCell"
     
     private let rankLabel: UILabel = {
         let label = UILabel()
@@ -35,7 +35,7 @@ final class BoxOfficeCell: UICollectionViewListCell {
         label.font = UIFont.preferredFont(forTextStyle: .title2)
         label.textAlignment = .left
         label.adjustsFontForContentSizeCategory = true
-        label.numberOfLines = 1
+        label.numberOfLines = 2
         
         return label
     }()
@@ -45,6 +45,7 @@ final class BoxOfficeCell: UICollectionViewListCell {
         label.font = UIFont.preferredFont(forTextStyle: .body)
         label.textAlignment = .left
         label.adjustsFontForContentSizeCategory = true
+        label.adjustsFontSizeToFitWidth = true
         label.numberOfLines = 1
         
         return label
@@ -52,22 +53,8 @@ final class BoxOfficeCell: UICollectionViewListCell {
     
     private var stackView: UIStackView = {
         let stackView = UIStackView()
-        stackView.axis = .horizontal
+        stackView.axis = .vertical
         stackView.alignment = .center
-        
-        return stackView
-    }()
-    
-    private var rankStackView: UIStackView = {
-        let stackView = UIStackView()
-        stackView.axis = .vertical
-        
-        return stackView
-    }()
-    
-    private var titleStackView: UIStackView = {
-        let stackView = UIStackView()
-        stackView.axis = .vertical
         stackView.distribution = .fillProportionally
         
         return stackView
@@ -101,17 +88,16 @@ final class BoxOfficeCell: UICollectionViewListCell {
     }
 }
 
-extension BoxOfficeCell {
+extension BoxOfficeGridCell {
     private func configureUI() {
-        rankStackView.addArrangedSubview(rankLabel)
-        rankStackView.addArrangedSubview(rankIntensityLabel)
-        titleStackView.addArrangedSubview(movieNameLabel)
-        titleStackView.addArrangedSubview(audienceLabel)
-        stackView.addArrangedSubview(rankStackView)
-        stackView.addArrangedSubview(titleStackView)
+        self.layer.borderWidth = 1
+        
+        stackView.addArrangedSubview(rankLabel)
+        stackView.addArrangedSubview(movieNameLabel)
+        stackView.addArrangedSubview(rankIntensityLabel)
+        stackView.addArrangedSubview(audienceLabel)
         
         contentView.addSubview(stackView)
-        self.accessories = [.disclosureIndicator()]
         setUpStackViewConstraints()
     }
     
@@ -119,33 +105,20 @@ extension BoxOfficeCell {
         stackView.translatesAutoresizingMaskIntoConstraints = false
         
         NSLayoutConstraint.activate([
-            rankStackView.widthAnchor.constraint(
-                equalTo: contentView.widthAnchor,
-                multiplier: Constraints.rankStackViewFromContentViewWidth
-            ),
             stackView.leadingAnchor.constraint(
-                equalTo: contentView.leadingAnchor
+                equalTo: contentView.leadingAnchor,
+                constant: 10
             ),
             stackView.trailingAnchor.constraint(
                 equalTo: contentView.trailingAnchor,
-                constant: Constraints.stackViewFromContentViewTrailing
+                constant: -10
             ),
             stackView.topAnchor.constraint(
-                equalTo: contentView.topAnchor,
-                constant: Constraints.stackViewFromContentViewTop
+                equalTo: contentView.topAnchor
             ),
             stackView.bottomAnchor.constraint(
-                equalTo: contentView.bottomAnchor,
-                constant: Constraints.stackViewFromContentViewBottom
+                equalTo: contentView.bottomAnchor
             ),
-            titleStackView.topAnchor.constraint(
-                equalTo: stackView.topAnchor,
-                constant: Constraints.titleViewFromContentViewTop
-            ),
-            titleStackView.bottomAnchor.constraint(
-                equalTo: stackView.bottomAnchor,
-                constant: Constraints.titleViewFromContentViewBottom
-            )
         ])
     }
 }

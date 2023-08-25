@@ -21,7 +21,7 @@ struct TargetDate {
     func formattedWithHyphen() -> String {
         dateFormatter.dateFormat = "yyyy-MM-dd"
         
-        return dateFormatter.string(from:Date(timeIntervalSinceNow: dayToSecond))
+        return dateFormatter.string(from: Date(timeIntervalSinceNow: dayToSecond))
     }
     
     func formattedWithoutSeparator() -> String {

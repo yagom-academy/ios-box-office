@@ -11,5 +11,4 @@ protocol URLConfigurable {
     var baseURL: String { get }
     var path: String { get }
     var queries: [URLQueryItem] { get }
-    var url: URL? { get }
 }
