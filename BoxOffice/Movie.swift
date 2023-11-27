@@ -23,7 +23,7 @@ struct BoxOfficeResult: Codable {
 
 struct DailyBoxOfficeList: Codable {
     let number, rank, rankFluctuation: String
-    let rankOldAndNew: RankOldAndNew
+    let rankOldAndNew: String
     let movieCode, movieName, openDate, salesAmount: String
     let salesShare, salesFluctuation, salesChange, salesAccumulation: String
     let audienceCount, audienceFluctuation, audienceChange, audienceAccumulation: String
@@ -46,9 +46,4 @@ struct DailyBoxOfficeList: Codable {
         case screenCount = "scrnCnt"
         case showCount = "showCnt"
     }
-}
-
-enum RankOldAndNew: String, Codable {
-    case new = "NEW"
-    case old = "OLD"
 }
