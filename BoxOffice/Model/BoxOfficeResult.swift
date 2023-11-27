@@ -5,6 +5,10 @@
 //  Created by Hisop on 2023/11/27.
 //
 
+struct BoxOffice: Decodable {
+    let boxOfficeResult: BoxOfficeResult
+}
+
 struct BoxOfficeResult: Decodable {
     let boxofficeType: String
     let showRange: String
@@ -49,6 +53,6 @@ struct MovieStatistics: Decodable {
         case audienceChange = "audiChange"
         case audienceAccumulated = "audiAcc"
         case screenCount = "scrnCnt"
-        case showCount = "showCNt"
+        case showCount = "showCnt"
     }
 }
