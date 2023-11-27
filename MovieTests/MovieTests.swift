@@ -2,7 +2,7 @@
 //  MovieTests.swift
 //  MovieTests
 //
-//  Created by jyubong on 11/27/23.
+//  Created by jyubong, kiseok
 //
 
 import XCTest
