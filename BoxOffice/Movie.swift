@@ -33,7 +33,7 @@ struct DailyBoxOfficeList: Codable {
         case rank, rankOldAndNew, salesShare, salesChange
         case number = "rnum"
         case rankFluctuation = "rankInten"
-        case movieCode = "movieCD"
+        case movieCode = "movieCd"
         case movieName = "movieNm"
         case openDate = "openDt"
         case salesAmount = "salesAmt"
