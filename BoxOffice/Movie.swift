@@ -12,25 +12,43 @@ struct Movie: Codable {
 }
 
 struct BoxOfficeResult: Codable {
-    let boxofficeType, showRange: String
+    let boxOfficeType, showRange: String
     let dailyBoxOfficeList: [DailyBoxOfficeList]
+    
+    enum CodingKeys: String, CodingKey {
+        case showRange, dailyBoxOfficeList
+        case boxOfficeType = "boxofficeType"
+    }
 }
 
 struct DailyBoxOfficeList: Codable {
-    let rnum, rank, rankInten: String
+    let number, rank, rankFluctuation: String
     let rankOldAndNew: RankOldAndNew
-    let movieCD, movieNm, openDt, salesAmt: String
-    let salesShare, salesInten, salesChange, salesAcc: String
-    let audiCnt, audiInten, audiChange, audiAcc: String
-    let scrnCnt, showCnt: String
+    let movieCode, movieName, openDate, salesAmount: String
+    let salesShare, salesFluctuation, salesChange, salesAccumulation: String
+    let audienceCount, audienceFluctuation, audienceChange, audienceAccumulation: String
+    let screenCount, showCount: String
 
     enum CodingKeys: String, CodingKey {
-        case rnum, rank, rankInten, rankOldAndNew
-        case movieCD = "movieCd"
-        case movieNm, openDt, salesAmt, salesShare, salesInten, salesChange, salesAcc, audiCnt, audiInten, audiChange, audiAcc, scrnCnt, showCnt
+        case rank, rankOldAndNew, salesShare, salesChange
+        case number = "rnum"
+        case rankFluctuation = "rankInten"
+        case movieCode = "movieCD"
+        case movieName = "movieNm"
+        case openDate = "openDt"
+        case salesAmount = "salesAmt"
+        case salesFluctuation = "salesInten"
+        case salesAccumulation = "salesAcc"
+        case audienceCount = "audiCnt"
+        case audienceFluctuation = "audiInten"
+        case audienceChange = "audiChange"
+        case audienceAccumulation = "audiAcc"
+        case screenCount = "scrnCnt"
+        case showCount = "showCnt"
     }
 }
 
 enum RankOldAndNew: String, Codable {
+    case new = "NEW"
     case old = "OLD"
 }
