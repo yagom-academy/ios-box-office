@@ -7,11 +7,11 @@
 
 import Foundation
 
-struct Movie: Codable {
+struct Movie: Decodable {
     let boxOfficeResult: BoxOfficeResult
 }
 
-struct BoxOfficeResult: Codable {
+struct BoxOfficeResult: Decodable {
     let boxOfficeType, showRange: String
     let dailyBoxOfficeList: [DailyBoxOfficeList]
     
@@ -21,11 +21,10 @@ struct BoxOfficeResult: Codable {
     }
 }
 
-struct DailyBoxOfficeList: Codable {
-    let number, rank, rankFluctuation: String
-    let rankOldAndNew: String
-    let movieCode, movieName, openDate, salesAmount: String
-    let salesShare, salesFluctuation, salesChange, salesAccumulation: String
+struct DailyBoxOfficeList: Decodable {
+    let number, rank, rankFluctuation, rankOldAndNew: String
+    let movieCode, movieName, openDate: String
+    let salesAmount, salesShare, salesFluctuation, salesChange, salesAccumulation: String
     let audienceCount, audienceFluctuation, audienceChange, audienceAccumulation: String
     let screenCount, showCount: String
 
