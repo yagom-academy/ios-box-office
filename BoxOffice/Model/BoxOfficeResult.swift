@@ -6,34 +6,34 @@
 //
 
 struct BoxOffice: Decodable {
-    let boxOfficeResult: BoxOfficeResult
+    private let boxOfficeResult: BoxOfficeResult
 }
 
 struct BoxOfficeResult: Decodable {
-    let boxofficeType: String
-    let showRange: String
-    let dailyBoxOfficeList: [DailyBoxOffice]
+    private let boxofficeType: String
+    private let showRange: String
+    private let dailyBoxOfficeList: [DailyBoxOffice]
 }
 
 struct DailyBoxOffice: Decodable {
-    let rankNumber: String
-    let rank: String
-    let rankIntensity: String
-    let rankOldAndNew: String
-    let movieCode: String
-    let movieName: String
-    let openDate: String
-    let salesAmount: String
-    let salesShare: String
-    let salesIntensity: String
-    let salesChange: String
-    let salesAccumulated: String
-    let audienceCount: String
-    let audienceIntensity: String
-    let audienceChange: String
-    let audienceAccumulated: String
-    let screenCount: String
-    let showCount: String
+    private let rankNumber: String
+    private let rank: String
+    private let rankIntensity: String
+    private let rankOldAndNew: String
+    private let movieCode: String
+    private let movieName: String
+    private let openDate: String
+    private let salesAmount: String
+    private let salesShare: String
+    private let salesIntensity: String
+    private let salesChange: String
+    private let salesAccumulated: String
+    private let audienceCount: String
+    private let audienceIntensity: String
+    private let audienceChange: String
+    private let audienceAccumulated: String
+    private let screenCount: String
+    private let showCount: String
     
     enum CodingKeys: String, CodingKey {
         case rankNumber = "rnum"
