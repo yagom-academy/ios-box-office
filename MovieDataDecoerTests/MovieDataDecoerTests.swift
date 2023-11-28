@@ -9,7 +9,7 @@ import XCTest
 @testable import BoxOffice
 
 final class MovieDataDecoerTests: XCTestCase {
-    var sut: BoxOfficeData!
+    private var sut: BoxOfficeData!
     
     override func setUpWithError() throws {
         try super.setUpWithError()
@@ -21,11 +21,25 @@ final class MovieDataDecoerTests: XCTestCase {
         sut = nil
     }
 
-    func test_box_office_sample_디코딩후_boxofficeType은_일별_박스오피스를_반환한다() {
+    private func test_box_office_sample_디코딩후_boxofficeType은_일별_박스오피스를_반환한다() {
+        // given
         let result = sut.boxOfficeResult.boxofficeType
         
+        // when
         let boxofficeType = "일별 박스오피스"
     
+        // then
         XCTAssertEqual(result, boxofficeType)
+    }
+    
+    private func test_box_office_sample_디코딩후_dailyBoxOfficeList의_0번째요소의_movieName가_경관의_피_를반환한다() {
+        // given
+        let result = sut.boxOfficeResult.dailyBoxOfficeList[0].movieName
+
+        // when
+        let movieName = "경관의 피"
+        
+        // then
+        XCTAssertEqual(result, movieName)
     }
 }
