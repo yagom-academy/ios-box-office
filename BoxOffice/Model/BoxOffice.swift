@@ -15,7 +15,7 @@ struct BoxOfficeResult: Decodable {
     let dailyBoxOfficeList: [DailyBoxOffice]
 }
 
-struct DailyBoxOffice: Decodable {
+struct DailyBoxOffice: Decodable, Equatable {
     let rankNumber: String
     let rank: String
     let rankIntensity: String

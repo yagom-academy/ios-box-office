@@ -25,26 +25,3 @@ extension BoxOfficeResult: Equatable {
         return true
     }
 }
-
-extension DailyBoxOffice: Equatable {
-    static func == (lhs: DailyBoxOffice, rhs: DailyBoxOffice) -> Bool {
-        return lhs.rankNumber == rhs.rankNumber &&
-        lhs.rank == rhs.rank &&
-        lhs.rankIntensity == rhs.rankIntensity &&
-        lhs.rankOldAndNew == rhs.rankOldAndNew &&
-        lhs.movieCode == rhs.movieCode &&
-        lhs.movieName == rhs.movieName &&
-        lhs.openDate == rhs.openDate &&
-        lhs.salesAmount == rhs.salesAmount &&
-        lhs.salesShare == rhs.salesShare &&
-        lhs.salesIntensity == rhs.salesIntensity &&
-        lhs.salesChange == rhs.salesChange &&
-        lhs.salesAccumulated == rhs.salesAccumulated &&
-        lhs.audienceCount == rhs.audienceCount &&
-        lhs.audienceIntensity == rhs.audienceIntensity &&
-        lhs.audienceChange == rhs.audienceChange &&
-        lhs.audienceAccumulated == rhs.audienceAccumulated &&
-        lhs.screenCount == rhs.screenCount &&
-        lhs.showCount == rhs.showCount
-    }
-}
