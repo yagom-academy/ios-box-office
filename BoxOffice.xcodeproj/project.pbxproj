@@ -16,8 +16,8 @@
 		63DF20F62970E1A0005DF7D1 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 63DF20F42970E1A0005DF7D1 /* Main.storyboard */; };
 		63DF20F82970E1A1005DF7D1 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 63DF20F72970E1A1005DF7D1 /* Assets.xcassets */; };
 		63DF20FB2970E1A1005DF7D1 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 63DF20F92970E1A1005DF7D1 /* LaunchScreen.storyboard */; };
-		9239D0452B148CBF0008DE9F /* MovieDataDecoder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9239D0442B148CBF0008DE9F /* MovieDataDecoder.swift */; };
-		9239D0472B148D400008DE9F /* ErrorMessage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9239D0462B148D400008DE9F /* ErrorMessage.swift */; };
+		9239D0452B148CBF0008DE9F /* DataDecoder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9239D0442B148CBF0008DE9F /* DataDecoder.swift */; };
+		9239D0472B148D400008DE9F /* DecodingError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9239D0462B148D400008DE9F /* DecodingError.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -43,8 +43,8 @@
 		63DF20F72970E1A1005DF7D1 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		63DF20FA2970E1A1005DF7D1 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		63DF20FC2970E1A1005DF7D1 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		9239D0442B148CBF0008DE9F /* MovieDataDecoder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MovieDataDecoder.swift; sourceTree = "<group>"; };
-		9239D0462B148D400008DE9F /* ErrorMessage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ErrorMessage.swift; sourceTree = "<group>"; };
+		9239D0442B148CBF0008DE9F /* DataDecoder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataDecoder.swift; sourceTree = "<group>"; };
+		9239D0462B148D400008DE9F /* DecodingError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DecodingError.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -70,8 +70,8 @@
 			children = (
 				3C4D67202B15848900B8926A /* BoxOffice.swift */,
 				3C3E800B2B148B6C002AF4A2 /* DailyBoxOfficeItem.swift */,
-				9239D0442B148CBF0008DE9F /* MovieDataDecoder.swift */,
-				9239D0462B148D400008DE9F /* ErrorMessage.swift */,
+				9239D0442B148CBF0008DE9F /* DataDecoder.swift */,
+				9239D0462B148D400008DE9F /* DecodingError.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -226,13 +226,13 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				9239D0472B148D400008DE9F /* ErrorMessage.swift in Sources */,
+				9239D0472B148D400008DE9F /* DecodingError.swift in Sources */,
 				63DF20F32970E1A0005DF7D1 /* ViewController.swift in Sources */,
 				63DF20EF2970E1A0005DF7D1 /* AppDelegate.swift in Sources */,
 				3C3E800C2B148B6C002AF4A2 /* DailyBoxOfficeItem.swift in Sources */,
 				3C4D67212B15848900B8926A /* BoxOffice.swift in Sources */,
 				63DF20F12970E1A0005DF7D1 /* SceneDelegate.swift in Sources */,
-				9239D0452B148CBF0008DE9F /* MovieDataDecoder.swift in Sources */,
+				9239D0452B148CBF0008DE9F /* DataDecoder.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

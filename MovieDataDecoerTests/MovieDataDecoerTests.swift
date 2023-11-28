@@ -13,7 +13,7 @@ final class MovieDataDecoerTests: XCTestCase {
     
     override func setUpWithError() throws {
         try super.setUpWithError()
-        sut = try MovieDataDecoder.decodeAssetData(assetName: "box_office_sample", decoder: JSONDecoder())
+        sut = try DataDecoder.decodeAssetData(assetName: "box_office_sample", decoder: JSONDecoder())
     }
 
     override func tearDownWithError() throws {

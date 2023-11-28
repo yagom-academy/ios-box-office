@@ -5,7 +5,7 @@
 //  Created by Toy, Morgan on 11/27/23.
 //
 
-enum ErrorMessage: Error {
+enum DecodingError: Error {
     case emptyAssetData
     
     var description: String {
