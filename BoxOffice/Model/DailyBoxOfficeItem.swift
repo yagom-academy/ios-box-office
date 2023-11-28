@@ -5,7 +5,7 @@
 //  Created by Morgan, Toy on 11/27/23.
 //
 
-struct DailyBoxOfficeItem: Decodable {
+struct DailyBoxOfficeItem: Decodable, Equatable {
     let rowNumber: String
     let rank: String
     let dailyRankChange: String

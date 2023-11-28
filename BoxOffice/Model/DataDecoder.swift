@@ -1,5 +1,5 @@
 //
-//  movieDataDecoder.swift
+//  DataDecoder.swift
 //  BoxOffice
 //
 //  Created by Toy, Morgan on 11/27/23.
