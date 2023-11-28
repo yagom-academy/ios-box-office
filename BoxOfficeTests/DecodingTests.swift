@@ -64,7 +64,7 @@ final class DecodingTests: XCTestCase {
         }
         """.data(using: .utf8)!
         
-        let movieStatistics = MovieStatistics(
+        let dailyBoxOfficeList = DailyBoxOffice(
             rankNumber: rankNumber,
             rank: rank,
             rankIntensity: rankIntensity,
@@ -87,7 +87,7 @@ final class DecodingTests: XCTestCase {
         let boxOfficeResult = BoxOfficeResult(
             boxofficeType: boxofficeType,
             showRange: showRange,
-            dailyBoxOfficeList: [movieStatistics])
+            dailyBoxOfficeList: [dailyBoxOfficeList])
         
         let boxOffice = BoxOffice(boxOfficeResult: boxOfficeResult)
         
@@ -103,8 +103,8 @@ extension BoxOffice: Equatable {
 
 extension BoxOfficeResult: Equatable {
     public static func == (lhs: BoxOfficeResult, rhs: BoxOfficeResult) -> Bool {
-        for (index, movieStatistics) in lhs.dailyBoxOfficeList.enumerated() {
-            guard movieStatistics == rhs.dailyBoxOfficeList[index] else {
+        for (index, dailyBoxOffice) in lhs.dailyBoxOfficeList.enumerated() {
+            guard dailyBoxOffice == rhs.dailyBoxOfficeList[index] else {
                 return false
             }
         }
@@ -116,8 +116,8 @@ extension BoxOfficeResult: Equatable {
     }
 }
 
-extension MovieStatistics: Equatable {
-    public static func == (lhs: MovieStatistics, rhs: MovieStatistics) -> Bool {
+extension DailyBoxOffice: Equatable {
+    public static func == (lhs: DailyBoxOffice, rhs: DailyBoxOffice) -> Bool {
         return lhs.rankNumber == rhs.rankNumber &&
         lhs.rank == rhs.rank &&
         lhs.rankIntensity == rhs.rankIntensity &&

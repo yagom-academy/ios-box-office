@@ -12,10 +12,10 @@ struct BoxOffice: Decodable {
 struct BoxOfficeResult: Decodable {
     let boxofficeType: String
     let showRange: String
-    let dailyBoxOfficeList: [MovieStatistics]
+    let dailyBoxOfficeList: [DailyBoxOffice]
 }
 
-struct MovieStatistics: Decodable {
+struct DailyBoxOffice: Decodable {
     let rankNumber: String
     let rank: String
     let rankIntensity: String
