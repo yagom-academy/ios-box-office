@@ -1,11 +1,11 @@
 //
-//  DailyBoxOfficeList.swift
+//  DailyBoxOfficeItem.swift
 //  BoxOffice
 //
 //  Created by Morgan, Toy on 11/27/23.
 //
 
-struct DailyBoxOfficeList: Decodable {
+struct DailyBoxOfficeItem: Decodable {
     let rowNumber: String
     let rank: String
     let dailyRankChange: String
@@ -25,7 +25,7 @@ struct DailyBoxOfficeList: Decodable {
     let screenCount : String
     let showCount : String
     
-    enum CodingKeys: String, CodingKey {
+    private enum CodingKeys: String, CodingKey {
         case rowNumber = "rnum"
         case rank
         case dailyRankChange = "rankInten"

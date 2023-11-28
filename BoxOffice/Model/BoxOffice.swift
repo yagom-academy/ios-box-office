@@ -1,5 +1,5 @@
 //
-//  BoxOfficeData.swift
+//  BoxOffice.swift
 //  BoxOffice
 //
 //  Created by Morgan, Toy on 11/28/23.
@@ -13,6 +13,6 @@ extension BoxOffice {
     struct Result: Decodable {
         let boxofficeType: String
         let showRange: String
-        let dailyBoxOfficeList: [DailyBoxOfficeList]
+        let dailyBoxOfficeList: [DailyBoxOfficeItem]
     }
 }
