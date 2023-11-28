@@ -35,7 +35,7 @@ struct DailyBoxOffice: Decodable {
     let screenCount: String
     let showCount: String
     
-    enum CodingKeys: String, CodingKey {
+    private enum CodingKeys: String, CodingKey {
         case rankNumber = "rnum"
         case rank
         case rankIntensity = "rankInten"
