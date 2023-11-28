@@ -6,11 +6,11 @@
 //
 
 struct BoxOffice: Decodable, Equatable {
-    let boxOfficeResult: BoxOfficeResult
+    let boxOfficeResult: Result
 }
 
 extension BoxOffice {
-    struct BoxOfficeResult: Decodable, Equatable {
+    struct Result: Decodable, Equatable {
         let boxOfficeType: String
         let showRange: String
         let dailyBoxOfficeList: [DailyBoxOfficeItem]
