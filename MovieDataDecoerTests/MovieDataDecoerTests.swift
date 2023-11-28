@@ -17,10 +17,15 @@ final class MovieDataDecoerTests: XCTestCase {
     }
 
     override func tearDownWithError() throws {
+        try super.tearDownWithError()
         sut = nil
     }
 
-    func testExample() {
+    func test_box_office_sample_디코딩후_boxofficeType은_일별_박스오피스를_반환한다() {
+        let result = sut.boxOfficeResult.boxofficeType
+        
+        let boxofficeType = "일별 박스오피스"
     
+        XCTAssertEqual(result, boxofficeType)
     }
 }
