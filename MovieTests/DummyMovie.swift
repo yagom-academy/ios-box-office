@@ -5,7 +5,6 @@
 //  Created by jyubong on 11/29/23.
 //
 
-import Foundation
 @testable import BoxOffice
 
 struct DummyMovie {
