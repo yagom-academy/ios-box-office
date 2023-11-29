@@ -2,17 +2,17 @@
 //  NetworkManager.swift
 //  BoxOffice
 //
-//  Created by hyunMac on 11/29/23.
+//  Created by Toy, Morgan on 11/29/23.
 //
 
 import Foundation
 
 struct NetworkManager {
-    private let kobisURL = "https://kobis.or.kr/kobisopenapi/webservice/rest/boxoffice/searchDailyBoxOfficeList.json"
+    private let kobisURL = "https://kobis.or.kr/kobisopenapi/webservice/rest/boxoffice/searchDailyBoxOfficeList.json?"
     private let key = "d9538442725f83fb63d49ae6e965066a"
     
     func fetchMovie(complitionHandler: @escaping (BoxOffice?) -> Void) {
-         let urlString = "\(kobisURL)&key\(key)&targetDt=\(fetchTodayDate())"
+         let urlString = "\(kobisURL)key=\(key)&targetDt=\(fetchTodayDate())"
          executeRequest(with: urlString) {
              complitionHandler($0)
          }
@@ -24,13 +24,14 @@ struct NetworkManager {
         let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = "yyyyMMdd"
         let targetDate = dateFormatter.string(from: yesterday)
-        
+
         return targetDate
     }
     
     private func parseJson(_ receiveData: Data) -> BoxOffice? {
+        let decoder = JSONDecoder()
         do {
-            let receivedData = try JSONDecoder().decode(BoxOffice.self, from: receiveData)
+            let receivedData = try decoder.decode(BoxOffice.self, from: receiveData)
             return receivedData
         } catch let error as NetworkManagerError {
             print(error.localizedDescription)
