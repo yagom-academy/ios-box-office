@@ -5,8 +5,6 @@
 //  Created by jyubong, Kiseok on 11/29/23.
 //
 
-@testable import BoxOffice
-
 struct DummyMovie {
     private let boxOfficeType = "일별 박스오피스"
     private let showRange = "20220105~20220105"

@@ -5,7 +5,7 @@
 //  Created by jyubong, Kiseok on 11/29/23.
 //
 
-@testable import BoxOffice
+
 
 extension DailyBoxOfficeList: Equatable {
     public static func == (lhs: DailyBoxOfficeList, rhs: DailyBoxOfficeList) -> Bool {
