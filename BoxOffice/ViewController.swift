@@ -8,10 +8,19 @@
 import UIKit
 
 class ViewController: UIViewController {
-
+    
+    let manager = NetworkManager()
+    var movieArray = [DailyBoxOfficeItem]()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        test1()
+    }
+    
+    func test1() {
+        manager.fetchMovie { d in
+            print(d?.boxOfficeResult.dailyBoxOfficeList)
+        }
     }
 }
 
