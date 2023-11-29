@@ -2,7 +2,7 @@
 //  TestMovieJsonData.swift
 //  MovieTests
 //
-//  Created by Kiseok on 11/29/23.
+//  Created by jyubong, Kiseok on 11/29/23.
 //
 
 struct TestMovieJsonData {

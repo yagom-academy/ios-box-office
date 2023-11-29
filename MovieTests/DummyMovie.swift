@@ -2,7 +2,7 @@
 //  DummyMovie.swift
 //  MovieTests
 //
-//  Created by jyubong on 11/29/23.
+//  Created by jyubong, Kiseok on 11/29/23.
 //
 
 @testable import BoxOffice
