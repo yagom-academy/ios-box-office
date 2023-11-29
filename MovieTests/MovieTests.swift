@@ -33,37 +33,6 @@ final class MovieTests: XCTestCase {
         let screenCount = "1171"
         let showCount = "4416"
         
-        let json = """
-        {
-            "boxOfficeResult": {
-                "boxofficeType": "\(boxOfficeType)",
-                "showRange": "\(showRange)",
-                "dailyBoxOfficeList": [
-                    {
-                        "rnum":"\(number)",
-                        "rank":"\(rank)",
-                        "rankInten":"\(rankFluctuation)",
-                        "rankOldAndNew":"\(rankOldAndNew)",
-                        "movieCd":"\(movieCode)",
-                        "movieNm":"\(movieName)",
-                        "openDt":"\(openDate)",
-                        "salesAmt":"\(salesAmount)",
-                        "salesShare":"\(salesShare)",
-                        "salesInten":"\(salesFluctuation)",
-                        "salesChange":"\(salesChange)",
-                        "salesAcc":"\(salesAccumulation)",
-                        "audiCnt":"\(audienceCount)",
-                        "audiInten":"\(audienceFluctuation)",
-                        "audiChange":"\(audienceChange)",
-                        "audiAcc":"\(audienceAccumulation)",
-                        "scrnCnt":"\(screenCount)",
-                        "showCnt":"\(showCount)"
-                    }
-                ]
-            }
-        }
-        """
-        
         let dailyBoxOfficeList = DailyBoxOfficeList(
             number: number,
             rank: rank,
@@ -92,7 +61,7 @@ final class MovieTests: XCTestCase {
         )
         
         let movie = Movie(boxOfficeResult: boxOfficeResult)
-        let data = json.data(using: .utf8)!
+        let data = TestMovieJsonData.json.data(using: .utf8)!
         let jsonData = try! JSONDecoder().decode(Movie.self, from: data)
         
         //when, then
