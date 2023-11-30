@@ -1,8 +1,8 @@
 //
-//  URL.swift
+//  MovieURL.swift
 //  BoxOffice
 //
-//  Created by 김우현 on 11/30/23.
+//  Created by Toy, Morgan on 11/30/23.
 //
 
 enum MovieURL {
