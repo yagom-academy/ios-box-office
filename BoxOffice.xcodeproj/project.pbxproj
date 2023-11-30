@@ -12,7 +12,6 @@
 		3C4D67212B15848900B8926A /* BoxOffice.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C4D67202B15848900B8926A /* BoxOffice.swift */; };
 		3C6A18D22B18790400E1DBC2 /* Movie.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C6A18D12B18790400E1DBC2 /* Movie.swift */; };
 		3C6A18D42B18832E00E1DBC2 /* MovieURL.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C6A18D32B18832E00E1DBC2 /* MovieURL.swift */; };
-		3CD5DDB02B1722930013E5C0 /* NetworkManagerError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3CD5DDAF2B1722930013E5C0 /* NetworkManagerError.swift */; };
 		63DF20EF2970E1A0005DF7D1 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63DF20EE2970E1A0005DF7D1 /* AppDelegate.swift */; };
 		63DF20F12970E1A0005DF7D1 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63DF20F02970E1A0005DF7D1 /* SceneDelegate.swift */; };
 		63DF20F32970E1A0005DF7D1 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63DF20F22970E1A0005DF7D1 /* ViewController.swift */; };
@@ -44,7 +43,6 @@
 		3C4D67202B15848900B8926A /* BoxOffice.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BoxOffice.swift; sourceTree = "<group>"; };
 		3C6A18D12B18790400E1DBC2 /* Movie.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Movie.swift; sourceTree = "<group>"; };
 		3C6A18D32B18832E00E1DBC2 /* MovieURL.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MovieURL.swift; sourceTree = "<group>"; };
-		3CD5DDAF2B1722930013E5C0 /* NetworkManagerError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkManagerError.swift; sourceTree = "<group>"; };
 		63DF20EB2970E1A0005DF7D1 /* BoxOffice.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = BoxOffice.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		63DF20EE2970E1A0005DF7D1 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		63DF20F02970E1A0005DF7D1 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -121,7 +119,6 @@
 			isa = PBXGroup;
 			children = (
 				9239D0462B148D400008DE9F /* DecodingError.swift */,
-				3CD5DDAF2B1722930013E5C0 /* NetworkManagerError.swift */,
 			);
 			path = Error;
 			sourceTree = "<group>";
@@ -272,7 +269,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				9239D0472B148D400008DE9F /* DecodingError.swift in Sources */,
-				3CD5DDB02B1722930013E5C0 /* NetworkManagerError.swift in Sources */,
 				92882BE32B1736AF007AEA40 /* String+.swift in Sources */,
 				3C6A18D42B18832E00E1DBC2 /* MovieURL.swift in Sources */,
 				92488A372B186D1800A8D470 /* MovieDetail.swift in Sources */,

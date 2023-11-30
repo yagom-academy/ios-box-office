@@ -13,7 +13,7 @@ struct NetworkManager {
         
         executeRequest(with: urlString) { data in
             guard let data = data else { return }
-            let safeData = parseJson(type: BoxOffice.self, data: data)
+            let safeData = DataDecoder.parseJson(type: BoxOffice.self, data: data)
             complitionHandler(safeData)
         }
     }
@@ -23,7 +23,7 @@ struct NetworkManager {
         
         executeRequest(with: urlString) { data in
             guard let data = data else { return }
-            let safeData = parseJson(type: Movie.self, data: data)
+            let safeData = DataDecoder.parseJson(type: Movie.self, data: data)
             complitionHandler(safeData)
         }
     }
@@ -41,7 +41,6 @@ struct NetworkManager {
     }
     
     private func executeRequest(with urlString: String, complitionHandler: @escaping (Data?) -> Void) {
-        
         guard let url = URL(string: urlString) else { return }
         
         let urlSession = URLSession(configuration: .default)
@@ -59,18 +58,5 @@ struct NetworkManager {
             complitionHandler(data)
         }
         task.resume()
-    }
-    
-    private func parseJson<T: Decodable>(type: T.Type, data: Data) -> T? {
-        let decoder = JSONDecoder()
-        do {
-            let receivedData = try decoder.decode(type, from: data)
-            return receivedData
-        } catch let error as NetworkManagerError {
-            print(error.errorDescription ?? .empty)
-        } catch {
-            print(error.localizedDescription)
-        }
-        return nil
     }
 }
