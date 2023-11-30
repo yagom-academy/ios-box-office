@@ -16,22 +16,28 @@ final class NetworkManager {
     
     func fetchDailyBoxOffice(at date: String, completion: @escaping (Movie?, Error?) -> Void) {
         guard let url = URL(string: "http://kobis.or.kr/kobisopenapi/webservice/rest/boxoffice/searchDailyBoxOfficeList.json?key=\(key)&targetDt=\(date)") else {
+            completion(nil, FetchError.invalidURL)
             return
         }
         
         URLSession.shared.dataTask(with: url) { data, response, error in
             if let error = error {
-                return completion(nil, error)
+                completion(nil, error)
+                return
             }
             
             guard let httpResponse = response as? HTTPURLResponse,
                 (200...299).contains(httpResponse.statusCode) else {
-                return completion(nil, error)
+                completion(nil, FetchError.invalidResponse)
+                return
             }
             
-            if let data = data, let movie = try? JSONDecoder().decode(Movie.self, from: data) {
-                completion(movie, nil)
+            guard let data = data, let movie = try? JSONDecoder().decode(Movie.self, from: data) else {
+                completion(nil, FetchError.invalidData)
+                return
             }
+            
+            completion(movie, nil)
         }.resume()
     }
     
