@@ -14,7 +14,7 @@ final class NetworkManager {
     
     private init() { }
     
-    func fetchDailyBoxOffice(at date: String, completion: @escaping (Movie?, Error?) -> Void) {
+    func fetchDailyBoxOffice(at date: String, completion: @escaping ([DailyBoxOfficeList]?, Error?) -> Void) {
         guard let url = URL(string: "http://kobis.or.kr/kobisopenapi/webservice/rest/boxoffice/searchDailyBoxOfficeList.json?key=\(key)&targetDt=\(date)") else {
             completion(nil, FetchError.invalidURL)
             return
@@ -37,7 +37,9 @@ final class NetworkManager {
                 return
             }
             
-            completion(movie, nil)
+            let dailyBoxOfficeList = movie.boxOfficeResult.dailyBoxOfficeList
+            
+            completion(dailyBoxOfficeList, nil)
         }.resume()
     }
     
