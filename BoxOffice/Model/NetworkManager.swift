@@ -34,4 +34,8 @@ final class NetworkManager {
             }
         }.resume()
     }
+    
+    func fetchMovieDetail() {
+        
+    }
 }
