@@ -13,13 +13,19 @@ class ViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        networkTest()
+    }
+    
+    func networkTest() {
         networkManager.fetchMovie(complitionHandler: { boxOffice in
             boxOffice?.boxOfficeResult.dailyBoxOfficeList.forEach { dump($0) }
         })
-        networkManager.fetchMovieInformation(movieCode: "20124079") { movie in
-            dump(movie?.movieDetailResult.movieDetail.self)
+        networkManager.fetchMovie { boxOffice in
+            guard let a = boxOffice?.boxOfficeResult.dailyBoxOfficeList[0].movieCode else { return }
+            self.networkManager.fetchMovieInformation(movieCode: a) { movie in
+                dump(movie?.movieDetailResult.movieDetail.self)
+            }
         }
     }
-                                  
 }
 
