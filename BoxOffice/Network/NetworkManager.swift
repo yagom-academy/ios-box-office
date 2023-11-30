@@ -9,10 +9,19 @@ import Foundation
 
 struct NetworkManager {
     private let kobisURL = "https://kobis.or.kr/kobisopenapi/webservice/rest/boxoffice/searchDailyBoxOfficeList.json?"
+    private let detailURL = "https://www.kobis.or.kr/kobisopenapi/webservice/rest/movie/searchMovieInfo.json?"
     private let key = "d9538442725f83fb63d49ae6e965066a"
     
     func fetchMovie(complitionHandler: @escaping (BoxOffice?) -> Void) {
         let urlString = "\(kobisURL)key=\(key)&targetDt=\(fetchTodayDate())"
+        
+        executeRequest(with: urlString) {
+            complitionHandler($0)
+        }
+    }
+    
+    func fetchMovieDetail(movieCd: String) {
+        let urlString = "\(kobisURL)key=\(key)&movieCd=\(movieCd)"
         
         executeRequest(with: urlString) {
             complitionHandler($0)
