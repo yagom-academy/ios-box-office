@@ -2,24 +2,24 @@
 //  MovieDetail.swift
 //  BoxOffice
 //
-//  Created by jyubong on 11/30/23.
+//  Created by jyubong, Kiseok on 11/30/23.
 //
 
 import Foundation
 
-struct MovieDetail: Codable {
+struct MovieDetail: Decodable {
     let movieInfoResult: MovieInfoResult
 }
 
-struct MovieInfoResult: Codable {
+struct MovieInfoResult: Decodable {
     let movieInfo: MovieInfo
     let source: String
 }
 
-struct MovieInfo: Codable {
-    let movieCD, movieNm, movieNmEn, movieNmOg: String
-    let showTm, prdtYear, openDt, prdtStatNm: String
-    let typeNm: String
+struct MovieInfo: Decodable {
+    let movieCode, movieName, movieEnglishName, movieOriginalName: String
+    let showTime, productYear, openDate, productStateName: String
+    let typeName: String
     let nations: [Nation]
     let genres: [Genre]
     let directors: [Director]
@@ -29,45 +29,91 @@ struct MovieInfo: Codable {
     let audits: [Audit]
     let staffs: [Staff]
 
-    enum CodingKeys: String, CodingKey {
-        case movieCD = "movieCd"
-        case movieNm, movieNmEn, movieNmOg, showTm, prdtYear, openDt, prdtStatNm, typeNm, nations, genres, directors, actors, showTypes, companys, audits, staffs
+    private enum CodingKeys: String, CodingKey {
+        case movieCode = "movieCd"
+        case movieName = "movieNm"
+        case movieEnglishName = "movieNmEn"
+        case movieOriginalName = "movieNmOg"
+        case showTime = "showTm"
+        case productYear = "prdtYear"
+        case openDate = "openDt"
+        case productStateName = "prdtStatNm"
+        case typeName = "typeNm"
+        case nations, genres, directors, actors, showTypes, companys, audits, staffs
     }
 }
 
-struct Actor: Codable {
-    let peopleNm, peopleNmEn, cast, castEn: String
-}
-
-struct Audit: Codable {
-    let auditNo, watchGradeNm: String
-}
-
-struct Company: Codable {
-    let companyCD, companyNm, companyNmEn, companyPartNm: String
-
-    enum CodingKeys: String, CodingKey {
-        case companyCD = "companyCd"
-        case companyNm, companyNmEn, companyPartNm
+struct Actor: Decodable {
+    let peopleName, peopleEnglishName, cast, castEnglish: String
+    
+    private enum CodingKeys: String, CodingKey {
+        case cast
+        case peopleName = "peopleNm"
+        case peopleEnglishName = "peopleNmEn"
+        case castEnglish = "castEn"
     }
 }
 
-struct Director: Codable {
-    let peopleNm, peopleNmEn: String
+struct Audit: Decodable {
+    let auditNumber, watchGradeName: String
+    
+    private enum CodingKeys: String, CodingKey {
+        case auditNumber = "auditNo"
+        case watchGradeName = "watchGradeNm"
+    }
 }
 
-struct Genre: Codable {
-    let genreNm: String
+struct Company: Decodable {
+    let companyCode, companyName, companyEnglishName, companyPartName: String
+
+    private enum CodingKeys: String, CodingKey {
+        case companyCode = "companyCd"
+        case companyName = "companyNm"
+        case companyEnglishName = "companyNmEn"
+        case companyPartName = "companyPartNm"
+    }
 }
 
-struct Nation: Codable {
-    let nationNm: String
+struct Director: Decodable {
+    let peopleName, peopleEnglishName: String
+    
+    private enum CodingKeys: String, CodingKey {
+        case peopleName = "peopleNm"
+        case peopleEnglishName = "peopleNmEn"
+    }
 }
 
-struct ShowType: Codable {
-    let showTypeGroupNm, showTypeNm: String
+struct Genre: Decodable {
+    let genreName: String
+    
+    private enum CodingKeys: String, CodingKey {
+        case genreName = "genreNm"
+    }
 }
 
-struct Staff: Codable {
-    let peopleNm, peopleNmEn, staffRoleNm: String
+struct Nation: Decodable {
+    let nationName: String
+    
+    private enum CodingKeys: String, CodingKey {
+        case nationName = "nationNm"
+    }
+}
+
+struct ShowType: Decodable {
+    let showTypeGroupName, showTypeName: String
+    
+    private enum CodingKeys: String, CodingKey {
+        case showTypeGroupName = "showTypeGroupNm"
+        case showTypeName = "showTypeNm"
+    }
+}
+
+struct Staff: Decodable {
+    let peopleName, peopleEnglishName, staffRoleName: String
+    
+    enum CodingKeys: String, CodingKey {
+        case peopleName = "peopleNm"
+        case peopleEnglishName = "peopleNmEn"
+        case staffRoleName = "staffRoleNm"
+    }
 }
