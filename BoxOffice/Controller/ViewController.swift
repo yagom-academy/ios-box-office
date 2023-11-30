@@ -8,12 +8,17 @@
 import UIKit
 
 class ViewController: UIViewController {
-
+    var jsonData: Data?
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        print(RequestURL.dailyBoxOffice.getURL(movieCode: nil))
-        print(RequestURL.movieInfo.getURL(movieCode: "1234"))
+        APIClient().fetchData(dataType: .dailyBoxOffice, movieCode: nil) { [self] data in
+            if let data = data {
+                self.jsonData = data
+                print(jsonData)
+            }
+        }
     }
 
 
