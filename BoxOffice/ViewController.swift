@@ -14,8 +14,11 @@ class ViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         networkManager.fetchMovie(complitionHandler: { boxOffice in
-            boxOffice?.boxOfficeResult.dailyBoxOfficeList.forEach { print($0) }
+            boxOffice?.boxOfficeResult.dailyBoxOfficeList.forEach { dump($0) }
         })
+        networkManager.fetchMovieInformation(movieCode: "20124079") { movie in
+            dump(movie?.movieDetailResult.movieDetail.self)
+        }
     }
                                   
 }

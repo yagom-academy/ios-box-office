@@ -8,23 +8,23 @@
 import Foundation
 
 struct NetworkManager {
-    private let kobisURL = "https://kobis.or.kr/kobisopenapi/webservice/rest/boxoffice/searchDailyBoxOfficeList.json?"
-    private let detailURL = "https://www.kobis.or.kr/kobisopenapi/webservice/rest/movie/searchMovieInfo.json?"
-    private let key = "d9538442725f83fb63d49ae6e965066a"
-    
     func fetchMovie(complitionHandler: @escaping (BoxOffice?) -> Void) {
-        let urlString = "\(kobisURL)key=\(key)&targetDt=\(fetchTodayDate())"
+        let urlString = "\(MovieURL.kobisURL)key=\(MovieURL.key)&targetDt=\(fetchTodayDate())"
         
-        executeRequest(with: urlString) {
-            complitionHandler($0)
+        executeRequest(with: urlString) { data in
+            guard let data = data else { return }
+            let safeData = parseJson(type: BoxOffice.self, data: data)
+            complitionHandler(safeData)
         }
     }
     
-    func fetchMovieDetail(movieCd: String) {
-        let urlString = "\(kobisURL)key=\(key)&movieCd=\(movieCd)"
+    func fetchMovieInformation(movieCode: String, complitionHandler: @escaping (Movie?) -> Void) {
+        let urlString = "\(MovieURL.detailURL)key=\(MovieURL.key)&movieCd=\(movieCode)"
         
-        executeRequest(with: urlString) {
-            complitionHandler($0)
+        executeRequest(with: urlString) { data in
+            guard let data = data else { return }
+            let safeData = parseJson(type: Movie.self, data: data)
+            complitionHandler(safeData)
         }
     }
     
@@ -40,7 +40,7 @@ struct NetworkManager {
         return targetDate
     }
     
-    private func executeRequest(with urlString: String, complitionHandler: @escaping (BoxOffice?) -> Void) {
+    private func executeRequest(with urlString: String, complitionHandler: @escaping (Data?) -> Void) {
         
         guard let url = URL(string: urlString) else { return }
         
@@ -56,20 +56,15 @@ struct NetworkManager {
                 return
             }
             
-            if let movieData = parseJson(data) {
-                complitionHandler(movieData)
-            } else {
-                complitionHandler(nil)
-                return
-            }
+            complitionHandler(data)
         }
         task.resume()
     }
     
-    private func parseJson(_ receiveData: Data) -> BoxOffice? {
+    private func parseJson<T: Decodable>(type: T.Type, data: Data) -> T? {
         let decoder = JSONDecoder()
         do {
-            let receivedData = try decoder.decode(BoxOffice.self, from: receiveData)
+            let receivedData = try decoder.decode(type, from: data)
             return receivedData
         } catch let error as NetworkManagerError {
             print(error.errorDescription ?? .empty)
