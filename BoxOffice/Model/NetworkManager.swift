@@ -14,61 +14,61 @@ final class NetworkManager {
     
     private init() { }
     
-    func fetchDailyBoxOffice(at date: String, completion: @escaping ([DailyBoxOfficeList]?, Error?) -> Void) {
+    func fetchDailyBoxOffice(at date: String, completion: @escaping (Result<[DailyBoxOfficeList], Error>) -> Void) {
         guard let url = URL(string: "http://kobis.or.kr/kobisopenapi/webservice/rest/boxoffice/searchDailyBoxOfficeList.json?key=\(key)&targetDt=\(date)") else {
-            completion(nil, FetchError.invalidURL)
+            completion(.failure(FetchError.invalidURL))
             return
         }
         
         URLSession.shared.dataTask(with: url) { data, response, error in
             if let error = error {
-                completion(nil, error)
+                completion(.failure(error))
                 return
             }
             
             guard let httpResponse = response as? HTTPURLResponse,
-                (200...299).contains(httpResponse.statusCode) else {
-                completion(nil, FetchError.invalidResponse)
+                  (200...299).contains(httpResponse.statusCode) else {
+                completion(.failure(FetchError.invalidResponse))
                 return
             }
             
             guard let data = data, let movie = try? JSONDecoder().decode(Movie.self, from: data) else {
-                completion(nil, FetchError.invalidData)
+                completion(.failure(FetchError.invalidData))
                 return
             }
             
             let dailyBoxOfficeList = movie.boxOfficeResult.dailyBoxOfficeList
             
-            completion(dailyBoxOfficeList, nil)
+            completion(.success(dailyBoxOfficeList))
         }.resume()
     }
     
-    func fetchMovieDetail(code: String, completion: @escaping (MovieInfo?, Error?) -> Void) {
+    func fetchMovieDetail(code: String, completion: @escaping (Result<MovieInfo, Error>) -> Void) {
         guard let url = URL(string: "http://www.kobis.or.kr/kobisopenapi/webservice/rest/movie/searchMovieInfo.json?key=\(key)&movieCd=\(code)") else {
-            completion(nil, FetchError.invalidURL)
+            completion(.failure(FetchError.invalidURL))
             return
         }
         
         URLSession.shared.dataTask(with: url) { data, response, error in
             if let error = error {
-                completion(nil, error)
+                completion(.failure(error))
                 return
             }
             
             guard let httpResponse = response as? HTTPURLResponse,
                 (200...299).contains(httpResponse.statusCode) else {
-                completion(nil, FetchError.invalidResponse)
+                completion(.failure(FetchError.invalidResponse))
                 return
             }
             
             guard let data = data, let movie = try? JSONDecoder().decode(MovieDetail.self, from: data) else {
-                completion(nil, FetchError.invalidData)
+                completion(.failure(FetchError.invalidData))
                 return
             }
             
             let movieInfo = movie.movieInfoResult.movieInfo
             
-            completion(movieInfo, nil)
+            completion(.success(movieInfo))
         }.resume()
     }
 }
