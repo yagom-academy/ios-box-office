@@ -79,7 +79,6 @@
 				3C4D67202B15848900B8926A /* BoxOffice.swift */,
 				3C3E800B2B148B6C002AF4A2 /* DailyBoxOfficeItem.swift */,
 				9239D0442B148CBF0008DE9F /* DataDecoder.swift */,
-				92882BE22B1736AF007AEA40 /* String+.swift */,
 				92882BE42B17373B007AEA40 /* DateFormat.swift */,
 			);
 			path = Model;
@@ -91,6 +90,14 @@
 				3C3E80142B148FBC002AF4A2 /* MovieDataDecoerTests.swift */,
 			);
 			path = MovieDataDecoerTests;
+			sourceTree = "<group>";
+		};
+		3C6A18D02B18650100E1DBC2 /* Extension */ = {
+			isa = PBXGroup;
+			children = (
+				92882BE22B1736AF007AEA40 /* String+.swift */,
+			);
+			path = Extension;
 			sourceTree = "<group>";
 		};
 		3CD5DDAD2B171CF30013E5C0 /* Network */ = {
@@ -131,6 +138,7 @@
 		63DF20ED2970E1A0005DF7D1 /* BoxOffice */ = {
 			isa = PBXGroup;
 			children = (
+				3C6A18D02B18650100E1DBC2 /* Extension */,
 				3CD5DDAE2B1722810013E5C0 /* Error */,
 				3C3E800D2B148C23002AF4A2 /* Model */,
 				3CD5DDAD2B171CF30013E5C0 /* Network */,

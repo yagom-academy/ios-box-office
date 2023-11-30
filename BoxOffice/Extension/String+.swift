@@ -2,7 +2,7 @@
 //  String+.swift
 //  BoxOffice
 //
-//  Created by hyunMac on 11/29/23.
+//  Created by Toy, Morgan on 11/29/23.
 //
 
 extension String {

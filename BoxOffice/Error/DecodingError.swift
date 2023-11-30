@@ -5,13 +5,15 @@
 //  Created by Toy, Morgan on 11/27/23.
 //
 
+import Foundation
+
 enum DecodingError: Error {
     case emptyAssetData
-    
-    var description: String {
-        switch self {
-        case .emptyAssetData:
-            return "에셋 데이터가 없습니다."
-        }
+}
+
+extension DecodingError: LocalizedError {
+    var errorDescription: String? {
+        return "에셋 데이터가 없습니다."
     }
 }
+

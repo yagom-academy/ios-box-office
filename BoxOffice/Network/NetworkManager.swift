@@ -63,12 +63,10 @@ struct NetworkManager {
             let receivedData = try decoder.decode(BoxOffice.self, from: receiveData)
             return receivedData
         } catch let error as NetworkManagerError {
-            print(error.localizedDescription)
+            print(error.errorDescription ?? .empty)
         } catch {
             print(error.localizedDescription)
         }
         return nil
     }
 }
-
-
