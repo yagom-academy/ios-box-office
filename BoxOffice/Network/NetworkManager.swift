@@ -12,33 +12,23 @@ struct NetworkManager {
     private let key = "d9538442725f83fb63d49ae6e965066a"
     
     func fetchMovie(complitionHandler: @escaping (BoxOffice?) -> Void) {
-         let urlString = "\(kobisURL)key=\(key)&targetDt=\(fetchTodayDate())"
-         executeRequest(with: urlString) {
-             complitionHandler($0)
-         }
-     }
+        let urlString = "\(kobisURL)key=\(key)&targetDt=\(fetchTodayDate())"
+        
+        executeRequest(with: urlString) {
+            complitionHandler($0)
+        }
+    }
     
     private func fetchTodayDate() -> String {
         let currentDate = Date()
-        guard let yesterday = Calendar.current.date(byAdding: .day, value: -1, to: currentDate) else { return "" }
         let dateFormatter = DateFormatter()
-        dateFormatter.dateFormat = "yyyyMMdd"
+        dateFormatter.dateFormat = DateFormat.yyyyMMdd
+        
+        guard let yesterday = Calendar.current.date(byAdding: .day, value: -1, to: currentDate) else { return .empty }
+        
         let targetDate = dateFormatter.string(from: yesterday)
-
+        
         return targetDate
-    }
-    
-    private func parseJson(_ receiveData: Data) -> BoxOffice? {
-        let decoder = JSONDecoder()
-        do {
-            let receivedData = try decoder.decode(BoxOffice.self, from: receiveData)
-            return receivedData
-        } catch let error as NetworkManagerError {
-            print(error.localizedDescription)
-        } catch {
-            print(error.localizedDescription)
-        }
-        return nil
     }
     
     private func executeRequest(with urlString: String, complitionHandler: @escaping (BoxOffice?) -> Void) {
@@ -51,9 +41,7 @@ struct NetworkManager {
             guard error == nil else {
                 return
             }
-            
-            // response 다루기
-            
+
             guard let data = data else {
                 complitionHandler(nil)
                 return
@@ -67,6 +55,19 @@ struct NetworkManager {
             }
         }
         task.resume()
+    }
+    
+    private func parseJson(_ receiveData: Data) -> BoxOffice? {
+        let decoder = JSONDecoder()
+        do {
+            let receivedData = try decoder.decode(BoxOffice.self, from: receiveData)
+            return receivedData
+        } catch let error as NetworkManagerError {
+            print(error.localizedDescription)
+        } catch {
+            print(error.localizedDescription)
+        }
+        return nil
     }
 }
 
