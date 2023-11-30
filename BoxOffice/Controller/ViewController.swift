@@ -11,8 +11,9 @@ class ViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        print(RequestUrl.dailyBoxOffice)
-        print(RequestUrl.searchMovieInfo(movieCode: "20124079"))
+        
+        print(RequestURL.dailyBoxOffice.getURL(movieCode: nil))
+        print(RequestURL.movieInfo.getURL(movieCode: "1234"))
     }
 
 
