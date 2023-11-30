@@ -43,7 +43,32 @@ final class NetworkManager {
         }.resume()
     }
     
-    func fetchMovieDetail() {
+    func fetchMovieDetail(code: String, completion: @escaping (MovieInfo?, Error?) -> Void) {
+        guard let url = URL(string: "http://www.kobis.or.kr/kobisopenapi/webservice/rest/movie/searchMovieInfo.json?key=\(key)&movieCd=\(code)") else {
+            completion(nil, FetchError.invalidURL)
+            return
+        }
         
+        URLSession.shared.dataTask(with: url) { data, response, error in
+            if let error = error {
+                completion(nil, error)
+                return
+            }
+            
+            guard let httpResponse = response as? HTTPURLResponse,
+                (200...299).contains(httpResponse.statusCode) else {
+                completion(nil, FetchError.invalidResponse)
+                return
+            }
+            
+            guard let data = data, let movie = try? JSONDecoder().decode(MovieDetail.self, from: data) else {
+                completion(nil, FetchError.invalidData)
+                return
+            }
+            
+            let movieInfo = movie.movieInfoResult.movieInfo
+            
+            completion(movieInfo, nil)
+        }.resume()
     }
 }
