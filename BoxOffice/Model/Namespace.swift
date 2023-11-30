@@ -19,8 +19,7 @@ enum RequestUrl {
         return "http://kobis.or.kr/kobisopenapi/webservice/rest/boxoffice/searchDailyBoxOfficeList.json?key=\(myKey)&targetDt=\(today)"
     }
     
-    static func searchMovieInfo(movieCode: String) -> String {
+    static func movieInfo(movieCode: String) -> String {
         return "http://www.kobis.or.kr/kobisopenapi/webservice/rest/movie/searchMovieInfo.json?key=\(myKey)&movieCd=\(movieCode)"
-        
     }
 }
