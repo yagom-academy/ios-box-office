@@ -8,9 +8,24 @@
 import Foundation
 @testable import BoxOffice
 
+class MockURLSessionDataTask: URLSessionDataTask {
+    let completionHandler: () -> Void
+    
+    init(completionHandler: @escaping () -> Void) {
+        self.completionHandler = completionHandler
+    }
+    
+    override func resume() {
+        
+    }
+}
+
 class MockURLSession: URLSessionProtocol {
+    
     func dataTask(with url: URL, completionHandler: @escaping @Sendable (Data?, URLResponse?, Error?) -> Void) -> URLSessionDataTask {
-        <#code#>
+        
+        
+        return
     }
     
     
