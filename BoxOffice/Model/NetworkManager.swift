@@ -7,12 +7,12 @@
 
 import Foundation
 
-final class NetworkManager {
-    static let shared = NetworkManager()
+struct NetworkManager {
+    private let urlSession: URLSession
     
-    private let key = "3d65ed918572e0c8dc412bb3bf722f49"
-    
-    private init() { }
+    init(urlSession: URLSession = URLSession.shared) {
+        self.urlSession = urlSession
+    }
     
     func fetchData<T: Decodable>(url: String, completion: @escaping (Result<T, Error>) -> Void) {
         guard let url = URL(string: url) else {
