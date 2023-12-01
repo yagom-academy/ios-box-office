@@ -32,7 +32,7 @@ struct NetworkManager {
                 return
             }
             
-            guard let data = data, let movie = try? JSONDecoder().decode(T.self, from: data) else {
+            guard let data = data, let movie = try? JSONDecoder().decode(dataType, from: data) else {
                 completion(.failure(FetchError.invalidData))
                 return
             }
