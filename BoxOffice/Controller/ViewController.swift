@@ -15,7 +15,11 @@ class ViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        APIClient().fetchData(dataType: .dailyBoxOffice, value: "20231130") { [self] data in
+        guard let url = URL(string: RequestURL.dailyBoxOffice.getURL(value: "20231130")) else {
+            return
+        }
+        
+        APIClient().fetchData(url: url) { [self] data in
             if let data = data {
                 self.jsonData = data
                 print(jsonData)
