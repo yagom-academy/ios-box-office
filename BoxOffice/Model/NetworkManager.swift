@@ -14,13 +14,13 @@ struct NetworkManager {
         self.urlSession = urlSession
     }
     
-    func fetchData<T: Decodable>(url: String, completion: @escaping (Result<T, Error>) -> Void) {
+    func fetchData<T: Decodable>(url: String, dataType: T.Type , completion: @escaping (Result<T, Error>) -> Void) {
         guard let url = URL(string: url) else {
             completion(.failure(FetchError.invalidURL))
             return
         }
         
-        URLSession.shared.dataTask(with: url) { data, response, error in
+        urlSession.dataTask(with: url) { data, response, error in
             if let error = error {
                 completion(.failure(error))
                 return
