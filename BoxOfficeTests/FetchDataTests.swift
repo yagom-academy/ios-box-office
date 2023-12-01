@@ -6,30 +6,61 @@
 //
 
 import XCTest
+@testable import BoxOffice
 
 final class FetchDataTests: XCTestCase {
-
+    var sut: APIClient?
+    
     override func setUpWithError() throws {
-        // Put setup code here. This method is called before the invocation of each test method in the class.
     }
 
     override func tearDownWithError() throws {
-        // Put teardown code here. This method is called after the invocation of each test method in the class.
+        sut = nil
     }
-
-    func testExample() throws {
-        // This is an example of a functional test case.
-        // Use XCTAssert and related functions to verify your tests produce the correct results.
-        // Any test you write for XCTest can be annotated as throws and async.
-        // Mark your test throws to produce an unexpected failure when your test encounters an uncaught error.
-        // Mark your test async to allow awaiting for asynchronous code to complete. Check the results with assertions afterwards.
-    }
-
-    func testPerformanceExample() throws {
-        // This is an example of a performance test case.
-        self.measure {
-            // Put the code you want to measure the time of here.
+    
+    func test_fetchData_에서전달한_data가_mockData와_일치하는지() throws {
+        var result: Data?
+        let mockData = """
+                        test
+                        """.data(using: .utf8)!
+        
+        sut = APIClient(session: MockURLSession(mockData: mockData))
+        sut?.fetchData(url: URL(string: "test")!) { data, response in
+            guard let data = data else {
+                XCTFail()
+                return
+            }
+            result = data
         }
+        XCTAssertEqual(mockData, result)
+    }
+    
+    func test_fetchData_성공시_response_stautsCode가_200인지() throws {
+        var resultStatus = 0
+        
+        sut = APIClient(session: MockURLSession(responseStatus: true))
+        sut?.fetchData(url: URL(string: "test")!) { data, response in
+            guard let statusCode = response?.statusCode else {
+                XCTFail()
+                return
+            }
+            resultStatus = statusCode
+        }
+        XCTAssertEqual(200, resultStatus)
+    }
+    
+    func test_fetchData_실패시_response_stautsCode가_402인지() throws {
+        var resultStatus = 0
+        
+        sut = APIClient(session: MockURLSession(responseStatus: false))
+        sut?.fetchData(url: URL(string: "test")!) { data, response in
+            guard let statusCode = response?.statusCode else {
+                XCTFail()
+                return
+            }
+            resultStatus = statusCode
+        }
+        XCTAssertEqual(402, resultStatus)
     }
 
 }

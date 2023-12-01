@@ -14,19 +14,21 @@ struct APIClient {
         self.session = session
     }
     
-    func fetchData(url: URL, completion: @escaping (Data?) -> Void) {
+    func fetchData(url: URL, completion: @escaping (Data?, HTTPURLResponse?) -> Void) {
         let task = session.dataTask(with: url) { data, response, error in
             if let error = error {
                 print(error.localizedDescription)
                 return
             }
-            guard let httpResponse = response as? HTTPURLResponse,
-                  (200...299).contains(httpResponse.statusCode) else {
+            guard let httpResponse = response as? HTTPURLResponse else {
+                completion(nil, nil)
                 return
             }
-            if let jsonData = data {
-                completion(jsonData)
+            guard let jsonData = data else {
+                completion(nil, httpResponse)
+                return
             }
+            completion(jsonData, httpResponse)
         }
         task.resume()
     }

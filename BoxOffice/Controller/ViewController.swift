@@ -19,7 +19,7 @@ class ViewController: UIViewController {
             return
         }
         
-        APIClient().fetchData(url: url) { [self] data in
+        APIClient().fetchData(url: url) { [self] (data, response) in
             if let data = data {
                 self.jsonData = data
                 print(jsonData)
