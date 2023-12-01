@@ -10,11 +10,12 @@ import XCTest
 
 final class NetworkManagerTests: XCTestCase {
     var sut: NetworkManager!
+    private let api = "https://kobis.or.kr/kobisopenapi/webservice/rest/boxoffice/searchDailyBoxOfficeList.json?key=f5eef3421c602c6cb7ea224104795888&targetDt=20220105"
     
-    func test_fetchDailyBoxOffice() {
+    func test_fetchData_success() {
         // given
         let promise = expectation(description: "")
-        let api = "https://kobis.or.kr/kobisopenapi/webservice/rest/boxoffice/searchDailyBoxOfficeList.json?key=f5eef3421c602c6cb7ea224104795888&targetDt=20220105"
+        
         
         guard let url = URL(string: api) else {
             XCTFail()
@@ -43,6 +44,50 @@ final class NetworkManagerTests: XCTestCase {
         sut.fetchData(url: api, dataType: Movie.self) { response in
             if case let .success(movie) = response {
                 result = movie
+                
+                XCTAssertEqual(result, expectation)
+                promise.fulfill()
+            }
+        }
+        
+        wait(for: [promise], timeout: 10)
+    }
+    
+    func test_fetchData_response_failure() {
+        // given
+        let promise = expectation(description: "")
+        
+        
+        guard let url = URL(string: api) else {
+            XCTFail()
+            return
+        }
+        
+        guard let data = TestMovieJsonData.json.data(using: .utf8) else {
+            XCTFail()
+            return
+        }
+        
+        TestURLProtocol.loadingHandler = { request in
+            let response = HTTPURLResponse(url: url, statusCode: 400, httpVersion: nil, headerFields: nil)
+            return (data, response, nil)
+        }
+        
+        let configuration = URLSessionConfiguration.ephemeral
+        configuration.protocolClasses = [TestURLProtocol.self]
+        
+        sut = .init(urlSession: URLSession(configuration: configuration))
+        
+        let expectation = FetchError.invalidResponse
+        
+        // when
+        sut.fetchData(url: api, dataType: Movie.self) { response in
+            if case let .failure(error) = response {
+                
+                guard let result = error as? FetchError else {
+                    XCTFail()
+                    return
+                }
                 
                 XCTAssertEqual(result, expectation)
                 promise.fulfill()
