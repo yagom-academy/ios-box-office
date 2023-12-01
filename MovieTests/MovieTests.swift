@@ -15,7 +15,8 @@ final class MovieTests: XCTestCase {
         let movie = DummyMovie().movie
         
         guard let data = TestMovieJsonData.json.data(using: .utf8) else {
-            return XCTFail()
+            XCTFail()
+            return
         }
         
         //when, then
