@@ -8,8 +8,8 @@
 import Foundation
 
 struct APIClient {
-    func fetchData(dataType: RequestURL, movieCode: String?, completion: @escaping (Data?) -> Void) {
-        guard let url = URL(string: dataType.getURL(movieCode: movieCode)) else {
+    func fetchData(dataType: RequestURL, value: String?, completion: @escaping (Data?) -> Void) {
+        guard let url = URL(string: dataType.getURL(value: value)) else {
             completion(nil)
             return
         }

@@ -20,21 +20,25 @@ enum RequestURL: String {
         return formatter.string(from: Date())
     }
     
-    func getURL(movieCode: String?) -> String {
-        let searchType: String
-        var value: String = ""
+    func getURL(value: String?) -> String {
+        let searchType = self.rawValue
+        var target: String = ""
         
         switch self {
         case .dailyBoxOffice:
-            searchType = self.rawValue
-            value = "targetDt=" + makeDate()
-        case .movieInfo:
-            searchType = self.rawValue
-            guard let code = movieCode else {
+            guard let value = value else {
+                target = "targetDt=" + makeDate()
                 break
             }
-            value = "movieCd=" + code
+            
+            target = "targetDt=" + value
+        case .movieInfo:
+            guard let value = value else {
+                break
+            }
+            
+            target = "movieCd=" + value
         }
-        return "http://kobis.or.kr/kobisopenapi/webservice/rest/\(searchType).json?key=\(RequestURL.myKey)&\(value)"
+        return "http://kobis.or.kr/kobisopenapi/webservice/rest/\(searchType).json?key=\(RequestURL.myKey)&\(target)"
     }
 }
