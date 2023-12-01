@@ -7,14 +7,6 @@
 
 import Foundation
 
-protocol URLSessionProtocol {
-    func dataTask(with url: URL,
-                  completionHandler: @escaping @Sendable (Data?, URLResponse?, Error?) -> Void)
-    -> URLSessionDataTask
-}
-
-extension URLSession: URLSessionProtocol { }
-
 struct APIClient {
     let session: URLSessionProtocol
     
