@@ -2,7 +2,7 @@
 //  NetworkManagerTests.swift
 //  NetworkManagerTests
 //
-//  Created by Kiseok on 12/1/23.
+//  Created by Kiseok, jyubong
 //
 
 import XCTest
@@ -15,7 +15,6 @@ final class NetworkManagerTests: XCTestCase {
     func test_fetchData_success() {
         // given
         let promise = expectation(description: "")
-        
         
         guard let url = URL(string: api) else {
             XCTFail()
@@ -56,7 +55,6 @@ final class NetworkManagerTests: XCTestCase {
     func test_fetchData_response_failure() {
         // given
         let promise = expectation(description: "")
-        
         
         guard let url = URL(string: api) else {
             XCTFail()
