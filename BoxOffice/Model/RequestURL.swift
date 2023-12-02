@@ -11,8 +11,6 @@ enum RequestURL: String {
     case dailyBoxOffice = "boxoffice/searchDailyBoxOfficeList"
     case movieInfo = "movie/searchMovieInfo"
     
-    static let myKey = "7d7554c98136c7fcead382ca5f9d5776"
-    
     func makeDate() -> String {
         let formatter = DateFormatter()
         formatter.dateFormat = "yyyyMMdd"
@@ -39,6 +37,6 @@ enum RequestURL: String {
             
             target = "movieCd=" + value
         }
-        return "http://kobis.or.kr/kobisopenapi/webservice/rest/\(searchType).json?key=\(RequestURL.myKey)&\(target)"
+        return "http://kobis.or.kr/kobisopenapi/webservice/rest/\(searchType).json?key=\(MyKey.value)&\(target)"
     }
 }
