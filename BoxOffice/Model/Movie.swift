@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct Movie: Decodable {
+struct Movie: Decodable, Equatable {
     let infomationResult: InfomationResult
     
     private enum CodingKeys: String, CodingKey {
@@ -16,7 +16,7 @@ struct Movie: Decodable {
 }
 
 extension Movie {
-    struct InfomationResult: Decodable {
+    struct InfomationResult: Decodable, Equatable {
         let movieInfomation: MovieInfomation
         let source: String
         
@@ -27,7 +27,7 @@ extension Movie {
     }
 }
 
-struct MovieInfomation: Decodable {
+struct MovieInfomation: Decodable, Equatable {
     let movieCode: String
     let movieName: String
     let movieEnglishName: String
@@ -67,7 +67,7 @@ struct MovieInfomation: Decodable {
     }
 }
 
-struct Nation: Decodable {
+struct Nation: Decodable, Equatable {
     let nationName: String
     
     private enum CodingKeys: String, CodingKey {
@@ -76,7 +76,7 @@ struct Nation: Decodable {
     }
 }
 
-struct Genre: Decodable {
+struct Genre: Decodable, Equatable {
     let genreName: String
     
     private enum CodingKeys: String, CodingKey {
@@ -84,7 +84,7 @@ struct Genre: Decodable {
     }
 }
 
-struct Director: Decodable {
+struct Director: Decodable, Equatable {
     let peopleName: String
     let peopleNameEnglish: String
     
@@ -94,7 +94,7 @@ struct Director: Decodable {
     }
 }
 
-struct ActorDetail: Decodable {
+struct ActorDetail: Decodable, Equatable {
     let personName: String
     let personEnglishName: String
     let cast: String
@@ -108,7 +108,7 @@ struct ActorDetail: Decodable {
     }
 }
 
-struct ShowType: Decodable {
+struct ShowType: Decodable, Equatable {
     let showTypeGroupName: String
     let showTypeName: String
 
@@ -118,7 +118,7 @@ struct ShowType: Decodable {
     }
 }
 
-struct Company: Decodable {
+struct Company: Decodable, Equatable {
     let companyCode: String
     let companyName: String
     let companyEnglishName: String
@@ -132,7 +132,7 @@ struct Company: Decodable {
     }
 }
 
-struct Audit: Decodable {
+struct Audit: Decodable, Equatable {
     let auditNumber: String
     let watchGradeName: String
 
@@ -142,7 +142,7 @@ struct Audit: Decodable {
     }
 }
 
-struct Staff: Decodable {
+struct Staff: Decodable, Equatable {
     let personName: String
     let personEnglishName: String
     let staffRoleName: String

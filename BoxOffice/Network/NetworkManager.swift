@@ -8,6 +8,10 @@
 import Foundation
 
 struct NetworkManager {
+    enum DateFormat {
+        static var yyyyMMdd = "yyyyMMdd"
+    }
+    
     func fetchMovie(complitionHandler: @escaping (BoxOffice?) -> Void) {
         let urlString = "\(MovieURL.kobisURL)key=\(MovieURL.key)&targetDt=\(fetchTodayDate())"
         
