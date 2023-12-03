@@ -7,7 +7,5 @@
 
 
 enum DateFormat {
-    static var yyyyMMdd: String {
-        return "yyyyMMdd"
-    }
+    static let yyyyMMdd = "yyyyMMdd"
 }
