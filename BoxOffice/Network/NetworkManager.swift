@@ -63,4 +63,17 @@ struct NetworkManager {
         }
         task.resume()
     }
+    
+    func parseJson<T: Decodable>(type: T.Type, data: Data) -> T? {
+        let decoder = JSONDecoder()
+        do {
+            let receivedData = try decoder.decode(type, from: data)
+            return receivedData
+        } catch let error as DecodingError {
+            print(error.errorDescription ?? .emptyString)
+        } catch {
+            print(error.localizedDescription)
+        }
+        return nil
+    }
 }

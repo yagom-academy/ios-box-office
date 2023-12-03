@@ -22,7 +22,7 @@ struct DataDecoder {
             let receivedData = try decoder.decode(type, from: data)
             return receivedData
         } catch let error as DecodingError {
-            print(error.errorDescription ?? .empty)
+            print(error.errorDescription ?? .emptyString)
         } catch {
             print(error.localizedDescription)
         }
