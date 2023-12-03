@@ -13,7 +13,7 @@ struct NetworkManager {
     }
     
     func fetchMovie(complitionHandler: @escaping (BoxOffice?) -> Void) {
-        let urlString = "\(MovieURL.kobisURL)key=\(MovieURL.key)&targetDt=\(fetchTodayDate())"
+        let urlString = "\(MovieURL.kobisURL)key=\(Key.key)&targetDt=\(fetchTodayDate())"
         
         executeRequest(with: urlString) { data in
             guard let data = data else { return }
@@ -23,7 +23,7 @@ struct NetworkManager {
     }
     
     func fetchMovieInformation(movieCode: String, complitionHandler: @escaping (Movie?) -> Void) {
-        let urlString = "\(MovieURL.detailURL)key=\(MovieURL.key)&movieCd=\(movieCode)"
+        let urlString = "\(MovieURL.detailURL)key=\(Key.key)&movieCd=\(movieCode)"
         
         executeRequest(with: urlString) { data in
             guard let data = data else { return }
