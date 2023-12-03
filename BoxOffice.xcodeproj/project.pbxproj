@@ -84,6 +84,8 @@
 				3C3E800B2B148B6C002AF4A2 /* DailyBoxOfficeItem.swift */,
 				3C6A18D12B18790400E1DBC2 /* Movie.swift */,
 				92488A362B186D1800A8D470 /* MovieDetail.swift */,
+				92882BE42B17373B007AEA40 /* DateFormat.swift */,
+				3C6A18D32B18832E00E1DBC2 /* MovieURL.swift */,
 				9239D0442B148CBF0008DE9F /* DataDecoder.swift */,
 			);
 			path = Model;
@@ -103,34 +105,6 @@
 				92882BE22B1736AF007AEA40 /* String+.swift */,
 			);
 			path = Extension;
-			sourceTree = "<group>";
-		};
-		3C6A18D72B18A2B400E1DBC2 /* NameSpace */ = {
-			isa = PBXGroup;
-			children = (
-				92882BE42B17373B007AEA40 /* DateFormat.swift */,
-				3C6A18D32B18832E00E1DBC2 /* MovieURL.swift */,
-			);
-			path = NameSpace;
-			sourceTree = "<group>";
-		};
-		3C6A18D82B18A2CA00E1DBC2 /* Views */ = {
-			isa = PBXGroup;
-			children = (
-				63DF20F42970E1A0005DF7D1 /* Main.storyboard */,
-				63DF20F92970E1A1005DF7D1 /* LaunchScreen.storyboard */,
-			);
-			path = Views;
-			sourceTree = "<group>";
-		};
-		3C6A18D92B18A2DB00E1DBC2 /* Controllers */ = {
-			isa = PBXGroup;
-			children = (
-				63DF20EE2970E1A0005DF7D1 /* AppDelegate.swift */,
-				63DF20F22970E1A0005DF7D1 /* ViewController.swift */,
-				63DF20F02970E1A0005DF7D1 /* SceneDelegate.swift */,
-			);
-			path = Controllers;
 			sourceTree = "<group>";
 		};
 		3CD5DDAD2B171CF30013E5C0 /* Network */ = {
@@ -172,12 +146,14 @@
 			children = (
 				3C6A18D02B18650100E1DBC2 /* Extension */,
 				3CD5DDAE2B1722810013E5C0 /* Error */,
-				3CD5DDAD2B171CF30013E5C0 /* Network */,
-				3C6A18D72B18A2B400E1DBC2 /* NameSpace */,
 				3C3E800D2B148C23002AF4A2 /* Model */,
-				3C6A18D82B18A2CA00E1DBC2 /* Views */,
-				3C6A18D92B18A2DB00E1DBC2 /* Controllers */,
+				3CD5DDAD2B171CF30013E5C0 /* Network */,
+				63DF20EE2970E1A0005DF7D1 /* AppDelegate.swift */,
+				63DF20F02970E1A0005DF7D1 /* SceneDelegate.swift */,
+				63DF20F22970E1A0005DF7D1 /* ViewController.swift */,
+				63DF20F42970E1A0005DF7D1 /* Main.storyboard */,
 				63DF20F72970E1A1005DF7D1 /* Assets.xcassets */,
+				63DF20F92970E1A1005DF7D1 /* LaunchScreen.storyboard */,
 				63DF20FC2970E1A1005DF7D1 /* Info.plist */,
 			);
 			path = BoxOffice;
