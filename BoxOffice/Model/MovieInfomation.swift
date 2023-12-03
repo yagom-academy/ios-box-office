@@ -1,5 +1,5 @@
 //
-//  MovieDetail.swift
+//  MovieInfomation.swift
 //  BoxOffice
 //
 //  Created by Morgan, Toy on 11/30/23.
@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct Infomation: Decodable {
+struct MovieInfomation: Decodable {
     let movieCode: String
     let movieName: String
     let movieEnglishName: String

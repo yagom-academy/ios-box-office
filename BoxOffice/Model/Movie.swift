@@ -8,20 +8,20 @@
 import Foundation
 
 struct Movie: Decodable {
-    let movieDetailResult: InfomationResult
+    let infomationResult: InfomationResult
     
     private enum CodingKeys: String, CodingKey {
-        case movieDetailResult = "movieInfoResult"
+        case infomationResult = "movieInfoResult"
     }
 }
 
 extension Movie {
     struct InfomationResult: Decodable {
-        let movieDetail: Infomation
+        let movieInfomation: MovieInfomation
         let source: String
         
         private enum CodingKeys: String, CodingKey {
-            case movieDetail = "movieInfo"
+            case movieInfomation = "movieInfo"
             case source
         }
     }
