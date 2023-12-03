@@ -37,7 +37,7 @@ struct NetworkManager {
         let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = DateFormat.yyyyMMdd
         
-        guard let yesterday = Calendar.current.date(byAdding: .day, value: -1, to: currentDate) else { return .empty }
+        guard let yesterday = Calendar.current.date(byAdding: .day, value: -1, to: currentDate) else { return .emptyString }
         
         let targetDate = dateFormatter.string(from: yesterday)
         
