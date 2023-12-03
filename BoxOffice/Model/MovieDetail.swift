@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct MovieInfomation: Decodable {
+struct Infomation: Decodable {
     let movieCode: String
     let movieName: String
     let movieEnglishName: String
