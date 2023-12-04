@@ -6,6 +6,7 @@
 //
 
 enum APIError: Error {
+    case dataTaskError
     case invalidStatusCode
     case decodingError
     case noData

@@ -17,9 +17,10 @@ struct APIClient {
     func fetchData<T: Decodable>(url: URL, completion: @escaping (Result<T, Error>) -> Void) {
         let task = session.dataTask(with: url) { data, response, error in
             if let error = error {
-                completion(.failure(error))
+                completion(.failure(APIError.dataTaskError))
                 return
             }
+            
             guard let httpResponse = response as? HTTPURLResponse,
                   (200...299).contains(httpResponse.statusCode) else {
                 completion(.failure(APIError.invalidStatusCode))

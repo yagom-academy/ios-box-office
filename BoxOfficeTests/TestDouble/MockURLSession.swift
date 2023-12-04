@@ -17,15 +17,24 @@ class MockURLSessionDataTask: URLSessionDataTask {
 }
 
 class MockURLSession: URLSessionProtocol {
-    var mockData: Data
+    var mockData: Data?
     let responseStatus: Bool
+    let errorStatus: Bool
     
-    init(mockData: Data = Data(), responseStatus: Bool = true) {
+    init(mockData: Data? = Data(), responseStatus: Bool = true, errorStatus: Bool = false) {
         self.mockData = mockData
         self.responseStatus = responseStatus
+        self.errorStatus = errorStatus
     }
     
     func dataTask(with url: URL, completionHandler: @escaping @Sendable (Data?, URLResponse?, Error?) -> Void) -> URLSessionDataTask {
+        
+        let mockURLSessionDataTask = MockURLSessionDataTask()
+        
+        guard errorStatus == false else {
+            completionHandler(nil, nil, APIError.dataTaskError)
+            return mockURLSessionDataTask
+        }
         
         let statusCode: Int
         switch responseStatus {
@@ -35,7 +44,6 @@ class MockURLSession: URLSessionProtocol {
             statusCode = 402
         }
         
-        let mockURLSessionDataTask = MockURLSessionDataTask()
         let mockURLResponse = HTTPURLResponse(url: url,
                                               statusCode: statusCode,
                                               httpVersion: "2",
