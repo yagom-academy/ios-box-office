@@ -21,7 +21,7 @@ final class MovieTests: XCTestCase {
         
         //when, then
         do {
-            let jsonData = try JSONDecoder().decode(Movie.self, from: data)
+            let jsonData = try Decoder().parse(data: data, type: Movie.self)
             XCTAssertEqual(movie, jsonData)
         } catch  {
             XCTFail()
