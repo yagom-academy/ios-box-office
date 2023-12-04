@@ -43,7 +43,7 @@ struct NetworkManager {
             let receivedData = try decoder.decode(type, from: data)
             return receivedData
         } catch let error as DecodingError {
-            print(error.errorDescription ?? .emptyString)
+            print(error.errorDescription ?? "")
         } catch {
             print(error.localizedDescription)
         }

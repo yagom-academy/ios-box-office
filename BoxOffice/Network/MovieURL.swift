@@ -16,11 +16,11 @@ struct MovieURL {
     private static let detailURL = "https://www.kobis.or.kr/kobisopenapi/webservice/rest/movie/searchMovieInfo.json?"
     
     static var kobisURLString: String {
-        return "\(self.kobisURL)key=\(Key.key)&targetDt=\(fetchTodayDate())"
+        return "\(self.kobisURL)key=\(Key.movieDataApiKey)&targetDt=\(fetchTodayDate())"
     }
     
     static func detailURLString(movieCode: String) -> String {
-        return "\(self.detailURL)key=\(Key.key)&movieCd=\(movieCode)"
+        return "\(self.detailURL)key=\(Key.movieDataApiKey)&movieCd=\(movieCode)"
     }
     
     private static func fetchTodayDate() -> String {

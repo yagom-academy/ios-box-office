@@ -6,5 +6,5 @@
 //
 
 enum Key {
-    static let key = "d9538442725f83fb63d49ae6e965066a"
+    static let movieDataApiKey = "d9538442725f83fb63d49ae6e965066a"
 }
