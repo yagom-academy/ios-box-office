@@ -15,12 +15,13 @@ final class MovieTests: XCTestCase {
         let movie = DummyMovie().movie
         
         guard let data = TestMovieJsonData.json.data(using: .utf8) else {
-            return XCTFail()
+            XCTFail()
+            return
         }
         
         //when, then
         do {
-            let jsonData = try JSONDecoder().decode(Movie.self, from: data)
+            let jsonData = try Decoder().parse(data: data, type: Movie.self)
             XCTAssertEqual(movie, jsonData)
         } catch  {
             XCTFail()
