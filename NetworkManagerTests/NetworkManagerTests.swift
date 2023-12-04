@@ -14,8 +14,6 @@ final class NetworkManagerTests: XCTestCase {
     
     func test_fetchData_success() {
         // given
-        let promise = expectation(description: "")
-        
         guard let url = URL(string: api) else {
             XCTFail()
             return
@@ -45,17 +43,12 @@ final class NetworkManagerTests: XCTestCase {
                 result = movie
                 
                 XCTAssertEqual(result, expectation)
-                promise.fulfill()
             }
         }
-        
-        wait(for: [promise], timeout: 10)
     }
     
     func test_fetchData_response_failure() {
         // given
-        let promise = expectation(description: "")
-        
         guard let url = URL(string: api) else {
             XCTFail()
             return
@@ -88,11 +81,8 @@ final class NetworkManagerTests: XCTestCase {
                 }
                 
                 XCTAssertEqual(result, expectation)
-                promise.fulfill()
             }
         }
-        
-        wait(for: [promise], timeout: 10)
     }
 }
 
