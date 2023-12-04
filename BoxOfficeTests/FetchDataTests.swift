@@ -19,10 +19,14 @@ final class FetchDataTests: XCTestCase {
     }
     
     func test_fetchData_에서전달한_data가_mockData와_일치하는지() throws {
-        var result: Data?
+        var result: BoxOffice
         let mockData = """
                         test
                         """.data(using: .utf8)!
+        //디코딩테스트는 이미 진행했는데 추가적으로 디코딩을 테스트해야할 이유가 있나?
+        //디코딩 과정이 APIClient 코드에 포함되어버려서 테스트를 변경해야하는 상황
+        //
+        
         
         sut = APIClient(session: MockURLSession(mockData: mockData))
         sut?.fetchData(url: URL(string: "test")!) { data, response in

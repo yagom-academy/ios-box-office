@@ -8,9 +8,6 @@
 import UIKit
 
 class ViewController: UIViewController {
-    var jsonData: Data?
-    let decoder = JSONDecoder()
-    var boxOfficeData: BoxOffice?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -19,20 +16,14 @@ class ViewController: UIViewController {
             return
         }
         
-//        APIClient().fetchData(url: url) { [self] (data, response) in
-//            if let data = data {
-//                self.jsonData = data
-//                print(jsonData)
-//                
-//                boxOfficeData = try? decoder.decode(BoxOffice.self, from: data)
-//                guard boxOfficeData != nil else {
-//                    return
-//                }
-//                print(boxOfficeData)
-//            }
-//        }
+        APIClient().fetchData(url: url) { (result: Result<BoxOffice, Error>) in
+            switch result {
+            case .success(let boxOffice):
+                print(boxOffice)
+            case .failure(let error):
+                print(error.localizedDescription)
+            }
+        }
     }
-
-
 }
 
