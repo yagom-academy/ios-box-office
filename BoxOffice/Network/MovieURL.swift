@@ -28,7 +28,7 @@ struct MovieURL {
         let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = DateFormat.yyyyMMdd
         
-        guard let yesterday = Calendar.current.date(byAdding: .day, value: -1, to: currentDate) else { return .emptyString }
+        guard let yesterday = Calendar.current.date(byAdding: .day, value: -1, to: currentDate) else { return "" }
         
         let targetDate = dateFormatter.string(from: yesterday)
         
