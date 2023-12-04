@@ -14,7 +14,6 @@
 		63DF20F82970E1A1005DF7D1 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 63DF20F72970E1A1005DF7D1 /* Assets.xcassets */; };
 		63DF20FB2970E1A1005DF7D1 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 63DF20F92970E1A1005DF7D1 /* LaunchScreen.storyboard */; };
 		B9155C392B14B3DE00FB4667 /* BoxOffice.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9155C382B14B3DE00FB4667 /* BoxOffice.swift */; };
-		B9155C412B14CECF00FB4667 /* DecodingTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9155C402B14CECF00FB4667 /* DecodingTests.swift */; };
 		B971828E2B1AE34600B152F1 /* MyKey.swift in Sources */ = {isa = PBXBuildFile; fileRef = B971828D2B1AE34600B152F1 /* MyKey.swift */; };
 		B981D5FD2B18BD3D00E80B09 /* RequestURL.swift in Sources */ = {isa = PBXBuildFile; fileRef = B981D5FC2B18BD3D00E80B09 /* RequestURL.swift */; };
 		B981D5FF2B18D98200E80B09 /* APIClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = B981D5FE2B18D98200E80B09 /* APIClient.swift */; };
@@ -22,6 +21,7 @@
 		B981D6042B19D7D100E80B09 /* MockURLSession.swift in Sources */ = {isa = PBXBuildFile; fileRef = B981D6032B19D7D100E80B09 /* MockURLSession.swift */; };
 		B99539932B1617340061DC3C /* Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = B99539922B1617340061DC3C /* Extension.swift */; };
 		B99722552B1DBD04009A4D1C /* Error.swift in Sources */ = {isa = PBXBuildFile; fileRef = B99722542B1DBD04009A4D1C /* Error.swift */; };
+		B99722572B1DD11A009A4D1C /* MockBoxOfficeData.swift in Sources */ = {isa = PBXBuildFile; fileRef = B99722562B1DD11A009A4D1C /* MockBoxOfficeData.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -45,7 +45,6 @@
 		63DF20FC2970E1A1005DF7D1 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		B9155C382B14B3DE00FB4667 /* BoxOffice.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BoxOffice.swift; sourceTree = "<group>"; };
 		B9155C3E2B14CECF00FB4667 /* BoxOfficeTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = BoxOfficeTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
-		B9155C402B14CECF00FB4667 /* DecodingTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DecodingTests.swift; sourceTree = "<group>"; };
 		B971828D2B1AE34600B152F1 /* MyKey.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyKey.swift; sourceTree = "<group>"; };
 		B981D5FC2B18BD3D00E80B09 /* RequestURL.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RequestURL.swift; sourceTree = "<group>"; };
 		B981D5FE2B18D98200E80B09 /* APIClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIClient.swift; sourceTree = "<group>"; };
@@ -53,6 +52,7 @@
 		B981D6032B19D7D100E80B09 /* MockURLSession.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockURLSession.swift; sourceTree = "<group>"; };
 		B99539922B1617340061DC3C /* Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extension.swift; sourceTree = "<group>"; };
 		B99722542B1DBD04009A4D1C /* Error.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Error.swift; sourceTree = "<group>"; };
+		B99722562B1DD11A009A4D1C /* MockBoxOfficeData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockBoxOfficeData.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -155,7 +155,6 @@
 			isa = PBXGroup;
 			children = (
 				B981D6022B19D7B600E80B09 /* TestDouble */,
-				B9155C402B14CECF00FB4667 /* DecodingTests.swift */,
 				B981D6002B19D15900E80B09 /* FetchDataTests.swift */,
 			);
 			path = BoxOfficeTests;
@@ -165,6 +164,7 @@
 			isa = PBXGroup;
 			children = (
 				B981D6032B19D7D100E80B09 /* MockURLSession.swift */,
+				B99722562B1DD11A009A4D1C /* MockBoxOfficeData.swift */,
 			);
 			path = TestDouble;
 			sourceTree = "<group>";
@@ -287,8 +287,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				B981D6012B19D15900E80B09 /* FetchDataTests.swift in Sources */,
-				B9155C412B14CECF00FB4667 /* DecodingTests.swift in Sources */,
 				B981D6042B19D7D100E80B09 /* MockURLSession.swift in Sources */,
+				B99722572B1DD11A009A4D1C /* MockBoxOfficeData.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
