@@ -105,7 +105,6 @@
 			children = (
 				4F1710D02B16C74300907DEC /* TestMovieJsonData.swift */,
 				BFB8F29A2B16CCC000ECB799 /* DummyMovie.swift */,
-				BFB8F31F2B1977ED00ECB799 /* TestURLProtocol.swift */,
 			);
 			path = TestResource;
 			sourceTree = "<group>";
@@ -113,6 +112,7 @@
 		4F1710F52B19788800907DEC /* NetworkManagerTests */ = {
 			isa = PBXGroup;
 			children = (
+				BFB8F3302B1DE65B00ECB799 /* TestResource */,
 				4F1710F62B19788800907DEC /* NetworkManagerTests.swift */,
 			);
 			path = NetworkManagerTests;
@@ -203,9 +203,18 @@
 			path = BoxOffice;
 			sourceTree = "<group>";
 		};
+		BFB8F3302B1DE65B00ECB799 /* TestResource */ = {
+			isa = PBXGroup;
+			children = (
+				BFB8F31F2B1977ED00ECB799 /* TestURLProtocol.swift */,
+			);
+			path = TestResource;
+			sourceTree = "<group>";
+		};
 		BFF6E5942B146EE000F45747 /* MovieTests */ = {
 			isa = PBXGroup;
 			children = (
+				4F1710D82B16E50D00907DEC /* TestResource */,
 				BFF6E5952B146EE000F45747 /* MovieTests.swift */,
 			);
 			path = MovieTests;
@@ -217,7 +226,6 @@
 				4F1710FF2B19816700907DEC /* Movie */,
 				4F1710FE2B19815E00907DEC /* Error */,
 				4F1710FD2B19814800907DEC /* Network */,
-				4F1710D82B16E50D00907DEC /* TestResource */,
 				4F1710D32B16D26F00907DEC /* Extension */,
 			);
 			path = Model;
