@@ -14,22 +14,31 @@ struct APIClient {
         self.session = session
     }
     
-    func fetchData(url: URL, completion: @escaping (Data?, HTTPURLResponse?) -> Void) {
+    func fetchData<T: Decodable>(url: URL, completion: @escaping (Result<T, Error>) -> Void) {
         let task = session.dataTask(with: url) { data, response, error in
             if let error = error {
-                print(error.localizedDescription)
+                completion(.failure(error))
                 return
             }
-            guard let httpResponse = response as? HTTPURLResponse else {
-                completion(nil, nil)
+            guard let httpResponse = response as? HTTPURLResponse,
+                  (200...299).contains(httpResponse.statusCode) else {
+                completion(.failure(APIError.invalidStatusCode))
                 return
             }
-            guard let jsonData = data else {
-                completion(nil, httpResponse)
+            
+            guard let data = data else {
+                completion(.failure(APIError.noData))
                 return
             }
-            completion(jsonData, httpResponse)
+            
+            guard let decodedData = try? JSONDecoder().decode(T.self, from: data) else {
+                completion(.failure(APIError.decodingError))
+                return
+            }
+    
+            completion(.success(decodedData))
         }
+        
         task.resume()
     }
 }

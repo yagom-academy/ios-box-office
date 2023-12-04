@@ -19,18 +19,18 @@ class ViewController: UIViewController {
             return
         }
         
-        APIClient().fetchData(url: url) { [self] (data, response) in
-            if let data = data {
-                self.jsonData = data
-                print(jsonData)
-                
-                boxOfficeData = try? decoder.decode(BoxOffice.self, from: data)
-                guard boxOfficeData != nil else {
-                    return
-                }
-                print(boxOfficeData)
-            }
-        }
+//        APIClient().fetchData(url: url) { [self] (data, response) in
+//            if let data = data {
+//                self.jsonData = data
+//                print(jsonData)
+//                
+//                boxOfficeData = try? decoder.decode(BoxOffice.self, from: data)
+//                guard boxOfficeData != nil else {
+//                    return
+//                }
+//                print(boxOfficeData)
+//            }
+//        }
     }
 
 
