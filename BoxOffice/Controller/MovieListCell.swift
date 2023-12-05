@@ -58,4 +58,10 @@ class MovieListCell: UICollectionViewListCell {
         stackView.addSubview(audienceCountLabel)
         return stackView
     }()
+    func configureLabelText(_ movie: DailyBoxOfficeList) {
+        rankLabel.text = movie.rank
+        rankFluctuationLabel.text = movie.audienceFluctuation
+        movieNameLabel.text = movie.movieName
+        audienceCountLabel.text = "오늘 \(movie.audienceCount)명 / 총 \(movie.audienceAccumulation)명"
+    }
 }
