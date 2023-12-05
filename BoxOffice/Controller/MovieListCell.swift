@@ -58,6 +58,13 @@ class MovieListCell: UICollectionViewListCell {
         stackView.addSubview(audienceCountLabel)
         return stackView
     }()
+    
+    override func awakeFromNib() {
+        super.awakeFromNib()
+        
+        self.accessories = [.disclosureIndicator()]
+    }
+    
     func configureLabelText(_ movie: DailyBoxOfficeList) {
         rankLabel.text = movie.rank
         rankFluctuationLabel.text = movie.audienceFluctuation
