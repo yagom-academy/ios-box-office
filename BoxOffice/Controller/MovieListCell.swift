@@ -25,6 +25,7 @@ class MovieListCell: UICollectionViewListCell {
     
     private lazy var rankStackView: UIStackView = {
         let stackView = UIStackView()
+        stackView.translatesAutoresizingMaskIntoConstraints = false
         stackView.axis = .vertical
         stackView.distribution = .equalSpacing
         stackView.spacing = 5
@@ -50,6 +51,7 @@ class MovieListCell: UICollectionViewListCell {
     
     private lazy var movieStackView: UIStackView = {
         let stackView = UIStackView()
+        stackView.translatesAutoresizingMaskIntoConstraints = false
         stackView.axis = .vertical
         stackView.distribution = .equalSpacing
         stackView.spacing = 3
@@ -63,6 +65,10 @@ class MovieListCell: UICollectionViewListCell {
         super.awakeFromNib()
         
         self.accessories = [.disclosureIndicator()]
+        addSubview(rankStackView)
+        addSubview(movieStackView)
+        
+        autoLayout()
     }
     
     func configureLabelText(_ movie: DailyBoxOfficeList) {
@@ -70,5 +76,16 @@ class MovieListCell: UICollectionViewListCell {
         rankFluctuationLabel.text = movie.audienceFluctuation
         movieNameLabel.text = movie.movieName
         audienceCountLabel.text = "오늘 \(movie.audienceCount)명 / 총 \(movie.audienceAccumulation)명"
+    }
+    
+    func autoLayout() {
+        NSLayoutConstraint.activate([
+            rankStackView.leadingAnchor.constraint(equalTo: leadingAnchor , constant: 30),
+            rankStackView.topAnchor.constraint(equalTo: topAnchor, constant: 10),
+            rankStackView.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -10),
+            movieStackView.centerYAnchor.constraint(equalTo: centerYAnchor),
+            movieStackView.leadingAnchor.constraint(equalTo: rankStackView.trailingAnchor, constant: 20),
+            movieStackView.trailingAnchor.constraint(lessThanOrEqualTo: trailingAnchor, constant: -20)
+        ])
     }
 }
