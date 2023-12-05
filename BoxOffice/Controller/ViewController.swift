@@ -57,6 +57,16 @@ class ViewController: UIViewController {
             collectionView.trailingAnchor.constraint(equalTo: view.trailingAnchor)
         ])
     }
+    private func decode(_ data: Data) {
+        do {
+            movieList = try Decoder().parse(
+                data: data,
+                type: Movie.self
+            ).boxOfficeResult.dailyBoxOfficeList
+        } catch {
+            print(error.localizedDescription)
+        }
+    }
 }
 
 extension ViewController: UICollectionViewDataSource {
