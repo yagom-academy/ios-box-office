@@ -23,6 +23,18 @@ class ViewController: UIViewController {
         
         return collectionView
     }()
+    
+    private var yesterday: String {
+         let yesterday = Date(timeIntervalSinceNow: -86400)
+         let dateFormatter = DateFormatter()
+         dateFormatter.dateFormat = "yyyyMMdd"
+         
+         guard let dateString = dateFormatter.string(for: yesterday) else {
+             return ""
+         }
+         
+         return dateString
+     }
 
     override func viewDidLoad() {
         super.viewDidLoad()
