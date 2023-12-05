@@ -35,6 +35,8 @@ class ViewController: UIViewController {
          
          return dateString
      }
+    
+    var movieList: [DailyBoxOfficeList] = []
 
     override func viewDidLoad() {
         super.viewDidLoad()
