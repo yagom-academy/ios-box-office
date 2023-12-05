@@ -57,6 +57,25 @@ class ViewController: UIViewController {
             collectionView.trailingAnchor.constraint(equalTo: view.trailingAnchor)
         ])
     }
+    
+    private func fetchData() {
+        let networkManager = NetworkManager()
+        let date = yesterday
+        let url = URLManager.dailyBoxOffice(date: date).url
+        
+        networkManager.fetchData(url: url) { response in
+            switch response {
+            case .success(let data):
+                self.decode(data)
+                DispatchQueue.main.async {
+                    self.collectionView.reloadData()
+                }
+            case .failure(let error):
+                print(error.localizedDescription)
+            }
+        }
+    }
+    
     private func decode(_ data: Data) {
         do {
             movieList = try Decoder().parse(
