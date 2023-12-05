@@ -10,11 +10,16 @@ import UIKit
 @available(iOS 14.0, *)
 class ViewController: UIViewController {
     private var collectionView: UICollectionView = {
-        let layout = UICollectionViewFlowLayout()
-        layout.scrollDirection = .vertical
-        
-        let collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
-        collectionView.backgroundColor = .systemYellow
+        let configuration = UICollectionLayoutListConfiguration(appearance: .plain)
+        let layout = UICollectionViewCompositionalLayout.list(using: configuration)
+        let collectionView = UICollectionView(
+            frame: .zero,
+            collectionViewLayout: layout
+        )
+        collectionView.register(
+            MovieListCell.self,
+            forCellWithReuseIdentifier: "MovieListCell"
+        )
         collectionView.translatesAutoresizingMaskIntoConstraints = false
         
         return collectionView
@@ -22,6 +27,7 @@ class ViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        collectionView.dataSource = self
         
         autoLayout()
     }
@@ -43,12 +49,18 @@ class ViewController: UIViewController {
 @available(iOS 14.0, *)
 extension ViewController: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return 0
+        return 10
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        guard let cell = collectionView.dequeueReusableCell(
+            withReuseIdentifier: "MovieListCell",
+            for: indexPath
+        ) as? MovieListCell else {
+            return UICollectionViewListCell()
+        }
         
-        return UICollectionViewCell()
+        return cell
     }
 }
 
