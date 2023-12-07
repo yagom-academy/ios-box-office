@@ -8,11 +8,16 @@
 import UIKit
 
 class MovieContentView: UIView, UIContentView {
-    var configuration: UIContentConfiguration
+    var configuration: UIContentConfiguration {
+        didSet {
+            if let configuration = configuration as? MovieConfiguration {
+                apply(configuration)
+            }
+        }
+    }
     
     init(configuration: UIContentConfiguration) {
         self.configuration = configuration
-        
         super.init(frame: .zero)
     }
     
