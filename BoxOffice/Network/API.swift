@@ -23,8 +23,7 @@ struct API {
         components.scheme = schema
         components.host = host
         components.path = path
-        components.queryItems = [
-        URLQueryItem(name: "key", value: apikey)] + queryItems
+        components.queryItems = [URLQueryItem(name: "key", value: apikey)] + queryItems
         
         return components.url
     }

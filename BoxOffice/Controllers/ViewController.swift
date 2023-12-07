@@ -17,10 +17,10 @@ class ViewController: UIViewController {
     }
     
     func networkTest() {
-        let dailyBoxOfficeAPI = API(schema: "https", host: "kobis.or.kr", path: "/kobisopenapi/webservice/rest/boxoffice/searchDailyBoxOfficeList.json")
+        let dailyBoxOfficeAPI = API(schema: MovieURL.schema, host: MovieURL.movieHost, path: MovieURL.boxofficePath)
 
         let dailyBoxOfficeAPIAdditionalQueryItems: [URLQueryItem] = [
-            URLQueryItem(name: "targetDt", value: "20231123")
+            URLQueryItem(name: "targetDt", value: DateGenerator.fetchTodayDate())
         ]
 
         let apiKey = Key.movieDataApiKey
@@ -45,7 +45,7 @@ class ViewController: UIViewController {
 
 
         group.notify(queue: .main) {
-            let movieDetailAPI = API(schema: "https", host: "kobis.or.kr", path:"/kobisopenapi/webservice/rest/movie/searchMovieInfo.json")
+            let movieDetailAPI = API(schema: MovieURL.schema, host: MovieURL.movieHost, path: MovieURL.movieDetailPath)
             
             let movieDetailAPIAdditionalQueryItems: [URLQueryItem] = [
                 URLQueryItem(name: "movieCd", value: movieCode)
