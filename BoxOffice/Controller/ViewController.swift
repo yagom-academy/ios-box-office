@@ -59,7 +59,7 @@ class ViewController: UIViewController {
     private func fetchData() {
         let networkManager = NetworkManager()
         let date = yesterday
-        let url = URLManager.dailyBoxOffice(date: yesterday(format: "yyyyMMdd")).url
+        let url = URLManager.dailyBoxOffice(date: yesterday(format: DateFormat.forURL)).url
         
         networkManager.fetchData(url: url) { response in
             switch response {
@@ -87,12 +87,12 @@ class ViewController: UIViewController {
     }
     
     private func yesterday(format: String) -> String {
-        let yesterday = Date(timeIntervalSinceNow: -86400)
+        let yesterday = Date(timeIntervalSinceNow: DateFormat.forTimeInterval)
         let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = format
         
         guard let dateString = dateFormatter.string(for: yesterday) else {
-            return ""
+            return DateFormat.empty
         }
         
         return dateString
@@ -102,7 +102,7 @@ class ViewController: UIViewController {
 extension ViewController {
     private func configureUI() {
         view.backgroundColor = .systemBackground
-        self.title = yesterday(format: "yyyy-MM-dd")
+        self.title = yesterday(format: DateFormat.forTitle)
     }
     
     private func autoLayout() {
