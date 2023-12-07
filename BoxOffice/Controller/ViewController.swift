@@ -8,21 +8,7 @@
 import UIKit
 
 class ViewController: UIViewController {
-    private var collectionView: UICollectionView = {
-        let configuration = UICollectionLayoutListConfiguration(appearance: .plain)
-        let layout = UICollectionViewCompositionalLayout.list(using: configuration)
-        let collectionView = UICollectionView(
-            frame: .zero,
-            collectionViewLayout: layout
-        )
-        collectionView.register(
-            MovieListCell.self,
-            forCellWithReuseIdentifier: "MovieListCell"
-        )
-        collectionView.translatesAutoresizingMaskIntoConstraints = false
-        
-        return collectionView
-    }()
+    private var collectionView = UICollectionView()
     
     private var yesterday: String {
          let yesterday = Date(timeIntervalSinceNow: -86400)
@@ -40,22 +26,9 @@ class ViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        collectionView.dataSource = self
         
+        configureUI()
         autoLayout()
-    }
-    
-    private func autoLayout() {
-        view.addSubview(collectionView)
-        
-        let safeArea = view.safeAreaLayoutGuide
-        
-        NSLayoutConstraint.activate([
-            collectionView.topAnchor.constraint(equalTo: safeArea.topAnchor),
-            collectionView.bottomAnchor.constraint(equalTo: safeArea.bottomAnchor),
-            collectionView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
-            collectionView.trailingAnchor.constraint(equalTo: view.trailingAnchor)
-        ])
     }
     
     private func fetchData() {
@@ -88,20 +61,29 @@ class ViewController: UIViewController {
     }
 }
 
-extension ViewController: UICollectionViewDataSource {
-    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return 10
+extension ViewController {
+    private func configureUI() {
+        let configuration = UICollectionLayoutListConfiguration(appearance: .plain)
+        let layout = UICollectionViewCompositionalLayout.list(using: configuration)
+        let collectionView = UICollectionView(
+            frame: .zero,
+            collectionViewLayout: layout
+        )
+        
+        collectionView.translatesAutoresizingMaskIntoConstraints = false
     }
     
-    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        guard let cell = collectionView.dequeueReusableCell(
-            withReuseIdentifier: "MovieListCell",
-            for: indexPath
-        ) as? MovieListCell else {
-            return UICollectionViewListCell()
-        }
+    private func autoLayout() {
+        view.addSubview(collectionView)
         
-        return cell
+        let safeArea = view.safeAreaLayoutGuide
+        
+        NSLayoutConstraint.activate([
+            collectionView.topAnchor.constraint(equalTo: safeArea.topAnchor),
+            collectionView.bottomAnchor.constraint(equalTo: safeArea.bottomAnchor),
+            collectionView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            collectionView.trailingAnchor.constraint(equalTo: view.trailingAnchor)
+        ])
     }
 }
 
