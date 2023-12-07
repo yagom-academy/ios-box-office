@@ -8,6 +8,14 @@
 import UIKit
 
 class MovieContentView: UIView, UIContentView {
+    private var rankLabel = UILabel()
+    private var rankFluctuationLabel = UILabel()
+    private var rankStackView = UIStackView()
+    private var movieNameLabel = UILabel()
+    private var audienceCountLabel = UILabel()
+    private var movieStackView = UIStackView()
+    private var stackView = UIStackView()
+    
     var configuration: UIContentConfiguration {
         didSet {
             if let configuration = configuration as? MovieConfiguration {
@@ -19,6 +27,8 @@ class MovieContentView: UIView, UIContentView {
     init(configuration: UIContentConfiguration) {
         self.configuration = configuration
         super.init(frame: .zero)
+        
+        addSubview(stackView)
     }
     
     required init?(coder: NSCoder) {
@@ -27,5 +37,35 @@ class MovieContentView: UIView, UIContentView {
     
     private func apply(_ configuration: MovieConfiguration) {
         
+    }
+}
+
+extension MovieContentView {
+    private func configureUI() {
+        rankLabel.font = UIFont.preferredFont(forTextStyle: .title2)
+        rankLabel.adjustsFontForContentSizeCategory = true
+        rankFluctuationLabel.font = UIFont.preferredFont(forTextStyle: .footnote)
+        rankFluctuationLabel.adjustsFontForContentSizeCategory = true
+        rankStackView.translatesAutoresizingMaskIntoConstraints = false
+        rankStackView.axis = .vertical
+        rankStackView.alignment = .center
+        rankStackView.addArrangedSubview(rankLabel)
+        rankStackView.addArrangedSubview(rankFluctuationLabel)
+        
+        movieNameLabel.font = UIFont.preferredFont(forTextStyle: .title3)
+        movieNameLabel.adjustsFontForContentSizeCategory = true
+        audienceCountLabel.font = UIFont.preferredFont(forTextStyle: .body)
+        audienceCountLabel.adjustsFontForContentSizeCategory = true
+        movieStackView.translatesAutoresizingMaskIntoConstraints = false
+        movieStackView.axis = .vertical
+        movieStackView.alignment = .fill
+        movieStackView.addArrangedSubview(movieNameLabel)
+        movieStackView.addArrangedSubview(audienceCountLabel)
+        
+        stackView.translatesAutoresizingMaskIntoConstraints = false
+        stackView.axis = .horizontal
+        stackView.alignment = .fill
+        stackView.addArrangedSubview(rankStackView)
+        stackView.addArrangedSubview(movieStackView)
     }
 }
