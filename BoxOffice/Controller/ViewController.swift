@@ -8,7 +8,18 @@
 import UIKit
 
 class ViewController: UIViewController {
-    private var collectionView = UICollectionView()
+    private var collectionView : UICollectionView = {
+        let configuration = UICollectionLayoutListConfiguration(appearance: .plain)
+        let layout = UICollectionViewCompositionalLayout.list(using: configuration)
+        let collectionView = UICollectionView(
+            frame: .zero,
+            collectionViewLayout: layout
+        )
+        
+        collectionView.translatesAutoresizingMaskIntoConstraints = false
+        
+        return collectionView
+    }()
     
     private var yesterday: String {
          let yesterday = Date(timeIntervalSinceNow: -86400)
@@ -62,17 +73,6 @@ class ViewController: UIViewController {
 }
 
 extension ViewController {
-    private func configureUI() {
-        let configuration = UICollectionLayoutListConfiguration(appearance: .plain)
-        let layout = UICollectionViewCompositionalLayout.list(using: configuration)
-        let collectionView = UICollectionView(
-            frame: .zero,
-            collectionViewLayout: layout
-        )
-        
-        collectionView.translatesAutoresizingMaskIntoConstraints = false
-    }
-    
     private func autoLayout() {
         view.addSubview(collectionView)
         
