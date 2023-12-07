@@ -28,7 +28,9 @@ class MovieContentView: UIView, UIContentView {
         self.configuration = configuration
         super.init(frame: .zero)
         
+        configureUI()
         addSubview(stackView)
+        autoLayout()
     }
     
     required init?(coder: NSCoder) {
