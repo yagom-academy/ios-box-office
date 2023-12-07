@@ -35,6 +35,10 @@ class ViewController: UIViewController {
     
     var movieList: [DailyBoxOfficeList] = []
     private var movieList: [DailyBoxOfficeList] = []
+    
+    enum Section: Hashable {
+        case main
+    }
 
     override func viewDidLoad() {
         super.viewDidLoad()
