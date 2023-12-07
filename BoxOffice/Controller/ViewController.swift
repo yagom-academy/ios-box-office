@@ -45,6 +45,27 @@ class ViewController: UIViewController {
         
         configureUI()
         autoLayout()
+        fetchData()
+    }
+    
+    private func configureDataSource() {
+        let cellRegistration = UICollectionView.CellRegistration<MovieListCell, DailyBoxOfficeList> { cell, indexPath, item in
+            cell.movie = item
+        }
+        
+        dataSource = UICollectionViewDiffableDataSource<Section, DailyBoxOfficeList>(collectionView: collectionView) {
+            (collectionView: UICollectionView, indexPath: IndexPath, identifier: DailyBoxOfficeList) -> UICollectionViewCell? in
+            let cell = collectionView.dequeueConfiguredReusableCell(using: cellRegistration,
+                                                                    for: indexPath,
+                                                                    item: identifier)
+            return cell
+        }
+        
+        var snapshot = NSDiffableDataSourceSnapshot<Section, DailyBoxOfficeList>()
+        snapshot.appendSections([.main])
+        snapshot.appendItems(movieList, toSection: .main)
+
+        dataSource.apply(snapshot, animatingDifferences: false)
     }
     
     private func fetchData() {
@@ -57,6 +78,7 @@ class ViewController: UIViewController {
             case .success(let data):
                 self.decode(data)
                 DispatchQueue.main.async {
+                    self.configureDataSource()
                     self.collectionView.reloadData()
                 }
             case .failure(let error):
