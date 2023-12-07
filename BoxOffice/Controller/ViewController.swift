@@ -33,7 +33,7 @@ class ViewController: UIViewController {
          return dateString
      }
     
-    var movieList: [DailyBoxOfficeList] = []
+    private var dataSource: UICollectionViewDiffableDataSource<Section, DailyBoxOfficeList>!
     private var movieList: [DailyBoxOfficeList] = []
     
     enum Section: Hashable {
