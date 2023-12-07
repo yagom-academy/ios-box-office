@@ -44,8 +44,10 @@ extension MovieContentView {
     private func configureUI() {
         rankLabel.font = UIFont.preferredFont(forTextStyle: .title2)
         rankLabel.adjustsFontForContentSizeCategory = true
+        
         rankFluctuationLabel.font = UIFont.preferredFont(forTextStyle: .footnote)
         rankFluctuationLabel.adjustsFontForContentSizeCategory = true
+        
         rankStackView.translatesAutoresizingMaskIntoConstraints = false
         rankStackView.axis = .vertical
         rankStackView.alignment = .center
@@ -54,9 +56,10 @@ extension MovieContentView {
         
         movieNameLabel.font = UIFont.preferredFont(forTextStyle: .title3)
         movieNameLabel.adjustsFontForContentSizeCategory = true
+        
         audienceCountLabel.font = UIFont.preferredFont(forTextStyle: .body)
         audienceCountLabel.adjustsFontForContentSizeCategory = true
-        movieStackView.translatesAutoresizingMaskIntoConstraints = false
+        
         movieStackView.axis = .vertical
         movieStackView.alignment = .fill
         movieStackView.addArrangedSubview(movieNameLabel)
