@@ -68,4 +68,14 @@ extension MovieContentView {
         stackView.addArrangedSubview(rankStackView)
         stackView.addArrangedSubview(movieStackView)
     }
+    
+    private func autoLayout() {
+        NSLayoutConstraint.activate([
+            stackView.topAnchor.constraint(equalTo: topAnchor, constant: 20),
+            stackView.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -20),
+            stackView.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 30),
+            stackView.trailingAnchor.constraint(lessThanOrEqualTo: trailingAnchor, constant: -30),
+            rankStackView.widthAnchor.constraint(equalTo: widthAnchor, multiplier: 0.2)
+        ])
+    }
 }
