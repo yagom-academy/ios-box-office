@@ -8,45 +8,36 @@
 import Foundation
 
 struct NetworkManager {
-    func fetchMovie<T: Decodable>(url: String, type: T.Type, complitionHandler: @escaping (T?) -> Void) {
-        executeRequest(with: url, type: type) { safeData in
-            guard let data = safeData else { return }
-            complitionHandler(data)
+    func executeRequest<T: Decodable>(api: API, apiKey: String, queryItems:[URLQueryItem], type: T.Type, complitionHandler: @escaping (Result<T, Error>) -> Void) {
+        
+        guard let url = api.getURL(apikey: apiKey, queryItems: queryItems) else {
+            complitionHandler(.failure(ExecuteRequestError.invalidURL))
+            return
         }
-    }
-    
-    private func executeRequest<T: Decodable>(with urlString: String, type: T.Type, complitionHandler: @escaping (T?) -> Void) {
-        guard let url = URL(string: urlString) else { return }
         
-        let urlSession = URLSession(configuration: .default)
+        var request = URLRequest(url: url)
+        request.httpMethod = "GET"
+        request.addValue("application/json", forHTTPHeaderField: "Content-Type")
         
-        let task = urlSession.dataTask(with: url) { (data, response, error) in
+        let task = URLSession.shared.dataTask(with: request) { (data, response, error) in
             guard error == nil else {
+                complitionHandler(.failure(ExecuteRequestError.urlSessionError))
                 return
             }
 
             guard let data = data else {
-                complitionHandler(nil)
+                complitionHandler(.failure(ExecuteRequestError.invalidData))
                 return
             }
             
-            
-            let safeData = parseJson(type: T.self, data: data)
-            complitionHandler(safeData)
+            do {
+                let decoder = JSONDecoder()
+                let safeData = try decoder.decode(T.self, from: data)
+                complitionHandler(.success(safeData))
+            } catch {
+                complitionHandler(.failure(ExecuteRequestError.decodeError))
+            }
         }
         task.resume()
-    }
-    
-    private func parseJson<T: Decodable>(type: T.Type, data: Data) -> T? {
-        let decoder = JSONDecoder()
-        do {
-            let receivedData = try decoder.decode(type, from: data)
-            return receivedData
-        } catch let error as DecodingError {
-            print(error.errorDescription ?? "")
-        } catch {
-            print(error.localizedDescription)
-        }
-        return nil
     }
 }
