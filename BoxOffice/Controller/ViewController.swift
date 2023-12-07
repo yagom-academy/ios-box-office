@@ -21,18 +21,6 @@ class ViewController: UIViewController {
         return collectionView
     }()
     
-    private var yesterday: String {
-         let yesterday = Date(timeIntervalSinceNow: -86400)
-         let dateFormatter = DateFormatter()
-         dateFormatter.dateFormat = "yyyyMMdd"
-         
-         guard let dateString = dateFormatter.string(for: yesterday) else {
-             return ""
-         }
-         
-         return dateString
-     }
-    
     private var dataSource: UICollectionViewDiffableDataSource<Section, DailyBoxOfficeList>!
     private var movieList: [DailyBoxOfficeList] = []
     
@@ -70,7 +58,7 @@ class ViewController: UIViewController {
     private func fetchData() {
         let networkManager = NetworkManager()
         let date = yesterday
-        let url = URLManager.dailyBoxOffice(date: date).url
+        let url = URLManager.dailyBoxOffice(date: yesterday(format: "yyyyMMdd")).url
         
         networkManager.fetchData(url: url) { response in
             switch response {
@@ -95,6 +83,18 @@ class ViewController: UIViewController {
         } catch {
             print(error.localizedDescription)
         }
+    }
+    
+    private func yesterday(format: String) -> String {
+        let yesterday = Date(timeIntervalSinceNow: -86400)
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = format
+        
+        guard let dateString = dateFormatter.string(for: yesterday) else {
+            return ""
+        }
+        
+        return dateString
     }
 }
 
