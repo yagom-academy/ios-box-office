@@ -34,6 +34,7 @@ class ViewController: UIViewController {
      }
     
     var movieList: [DailyBoxOfficeList] = []
+    private var movieList: [DailyBoxOfficeList] = []
 
     override func viewDidLoad() {
         super.viewDidLoad()
