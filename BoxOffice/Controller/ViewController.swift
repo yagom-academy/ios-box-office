@@ -31,6 +31,7 @@ class ViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        configureUI()
         autoLayout()
         fetchData()
     }
@@ -99,6 +100,11 @@ class ViewController: UIViewController {
 }
 
 extension ViewController {
+    private func configureUI() {
+        view.backgroundColor = .systemBackground
+        self.title = yesterday(format: "yyyy-MM-dd")
+    }
+    
     private func autoLayout() {
         view.addSubview(collectionView)
         
