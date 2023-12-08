@@ -18,9 +18,7 @@ class MovieContentView: UIView, UIContentView {
     
     var configuration: UIContentConfiguration {
         didSet {
-            if let configuration = configuration as? MovieConfiguration {
-                apply(configuration)
-            }
+            apply(configuration)
         }
     }
     
@@ -31,13 +29,18 @@ class MovieContentView: UIView, UIContentView {
         configureUI()
         addSubview(stackView)
         autoLayout()
+        apply(configuration)
     }
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
     
-    private func apply(_ configuration: MovieConfiguration) {
+    private func apply(_ configuration: UIContentConfiguration) {
+        guard let configuration = configuration as? MovieConfiguration else {
+            return
+        }
+        
         rankLabel.text = configuration.rank
         rankFluctuationLabel.text = configuration.rankFluctuation
         movieNameLabel.text = configuration.movieName
