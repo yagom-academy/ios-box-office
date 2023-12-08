@@ -40,6 +40,7 @@ class ViewController: UIViewController {
     private func configureDataSource() {
         let cellRegistration = UICollectionView.CellRegistration<MovieListCell, DailyBoxOfficeList> { cell, indexPath, item in
             cell.movie = item
+            cell.accessories = [.disclosureIndicator()]
         }
         
         dataSource = UICollectionViewDiffableDataSource<Section, DailyBoxOfficeList>(collectionView: collectionView) {

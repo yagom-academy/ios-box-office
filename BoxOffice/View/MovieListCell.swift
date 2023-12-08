@@ -19,7 +19,5 @@ class MovieListCell: UICollectionViewListCell {
         newConfiguration.audienceAccumulation = movie?.audienceAccumulation
         
         contentConfiguration = newConfiguration
-        
-        self.accessories = [.disclosureIndicator()]
     }
 }
