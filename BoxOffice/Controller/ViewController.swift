@@ -27,12 +27,13 @@ class ViewController: UIViewController {
     enum Section: Hashable {
         case main
     }
-
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
         configureUI()
         autoLayout()
+        configureDataSource()
         fetchData()
     }
     
@@ -48,7 +49,9 @@ class ViewController: UIViewController {
                                                                     item: identifier)
             return cell
         }
-        
+    }
+    
+    private func applySnapshot() {
         var snapshot = NSDiffableDataSourceSnapshot<Section, DailyBoxOfficeList>()
         snapshot.appendSections([.main])
         snapshot.appendItems(movieList, toSection: .main)
@@ -66,8 +69,7 @@ class ViewController: UIViewController {
             case .success(let data):
                 self.decode(data)
                 DispatchQueue.main.async {
-                    self.configureDataSource()
-                    self.collectionView.reloadData()
+                    self.applySnapshot()
                 }
             case .failure(let error):
                 print(error.localizedDescription)
