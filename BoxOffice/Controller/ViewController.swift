@@ -58,8 +58,8 @@ class ViewController: UIViewController {
     
     private func fetchData() {
         let networkManager = NetworkManager()
-        let date = yesterday
-        let url = URLManager.dailyBoxOffice(date: yesterday(format: DateFormat.forURL)).url
+        let date = yesterday(format: DateFormat.forURL)
+        let url = URLManager.dailyBoxOffice(date: date).url
         
         networkManager.fetchData(url: url) { response in
             switch response {
