@@ -72,6 +72,10 @@ class ViewController: UIViewController {
                 DispatchQueue.main.async {
                     self.applySnapshot()
                 }
+                
+                DispatchQueue.main.asyncAfter(deadline: .now() + 0.7) {
+                    self.collectionView.refreshControl?.endRefreshing()
+                }
             case .failure(let error):
                 print(error.localizedDescription)
             }
@@ -106,6 +110,9 @@ extension ViewController {
     private func configureUI() {
         view.backgroundColor = .systemBackground
         self.title = yesterday(format: DateFormat.forTitle)
+        
+        collectionView.refreshControl = UIRefreshControl()
+        collectionView.refreshControl?.addTarget(self, action: #selector(handleRefreshControl), for: .valueChanged)
     }
     
     private func autoLayout() {
@@ -119,6 +126,10 @@ extension ViewController {
             collectionView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
             collectionView.trailingAnchor.constraint(equalTo: view.trailingAnchor)
         ])
+    }
+                                                 
+    @objc func handleRefreshControl() {
+        fetchData()
     }
 }
 
