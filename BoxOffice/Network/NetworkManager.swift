@@ -24,6 +24,11 @@ struct NetworkManager {
                 complitionHandler(.failure(ExecuteRequestError.urlSessionError))
                 return
             }
+            
+            guard let httpResponse = response as? HTTPURLResponse, (200...299).contains(httpResponse.statusCode) else {
+                complitionHandler(.failure(ExecuteRequestError.responseError))
+                return
+            }
 
             guard let data = data else {
                 complitionHandler(.failure(ExecuteRequestError.invalidData))
