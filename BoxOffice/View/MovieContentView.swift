@@ -90,12 +90,14 @@ extension MovieContentView {
         
         movieStackView.axis = .vertical
         movieStackView.alignment = .fill
+        movieStackView.distribution = .fillEqually
         movieStackView.addArrangedSubview(movieNameLabel)
         movieStackView.addArrangedSubview(audienceCountLabel)
         
         stackView.translatesAutoresizingMaskIntoConstraints = false
         stackView.axis = .horizontal
         stackView.alignment = .fill
+        stackView.spacing = 10
         stackView.addArrangedSubview(rankStackView)
         stackView.addArrangedSubview(movieStackView)
     }
