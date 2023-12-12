@@ -25,10 +25,7 @@ class MovieContentView: UIView, UIContentView {
     init(configuration: UIContentConfiguration) {
         self.configuration = configuration
         super.init(frame: .zero)
-        
-        addSubview(rankStackView)
-        addSubview(movieNameLabel)
-        addSubview(audienceCountLabel)
+
         configureUI()
         apply(configuration)
     }
@@ -71,6 +68,10 @@ class MovieContentView: UIView, UIContentView {
 
 extension MovieContentView {
     private func configureUI() {
+        addSubview(rankStackView)
+        addSubview(movieNameLabel)
+        addSubview(audienceCountLabel)
+        
         rankLabel.font = UIFont.preferredFont(forTextStyle: .largeTitle)
         rankLabel.adjustsFontForContentSizeCategory = true
         
