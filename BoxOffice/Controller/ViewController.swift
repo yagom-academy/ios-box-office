@@ -8,6 +8,10 @@
 import UIKit
 
 class ViewController: UIViewController {
+    enum Section: Hashable {
+        case main
+    }
+    
     private var collectionView : UICollectionView = {
         let configuration = UICollectionLayoutListConfiguration(appearance: .plain)
         let layout = UICollectionViewCompositionalLayout.list(using: configuration)
@@ -23,10 +27,6 @@ class ViewController: UIViewController {
     
     private var dataSource: UICollectionViewDiffableDataSource<Section, DailyBoxOfficeList>!
     private var movieList: [DailyBoxOfficeList] = []
-    
-    enum Section: Hashable {
-        case main
-    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -103,10 +103,15 @@ class ViewController: UIViewController {
         
         return dateString
     }
+    
+    @objc func handleRefreshControl() {
+        fetchData()
+    }
 }
 
 extension ViewController {
     private func configureUI() {
+        view.addSubview(collectionView)
         view.backgroundColor = .systemBackground
         self.title = yesterday(format: DateFormat.forTitle)
         
@@ -117,8 +122,6 @@ extension ViewController {
     }
     
     private func autoLayout() {
-        view.addSubview(collectionView)
-        
         let safeArea = view.safeAreaLayoutGuide
         
         NSLayoutConstraint.activate([
@@ -127,10 +130,6 @@ extension ViewController {
             collectionView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
             collectionView.trailingAnchor.constraint(equalTo: view.trailingAnchor)
         ])
-    }
-    
-    @objc func handleRefreshControl() {
-        fetchData()
     }
 }
 
