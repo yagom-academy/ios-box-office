@@ -32,7 +32,6 @@ class ViewController: UIViewController {
         super.viewDidLoad()
         
         configureUI()
-        autoLayout()
         configureDataSource()
         fetchData()
     }
@@ -113,6 +112,8 @@ extension ViewController {
         
         collectionView.refreshControl = UIRefreshControl()
         collectionView.refreshControl?.addTarget(self, action: #selector(handleRefreshControl), for: .valueChanged)
+        
+        autoLayout()
     }
     
     private func autoLayout() {
