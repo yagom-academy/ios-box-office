@@ -26,8 +26,10 @@ class MovieContentView: UIView, UIContentView {
         self.configuration = configuration
         super.init(frame: .zero)
         
+        addSubview(rankStackView)
+        addSubview(movieNameLabel)
+        addSubview(audienceCountLabel)
         configureUI()
-        addSubview(stackView)
         apply(configuration)
     }
     
@@ -83,32 +85,26 @@ extension MovieContentView {
         
         movieNameLabel.font = UIFont.preferredFont(forTextStyle: .title3)
         movieNameLabel.adjustsFontForContentSizeCategory = true
+        movieNameLabel.translatesAutoresizingMaskIntoConstraints = false
         
         audienceCountLabel.font = UIFont.preferredFont(forTextStyle: .body)
         audienceCountLabel.adjustsFontForContentSizeCategory = true
-        
-        movieStackView.axis = .vertical
-        movieStackView.alignment = .fill
-        movieStackView.distribution = .fillEqually
-        movieStackView.addArrangedSubview(movieNameLabel)
-        movieStackView.addArrangedSubview(audienceCountLabel)
-        
-        stackView.translatesAutoresizingMaskIntoConstraints = false
-        stackView.axis = .horizontal
-        stackView.alignment = .fill
-        stackView.spacing = 10
-        stackView.addArrangedSubview(rankStackView)
-        stackView.addArrangedSubview(movieStackView)
+        audienceCountLabel.translatesAutoresizingMaskIntoConstraints = false
         
         autoLayout()
     }
     
     private func autoLayout() {
         NSLayoutConstraint.activate([
-            stackView.topAnchor.constraint(equalTo: topAnchor, constant: 20),
-            stackView.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -20),
-            stackView.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 20),
-            stackView.trailingAnchor.constraint(lessThanOrEqualTo: trailingAnchor, constant: -20),
+            movieNameLabel.centerYAnchor.constraint(equalTo: centerYAnchor, constant: -10),
+            movieNameLabel.leadingAnchor.constraint(equalTo: rankStackView.trailingAnchor, constant: 10),
+            movieNameLabel.trailingAnchor.constraint(lessThanOrEqualTo: trailingAnchor),
+            audienceCountLabel.topAnchor.constraint(equalTo: movieNameLabel.bottomAnchor),
+            audienceCountLabel.leadingAnchor.constraint(equalTo: movieNameLabel.leadingAnchor),
+            audienceCountLabel.trailingAnchor.constraint(lessThanOrEqualTo: trailingAnchor),
+            rankStackView.topAnchor.constraint(equalTo: topAnchor, constant: 15),
+            rankStackView.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -15),
+            rankStackView.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 20),
             rankStackView.widthAnchor.constraint(equalTo: widthAnchor, multiplier: 0.2)
         ])
     }
