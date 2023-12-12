@@ -13,6 +13,7 @@ struct MovieConfiguration: UIContentConfiguration, Hashable {
     var movieName: String?
     var audienceCount: String?
     var audienceAccumulation: String?
+    var rankOldAndNew: RankOldAndNew?
     
     func makeContentView() -> UIView & UIContentView {
         return MovieContentView(configuration: self)
