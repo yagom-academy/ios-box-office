@@ -41,14 +41,17 @@ class MovieContentView: UIView, UIContentView {
             return
         }
         
+        guard let audienceCount = configuration.audienceCount,
+              let audienceAccumulation = configuration.audienceAccumulation,
+              let rankFluctuation = configuration.rankFluctuation else {
+            return
+        }
+        
         rankLabel.text = configuration.rank
         rankFluctuationLabel.text = configuration.rankFluctuation
         movieNameLabel.text = configuration.movieName
         audienceCountLabel.text = "오늘 \(audienceCount.numberFormatter()) / 총 \(audienceAccumulation.numberFormatter())"
         
-        guard let audienceCount = configuration.audienceCount,
-              let audienceAccumulation = configuration.audienceAccumulation else {
-             return
         }
         
         audienceCountLabel.text = "오늘 \(audienceCount) / 총 \(audienceAccumulation)"
