@@ -2,15 +2,15 @@
 //  API.swift
 //  BoxOffice
 //
-//  Created by hyunMac on 12/7/23.
+//  Created by Toy, Morgan on 12/7/23.
 //
 
 import Foundation
 
 struct API {
-    let schema: String
-    let host: String
-    let path: String
+    private let schema: String
+    private let host: String
+    private let path: String
     
     init(schema: String, host: String, path: String) {
         self.schema = schema

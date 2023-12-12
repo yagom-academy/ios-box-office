@@ -12,6 +12,10 @@
 		3C6A18D22B18790400E1DBC2 /* Movie.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C6A18D12B18790400E1DBC2 /* Movie.swift */; };
 		3C6A18D42B18832E00E1DBC2 /* MovieURL.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C6A18D32B18832E00E1DBC2 /* MovieURL.swift */; };
 		3CB861712B21E824003113C1 /* DateGenerator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3CB861702B21E824003113C1 /* DateGenerator.swift */; };
+		3CFF21642B28551C006B7A36 /* URLError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3CFF21632B28551C006B7A36 /* URLError.swift */; };
+		3CFF21662B285567006B7A36 /* Endpoint.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3CFF21652B285567006B7A36 /* Endpoint.swift */; };
+		3CFF21682B28558A006B7A36 /* HTTPHeaderField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3CFF21672B28558A006B7A36 /* HTTPHeaderField.swift */; };
+		3CFF216A2B2855A7006B7A36 /* HTTPMethod.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3CFF21692B2855A7006B7A36 /* HTTPMethod.swift */; };
 		63DF20EF2970E1A0005DF7D1 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63DF20EE2970E1A0005DF7D1 /* AppDelegate.swift */; };
 		63DF20F12970E1A0005DF7D1 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63DF20F02970E1A0005DF7D1 /* SceneDelegate.swift */; };
 		63DF20F32970E1A0005DF7D1 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63DF20F22970E1A0005DF7D1 /* ViewController.swift */; };
@@ -41,6 +45,10 @@
 		3C6A18D12B18790400E1DBC2 /* Movie.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Movie.swift; sourceTree = "<group>"; };
 		3C6A18D32B18832E00E1DBC2 /* MovieURL.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MovieURL.swift; sourceTree = "<group>"; };
 		3CB861702B21E824003113C1 /* DateGenerator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateGenerator.swift; sourceTree = "<group>"; };
+		3CFF21632B28551C006B7A36 /* URLError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = URLError.swift; sourceTree = "<group>"; };
+		3CFF21652B285567006B7A36 /* Endpoint.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Endpoint.swift; sourceTree = "<group>"; };
+		3CFF21672B28558A006B7A36 /* HTTPHeaderField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HTTPHeaderField.swift; sourceTree = "<group>"; };
+		3CFF21692B2855A7006B7A36 /* HTTPMethod.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HTTPMethod.swift; sourceTree = "<group>"; };
 		63DF20EB2970E1A0005DF7D1 /* BoxOffice.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = BoxOffice.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		63DF20EE2970E1A0005DF7D1 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		63DF20F02970E1A0005DF7D1 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -96,6 +104,9 @@
 				92882BDE2B171A7F007AEA40 /* NetworkManager.swift */,
 				3C6A18D32B18832E00E1DBC2 /* MovieURL.swift */,
 				926CEE4D2B1C5787002B3FFE /* Key.swift */,
+				3CFF21652B285567006B7A36 /* Endpoint.swift */,
+				3CFF21672B28558A006B7A36 /* HTTPHeaderField.swift */,
+				3CFF21692B2855A7006B7A36 /* HTTPMethod.swift */,
 				92AC83F72B21C30400D10264 /* API.swift */,
 				3CB861702B21E824003113C1 /* DateGenerator.swift */,
 			);
@@ -106,6 +117,7 @@
 			isa = PBXGroup;
 			children = (
 				9239D0462B148D400008DE9F /* excuteError.swift */,
+				3CFF21632B28551C006B7A36 /* URLError.swift */,
 			);
 			path = Error;
 			sourceTree = "<group>";
@@ -272,9 +284,13 @@
 			files = (
 				3CB861712B21E824003113C1 /* DateGenerator.swift in Sources */,
 				92AC83F82B21C30400D10264 /* API.swift in Sources */,
+				3CFF21642B28551C006B7A36 /* URLError.swift in Sources */,
+				3CFF21662B285567006B7A36 /* Endpoint.swift in Sources */,
 				9239D0472B148D400008DE9F /* excuteError.swift in Sources */,
 				926CEE4E2B1C5787002B3FFE /* Key.swift in Sources */,
 				3C6A18D42B18832E00E1DBC2 /* MovieURL.swift in Sources */,
+				3CFF21682B28558A006B7A36 /* HTTPHeaderField.swift in Sources */,
+				3CFF216A2B2855A7006B7A36 /* HTTPMethod.swift in Sources */,
 				63DF20F32970E1A0005DF7D1 /* ViewController.swift in Sources */,
 				63DF20EF2970E1A0005DF7D1 /* AppDelegate.swift in Sources */,
 				92882BDF2B171A7F007AEA40 /* NetworkManager.swift in Sources */,
