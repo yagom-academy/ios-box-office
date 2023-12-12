@@ -56,7 +56,7 @@ class MovieContentView: UIView, UIContentView {
 
 extension MovieContentView {
     private func configureUI() {
-        rankLabel.font = UIFont.preferredFont(forTextStyle: .title2)
+        rankLabel.font = UIFont.preferredFont(forTextStyle: .largeTitle)
         rankLabel.adjustsFontForContentSizeCategory = true
         
         rankFluctuationLabel.font = UIFont.preferredFont(forTextStyle: .footnote)
