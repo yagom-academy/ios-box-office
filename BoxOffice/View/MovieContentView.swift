@@ -90,8 +90,8 @@ extension MovieContentView {
         NSLayoutConstraint.activate([
             stackView.topAnchor.constraint(equalTo: topAnchor, constant: 20),
             stackView.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -20),
-            stackView.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 30),
-            stackView.trailingAnchor.constraint(lessThanOrEqualTo: trailingAnchor, constant: -30),
+            stackView.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 20),
+            stackView.trailingAnchor.constraint(lessThanOrEqualTo: trailingAnchor, constant: -20),
             rankStackView.widthAnchor.constraint(equalTo: widthAnchor, multiplier: 0.2)
         ])
     }
