@@ -56,7 +56,7 @@ class ViewController: UIViewController {
         var snapshot = NSDiffableDataSourceSnapshot<Section, DailyBoxOfficeList>()
         snapshot.appendSections([.main])
         snapshot.appendItems(movieList, toSection: .main)
-
+        
         dataSource.apply(snapshot, animatingDifferences: false)
     }
     
@@ -127,7 +127,7 @@ extension ViewController {
             collectionView.trailingAnchor.constraint(equalTo: view.trailingAnchor)
         ])
     }
-                                                 
+    
     @objc func handleRefreshControl() {
         fetchData()
     }
