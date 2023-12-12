@@ -26,11 +26,13 @@ class ViewController: UIViewController {
         let apiKey = Key.movieDataApiKey
 
         var movieCode = ""
+        
+        let endpoint = Endpoint(api: dailyBoxOfficeAPI, queryItems: dailyBoxOfficeAPIAdditionalQueryItems, httpMethod: .get, httpHeaderField: .contentType, mime: .json)
 
         let group = DispatchGroup()
         
         group.enter()
-        networkManager.executeRequest(api: dailyBoxOfficeAPI, apiKey: apiKey, queryItems: dailyBoxOfficeAPIAdditionalQueryItems, type: BoxOffice.self, complitionHandler: { result in
+        networkManager.executeRequest(endponit: endpoint, type: BoxOffice.self) { result in
             defer {group.leave()}
             
             switch result {
@@ -41,7 +43,7 @@ class ViewController: UIViewController {
             case .failure(let error):
                 print("\(error)에러발생")
             }
-        })
+        }
 
 
         group.notify(queue: .main) {
@@ -51,7 +53,9 @@ class ViewController: UIViewController {
                 URLQueryItem(name: "movieCd", value: movieCode)
             ]
             
-            self.networkManager.executeRequest(api: movieDetailAPI, apiKey: apiKey, queryItems: movieDetailAPIAdditionalQueryItems, type: Movie.self) { result in
+            let endpoint = Endpoint(api: movieDetailAPI, queryItems: movieDetailAPIAdditionalQueryItems, httpMethod: .get, httpHeaderField: .contentType, mime: .json)
+            
+            self.networkManager.executeRequest(endponit: endpoint, type: Movie.self) { result in
                 switch result {
                 case .success(let safeData):
                     let data = safeData.infomationResult.movieInfomation

@@ -7,19 +7,16 @@
 
 import Foundation
 
-enum ExecuteRequestError: Error {
-    case invalidURL
+enum NetworkManagerError: Error {
     case urlSessionError
     case responseError
     case invalidData
     case decodeError
 }
 
-extension ExecuteRequestError: LocalizedError {
+extension NetworkManagerError: LocalizedError {
     var errorDescription: String? {
         switch self {
-        case .invalidURL:
-            return "유효하지 않은 URL"
         case .urlSessionError:
             return "URLSession에 대한"
         case .responseError:
