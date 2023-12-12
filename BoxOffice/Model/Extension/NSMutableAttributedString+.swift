@@ -8,10 +8,6 @@
 import UIKit
 
 extension NSMutableAttributedString {
-    var bodyFont: UIFont {
-        return UIFont.preferredFont(forTextStyle: .body)
-    }
-
     func body(string: String, fontSize: CGFloat) -> NSMutableAttributedString {
         let font = UIFont.preferredFont(forTextStyle: .body)
         let attributes: [NSAttributedString.Key: Any] = [.font: font]
@@ -22,7 +18,7 @@ extension NSMutableAttributedString {
 
     func redColor(_ value:String) -> NSMutableAttributedString {
         let attributes:[NSAttributedString.Key : Any] = [
-            .font: bodyFont,
+            .font: UIFont.preferredFont(forTextStyle: .body),
             .foregroundColor: UIColor.red
         ]
 
@@ -32,7 +28,7 @@ extension NSMutableAttributedString {
 
     func blueColor(_ value:String) -> NSMutableAttributedString {
         let attributes:[NSAttributedString.Key : Any] = [
-            .font: bodyFont,
+            .font: UIFont.preferredFont(forTextStyle: .body),
             .foregroundColor: UIColor.blue
         ]
 
