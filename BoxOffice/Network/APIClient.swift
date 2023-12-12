@@ -24,7 +24,7 @@ struct APIClient {
         
         var request = URLRequest(url: url)
         request.httpMethod = "GET"
-        request.addValue("application/json", forHTTPHeaderField: "Content-Type")
+        request.addValue("application/json", forHTTPHeaderField: "Accept")
         
         let task = session.dataTask(with: url) { data, response, error in
             if error != nil {
