@@ -99,9 +99,11 @@ extension MovieContentView {
             movieNameLabel.centerYAnchor.constraint(equalTo: centerYAnchor, constant: -10),
             movieNameLabel.leadingAnchor.constraint(equalTo: rankStackView.trailingAnchor, constant: 10),
             movieNameLabel.trailingAnchor.constraint(lessThanOrEqualTo: trailingAnchor),
+            
             audienceCountLabel.topAnchor.constraint(equalTo: movieNameLabel.bottomAnchor),
             audienceCountLabel.leadingAnchor.constraint(equalTo: movieNameLabel.leadingAnchor),
             audienceCountLabel.trailingAnchor.constraint(lessThanOrEqualTo: trailingAnchor),
+            
             rankStackView.topAnchor.constraint(equalTo: topAnchor, constant: 15),
             rankStackView.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -15),
             rankStackView.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 20),
