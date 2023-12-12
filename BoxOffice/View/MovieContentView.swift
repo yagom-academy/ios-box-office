@@ -50,7 +50,7 @@ class MovieContentView: UIView, UIContentView {
              return
         }
         
-        audienceCountLabel.text = "오늘 \(audienceCount)명 / 총 \(audienceAccumulation)명"
+        audienceCountLabel.text = "오늘 \(audienceCount) / 총 \(audienceAccumulation)"
     }
 }
 
