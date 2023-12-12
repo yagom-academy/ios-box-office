@@ -28,7 +28,6 @@ class MovieContentView: UIView, UIContentView {
         
         configureUI()
         addSubview(stackView)
-        autoLayout()
         apply(configuration)
     }
     
@@ -100,6 +99,8 @@ extension MovieContentView {
         stackView.spacing = 10
         stackView.addArrangedSubview(rankStackView)
         stackView.addArrangedSubview(movieStackView)
+        
+        autoLayout()
     }
     
     private func autoLayout() {
