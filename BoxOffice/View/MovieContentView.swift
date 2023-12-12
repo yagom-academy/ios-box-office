@@ -48,13 +48,23 @@ class MovieContentView: UIView, UIContentView {
         }
         
         rankLabel.text = configuration.rank
-        rankFluctuationLabel.text = configuration.rankFluctuation
         movieNameLabel.text = configuration.movieName
         audienceCountLabel.text = "오늘 \(audienceCount.numberFormatter()) / 총 \(audienceAccumulation.numberFormatter())"
         
+        if configuration.rankOldAndNew == RankOldAndNew.new {
+            rankFluctuationLabel.textColor = .systemRed
+            rankFluctuationLabel.text = "신작"
+        } else if rankFluctuation.hasPrefix("-") {
+            rankFluctuationLabel.attributedText = NSMutableAttributedString()
+                .blueColor("▼")
+                .body(string: rankFluctuation.trimmingCharacters(in: ["-"]), fontSize: 15)
+        } else if rankFluctuation == "0" {
+            rankFluctuationLabel.text = rankFluctuation
+        } else {
+            rankFluctuationLabel.attributedText = NSMutableAttributedString()
+                .redColor("▲")
+                .body(string: rankFluctuation, fontSize: 15)
         }
-        
-        audienceCountLabel.text = "오늘 \(audienceCount) / 총 \(audienceAccumulation)"
     }
 }
 
