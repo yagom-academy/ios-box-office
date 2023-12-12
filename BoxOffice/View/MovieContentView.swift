@@ -59,7 +59,7 @@ extension MovieContentView {
         rankLabel.font = UIFont.preferredFont(forTextStyle: .largeTitle)
         rankLabel.adjustsFontForContentSizeCategory = true
         
-        rankFluctuationLabel.font = UIFont.preferredFont(forTextStyle: .footnote)
+        rankFluctuationLabel.font = UIFont.preferredFont(forTextStyle: .body)
         rankFluctuationLabel.adjustsFontForContentSizeCategory = true
         
         rankStackView.translatesAutoresizingMaskIntoConstraints = false
