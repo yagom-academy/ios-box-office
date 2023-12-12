@@ -6,14 +6,6 @@
 //
 import Foundation
 
-protocol URLSessionProtocol {
-    func dataTask(with url: URL,
-                  completionHandler: @escaping @Sendable (Data?, URLResponse?, Error?) -> Void)
-    -> URLSessionDataTask
-}
-
-extension URLSession: URLSessionProtocol { }
-
 extension BoxOffice: Equatable {
     static func == (lhs: BoxOffice, rhs: BoxOffice) -> Bool {
         return lhs.boxOfficeResult == rhs.boxOfficeResult

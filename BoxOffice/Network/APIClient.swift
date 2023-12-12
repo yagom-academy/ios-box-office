@@ -14,9 +14,20 @@ struct APIClient {
         self.session = session
     }
     
-    func fetchData<T: Decodable>(url: URL, completion: @escaping (Result<T, Error>) -> Void) {
+    func fetchData<T: Decodable>(fileType: FileType, date: String?, completion: @escaping (Result<T, Error>) -> Void) {
+        let components = RequestURL.getComponents(type: FileType.json, date: date)
+        
+        guard let url = components.url else {
+            completion(.failure(APIError.componentsError))
+            return
+        }
+        
+        var request = URLRequest(url: url)
+        request.httpMethod = "GET"
+        request.addValue("application/json", forHTTPHeaderField: "Content-Type")
+        
         let task = session.dataTask(with: url) { data, response, error in
-            if let error = error {
+            if error != nil {
                 completion(.failure(APIError.dataTaskError))
                 return
             }

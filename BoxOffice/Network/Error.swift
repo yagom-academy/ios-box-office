@@ -6,6 +6,7 @@
 //
 
 enum APIError: Error {
+    case componentsError
     case dataTaskError
     case invalidStatusCode
     case decodingError
