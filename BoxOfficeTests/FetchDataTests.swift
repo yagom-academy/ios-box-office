@@ -20,7 +20,7 @@ final class FetchDataTests: XCTestCase {
     
     func test_datatask_에러발생_케이스() throws {
         sut = APIClient(session: MockURLSession(errorStatus: true))
-        sut?.fetchData(components: URLComponents(string: "test")!) { (result: Result<BoxOffice, Error>) in
+        sut?.fetchData(fileType: .json, date: nil) { (result: Result<BoxOffice, Error>) in
             switch result {
             case .success:
                 XCTFail()
@@ -36,7 +36,7 @@ final class FetchDataTests: XCTestCase {
     
     func test_response_stautsCode_200이_아닌_케이스() throws {
         sut = APIClient(session: MockURLSession(responseStatus: false))
-        sut?.fetchData(components: URLComponents(string: "test")!) { (result: Result<BoxOffice, Error>) in
+        sut?.fetchData(fileType: .json, date: nil) { (result: Result<BoxOffice, Error>) in
             switch result {
             case .success:
                 XCTFail()
@@ -52,7 +52,7 @@ final class FetchDataTests: XCTestCase {
     
     func test_Data가_nil인_케이스() throws {
         sut = APIClient(session: MockURLSession(mockData: nil))
-        sut?.fetchData(components: URLComponents(string: "test")!) { (result: Result<BoxOffice, Error>) in
+        sut?.fetchData(fileType: .json, date: nil) { (result: Result<BoxOffice, Error>) in
             switch result {
             case .success:
                 XCTFail()
@@ -68,7 +68,7 @@ final class FetchDataTests: XCTestCase {
     
     func test_Data가_비어있어_디코딩이_불가능한_케이스() throws {
         sut = APIClient(session: MockURLSession())
-        sut?.fetchData(components: URLComponents(string: "test")!) { (result: Result<BoxOffice, Error>) in
+        sut?.fetchData(fileType: .json, date: nil) { (result: Result<BoxOffice, Error>) in
             switch result {
             case .success:
                 XCTFail()
@@ -84,7 +84,7 @@ final class FetchDataTests: XCTestCase {
     
     func test_mockData_url로_호출시_mockBoxOfficeData와_일치하는지() throws {
         sut = APIClient(session: MockURLSession())
-        sut?.fetchData(components: URLComponents(string: "mockData")!) { (result: Result<BoxOffice, Error>) in
+        sut?.fetchData(fileType: nil, date: nil) { (result: Result<BoxOffice, Error>) in
             switch result {
             case .success(let data):
                 XCTAssertEqual(MockBoxOfficeData().boxOffice, data)

@@ -7,10 +7,7 @@
 
 import Foundation
 
-enum FileType: String {
-    case json
-    case xml
-}
+
 
 enum RequestURL {
     static let scheme = "https"
@@ -31,16 +28,7 @@ enum RequestURL {
         components.host = host
         components.path = path + type.rawValue
 
-        let key = URLQueryItem(name: "key", value: MyKey.value)
         
-        var value: String
-        if let date = date {
-            value = date
-        } else {
-            value = RequestURL.makeDate()
-        }
-        let targetDt = URLQueryItem(name: "targetDt", value: value)
-        components.queryItems = [key, targetDt]
         
         return components
     }

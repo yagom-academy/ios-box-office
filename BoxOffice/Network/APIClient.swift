@@ -14,13 +14,17 @@ struct APIClient {
         self.session = session
     }
     
-    func fetchData<T: Decodable>(fileType: FileType, date: String?, completion: @escaping (Result<T, Error>) -> Void) {
-        let components = RequestURL.getComponents(type: FileType.json, date: date)
+    func fetchData<T: Decodable>(fileType: FileType?, date: String?, completion: @escaping (Result<T, Error>) -> Void) {
+        //let components = RequestURL.getComponents(type: FileType.json, date: date)
         
-        guard let url = components.url else {
-            completion(.failure(APIError.componentsError))
-            return
-        }
+        let endPoint = EndPoint(type: fileType, date: date)
+        
+//        guard let url = endPoint.url else {
+//            completion(.failure(APIError.componentsError))
+//            return
+//        }
+        let url = endPoint.url
+        print(url)
         
         var request = URLRequest(url: url)
         request.httpMethod = "GET"
