@@ -7,7 +7,7 @@
 
 import UIKit
 
-class MovieListCell: UICollectionViewListCell {
+final class MovieListCell: UICollectionViewListCell {
     var movie: DailyBoxOfficeList?
     
     override func updateConfiguration(using state: UICellConfigurationState) {

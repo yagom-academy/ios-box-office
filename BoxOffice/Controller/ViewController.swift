@@ -7,8 +7,8 @@
 
 import UIKit
 
-class ViewController: UIViewController {
-    enum Section: Hashable {
+final class ViewController: UIViewController {
+    private enum Section: Hashable {
         case main
     }
     

@@ -7,7 +7,7 @@
 
 import UIKit
 
-class MovieContentView: UIView, UIContentView {
+final class MovieContentView: UIView, UIContentView {
     private var rankLabel = UILabel()
     private var rankFluctuationLabel = UILabel()
     private var rankStackView = UIStackView()
