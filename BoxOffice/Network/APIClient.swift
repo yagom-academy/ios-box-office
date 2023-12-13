@@ -15,16 +15,8 @@ struct APIClient {
     }
     
     func fetchData<T: Decodable>(fileType: FileType?, date: String?, completion: @escaping (Result<T, Error>) -> Void) {
-        //let components = RequestURL.getComponents(type: FileType.json, date: date)
         
-        let endPoint = EndPoint(type: fileType, date: date)
-        
-//        guard let url = endPoint.url else {
-//            completion(.failure(APIError.componentsError))
-//            return
-//        }
-        let url = endPoint.url
-        print(url)
+        let url = EndPoint(type: fileType, date: date).url
         
         var request = URLRequest(url: url)
         request.httpMethod = "GET"
