@@ -22,7 +22,12 @@ extension EndPoint {
         let formatter = DateFormatter()
         formatter.dateFormat = "yyyyMMdd"
         
-        return formatter.string(from: Date())
+        let yesterday = Calendar.current.date(byAdding: .day, value: -1, to: Date())
+        guard let yesterday = yesterday else {
+            return ""
+        }
+        
+        return formatter.string(from: yesterday)
     }
 }
 
