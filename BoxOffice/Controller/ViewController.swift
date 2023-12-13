@@ -7,10 +7,20 @@
 
 import UIKit
 
-class ViewController: UIViewController {
+class BoxOfficeViewController: UIViewController {
+    
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        let yesterday = Date().yesterday
+        let formatter = DateFormatter()
+        formatter.dateFormat = "yyyy-MM-dd"
+        
+        self.view.backgroundColor = .white
+        self.navigationItem.title = formatter.string(from: yesterday)
+        
+
         
         APIClient().fetchData(fileType: FileType.json, date: nil) { (result: Result<BoxOffice, Error>) in
             switch result {

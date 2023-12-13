@@ -28,15 +28,7 @@ extension BoxOfficeResult: Equatable {
 }
 
 extension Date {
-    func yesterday() -> String {
-        let formatter = DateFormatter()
-        formatter.dateFormat = "yyyyMMdd"
-        
-        let yesterday = Calendar.current.date(byAdding: .day, value: -1, to: Date())
-        guard let yesterday = yesterday else {
-            return ""
-        }
-        
-        return formatter.string(from: yesterday)
+    var yesterday: Date {
+        return Calendar.current.date(byAdding: .day, value: -1, to: self) ?? Date()
     }
 }

@@ -34,11 +34,15 @@ extension EndPoint {
         
         let key = URLQueryItem(name: "key", value: MyKey.value)
         
+        
+        let formatter = DateFormatter()
+        formatter.dateFormat = "yyyyMMdd"
+        
         var value: String
         if let date = date {
             value = date
         } else {
-            value = Date().yesterday()
+            value = formatter.string(from: Date().yesterday)
         }
         let targetDt = URLQueryItem(name: "targetDt", value: value)
         components.queryItems = [key, targetDt]
