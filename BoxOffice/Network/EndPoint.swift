@@ -18,20 +18,6 @@ struct EndPoint {
 }
 
 extension EndPoint {
-    private func makeDate() -> String {
-        let formatter = DateFormatter()
-        formatter.dateFormat = "yyyyMMdd"
-        
-        let yesterday = Calendar.current.date(byAdding: .day, value: -1, to: Date())
-        guard let yesterday = yesterday else {
-            return ""
-        }
-        
-        return formatter.string(from: yesterday)
-    }
-}
-
-extension EndPoint {
     var url: URL {
         var components = URLComponents()
         
@@ -52,7 +38,7 @@ extension EndPoint {
         if let date = date {
             value = date
         } else {
-            value = makeDate()
+            value = Date().yesterday()
         }
         let targetDt = URLQueryItem(name: "targetDt", value: value)
         components.queryItems = [key, targetDt]
