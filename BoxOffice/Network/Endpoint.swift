@@ -21,13 +21,24 @@ struct Endpoint {
         self.mime = mime
     }
 
-    func asURLRequest() throws -> URLRequest {
+    func asURLGetRequest() throws -> URLRequest {
         guard let url = api.getURL(apikey: Key.movieDataApiKey, queryItems: queryItems) else { throw URLError.invalidURL }
 
         var request = URLRequest(url: url)
         request.httpMethod = httpMethod.rawValue
         request.addValue(mime.rawValue, forHTTPHeaderField: httpHeaderField.rawValue)
 
+        return request
+    }
+    
+    func asURLPostRequset(data: Data) throws -> URLRequest {
+        guard let url = api.getURL(apikey: Key.movieDataApiKey, queryItems: queryItems) else { throw URLError.invalidURL }
+
+        var request = URLRequest(url: url)
+        request.httpMethod = httpMethod.rawValue
+        request.addValue(mime.rawValue, forHTTPHeaderField: httpHeaderField.rawValue)
+        request.httpBody = data
+        
         return request
     }
 }

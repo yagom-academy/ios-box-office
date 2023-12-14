@@ -7,6 +7,15 @@
 
 import Foundation
 
+//endpoint
+//
+//api: API,
+//queryItems:[URLQueryItem],
+//var request = URLRequest(url: url)
+//request.httpMethod = "GET"
+//request.addValue("application/json", forHTTPHeaderField: "Content-Type")
+//json
+
 struct MovieDetailData {
     private let networkManager = NetworkManager()
     private let movieDetailAPI = API(schema: MovieURL.schema, host: MovieURL.movieHost, path: MovieURL.movieDetailPath)

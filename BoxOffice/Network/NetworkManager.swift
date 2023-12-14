@@ -9,7 +9,7 @@ import Foundation
 
 struct NetworkManager {
     func executeRequest<T: Decodable>(endponit: Endpoint, type: T.Type, complitionHandler: @escaping (Result<T, Error>) -> Void) {
-        guard let request = try? endponit.asURLRequest() else { return }
+        guard let request = try? endponit.asURLGetRequest() else { return }
         
         let task = URLSession.shared.dataTask(with: request) { (data, response, error) in
             guard error == nil else {
@@ -29,11 +29,37 @@ struct NetworkManager {
             
             do {
                 let decoder = JSONDecoder()
-                let safeData = try decoder.decode(T.self, from: data)
+                let safeData = try decoder.decode(type.self, from: data)
                 complitionHandler(.success(safeData))
             } catch {
                 complitionHandler(.failure(NetworkManagerError.decodeError))
             }
+        }
+        task.resume()
+    }
+    
+    func sendRequest<T: Encodable>(endponit: Endpoint, value: T) {
+        let encoder = JSONEncoder()
+        
+        guard let jsonData = try? encoder.encode(value), let request = try? endponit.asURLPostRequset(data: jsonData) else { return }
+
+        let task = URLSession.shared.dataTask(with: request) { (data, response, error) in
+            guard error == nil else {
+                print(NetworkManagerError.urlSessionError)
+                return
+            }
+            
+            guard let httpResponse = response as? HTTPURLResponse, (200...299).contains(httpResponse.statusCode) else {
+                print(NetworkManagerError.responseError)
+                return
+            }
+
+            guard let data = data else {
+                print(NetworkManagerError.invalidData)
+                return
+            }
+            
+            print(data)
         }
         task.resume()
     }
