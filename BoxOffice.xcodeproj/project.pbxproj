@@ -137,6 +137,7 @@
 			children = (
 				BFB8F2E72B18618400ECB799 /* NetworkManager.swift */,
 				BFB8F31D2B19762600ECB799 /* URLManager.swift */,
+				BFB8F3312B1DED7700ECB799 /* Decoder.swift */,
 			);
 			path = Network;
 			sourceTree = "<group>";
@@ -154,7 +155,6 @@
 			children = (
 				BF8B53832B14638C000D8CEC /* Movie.swift */,
 				BFB8F2E42B185D2900ECB799 /* MovieDetail.swift */,
-				BFB8F3312B1DED7700ECB799 /* Decoder.swift */,
 			);
 			path = Movie;
 			sourceTree = "<group>";
