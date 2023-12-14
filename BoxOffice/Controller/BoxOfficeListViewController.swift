@@ -7,7 +7,7 @@
 
 import UIKit
 
-final class ViewController: UIViewController {
+final class BoxOfficeListViewController: UIViewController {
     private enum Section: Hashable {
         case main
     }
@@ -86,7 +86,7 @@ final class ViewController: UIViewController {
 
 // MARK: Layout
 
-extension ViewController {
+extension BoxOfficeListViewController {
     private func configureUI() {
         collectionView.refreshControl = UIRefreshControl()
         collectionView.refreshControl?.addTarget(

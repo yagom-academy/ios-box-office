@@ -16,7 +16,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
             return
         }
         
-        let mainViewController = ViewController()
+        let mainViewController = BoxOfficeListViewController()
         let navigationController = UINavigationController(rootViewController: mainViewController)
         
         window = UIWindow(windowScene: windowScene)
