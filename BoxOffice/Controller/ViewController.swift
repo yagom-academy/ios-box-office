@@ -19,6 +19,12 @@ final class ViewController: UIViewController {
             frame: .zero,
             collectionViewLayout: layout
         )
+        collectionView.refreshControl = UIRefreshControl()
+        collectionView.refreshControl?.addTarget(
+            ViewController.self,
+            action: #selector(handleRefreshControl),
+            for: .valueChanged
+        )
         
         collectionView.translatesAutoresizingMaskIntoConstraints = false
         
@@ -91,9 +97,6 @@ extension ViewController {
         view.addSubview(collectionView)
         view.backgroundColor = .systemBackground
         self.title = Date().yesterday(format: DateFormat.forTitle)
-        
-        collectionView.refreshControl = UIRefreshControl()
-        collectionView.refreshControl?.addTarget(self, action: #selector(handleRefreshControl), for: .valueChanged)
         
         autoLayout()
     }
