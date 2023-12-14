@@ -14,7 +14,6 @@ final class MovieContentView: UIView, UIContentView {
     private var movieNameLabel = UILabel()
     private var audienceCountLabel = UILabel()
     private var movieStackView = UIStackView()
-    private var stackView = UIStackView()
     
     var configuration: UIContentConfiguration {
         didSet {
