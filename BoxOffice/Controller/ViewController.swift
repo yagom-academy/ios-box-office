@@ -19,7 +19,7 @@ class BoxOfficeViewController: UIViewController {
         tableView.dataSource = self
         tableView.delegate = self
         
-        APIClient().fetchData(fileType: FileType.json, date: nil) { (result: Result<BoxOffice, Error>) in
+        APIClient().fetchData(date: nil) { (result: Result<BoxOffice, Error>) in
             switch result {
             case .success(let boxOffice):
                 self.boxOfficeData = boxOffice

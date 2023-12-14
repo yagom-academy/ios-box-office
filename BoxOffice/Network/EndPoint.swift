@@ -8,16 +8,38 @@
 import Foundation
 
 enum FileType: String {
-    case json
-    case xml
+    case json = ".json"
+    case xml = ".xml"
 }
 
 struct EndPoint {
     var type: FileType?
     var date: String? = nil
-}
 
-extension EndPoint {
+    enum Scheme {
+        static let https = "https"
+    }
+    
+    enum Host {
+        static let kobis = "kobis.or.kr"
+    }
+    
+    enum ServiceType: String {
+        case dailyBoxOffice = "/searchDailyBoxOfficeList"
+        case movieList = "/searchMovieList"
+    }
+    
+    enum Path {
+        case webService(serviceType: ServiceType, fileType: FileType)
+        
+        var string: String {
+            switch self {
+            case let .webService(serviceType: service, fileType: file):
+                return "/kobisopenapi/webservice/rest/boxoffice" + service.rawValue + file.rawValue
+            }
+        }
+    }
+    
     var url: URL {
         var components = URLComponents()
         
@@ -28,24 +50,28 @@ extension EndPoint {
             return mockData
         }
         
-        components.scheme = "https"
-        components.host = "kobis.or.kr"
-        components.path = "/kobisopenapi/webservice/rest/boxoffice/searchDailyBoxOfficeList." + type.rawValue
+        components.scheme = Scheme.https
+        components.host = Host.kobis
+        components.path = Path.webService(serviceType: .dailyBoxOffice, fileType: .json).string
         
         let key = URLQueryItem(name: "key", value: MyKey.value)
-        
         
         let formatter = DateFormatter()
         formatter.dateFormat = "yyyyMMdd"
         
         var value: String
         if let date = date {
-            value = date
+            guard let formatValue = formatter.string(for: date) else {
+                fatalError("failed to formatter")
+            }
+            value = formatValue
         } else {
             value = formatter.string(from: Date().yesterday)
         }
+        
         let targetDt = URLQueryItem(name: "targetDt", value: value)
         components.queryItems = [key, targetDt]
+        //이부분도 파라미터로 딕셔너리 타입을 받아서 반복문 돌며 추가해줄 수 있을 듯.
         
         guard let url = components.url else {
             fatalError("Failed to url from components")

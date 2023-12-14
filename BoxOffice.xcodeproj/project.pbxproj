@@ -22,7 +22,6 @@
 		B981D6042B19D7D100E80B09 /* MockURLSession.swift in Sources */ = {isa = PBXBuildFile; fileRef = B981D6032B19D7D100E80B09 /* MockURLSession.swift */; };
 		B99539932B1617340061DC3C /* Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = B99539922B1617340061DC3C /* Extension.swift */; };
 		B99722552B1DBD04009A4D1C /* Error.swift in Sources */ = {isa = PBXBuildFile; fileRef = B99722542B1DBD04009A4D1C /* Error.swift */; };
-		B99722572B1DD11A009A4D1C /* MockBoxOfficeData.swift in Sources */ = {isa = PBXBuildFile; fileRef = B99722562B1DD11A009A4D1C /* MockBoxOfficeData.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -54,7 +53,6 @@
 		B981D6032B19D7D100E80B09 /* MockURLSession.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockURLSession.swift; sourceTree = "<group>"; };
 		B99539922B1617340061DC3C /* Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extension.swift; sourceTree = "<group>"; };
 		B99722542B1DBD04009A4D1C /* Error.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Error.swift; sourceTree = "<group>"; };
-		B99722562B1DD11A009A4D1C /* MockBoxOfficeData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockBoxOfficeData.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -175,7 +173,6 @@
 			isa = PBXGroup;
 			children = (
 				B981D6032B19D7D100E80B09 /* MockURLSession.swift */,
-				B99722562B1DD11A009A4D1C /* MockBoxOfficeData.swift */,
 			);
 			path = TestDouble;
 			sourceTree = "<group>";
@@ -300,7 +297,6 @@
 			files = (
 				B981D6012B19D15900E80B09 /* FetchDataTests.swift in Sources */,
 				B981D6042B19D7D100E80B09 /* MockURLSession.swift in Sources */,
-				B99722572B1DD11A009A4D1C /* MockBoxOfficeData.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

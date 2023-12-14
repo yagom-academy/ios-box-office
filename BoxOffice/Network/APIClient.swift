@@ -14,7 +14,7 @@ struct APIClient {
         self.session = session
     }
     
-    func fetchData<T: Decodable>(fileType: FileType?, date: String?, completion: @escaping (Result<T, Error>) -> Void) {
+    func fetchData<T: Decodable>(fileType: FileType = .json, date: String?, completion: @escaping (Result<T, Error>) -> Void) {
         
         let url = EndPoint(type: fileType, date: date).url
         
