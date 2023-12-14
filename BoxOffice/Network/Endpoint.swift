@@ -13,7 +13,7 @@ struct Endpoint {
     private let httpHeaderField: HTTPHeaderField
     private let mime: MIME
 
-    init(api: API, queryItems: [URLQueryItem], httpMethod: HTTPMethod, httpHeaderField: HTTPHeaderField, mime: MIME) {
+    init(api: API, queryItems: [URLQueryItem], httpMethod: HTTPMethod, httpHeaderField: HTTPHeaderField, mime: MIME = MIME.json) {
         self.api = api
         self.queryItems = queryItems
         self.httpMethod = httpMethod

@@ -10,10 +10,26 @@ import UIKit
 class ViewController: UIViewController {
     
     private var networkManager = NetworkManager()
+    var data = BoxOfficeEndpoint()
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        networkTest()
+//        networkTest()
+        test123()
+    }
+    
+    func test123() {
+        let endpoint = data.getBoxOfficeEndpoint
+        
+        networkManager.executeRequest(endponit: endpoint, type: BoxOffice.self) { result in
+            switch result {
+            case .success(let safeData):
+                let data = safeData.boxOfficeResult.dailyBoxOfficeList
+                data.forEach { dump($0) }
+            case .failure(let error):
+                print("\(error)에러발생")
+            }
+        }
     }
     
     func networkTest() {
@@ -22,8 +38,6 @@ class ViewController: UIViewController {
         let dailyBoxOfficeAPIAdditionalQueryItems: [URLQueryItem] = [
             URLQueryItem(name: "targetDt", value: DateGenerator.fetchTodayDate())
         ]
-
-        let apiKey = Key.movieDataApiKey
 
         var movieCode = ""
         
