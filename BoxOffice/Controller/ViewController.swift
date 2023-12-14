@@ -67,7 +67,7 @@ final class ViewController: UIViewController {
         networkManager.fetchData(url: url) { response in
             switch response {
             case .success(let data):
-                self.decode(data)
+                self.movieList = Decoder().decodeDailyBoxOfficeList(data)
                 DispatchQueue.main.async {
                     self.applySnapshot()
                 }
@@ -78,14 +78,6 @@ final class ViewController: UIViewController {
             case .failure(let error):
                 print(error.localizedDescription)
             }
-        }
-    }
-    
-    private func decode(_ data: Data) {
-        do {
-            movieList = try Decoder().parse(data: data, type: Movie.self).boxOfficeResult.dailyBoxOfficeList
-        } catch {
-            print(error.localizedDescription)
         }
     }
     
