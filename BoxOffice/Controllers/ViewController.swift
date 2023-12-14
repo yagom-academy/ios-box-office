@@ -19,18 +19,11 @@ class ViewController: UIViewController {
     }
     
     func test123() {
-        let endpoint = data.getBoxOfficeEndpoint
-        
-        networkManager.executeRequest(endponit: endpoint, type: BoxOffice.self) { result in
-            switch result {
-            case .success(let safeData):
-                let data = safeData.boxOfficeResult.dailyBoxOfficeList
-                data.forEach { dump($0) }
-            case .failure(let error):
-                print("\(error)에러발생")
-            }
+        data.getBoxOfficeEndpoint { result in
+            result.forEach { dump($0) }
         }
     }
+    
     
     func networkTest() {
         let dailyBoxOfficeAPI = API(schema: MovieURL.schema, host: MovieURL.movieHost, path: MovieURL.boxofficePath)
