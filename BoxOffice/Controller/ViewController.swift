@@ -89,8 +89,6 @@ final class ViewController: UIViewController {
         }
     }
     
-    
-    
     @objc func handleRefreshControl() {
         fetchData()
     }
