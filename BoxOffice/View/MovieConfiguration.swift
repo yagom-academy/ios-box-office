@@ -17,7 +17,9 @@ struct MovieConfiguration: Hashable {
 }
 
 extension MovieConfiguration: UIContentConfiguration {
-    func makeContentView() -> UIView & UIContentView {
+    typealias CustomContentViewType = UIView & UIContentView
+    
+    func makeContentView() -> CustomContentViewType {
         return MovieContentView(configuration: self)
     }
     
