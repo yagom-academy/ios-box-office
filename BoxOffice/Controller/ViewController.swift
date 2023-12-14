@@ -27,6 +27,7 @@ final class ViewController: UIViewController {
     
     private var dataSource: UICollectionViewDiffableDataSource<Section, DailyBoxOfficeList>?
     private var movieList: [DailyBoxOfficeList] = []
+    private let networkManager = NetworkManager()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -60,7 +61,6 @@ final class ViewController: UIViewController {
     }
     
     private func fetchData() {
-        let networkManager = NetworkManager()
         let date = yesterday(format: DateFormat.forURL)
         let url = URLManager.dailyBoxOffice(date: date).url
         
