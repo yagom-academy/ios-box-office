@@ -10,7 +10,7 @@ enum URLManager {
     case movieDetail(code: String)
     
     var url: String {
-        let baseURL = "http://kobis.or.kr/kobisopenapi/webservice/rest/"
+        let baseURL = "https://kobis.or.kr/kobisopenapi/webservice/rest/"
         let key = "3d65ed918572e0c8dc412bb3bf722f49"
         
         switch self {

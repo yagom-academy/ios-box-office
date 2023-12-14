@@ -11,7 +11,7 @@ struct DummyMovie {
     private let number = "1"
     private let rank = "1"
     private let rankFluctuation = "0"
-    private let rankOldAndNew = "NEW"
+    private let rankOldAndNew = RankOldAndNew.new
     private let movieCode = "20199882"
     private let movieName = "경관의 피"
     private let openDate = "2022-01-05"
