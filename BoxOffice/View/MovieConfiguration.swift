@@ -7,14 +7,16 @@
 
 import UIKit
 
-struct MovieConfiguration: UIContentConfiguration, Hashable {
+struct MovieConfiguration: Hashable {
     var rank: String?
     var rankFluctuation: String?
     var movieName: String?
     var audienceCount: String?
     var audienceAccumulation: String?
     var rankOldAndNew: RankOldAndNew?
-    
+}
+
+extension MovieConfiguration: UIContentConfiguration {
     func makeContentView() -> UIView & UIContentView {
         return MovieContentView(configuration: self)
     }
