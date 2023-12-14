@@ -2,7 +2,7 @@
 //  DateGenerator.swift
 //  BoxOffice
 //
-//  Created by  on 12/7/23.
+//  Created by Toy, Morgan on 12/7/23.
 //
 
 import Foundation

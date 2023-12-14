@@ -2,7 +2,7 @@
 //  DataManager.swift
 //  BoxOffice
 //
-//  Created by 김우현 on 12/13/23.
+//  Created by Toy, Morgan on 12/13/23.
 //
 
 import Foundation

@@ -2,7 +2,7 @@
 //  MovieDetailData.swift
 //  BoxOffice
 //
-//  Created by 김우현 on 12/14/23.
+//  Created by Toy, Morgan on 12/14/23.
 //
 
 import Foundation

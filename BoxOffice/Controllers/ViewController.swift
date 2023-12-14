@@ -8,9 +8,8 @@
 import UIKit
 
 class ViewController: UIViewController {
-    private var networkManager = NetworkManager()
-    var data = BoxOfficeData()
-    var detail = MovieDetailData(value: "20190324")
+    private let data = BoxOfficeData()
+    private let detail = MovieDetailData(value: "20190324")
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -18,13 +17,13 @@ class ViewController: UIViewController {
         movieDetailData()
     }
     
-    func boxOfiiceData() {
+    private func boxOfiiceData() {
         data.getBoxOfficeData { result in
             result.forEach { dump($0) }
         }
     }
     
-    func movieDetailData() {
+    private func movieDetailData() {
         detail.getMovieDetailData { movie in
             dump(movie)
         }

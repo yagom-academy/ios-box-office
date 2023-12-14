@@ -13,9 +13,7 @@ enum HTTPHeaderField: String {
 enum MIME: String {
     case html = "text/html"
     case json = "application/json"
-    case iamge = "image"
-    case gzip
-    case deflate
-    case identity
-
+    case iamgeGif = "image/gif"
+    case imageJpeg = "image/jpeg"
+    case gzip = "application/gzip"
 }
