@@ -25,7 +25,7 @@ final class ViewController: UIViewController {
         return collectionView
     }()
     
-    private var dataSource: UICollectionViewDiffableDataSource<Section, DailyBoxOfficeList>!
+    private var dataSource: UICollectionViewDiffableDataSource<Section, DailyBoxOfficeList>?
     private var movieList: [DailyBoxOfficeList] = []
     
     override func viewDidLoad() {
@@ -56,7 +56,7 @@ final class ViewController: UIViewController {
         snapshot.appendSections([.main])
         snapshot.appendItems(movieList, toSection: .main)
         
-        dataSource.apply(snapshot, animatingDifferences: false)
+        dataSource?.apply(snapshot, animatingDifferences: false)
     }
     
     private func fetchData() {
