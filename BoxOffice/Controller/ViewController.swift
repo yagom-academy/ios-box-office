@@ -70,9 +70,6 @@ final class ViewController: UIViewController {
                 self.movieList = Decoder().decodeDailyBoxOfficeList(data)
                 DispatchQueue.main.async {
                     self.applySnapshot()
-                }
-                
-                DispatchQueue.main.asyncAfter(deadline: .now() + 0.7) {
                     self.collectionView.refreshControl?.endRefreshing()
                 }
             case .failure(let error):
