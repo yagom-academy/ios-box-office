@@ -12,9 +12,14 @@ enum FileType: String {
     case xml = ".xml"
 }
 
+enum QueryItemName: String {
+    case key
+    case targetDt
+}
+
 struct EndPoint {
-    var type: FileType?
-    var date: String? = nil
+    var type: FileType
+    var queryItem: [QueryItemName: String]
 
     enum Scheme {
         static let https = "https"
@@ -40,42 +45,21 @@ struct EndPoint {
         }
     }
     
-    var url: URL {
+    var url: URL? {
         var components = URLComponents()
-        
-        guard let type = type else {
-            guard let mockData = URL(string: "mockData") else {
-                fatalError("Failed to mockdata from url init")
-            }
-            return mockData
-        }
         
         components.scheme = Scheme.https
         components.host = Host.kobis
         components.path = Path.webService(serviceType: .dailyBoxOffice, fileType: .json).string
         
-        let key = URLQueryItem(name: "key", value: MyKey.value)
+        let key = URLQueryItem(name: QueryItemName.key.rawValue, value: MyKey.value)
+        components.queryItems = [key]
         
-        let formatter = DateFormatter()
-        formatter.dateFormat = "yyyyMMdd"
-        
-        var value: String
-        if let date = date {
-            guard let formatValue = formatter.string(for: date) else {
-                fatalError("failed to formatter")
-            }
-            value = formatValue
-        } else {
-            value = formatter.string(from: Date().yesterday)
+        for (name, value) in queryItem {
+            let newItem = URLQueryItem(name: name.rawValue, value: value)
+            components.queryItems?.append(newItem)
         }
-        
-        let targetDt = URLQueryItem(name: "targetDt", value: value)
-        components.queryItems = [key, targetDt]
-        //이부분도 파라미터로 딕셔너리 타입을 받아서 반복문 돌며 추가해줄 수 있을 듯.
-        
-        guard let url = components.url else {
-            fatalError("Failed to url from components")
-        }
-        return url
+
+        return components.url
     }
 }
