@@ -65,6 +65,8 @@ final class MovieContentView: UIView, UIContentView {
     }
 }
 
+// MARK: Layout
+
 extension MovieContentView {
     private func configureUI() {
         addSubview(rankStackView)

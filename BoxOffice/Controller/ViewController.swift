@@ -96,6 +96,8 @@ final class ViewController: UIViewController {
     }
 }
 
+// MARK: Layout
+
 extension ViewController {
     private func configureUI() {
         view.addSubview(collectionView)
