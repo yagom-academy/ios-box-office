@@ -61,7 +61,7 @@ final class ViewController: UIViewController {
     }
     
     private func fetchData() {
-        let date = yesterday(format: DateFormat.forURL)
+        let date = Date().yesterday(format: DateFormat.forURL)
         let url = URLManager.dailyBoxOffice(date: date).url
         
         networkManager.fetchData(url: url) { response in
@@ -89,17 +89,7 @@ final class ViewController: UIViewController {
         }
     }
     
-    private func yesterday(format: String) -> String {
-        let yesterday = Date(timeIntervalSinceNow: DateFormat.forTimeInterval)
-        let dateFormatter = DateFormatter()
-        dateFormatter.dateFormat = format
-        
-        guard let dateString = dateFormatter.string(for: yesterday) else {
-            return DateFormat.empty
-        }
-        
-        return dateString
-    }
+    
     
     @objc func handleRefreshControl() {
         fetchData()
@@ -110,7 +100,7 @@ extension ViewController {
     private func configureUI() {
         view.addSubview(collectionView)
         view.backgroundColor = .systemBackground
-        self.title = yesterday(format: DateFormat.forTitle)
+        self.title = Date().yesterday(format: DateFormat.forTitle)
         
         collectionView.refreshControl = UIRefreshControl()
         collectionView.refreshControl?.addTarget(self, action: #selector(handleRefreshControl), for: .valueChanged)
