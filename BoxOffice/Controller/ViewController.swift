@@ -48,6 +48,7 @@ final class ViewController: UIViewController {
             let cell = collectionView.dequeueConfiguredReusableCell(using: cellRegistration,
                                                                     for: indexPath,
                                                                     item: identifier)
+            
             return cell
         }
     }
