@@ -8,53 +8,65 @@
 import Foundation
 
 enum FileType: String {
-    case json
-    case xml
+    case json = ".json"
+    case xml = ".xml"
+}
+
+enum ServiceType: String {
+    case dailyBoxOffice = "/searchDailyBoxOfficeList"
+    case movieList = "/searchMovieList"
+}
+
+enum QueryItemName: String {
+    case key
+    case targetDt
 }
 
 struct EndPoint {
-    var type: FileType?
-    var date: String? = nil
-}
-
-extension EndPoint {
-    private func makeDate() -> String {
-        let formatter = DateFormatter()
-        formatter.dateFormat = "yyyyMMdd"
-        
-        return formatter.string(from: Date())
+    private let serviceType: ServiceType
+    private let type: FileType
+    private let queryItem: [QueryItemName: String]
+    
+    init(serviceType: ServiceType, type: FileType, queryItem: [QueryItemName : String]) {
+        self.serviceType = serviceType
+        self.type = type
+        self.queryItem = queryItem
     }
-}
-
-extension EndPoint {
-    var url: URL {
+    
+    enum Scheme {
+        static let https = "https"
+    }
+    
+    enum Host {
+        static let kobis = "kobis.or.kr"
+    }
+    
+    enum Path {
+        case webService(serviceType: ServiceType, fileType: FileType)
+        
+        var string: String {
+            switch self {
+            case let .webService(serviceType: service, fileType: file):
+                return "/kobisopenapi/webservice/rest/boxoffice" + service.rawValue + file.rawValue
+            }
+        }
+    }
+    
+    var url: URL? {
         var components = URLComponents()
         
-        guard let type = type else {
-            guard let mockData = URL(string: "mockData") else {
-                fatalError("Failed to mockdata from url init")
-            }
-            return mockData
+        components.scheme = Scheme.https
+        components.host = Host.kobis
+        components.path = Path.webService(serviceType: serviceType, fileType: .json).string
+        
+        let key = URLQueryItem(name: QueryItemName.key.rawValue, value: MyKey.value)
+        components.queryItems = [key]
+        
+        for (name, value) in queryItem {
+            let newItem = URLQueryItem(name: name.rawValue, value: value)
+            components.queryItems?.append(newItem)
         }
-        
-        components.scheme = "https"
-        components.host = "kobis.or.kr"
-        components.path = "/kobisopenapi/webservice/rest/boxoffice/searchDailyBoxOfficeList." + type.rawValue
-        
-        let key = URLQueryItem(name: "key", value: MyKey.value)
-        
-        var value: String
-        if let date = date {
-            value = date
-        } else {
-            value = makeDate()
-        }
-        let targetDt = URLQueryItem(name: "targetDt", value: value)
-        components.queryItems = [key, targetDt]
-        
-        guard let url = components.url else {
-            fatalError("Failed to url from components")
-        }
-        return url
+
+        return components.url
     }
 }

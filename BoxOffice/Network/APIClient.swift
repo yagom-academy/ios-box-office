@@ -14,15 +14,17 @@ struct APIClient {
         self.session = session
     }
     
-    func fetchData<T: Decodable>(fileType: FileType?, date: String?, completion: @escaping (Result<T, Error>) -> Void) {
+    func fetchData<T: Decodable>(serviceType: ServiceType, fileType: FileType = .json, queryItem: [QueryItemName: String] = [:], completion: @escaping (Result<T, Error>) -> Void) {
         
-        let url = EndPoint(type: fileType, date: date).url
+        guard let url = EndPoint(serviceType: serviceType, type: fileType, queryItem: queryItem).url else {
+            return
+        }
         
-        var request = URLRequest(url: url)
-        request.httpMethod = "GET"
-        request.addValue("application/json", forHTTPHeaderField: "Accept")
+        guard let requestURL = RequestURL(url: url, method: .get, header: ["Accept": "application/json"]).request?.url else {
+            return
+        }
         
-        let task = session.dataTask(with: url) { data, response, error in
+        let task = session.dataTask(with: requestURL) { data, response, error in
             if error != nil {
                 completion(.failure(APIError.dataTaskError))
                 return

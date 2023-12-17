@@ -31,10 +31,6 @@ class MockURLSession: URLSessionProtocol {
         
         let mockURLSessionDataTask = MockURLSessionDataTask()
         
-        if url.absoluteString == "mockData" {
-            mockData = MockBoxOfficeData().makeData()
-        }
-        
         guard errorStatus == false else {
             completionHandler(nil, nil, APIError.dataTaskError)
             return mockURLSessionDataTask

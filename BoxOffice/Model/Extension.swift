@@ -26,3 +26,9 @@ extension BoxOfficeResult: Equatable {
         return true
     }
 }
+
+extension Date {
+    var yesterday: Date {
+        return Calendar.current.date(byAdding: .day, value: -1, to: self) ?? Date()
+    }
+}

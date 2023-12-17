@@ -1,35 +1,38 @@
 //
-//  Namespace.swift
+//  RequestURL.swift
 //  BoxOffice
 //
-//  Created by Hisop on 2023/11/30.
+//  Created by Hisop on 2023/12/17.
 //
 
 import Foundation
 
+enum HTTPMethod: String {
+    case get = "GET"
+    case post = "POST"
+    case put = "PUT"
+    case delete = "DELETE"
+}
 
-
-enum RequestURL {
-    static let scheme = "https"
-    static let host = "kobis.or.kr"
-    static let path = "/kobisopenapi/webservice/rest/boxoffice/searchDailyBoxOfficeList."
+struct RequestURL {
+    var url: URL
+    var method: HTTPMethod
+    var header: [String: String]
     
-    static func makeDate() -> String {
-        let formatter = DateFormatter()
-        formatter.dateFormat = "yyyyMMdd"
-        
-        return formatter.string(from: Date())
+    init(url: URL, method: HTTPMethod = .get, header: [String: String] = [:]) {
+        self.url = url
+        self.method = method
+        self.header = header
     }
     
-    static func getComponents(type: FileType, date: String?) -> URLComponents {
-        var components = URLComponents()
+    var request: URLRequest? {
+        var request = URLRequest(url: url)
         
-        components.scheme = scheme
-        components.host = host
-        components.path = path + type.rawValue
-
+        request.httpMethod = method.rawValue
         
-        
-        return components
+        for (field, value) in header {
+            request.addValue(value, forHTTPHeaderField: field)
+        }
+        return request
     }
 }

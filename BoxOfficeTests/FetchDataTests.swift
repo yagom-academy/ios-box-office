@@ -81,16 +81,4 @@ final class FetchDataTests: XCTestCase {
             }
         }
     }
-    
-    func test_mockData_url로_호출시_mockBoxOfficeData와_일치하는지() throws {
-        sut = APIClient(session: MockURLSession())
-        sut?.fetchData(fileType: nil, date: nil) { (result: Result<BoxOffice, Error>) in
-            switch result {
-            case .success(let data):
-                XCTAssertEqual(MockBoxOfficeData().boxOffice, data)
-            case .failure:
-                XCTFail()
-            }
-        }
-    }
 }
