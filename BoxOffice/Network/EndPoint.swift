@@ -12,26 +12,33 @@ enum FileType: String {
     case xml = ".xml"
 }
 
+enum ServiceType: String {
+    case dailyBoxOffice = "/searchDailyBoxOfficeList"
+    case movieList = "/searchMovieList"
+}
+
 enum QueryItemName: String {
     case key
     case targetDt
 }
 
 struct EndPoint {
-    var type: FileType
-    var queryItem: [QueryItemName: String]
-
+    private let serviceType: ServiceType
+    private let type: FileType
+    private let queryItem: [QueryItemName: String]
+    
+    init(serviceType: ServiceType, type: FileType, queryItem: [QueryItemName : String]) {
+        self.serviceType = serviceType
+        self.type = type
+        self.queryItem = queryItem
+    }
+    
     enum Scheme {
         static let https = "https"
     }
     
     enum Host {
         static let kobis = "kobis.or.kr"
-    }
-    
-    enum ServiceType: String {
-        case dailyBoxOffice = "/searchDailyBoxOfficeList"
-        case movieList = "/searchMovieList"
     }
     
     enum Path {
@@ -50,7 +57,7 @@ struct EndPoint {
         
         components.scheme = Scheme.https
         components.host = Host.kobis
-        components.path = Path.webService(serviceType: .dailyBoxOffice, fileType: .json).string
+        components.path = Path.webService(serviceType: serviceType, fileType: .json).string
         
         let key = URLQueryItem(name: QueryItemName.key.rawValue, value: MyKey.value)
         components.queryItems = [key]

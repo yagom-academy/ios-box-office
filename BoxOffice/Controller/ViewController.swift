@@ -8,7 +8,7 @@
 import UIKit
 
 class BoxOfficeViewController: UIViewController {
-    //var boxOfficeData: [String: BoxOffice] = [:] 날짜 선택가능할땐 이렇게 쓸듯
+    //var boxOfficeData: [String: BoxOffice] = [:]
     var boxOfficeData: BoxOffice?
     weak var tableView: UITableView!
     
@@ -19,7 +19,10 @@ class BoxOfficeViewController: UIViewController {
         tableView.dataSource = self
         tableView.delegate = self
         
-        APIClient().fetchData(date: nil) { (result: Result<BoxOffice, Error>) in
+        let target: [QueryItemName: String] = [.targetDt: "20231215"]
+        
+        APIClient().fetchData(serviceType: .dailyBoxOffice, queryItem: target)
+        { (result: Result<BoxOffice, Error>) in
             switch result {
             case .success(let boxOffice):
                 self.boxOfficeData = boxOffice

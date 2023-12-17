@@ -22,6 +22,7 @@
 		B981D6042B19D7D100E80B09 /* MockURLSession.swift in Sources */ = {isa = PBXBuildFile; fileRef = B981D6032B19D7D100E80B09 /* MockURLSession.swift */; };
 		B99539932B1617340061DC3C /* Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = B99539922B1617340061DC3C /* Extension.swift */; };
 		B99722552B1DBD04009A4D1C /* Error.swift in Sources */ = {isa = PBXBuildFile; fileRef = B99722542B1DBD04009A4D1C /* Error.swift */; };
+		B9DB4A132B2F1E0800FC2B08 /* RequestURL.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9DB4A122B2F1E0800FC2B08 /* RequestURL.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -53,6 +54,7 @@
 		B981D6032B19D7D100E80B09 /* MockURLSession.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockURLSession.swift; sourceTree = "<group>"; };
 		B99539922B1617340061DC3C /* Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extension.swift; sourceTree = "<group>"; };
 		B99722542B1DBD04009A4D1C /* Error.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Error.swift; sourceTree = "<group>"; };
+		B9DB4A122B2F1E0800FC2B08 /* RequestURL.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RequestURL.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -162,6 +164,7 @@
 			children = (
 				B99722542B1DBD04009A4D1C /* Error.swift */,
 				B981D5FE2B18D98200E80B09 /* APIClient.swift */,
+				B9DB4A122B2F1E0800FC2B08 /* RequestURL.swift */,
 				B915B7F72B288DF500750E3C /* NetworkExtension.swift */,
 				B971828D2B1AE34600B152F1 /* MyKey.swift */,
 				B915B7F92B28BA1000750E3C /* EndPoint.swift */,
@@ -280,6 +283,7 @@
 			files = (
 				B99539932B1617340061DC3C /* Extension.swift in Sources */,
 				B981D5FF2B18D98200E80B09 /* APIClient.swift in Sources */,
+				B9DB4A132B2F1E0800FC2B08 /* RequestURL.swift in Sources */,
 				63DF20F32970E1A0005DF7D1 /* ViewController.swift in Sources */,
 				B915B7FA2B28BA1000750E3C /* EndPoint.swift in Sources */,
 				B9155C392B14B3DE00FB4667 /* BoxOffice.swift in Sources */,
