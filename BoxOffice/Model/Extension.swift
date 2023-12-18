@@ -4,6 +4,7 @@
 //
 //  Created by Hisop on 2023/11/28.
 //
+import Foundation
 
 extension BoxOffice: Equatable {
     static func == (lhs: BoxOffice, rhs: BoxOffice) -> Bool {
@@ -23,5 +24,11 @@ extension BoxOfficeResult: Equatable {
             return false
         }
         return true
+    }
+}
+
+extension Date {
+    var yesterday: Date {
+        return Calendar.current.date(byAdding: .day, value: -1, to: self) ?? Date()
     }
 }
