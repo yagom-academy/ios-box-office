@@ -38,28 +38,33 @@ struct NetworkManager {
         task.resume()
     }
     
-    func sendRequest<T: Encodable>(endponit: Endpoint, value: T) {
+    func sendRequest<T: Encodable>(endponit: Endpoint, value: T, complitionHandler: @escaping (Result<T, Error>) -> Void) {
         let encoder = JSONEncoder()
         
         guard let jsonData = try? encoder.encode(value), let request = try? endponit.asURLPostRequset(data: jsonData) else { return }
 
         let task = URLSession.shared.dataTask(with: request) { (data, response, error) in
             guard error == nil else {
-                print(NetworkManagerError.urlSessionError)
+                complitionHandler(.failure(NetworkManagerError.urlSessionError))
                 return
             }
             
             guard let httpResponse = response as? HTTPURLResponse, (200...299).contains(httpResponse.statusCode) else {
-                print(NetworkManagerError.responseError)
+                complitionHandler(.failure(NetworkManagerError.responseError))
                 return
             }
 
             guard let data = data else {
-                print(NetworkManagerError.invalidData)
+                complitionHandler(.failure(NetworkManagerError.invalidData))
                 return
             }
             
-            print(data)
+            guard let successData = data as? T else {
+                complitionHandler(.failure(NetworkManagerError.invalidData))
+                return
+            }
+            
+            complitionHandler(.success(successData))
         }
         task.resume()
     }
