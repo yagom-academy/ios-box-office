@@ -31,7 +31,7 @@ struct Endpoint {
         return request
     }
     
-    func asURLPostRequset(data: Data) throws -> URLRequest {
+    func asURLPostRequest(data: Data) throws -> URLRequest {
         guard let url = api.getURL(apikey: Key.movieDataApiKey, queryItems: queryItems) else { throw URLError.invalidURL }
 
         var request = URLRequest(url: url)

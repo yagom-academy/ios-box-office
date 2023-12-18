@@ -41,7 +41,7 @@ struct NetworkManager {
     func sendRequest<T: Encodable>(endponit: Endpoint, value: T, complitionHandler: @escaping (Result<T, Error>) -> Void) {
         let encoder = JSONEncoder()
         
-        guard let jsonData = try? encoder.encode(value), let request = try? endponit.asURLPostRequset(data: jsonData) else { return }
+        guard let jsonData = try? encoder.encode(value), let request = try? endponit.asURLPostRequest(data: jsonData) else { return }
 
         let task = URLSession.shared.dataTask(with: request) { (data, response, error) in
             guard error == nil else {
